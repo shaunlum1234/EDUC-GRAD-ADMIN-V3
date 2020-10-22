@@ -80,6 +80,7 @@
       </div>
     </div>
 
+
     <v-table
       :data="achievements"
       :filters="filters"
@@ -100,14 +101,14 @@
         <v-th sortKey="courseType">Course Type</v-th>
         <v-th sortKey="interimLetterGrade">Interim Letter Gr</v-th>
 
-        <th>
+        <!--th>
           <button
             type="button"
             class="add-course-achievement-button btn btn-primary"
             data-toggle="modal"
             data-target="#addCourseAchievementModal"
           >Add Course</button>
-        </th>
+        </th-->
       </thead>
       <tbody slot="body" slot-scope="{displayData}">
         <tr v-for="row in displayData" :key="row.courseAchievementId">
@@ -124,15 +125,14 @@
           <td>{{row.credits}}</td>
           <td>{{row.courseType}}</td>
           <td>{{row.interimLetterGrade}}</td>
-
-          <td>
+          <!--td>
             <router-link
               class="course-achievement-show"
               :to="{ name: 'course-achievement-show', params: { id: '' + row.courseAchievementId} }"
             >
               <button class="btn btn-primary active">EDIT</button>
             </router-link>
-          </td>
+          </td-->
         </tr>
       </tbody>
     </v-table>
@@ -173,6 +173,12 @@ export default {
       displayMessage: null,
       modalVisible: null,
       inputPenMissing: false,
+       items: [
+          { age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
+          { age: 21, first_name: 'Larsen', last_name: 'Shaw' },
+          { age: 89, first_name: 'Geneva', last_name: 'Wilson' },
+          { age: 38, first_name: 'Jami', last_name: 'Carney' }
+        ]
       
     };
   },
@@ -301,6 +307,6 @@ export default {
   z-index:1;
 }
 .table th, .table td{
-  padding: 0px !important;
+  padding: 0px 10px !important;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <SiteMessage v-bind:message=this.displayMessage v-if="displayMessage"></SiteMessage>
   
   <!-- Modal -->
