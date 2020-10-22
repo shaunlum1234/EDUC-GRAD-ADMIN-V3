@@ -19,7 +19,7 @@
               alt="B.C. Government Logo"
             />
           </a>
-          <h1>Student Achievement MVP</h1>
+          <h1>Graduation Admin</h1>
         </div>
         <div class="other">
           <a class="nav-btn">
@@ -94,15 +94,14 @@
 export default {
   props: {
     //course: Array
-    course: Object
+    course: Object,
   },
   data() {
     return {
-      pen: ""
+      pen: "",
     };
   },
-  created() {
-  }
+  created() {},
 };
 </script>
 <style scoped>
@@ -186,7 +185,7 @@ header .nav-btn {
   box-shadow: 0 6px 8px -4px #b3b1b3;
 }
 
-.navigation-main{
+.navigation-main {
   padding: 10px 0 10px 0;
 }
 

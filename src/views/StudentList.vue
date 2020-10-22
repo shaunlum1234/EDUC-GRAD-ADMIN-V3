@@ -1,79 +1,112 @@
 <template>
   <div class="studentlist">
-    <div class="container">     
-      <div class="card" style="width: 100%;">
-        <div class="card-body">
-          <h2 class="card-title">Student 126214493</h2>
-          <h3 class="card-subtitle mb-2 text-muted">Cotnam, Betty</h3>
-          <ul>
-            <li>Date of Birth: 2002-12-16</li>
-            <li>School: King George Secondary</li>
-            <li>Grade: 11</li>
-            <li>Graduation Program: 2018</li>
-          </ul>
-          
-          <button class="btn btn-primary active" v-on:click="storePen(126214493)">View Graduation Status</button>
-          <router-link class="course-achievement-list" :to="{ name: 'course-achievement-list', params: { personalEducationNumber: '' + 126214493} }"><button class="btn btn-primary active">View Course Achievements</button></router-link>
-          
+    <div class="container">
+      <form v-on:submit.prevent>
+        <div class="form-group">
+          <input
+            v-model="penInput"
+            placeholder="Student PEN"
+            class="pen-search"
+          /><button v-on:click="findStudent" class="btn btn-primary">
+            Find Student
+          </button>
         </div>
-      </div>
-      <div class="card" style="width: 100%;">
+      </form>
+
+      <p>
+        Samples: 101696920
+      </p>
+      <div v-if="student.pen" class="card" style="width: 100%;">
         <div class="card-body">
-          <h2 class="card-title">Student 128201845</h2>
-          <h3 class="card-subtitle mb-2 text-muted">Fuller, Emily</h3>
+          <h2 class="card-title">
+            {{ student.studGiven }} {{ student.studMiddle }}
+            {{ student.Surname }} ( {{ student.pen }})
+          </h2>
           <ul>
-            <li>Date of Birth: 2003-05-30</li>
-            <li>School: Stelly's Secondary</li>
-            <li>Grade: 12</li>
-            <li>Graduation Program: 2018</li>
+            <li>Birthdate: {{ student.studBirth }}</li>
+            <li>
+              Graduation Requirement Year: {{ student.gradRequirementYear }}
+            </li>
+
+            <li>Address: {{ student.address1 }}</li>
+            <li v-if="student.address2 === ' '">
+              Address2: {{ student.address2 }}
+            </li>
+            <li>City: {{ student.city }}</li>
+            <li>PostalCode: {{ student.postalCode }}</li>
           </ul>
-          <button class="btn btn-primary active" v-on:click="storePen(128201845)">View Graduation Status</button>
-          <router-link class="course-achievement-list" :to="{ name: 'course-achievement-list', params: { personalEducationNumber: '' + 128201845} }"><button class="btn btn-primary active">View Course Achivements</button></router-link>
-          
+
+          <div class="student-links">
+            <button
+              class="btn btn-primary active"
+              v-on:click="storePen(student.pen)"
+            >
+              View Graduation Status
+            </button>
+            <router-link
+              class="course-achievement-list"
+              :to="{
+                name: 'course-achievement-list',
+                params: {
+                  currentStudent: this.student,
+                },
+              }"
+              ><button class="btn btn-primary active">
+                View Course Achievements
+              </button></router-link
+            >
+          </div>
         </div>
-      </div>
-      <div class="card" style="width: 100%;">
-        <div class="card-body">
-          <h2 class="card-title">Student 123456789</h2>
-          <h3 class="card-subtitle mb-2 text-muted">Timothy, Matthew Robert</h3>
-          <ul>
-            <li>Date of Birth: 2004-09-09</li>
-            <li>School: Oak Bay High School</li>
-            <li>Grade: 10</li>
-            <li>Graduation Program: 2018</li>
-          </ul>
-        <button class="btn btn-primary active" v-on:click="storePen(123456789)">View Graduation Status</button>
-        <router-link class="course-achievement-list" :to="{ name: 'course-achievement-list', params: { personalEducationNumber: '' + 123456789} }"><button class="btn btn-primary active">View Course Achivements</button></router-link>
-        
-        </div>
-        
       </div>
     </div>
-    </div>
+  </div>
 </template>
 <script>
 // @ is an alias to /src
 import { store } from "@/store.js";
+import StudentService from "@/services/StudentService.js";
 export default {
   name: "studentlist",
+  data() {
+    return {
+      student: [],
+      penInput: "",
+    };
+  },
   components: {},
   methods: {
-    storePen: function(pen){
-        //store the pen and reroute to home
-        store.currentPen = pen;
-        this.$router.push({name: 'home'});        
-        
-    }
-  }
+    findStudent: function() {
+      console.log("finding student");
+      if (this.penInput) {
+        StudentService.getStudentByPen(this.penInput).then((response) => {
+          this.student = response.data;
+        });
+      }
+    },
+    selectStudent: function(pen) {
+      console.log("Loading Student Profile");
+      store.currentPen = pen;
+      store.currentStudent = this.student;
+    },
+    clearStudent: function() {
+      store.currentPen = "";
+      store.currentStudent = "";
+      this.student = [];
+    },
+  },
 };
 </script>
 <style scoped>
 .alert,
 .card,
-.btn.btn-primary
-{
+.btn.btn-primary {
   position: inherit;
   margin-right: 10px;
+}
+.pen-search {
+  width: 400px;
+  margin-right: 9px;
+  padding: 5px;
 }
 h6 {
   font-size: 1.5rem;

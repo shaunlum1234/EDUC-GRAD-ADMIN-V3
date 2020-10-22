@@ -3,14 +3,26 @@
     <div v-show="inputPenMissing">
       <div class="alert alert-dismissible alert-success">
         <button type="button" class="close" data-dismiss="alert">×</button>
-        <div class="message"><strong>"Please select a student on the <router-link class="student-list" :to="{ name: 'student-list' }"><a href="#">Student Page</a></router-link>
-        or the <router-link class="home" :to="{ name: 'home' }"><a href="#">Graduation Status Page</a></router-link>"</strong></div>
+        <div class="message">
+          <strong
+            >"Please select a student on the
+            <router-link class="student-list" :to="{ name: 'student-list' }"
+              ><a href="#">Student Page</a></router-link
+            >
+            or the
+            <router-link class="home" :to="{ name: 'home' }"
+              ><a href="#">Graduation Status Page</a></router-link
+            >"</strong
+          >
+        </div>
       </div>
     </div>
-    <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
+    <SiteMessage
+      v-bind:message="this.displayMessage"
+      v-if="displayMessage"
+    ></SiteMessage>
     <!-- Button trigger modal -->
     <div id="search">
-      <!-- `greet` is the name of a method defined below -->
       <input v-model="InputCourse" placeholder="Filter Course" />
       <button class="btn btn-primary active" v-on:click="search">Search</button>
     </div>
@@ -25,8 +37,15 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h2 class="modal-title" id="addCourseAchievementModalLabel">Add Course</h2>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <h2 class="modal-title" id="addCourseAchievementModalLabel">
+              Add Course
+            </h2>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -40,13 +59,25 @@
                 <input type="text" class="form-control" v-model="sessionDate" />
                 01-Nov.-2018
                 <strong>Final Percent:</strong>
-                <input type="text" class="form-control" v-model="finalPercent" />
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="finalPercent"
+                />
                 100.0
                 <strong>Interim Percent:</strong>
-                <input type="text" class="form-control" v-model="interimPercent" />
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="interimPercent"
+                />
                 100.0
                 <strong>Final Letter Grade:</strong>
-                <input type="text" class="form-control" v-model="finalLetterGrade" />
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="finalLetterGrade"
+                />
                 <strong>Credits:</strong>
                 <input type="text" class="form-control" v-model="credits" />
                 <strong>Course ID:</strong>
@@ -54,13 +85,28 @@
                 <strong>Course Type:</strong>
                 <input type="text" class="form-control" v-model="courseType" />
                 <strong>Interim Letter Grade:</strong>
-                <input type="text" class="form-control" v-model="interimLetterGrade" />
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="interimLetterGrade"
+                />
               </div>
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button class="btn btn-success btn-primary" v-on:click="addButton">Add</button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                class="btn btn-success btn-primary"
+                v-on:click="addButton"
+              >
+                Add
+              </button>
             </div>
           </form>
         </div>
@@ -71,15 +117,23 @@
         <h1>Student Course Achievement</h1>
       </div>
       <div class="search-input col-lg-5 col-sm-12">
-        <input class="form-control" v-model="filters.name.value" placeholder="Filter by Course ID" />
+        <input
+          class="form-control"
+          v-model="filters.name.value"
+          placeholder="Filter by Course ID"
+        />
       </div>
     </div>
     <div class="row">
       <div class="col-12 student-pen-display">
-        <h3>STUDENT NAME ({{pen }}) - DISTRICT 0XX</h3>
+        {{ currentStudent }}
+        <h3 v-if="currentStudent">
+          {{ this.currentStudent.studGiven }}
+          {{ this.currentStudent.studMiddle }}
+          {{ this.currentStudent.Surname }} ( {{ this.currentStudent.pen }})
+        </h3>
       </div>
     </div>
-
 
     <v-table
       :data="achievements"
@@ -101,38 +155,43 @@
         <v-th sortKey="courseType">Course Type</v-th>
         <v-th sortKey="interimLetterGrade">Interim Letter Gr</v-th>
 
-        <!--th>
+        <th>
           <button
             type="button"
             class="add-course-achievement-button btn btn-primary"
             data-toggle="modal"
             data-target="#addCourseAchievementModal"
-          >Add Course</button>
-        </th-->
+          >
+            Add Course
+          </button>
+        </th>
       </thead>
-      <tbody slot="body" slot-scope="{displayData}">
+      <tbody slot="body" slot-scope="{ displayData }">
         <tr v-for="row in displayData" :key="row.courseAchievementId">
           <td>{{ getCourseName(row.courseId) }}</td>
-          <td>{{row.sessionDate}}</td>
-          <td>{{row.finalPercent}} %</td>
-          <td>{{row.interimPercent}} %</td>
-          <td>{{row.finalLetterGrade}}</td>
-          <td>{{row.credits}}</td>
-          <td>{{row.courseType}}</td>
-          <td>{{row.interimLetterGrade}}</td>
+          <td>{{ row.sessionDate }}</td>
+          <td>{{ row.finalPercent }} %</td>
+          <td>{{ row.interimPercent }} %</td>
+          <td>{{ row.finalLetterGrade }}</td>
+          <td>{{ row.credits }}</td>
+          <td>{{ row.courseType }}</td>
+          <td>{{ row.interimLetterGrade }}</td>
           <!-- NEW fields-->
-          <td>{{row.finalLetterGrade}}</td>
-          <td>{{row.credits}}</td>
-          <td>{{row.courseType}}</td>
-          <td>{{row.interimLetterGrade}}</td>
-          <!--td>
+          <td>{{ row.finalLetterGrade }}</td>
+          <td>{{ row.credits }}</td>
+          <td>{{ row.courseType }}</td>
+          <td>{{ row.interimLetterGrade }}</td>
+          <td>
             <router-link
               class="course-achievement-show"
-              :to="{ name: 'course-achievement-show', params: { id: '' + row.courseAchievementId} }"
+              :to="{
+                name: 'course-achievement-show',
+                params: { id: '' + row.courseAchievementId },
+              }"
             >
               <button class="btn btn-primary active">EDIT</button>
             </router-link>
-          </td-->
+          </td>
         </tr>
       </tbody>
     </v-table>
@@ -145,19 +204,20 @@ import CourseAchievementService from "@/services/CourseAchievementService.js";
 import SiteMessage from "@/components/SiteMessage";
 import { store } from "@/store.js";
 export default {
-  props: ["personalEducationNumber"],
+  props: ["currentStudent"],
   components: {
-    SiteMessage: SiteMessage
+    SiteMessage: SiteMessage,
   },
   name: "BasicFiltering",
   data() {
     return {
       achievements: [],
       InputCourse: "",
+      student: [],
       courses: [],
       InputPen: "",
       filters: {
-        name: { value: "", keys: ["courseId"] }
+        name: { value: "", keys: ["courseId"] },
       },
       pen: "",
       sessionDate: "",
@@ -173,49 +233,37 @@ export default {
       displayMessage: null,
       modalVisible: null,
       inputPenMissing: false,
-       items: [
-          { age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
-          { age: 21, first_name: 'Larsen', last_name: 'Shaw' },
-          { age: 89, first_name: 'Geneva', last_name: 'Wilson' },
-          { age: 38, first_name: 'Jami', last_name: 'Carney' }
-        ]
-      
     };
   },
   created() {
     this.displayMessage = this.$route.params.message;
-    if(this.personalEducationNumber){
-      this.pen = this.personalEducationNumber;
-      store.currentPen = this.pen;
-    }else{
-      this.pen = store.currentPen;
+    this.student = store.currentStudent;
+    this.pen = this.student.pen;
+    if (this.student) {
+      CourseAchievementService.getStudentCourseAchievements(this.student.pen)
+        .then((response) => {
+          this.achievements = response.data;
+        })
+        // eslint-disable-next-line no-unused-vars
+        .catch((error) => {});
+      //replace the course ids with names from the courses array
+      CourseService.getCourses()
+        .then((response) => {
+          let data = response.data;
+          this.courses = data.map((item) => {
+            return {
+              id: item.courseId,
+              name: item.courseName,
+            };
+          });
+        })
+        // eslint-disable-next-line no-unused-vars
+        .catch((error) => {});
+    } else {
+      this.inputPenMissing = true;
     }
 
     //display message to select a student
-    if(!this.pen){
-       this.inputPenMissing = true;
-    }
-    CourseAchievementService.getStudentCourseAchievements(this.pen)
-      .then(response => {
-        this.achievements = response.data;
-      })
-      // eslint-disable-next-line no-unused-vars
-      .catch(error => {
-      });
-    //replace the course ids with names from the courses array
-    CourseService.getCourses()
-      .then(response => {
-        let data = response.data;
-        this.courses = data.map(item => {
-          return {
-            id: item.courseId,
-            name: item.courseName
-          };
-        });
-      })
-      // eslint-disable-next-line no-unused-vars
-      .catch(error => {
-      });
   },
   methods: {
     getCourseName: function(cid) {
@@ -230,12 +278,11 @@ export default {
     },
     search: function() {
       CourseAchievementService.getStudentCourseAchievements(this.InputPen)
-        .then(response => {
+        .then((response) => {
           this.achievements = [response.data];
         })
         // eslint-disable-next-line no-unused-vars
-        .catch(error => {
-        });
+        .catch((error) => {});
     },
     addButton: function() {
       if (this.modalVisible) {
@@ -257,17 +304,17 @@ export default {
         credits: parseInt(this.credits),
         courseId: this.courseId,
         courseType: this.courseType,
-        interimLetterGrade: this.interimLetterGrade
+        interimLetterGrade: this.interimLetterGrade,
       })
         .then(function(response) {
           CourseAchievementService.getCourseAchievements()
-            .then(response => {
+            .then((response) => {
               currentObj.achievements = response.data;
               currentObj.displayMessage =
                 "You have successfully added a Course Achievement";
             })
             // eslint-disable-next-line no-unused-vars
-            .catch(error => {
+            .catch((error) => {
               //console.log("There was an error:" + error.response);
             });
           currentObj.output = response.data;
@@ -276,8 +323,8 @@ export default {
         .catch(function(error) {
           currentObj.output = error;
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -302,11 +349,12 @@ export default {
   width: 100%;
   position: relative;
 }
-.message{
-  text-align:center;
-  z-index:1;
+.message {
+  text-align: center;
+  z-index: 1;
 }
-.table th, .table td{
+.table th,
+.table td {
   padding: 0px 10px !important;
 }
 </style>
