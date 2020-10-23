@@ -155,13 +155,13 @@
         <v-th sortKey="finalPercent">Final %</v-th>    
         <v-th sortKey="finalLetterGrade">Final Letter Gr</v-th>
         <!-- not sure -->
-        <v-th sortKey="fineArtsAppliedSkillsReqt">Fine Arts/Applied Skills Reqt</v-th>
+        <!-- <v-th sortKey="fineArtsAppliedSkillsReqt">Fine Arts/Applied Skills Reqt</v-th>
         <v-th sortKey="creditsUsedForGrad">Credits Used for Grad</v-th>
         <v-th sortKey="gradReqMet">Reqt Met</v-th>
         <v-th sortKey="gradName">Reqt Name</v-th>
         <v-th sortKey="relatedCourse">Related Course</v-th>
         <v-th sortKey="relatedLevel">Related Level</v-th>
-        <v-th sortKey="courseDescription">Description</v-th>
+        <v-th sortKey="courseDescription">Description</v-th> -->
 
         <th>
           <button
@@ -187,13 +187,13 @@
           <td>{{ row.finalPercent }} %</td>
           <td>{{ row.finalLetterGrade }}</td>
           <td>{{ row.finalLetterGrade }}</td>
-          <td>{{ row.fineArtsAppliedSkillsReqt }}</td>
+          <!-- <td>{{ row.fineArtsAppliedSkillsReqt }}</td>
           <td>{{ row.creditsUsedForGrad }}</td>
           <td>{{ row.gradReqMet }}</td>
           <td>{{ row.gradName }}</td>
           <td>{{ row.relatedCourse }}</td>
           <td>{{ row.relatedLevel }}</td>
-          <td>{{ row.courseDescription }}</td>
+          <td>{{ row.courseDescription }}</td> -->
           <td>
             <router-link
               class="course-achievement-show"
