@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import BootstrapVue from 'bootstrap-vue';
 import VueFilterDateParse from '@vuejs-community/vue-filter-date-parse';
+import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
 // Install BootstrapVue
 
 //import store from './store';
@@ -12,7 +13,7 @@ Vue.config.productionTip = false;
 Vue.use(SmartTable)
 Vue.use(BootstrapVue)
 Vue.use(VueFilterDateParse)
-
+Vue.use(VueFilterDateFormat)
 new Vue({
   router,
 //  store,

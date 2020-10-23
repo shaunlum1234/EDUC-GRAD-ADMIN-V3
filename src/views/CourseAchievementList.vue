@@ -126,11 +126,11 @@
     </div>
     <div class="row">
       <div class="col-12 student-pen-display">
-        {{ currentStudent }}
+        <!-- {{ currentStudent }} -->
         <h3 v-if="currentStudent">
           {{ this.currentStudent.studGiven }}
           {{ this.currentStudent.studMiddle }}
-          {{ this.currentStudent.Surname }} ( {{ this.currentStudent.pen }})
+          {{ this.currentStudent.Surname }} (PEN: {{ this.currentStudent.pen }})
         </h3>
       </div>
     </div>
@@ -138,9 +138,9 @@
     <v-table
       :data="achievements"
       :filters="filters"
-      class="table table-sm table-striped table-hover text-center align-middle"
+      class="table table-sm table-hover text-center align-middle"
     >
-      <thead slot="head">
+      <thead slot="head" class="thead-dark">
         <v-th sortKey="courseCode">Code</v-th>
         <v-th sortKey="courseLevel">Level</v-th>
         <v-th sortKey="sessionDate">Session</v-th>
@@ -163,7 +163,7 @@
         <v-th sortKey="relatedLevel">Related Level</v-th>
         <v-th sortKey="courseDescription">Description</v-th> -->
 
-        <th>
+        <!-- <th>
           <button
             type="button"
             class="add-course-achievement-button btn btn-primary"
@@ -172,7 +172,7 @@
           >
             Add Course
           </button>
-        </th>
+        </th> -->
       </thead>
       <tbody slot="body" slot-scope="{ displayData }">
         <tr v-for="row in displayData" :key="row.courseAchievementId">
@@ -194,7 +194,7 @@
           <td>{{ row.relatedCourse }}</td>
           <td>{{ row.relatedLevel }}</td>
           <td>{{ row.courseDescription }}</td> -->
-          <td>
+          <!-- <td>
             <router-link
               class="course-achievement-show"
               :to="{
@@ -204,7 +204,7 @@
             >
               <button class="btn btn-primary active">EDIT</button>
             </router-link>
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </v-table>
