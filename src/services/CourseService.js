@@ -9,7 +9,6 @@ const apiClient = axios.create({
   }
 }
 )
-
 export default {
   getCourses() {
     return apiClient.get('/api/v1/courses')
