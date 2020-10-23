@@ -20,7 +20,7 @@ export default {
   },
 
   getStudentCourseAchievements(pen) {
-    return apiClient.get('/api/v1/course-achievements/pen/' + pen)
+    return apiClient.get('/api/v1/studentcourse/pen/' + pen)
   },
   editStudentCourseAchievement(id, data){
     return apiClient.put("/api/v1/course-achievements/" + id ,data,{ useCredentials: false })

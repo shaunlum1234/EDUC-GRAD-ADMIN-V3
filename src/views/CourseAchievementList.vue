@@ -141,19 +141,24 @@
       class="table table-responsive table-striped table-hover table-md text-center align-middle"
     >
       <thead slot="head">
-        <v-th sortKey="courseId">Course Name</v-th>
-        <v-th sortKey="sessionDate">Session Date</v-th>
-        <v-th sortKey="finalPercent">Final %</v-th>
+        <v-th sortKey="ourseCode">Code</v-th>
+        <v-th sortKey="courseLevel">Level</v-th>
+        <v-th sortKey="sessionDate">Session</v-th>
+        <v-th sortKey="?">Name</v-th>
+        <v-th sortKey="?">Equiv, Chal</v-th>
+        <v-th sortKey="credits">Credits</v-th>
         <v-th sortKey="interimPercent">Interim %</v-th>
+        <v-th sortKey="interimLetterGrade">Interim LG</v-th>
+        <v-th sortKey="finalLetterGrade">Final LG</v-th>
+        <v-th sortKey="finalPercent">Final %</v-th>    
         <v-th sortKey="finalLetterGrade">Final Letter Gr</v-th>
-        <v-th sortKey="credits">Credits</v-th>
-        <v-th sortKey="courseType">Course Type</v-th>
-        <v-th sortKey="interimLetterGrade">Interim Letter Gr</v-th>
-        <!-- New Headers -->
-        <v-th sortKey="finalLetterGrade">Final Letter Gr</v-th>
-        <v-th sortKey="credits">Credits</v-th>
-        <v-th sortKey="courseType">Course Type</v-th>
-        <v-th sortKey="interimLetterGrade">Interim Letter Gr</v-th>
+        <v-th sortKey="?">Fine Arts/Applied Skills Reqt</v-th>
+        <v-th sortKey="creditsUsedForGrad">Credits Used for Grad</v-th>
+        <v-th sortKey="gradReqMet">Reqt Met</v-th>
+        <v-th sortKey="?">Reqt Name</v-th>
+        <v-th sortKey="relatedCourse">Related Course</v-th>
+        <v-th sortKey="relatedLevel">Related Level</v-th>
+        <v-th sortKey="courseDescription">Description</v-th>
 
         <th>
           <button
@@ -242,6 +247,7 @@ export default {
     if (this.student) {
       CourseAchievementService.getStudentCourseAchievements(this.student.pen)
         .then((response) => {
+          console.log(response.data);
           this.achievements = response.data;
         })
         // eslint-disable-next-line no-unused-vars
