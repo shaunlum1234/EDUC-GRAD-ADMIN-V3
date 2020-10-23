@@ -202,7 +202,7 @@
 import CourseService from "@/services/CourseService.js";
 import CourseAchievementService from "@/services/CourseAchievementService.js";
 import SiteMessage from "@/components/SiteMessage";
-import { store } from "@/store.js";
+//import { store } from "@/store.js";
 export default {
   props: ["currentStudent"],
   components: {
@@ -237,8 +237,10 @@ export default {
   },
   created() {
     this.displayMessage = this.$route.params.message;
-    this.student = store.currentStudent;
-    this.pen = this.student.pen;
+    this.student = this.currentStudent;
+    if (this.student) {
+      this.pen = this.student.pen;
+    }
     if (this.student) {
       CourseAchievementService.getStudentCourseAchievements(this.student.pen)
         .then((response) => {
