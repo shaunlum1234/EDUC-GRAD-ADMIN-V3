@@ -11,7 +11,6 @@ const apiClient = axios.create({
 
 export default {
     getStudentByPen(pen) {
-        console.log(" ENV " + process.env.VUE_APP_STUDENTS_API_HOST);
         return apiClient.get('/api/v1/' + pen);
     }
 }

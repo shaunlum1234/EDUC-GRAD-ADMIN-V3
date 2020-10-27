@@ -73,7 +73,6 @@ export default {
   components: {},
   methods: {
     findStudent: function() {
-      console.log("finding student");
       if (this.penInput) {
         StudentService.getStudentByPen(this.penInput).then((response) => {
           this.student = response.data;
@@ -81,7 +80,6 @@ export default {
       }
     },
     selectStudent: function(pen) {
-      console.log("Loading Student Profile");
       store.currentPen = pen;
       store.currentStudent = this.student;
     },
