@@ -138,7 +138,7 @@
     <v-table
       :data="achievements"
       :filters="filters"
-      class="table table-sm table-hover text-center align-middle"
+      class="table table-sm table-hover table-striped text-center align-middle"
     >
       <thead slot="head" class="thead-dark">
         <v-th sortKey="courseCode">Code</v-th>
@@ -153,7 +153,6 @@
         <v-th sortKey="interimLetterGrade">Interim LG</v-th>
         <v-th sortKey="finalLetterGrade">Final LG</v-th>
         <v-th sortKey="finalPercent">Final %</v-th>    
-        <v-th sortKey="finalLetterGrade">Final Letter Gr</v-th>
         <!-- not sure -->
         <!-- <v-th sortKey="fineArtsAppliedSkillsReqt">Fine Arts/Applied Skills Reqt</v-th>
         <v-th sortKey="creditsUsedForGrad">Credits Used for Grad</v-th>
@@ -184,8 +183,7 @@
           <td>{{ row.credits }}</td>
           <td>{{ row.interimPercent }} %</td>
           <td>{{ row.interimLetterGrade }}</td>
-          <td>{{ row.finalPercent }} %</td>
-          <td>{{ row.finalLetterGrade }}</td>
+          <td>{{ row.finalPercent }} % </td>
           <td>{{ row.finalLetterGrade }}</td>
           <!-- <td>{{ row.fineArtsAppliedSkillsReqt }}</td>
           <td>{{ row.creditsUsedForGrad }}</td>

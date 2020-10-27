@@ -17,7 +17,7 @@
         <div class="card-body">
           <h2 class="card-title">
             {{ student.studGiven }} {{ student.studMiddle }}
-            {{ student.Surname }} ( {{ student.pen }})
+            {{ student.Surname }} ({{ student.pen }})
           </h2>
           <ul>
             <li>Birthdate: {{ student.studBirth }}</li>
