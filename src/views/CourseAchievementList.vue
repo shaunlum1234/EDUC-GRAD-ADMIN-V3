@@ -230,7 +230,7 @@ export default {
       courses: [],
       InputPen: "",
       filters: {
-        name: { value: "", keys: ["courseId"] },
+        name: { value: "", keys: ["courseCode"] },
       },
       pen: "",
       sessionDate: "",
