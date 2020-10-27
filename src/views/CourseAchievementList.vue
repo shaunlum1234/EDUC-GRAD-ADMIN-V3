@@ -178,7 +178,7 @@
         <tr v-for="row in displayData" :key="row.courseAchievementId">
           <td>{{ row.courseCode }}</td>
           <td>{{ row.courseLevel }}</td>
-          <td>{{ row.sessionDate }}</td>
+          <td>{{ row.sessionDate.replace(" 12:00:00 AM", "")}}</td>
           <td>{{ row.courseName }}</td>
           <td>{{ row.courseEquivChal }}</td>
           <td>{{ row.credits }}</td>

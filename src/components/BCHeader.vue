@@ -47,25 +47,12 @@
       <div class="navbar-collapse collapse" id="navbarColor01" style="">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active"></li>
-          <li>
-            <router-link class="nav-link" to="/"
-              >Home <span class="sr-only">(current)</span></router-link
-            >
-          </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/students">Students</router-link>
+            <router-link class="nav-link" to="/students">Select Students</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/course-achievements"
               >Course Achievements</router-link
-            >
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/courses">Courses</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/program-rules"
-              >Program Rules</router-link
             >
           </li>
         </ul>
@@ -74,16 +61,12 @@
     <nav class="navigation-main" id="navbar">
       <div class="">
         <ul>
-          <li><router-link to="/">Home</router-link></li>
-          <li><router-link to="/students">Students</router-link></li>
+          <li><router-link to="/students">Select Students</router-link></li>
           <li>
             <router-link to="/course-achievements"
               >Course Achievements</router-link
             >
           </li>
-          <!-- <li><router-link :to="{path: '/course-achievements/pen/' + pen}">Course Achievements</router-link></li> -->
-          <li><router-link to="/courses">Courses</router-link></li>
-          <li><router-link to="/program-rules">Program Rules</router-link></li>
         </ul>
       </div>
     </nav>
