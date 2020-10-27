@@ -1,9 +1,8 @@
 import axios from 'axios'
-
 const apiClient = axios.create({
-  
+
   baseURL: process.env.VUE_APP_COURSE_ACHIEVEMENT_API_HOST,
-  withCredentials: false,
+  withCredentials: true,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json'
@@ -12,6 +11,7 @@ const apiClient = axios.create({
 )
 
 export default {
+
   getCourseAchievements() {
     return apiClient.get('/api/v1/course-achievements')
   },

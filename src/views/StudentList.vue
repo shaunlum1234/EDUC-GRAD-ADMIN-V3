@@ -12,11 +12,8 @@
           </button>
         </div>
       </form>
-
-      <p>
-        Samples: 101696920
-      </p>
-      <div v-if="student.pen" class="card" style="width: 100%;">
+      <p>Samples: 101696920</p>
+      <div v-if="student.pen" class="card" style="width: 100%">
         <div class="card-body">
           <h2 class="card-title">
             {{ student.studGiven }} {{ student.studMiddle }}

@@ -212,7 +212,7 @@
 </template>
 
 <script>
-import CourseService from "@/services/CourseService.js";
+// import CourseService from "@/services/CourseService.js";
 import CourseAchievementService from "@/services/CourseAchievementService.js";
 import SiteMessage from "@/components/SiteMessage";
 //import { store } from "@/store.js";
@@ -258,23 +258,28 @@ export default {
       CourseAchievementService.getStudentCourseAchievements(this.student.pen)
         .then((response) => {
           this.achievements = response.data;
-          console.log(this.achievements);
-        })
-        // eslint-disable-next-line no-unused-vars
-        .catch((error) => {});
-      //replace the course ids with names from the courses array
-      CourseService.getCourses()
-        .then((response) => {
-          let data = response.data;
-          this.courses = data.map((item) => {
+          this.courses = this.achievements.map((item) => {
             return {
-              id: item.courseId,
-              name: item.courseName,
+              id: item.courseCode,
+              name: item.courseCode,
             };
           });
         })
         // eslint-disable-next-line no-unused-vars
         .catch((error) => {});
+      //replace the course ids with names from the courses array
+      // CourseService.getCourses()
+      //   .then((response) => {
+      //     let data = response.data;
+      //     this.courses = data.map((item) => {
+      //       return {
+      //         id: item.courseId,
+      //         name: item.courseName,
+      //       };
+      //     });
+      //   })
+        // eslint-disable-next-line no-unused-vars
+        // .catch((error) => {});
     } else {
       this.inputPenMissing = true;
     }
