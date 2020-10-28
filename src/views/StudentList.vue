@@ -1,6 +1,6 @@
 <template>
   <div class="studentlist">
-    <div class="container">
+    <div class="">
       <form v-on:submit.prevent>
         <div class="form-group">
           <input
@@ -105,5 +105,11 @@ export default {
 }
 h6 {
   font-size: 1.5rem;
+}
+.clear-search{
+  float: right;
+  text-align: right;
+  width: 100%;
+  padding-right: 15px;
 }
 </style>

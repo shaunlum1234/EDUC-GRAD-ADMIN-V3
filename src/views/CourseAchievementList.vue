@@ -9,10 +9,7 @@
             <router-link class="student-list" :to="{ name: 'student-list' }"
               ><a href="#">Student Page</a></router-link
             >
-            or the
-            <router-link class="home" :to="{ name: 'home' }"
-              ><a href="#">Graduation Status Page</a></router-link
-            >"</strong
+           </strong
           >
         </div>
       </div>
@@ -22,96 +19,10 @@
       v-if="displayMessage"
     ></SiteMessage>
     <!-- Button trigger modal -->
-    <div id="search">
-      <input v-model="InputCourse" placeholder="Filter Course" />
-      <button class="btn btn-primary active" v-on:click="search">Search</button>
-    </div>
-    <div
-      class="modal fade"
-      id="addCourseAchievementModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="addCourseAchievementModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h2 class="modal-title" id="addCourseAchievementModalLabel">
-              Add Course
-            </h2>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <form @submit="formSubmit">
-            <div class="modal-body">
-              <div class="add-course-achievement">
-                <strong>Pen:</strong>
-                <input type="text" class="form-control" v-model="pen" />
-                123383473
-                <strong>Session Date:</strong>
-                <input type="text" class="form-control" v-model="sessionDate" />
-                01-Nov.-2018
-                <strong>Final Percent:</strong>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="finalPercent"
-                />
-                100.0
-                <strong>Interim Percent:</strong>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="interimPercent"
-                />
-                100.0
-                <strong>Final Letter Grade:</strong>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="finalLetterGrade"
-                />
-                <strong>Credits:</strong>
-                <input type="text" class="form-control" v-model="credits" />
-                <strong>Course ID:</strong>
-                <input type="text" class="form-control" v-model="courseId" />
-                <strong>Course Type:</strong>
-                <input type="text" class="form-control" v-model="courseType" />
-                <strong>Interim Letter Grade:</strong>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="interimLetterGrade"
-                />
-              </div>
-            </div>
 
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                class="btn btn-success btn-primary"
-                v-on:click="addButton"
-              >
-                Add
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+    
+      
+
     <div class="row">
       <div class="col-lg-7 col-sm-12">
         <h1>Student Course Achievement</h1>
@@ -120,7 +31,7 @@
         <input
           class="form-control"
           v-model="filters.name.value"
-          placeholder="Filter by Course ID"
+          placeholder="Filter by course code"
         />
       </div>
     </div>
@@ -151,8 +62,9 @@
         <v-th sortKey="credits">Credits</v-th>
         <v-th sortKey="interimPercent">Interim %</v-th>
         <v-th sortKey="interimLetterGrade">Interim LG</v-th>
-        <v-th sortKey="finalLetterGrade">Final LG</v-th>
-        <v-th sortKey="finalPercent">Final %</v-th>    
+        <v-th sortKey="completedCoursePercentage">Final LG</v-th>
+        <v-th sortKey="completedCourseLetterGrade">Final %</v-th>   
+        <v-th>-</v-th>       
         <!-- not sure -->
         <!-- <v-th sortKey="fineArtsAppliedSkillsReqt">Fine Arts/Applied Skills Reqt</v-th>
         <v-th sortKey="creditsUsedForGrad">Credits Used for Grad</v-th>
@@ -174,36 +86,54 @@
         </th> -->
       </thead>
       <tbody slot="body" slot-scope="{ displayData }">
-        <tr v-for="row in displayData" :key="row.courseAchievementId">
-          <td>{{ row.courseCode }}</td>
-          <td>{{ row.courseLevel }}</td>
-          <td>{{ row.sessionDate.replace(" 12:00:00 AM", "")}}</td>
-          <td>{{ row.courseName }}</td>
-          <td>{{ row.courseEquivChal }}</td>
-          <td>{{ row.credits }}</td>
-          <td>{{ row.interimPercent }} %</td>
-          <td>{{ row.interimLetterGrade }}</td>
-          <td>{{ row.finalPercent }} % </td>
-          <td>{{ row.finalLetterGrade }}</td>
-          <!-- <td>{{ row.fineArtsAppliedSkillsReqt }}</td>
-          <td>{{ row.creditsUsedForGrad }}</td>
-          <td>{{ row.gradReqMet }}</td>
-          <td>{{ row.gradName }}</td>
-          <td>{{ row.relatedCourse }}</td>
-          <td>{{ row.relatedLevel }}</td>
-          <td>{{ row.courseDescription }}</td> -->
-          <!-- <td>
-            <router-link
-              class="course-achievement-show"
-              :to="{
-                name: 'course-achievement-show',
-                params: { id: '' + row.courseAchievementId },
-              }"
-            >
-              <button class="btn btn-primary active">EDIT</button>
-            </router-link>
-          </td> -->
-        </tr>
+        <template v-for="row in displayData">
+              <tr :key="row.courseAchievementId" @click="toggle(row.courseCode+row.courseLevel)" :class="{ opened: opened.includes(row.courseCode) }">
+         
+            <td>{{ row.courseCode }}</td>
+            <td>{{ row.courseLevel }}</td>
+            <td>{{ row.sessionDate.replace(" 12:00:00 AM", "")}}</td>
+            <td>{{ row.courseName }}</td>
+            <td>{{ row.courseEquivChal }}</td>
+            <td>{{ row.credits }}</td>
+            <td>{{ row.interimPercent }} %</td>
+            <td>{{ row.interimLetterGrade }}</td>
+            <td>{{ row.completedCoursePercentage }}% </td>
+            <td>{{ row.completedCourseLetterGrade }}</td>
+            <td>
+                <a href="#" @click="showMsgBoxOne(
+                  'Related Course: ' + row.relatedCourse + '' +              
+                  'Related Level: ' + row.relatedLevel + '<br>'
+                  )">More
+                </a>
+            </td>
+          </tr>
+         
+            <tr :key="row.courseAchievementId" v-if="opened.includes(row.courseCode+row.courseLevel)">
+             <transition name="slide" :key="row.courseAchievementId">
+              <td colspan="11">
+
+         
+                <div class="course-info">
+                  Course information
+                </div>
+                <div class="more-details">
+                  Related Course: {{ row.relatedCourse }}<br>
+                  Related Level: {{ row.relaedLevel }}<br>
+                  Description: {{ row.relaedLevel }}<br><br>
+                </div>
+                <div class="more-details">
+                  Fine Arts/Applied Skills Reqt: <br>
+                  Credits Used for Grad: <br>
+                  Reqt Met: <br><br>
+                </div>
+                <div class="edit-course-achivement">
+                  <button class="btn btn-primary" href="#">Edit</button>
+                </div>
+              </td>
+               </transition>
+            </tr>
+         
+        </template>
       </tbody>
     </v-table>
   </div>
@@ -222,6 +152,8 @@ export default {
   name: "BasicFiltering",
   data() {
     return {
+      show: false,
+      opened: [],
       achievements: [],
       InputCourse: "",
       student: [],
@@ -256,6 +188,7 @@ export default {
       CourseAchievementService.getStudentCourseAchievements(this.student.pen)
         .then((response) => {
           this.achievements = response.data;
+          console.log(this.achievements);
           this.courses = this.achievements.map((item) => {
             return {
               id: item.courseCode,
@@ -285,6 +218,17 @@ export default {
     //display message to select a student
   },
   methods: {
+    toggle(id) {
+      const index = this.opened.indexOf(id);
+      if (index > -1) {
+        this.opened.splice(index, 1)
+      } else {
+        this.opened.push(id)
+      }
+    },
+     showMsgBoxOne(message) {
+        this.$bvModal.msgBoxOk(message);
+      },
     getCourseName: function(cid) {
       let result = "";
       this.courses.filter(function(n) {
@@ -294,6 +238,9 @@ export default {
         }
       });
       return result;
+    },
+    clearSearch: function(){
+      this.InputPen = "";
     },
     search: function() {
       CourseAchievementService.getStudentCourseAchievements(this.InputPen)
@@ -375,5 +322,36 @@ export default {
 .table th,
 .table td {
   padding: 0px 10px !important;
+}
+.slide {
+    transition: all .3s ease;
+    height: 30px;
+    padding: 10px;
+    background-color: #eee;
+    overflow: hidden;
+}
+.slide.v-enter, .slide.v-leave {
+    height: 0;
+    padding: 0 10px;
+    opacity: 0;
+}
+.more-details{
+    float: left;
+    padding: 25px 50px 25px 0px;
+    text-align: left;
+}
+.course-info{
+  float:left;
+}
+.edit-course-achivement{
+  float: right;
+  padding: 20px;
+
+}
+.clear-search{
+  float: right;
+  text-align: right;
+  width: 100%;
+  padding-right: 15px;
 }
 </style>
