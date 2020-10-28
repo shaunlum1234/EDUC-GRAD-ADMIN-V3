@@ -1,5 +1,7 @@
 <template>
   <div class="studentlist">
+  <h1> Student Graduation Status</h1>
+  <p>Enter a Personal Education Number (PEN) to retrieve the student’s course achievements.</p>
     <div class="">
       <form v-on:submit.prevent>
         <div class="form-group">
@@ -34,12 +36,12 @@
           </ul>
 
           <div class="student-links">
-            <button
+            <!--button
               class="btn btn-primary active"
               v-on:click="storePen(student.pen)"
             >
               View Graduation Status
-            </button>
+            </button-->
             <router-link
               class="course-achievement-list"
               :to="{
@@ -106,10 +108,5 @@ export default {
 h6 {
   font-size: 1.5rem;
 }
-.clear-search{
-  float: right;
-  text-align: right;
-  width: 100%;
-  padding-right: 15px;
-}
+
 </style>

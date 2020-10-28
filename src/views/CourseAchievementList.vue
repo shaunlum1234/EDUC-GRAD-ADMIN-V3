@@ -111,11 +111,6 @@
             <tr :key="row.courseAchievementId" v-if="opened.includes(row.courseCode+row.courseLevel)">
              <transition name="slide" :key="row.courseAchievementId">
               <td colspan="11">
-
-         
-                <div class="course-info">
-                  Course information
-                </div>
                 <div class="more-details">
                   Related Course: {{ row.relatedCourse }}<br>
                   Related Level: {{ row.relaedLevel }}<br>
