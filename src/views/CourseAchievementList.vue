@@ -22,7 +22,7 @@
 
     
       
-
+<div class="container">
     <div class="row">
       <div class="col-lg-7 col-sm-12">
         <h1>Student Course Achievement</h1>
@@ -39,9 +39,10 @@
       <div class="col-12 student-pen-display">
         <!-- {{ currentStudent }} -->
         <h3 v-if="currentStudent">
-          {{ this.currentStudent.studGiven }}
-          {{ this.currentStudent.studMiddle }}
-          {{ this.currentStudent.Surname }} (PEN: {{ this.currentStudent.pen }})
+          <strong>{{this.currentStudent.Surname}}</strong>,
+          {{ this.currentStudent.studGiven}} 
+          {{ this.currentStudent.studMiddle}}
+           (PEN: {{ this.currentStudent.pen }})
         </h3>
       </div>
     </div>
@@ -62,9 +63,9 @@
         <v-th sortKey="credits">Credits</v-th>
         <v-th sortKey="interimPercent">Interim %</v-th>
         <v-th sortKey="interimLetterGrade">Interim LG</v-th>
-        <v-th sortKey="completedCoursePercentage">Final LG</v-th>
-        <v-th sortKey="completedCourseLetterGrade">Final %</v-th>   
-        <v-th>-</v-th>       
+        <v-th sortKey="completedCourseLetterGrade">Final %</v-th>  
+        <v-th sortKey="completedCoursePercentage">Final LG</v-th>         
+        <!-- <v-th>-</v-th>        -->
         <!-- not sure -->
         <!-- <v-th sortKey="fineArtsAppliedSkillsReqt">Fine Arts/Applied Skills Reqt</v-th>
         <v-th sortKey="creditsUsedForGrad">Credits Used for Grad</v-th>
@@ -99,38 +100,44 @@
             <td>{{ row.interimLetterGrade }}</td>
             <td>{{ row.completedCoursePercentage }}% </td>
             <td>{{ row.completedCourseLetterGrade }}</td>
-            <td>
+            <!-- <td>
                 <a href="#" @click="showMsgBoxOne(
                   'Related Course: ' + row.relatedCourse + '' +              
                   'Related Level: ' + row.relatedLevel + '<br>'
                   )">More
                 </a>
-            </td>
+            </td> -->
           </tr>
          
             <tr :key="row.courseAchievementId" v-if="opened.includes(row.courseCode+row.courseLevel)">
              <transition name="slide" :key="row.courseAchievementId">
               <td colspan="11">
                 <div class="more-details">
-                  Related Course: {{ row.relatedCourse }}<br>
-                  Related Level: {{ row.relaedLevel }}<br>
-                  Description: {{ row.relaedLevel }}<br><br>
+                  <strong>Graduation Information</strong><br>
+                  Fine Arts/Applied Skills Reqt: {{row.fineArtsAppliedSkillsReqt}}<br>
+                  Credits Used for Grad: {{row.creditsUsedForGrad}}<br>
+                  Reqt Met: {{row.gradReqMet}}<br>
+                  Reqt Name: {{row.gradName}}<br><br> 
                 </div>
                 <div class="more-details">
-                  Fine Arts/Applied Skills Reqt: <br>
-                  Credits Used for Grad: <br>
-                  Reqt Met: <br><br>
+                  <strong>Independent Directed Studies</strong><br>
+                  Related Course: {{ row.relatedCourse }}<br>
+                  Related Level: {{ row.relaedLevel }}<br>
+                </div>
+                <div class="more-details">
+                  <strong>Independent Directed Studies</strong><br>
+                  Description: {{ row.relaedLevel }}<br><br>
                 </div>
                 <div class="edit-course-achivement">
                   <button class="btn btn-primary" href="#">Edit</button>
                 </div>
               </td>
                </transition>
-            </tr>
-         
+            </tr>        
         </template>
       </tbody>
     </v-table>
+  </div>
   </div>
 </template>
 
@@ -183,6 +190,7 @@ export default {
       CourseAchievementService.getStudentCourseAchievements(this.student.pen)
         .then((response) => {
           this.achievements = response.data;
+          console.log('current student achievements: ' + this.achievements);
           this.courses = this.achievements.map((item) => {
             return {
               id: item.courseCode,

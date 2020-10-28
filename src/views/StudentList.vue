@@ -1,5 +1,5 @@
 <template>
-  <div class="studentlist">
+  <div class="studentlist container">
   <h1> Student Graduation Status</h1>
   <p>Enter a Personal Education Number (PEN) to retrieve the student’s course achievements.</p>
     <div class="">
@@ -18,8 +18,8 @@
       <div v-if="student.pen" class="card" style="width: 100%">
         <div class="card-body">
           <h2 class="card-title">
-            {{ student.studGiven }} {{ student.studMiddle }}
-            {{ student.Surname }} ({{ student.pen }})
+            {{ student.Surname }}, {{ student.studGiven }} {{ student.studMiddle }}
+            ({{ student.pen }})
           </h2>
           <ul>
             <li>Birthdate: {{ student.studBirth }}</li>

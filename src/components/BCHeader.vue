@@ -50,11 +50,11 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/students">Select Students</router-link>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link class="nav-link" to="/course-achievements"
               >Course Achievements</router-link
             >
-          </li>
+          </li> -->
         </ul>
       </div>
     </nav>
@@ -62,11 +62,11 @@
       <div class="">
         <ul>
           <li><router-link to="/students">Select Students</router-link></li>
-          <li>
+          <!-- <li>
             <router-link to="/course-achievements"
               >Course Achievements</router-link
             >
-          </li>
+          </li> -->
         </ul>
       </div>
     </nav>
