@@ -188,7 +188,6 @@ export default {
       CourseAchievementService.getStudentCourseAchievements(this.student.pen)
         .then((response) => {
           this.achievements = response.data;
-          console.log(this.achievements);
           this.courses = this.achievements.map((item) => {
             return {
               id: item.courseCode,
