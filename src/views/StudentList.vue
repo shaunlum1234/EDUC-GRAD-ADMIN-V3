@@ -18,7 +18,7 @@
       <div v-if="student.pen" class="card" style="width: 100%">
         <div class="card-body">
           <h2 class="card-title">
-            {{ student.Surname }}, {{ student.studGiven }} {{ student.studMiddle }}
+            {{ student.studSurname }}, {{ student.studGiven }} {{ student.studMiddle }}
             ({{ student.pen }})
           </h2>
           <ul>
