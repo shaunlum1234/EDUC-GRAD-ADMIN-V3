@@ -5,10 +5,10 @@ const apiClient = axios.create({
   withCredentials: false,
   headers: {
     Accept: 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    "Access-Control-Allow-Origin": "*",
   }
-}
-)
+})
 export default {
   getCourses() {
     return apiClient.get('/api/v1/courses')
@@ -16,10 +16,14 @@ export default {
   getCourse(id) {
     return apiClient.get('/api/v1/courses/' + id)
   },
-  editCourse(id, data){
-    return apiClient.put("/api/v1/courses/" + id ,data,{ useCredentials: false })
+  editCourse(id, data) {
+    return apiClient.put("/api/v1/courses/" + id, data, {
+      useCredentials: false
+    })
   },
-  addCourse(data){
-    return apiClient.post("/api/v1/courses",data,{ useCredentials: false })
+  addCourse(data) {
+    return apiClient.post("/api/v1/courses", data, {
+      useCredentials: false
+    })
   }
 }
