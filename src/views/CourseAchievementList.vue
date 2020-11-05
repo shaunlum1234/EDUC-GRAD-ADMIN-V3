@@ -39,7 +39,7 @@
       <div class="col-12 student-pen-display">
         <!-- {{ currentStudent }} -->
         <h3 v-if="currentStudent">
-          <strong>{{this.currentStudent.Surname}}</strong>,
+          <strong>{{this.currentStudent.studSurname}}</strong>,
           {{ this.currentStudent.studGiven}} 
           {{ this.currentStudent.studMiddle}}
            (PEN: {{ this.currentStudent.pen }})
