@@ -65,7 +65,7 @@
 import { store } from "@/store.js";
 import StudentService from "@/services/StudentService.js";
 export default {
-  name: "studentlist",
+  name: "studentProfile",
   data() {
     return {
       student: [],

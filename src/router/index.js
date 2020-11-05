@@ -12,7 +12,7 @@ import ProgramRuleShow from '../views/ProgramRuleShow.vue';
 import GraduationStatusFind from '../views/GraduationStatusFind.vue';
 import GraduationStatusShow from '../views/GraduationStatusShow.vue';
 import GraduationStatusCreate from '../views/GraduationStatusCreate.vue';
-import StudentList from '../views/StudentList.vue';
+import StudentProfile from '../views/StudentProfile.vue';
 import StudentShow from '../views/StudentShow.vue';
 import StudentAchievementReportShow from '../views/StudentAchievementReportShow.vue';
 import StudentTranscriptReportShow from '../views/StudentTranscriptReportShow.vue';
@@ -27,8 +27,8 @@ const routes = [
   },
   {
     path: '/',
-    name: 'student-list',
-    component: StudentList
+    name: 'student-profile',
+    component: StudentProfile
   },
   {
     path: '/courses',
@@ -90,11 +90,6 @@ const routes = [
     path: '/graduation-status/create',
     name: 'graduation-status-create',
     component: GraduationStatusCreate
-  },
-  {
-    path: '/students',
-    name: 'student-list',
-    component: StudentList
   },
   {
     path: '/students/:id',
