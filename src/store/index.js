@@ -2,16 +2,23 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-
 export default new Vuex.Store({
   state: {
-  },
-  getters: {
+    profile: []
+    // courses: {},
+    // assessments: {},
+    // exams: {}
   },
   mutations: {
+    setStudentProfile(state, payload) {
+      state.profile = payload;
+    }
   },
-  actions: {
+  actions: {},
+  getters: {
+    getStudentProfile(state) {
+      return state.profile;
+    }
   },
-  modules: {
-  }
+  modules: {}
 })
