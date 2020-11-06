@@ -7,7 +7,7 @@
     state: {
       student: {
         test: "hello world",
-        profile: {},
+        profiles: {}
         // courses: {},
         // assessments: {},
         // exams: {}
@@ -15,14 +15,17 @@
     },
     mutations: {
       setStudentProfile(state, payload) {
-        state.student.profile += payload;
+        state.student.profiles = payload;
       }
     },
-    actions: {},
+    actions: {
+      
+    },
     getters: {
-      getStudentProfile(state) {
-        return state.student.profile;
-      },
+      // getStudentProfile(state) {
+      //   return state.student.profiles;
+      // },
+      getStudentProfile: state => state.student.profiles,
       getTest(state) {
         return state.student.test;
       }

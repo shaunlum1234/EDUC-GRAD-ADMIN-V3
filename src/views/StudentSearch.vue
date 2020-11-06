@@ -61,6 +61,7 @@
         </div>
       </form>
       <p>Samples: 101696920</p>
+      {{profiles.pen}}
       <v-table
         :data="studentSearchResults"
         class="table table-sm table-hover table-striped text-center align-middle"
@@ -113,6 +114,7 @@ export default {
   computed: {
     ...mapGetters({
       test: "getTest",
+      profiles: "getStudentProfile"
     }),
   },
   methods: {
@@ -123,6 +125,7 @@ export default {
           StudentService.getStudentByPen(this.penInput).then((response) => {
             if (response.data) {
               this.studentSearchResults.push(response.data);
+              this.$store.commit('setStudentProfile',response.data);
             } else {
               this.searchResultMessage = "Pen " + this.penInput + " not found";
             }
