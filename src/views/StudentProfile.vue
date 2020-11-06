@@ -1,25 +1,58 @@
 <template>
   <div class="studentlist container">
-  <h1> Student Graduation Status</h1>
-  <p>Enter a Personal Education Number (PEN) to retrieve the student’s course achievements.</p>
+    <h1>Student Graduation Status</h1>
+    <p>
+      Enter a Personal Education Number (PEN) to retrieve the student’s course
+      achievements.
+    </p>
     <div class="">
       <form v-on:submit.prevent>
         <div class="form-group">
-          <input
-            v-model="penInput"
-            placeholder="Student PEN"
-            class="pen-search"
-          /><button v-on:click="findStudent" class="btn btn-primary">
-            Find Student
-          </button>
+          <!-- Search Criteria -->
+          <div class="dropdown float-left">
+            <button
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Search By
+            </button>  
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <div class="dropdown-item" v-on:click=showPenInput>Pen</div>
+              <div class="dropdown-item" v-on:click=showLastnameInput>Lastname</div>
+            </div>
+          </div>
+          <!-- Pen Input -->
+          <div v-show="penInputBox">
+            <input
+              v-model="penInput"
+              placeholder="Student PEN"
+              class="pen-search"
+            /><button v-on:click="findStudent" class="btn btn-primary">
+              Find Student
+            </button>
+          </div>
+          <!-- Lastname Input -->
+          <div v-show="lastnameInputBox">
+            <input
+              v-model="lastnameInput"
+              placeholder="Student Lastname"
+              class="pen-search"
+            /><button v-on:click="findStudent" class="btn btn-primary">
+              Find Student
+            </button>
+          </div>
         </div>
       </form>
       <p>Samples: 101696920</p>
       <div v-if="student.pen" class="card" style="width: 100%">
         <div class="card-body">
           <h2 class="card-title">
-            {{ student.studSurname }}, {{ student.studGiven }} {{ student.studMiddle }}
-            ({{ student.pen }})
+            {{ student.studSurname }}, {{ student.studGiven }}
+            {{ student.studMiddle }} ({{ student.pen }})
           </h2>
           <ul>
             <li>Birthdate: {{ student.studBirth }}</li>
@@ -70,25 +103,37 @@ export default {
     return {
       student: [],
       penInput: "",
+      penInputBox: false,
+      lastnameInput: "",
+      lastnameInputBox: false
     };
   },
   components: {},
   methods: {
-    findStudent: function() {
+    findStudent: function () {
       if (this.penInput) {
         StudentService.getStudentByPen(this.penInput).then((response) => {
           this.student = response.data;
         });
       }
     },
-    selectStudent: function(pen) {
+    selectStudent: function (pen) {
       store.currentPen = pen;
       store.currentStudent = this.student;
     },
-    clearStudent: function() {
+    clearStudent: function () {
       store.currentPen = "";
       store.currentStudent = "";
       this.student = [];
+    },
+     showPenInput: function () {
+      this.penInputBox = !this.penInputBox;
+      this.lastnameInputBox = false;
+    },
+    showLastnameInput: function () {
+      this.lastnameInputBox = !this.lastnameInputBox;
+      this.penInputBox = false;
+      
     },
   },
 };
@@ -108,5 +153,4 @@ export default {
 h6 {
   font-size: 1.5rem;
 }
-
 </style>
