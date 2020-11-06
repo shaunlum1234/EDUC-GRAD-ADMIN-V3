@@ -67,6 +67,7 @@
         class="table table-sm table-hover table-striped text-center align-middle"
       >
         <thead slot="head" class="thead-dark">
+          <v-th sortKey="">LOAD</v-th>
           <v-th sortKey="pen">Pen</v-th>
           <v-th sortKey="studSurname">Surname</v-th>
           <v-th sortKey="studGiven">First Name</v-th>
@@ -79,6 +80,11 @@
         <tbody slot="body" slot-scope="{ displayData }">
           <template v-for="row in displayData">
             <tr :key="row.pen">
+              <td>
+                <router-link class="nav-item nav-link" to="/course-achievements"
+                  ><button class="btn btn-primary">LOAD</button></router-link
+                >
+              </td>
               <td>{{ row.pen }}</td>
               <td>{{ row.studSurname }}</td>
               <td>{{ row.studGiven }}</td>
