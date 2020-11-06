@@ -25,7 +25,7 @@
 <div class="container">
     <div class="row">
       <div class="col-lg-7 col-sm-12">
-        <h1>Student Course Achievement</h1>
+        <h1>Student Profile</h1>
       </div>
       <div class="search-input col-lg-5 col-sm-12">
         <input

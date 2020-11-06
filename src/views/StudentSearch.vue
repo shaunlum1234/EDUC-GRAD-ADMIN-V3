@@ -81,9 +81,9 @@
           <template v-for="row in displayData">
             <tr :key="row.pen">
               <td>
-                <router-link class="nav-item nav-link" to="/course-achievements"
-                  ><button class="btn btn-primary">LOAD</button></router-link
+                <router-link :to="{ name: 'student-profile', params: { studentPen : row.pen }}"><button class="btn btn-primary">LOAD</button></router-link
                 >
+                  
               </td>
               <td>{{ row.pen }}</td>
               <td>{{ row.studSurname }}</td>

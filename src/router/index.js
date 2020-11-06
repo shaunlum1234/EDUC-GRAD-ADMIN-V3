@@ -2,6 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import StudentSearch from '../views/StudentSearch.vue';
+import StudentProfile from '../views/StudentProfile.vue';
+
 
 Vue.use(VueRouter)
 
@@ -14,6 +16,11 @@ const routes = [{
     path: '/',
     name: 'student-search',
     component: StudentSearch
+  },
+  {
+    path: '/student-profile',
+    name: 'student-profile',
+    component: StudentProfile
   }
 ]
 

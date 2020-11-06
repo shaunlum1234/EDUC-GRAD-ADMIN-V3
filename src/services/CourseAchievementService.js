@@ -11,14 +11,6 @@ const apiClient = axios.create({
 )
 
 export default {
-
-  getCourseAchievements() {
-    return apiClient.get('/api/v1/course-achievements')
-  },
-  getCourseAchievement(id) {
-    return apiClient.get('/api/v1/course-achievements/' + id)
-  },
-
   getStudentCourseAchievements(pen) {
     return apiClient.get('/api/v1/studentcourse/pen/' + pen)
   },
