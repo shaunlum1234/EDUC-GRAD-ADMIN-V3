@@ -5,6 +5,7 @@
       Enter a Personal Education Number (PEN) to retrieve the student’s course
       achievements.
     </p>
+    {{ test }}
     <div class="">
       <form v-on:submit.prevent>
         <div class="form-group">
@@ -94,6 +95,7 @@
 </template>
 <script>
 // @ is an alias to /src
+import { mapGetters } from "vuex";
 import StudentService from "@/services/StudentService.js";
 export default {
   name: "studentSearch",
@@ -108,6 +110,11 @@ export default {
     };
   },
   components: {},
+  computed: {
+    ...mapGetters({
+      test: "getTest",
+    }),
+  },
   methods: {
     findStudentByPen: function() {
       if (this.penInput) {
