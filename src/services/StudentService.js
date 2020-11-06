@@ -13,5 +13,8 @@ const apiClient = axios.create({
 export default {
     getStudentByPen(pen) {
         return apiClient.get('/api/v1/' + pen);
+    },
+    getStudentBySurname(surname) {
+        return apiClient.get('/api/v1/gradstudent?lastName=' + surname);
     }
 }
