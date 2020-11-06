@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    student:{
+    student: {
+      test: "hello world",
       profile: {},
       // courses: {},
       // assessments: {},
@@ -13,17 +14,15 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    setStudentProfile(state, payload){
+    setStudentProfile(state, payload) {
       state.student.profile += payload;
     }
   },
-  actions: {
-  },
+  actions: {},
   getters: {
-    getStudentProfile(state){
+    getStudentProfile(state) {
       return state.student.profile;
     }
   },
-  modules: {
-  }
+  modules: {}
 })
