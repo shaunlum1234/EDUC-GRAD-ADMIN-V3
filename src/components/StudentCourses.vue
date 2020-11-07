@@ -1,15 +1,20 @@
 <template>
   <div class="container">
     <h1>Student Courses</h1>
-    {{ this.$route.params.studentcourses}}
+    {{ courses }}
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "StudentCourses",
   props: {
-    studentcourses: [],
+  },
+  computed: {
+    ...mapGetters({
+      courses: "getStudentCourses"
+    }),
   },
   data: function () {
     return{
@@ -18,8 +23,6 @@ export default {
   },
   created() {
     //Check for any messages from routes
-    this.courseList = this.$route.params.studentcourses;
-    console.log(this.$route.params.studentcourses);
   }
 
 };

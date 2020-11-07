@@ -6,15 +6,16 @@
   export default new Vuex.Store({
     state: {
       student: {
-        profiles: {},
+        profile: {},
         courses: {},
         assessments: {},
-        exams: {}
+        exams: {},
+
       }
     },
     mutations: {
       setStudentProfile(state, payload) {
-        state.student.profiles = payload;
+        state.student.profile = payload;
       },
       setStudentCourses(state, payload) {
         state.student.courses = payload;
@@ -30,8 +31,11 @@
     },
     getters: {
       getStudentProfile(state) {
-        return state.student.profiles;
+        return state.student.profile;
       },
+      getStudentCourses(state) {
+        return state.student.courses;
+      }
       // getStudentProfile: state => state.student.profiles
     },
     modules: {}
