@@ -6,29 +6,33 @@
   export default new Vuex.Store({
     state: {
       student: {
-        test: "hello world",
-        profiles: {}
-        // courses: {},
-        // assessments: {},
-        // exams: {}
+        profiles: {},
+        courses: {},
+        assessments: {},
+        exams: {}
       }
     },
     mutations: {
       setStudentProfile(state, payload) {
         state.student.profiles = payload;
+      },
+      setStudentCourses(state, payload) {
+        state.student.courses = payload;
+      },
+      setStudentAssessments(state, payload) {
+        state.student.assessments = payload;
+      },
+      setStudentExams(state, payload) {
+        state.student.exams = payload;
       }
     },
-    actions: {
-      
+    actions: {      
     },
     getters: {
-      // getStudentProfile(state) {
-      //   return state.student.profiles;
-      // },
-      getStudentProfile: state => state.student.profiles,
-      getTest(state) {
-        return state.student.test;
-      }
+      getStudentProfile(state) {
+        return state.student.profiles;
+      },
+      // getStudentProfile: state => state.student.profiles
     },
     modules: {}
   })
