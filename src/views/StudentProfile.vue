@@ -17,7 +17,7 @@
           </div>
           <div>
               <h2>Courses</h2>
-              {{studentCourses}}
+              <StudentCourses :studentcourses="this.studentCourses"/>
           </div>          
         </div>
       </div>
@@ -29,14 +29,18 @@
 <script>
 // import CourseService from "@/services/CourseService.js";
 import StudentService from "@/services/StudentService.js";
+
 import CourseAchievementService from "@/services/CourseAchievementService.js";
 import SiteMessage from "@/components/SiteMessage";
-
+import StudentCourses from "@/components/StudentCourses";
+//import StudentInfo from "@/components/StudentInfo.js";
 //import { store } from "@/store.js";
 export default {
   props: ["studentPen"],
   components: {
     SiteMessage: SiteMessage,
+    StudentCourses: StudentCourses,
+    
   },
   data() {
     return {
@@ -60,60 +64,20 @@ export default {
         console.log("Error with webservice");
       }
       //Load Course Data into studentCourses:
+      let currentObj = this;
       CourseAchievementService.getStudentCourseAchievements(studentPen)
         .then((response) => {
-          console.log(response.data);
-          this.studentCourses = response.data;
+          console.log(response);
+
+          currentObj.studentCourses = response;
         })
-        
-      // CourseAchievementService.getStudentCourseAchievements(this.student.pen)
-      //   .then((response) => {
-      //     this.achievements = response.data;
-      //     //console.log('current student achievements: ' + this.achievements);
-      //   })
-      //   .catch((error) =>{
-      //     console.log(error);
-      //   });
-  
+
  
 
     //display message to select a student
   },
   methods: {
-    formSubmit(e) {
-      e.preventDefault();
-      let currentObj = this;
-
-      CourseAchievementService.addStudentCourseAchievement({
-        pen: this.pen,
-        sessionDate: this.sessionDate,
-        finalPercent: parseInt(this.finalPercent),
-        interimPercent: parseInt(this.interimPercent),
-        finalLetterGrade: this.finalLetterGrade,
-        credits: parseInt(this.credits),
-        courseId: this.courseId,
-        courseType: this.courseType,
-        interimLetterGrade: this.interimLetterGrade,
-      })
-        .then(function(response) {
-          CourseAchievementService.getCourseAchievements()
-            .then((response) => {
-              currentObj.achievements = response.data;
-              currentObj.displayMessage =
-                "You have successfully added a Course Achievement";
-            })
-            // eslint-disable-next-line no-unused-vars
-            .catch((error) => {
-              //console.log("There was an error:" + error.response);
-            });
-          currentObj.output = response.data;
-        })
-        // eslint-disable-next-line no-unused-vars
-        .catch(function(error) {
-          currentObj.output = error;
-        });
-    },
-  },
+  }
 };
 </script>
 
