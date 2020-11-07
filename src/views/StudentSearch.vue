@@ -119,7 +119,6 @@ export default {
   components: {},
   computed: {
     ...mapGetters({
-      test: "getTest",
       profiles: "getStudentProfile"
     }),
   },
