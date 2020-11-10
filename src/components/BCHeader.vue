@@ -48,7 +48,7 @@
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active"></li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/students">Select Students</router-link>
+            <router-link class="nav-link" to="/">Select Students</router-link>
           </li>
           <!-- <li class="nav-item">
             <router-link class="nav-link" to="/course-achievements"
@@ -61,7 +61,7 @@
     <nav class="navigation-main" id="navbar">
       <div class="">
         <ul>
-          <li><router-link to="/students">Select Students</router-link></li>
+          <li><router-link to="/">Select Students</router-link></li>
           <!-- <li>
             <router-link to="/course-achievements"
               >Course Achievements</router-link
