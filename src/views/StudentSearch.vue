@@ -73,6 +73,9 @@
         :key="variant"
         v-show="searchLoading"
       ></b-spinner>
+      
+
+      
       </div>
       
       <v-table
@@ -81,7 +84,6 @@
         v-if="studentSearchResults"
       >
         <thead slot="head" class="thead-dark">
-          <v-th sortKey="">LOAD</v-th>
           <v-th sortKey="pen">Pen</v-th>
           <v-th sortKey="studSurname">Surname</v-th>
           <v-th sortKey="studGiven">First Name</v-th>
@@ -94,13 +96,7 @@
         <tbody slot="body" slot-scope="{ displayData }">
           <template v-for="row in displayData">
             <tr :key="row.pen">
-              <td>
-                <button v-on:click="loadStudent(row.pen)" class="btn btn-primary">
-                LOAD
-                </button>
-                  
-              </td>
-              <td>{{ row.pen }}</td>
+              <td><a href="#" v-on:click="loadStudent(row.pen)">{{ row.pen }}</a></td>
               <td>{{ row.studSurname }}</td>
               <td>{{ row.studGiven }}</td>
               <td>{{ row.studMiddle }}</td>

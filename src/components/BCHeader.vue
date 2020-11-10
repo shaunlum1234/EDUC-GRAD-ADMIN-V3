@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <div class="">
+      <div class="container">
         <div class="banner">
           <a class="navbar-brand" href="https://www2.gov.bc.ca">
             <img
@@ -50,16 +50,11 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/">Select Students</router-link>
           </li>
-          <!-- <li class="nav-item">
-            <router-link class="nav-link" to="/course-achievements"
-              >Course Achievements</router-link
-            >
-          </li> -->
         </ul>
       </div>
     </nav>
     <nav class="navigation-main" id="navbar">
-      <div class="">
+      <div class="container ">
         <ul>
           <li><router-link to="/">Select Students</router-link></li>
           <!-- <li>
