@@ -1,14 +1,10 @@
 <template>
   <div class="container">
     <div>
-            <h2>Student information</h2>
             <div class="card" style="width: 100%">
               <div class="card-body">
-                <h2 class="card-title">{{ studentInfo.pen }}</h2>
-                <h3 class="card-subtitle mb-2 text-muted">
-                  {{ studentInfo.studSurname }}, {{ studentInfo.studGiven }}
-                  {{ studentInfo.studMiddle }}
-                </h3>
+                <h2 class="card-title">Student Information</h2>
+                
                 <ul>
                   <li>
                     <strong>Graduation Program: </strong>{{ studentInfo.gradRequirementYear }}

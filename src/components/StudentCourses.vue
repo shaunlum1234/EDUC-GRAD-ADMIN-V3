@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <h1>Student Courses</h1>
     <v-table
       :data="courses"
       :filters="filters"

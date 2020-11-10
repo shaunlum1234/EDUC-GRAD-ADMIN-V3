@@ -6,17 +6,25 @@
     ></SiteMessage>
     <!-- Button trigger modal -->
 
-    <div class="container">
+    
 
+    <div class="container">
+    <h1>{{studentFullName}}</h1>
       <div>
         <b-card no-body>
           <b-tabs card>
-            <b-tab title="Profile" active>
+            <b-tab title="Student Information" active>
               <b-card-text><StudentInfo/></b-card-text>
             </b-tab>
-            <b-tab title="Courses">
+            <b-tab title="Student Courses">
               <b-card-text><StudentCourses/></b-card-text>
             </b-tab>
+            <b-tab title="Exams">
+              <b-card-text><StudentCourses/></b-card-text>
+            </b-tab>
+            <b-tab title="Assessment">
+              <b-card-text><StudentCourses/></b-card-text>
+            </b-tab>                        
           </b-tabs>
         </b-card>
       </div>
@@ -51,7 +59,8 @@ export default {
   computed: {
     ...mapGetters({
       profile: "getStudentProfile",
-      courses: "getStudentCourses"
+      courses: "getStudentCourses",
+      studentFullName: "getStudentFullName"
     }),
   },
   created() {

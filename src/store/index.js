@@ -33,6 +33,9 @@
       getStudentProfile(state) {
         return state.student.profile;
       },
+      getStudentFullName(state){
+        return state.student.profile.studSurname + ", " + state.student.profile.studGiven + " " + state.student.profile.studMiddle + "(" + state.student.profile.pen  +")";
+      },
       getStudentCourses(state) {
         return state.student.courses;
       }
