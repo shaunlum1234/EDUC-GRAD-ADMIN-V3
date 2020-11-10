@@ -66,6 +66,15 @@
         </div>
       </form>
       <p>Samples: 101696920</p>
+      <div class="text-center mb-3 d-flex justify-content-between">
+      <b-spinner
+        v-for="variant in variants"
+        :variant="variant"
+        :key="variant"
+        v-show="searchLoading"
+      ></b-spinner>
+      </div>
+      
       <v-table
         :data="studentSearchResults"
         class="table table-sm table-hover table-striped text-center align-middle"
@@ -122,6 +131,8 @@ export default {
       showPenInputBox: true,
       surnameInput: "",
       showSurnameInput: false,
+      variants: ['primary'],
+      searchLoading: false
     };
   },
   components: {},
@@ -135,6 +146,7 @@ export default {
   methods: {
      loadStudent(pen){
       console.log(pen);
+      this.searchLoading = true;
   
       StudentService.getStudentByPen(pen).then((response) => {
         if (response.data) {
@@ -163,14 +175,17 @@ export default {
     },
     findStudentByPen: function() {
       if (this.penInput) {
+        this.searchLoading = true;
         this.studentSearchResults = [];
         try {
           StudentService.getStudentByPen(this.penInput).then((response) => {
             console.log(response);
             if (response.data) {
+              this.searchLoading = false;
               this.studentSearchResults.push(response.data);
             }
           }).catch(err => {
+            this.searchLoading = false;
             this.message = "PEN not found";
             console.log(err);
           });
@@ -181,11 +196,12 @@ export default {
     },
     findStudentBySurname: function() {
       if (this.surnameInput) {
+        this.searchLoading = true;
         this.studentSearchResults = [];
         try {
           StudentService.getStudentBySurname(this.surnameInput).then(
             (response) => {
-              console.log(response.data);
+              this.searchLoading = false;
               this.studentSearchResults = response.data;
             }
           ).catch(err => {
