@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+<div class="container">
     <h1>Student Courses</h1>
     <v-table
       :data="courses"
@@ -20,61 +20,47 @@
         <v-th sortKey="completedCourseLetterGrade">Final %</v-th>
         <v-th sortKey="completedCoursePercentage">Final LG</v-th>
       </thead>
-      <tbody slot="body" slot-scope="{ displayData }">
-        <template v-for="row in displayData">
-          <tr
-            :key="row.courseAchievementId"
-            @click="toggle(row.courseCode + row.courseLevel)"
-            :class="{ opened: opened.includes(row.courseCode) }"
-          >
-            <td>{{ row.courseCode }}</td>
-            <td>{{ row.courseLevel }}</td>
-            <td>{{ row.sessionDate}}</td>
-            <td>{{ row.courseName }}</td>
-            <td>{{ row.courseEquivChal }}</td>
-            <td>{{ row.credits }}</td>
-            <td>{{ row.interimPercent }} %</td>
-            <td>{{ row.interimLetterGrade }}</td>
-            <td>{{ row.completedCoursePercentage }}%</td>
-            <td>{{ row.completedCourseLetterGrade }}</td>
-          </tr>
-        </template>
-      </tbody>
-      -->
     </v-table>
-  </div>
+</div>      
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 export default {
-  name: "StudentCourses",
+  name: "StudentExams",
   props: {},
   computed: {
     ...mapGetters({
-      courses: "getStudentCourses",
+      exams: "getStudentExams",
     }),
   },
   data: function () {
     return {
       show: false,
       opened: [],
-      achievements: [],
-      InputCourse: "",
       student: [],
-      InputPen: "",
+      examsList:[],
       filters: {
         name: { value: "", keys: ["courseCode"] },
       },
       pen: "",
-      sessionDate: "",
-      finalPercent: "",
-      interimPercent: "",
-      finalLetterGrade: "",
-      credits: "",
-      courseId: "",
+      courseCode: "",
+      courseName: "",
+      courseLevel:"",
+      sessionDate:"",
+      gradReqMet: "",
       courseType: "",
+      completedCourseSchoolPercentage: null,
+      completedCourseExamPercentage: null,
+      completedCourseFinalPercentage: null,
+      completedCourseLetterGrade: "",
+      interimPercent: null,
       interimLetterGrade: "",
+      credits: null,
+      creditsUsedForGrad: null,
+      reqMetLiteracyNumeracy: "",
+      wroteFlag: "",
+      specialCase: " "
       currentPage: 1,
       totalPages: 0,
       displayMessage: null,
@@ -84,8 +70,10 @@ export default {
   },
   created() {
     //Check for any messages from routes
-    if (this.courses) {
-      this.courseList.push(this.courses);
+    if (this.exams) {
+      this.examsList.push(this.exams);
+      console.log("this.examsList");
+      console.log(this.examsList);
     }
   },
   methods: {

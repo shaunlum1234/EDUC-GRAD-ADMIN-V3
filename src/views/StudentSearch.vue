@@ -116,6 +116,7 @@
 import { mapGetters } from "vuex";
 import CourseAchievementService from "@/services/CourseAchievementService.js";
 import StudentService from "@/services/StudentService.js";
+import StudentExamsService from "@/services/StudentExamsService.js"
 export default {
   name: "studentSearch",
   data() {
@@ -135,7 +136,8 @@ export default {
   computed: {
     ...mapGetters({
       profile: "getStudentProfile",
-      courses: "getStudentCourses"
+      courses: "getStudentCourses",
+      exams: "getStudentExams"
     }),
   },
 
@@ -149,6 +151,11 @@ export default {
           this.$store.commit('setStudentProfile',response.data);
         }
       });
+      StudentExamsService.getStudentExams(pen).then((response) => {
+        if (response.data) {
+          this.$store.commit('setStudentExams',response.data);
+        }
+      })
       CourseAchievementService.getStudentCourseAchievements(pen).then(
         (response) => {
           console.log(response.data);
@@ -157,6 +164,7 @@ export default {
            currentObj.$router.push({name: 'student-profile'});   
         }
       );
+
     },
     keyHandler: function(e){
       this.message = "";
