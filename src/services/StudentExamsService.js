@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-    baseURL: process.env.VUE_APP_STUDENTS_API_HOST,
+    baseURL: process.env.VUE_APP_STUDENT_EXAMS_API_HOST,
     withCredentials: false,
     headers: {
         Accept: 'application/json',

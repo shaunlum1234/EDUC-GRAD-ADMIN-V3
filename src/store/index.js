@@ -43,8 +43,10 @@
       setStudentAssessments(state, payload) {
         state.student.assessments = payload;
       },
-      setStudentExams(state, payload) {
-        state.student.exams = payload;
+      setStudentExams({
+        commit
+      }, payload) {
+        commit('setStudentExams', payload);
       }
 
     },

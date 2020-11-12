@@ -6,6 +6,8 @@
     ></SiteMessage>
     <!-- Button trigger modal -->
 
+    
+
     <div class="container">
       <!--h1>{{studentFullName}}</h1-->
       <div>
@@ -17,9 +19,14 @@
             <b-tab title="Student Courses">
               <b-card-text><StudentCourses v-if="courses.length"/></b-card-text>
             </b-tab>
+            <b-tab title="Student Exams">
+              <!-- <b-card-text><StudentExams v-if="exams"/></b-card-text> -->
+              {{exams}}
+            </b-tab>                                 
           </b-tabs>
         </b-card>
       </div>
+
     </div>
   </div>
 </template>
@@ -44,6 +51,7 @@ export default {
       opened: [],
       studentCourses: [],
       studentAssessments: [],
+      studentExams:[],
       studentInfo: [],
       displayMessage: null,
     };
@@ -53,10 +61,12 @@ export default {
       profile: "getStudentProfile",
       courses: "getStudentCourses",
       studentFullName: "getStudentFullName",
+      exams: "getStudentExams",
     }),
   },
   created() {
     //Load student Data into studentInfo:
+  
   },
   methods: {},
 };
