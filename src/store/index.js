@@ -27,7 +27,13 @@
       },
       setStudentExams(state, payload) {
         state.student.exams = payload;
-      }
+      },
+      unsetStudent(state) {
+        state.student.profile = {};
+        state.student.courses = {};
+        state.student.assessments = {};
+        state.student.exams = {};
+      },
     },
     actions: {
       setStudentProfile({
@@ -61,7 +67,7 @@
         return state.student.courses;
       },
       getStudentExams(state) {
-        return  state.student.exams;
+        return state.student.exams;
       }
       // getStudentProfile: state => state.student.profiles
     },

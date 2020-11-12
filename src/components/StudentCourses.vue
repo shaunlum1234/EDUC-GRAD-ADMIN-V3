@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Student Courses</h1>
+    <b-spinner v-if="!courses.length" label="Loading">Loading</b-spinner>
     <v-table
       :data="courses"
       :filters="filters"
@@ -29,7 +29,7 @@
           >
             <td>{{ row.courseCode }}</td>
             <td>{{ row.courseLevel }}</td>
-            <td>{{ row.sessionDate}}</td>
+            <td>{{ row.sessionDate }}</td>
             <td>{{ row.courseName }}</td>
             <td>{{ row.courseEquivChal }}</td>
             <td>{{ row.credits }}</td>
@@ -55,7 +55,7 @@ export default {
       courses: "getStudentCourses",
     }),
   },
-  data: function () {
+  data: function() {
     return {
       show: false,
       opened: [],
@@ -98,9 +98,9 @@ export default {
     showMsgBoxOne(message) {
       this.$bvModal.msgBoxOk(message);
     },
-    getCourseName: function (cid) {
+    getCourseName: function(cid) {
       let result = "";
-      this.courses.filter(function (n) {
+      this.courses.filter(function(n) {
         if (n.id === cid) {
           result = n.name;
           return result;

@@ -6,27 +6,30 @@
     ></SiteMessage>
     <!-- Button trigger modal -->
 
-    
-
     <div class="container">
-      <!--h1>{{studentFullName}}</h1-->
+      <h1>
+        {{ studentFullName }}
+        <button v-on:click="closeRecord" class="btn btn-primary close-record">
+          Close Student Record
+        </button>
+      </h1>
+
       <div>
         <b-card no-body>
           <b-tabs card>
-            <b-tab title="Student Profile">
+            <b-tab title="Student Profile" class="py-3 px-0 m-1">
               <b-card-text><StudentInfo /></b-card-text>
             </b-tab>
-            <b-tab title="Student Courses">
-              <b-card-text><StudentCourses v-if="courses.length"/></b-card-text>
+            <b-tab title="Student Courses" class="py-3 px-0 m-1">
+              <b-card-text><StudentCourses /></b-card-text>
             </b-tab>
             <b-tab title="Student Exams">
-              <!-- <b-card-text><StudentExams v-if="exams"/></b-card-text> -->
-              {{exams}}
-            </b-tab>                                 
+              <b-card-text><StudentExams /></b-card-text>
+              {{ exams }}
+            </b-tab>
           </b-tabs>
         </b-card>
       </div>
-
     </div>
   </div>
 </template>
@@ -51,7 +54,7 @@ export default {
       opened: [],
       studentCourses: [],
       studentAssessments: [],
-      studentExams:[],
+      studentExams: [],
       studentInfo: [],
       displayMessage: null,
     };
@@ -66,10 +69,18 @@ export default {
   },
   created() {
     //Load student Data into studentInfo:
-  
   },
-  methods: {},
+  methods: {
+    closeRecord: function() {
+      this.$store.commit("unsetStudent");
+      this.$router.push({ name: "student-search" });
+    },
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.close-record {
+  float: right;
+}
+</style>
