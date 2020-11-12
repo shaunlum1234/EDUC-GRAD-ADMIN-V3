@@ -5,6 +5,7 @@
       Enter a Personal Education Number (PEN) to retrieve the student’s course
       achievements.
     </p>
+
     <div class="">
       <form v-on:submit.prevent>
         <div class="form-group">
@@ -115,6 +116,7 @@
 import { mapGetters } from "vuex";
 import CourseAchievementService from "@/services/CourseAchievementService.js";
 import StudentService from "@/services/StudentService.js";
+import StudentExamsService from "@/services/StudentExamsService.js";
 export default {
   name: "studentSearch",
   data() {
@@ -139,6 +141,7 @@ export default {
     ...mapGetters({
       profile: "getStudentProfile",
       courses: "getStudentCourses",
+      exams: "getStudentExams",
     }),
   },
 
@@ -152,7 +155,11 @@ export default {
           this.$store.dispatch("setStudentProfile", response.data);
         }
       });
-
+      StudentExamsService.getStudentExams(pen).then((response) => {
+        if (response.data) {
+          this.$store.commit("setStudentExams", response.data);
+        }
+      });
       CourseAchievementService.getStudentCourseAchievements(pen).then(
         (response) => {
           console.log(response.data);
@@ -160,6 +167,9 @@ export default {
           console.log(response.data);
         }
       );
+
+      //let currentObj = this;
+      //currentObj.$router.push({name: 'student-profile'});
     },
     keyHandler: function(e) {
       this.message = "";

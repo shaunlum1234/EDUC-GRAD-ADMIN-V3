@@ -57,6 +57,9 @@
       },
       getStudentCourses(state) {
         return state.student.courses;
+      },
+      getStudentExams(state) {
+        return  state.student.exams;
       }
       // getStudentProfile: state => state.student.profiles
     },
