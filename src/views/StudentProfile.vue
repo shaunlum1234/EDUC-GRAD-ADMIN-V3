@@ -28,14 +28,15 @@
 // import CourseService from "@/services/CourseService.js";
 import SiteMessage from "@/components/SiteMessage";
 import StudentCourses from "@/components/StudentCourses";
-//import StudentInfo from "@/components/StudentInfo";
+import StudentInfo from "@/components/StudentInfo";
 import { mapGetters } from "vuex";
 //import { store } from "@/store.js";
 export default {
+  name: "studentProfile",
   components: {
     SiteMessage: SiteMessage,
     StudentCourses: StudentCourses,
-    //StudentInfo: StudentInfo,
+    StudentInfo: StudentInfo,
   },
   data() {
     return {
