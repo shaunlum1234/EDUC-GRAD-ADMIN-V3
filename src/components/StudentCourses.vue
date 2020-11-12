@@ -83,10 +83,8 @@ export default {
     };
   },
   created() {
-    //Check for any messages from routes
-    if (this.courses) {
-      this.courseList.push(this.courses);
-    }
+    console.log("created");
+    console.log(this.courses);
   },
   methods: {
     toggle(id) {
