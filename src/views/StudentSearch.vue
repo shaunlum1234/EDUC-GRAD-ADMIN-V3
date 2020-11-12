@@ -3,11 +3,9 @@
     <h1>Student Graduation Status</h1>
     <p>
       Enter a Personal Education Number (PEN) to retrieve the student’s course
-      achievements. 
-      <router-link to="/student-profile">Load</router-link>
-     
+      achievements.
     </p>
-    
+
     <div class="">
       <form v-on:submit.prevent>
         <div class="form-group">
@@ -51,7 +49,7 @@
               Find Student by PEN
             </button>
           </div>
-          
+
           <!-- Surname Input -->
           <div v-show="showSurnameInput">
             <input
@@ -69,13 +67,13 @@
       </form>
       <p>Samples: 101696920</p>
       <div class="text-center mb-3 d-flex justify-content-between">
-      <b-spinner
-        v-for="variant in variants"
-        :variant="variant"
-        :key="variant"
-        v-show="searchLoading"
-      ></b-spinner>
-      
+        <b-spinner
+          v-for="variant in variants"
+          :variant="variant"
+          :key="variant"
+          v-show="searchLoading"
+        ></b-spinner>
+      </div>
 
       
       </div>
@@ -98,7 +96,11 @@
         <tbody slot="body" slot-scope="{ displayData }">
           <template v-for="row in displayData">
             <tr :key="row.pen">
-              <td><a href="#" v-on:click="loadStudent(row.pen)">{{ row.pen }}</a></td>
+              <td>
+                <a href="#" v-on:click="selectStudent(row.pen)">{{
+                  row.pen
+                }}</a>
+              </td>
               <td>{{ row.studSurname }}</td>
               <td>{{ row.studGiven }}</td>
               <td>{{ row.studMiddle }}</td>
@@ -118,7 +120,7 @@
 import { mapGetters } from "vuex";
 import CourseAchievementService from "@/services/CourseAchievementService.js";
 import StudentService from "@/services/StudentService.js";
-import StudentExamsService from "@/services/StudentExamsService.js"
+import StudentExamsService from "@/services/StudentExamsService.js";
 export default {
   name: "studentSearch",
   data() {
@@ -127,35 +129,34 @@ export default {
       searchResultMessage: "",
       message: "",
       penInput: "",
+      selectedPen: "",
       showPenInputBox: true,
       surnameInput: "",
       showSurnameInput: false,
-      variants: ['primary'],
-      searchLoading: false
+      variants: ["primary"],
+      searchLoading: false,
     };
   },
-  beforeRouteLeave (to, from, next) {
-   
-     next(this.loadStudent(this.penInput));
+  beforeRouteLeave(to, from, next) {
+    next(this.loadStudent(this.selectedPen));
   },
   components: {},
   computed: {
     ...mapGetters({
       profile: "getStudentProfile",
       courses: "getStudentCourses",
-      exams: "getStudentExams"
+      exams: "getStudentExams",
     }),
   },
 
   methods: {
-     loadStudent(pen){
+    loadStudent(pen) {
       console.log("loadingStudent");
       console.log(pen);
-      this.searchLoading = true;
-  /*
+
       StudentService.getStudentByPen(pen).then((response) => {
         if (response.data) {
-          this.$store.commit('setStudentProfile',response.data);
+          this.$store.dispatch("setStudentProfile", response.data);
         }
       });
 */
@@ -166,22 +167,22 @@ export default {
       CourseAchievementService.getStudentCourseAchievements(pen).then(
         (response) => {
           console.log(response.data);
-           this.$store.dispatch('setStudentCourses', response.data);
-           console.log(response.data);
+          this.$store.dispatch("setStudentCourses", response.data);
+          console.log(response.data);
         }
       );
 
       //let currentObj = this;
-      //currentObj.$router.push({name: 'student-profile'});  
+      //currentObj.$router.push({name: 'student-profile'});
     },
-    keyHandler: function(e){
+    keyHandler: function(e) {
       this.message = "";
       if (e.keyCode === 13) {
         this.studentSearchResults = [];
-        if(this.penInput){
+        if (this.penInput) {
           this.findStudentByPen();
-        }else if(this.surnameInput){
-          this.findStudentBySurname()
+        } else if (this.surnameInput) {
+          this.findStudentBySurname();
         }
       }
     },
@@ -190,17 +191,19 @@ export default {
         this.searchLoading = true;
         this.studentSearchResults = [];
         try {
-          StudentService.getStudentByPen(this.penInput).then((response) => {
-            console.log(response);
-            if (response.data) {
+          StudentService.getStudentByPen(this.penInput)
+            .then((response) => {
+              console.log(response);
+              if (response.data) {
+                this.searchLoading = false;
+                this.studentSearchResults.push(response.data);
+              }
+            })
+            .catch((err) => {
               this.searchLoading = false;
-              this.studentSearchResults.push(response.data);
-            }
-          }).catch(err => {
-            this.searchLoading = false;
-            this.message = "PEN not found";
-            console.log(err);
-          });
+              this.message = "PEN not found";
+              console.log(err);
+            });
         } catch (error) {
           console.log("Error with webservice");
         }
@@ -211,22 +214,23 @@ export default {
         this.searchLoading = true;
         this.studentSearchResults = [];
         try {
-          StudentService.getStudentBySurname(this.surnameInput).then(
-            (response) => {
+          StudentService.getStudentBySurname(this.surnameInput)
+            .then((response) => {
               this.searchLoading = false;
               this.studentSearchResults = response.data;
-            }
-          ).catch(err => {
-            this.message = "Surname not found";
-            console.log(err);
-          });
+            })
+            .catch((err) => {
+              this.message = "Surname not found";
+              console.log(err);
+            });
         } catch (error) {
           console.log("Error with webservice");
         }
       }
     },
     selectStudent: function(pen) {
-      console.log("selecting pen:" + pen);
+      this.selectedPen = pen;
+      this.$router.push({ name: "student-profile" });
     },
     clearStudent: function() {},
     clearInput: function() {
