@@ -60,7 +60,7 @@ export default {
       creditsUsedForGrad: null,
       reqMetLiteracyNumeracy: "",
       wroteFlag: "",
-      specialCase: " "
+      specialCase: " ",
       currentPage: 1,
       totalPages: 0,
       displayMessage: null,

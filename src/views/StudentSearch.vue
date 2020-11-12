@@ -160,9 +160,8 @@ export default {
       });
 */
       StudentExamsService.getStudentExams(pen).then((response) => {
-        if (response.data) {
-          this.$store.commit('setStudentExams',response.data);
-        }
+          // this.$store.commit('setStudentExams',response.data);
+          this.$store.dispatch('setStudentExams', response.data);
       })
       CourseAchievementService.getStudentCourseAchievements(pen).then(
         (response) => {
