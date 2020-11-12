@@ -113,7 +113,6 @@
         </tbody>
       </v-table>
     </div>
-  </div>
 </template>
 <script>
 // @ is an alias to /src
@@ -159,7 +158,6 @@ export default {
           this.$store.dispatch("setStudentProfile", response.data);
         }
       });
-*/
       StudentExamsService.getStudentExams(pen).then((response) => {
           // this.$store.commit('setStudentExams',response.data);
           this.$store.dispatch('setStudentExams', response.data);
