@@ -118,6 +118,7 @@ import { mapGetters } from "vuex";
 import CourseAchievementService from "@/services/CourseAchievementService.js";
 import StudentService from "@/services/StudentService.js";
 import StudentExamsService from "@/services/StudentExamsService.js";
+import AssessmentService from "@/services/AssessmentService.js"
 export default {
   name: "studentSearch",
   data() {
@@ -150,10 +151,17 @@ export default {
     loadStudent(pen) {
       console.log("loadingStudent");
       console.log(pen);
-      StudentExamsService.getStudentExams(pen).then((response) => {
+
+      AssessmentService.getStudentAssessment(pen).then((response) => {
           // this.$store.commit('setStudentExams',response.data);
-          this.$store.dispatch('setStudentExams', response.data);
+          this.$store.dispatch('setStudentAssessments', response.data);
+      });
+
+      StudentExamsService.getStudentExams(pen).then((response) => {
+        // this.$store.commit('setStudentExams',response.data);
+        this.$store.dispatch('setStudentExams', response.data);
       })
+
       CourseAchievementService.getStudentCourseAchievements(pen).then(
         (response) => {
           console.log(response.data);

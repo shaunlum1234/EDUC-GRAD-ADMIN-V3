@@ -40,8 +40,8 @@
       }, payload) {
         commit('setStudentCourses', payload);
       },
-      setStudentAssessments(state, payload) {
-        state.student.assessments = payload;
+      setStudentAssessments(commit, payload) {
+        commit('setStudentAssessments', payload);
       },
       setStudentExams({
         commit
@@ -62,6 +62,9 @@
       },
       getStudentExams(state) {
         return  state.student.exams;
+      },
+      getStudentAssessments(state) {
+        return  state.student.assessments;
       }
       // getStudentProfile: state => state.student.profiles
     },

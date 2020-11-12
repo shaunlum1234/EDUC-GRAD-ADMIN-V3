@@ -19,6 +19,10 @@
             <b-tab title="Student Courses">
               <b-card-text><StudentCourses v-if="courses.length"/></b-card-text>
             </b-tab>
+            <b-tab title="Student Assessments">
+              <!-- <b-card-text><StudentExams v-if="exams"/></b-card-text> -->
+              {{assessments}}
+            </b-tab>    
             <b-tab title="Student Exams">
               <b-card-text><StudentExams v-if="exams"/></b-card-text>
             </b-tab>                                 
@@ -35,7 +39,7 @@
 import SiteMessage from "@/components/SiteMessage";
 import StudentCourses from "@/components/StudentCourses";
 import StudentInfo from "@/components/StudentInfo";
-import StudentExams from "@/components/StudentExams"
+import StudentExams from "@/components/StudentExams";
 import { mapGetters } from "vuex";
 //import { store } from "@/store.js";
 export default {
@@ -63,6 +67,7 @@ export default {
       courses: "getStudentCourses",
       studentFullName: "getStudentFullName",
       exams: "getStudentExams",
+      assessments: "getStudentAssessments"
     }),
   },
   created() {
