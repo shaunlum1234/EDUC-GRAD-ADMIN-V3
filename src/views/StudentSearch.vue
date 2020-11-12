@@ -62,6 +62,7 @@
             </button>
           </div>
           <span v-if="message">{{ message }}</span>
+
         </div>
       </form>
       <p>Samples: 101696920</p>
@@ -74,6 +75,9 @@
         ></b-spinner>
       </div>
 
+      
+      </div>
+      
       <v-table
         :data="studentSearchResults"
         class="table table-sm table-hover table-striped text-center align-middle"
@@ -107,7 +111,6 @@
         </tbody>
       </v-table>
     </div>
-  </div>
 </template>
 <script>
 // @ is an alias to /src
@@ -148,10 +151,9 @@ export default {
       console.log("loadingStudent");
       console.log(pen);
       StudentExamsService.getStudentExams(pen).then((response) => {
-        if (response.data) {
-          this.$store.commit("setStudentExams", response.data);
-        }
-      });
+          // this.$store.commit('setStudentExams',response.data);
+          this.$store.dispatch('setStudentExams', response.data);
+      })
       CourseAchievementService.getStudentCourseAchievements(pen).then(
         (response) => {
           console.log(response.data);

@@ -12,6 +12,6 @@ const apiClient = axios.create({
 
 export default {
     getStudentExams(pen) {
-        return apiClient.get('/api/v1/studentcourse/pen/' + pen);
+        return apiClient.get('/api/v1/studentexam/pen/' + pen);
     }
 }
