@@ -9,10 +9,13 @@
     
 
     <div class="container">
-    <!--h1>{{studentFullName}}</h1-->
+      <!--h1>{{studentFullName}}</h1-->
       <div>
         <b-card no-body>
           <b-tabs card>
+            <b-tab title="Student Profile">
+              <b-card-text><StudentInfo /></b-card-text>
+            </b-tab>
             <b-tab title="Student Courses">
               <b-card-text><StudentCourses v-if="courses"/></b-card-text>
             </b-tab>
@@ -23,6 +26,7 @@
           </b-tabs>
         </b-card>
       </div>
+
     </div>
   </div>
 </template>
@@ -65,8 +69,7 @@ export default {
     //Load student Data into studentInfo:
   
   },
-  methods: {
-  }
+  methods: {},
 };
 </script>
 

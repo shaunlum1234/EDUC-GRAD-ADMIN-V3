@@ -97,9 +97,7 @@
           <template v-for="row in displayData">
             <tr :key="row.pen">
               <td>
-                <a href="#" v-on:click="selectStudent(row.pen)">{{
-                  row.pen
-                }}</a>
+                <a href="#" v-on:click="selectStudent(row)">{{ row.pen }}</a>
               </td>
               <td>{{ row.studSurname }}</td>
               <td>{{ row.studGiven }}</td>
@@ -152,12 +150,6 @@ export default {
     loadStudent(pen) {
       console.log("loadingStudent");
       console.log(pen);
-
-      StudentService.getStudentByPen(pen).then((response) => {
-        if (response.data) {
-          this.$store.dispatch("setStudentProfile", response.data);
-        }
-      });
       StudentExamsService.getStudentExams(pen).then((response) => {
           // this.$store.commit('setStudentExams',response.data);
           this.$store.dispatch('setStudentExams', response.data);
@@ -226,8 +218,10 @@ export default {
         }
       }
     },
-    selectStudent: function(pen) {
-      this.selectedPen = pen;
+    selectStudent: function(student) {
+      this.selectedPen = student.pen;
+      this.$store.commit("setStudentProfile", student);
+      console.log("selectingStudent" + student.pen);
       this.$router.push({ name: "student-profile" });
     },
     clearStudent: function() {},
