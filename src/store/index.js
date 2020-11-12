@@ -27,7 +27,13 @@
       },
       setStudentExams(state, payload) {
         state.student.exams = payload;
-      }
+      },
+      unsetStudent(state) {
+        state.student.profile = {};
+        state.student.courses = {};
+        state.student.assessments = {};
+        state.student.exams = {};
+      },
     },
     actions: {
       setStudentProfile({

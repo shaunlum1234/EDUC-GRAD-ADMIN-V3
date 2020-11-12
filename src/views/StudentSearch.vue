@@ -39,7 +39,7 @@
             </div>
           </div>
           <!-- Pen Input -->
-          <div v-show="showPenInputBox">
+          <div v-show="showPenInputBox" class="search">
             <input
               v-model="penInput"
               placeholder="Student PEN"
@@ -51,66 +51,73 @@
           </div>
 
           <!-- Surname Input -->
-          <div v-show="showSurnameInput">
+          <div v-show="showSurnameInput" class="search">
             <input
               v-model="surnameInput"
               placeholder="Student Surname"
-              class="pen-search"
+              class="surname-search"
               v-on:keyup="keyHandler"
             /><button v-on:click="findStudentBySurname" class="btn btn-primary">
               Find Student by Surname
             </button>
+
           </div>
+            <b-spinner
+              v-for="variant in variants"
+              :variant="variant"
+              :key="variant"
+              v-show="searchLoading"
+              class="loading-spinner"
+            ></b-spinner>
           <span v-if="message">{{ message }}</span>
 
         </div>
+  
       </form>
-      <p>Samples: 101696920</p>
-      <div class="text-center mb-3 d-flex justify-content-between">
-        <b-spinner
-          v-for="variant in variants"
-          :variant="variant"
-          :key="variant"
-          v-show="searchLoading"
-        ></b-spinner>
-      </div>
+      <p class="sample-pens">
+        Samples:
+        <ul>
 
-      
-      </div>
-      
-      <v-table
-        :data="studentSearchResults"
-        class="table table-sm table-hover table-striped text-center align-middle"
-        v-if="studentSearchResults"
-      >
-        <thead slot="head" class="thead-dark">
-          <v-th sortKey="pen">Pen</v-th>
-          <v-th sortKey="studSurname">Surname</v-th>
-          <v-th sortKey="studGiven">First Name</v-th>
-          <v-th sortKey="studMiddle">Middle</v-th>
-          <v-th sortKey="studBirth">Birthdate</v-th>
-          <v-th sortKey="address1">Address</v-th>
-          <v-th sortKey="postalCode">Postal %</v-th>
-          <v-th sortKey="provinceCode">Province</v-th>
-        </thead>
-        <tbody slot="body" slot-scope="{ displayData }">
-          <template v-for="row in displayData">
-            <tr :key="row.pen">
-              <td>
-                <a href="#" v-on:click="selectStudent(row)">{{ row.pen }}</a>
-              </td>
-              <td>{{ row.studSurname }}</td>
-              <td>{{ row.studGiven }}</td>
-              <td>{{ row.studMiddle }}</td>
-              <td>{{ row.studBirth }}</td>
-              <td>{{ row.address1 }}</td>
-              <td>{{ row.postalCode }} %</td>
-              <td>{{ row.provinceCode }}</td>
-            </tr>
-          </template>
-        </tbody>
-      </v-table>
+          <li>140341157 (Exams and Assessment)</li>
+          <li>130129323 (Exams Only)</li>
+        </ul>
+      </p>
+
     </div>
+
+    <v-table
+      :data="studentSearchResults"
+      class="table table-sm table-hover table-striped text-center align-middle"
+      v-if="studentSearchResults"
+    >
+      <thead slot="head" class="thead-dark">
+        <v-th sortKey="pen">Pen</v-th>
+        <v-th sortKey="studSurname">Surname</v-th>
+        <v-th sortKey="studGiven">First Name</v-th>
+        <v-th sortKey="studMiddle">Middle</v-th>
+        <v-th sortKey="studBirth">Birthdate</v-th>
+        <v-th sortKey="address1">Address</v-th>
+        <v-th sortKey="postalCode">Postal %</v-th>
+        <v-th sortKey="provinceCode">Province</v-th>
+      </thead>
+      <tbody slot="body" slot-scope="{ displayData }">
+        <template v-for="row in displayData">
+          <tr :key="row.pen">
+            <td>
+              <a href="#" v-on:click="selectStudent(row)">{{ row.pen }}</a>
+            </td>
+            <td>{{ row.studSurname }}</td>
+            <td>{{ row.studGiven }}</td>
+            <td>{{ row.studMiddle }}</td>
+            <td>{{ row.studBirth }}</td>
+            <td>{{ row.address1 }}</td>
+            <td>{{ row.postalCode }}</td>
+            <td>{{ row.provinceCode }}</td>
+          </tr>
+        </template>
+      </tbody>
+    </v-table>
+  </div>
 </template>
 <script>
 // @ is an alias to /src
@@ -261,12 +268,24 @@ export default {
   position: inherit;
   margin-right: 10px;
 }
-.pen-search {
+.pen-search, surname-search {
   width: 400px;
   margin-right: 9px;
   padding: 5px;
+  float: left;
 }
 h6 {
   font-size: 1.5rem;
+}
+.loading-spinner{
+  float:left;
+}
+.search{
+  float:left;
+}
+.sample-pens{
+  float:left;
+  clear:both;
+  margin-top: 15px;
 }
 </style>
