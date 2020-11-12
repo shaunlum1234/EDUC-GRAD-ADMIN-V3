@@ -1,6 +1,6 @@
 <template>
-<div class="container">
-    <h1>Student Exams</h1>
+  <div class="container">
+    <b-spinner v-if="!exams.length" label="Loading">Loading</b-spinner>
     <v-table
       :data="exams"
       :filters="filters"
@@ -20,7 +20,7 @@
         <v-th sortKey="completedCourseFinalPercentage">Final %</v-th>
         <v-th sortKey="completedCourseLetterGrade">Final LG</v-th>
       </thead>
-       <tbody slot="body" slot-scope="{ displayData }">
+      <tbody slot="body" slot-scope="{ displayData }">
         <template v-for="row in displayData">
           <tr
             :key="row.courseAchievementId"
@@ -29,7 +29,7 @@
           >
             <td>{{ row.courseCode }}</td>
             <td>{{ row.courseLevel }}</td>
-            <td>{{ row.sessionDate}}</td>
+            <td>{{ row.sessionDate }}</td>
             <td>{{ row.courseName }}</td>
             <td>{{ row.courseEquivChal }}</td>
             <td>{{ row.credits }}</td>
@@ -43,7 +43,7 @@
         </template>
       </tbody>
     </v-table>
-</div>      
+  </div>
 </template>
 
 <script>
@@ -56,20 +56,20 @@ export default {
       exams: "getStudentExams",
     }),
   },
-  data: function () {
+  data: function() {
     return {
       show: false,
       opened: [],
       student: [],
-      examsList:[],
+      examsList: [],
       filters: {
         name: { value: "", keys: ["courseCode"] },
       },
       pen: "",
       courseCode: "",
       courseName: "",
-      courseLevel:"",
-      sessionDate:"",
+      courseLevel: "",
+      sessionDate: "",
       gradReqMet: "",
       courseType: "",
       completedCourseSchoolPercentage: null,
@@ -110,9 +110,9 @@ export default {
     showMsgBoxOne(message) {
       this.$bvModal.msgBoxOk(message);
     },
-    getCourseName: function (cid) {
+    getCourseName: function(cid) {
       let result = "";
-      this.courses.filter(function (n) {
+      this.courses.filter(function(n) {
         if (n.id === cid) {
           result = n.name;
           return result;

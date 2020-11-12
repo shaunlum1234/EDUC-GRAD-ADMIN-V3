@@ -13,8 +13,6 @@
           Close Student Record
         </button>
       </h1>
-
-    <div class="container">
       <div>
         <b-card no-body>
           <b-tabs card>
@@ -26,7 +24,7 @@
             </b-tab>
             <b-tab title="Student Exams">
               <b-card-text><StudentExams v-if="exams"/></b-card-text>
-            </b-tab>                                 
+            </b-tab>
           </b-tabs>
         </b-card>
       </div>
@@ -39,7 +37,7 @@
 import SiteMessage from "@/components/SiteMessage";
 import StudentCourses from "@/components/StudentCourses";
 import StudentInfo from "@/components/StudentInfo";
-import StudentExams from "@/components/StudentExams"
+import StudentExams from "@/components/StudentExams";
 import { mapGetters } from "vuex";
 //import { store } from "@/store.js";
 export default {
@@ -56,7 +54,7 @@ export default {
       opened: [],
       studentCourses: [],
       studentAssessments: [],
-      studentExams:[],
+      studentExams: [],
       studentInfo: [],
       displayMessage: null,
     };
@@ -71,7 +69,6 @@ export default {
   },
   created() {
     //Load student Data into studentInfo:
-  
   },
   methods: {
     closeRecord: function() {
