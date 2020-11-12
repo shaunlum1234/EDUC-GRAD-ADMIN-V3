@@ -40,7 +40,6 @@
           </tr>
         </template>
       </tbody>
-      -->
     </v-table>
   </div>
 </template>
