@@ -3,9 +3,10 @@
     <h1>Student Graduation Status</h1>
     <p>
       Enter a Personal Education Number (PEN) to retrieve the student’s course
-      achievements.
+      achievements. 
+      <router-link to="/student-profile">Load</router-link>
+     
     </p>
-    
     <div class="">
       <form v-on:submit.prevent>
         <div class="form-group">
@@ -73,9 +74,6 @@
         :key="variant"
         v-show="searchLoading"
       ></b-spinner>
-      
-
-      
       </div>
       
       <v-table
@@ -128,8 +126,12 @@ export default {
       surnameInput: "",
       showSurnameInput: false,
       variants: ['primary'],
-      searchLoading: false
+      searchLoading: false,
     };
+  },
+  beforeRouteLeave (to, from, next) {
+   
+     next(this.loadStudent(this.penInput));
   },
   components: {},
   computed: {
@@ -141,22 +143,26 @@ export default {
 
   methods: {
      loadStudent(pen){
+      console.log("loadingStudent");
       console.log(pen);
       this.searchLoading = true;
-  
+  /*
       StudentService.getStudentByPen(pen).then((response) => {
         if (response.data) {
           this.$store.commit('setStudentProfile',response.data);
         }
       });
+      */
       CourseAchievementService.getStudentCourseAchievements(pen).then(
         (response) => {
           console.log(response.data);
-           this.$store.commit('setStudentCourses', response.data);
-           let currentObj = this;
-           currentObj.$router.push({name: 'student-profile'});   
+           this.$store.dispatch('setStudentCourses', response.data);
+           console.log(response.data);
         }
       );
+
+      //let currentObj = this;
+      //currentObj.$router.push({name: 'student-profile'});  
     },
     keyHandler: function(e){
       this.message = "";

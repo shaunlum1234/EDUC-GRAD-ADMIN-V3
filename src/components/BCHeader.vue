@@ -56,12 +56,7 @@
     <nav class="navigation-main" id="navbar">
       <div class="container ">
         <ul>
-          <li><router-link to="/">Select Students</router-link></li>
-          <!-- <li>
-            <router-link to="/course-achievements"
-              >Course Achievements</router-link
-            >
-          </li> -->
+          <li><router-link to="/">Select Student</router-link></li>
         </ul>
       </div>
     </nav>
@@ -70,10 +65,6 @@
 
 <script>
 export default {
-  props: {
-    //course: Array
-    course: Object,
-  },
   data() {
     return {
       pen: "",
@@ -118,18 +109,12 @@ header .banner {
   justify-content: flex-start;
   align-items: center;
   margin: 0 10px 0 0;
-  /* border-style: dotted;
-    border-width: 1px;
-    border-color: lightgrey; */
 }
 
 header .other {
   display: flex;
   align-items: center;
   flex-grow: 1;
-  /* border-style: dotted;
-    border-width: 1px;
-    border-color: lightgrey; */
 }
 
 header a [class^="fas fa-"] {
@@ -137,9 +122,6 @@ header a [class^="fas fa-"] {
   font-size: 1.4em;
   font-style: bold;
   line-height: 1;
-  /* border-style: solid;
-    border-width: 1px;
-    border-color: #fcba19; */
   padding: 5px;
   -webkit-font-smoothing: antialiased;
 }
@@ -174,9 +156,6 @@ header .nav-btn {
   color: #fff;
   list-style: none;
   margin-left: -25px;
-  /* border-style: dotted;
-    border-width: 1px;
-    border-color: red; */
 }
 
 .navigation-main ul li {
@@ -186,13 +165,10 @@ header .nav-btn {
 .navigation-main ul li a {
   display: flex;
   font-size: 0.813em;
-  font-weight: normal; /* 400 */
+  font-weight: normal;
   color: #fff;
   padding: 0 15px 0 15px;
   text-decoration: none;
-  /* border-style: dotted;
-    border-width: 1px;
-    border-color: green; */
 }
 
 .navigation-main ul li a:hover {
