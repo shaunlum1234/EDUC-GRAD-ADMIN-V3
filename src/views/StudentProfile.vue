@@ -12,10 +12,10 @@
         <b-card no-body>
           <b-tabs card>
             <b-tab title="Student Profile">
-              <b-card-text><StudentInfo v-if="profile"/></b-card-text>
+              <b-card-text><StudentInfo /></b-card-text>
             </b-tab>
             <b-tab title="Student Courses">
-              <b-card-text><StudentCourses v-if="courses"/></b-card-text>
+              <b-card-text><StudentCourses v-if="courses.length"/></b-card-text>
             </b-tab>
           </b-tabs>
         </b-card>
