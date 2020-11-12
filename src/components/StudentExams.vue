@@ -1,8 +1,8 @@
 <template>
 <div class="container">
-    <h1>Student Courses</h1>
+    <h1>Student Exams</h1>
     <v-table
-      :data="courses"
+      :data="exams"
       :filters="filters"
       class="table table-sm table-hover table-striped text-center align-middle"
     >
@@ -10,16 +10,38 @@
         <v-th sortKey="courseCode">Code</v-th>
         <v-th sortKey="courseLevel">Level</v-th>
         <v-th sortKey="sessionDate">Session</v-th>
-        <!-- not sure -->
         <v-th sortKey="courseName">Name</v-th>
-        <!-- not sure -->
         <v-th sortKey="courseEquivChal">Equiv, Chal</v-th>
         <v-th sortKey="credits">Credits</v-th>
-        <v-th sortKey="interimPercent">Interim %</v-th>
-        <v-th sortKey="interimLetterGrade">Interim LG</v-th>
-        <v-th sortKey="completedCourseLetterGrade">Final %</v-th>
-        <v-th sortKey="completedCoursePercentage">Final LG</v-th>
+        <v-th sortKey="completedCourseSchoolPercentage">School %</v-th>
+        <v-th sortKey="wroteFlag">Wrote Exam</v-th>
+        <v-th sortKey="specialCase">Special Case</v-th>
+        <v-th sortKey="completedCourseExamPercentage">Exam %</v-th>
+        <v-th sortKey="completedCourseFinalPercentage">Final %</v-th>
+        <v-th sortKey="completedCourseLetterGrade">Final LG</v-th>
       </thead>
+       <tbody slot="body" slot-scope="{ displayData }">
+        <template v-for="row in displayData">
+          <tr
+            :key="row.courseAchievementId"
+            @click="toggle(row.courseCode + row.courseLevel)"
+            :class="{ opened: opened.includes(row.courseCode) }"
+          >
+            <td>{{ row.courseCode }}</td>
+            <td>{{ row.courseLevel }}</td>
+            <td>{{ row.sessionDate}}</td>
+            <td>{{ row.courseName }}</td>
+            <td>{{ row.courseEquivChal }}</td>
+            <td>{{ row.credits }}</td>
+            <td>{{ row.completedCourseSchoolPercentage }} %</td>
+            <td>{{ row.wroteFlag }}</td>
+            <td>{{ row.specialCase }}%</td>
+            <td>{{ row.completedCourseExamPercentage }}</td>
+            <td>{{ row.completedCourseFinalPercentage }}</td>
+            <td>{{ row.completedCourseLetterGrade }}</td>
+          </tr>
+        </template>
+      </tbody>
     </v-table>
 </div>      
 </template>
@@ -71,7 +93,7 @@ export default {
   created() {
     //Check for any messages from routes
     if (this.exams) {
-      this.examsList.push(this.exams);
+      // this.examsList.push(this.exams);
       console.log("this.examsList");
       console.log(this.examsList);
     }
