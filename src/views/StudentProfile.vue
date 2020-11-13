@@ -23,11 +23,10 @@
               <b-card-text><StudentCourses /></b-card-text>
             </b-tab>
             <b-tab title="Student Assessments">
-              <!-- <b-card-text><StudentExams v-if="exams"/></b-card-text> -->
-              {{assessments}}
+              <b-card-text><StudentAssessments /></b-card-text>
             </b-tab>    
             <b-tab title="Student Exams">
-              <b-card-text><StudentExams v-if="exams"/></b-card-text>
+              <b-card-text><StudentExams /></b-card-text>
             </b-tab>
           </b-tabs>
         </b-card>
@@ -42,6 +41,7 @@ import SiteMessage from "@/components/SiteMessage";
 import StudentCourses from "@/components/StudentCourses";
 import StudentInfo from "@/components/StudentInfo";
 import StudentExams from "@/components/StudentExams";
+import StudentAssessments from "@/components/StudentAssessments";
 import { mapGetters } from "vuex";
 //import { store } from "@/store.js";
 export default {
@@ -51,6 +51,7 @@ export default {
     StudentCourses: StudentCourses,
     StudentInfo: StudentInfo,
     StudentExams: StudentExams,
+    StudentAssessments:StudentAssessments
   },
   data() {
     return {

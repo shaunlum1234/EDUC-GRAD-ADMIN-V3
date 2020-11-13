@@ -46,7 +46,9 @@
       }, payload) {
         commit('setStudentCourses', payload);
       },
-      setStudentAssessments(commit, payload) {
+      setStudentAssessments({
+        commit
+      }, payload) {
         commit('setStudentAssessments', payload);
       },
       setStudentExams({

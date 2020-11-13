@@ -1,24 +1,24 @@
 <template>
   <div class="container">
-    <b-spinner v-if="!exams.length" label="Loading">Loading</b-spinner>
+    <b-spinner v-if="!assessments.length" label="Loading">Loading</b-spinner>
     <v-table
-      :data="exams"
+      :data="assessments"
       :filters="filters"
       class="table table-sm table-hover table-striped text-center align-middle"
     >
       <thead slot="head" class="thead-dark">
-        <v-th sortKey="courseCode">Code</v-th>
-        <v-th sortKey="courseLevel">Level</v-th>
+        <v-th sortKey="assessmentCode">Code</v-th>
         <v-th sortKey="sessionDate">Session</v-th>
-        <v-th sortKey="courseName">Name</v-th>
-        <v-th sortKey="courseEquivChal">Equiv, Chal</v-th>
-        <v-th sortKey="credits">Credits</v-th>
-        <v-th sortKey="completedCourseSchoolPercentage">School %</v-th>
-        <v-th sortKey="wroteFlag">Wrote Exam</v-th>
+        <v-th sortKey="assessmentName">Name</v-th>
         <v-th sortKey="specialCase">Special Case</v-th>
-        <v-th sortKey="completedCourseExamPercentage">Exam %</v-th>
-        <v-th sortKey="completedCourseFinalPercentage">Final %</v-th>
-        <v-th sortKey="completedCourseLetterGrade">Final LG</v-th>
+        <v-th sortKey="exceededWriteFlag">Exceeded Writes Flag</v-th>
+        <v-th sortKey="wroteFlag">Wrote Flag</v-th>
+        <v-th sortKey="rawScore">Raw Score</v-th>
+        <v-th sortKey="percentComplete">% Complete</v-th>
+        <v-th sortKey="irtScore">IRT Score</v-th>
+        <v-th sortKey="proficiencyScore">Proficiency Score</v-th>
+        <v-th sortKey="gradReqMet">Req Met</v-th>
+        <!-- <v-th sortKey="gradReqMet">Req Met</v-th> -->
       </thead>
       <tbody slot="body" slot-scope="{ displayData }">
         <template v-for="row in displayData">
@@ -27,18 +27,16 @@
             @click="toggle(row.courseCode + row.courseLevel)"
             :class="{ opened: opened.includes(row.courseCode) }"
           >
-            <td>{{ row.courseCode }}</td>
-            <td>{{ row.courseLevel }}</td>
+            <td>{{ row.assessmentCode }}</td>
             <td>{{ row.sessionDate }}</td>
-            <td>{{ row.courseName }}</td>
-            <td>{{ row.courseEquivChal }}</td>
-            <td>{{ row.credits }}</td>
-            <td>{{ row.completedCourseSchoolPercentage }} %</td>
-            <td>{{ row.wroteFlag }}</td>
+            <td>{{ row.assessmentName }}</td>
             <td>{{ row.specialCase }}</td>
-            <td>{{ row.completedCourseExamPercentage }}</td>
-            <td>{{ row.completedCourseFinalPercentage }}</td>
-            <td>{{ row.completedCourseLetterGrade }}</td>
+            <td>{{ row.wroteFlag }}</td>
+            <td>{{ row.rawScore }}</td>
+            <td>{{ row.percentComplete }} %</td>
+            <td>{{ row.irtScore }}</td>
+            <td>{{ row.proficiencyScore }}</td>
+            <td>{{ row.gradReqMet }}</td>
           </tr>
         </template>
       </tbody>
@@ -49,11 +47,11 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-  name: "StudentExams",
+  name: "StudentAssessments",
   props: {},
   computed: {
     ...mapGetters({
-      exams: "getStudentExams",
+      assessments: "getStudentAssessments",
     }),
   },
   data: function() {
@@ -66,23 +64,15 @@ export default {
         name: { value: "", keys: ["courseCode"] },
       },
       pen: "",
-      courseCode: "",
-      courseName: "",
-      courseLevel: "",
+      assessmentCode: "",
+      assessmentName: "",
       sessionDate: "",
+      proficiencyScore: 0,
       gradReqMet: "",
-      courseType: "",
-      completedCourseSchoolPercentage: null,
-      completedCourseExamPercentage: null,
-      completedCourseFinalPercentage: null,
-      completedCourseLetterGrade: "",
-      interimPercent: null,
-      interimLetterGrade: "",
-      credits: null,
-      creditsUsedForGrad: null,
-      reqMetLiteracyNumeracy: "",
+      specialCase: "",
       wroteFlag: "",
-      specialCase: " ",
+      rawScore: 0,
+      irtScore:0,
       currentPage: 1,
       totalPages: 0,
       displayMessage: null,
