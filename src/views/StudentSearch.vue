@@ -69,7 +69,7 @@
               v-show="searchLoading"
               class="loading-spinner"
             ></b-spinner>
-          <span v-if="message">{{ message }}</span>
+          <div class="search-results-message"><strong><span v-if="message">{{ message }}</span></strong></div>
 
         </div>
   
@@ -296,5 +296,10 @@ h6 {
 }
 .search-student-dropdown{
   border-radius: 0px;
+}
+.search-results-message{
+    float: left;
+    clear: both;
+    margin-top: 5px;
 }
 </style>

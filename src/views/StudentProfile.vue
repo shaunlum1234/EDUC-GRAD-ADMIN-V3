@@ -14,29 +14,48 @@
         </button>
       </h1>
       <div>
-        {{ studentHasAssessments }}
-        {{ studentHasExams }}
         <b-card no-body>
           <b-tabs card>
-            <b-tab title="Student Profile" class="py-3 px-0 m-1">
-              <b-card-text><StudentInfo /></b-card-text>
-            </b-tab>
-            <b-tab title="Student Courses" class="py-3 px-0 m-1">
-              <b-card-text><StudentCourses /></b-card-text>
-            </b-tab>
-            <b-tab
-              title="Student Assessments"
-              v-if="studentHasAssessments"
-              class="py-3 px-0 m-1"
-            >
-              <b-card-text><StudentAssessments /></b-card-text>
-            </b-tab>
+            <transition name="fade">
+              <b-tab title="Student Profile" class="py-3 px-0 m-1">
+                <b-card-text><StudentInfo /></b-card-text>
+              </b-tab>
+            </transition>
+            <transition name="fade">
+              <b-tab
+                v-if="this.courses != 'not loaded'"
+                title="Student Courses"
+                class="py-3 px-0 m-1"
+              >
+                <b-card-text><StudentCourses /></b-card-text>
+              </b-tab>
+            </transition>
+            <transition name="fade">
+              <b-tab
+                title="Student Assessments"
+                v-if="studentHasAssessments"
+                class="py-3 px-0 m-1"
+              >
+                <b-card-text><StudentAssessments /></b-card-text>
+              </b-tab>
+            </transition>
             <b-tab
               title="Student Exams"
               v-if="studentHasExams"
               class="py-3 px-0 m-1"
             >
               <b-card-text><StudentExams /></b-card-text>
+            </b-tab>
+            <b-tab
+              v-if="
+                this.courses == 'not loaded' ||
+                  this.exams == 'not loaded' ||
+                  this.assessments == 'not loaded'
+              "
+              title="Loading ..."
+              class="tab-loading py-3 px-0 m-1"
+            >
+              <b-card-text>Loading student Exams and Assesments</b-card-text>
             </b-tab>
           </b-tabs>
         </b-card>
@@ -96,5 +115,8 @@ export default {
 <style scoped>
 .close-record {
   float: right;
+}
+.tab-loading {
+  color: green !important;
 }
 </style>

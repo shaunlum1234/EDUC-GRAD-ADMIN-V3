@@ -9,9 +9,9 @@
     state: {
       student: {
         profile: {},
-        courses: {},
-        assessments: {},
-        exams: {},
+        courses: "not loaded",
+        assessments: "not loaded",
+        exams: "not loaded",
         hasExams: false,
         hasAssessments: false,
 
