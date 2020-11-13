@@ -12,7 +12,7 @@
           <!-- Search Criteria -->
           <div class="dropdown float-left">
             <button
-              class="btn btn-secondary dropdown-toggle"
+              class="btn btn-secondary dropdown-toggle search-student-dropdown"
               type="button"
               id="dropdownMenuButton"
               data-toggle="dropdown"
@@ -21,7 +21,7 @@
             >
               Search By
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu search-student-dropdown" aria-labelledby="dropdownMenuButton">
               <div
                 class="dropdown-item"
                 v-show="!showPenInputBox"
@@ -77,18 +77,19 @@
       <p class="sample-pens">
         Samples:
         <ul>
-
           <li>140341157 (Exams and Assessment)</li>
           <li>130129323 (Exams Only)</li>
         </ul>
       </p>
 
     </div>
-
+    <div v-if="studentSearchResults.length" class="found">
+      {{ studentSearchResults.length }} student found.
+    </div>
     <v-table
       :data="studentSearchResults"
-      class="table table-sm table-hover table-striped text-center align-middle"
-      v-if="studentSearchResults"
+      class="table table-sm table-hover table-striped align-middle"
+      v-if="studentSearchResults.length"
     >
       <thead slot="head" class="thead-dark">
         <v-th sortKey="pen">Pen</v-th>
@@ -96,9 +97,11 @@
         <v-th sortKey="studGiven">First Name</v-th>
         <v-th sortKey="studMiddle">Middle</v-th>
         <v-th sortKey="studBirth">Birthdate</v-th>
-        <v-th sortKey="address1">Address</v-th>
-        <v-th sortKey="postalCode">Postal %</v-th>
-        <v-th sortKey="provinceCode">Province</v-th>
+        <v-th sortKey="studGender">Gender</v-th>
+        <v-th sortKey="studentGrade">Grade</v-th>
+        <v-th sortKey="mincode_grad">School</v-th>
+        <v-th sortKey="schoolName">School Name</v-th>
+        <v-th sortKey="gradRequirementYear">Grad Year</v-th>
       </thead>
       <tbody slot="body" slot-scope="{ displayData }">
         <template v-for="row in displayData">
@@ -110,9 +113,11 @@
             <td>{{ row.studGiven }}</td>
             <td>{{ row.studMiddle }}</td>
             <td>{{ row.studBirth }}</td>
-            <td>{{ row.address1 }}</td>
-            <td>{{ row.postalCode }}</td>
-            <td>{{ row.provinceCode }}</td>
+            <td>{{ row.studSex }}</td>
+            <td>{{ row.studentGrade }}</td>
+            <td>{{ row.mincode_grad }}</td>
+            <td>{{ row.schoolName }}</td>
+            <td>{{ row.gradRequirementYear }}</td>            
           </tr>
         </template>
       </tbody>
@@ -268,7 +273,7 @@ export default {
   position: inherit;
   margin-right: 10px;
 }
-.pen-search, surname-search {
+.pen-search, .surname-search {
   width: 400px;
   margin-right: 9px;
   padding: 5px;
@@ -287,5 +292,8 @@ h6 {
   float:left;
   clear:both;
   margin-top: 15px;
+}
+.search-student-dropdown{
+  border-radius: 0px;
 }
 </style>

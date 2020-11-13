@@ -4,7 +4,7 @@
     <v-table
       :data="courses"
       :filters="filters"
-      class="table table-sm table-hover table-striped text-center align-middle"
+      class="table table-sm table-hover table-striped align-middle"
     >
       <thead slot="head" class="thead-dark">
         <v-th sortKey="courseCode">Code</v-th>
