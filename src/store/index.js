@@ -12,6 +12,8 @@
         courses: {},
         assessments: {},
         exams: {},
+        hasExams: false,
+        hasAssessments: false,
 
       }
     },
@@ -24,9 +26,18 @@
       },
       setStudentAssessments(state, payload) {
         state.student.assessments = payload;
+        console.log("state.student.assessments");
+        console.log(state.student.assessments);
+        console.log(state.student.assessments.length);
+        if(state.student.assessments.length){
+          state.student.hasAssessments = true;
+        }
       },
       setStudentExams(state, payload) {
         state.student.exams = payload;
+        if(state.student.exams){
+          state.student.hasExams = true;
+        }
       },
       unsetStudent(state) {
         state.student.profile = {};
@@ -56,6 +67,7 @@
       }, payload) {
         commit('setStudentExams', payload);
       }
+      
 
     },
     getters: {
@@ -73,7 +85,14 @@
       },
       getStudentAssessments(state) {
         return  state.student.assessments;
+      },
+      studentHasExams(state){
+        return state.student.hasExams;
+      },
+      studentHasAssessments(state){
+        return state.student.hasAssessments;
       }
+
       // getStudentProfile: state => state.student.profiles
     },
     modules: {}

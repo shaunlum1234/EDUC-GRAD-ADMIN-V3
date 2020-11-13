@@ -14,6 +14,8 @@
         </button>
       </h1>
       <div>
+        {{ studentHasAssessments }}
+        {{ studentHasExams }}
         <b-card no-body>
           <b-tabs card>
             <b-tab title="Student Profile" class="py-3 px-0 m-1">
@@ -22,10 +24,18 @@
             <b-tab title="Student Courses" class="py-3 px-0 m-1">
               <b-card-text><StudentCourses /></b-card-text>
             </b-tab>
-            <b-tab title="Student Assessments">
+            <b-tab
+              title="Student Assessments"
+              v-if="studentHasAssessments"
+              class="py-3 px-0 m-1"
+            >
               <b-card-text><StudentAssessments /></b-card-text>
-            </b-tab>    
-            <b-tab title="Student Exams">
+            </b-tab>
+            <b-tab
+              title="Student Exams"
+              v-if="studentHasExams"
+              class="py-3 px-0 m-1"
+            >
               <b-card-text><StudentExams /></b-card-text>
             </b-tab>
           </b-tabs>
@@ -51,16 +61,12 @@ export default {
     StudentCourses: StudentCourses,
     StudentInfo: StudentInfo,
     StudentExams: StudentExams,
-    StudentAssessments:StudentAssessments
+    StudentAssessments: StudentAssessments,
   },
   data() {
     return {
       show: false,
       opened: [],
-      studentCourses: [],
-      studentAssessments: [],
-      studentExams: [],
-      studentInfo: [],
       displayMessage: null,
     };
   },
@@ -70,7 +76,9 @@ export default {
       courses: "getStudentCourses",
       studentFullName: "getStudentFullName",
       exams: "getStudentExams",
-      assessments: "getStudentAssessments"
+      assessments: "getStudentAssessments",
+      studentHasAssessments: "studentHasAssessments",
+      studentHasExams: "studentHasExams",
     }),
   },
   created() {

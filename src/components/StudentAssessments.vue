@@ -4,7 +4,7 @@
     <v-table
       :data="assessments"
       :filters="filters"
-      class="table table-sm table-hover table-striped text-center align-middle"
+      class="table table-sm table-hover table-striped align-middle"
     >
       <thead slot="head" class="thead-dark">
         <v-th sortKey="assessmentCode">Code</v-th>
@@ -31,6 +31,7 @@
             <td>{{ row.sessionDate }}</td>
             <td>{{ row.assessmentName }}</td>
             <td>{{ row.specialCase }}</td>
+            <td>{{ row.exceededWriteFlag }}</td>
             <td>{{ row.wroteFlag }}</td>
             <td>{{ row.rawScore }}</td>
             <td>{{ row.percentComplete }} %</td>
@@ -72,7 +73,7 @@ export default {
       specialCase: "",
       wroteFlag: "",
       rawScore: 0,
-      irtScore:0,
+      irtScore: 0,
       currentPage: 1,
       totalPages: 0,
       displayMessage: null,
