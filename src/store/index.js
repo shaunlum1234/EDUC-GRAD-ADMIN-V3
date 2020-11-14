@@ -41,9 +41,11 @@
       },
       unsetStudent(state) {
         state.student.profile = {};
-        state.student.courses = {};
-        state.student.assessments = {};
-        state.student.exams = {};
+        state.student.courses = "not loaded";
+        state.student.assessments = "not loaded";
+        state.student.exams = "not loaded";
+        state.student.hasExams = false;
+        state.student.hasAssessments = false;
       },
     },
     actions: {
