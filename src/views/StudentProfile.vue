@@ -7,10 +7,10 @@
     <!-- Button trigger modal -->
 
     <div class="container">
-      <h1>
+      <h1 class="profile-name">
         {{ studentFullName }}
         <button v-on:click="closeRecord" class="btn btn-primary close-record">
-          Close Student Record
+          <i class="far fa-times-circle"></i> Close Student Record
         </button>
       </h1>
       <div>
@@ -23,7 +23,7 @@
             </transition>
             <transition name="fade">
               <b-tab
-                v-if="this.courses != 'not loaded'"
+                v-if="studentHasCourses"
                 title="Student Courses"
                 class="py-3 px-0 m-1"
               >
@@ -96,8 +96,10 @@ export default {
       studentFullName: "getStudentFullName",
       exams: "getStudentExams",
       assessments: "getStudentAssessments",
+      studentHasCourses: "studentHasCourses",
       studentHasAssessments: "studentHasAssessments",
       studentHasExams: "studentHasExams",
+
     }),
   },
   created() {
@@ -118,5 +120,8 @@ export default {
 }
 .tab-loading {
   color: green !important;
+}
+.profile-name{
+  padding-bottom: 10px;
 }
 </style>

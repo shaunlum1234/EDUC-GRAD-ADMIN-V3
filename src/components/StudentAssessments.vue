@@ -6,7 +6,7 @@
       :filters="filters"
       class="table table-sm table-hover table-striped align-middle"
     >
-      <thead slot="head" class="thead-dark">
+      <thead slot="head" class="">
         <v-th sortKey="assessmentCode">Code</v-th>
         <v-th sortKey="sessionDate">Session</v-th>
         <v-th sortKey="assessmentName">Name</v-th>
@@ -107,4 +107,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.table th{
+  border-bottom: 2px solid #38598a !important;
+}
+</style>

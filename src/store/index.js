@@ -14,6 +14,7 @@
         exams: "not loaded",
         hasExams: false,
         hasAssessments: false,
+        hasCourses: false,
 
       }
     },
@@ -23,19 +24,19 @@
       },
       setStudentCourses(state, payload) {
         state.student.courses = payload;
+        if(state.student.courses.length){
+          state.student.hasCourses = true;
+        }
       },
       setStudentAssessments(state, payload) {
         state.student.assessments = payload;
-        console.log("state.student.assessments");
-        console.log(state.student.assessments);
-        console.log(state.student.assessments.length);
         if(state.student.assessments.length){
           state.student.hasAssessments = true;
         }
       },
       setStudentExams(state, payload) {
         state.student.exams = payload;
-        if(state.student.exams){
+        if(state.student.exams.length){
           state.student.hasExams = true;
         }
       },
@@ -46,6 +47,7 @@
         state.student.exams = "not loaded";
         state.student.hasExams = false;
         state.student.hasAssessments = false;
+        state.student.hasCourses = false;
       },
     },
     actions: {
@@ -87,6 +89,9 @@
       },
       getStudentAssessments(state) {
         return  state.student.assessments;
+      },
+      studentHasCourses(state){
+        return state.student.hasCourses;
       },
       studentHasExams(state){
         return state.student.hasExams;

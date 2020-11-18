@@ -6,6 +6,8 @@ import BootstrapVue from 'bootstrap-vue';
 import VueFilterDateParse from '@vuejs-community/vue-filter-date-parse';
 import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
 import store from './store/index.js';
+import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/js/all.js'
 // Install BootstrapVue
 
 //import store from './store';

@@ -3,7 +3,11 @@
     <!-- <Header></Header> -->
     <Bcheader style="margin-top:50px;margin-bottom: 28px;"></Bcheader>
     <div class="main-container">
-      <router-view />
+        <transition
+          name="fade"
+        >
+        <router-view />
+      </transition>
     </div>
   </div>
 </template>
@@ -52,4 +56,11 @@ ul.sidebar-panel-nav > li > a {
   display: block;
   padding-bottom: 0.5em;
 }
+.fade-enter-active {
+  transition: opacity .5s;
+}
+.fade-enter /* .fade-leave-active below version 2.1.8 */ {
+  opacity: .2;
+}
+
 </style>

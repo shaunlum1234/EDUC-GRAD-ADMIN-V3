@@ -45,8 +45,11 @@
               placeholder="Student PEN"
               class="pen-search"
               v-on:keyup="keyHandler"
-            /><button v-on:click="findStudentByPen" class="btn btn-primary">
-              Find Student by PEN
+            /><button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
+              <i class="fas fa-search"></i> Find Student by PEN
+            </button>
+            <button v-if="searchLoading" class="btn btn-success">
+              <i class="fas fa-search"></i> Find Student by PEN
             </button>
           </div>
 
@@ -57,8 +60,11 @@
               placeholder="Student Surname"
               class="surname-search"
               v-on:keyup="keyHandler"
-            /><button v-on:click="findStudentBySurname" class="btn btn-primary">
-              Find Student by Surname
+            /><button v-if="!searchLoading" v-on:click="findStudentBySurname" class="btn btn-primary">
+              <i class="fas fa-search"></i> Find Student by Surname
+            </button>
+            <button v-if="searchLoading" class="btn btn-success">
+              <i class="fas fa-search"></i> Find Student by Surname
             </button>
 
           </div>
@@ -84,15 +90,13 @@
       </p>
 
     </div>
-    <div v-if="studentSearchResults.length" class="found">
-      {{ studentSearchResults.length }} student found.
-    </div>
+    <transition name="fade">
     <v-table
       :data="studentSearchResults"
       class="table table-sm table-hover table-striped align-middle"
       v-if="studentSearchResults.length"
     >
-      <thead slot="head" class="thead-dark">
+      <thead slot="head" class="">
         <v-th sortKey="pen">Pen</v-th>
         <v-th sortKey="studSurname">Surname</v-th>
         <v-th sortKey="studGiven">First Name</v-th>
@@ -123,6 +127,7 @@
         </template>
       </tbody>
     </v-table>
+    </transition>
   </div>
 </template>
 <script>
@@ -144,7 +149,7 @@ export default {
       showPenInputBox: true,
       surnameInput: "",
       showSurnameInput: false,
-      variants: ["primary"],
+      variants: ["success"],
       searchLoading: false,
     };
   },
@@ -187,8 +192,8 @@ export default {
       //currentObj.$router.push({name: 'student-profile'});
     },
     keyHandler: function(e) {
-      this.message = "";
       if (e.keyCode === 13) {
+        //enter key pressed
         this.studentSearchResults = [];
         if (this.penInput) {
           this.findStudentByPen();
@@ -199,6 +204,7 @@ export default {
     },
     findStudentByPen: function() {
       if (this.penInput) {
+        this.message ="";
         this.searchLoading = true;
         this.studentSearchResults = [];
         try {
@@ -208,11 +214,12 @@ export default {
               if (response.data) {
                 this.searchLoading = false;
                 this.studentSearchResults.push(response.data);
+                this.message = "1 Student found";
               }
             })
             .catch((err) => {
               this.searchLoading = false;
-              this.message = "PEN not found";
+              this.message = "Student not found";
               console.log(err);
             });
         } catch (error) {
@@ -221,6 +228,7 @@ export default {
       }
     },
     findStudentBySurname: function() {
+      this.message = "";
       if (this.surnameInput) {
         this.searchLoading = true;
         this.studentSearchResults = [];
@@ -229,9 +237,13 @@ export default {
             .then((response) => {
               this.searchLoading = false;
               this.studentSearchResults = response.data;
+              this.message = this.studentSearchResults.length + " student(s) found"
             })
             .catch((err) => {
-              this.message = "Surname not found";
+              this.searchLoading = false;
+              this.message = "Student not found";
+              
+            
               console.log(err);
             });
         } catch (error) {
@@ -285,6 +297,10 @@ h6 {
 }
 .loading-spinner{
   float:left;
+  margin-left: 10px;
+}
+.table-hover tbody tr:hover{
+  background: #96c0e6;
 }
 .search{
   float:left;
@@ -301,5 +317,14 @@ h6 {
     float: left;
     clear: both;
     margin-top: 5px;
+}
+.fade-enter-active {
+  transition: opacity .8s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+.table th{
+  border-bottom: 2px solid #5475a7;
 }
 </style>

@@ -6,7 +6,7 @@
       :filters="filters"
       class="table table-sm table-hover table-striped align-middle"
     >
-      <thead slot="head" class="thead-dark">
+      <thead slot="head" class="">
         <v-th sortKey="courseCode">Code</v-th>
         <v-th sortKey="courseLevel">Level</v-th>
         <v-th sortKey="sessionDate">Session</v-th>
@@ -116,4 +116,7 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.table th{
+  border-bottom: 2px solid #38598a !important;
+}</style>
