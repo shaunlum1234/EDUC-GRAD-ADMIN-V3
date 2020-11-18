@@ -106,7 +106,7 @@
         <v-th sortKey="studentGrade">Grade</v-th>
         <v-th sortKey="mincode_grad">School</v-th>
         <v-th sortKey="schoolName">School Name</v-th>
-        <v-th sortKey="gradRequirementYear">Grad Year</v-th>
+        <v-th sortKey="gradRequirementYear">Grad Program</v-th>
       </thead>
       <tbody slot="body" slot-scope="{ displayData }">
         <template v-for="row in displayData">
