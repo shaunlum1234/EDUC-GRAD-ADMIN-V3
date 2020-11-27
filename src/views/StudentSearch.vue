@@ -167,8 +167,6 @@ export default {
 
   methods: {
     loadStudent(pen) {
-      console.log("loadingStudent");
-      console.log(pen);
 
       AssessmentService.getStudentAssessment(pen).then((response) => {
           // this.$store.commit('setStudentExams',response.data);
@@ -182,9 +180,7 @@ export default {
 
       CourseAchievementService.getStudentCourseAchievements(pen).then(
         (response) => {
-          console.log(response.data);
           this.$store.dispatch("setStudentCourses", response.data);
-          console.log(response.data);
         }
       );
 
@@ -207,24 +203,20 @@ export default {
         this.message ="";
         this.searchLoading = true;
         this.studentSearchResults = [];
-        try {
+
           StudentService.getStudentByPen(this.penInput)
             .then((response) => {
-              console.log(response);
               if (response.data) {
                 this.searchLoading = false;
                 this.studentSearchResults.push(response.data);
                 this.message = "1 Student found";
               }
             })
-            .catch((err) => {
+            .catch(() => {
               this.searchLoading = false;
               this.message = "Student not found";
-              console.log(err);
             });
-        } catch (error) {
-          console.log("Error with webservice");
-        }
+
       }
     },
     findStudentBySurname: function() {
@@ -239,15 +231,12 @@ export default {
               this.studentSearchResults = response.data;
               this.message = this.studentSearchResults.length + " student(s) found"
             })
-            .catch((err) => {
+            .catch(() => {
               this.searchLoading = false;
               this.message = "Student not found";
-              
-            
-              console.log(err);
             });
         } catch (error) {
-          console.log("Error with webservice");
+          this.message = error;
         }
       }
     },
@@ -283,7 +272,6 @@ export default {
     selectStudent: function(student) {
       this.selectedPen = student.pen;
       this.$store.commit("setStudentProfile", student);
-      console.log("selectingStudent" + student.pen);
       this.$router.push({ name: "student-profile" });
     },
     clearStudent: function() {},
