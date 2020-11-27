@@ -9,37 +9,9 @@
     <div class="">
       <form v-on:submit.prevent>
         <div class="form-group">
-          <!-- Search Criteria -->
-          <div class="dropdown float-left">
-            <button
-              class="btn btn-secondary dropdown-toggle search-student-dropdown"
-              type="button"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Search By
-            </button>
-            <div class="dropdown-menu search-student-dropdown" aria-labelledby="dropdownMenuButton">
-              <div
-                class="dropdown-item"
-                v-show="!showPenInputBox"
-                v-on:click="showPenInput"
-              >
-                Pen
-              </div>
-              <div
-                class="dropdown-item"
-                v-show="!showSurnameInput"
-                v-on:click="showsurnameInput"
-              >
-                Surname
-              </div>
-            </div>
-          </div>
+
           <!-- Pen Input -->
-          <div v-show="showPenInputBox" class="search">
+          <div class="search">
             <input
               v-model="penInput"
               placeholder="Student PEN"
@@ -52,22 +24,7 @@
               <i class="fas fa-search"></i> Find Student by PEN
             </button>
           </div>
-
-          <!-- Surname Input -->
-          <div v-show="showSurnameInput" class="search">
-            <input
-              v-model="surnameInput"
-              placeholder="Student Surname"
-              class="surname-search"
-              v-on:keyup="keyHandler"
-            /><button v-if="!searchLoading" v-on:click="findStudentBySurname" class="btn btn-primary">
-              <i class="fas fa-search"></i> Find Student by Surname
-            </button>
-            <button v-if="searchLoading" class="btn btn-success">
-              <i class="fas fa-search"></i> Find Student by Surname
-            </button>
-
-          </div>
+          
             <b-spinner
               v-for="variant in variants"
               :variant="variant"
@@ -75,10 +32,50 @@
               v-show="searchLoading"
               class="loading-spinner"
             ></b-spinner>
-          <div class="search-results-message"><strong><span v-if="message">{{ message }}</span></strong></div>
-
+          
         </div>
-  
+        
+          <!-- advanced Search -->
+        <a v-on:click="showAdvancedSearch">Advanced Search</a>
+        <div v-if="showAdvancedSearchForm" class="advanced-search-form row col-12">
+            <div class="advanced-search-field">
+              <label>First Name</label>
+              <input
+                v-model="advancedSearchInput.firstName"
+                placeholder="John"
+                v-on:keyup="keyHandler"
+              />
+            </div>
+            <div class="advanced-search-field">
+            <label>Last Name</label>
+            <input
+              v-model="advancedSearchInput.lastName"
+              placeholder="Smith"
+              v-on:keyup="keyHandler"
+            />
+            </div>
+            <div class="advanced-search-field">
+            <label>BirthDate</label>
+            <input
+              placeholder="MM/DD/YYYY"
+              v-on:keyup=" keyHandler"
+            />   
+            </div>                     
+            <div class="advanced-search-field">
+            <label>School</label>
+            <input
+              placeholder="12345678"
+              v-on:keyup="keyHandler"
+            />    
+            </div>     
+            <div class="advanced-search-button">               
+            <button @click="findStudentsByAdvancedSearch" class="btn btn-primary">Search</button>
+            <button @click="clearInput" class="btn btn-primary">Reset</button>
+            </div>
+            
+            
+        </div>
+        <div class="search-results-message"><strong><span v-if="message">{{ message }}</span></strong></div>
       </form>
       <p class="sample-pens">
         Samples:
@@ -146,11 +143,14 @@ export default {
       message: "",
       penInput: "",
       selectedPen: "",
-      showPenInputBox: true,
-      surnameInput: "",
-      showSurnameInput: false,
       variants: ["success"],
       searchLoading: false,
+      showAdvancedSearchForm: false,
+      advancedSearchInput: {
+        firstName: "",
+        lastName: "",
+        birthDate: ""
+      }
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -251,6 +251,35 @@ export default {
         }
       }
     },
+    findStudentsByAdvancedSearch: function() {
+      this.message = "";
+      if (!this.isEmpty(this.advancedSearchInput)) {
+        this.searchLoading = true;
+        this.studentSearchResults = [];
+        try {
+          StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput)
+            .then((response) => {
+              this.searchLoading = false;
+              this.studentSearchResults = response.data;
+              this.message = this.studentSearchResults.length + " student(s) found"
+            })
+            .catch((err) => {
+              this.searchLoading = false;
+              this.message = "Student not found";
+              
+            
+              console.log(err);
+            });
+        } catch (error) {
+          console.log("Error with webservice");
+        }
+      }else{
+        this.message = "Enter at least one field to search."
+      }
+    },
+    showAdvancedSearch: function(){
+      this.showAdvancedSearchForm = true;
+    },
     selectStudent: function(student) {
       this.selectedPen = student.pen;
       this.$store.commit("setStudentProfile", student);
@@ -260,22 +289,24 @@ export default {
     clearStudent: function() {},
     clearInput: function() {
       this.penInput = "";
-      this.surnameInput = "";
-    },
-    showPenInput: function() {
-      if (!this.showPenInputBox) {
-        this.showPenInputBox = !this.showPenInputBox;
-        this.showSurnameInput = false;
-        this.clearInput();
+      this.advancedSearchInput= {
+        firstName: "",
+        lastName: "",
+        birthDate: ""
       }
+
     },
-    showsurnameInput: function() {
-      if (!this.showPenSurnameBox) {
-        this.showSurnameInput = !this.showSurnameInput;
-        this.showPenInputBox = false;
-        this.clearInput();
+    isEmpty(obj) {
+      let isEmpty = true;
+      for (var key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            if(obj[key] != ""){
+              isEmpty = false;
+            }
+          }
       }
-    },
+      return isEmpty;
+    }
   },
 };
 </script>
@@ -286,7 +317,7 @@ export default {
   position: inherit;
   margin-right: 10px;
 }
-.pen-search, .surname-search {
+.pen-search{
   width: 400px;
   margin-right: 9px;
   padding: 5px;
@@ -326,5 +357,29 @@ h6 {
 }
 .table th{
   border-bottom: 2px solid #5475a7;
+}
+.advanced-search{
+  float:left;
+  clear:both;
+}
+.advanced-search-form{
+  margin-top: 40px;
+  border: 1px solid #ccc;
+  padding:20px;
+}
+.advanced-search-field{
+  padding-right: 10px;
+}
+.advanced-search-field label{
+  float:left;
+  clear:both;
+  
+}
+.advanced-search-field input{
+  float:left;
+  clear:both;
+}
+.advanced-search-button{
+  margin-top: 15px;
 }
 </style>
