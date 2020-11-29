@@ -20,8 +20,19 @@ export default {
     getStudentsByAdvancedSearch(advancedSearchInput){
         let queryString = ""
         for (var key in advancedSearchInput) {
+            console.log(key);
             if (advancedSearchInput.hasOwnProperty(key)) {
-                queryString += key + "=" + advancedSearchInput[key] + "&";
+                if(advancedSearchInput[key].value){
+                    let contains = (advancedSearchInput[key].contains) ? "*":"";
+                    queryString 
+                        += key 
+                        + "=" 
+                        + advancedSearchInput[key].value
+                        + contains
+                        + "&";
+
+                        console.log(queryString);
+                }
             }
         }
         queryString = queryString.slice(0, -1); //remove trailing ampersand

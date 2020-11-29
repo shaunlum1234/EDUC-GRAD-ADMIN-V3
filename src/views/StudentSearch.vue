@@ -16,7 +16,9 @@
               v-model="penInput"
               placeholder="Student PEN"
               class="pen-search"
+              ref="penSearch"
               v-on:keyup="keyHandler"
+              tabindex="1"
             /><button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
               <i class="fas fa-search"></i> Find Student by PEN
             </button>
@@ -36,45 +38,123 @@
         </div>
         
           <!-- advanced Search -->
-        <a v-on:click="showAdvancedSearch">Advanced Search</a>
-        <div v-if="showAdvancedSearchForm" class="advanced-search-form row col-12">
-            <div class="advanced-search-field">
-              <label>First Name</label>
-              <input
-                v-model="advancedSearchInput.firstName"
-                placeholder="John"
-                v-on:keyup="keyHandler"
-              />
+          
+        <a v-on:click="showAdvancedSearch" href="#" class="ml-3">Advanced Search</a>
+        <transition name="fade">
+          <div v-if="showAdvancedSearchForm" class="advanced-search-form mx-0 px-2">
+            <div class="row col-12 mb-3">
+                <div class="advanced-search-field col-12 col-md-3">
+                  <label>First Name </label>
+                  <a 
+                    href="#"
+                    v-on:click="advancedSearchInput.firstName.contains = !advancedSearchInput.firstName.contains"
+
+                    v-bind:class="{active: advancedSearchInput.firstName.contains}" 
+                    class="wild-card-button" v-b-tooltip.hover title="First Name Contains">
+                      [.*]
+                    </a>
+                  <input
+                    v-model="advancedSearchInput.firstName.value"
+                    placeholder="John"
+                    v-on:keyup="keyHandler"
+                    tabindex="2"
+                  />
+                </div>
+                <div class="advanced-search-field col-12 col-md-3">
+                <label>Last Name</label>
+                <a 
+                  href="#"
+                  v-on:click="advancedSearchInput.lastName.contains = !advancedSearchInput.lastName.contains"
+                  v-bind:class="{active: advancedSearchInput.lastName.contains}" 
+                  class="wild-card-button" v-b-tooltip.hover title="Last Name Contains">
+                    [.*]
+                </a>
+                <input
+                  v-model="advancedSearchInput.lastName.value"
+                  placeholder="Smith"
+                  v-on:keyup="keyHandler"
+                  tabindex="3"
+                />
+                </div>
+                <div class="advanced-search-field col-12 col-md-3">
+                <label>Middle Name</label>
+                <a 
+                  href="#"
+                  v-on:click="advancedSearchInput.middleName.contains = !advancedSearchInput.middleName.contains"
+                  v-bind:class="{active: advancedSearchInput.middleName.contains}" 
+                  class="wild-card-button" v-b-tooltip.hover title="Middle Name Contains">
+                    [.*]
+                </a>
+                <input
+                  v-model="advancedSearchInput.middleName.value"
+                  placeholder="Middle Name"
+                  v-on:keyup=" keyHandler"
+                  tabindex="4"
+                />   
+                </div>                     
+                <div class="advanced-search-field  col-12 col-md-3">
+                <label>Gender</label>
+                <input
+                  v-model="advancedSearchInput.gender.value"
+                  placeholder="M|F"
+                  v-on:keyup="keyHandler"
+                  tabindex="5"
+                />    
+                </div>     
             </div>
-            <div class="advanced-search-field">
-            <label>Last Name</label>
-            <input
-              v-model="advancedSearchInput.lastName"
-              placeholder="Smith"
-              v-on:keyup="keyHandler"
-            />
+            <div class="row col-12">
+              <div class="advanced-search-field col-12 col-md-3">
+                <label>Grade</label>
+                <input
+                  v-model="advancedSearchInput.grade.value"
+                  placeholder="12"
+                  v-on:keyup=" keyHandler"
+                  tabindex="6"
+                />   
+                </div>                     
+                <div class="advanced-search-field  col-12 col-md-3">
+                <label>Mincode</label>
+                <input
+                  v-model="advancedSearchInput.mincode.value"
+                  placeholder="12345678"
+                  v-on:keyup="keyHandler"
+                  tabindex="7"
+                />    
+                </div>  
+                <div class="advanced-search-field col-12 col-md-3">
+                <label>Local ID</label>
+                <input
+                  v-model="advancedSearchInput.localId.value"
+                  placeholder="063"
+                  v-on:keyup=" keyHandler"
+                  tabindex="8"
+                />   
+                </div>                     
+                <div class="advanced-search-field  col-12 col-md-3">
+                <label>Birthdate</label>
+                <input
+                  v-model="advancedSearchInput.birthDate.value"
+                  placeholder="MM|DD|YYYY"
+                  v-on:keyup="keyHandler"
+                  tabindex="9"
+                />    
+                </div>     
+                <div class="advanced-search-button">               
+                <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading" class="btn btn-primary" tabindex="10">Search</button>
+                <button v-if="advancedSearchLoading" class="btn btn-success">Search</button>
+                <button @click="clearInput" class=" btn btn-primary mx-2">Reset</button>
+                  
+                </div>
+                <b-spinner
+                  v-for="variant in variants"
+                  :variant="variant"
+                  :key="variant"
+                  v-show="advancedSearchLoading"
+                  class="advanced-loading-spinner"
+                ></b-spinner>  
             </div>
-            <div class="advanced-search-field">
-            <label>BirthDate</label>
-            <input
-              placeholder="MM/DD/YYYY"
-              v-on:keyup=" keyHandler"
-            />   
-            </div>                     
-            <div class="advanced-search-field">
-            <label>School</label>
-            <input
-              placeholder="12345678"
-              v-on:keyup="keyHandler"
-            />    
-            </div>     
-            <div class="advanced-search-button">               
-            <button @click="findStudentsByAdvancedSearch" class="btn btn-primary">Search</button>
-            <button @click="clearInput" class="btn btn-primary">Reset</button>
-            </div>
-            
-            
-        </div>
+          </div>
+        </transition>
         <div class="search-results-message"><strong><span v-if="message">{{ message }}</span></strong></div>
       </form>
       <p class="sample-pens">
@@ -91,7 +171,7 @@
     <v-table
       :data="studentSearchResults"
       class="table table-sm table-hover table-striped align-middle"
-      v-if="studentSearchResults.length"
+      v-show="studentSearchResults.length"
     >
       <thead slot="head" class="">
         <v-th sortKey="pen">Pen</v-th>
@@ -145,13 +225,46 @@ export default {
       selectedPen: "",
       variants: ["success"],
       searchLoading: false,
+      advancedSearchLoading: false,
       showAdvancedSearchForm: false,
       advancedSearchInput: {
-        firstName: "",
-        lastName: "",
-        birthDate: ""
+        firstName: {
+          value: "",
+          contains: false,
+        },
+        lastName: {
+          value: "",
+          contains: false,
+        },
+        middleName: {
+          value: "",
+          contains: false,
+        },
+        gender: {
+          value: "",
+          contains: false,
+        },  
+        grade: {
+          value: "",
+          contains: false,
+        }, 
+        mincode: {
+          value: "",
+          contains: false,
+        },
+        localId:{
+          value: "",
+          contains: false,
+        },                
+        birthDate: {
+          value: "",
+          contains: false,
+        }
       }
     };
+  },
+  mounted() {
+    this.focusInput();
   },
   beforeRouteLeave(to, from, next) {
     next(this.loadStudent(this.selectedPen));
@@ -166,6 +279,9 @@ export default {
   },
 
   methods: {
+    focusInput() {
+      this.$refs.penSearch.focus();
+    },
     loadStudent(pen) {
 
       AssessmentService.getStudentAssessment(pen).then((response) => {
@@ -243,17 +359,17 @@ export default {
     findStudentsByAdvancedSearch: function() {
       this.message = "";
       if (!this.isEmpty(this.advancedSearchInput)) {
-        this.searchLoading = true;
+        this.advancedSearchLoading = true;
         this.studentSearchResults = [];
         try {
           StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput)
             .then((response) => {
-              this.searchLoading = false;
+              this.advancedSearchLoading = false;
               this.studentSearchResults = response.data;
               this.message = this.studentSearchResults.length + " student(s) found"
             })
             .catch((err) => {
-              this.searchLoading = false;
+              this.advancedSearchLoading = false;
               this.message = "Student not found";
               
             
@@ -277,12 +393,40 @@ export default {
     clearStudent: function() {},
     clearInput: function() {
       this.penInput = "";
-      this.advancedSearchInput= {
-        firstName: "",
-        lastName: "",
-        birthDate: ""
+      this.advancedSearchInput = {
+        firstName: {
+          value: "",
+          contains: false,
+        },
+        lastName: {
+          value: "",
+          contains: false,
+        },
+        middleName: {
+          value: "",
+          contains: false,
+        },
+        gender: {
+          value: "",
+          contains: false,
+        },  
+        grade: {
+          value: "",
+          contains: false,
+        }, 
+        mincode: {
+          value: "",
+          contains: false,
+        },
+        localId:{
+          value: "",
+          contains: false,
+        },                
+        birthDate: {
+          value: "",
+          contains: false,
+        }
       }
-
     },
     isEmpty(obj) {
       let isEmpty = true;
@@ -301,15 +445,14 @@ export default {
 <style scoped>
 .alert,
 .card,
-.btn.btn-primary {
-  position: inherit;
-  margin-right: 10px;
+input{
+  padding: 5px;
 }
 .pen-search{
   width: 400px;
   margin-right: 9px;
-  padding: 5px;
   float: left;
+  padding-left:25px;
 }
 h6 {
   font-size: 1.5rem;
@@ -317,6 +460,9 @@ h6 {
 .loading-spinner{
   float:left;
   margin-left: 10px;
+}
+.advanced-loading-spinner{
+  margin-top: 32px;
 }
 .table-hover tbody tr:hover{
   background: #96c0e6;
@@ -366,8 +512,29 @@ h6 {
 .advanced-search-field input{
   float:left;
   clear:both;
+  padding-left: 10px;
+  width: 100%;
 }
 .advanced-search-button{
-  margin-top: 15px;
+  margin-top: 32px;
+  padding-left: 15px;
 }
+.wild-card-button{
+  color:#ccc;
+  position: absolute;
+  right: 21px;
+  top: 40px;
+  z-index: 10;
+  text-decoration:none;
+}
+.wild-card-button:visited{
+  color:#ccc;
+}
+.wild-card-button.active{
+ color:green
+}
+svg{
+  display:none !important;
+}
+
 </style>

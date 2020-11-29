@@ -50,6 +50,9 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/">Select Students</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/">Program Rules</router-link>
+          </li>
         </ul>
       </div>
     </nav>
@@ -57,7 +60,9 @@
       <div class="container ">
         <ul>
           <li><router-link to="/">Select Student</router-link></li>
+          <li><router-link to="/">Program Rules</router-link></li>
         </ul>
+        
       </div>
     </nav>
   </div>
