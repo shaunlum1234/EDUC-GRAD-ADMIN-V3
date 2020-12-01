@@ -163,6 +163,8 @@
           <li>140341157 (Exams and Assessment)</li>
           <li>130129323 (Exams and Assessment)</li>
           <li>101696920 (Exams Only)</li>
+          <li>124411075</li>
+
         </ul>
       </p>
 
@@ -214,6 +216,7 @@ import CourseAchievementService from "@/services/CourseAchievementService.js";
 import StudentService from "@/services/StudentService.js";
 import StudentExamsService from "@/services/StudentExamsService.js";
 import AssessmentService from "@/services/AssessmentService.js"
+import GraduationStatusService from "@/services/GraduationStatusService.js"
 export default {
   name: "studentSearch",
   data() {
@@ -275,6 +278,7 @@ export default {
       profile: "getStudentProfile",
       courses: "getStudentCourses",
       exams: "getStudentExams",
+      gradStatus: "getStudentGradStus",
     }),
   },
 
@@ -297,6 +301,12 @@ export default {
       CourseAchievementService.getStudentCourseAchievements(pen).then(
         (response) => {
           this.$store.dispatch("setStudentCourses", response.data);
+        }
+      );
+       GraduationStatusService.getGraduationStatus(pen).then(
+        (response) => {
+          console.log(response.data);
+          this.$store.dispatch("setStudentGradStatus", response.data);
         }
       );
 

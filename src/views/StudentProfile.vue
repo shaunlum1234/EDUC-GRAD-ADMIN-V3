@@ -19,6 +19,7 @@
             <transition name="fade">
               <b-tab title="Student Profile" class="py-3 px-0 m-1">
                 <b-card-text><StudentInfo /></b-card-text>
+                <b-card-text><StudentGraduationStatus /></b-card-text>
               </b-tab>
             </transition>
             <transition name="fade">
@@ -71,6 +72,7 @@ import StudentCourses from "@/components/StudentCourses";
 import StudentInfo from "@/components/StudentInfo";
 import StudentExams from "@/components/StudentExams";
 import StudentAssessments from "@/components/StudentAssessments";
+import StudentGraduationStatus from "@/components/StudentGraduationStatus";
 import { mapGetters } from "vuex";
 //import { store } from "@/store.js";
 export default {
@@ -81,6 +83,7 @@ export default {
     StudentInfo: StudentInfo,
     StudentExams: StudentExams,
     StudentAssessments: StudentAssessments,
+    StudentGraduationStatus: StudentGraduationStatus,
   },
   data() {
     return {
@@ -99,6 +102,7 @@ export default {
       studentHasCourses: "studentHasCourses",
       studentHasAssessments: "studentHasAssessments",
       studentHasExams: "studentHasExams",
+      
 
     }),
   },
