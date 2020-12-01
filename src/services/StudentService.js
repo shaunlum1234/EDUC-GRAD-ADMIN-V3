@@ -16,5 +16,28 @@ export default {
     },
     getStudentBySurname(surname) {
         return apiClient.get('/api/v1/gradstudent?lastName=' + surname);
+    },
+    getStudentsByAdvancedSearch(advancedSearchInput){
+        let queryString = ""
+        for (var key in advancedSearchInput) {
+            console.log(key);
+            if (advancedSearchInput.hasOwnProperty(key)) {
+                if(advancedSearchInput[key].value){
+                    let contains = (advancedSearchInput[key].contains) ? "*":"";
+                    queryString 
+                        += key 
+                        + "=" 
+                        + advancedSearchInput[key].value
+                        + contains
+                        + "&";
+
+                        console.log(queryString);
+                }
+            }
+        }
+        queryString = queryString.slice(0, -1); //remove trailing ampersand
+        console.log('/api/v1/studentsearch?' + queryString);
+        return apiClient.get('/api/v1/studentsearch?' + queryString); 
     }
+    
 }

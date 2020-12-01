@@ -12,9 +12,11 @@
         courses: "not loaded",
         assessments: "not loaded",
         exams: "not loaded",
+        gradStatus: "not loaded",
         hasExams: false,
         hasAssessments: false,
         hasCourses: false,
+        hasGradStatus: false,
 
       }
     },
@@ -26,6 +28,14 @@
         state.student.courses = payload;
         if(state.student.courses.length){
           state.student.hasCourses = true;
+        }
+      },
+      setStudentGradStatus(state, payload) {
+        console.log("mutating grad status");
+        state.student.gradStatus = payload;
+        if(state.student.gradStatus.length){
+          console.log("has grad status");
+          state.student.hasGradStatus = true;
         }
       },
       setStudentAssessments(state, payload) {
@@ -45,6 +55,7 @@
         state.student.courses = "not loaded";
         state.student.assessments = "not loaded";
         state.student.exams = "not loaded";
+        state.student.gradStatus = "not loaded";
         state.student.hasExams = false;
         state.student.hasAssessments = false;
         state.student.hasCourses = false;
@@ -70,7 +81,13 @@
         commit
       }, payload) {
         commit('setStudentExams', payload);
-      }
+      },
+      setStudentGradStatus({
+        commit
+      }, payload) {
+        console.log("setting grad status");
+        commit('setStudentGradStatus', payload);
+      }      
       
 
     },
@@ -80,6 +97,9 @@
       },
       getStudentFullName(state) {
         return state.student.profile.studSurname + ", " + state.student.profile.studGiven + " " + state.student.profile.studMiddle + "(" + state.student.profile.pen + ")";
+      },
+      getStudentGradStatus(state) {
+        return state.student.gradStatus;
       },
       getStudentCourses(state) {
         return state.student.courses;
@@ -98,6 +118,9 @@
       },
       studentHasAssessments(state){
         return state.student.hasAssessments;
+      },
+      studentHasGradStatus(state){
+        return state.student.hasGradStatus;
       }
 
       // getStudentProfile: state => state.student.profiles

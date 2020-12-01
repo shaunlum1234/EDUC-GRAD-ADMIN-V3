@@ -11,7 +11,7 @@ const apiClient = axios.create({
 })
 export default {
   getGraduationStatus(pen) {
-    return apiClient.get('/api/v1/graduation-status/' + pen);
+    return apiClient.get('/api/v1/gradstatus/pen/' + pen);
   },
   getAchievementReport(pen) {
 

@@ -81,10 +81,7 @@ export default {
       inputPenMissing: false,
     };
   },
-  created() {
-    console.log("created");
-    console.log(this.courses);
-  },
+  created() {},
   methods: {
     toggle(id) {
       const index = this.opened.indexOf(id);
@@ -112,7 +109,7 @@ export default {
 </script>
 
 <style>
-.table th{
+.table th {
   border-bottom: 2px solid #38598a !important;
 }
 </style>
