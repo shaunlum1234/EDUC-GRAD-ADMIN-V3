@@ -25,7 +25,7 @@ export default {
 
 <style>
 #app {
-  background: #efefef;
+  background: #F9F9FB;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -61,6 +61,9 @@ ul.sidebar-panel-nav > li > a {
 }
 .fade-enter /* .fade-leave-active below version 2.1.8 */ {
   opacity: .2;
+}
+.main-container{
+  font-size: 15px;
 }
 
 </style>

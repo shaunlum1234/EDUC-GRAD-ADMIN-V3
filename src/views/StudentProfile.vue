@@ -10,29 +10,20 @@
       <div class="col-12">
         <h1 class="profile-name">
           {{ studentFullName }}
-          
           <button v-on:click="closeRecord" class="btn btn-primary close-record">
             <i class="far fa-times-circle"></i> Close Student Record
           </button>
         </h1>
-        
+        <StudentInfo />
       </div>
 
       <div class="col-4">
-        <div class=""></div>
-        <div class="card">
-          <StudentInfo />
-        </div>
-        <div class="card">
-          <StudentGraduationStatus />
-        </div>
-        
+        <StudentGraduationStatus />
       </div>
-
       <div class="col-8 px-0">
       <div>
         <b-card no-body>
-          <b-tabs card>
+          <b-tabs>
             
             <transition name="fade">
               <b-tab
@@ -68,7 +59,7 @@
               title="Loading ..."
               class="tab-loading py-3 px-0 m-1"
             >
-              <b-card-text>Loading student Exams and Assesments</b-card-text>
+              <b-card-text>Loading Student Courses, Exams and Assesments</b-card-text>
             </b-tab>
           </b-tabs>
         </b-card>
@@ -139,6 +130,10 @@ export default {
   color: green !important;
 }
 .profile-name{
-  padding: 20px 15px; 
+  padding: 0px 15px; 
+}
+.student-info{
+  margin: 10px 0px;
+  float:left;
 }
 </style>

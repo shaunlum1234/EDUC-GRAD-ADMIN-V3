@@ -1,5 +1,5 @@
 <template>
-  <div class="studentlist container">
+  <div class="studentlist px-5">
     <h1>Student Graduation Status</h1>
     <p>
       Enter a Personal Education Number (PEN) to retrieve the student’s course
@@ -508,7 +508,7 @@ h6 {
 }
 .advanced-search-form{
   margin-top: 40px;
-  border: 1px solid #ccc;
+  border: 1px solid #DEE2EB;
   padding:20px;
 }
 .advanced-search-field{
@@ -530,7 +530,7 @@ h6 {
   padding-left: 15px;
 }
 .wild-card-button{
-  color:#ccc;
+  color:#DEE2EB;
   position: absolute;
   right: 21px;
   top: 40px;
@@ -538,7 +538,7 @@ h6 {
   text-decoration:none;
 }
 .wild-card-button:visited{
-  color:#ccc;
+  color:#DEE2EB;
 }
 .wild-card-button.active{
  color:green

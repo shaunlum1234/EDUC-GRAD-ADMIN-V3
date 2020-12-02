@@ -57,7 +57,7 @@
       </div>
     </nav>
     <nav class="navigation-main" id="navbar">
-      <div class="container ">
+      <div class="">
         <ul>
           <li><router-link to="/">Select Student</router-link></li>
           <li><router-link to="/admin-graduation-programs">Program Grad Program</router-link></li>
