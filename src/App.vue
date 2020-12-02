@@ -62,5 +62,8 @@ ul.sidebar-panel-nav > li > a {
 .fade-enter /* .fade-leave-active below version 2.1.8 */ {
   opacity: .2;
 }
+.main-container{
+  font-size: 15px;
+}
 
 </style>

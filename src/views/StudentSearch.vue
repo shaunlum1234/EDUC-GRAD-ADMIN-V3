@@ -1,5 +1,5 @@
 <template>
-  <div class="studentlist container">
+  <div class="studentlist px-5">
     <h1>Student Graduation Status</h1>
     <p>
       Enter a Personal Education Number (PEN) to retrieve the student’s course
