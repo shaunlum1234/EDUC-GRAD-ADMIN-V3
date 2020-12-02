@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import StudentSearch from '../views/StudentSearch.vue';
 import StudentProfile from '../views/StudentProfile.vue';
+import AdminGraduationPrograms from '../views/AdminGraduationPrograms.vue';
 
 
 Vue.use(VueRouter)
@@ -21,6 +22,11 @@ const routes = [{
     path: '/student-profile',
     name: 'student-profile',
     component: StudentProfile
+  },
+  {
+    path: '/admin-graduation-programs',
+    name: 'admin-graduation-programs',
+    component: AdminGraduationPrograms
   }
 ]
 
