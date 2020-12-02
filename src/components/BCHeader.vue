@@ -51,7 +51,7 @@
             <router-link class="nav-link" to="/">Select Students</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/">Program Rules</router-link>
+            <router-link class="nav-link" to="/">Program Grad Program</router-link>
           </li>
         </ul>
       </div>
@@ -60,7 +60,7 @@
       <div class="container ">
         <ul>
           <li><router-link to="/">Select Student</router-link></li>
-          <li><router-link to="/">Program Rules</router-link></li>
+          <li><router-link to="/admin-graduation-programs">Program Grad Program</router-link></li>
         </ul>
         
       </div>
