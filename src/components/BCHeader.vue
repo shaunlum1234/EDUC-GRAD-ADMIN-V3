@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <div class="container">
+      <div class="">
         <div class="banner">
           <a class="navbar-brand" href="https://www2.gov.bc.ca">
             <img
