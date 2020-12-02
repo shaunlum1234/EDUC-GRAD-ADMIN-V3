@@ -1,54 +1,62 @@
 <template>
   <div class="container">
-   <p>World</p>
+    <b-spinner v-if="!graduationPrograms.length" label="Loading"
+      >Loading</b-spinner
+    >
+    <v-table
+      :data="graduationPrograms"
+      :filters="filters"
+      class="table table-sm table-hover table-striped align-middle"
+    >
+      <thead slot="head" class="">
+        <v-th sortKey="programCode">Grad Program Code</v-th>
+        <v-th sortKey="programName">Program Name</v-th>
+        <v-th sortKey="programType">Program Type</v-th>
+        <v-th sortKey="programStartDate">Program Start Date</v-th>
+        <v-th sortKey="programEndDate">Program End Date</v-th>
+      </thead>
+      <tbody slot="body" slot-scope="{ displayData }">
+        <template v-for="row in displayData">
+          <tr
+            :key="row.programCode"
+            @click="toggle(row.programCode + row.programType)"
+            :class="{ opened: opened.includes(row.programCode) }"
+          >
+            <td>{{ row.programCode }}</td>
+            <td>{{ row.programName }}</td>
+            <td>{{ row.programType }}</td>
+            <td>{{ row.programStartDate }}</td>
+            <td>{{ row.programEndDate }}</td>
+          </tr>
+        </template>
+      </tbody>
+    </v-table>
   </div>
 </template>
 
 <script>
-import GraduationProgramsService from '@/services/GraduationProgramsService.js';
+import GraduationProgramsService from "@/services/GraduationProgramsService.js";
 export default {
   name: "GraduationPrograms",
   props: {},
-  computed: {
-    
-  },
-  data: function() {
+  computed: {},
+  data: function () {
     return {
       show: false,
       opened: [],
-      achievements: [],
-      InputCourse: "",
-      student: [],
-      InputPen: "",
-      filters: {
-        name: { value: "", keys: ["courseCode"] },
-      },
-      pen: "",
-      sessionDate: "",
-      finalPercent: "",
-      interimPercent: "",
-      finalLetterGrade: "",
-      credits: "",
-      courseId: "",
-      courseType: "",
-      interimLetterGrade: "",
-      currentPage: 1,
-      totalPages: 0,
-      displayMessage: null,
-      modalVisible: null,
-      inputPenMissing: false,
+      graduationPrograms:[],
     };
   },
   created() {
     GraduationProgramsService.getGraduationPrograms()
       .then((response) => {
-        this.courses = response.data;
-        console.log(this.courses);
+        this.graduationPrograms = response.data;
+        console.log(this.graduationPrograms);
       })
       // eslint-disable-next-line no-unused-vars
       .catch((error) => {
-         //console.log('There was an error:' + error.response);
-    }); 
+        //console.log('There was an error:' + error.response);
+      });
   },
   methods: {
     toggle(id) {
@@ -62,9 +70,9 @@ export default {
     showMsgBoxOne(message) {
       this.$bvModal.msgBoxOk(message);
     },
-    getCourseName: function(cid) {
+    getCourseName: function (cid) {
       let result = "";
-      this.courses.filter(function(n) {
+      this.courses.filter(function (n) {
         if (n.id === cid) {
           result = n.name;
           return result;
