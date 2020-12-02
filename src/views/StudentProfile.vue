@@ -10,19 +10,14 @@
       <div class="col-12">
         <h1 class="profile-name">
           {{ studentFullName }}
-          
           <button v-on:click="closeRecord" class="btn btn-primary close-record">
             <i class="far fa-times-circle"></i> Close Student Record
           </button>
         </h1>
-        
+        <StudentInfo />
       </div>
 
       <div class="col-4">
-        <div class=""></div>
-        <div class="card">
-          <StudentInfo />
-        </div>
         <div class="card">
           <StudentGraduationStatus />
         </div>
