@@ -112,4 +112,7 @@ export default {
 .table th {
   border-bottom: 2px solid #38598a !important;
 }
+.table th svg{
+  display:none !important;
+}
 </style>

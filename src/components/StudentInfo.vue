@@ -39,9 +39,10 @@ export default {
 <style scoped>
 .student-info div {
   float: left;
+  padding-right:10px;
 }
 .student-info {
-  margin: 10px 0px;
-  padding-right: 100px;
+  float:left;
+  margin: 10px 0px 20px 0px;
 }
 </style>
