@@ -1,27 +1,26 @@
 <template>
-  <div class="container">
+  <div class="container card">
     <div>
-      <div style="width: 40%; float:left">
-          <ul>
-            <li>
+      <div style="float:left">
+        <h1> {{ studentInfo.firstName}}{{studentInfo.lastName}} </h1>
+            <div>
               <strong>Graduation Program: </strong
               >{{ studentInfo.gradRequirementYear }}
-            </li>
-            <li><strong>Grade: </strong>{{ studentInfo.studentGrade }}</li>
-            <li><strong>Date of Birth:</strong> {{ studentInfo.studBirth }}</li>
-            <li><strong>Sex:</strong> {{ studentInfo.studSex }}</li>
-            <li><strong>Status: </strong>{{ studentInfo.studentStatus }}</li>
-            <li><strong>Archived:</strong> {{ studentInfo.archiveFlag }}</li>
-            <li><strong>School: </strong>{{ studentInfo.schoolName }}</li>
-            <li>
+            </div>
+            <div><strong>Grade: </strong>{{ studentInfo.studentGrade }}</div>
+            <div><strong>Date of Birth:</strong> {{ studentInfo.studBirth }}</div>
+            <div><strong>Sex:</strong> {{ studentInfo.studSex }}</div>
+            <div><strong>Status: </strong>{{ studentInfo.studentStatus }}</div>
+            <div><strong>Archived:</strong> {{ studentInfo.archiveFlag }}</div>
+            <div><strong>School: </strong>{{ studentInfo.schoolName }}</div>
+            <div>
               <strong>Student Address:</strong><br />
               {{ studentInfo.address1 }} {{ studentInfo.address2 }}<br />
               {{ studentInfo.city }}, {{ studentInfo.provinceCode }}
               {{ studentInfo.provinceName }}<br />
               {{ studentInfo.postalCode }}, {{ studentInfo.countryCode }}
               {{ studentInfo.countryName }}
-            </li>
-          </ul>
+            </div>
         </div>
     </div>
   </div>
@@ -40,4 +39,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+div{
+  float: left;
+  padding-right:10px;
+}
+</style>

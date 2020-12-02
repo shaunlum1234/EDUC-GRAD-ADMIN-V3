@@ -6,23 +6,34 @@
     ></SiteMessage>
     <!-- Button trigger modal -->
 
-    <div class="container">
-      <h1 class="profile-name">
-        {{ studentFullName }}
-        <button v-on:click="closeRecord" class="btn btn-primary close-record">
-          <i class="far fa-times-circle"></i> Close Student Record
-        </button>
-      </h1>
+    <div class="row col-12 p-3 m-0">
+      <div class="col-12">
+        <h1 class="profile-name">
+          {{ studentFullName }}
+          
+          <button v-on:click="closeRecord" class="btn btn-primary close-record">
+            <i class="far fa-times-circle"></i> Close Student Record
+          </button>
+        </h1>
+        
+      </div>
+
+      <div class="col-4">
+        <div class=""></div>
+        <div class="card">
+          <StudentInfo />
+        </div>
+        <div class="card">
+          <StudentGraduationStatus />
+        </div>
+        
+      </div>
+
+      <div class="col-8 px-0">
       <div>
         <b-card no-body>
           <b-tabs card>
-            <transition name="fade">
-              <b-tab title="Student Profile" class="py-3 px-0 m-1">
-                <b-card-text>
-                  <div class="p-5"><StudentInfo /><StudentGraduationStatus /></div>
-                </b-card-text>
-              </b-tab>
-            </transition>
+            
             <transition name="fade">
               <b-tab
                 v-if="studentHasCourses"
@@ -62,6 +73,9 @@
           </b-tabs>
         </b-card>
       </div>
+      </div>
+
+      
     </div>
   </div>
 </template>
@@ -125,6 +139,6 @@ export default {
   color: green !important;
 }
 .profile-name{
-  padding-bottom: 10px;
+  padding: 20px 15px; 
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- <Header></Header> -->
-    <Bcheader style="margin-top:50px;margin-bottom: 28px;"></Bcheader>
+    <Bcheader style="margin-bottom: 15px;"></Bcheader>
     <div class="main-container">
         <transition
           name="fade"
@@ -30,7 +30,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 .main-container{
-  margin: 35px;
   margin-top:130px;
 }
 .logo {

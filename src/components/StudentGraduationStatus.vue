@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div style="width: 40%; float:left">
+    <div style="float:left">
         
         <div v-if="studentGradStatus.gradProgram"><strong>Grad Program</strong> {{ studentGradStatus.gradProgram }}</div>
         <div v-if="studentGradStatus.gradProgramAtGraduation"><strong>Grad Program at Graduation</strong> {{ studentGradStatus.gradProgramAtGraduation }}</div>
@@ -40,6 +40,62 @@
         <div v-if="studentGradStatus.updatedBy"><strong>Updated By</strong>{{ studentGradStatus.updatedBy }}</div>
         <div v-if="studentGradStatus.updatedTimestamp"><strong>Updated</strong> ({{ studentGradStatus.updatedTimestamp }})</div>
       </div>
+        <div class="accordion col-12 px-0 mx-0" role="tablist">
+          <b-card no-body class="col-12 px-0 mx-0">
+            <b-card-header header-tag="header" class="col-12 px-0 mx-0" role="tab">
+              <b-button block v-b-toggle.accordion-1 variant="info">Graduation Status</b-button>
+            </b-card-header>
+            <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
+              <b-card-body>
+                <b-card-text> 
+                  <div class="row">
+                    <div class="col-12 row">Last updated: March 10, 2020 <button class="primary btn-primary ml-3"><i class="fa-refresh"></i> Update</button></div>
+                    <div class="col-12 row"><a href="#">Download Transcript</a></div>
+                  </div>
+                </b-card-text>
+                
+              </b-card-body>
+            </b-collapse>
+          </b-card>
+
+          <b-card no-body class="col-12 px-0 mx-0">
+            <b-card-header header-tag="header" class="col-12 px-0 mx-0" role="tab">
+              <b-button block v-b-toggle.accordion-2 variant="info">Requirements Missing</b-button>
+            </b-card-header>
+            <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
+              <b-card-body>
+                <b-card-text>
+                  <ul>
+                    <li>IB ENGLISH LANGUAGE / LITERATURE A (HL) </li>
+                    <li>ENGLISH RIDER LEVEL 2	</li>
+                  </ul>
+                </b-card-text>
+              </b-card-body>
+            </b-collapse>
+          </b-card>
+
+          <b-card no-body class="col-12 px-0 mx-0">
+            <b-card-header header-tag="header" class="col-12 px-0 mx-0" role="tab">
+              <b-button block v-b-toggle.accordion-3 variant="info">Requirements Met</b-button>
+            </b-card-header>
+            <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
+              <b-card-body>
+                <b-card-text>
+                  <ul>
+                    <li>Math 12 </li>
+                    <li>ENGLISH 12	</li>
+                    <li>English 11 </li>
+                    <li>Math 11	</li>
+                    <li>Math 12 </li>
+                  </ul>
+                </b-card-text>
+              </b-card-body>
+            </b-collapse>
+          </b-card>
+        </div>
+
+ 
+
   </div>
 </template>
 
