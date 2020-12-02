@@ -18,8 +18,9 @@
           <b-tabs card>
             <transition name="fade">
               <b-tab title="Student Profile" class="py-3 px-0 m-1">
-                <b-card-text><StudentInfo /></b-card-text>
-                <b-card-text><StudentGraduationStatus /></b-card-text>
+                <b-card-text>
+                  <div class="p-5"><StudentInfo /><StudentGraduationStatus /></div>
+                </b-card-text>
               </b-tab>
             </transition>
             <transition name="fade">
@@ -102,8 +103,6 @@ export default {
       studentHasCourses: "studentHasCourses",
       studentHasAssessments: "studentHasAssessments",
       studentHasExams: "studentHasExams",
-      
-
     }),
   },
   created() {

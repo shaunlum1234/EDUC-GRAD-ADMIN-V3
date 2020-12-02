@@ -1,8 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <div class="card" style="width: 100%">
-        <div class="card-body">
+      <div style="width: 40%; float:left">
           <ul>
             <li>
               <strong>Graduation Program: </strong
@@ -24,7 +23,6 @@
             </li>
           </ul>
         </div>
-      </div>
     </div>
   </div>
 </template>
