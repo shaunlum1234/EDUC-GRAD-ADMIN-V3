@@ -139,5 +139,11 @@ export default {
 ul.requirements-met, ul.non-grad-reasons{
   list-style: none;
 }
+.card-header{
+  padding: 0px !important;
+}
+.card-header > button{
+  border-radius: 0px !important;
+}
 
 </style>

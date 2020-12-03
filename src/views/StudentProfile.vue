@@ -22,13 +22,14 @@
       </div>
       <div class="col-8 px-0">
       <div>
-        <b-card no-body>
+        <b-card class="py-1">
           <b-tabs>
             <transition name="fade">
               <b-tab
                 v-if="smallScreen"
                 title="Graduation Status"
-                class="py-3 px-0 m-1"
+                class="py-3 px-0 m-1" 
+                ref="studentCoursesTab"
               >
                 <b-card-text><StudentGraduationStatus /></b-card-text>
               </b-tab>
@@ -67,7 +68,7 @@
               title="Loading ..."
               class="tab-loading py-3 px-0 m-1"
             >
-              <b-card-text>Loading Student Courses, Exams and Assesments</b-card-text>
+              <b-card-text class="text-center">Loading Student Courses, Exams and Assesments</b-card-text>
             </b-tab>
           </b-tabs>
         </b-card>
@@ -121,6 +122,7 @@ export default {
   },
   created() {
     //Load student Data into studentInfo:
+    
   },
   methods: {
     closeRecord: function() {
@@ -142,4 +144,5 @@ export default {
   margin: 10px 0px;
   float:left;
 }
+
 </style>

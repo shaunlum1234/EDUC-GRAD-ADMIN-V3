@@ -109,8 +109,8 @@ export default {
 </script>
 
 <style>
-.table th {
-  border-bottom: 2px solid #38598a !important;
+.table th, .table td{
+  border-top: none !important;
 }
 .table th svg{
   display:none !important;

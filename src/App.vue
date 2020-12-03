@@ -63,7 +63,7 @@ ul.sidebar-panel-nav > li > a {
   opacity: .2;
 }
 .main-container{
-  font-size: 15px;
+  font-size: 14px;
 }
 
 </style>
