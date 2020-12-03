@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <b-spinner v-if="!assessments.length" label="Loading">Loading</b-spinner>
     <v-table
       :data="assessments"

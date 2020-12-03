@@ -44,7 +44,7 @@
                        <!-- Programs -->
                       <div class="col-12 header">Programs</div>
                       <ul>
-                        <li v-if="studentGradStatus.honoursFlag"><strong>HONORS:</strong> {{ studentGradStatus.honoursFlag }}</li>
+                        <li v-if="studentGradStatus.honoursFlag"><strong>Honours:</strong> {{ studentGradStatus.honoursFlag }}</li>
                         <li v-if="studentGradStatus.frenchProgramParticipation"><strong>Program Cadre:</strong> {{ studentGradStatus.frenchProgramParticipation }}</li>
                         <li v-if="studentGradStatus.advancePlacementParticipation"><strong>AP:</strong> {{ studentGradStatus.advancePlacementParticipation }}</li>
                         <li v-if="studentGradStatus.careerProgramParticipation"><strong>Career Program:</strong> {{ studentGradStatus.careerProgramParticipation }}</li>

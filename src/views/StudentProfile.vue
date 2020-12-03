@@ -17,14 +17,22 @@
         <StudentInfo />
       </div>
 
-      <div class="col-4">
+      <div class="col-4" v-if="!smallScreen">
         <StudentGraduationStatus />
       </div>
       <div class="col-8 px-0">
       <div>
         <b-card no-body>
           <b-tabs>
-            
+            <transition name="fade">
+              <b-tab
+                v-if="smallScreen"
+                title="Graduation Status"
+                class="py-3 px-0 m-1"
+              >
+                <b-card-text><StudentGraduationStatus /></b-card-text>
+              </b-tab>
+            </transition>            
             <transition name="fade">
               <b-tab
                 v-if="studentHasCourses"
@@ -96,6 +104,7 @@ export default {
       show: false,
       opened: [],
       displayMessage: null,
+      smallScreen: false
     };
   },
   computed: {
@@ -128,9 +137,6 @@ export default {
 }
 .tab-loading {
   color: green !important;
-}
-.profile-name{
-  padding: 0px 15px; 
 }
 .student-info{
   margin: 10px 0px;
