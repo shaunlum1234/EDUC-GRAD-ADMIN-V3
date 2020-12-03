@@ -1,66 +1,49 @@
 <template>
   <div class="container">
-    <b-spinner v-if="!graduationPrograms.length" label="Loading"
+    <b-spinner v-if="!graduationProgramSets.length" label="Loading"
       >Loading</b-spinner
     >
     <v-table
-      :data="graduationPrograms"
+      :data="graduationProgramSets"
       class="table table-sm table-hover table-striped align-middle"
     >
       <thead slot="head" class="">
-        <v-th sortKey="programCode">Grad Program Code</v-th>
-        <v-th sortKey="programName">Program Name</v-th>
-        <v-th sortKey="programType">Program Type</v-th>
-        <v-th sortKey="programStartDate">Program Start Date</v-th>
-        <v-th sortKey="programEndDate">Program End Date</v-th>
+        <v-th sortKey="programSet">Program Set</v-th>
+        <v-th sortKey="programSetName">Program Set Name</v-th>
       </thead>
       <tbody slot="body" slot-scope="{ displayData }">
         <template v-for="row in displayData">
           <tr
-            :key="row.programCode"
-            @click="toggle(row.programCode + row.programType)"
-            :class="{ opened: opened.includes(row.programCode) }"
+            :key="row.programSet"
+            @click="toggle(row.programSet + row.programSetName)"
+            :class="{ opened: opened.includes(row.programSet) }"
           >
-            <td>
-              <a href="#" v-on:click="selectGradSet(row.programCode)">{{ row.programCode }}</a>
-            </td>
-            <td>{{ row.programName }}</td>
-            <td>{{ row.programType }}</td>
-            <td>{{ row.programStartDate }}</td>
-            <td>{{ row.programEndDate }}</td>
+            <td>{{ row.programSet }}</td>
+            <td>{{ row.programSetName }}</td>
           </tr>
         </template>
       </tbody>
     </v-table>
-    
-    <GraduationProgramSets :prop="selectedProgramCode" v-if="selectedProgramCode"></GraduationProgramSets>
   </div>
 </template>
 
 <script>
 import GraduationProgramsService from "@/services/GraduationProgramsService.js";
-import GraduationProgramSets from '@/components/GraduationProgramSets';
 export default {
-  name: "GraduationPrograms",
-   components: {
-   'GraduationProgramSets': GraduationProgramSets
-  },
-  props: {
-    //selectedProgramCode:String
-  },
+  name: "GraduationProgramSets",
+  props: {},
   computed: {},
   data: function () {
     return {
       show: false,
       opened: [],
-      graduationPrograms:[],
-      selectedProgramCode:""
+      graduationProgramSets:[],
     };
   },
   created() {
-    GraduationProgramsService.getGraduationPrograms()
+    GraduationProgramsService.getGraduationProgramSets(this.$parent.selectedProgramCode)
       .then((response) => {
-        this.graduationPrograms = response.data;
+        this.graduationProgramSets = response.data.gradProgramSetList;
       })
       // eslint-disable-next-line no-unused-vars
       .catch((error) => {
@@ -68,9 +51,6 @@ export default {
       });
   },
   methods: {
-    selectGradSet(programCode){
-      this.selectedProgramCode = programCode;
-    },
     toggle(id) {
       const index = this.opened.indexOf(id);
       if (index > -1) {

@@ -13,6 +13,9 @@ const apiClient = axios.create({
 export default {
     getGraduationPrograms() {
         return apiClient.get('/api/v1/programmanagement/programs');
+    },
+    getGraduationProgramSets(gradProgram) {
+        return apiClient.get('api/v1/programmanagement/programsets/' + gradProgram);
     }
 };
 
