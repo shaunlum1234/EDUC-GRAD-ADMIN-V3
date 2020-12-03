@@ -2,7 +2,7 @@
   <div id="app">
     <!-- <Header></Header> -->
     <Bcheader style="margin-bottom: 15px;"></Bcheader>
-    <div class="main-container">
+    <div class="main-container container">
         <transition
           name="fade"
         >
@@ -64,6 +64,14 @@ ul.sidebar-panel-nav > li > a {
 }
 .main-container{
   font-size: 14px;
+  margin-top: 135px !important;
 }
-
+.container {
+    max-width: 100% !important;
+}
+@media (min-width: 1300px){
+  .container {
+      max-width: 1300px !important;
+  }
+}
 </style>

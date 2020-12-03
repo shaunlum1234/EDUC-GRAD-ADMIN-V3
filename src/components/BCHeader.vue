@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <div class="">
+      <div class="container">
         <div class="banner">
           <a class="navbar-brand" href="https://www2.gov.bc.ca">
             <img
@@ -57,7 +57,7 @@
       </div>
     </nav>
     <nav class="navigation-main" id="navbar">
-      <div class="">
+      <div class="container">
         <ul>
           <li><router-link to="/">Select Student</router-link></li>
           <li><router-link to="/admin-graduation-programs">Program Grad Program</router-link></li>

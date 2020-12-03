@@ -1,12 +1,12 @@
 <template>
-  <div class="studentlist px-5">
+  <div class="studentlist">
     <h1>Student Graduation Status</h1>
     <p>
       Enter a Personal Education Number (PEN) to retrieve the student’s course
       achievements.
     </p>
 
-    <div class="">
+    <div>
       <form v-on:submit.prevent>
         <div class="form-group">
 
