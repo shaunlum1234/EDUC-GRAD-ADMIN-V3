@@ -2,7 +2,7 @@ import axios from 'axios'
 
 
 export default {
-    login ({commit}) {
+    login () {
         axios.post(process.env.KEY_CLOAK_AUTH_HOST, 
         {
           user: process.env.KEY_CLOAK_USER,
