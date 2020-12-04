@@ -35,7 +35,6 @@ export default {
   computed: {},
   data: function () {
     return {
-      show: false,
       opened: [],
       graduationProgramSets:[],
     };

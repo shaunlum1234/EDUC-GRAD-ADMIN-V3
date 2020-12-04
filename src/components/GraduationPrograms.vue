@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <div v-if="!isHidden">
     <b-spinner v-if="!graduationPrograms.length" label="Loading"
       >Loading</b-spinner
     >
@@ -32,7 +33,7 @@
         </template>
       </tbody>
     </v-table>
-    
+    </div>
     <GraduationProgramSets :prop="selectedProgramCode" v-if="selectedProgramCode"></GraduationProgramSets>
   </div>
 </template>
@@ -52,6 +53,7 @@ export default {
   data: function () {
     return {
       show: false,
+      isHidden: false,
       opened: [],
       graduationPrograms:[],
       selectedProgramCode:""
@@ -69,6 +71,7 @@ export default {
   },
   methods: {
     selectGradSet(programCode){
+      this.isHidden = true
       this.selectedProgramCode = programCode;
     },
     toggle(id) {
