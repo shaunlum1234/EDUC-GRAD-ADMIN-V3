@@ -144,5 +144,11 @@ export default {
   margin: 10px 0px;
   float:left;
 }
+.card{
+  border-radius: 0px !important;
+}
+header.card-header button{
+  border-radius: 0px !important;
+}
 
 </style>

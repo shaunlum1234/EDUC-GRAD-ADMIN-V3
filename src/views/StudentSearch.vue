@@ -457,6 +457,7 @@ export default {
 .card,
 input{
   padding: 5px;
+  border-radius: 0px !important
 }
 .pen-search{
   width: 400px;
