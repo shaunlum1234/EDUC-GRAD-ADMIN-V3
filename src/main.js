@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import App from './App.vue';
 import router from './router';
 import BootstrapVue from 'bootstrap-vue';
+import qs from 'query-string';
 import VueFilterDateParse from '@vuejs-community/vue-filter-date-parse';
 import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
 import store from './store/index.js';
@@ -16,6 +17,7 @@ require('../node_modules/@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css
 Vue.config.productionTip = false;
 Vue.use(SmartTable)
 Vue.use(BootstrapVue)
+Vue.use(qs)
 Vue.use(VueFilterDateParse)
 Vue.use(VueFilterDateFormat)
 Vue.use(Vuex)
