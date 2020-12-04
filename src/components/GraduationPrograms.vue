@@ -1,11 +1,11 @@
 <template>
   <div class="container">
+    <div v-if="!isHidden">
     <b-spinner v-if="!graduationPrograms.length" label="Loading"
       >Loading</b-spinner
     >
     <v-table
       :data="graduationPrograms"
-      :filters="filters"
       class="table table-sm table-hover table-striped align-middle"
     >
       <thead slot="head" class="">
@@ -22,7 +22,9 @@
             @click="toggle(row.programCode + row.programType)"
             :class="{ opened: opened.includes(row.programCode) }"
           >
-            <td>{{ row.programCode }}</td>
+            <td>
+              <a href="#" v-on:click="selectGradSet(row.programCode)">{{ row.programCode }}</a>
+            </td>
             <td>{{ row.programName }}</td>
             <td>{{ row.programType }}</td>
             <td>{{ row.programStartDate }}</td>
@@ -31,27 +33,36 @@
         </template>
       </tbody>
     </v-table>
+    </div>
+    <GraduationProgramSets :prop="selectedProgramCode" v-if="selectedProgramCode"></GraduationProgramSets>
   </div>
 </template>
 
 <script>
 import GraduationProgramsService from "@/services/GraduationProgramsService.js";
+import GraduationProgramSets from '@/components/GraduationProgramSets';
 export default {
   name: "GraduationPrograms",
-  props: {},
+   components: {
+   'GraduationProgramSets': GraduationProgramSets
+  },
+  props: {
+    //selectedProgramCode:String
+  },
   computed: {},
   data: function () {
     return {
       show: false,
+      isHidden: false,
       opened: [],
       graduationPrograms:[],
+      selectedProgramCode:""
     };
   },
   created() {
     GraduationProgramsService.getGraduationPrograms()
       .then((response) => {
         this.graduationPrograms = response.data;
-        console.log(this.graduationPrograms);
       })
       // eslint-disable-next-line no-unused-vars
       .catch((error) => {
@@ -59,6 +70,10 @@ export default {
       });
   },
   methods: {
+    selectGradSet(programCode){
+      this.isHidden = true
+      this.selectedProgramCode = programCode;
+    },
     toggle(id) {
       const index = this.opened.indexOf(id);
       if (index > -1) {
