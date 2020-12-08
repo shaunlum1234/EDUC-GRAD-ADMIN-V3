@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <b-spinner v-if="!graduationProgramSets.length" label="Loading"
+    <h1>Success</h1>
+    <!-- <b-spinner v-if="!graduationProgramSets.length" label="Loading"
       >Loading</b-spinner
     >
     <v-table
@@ -15,7 +16,7 @@
         <template v-for="row in displayData">
           <tr
             :key="row.programSet"
-            @click="selectProgramRules(row.programSet[0] + row.programSet)"
+            @click="toggle(row.programSet + row.programSetName)"
             :class="{ opened: opened.includes(row.programSet) }"
           >
             <td>{{ row.programSet }}</td>
@@ -23,33 +24,28 @@
           </tr>
         </template>
       </tbody>
-    </v-table>
-    <GraduationProgramRules :prop="selectedchoices"></GraduationProgramRules>
+    </v-table> -->
   </div>
 </template>
 
 <script>
-import GraduationProgramsService from "@/services/GraduationProgramsService.js";
-import GraduationProgramRules from '@/components/GraduationProgramRules';
+import GraduationProgramRuleService from "@/services/GraduationProgramRuleService.js";
 export default {
-  name: "GraduationProgramSets",
-  components: {
-   'GraduationProgramRules': GraduationProgramRules
-  },
+  name: "GraduationProgramRules",
   props: {},
-  computed: {
-    selectedchoices: [],
-  },
+  computed: {},
   data: function () {
     return {
       opened: [],
-      graduationProgramSets:[],
+      graduationProgramRules:[],
     };
   },
   created() {
-    GraduationProgramsService.getGraduationProgramSets(this.$parent.selectedProgramCode)
+    console.log('I am in GraduationProgramRules Comp - $parent:' + this.$parent)
+    GraduationProgramRuleService.getProgramRule('2018', 'FI')
       .then((response) => {
-        this.graduationProgramSets = response.data.gradProgramSetList;
+        this.graduationProgramRules = response;
+        console.log(this.graduationProgramRules);
       })
       // eslint-disable-next-line no-unused-vars
       .catch((error) => {
@@ -57,10 +53,6 @@ export default {
       });
   },
   methods: {
-    selectProgramRules(selectedProgramCode, selectedProgramSet){
-      this.selectedchoices.push(selectedProgramCode)
-      this.selectedchoices.push(selectedProgramSet)
-    },
     toggle(id) {
       const index = this.opened.indexOf(id);
       if (index > -1) {
