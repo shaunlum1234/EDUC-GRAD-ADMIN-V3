@@ -25,7 +25,7 @@
       </tbody>
     </v-table>
     <!-- <GraduationProgramRules :prop="selectedchoices" v-if="selectedchoices"></GraduationProgramRules> -->
-    <GraduationProgramRules :selectedProgramCode="selectedProgramCode" :selectedProgramSet="selectedProgramSet" v-if="selectedProgramSet"></GraduationProgramRules>
+    <GraduationProgramRules :key="selectedProgramSet" :selectedProgramCode="selectedProgramCode" :selectedProgramSet="selectedProgramSet" v-if="selectedProgramSet"></GraduationProgramRules>
   </div>
 </template>
 

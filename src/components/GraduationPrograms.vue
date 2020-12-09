@@ -32,7 +32,7 @@
         </template>
       </tbody>
     </v-table>
-    <GraduationProgramSets :prop="selectedProgramCode" v-if="selectedProgramCode"></GraduationProgramSets>
+    <GraduationProgramSets :key="selectedProgramCode" :prop="selectedProgramCode" v-if="selectedProgramCode"></GraduationProgramSets>
   </div>
 </template>
 
@@ -47,12 +47,12 @@ export default {
   props: {
     //selectedProgramCode:String
   },
-   watch: {
-    selectedProgramCode: function(newVal){
-      console.log(newVal);
-        this.$parent.selectedProgramCode = newVal   // or this.openPopup(newVal) is this suits
-    }
-  },
+  //  watch: {
+  //   selectedProgramCode: function(newVal){
+  //     console.log(newVal);
+  //       this.$parent.selectedProgramCode = newVal   // or this.openPopup(newVal) is this suits
+  //   }
+  // },
   computed: {},
   data: function () {
     return {
