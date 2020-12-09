@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <b-spinner v-if="!graduationProgramSets.length" label="Loading"
       >Loading</b-spinner
     >
@@ -15,7 +15,7 @@
         <template v-for="row in displayData">
           <tr
             :key="row.programSet"
-            @click="selectProgramRules(row.programSet[0] + row.programSet)"
+            v-on:click="selectProgramRules(parentSelectedProgramCode , row.programSet)"
             :class="{ opened: opened.includes(row.programSet) }"
           >
             <td>{{ row.programSet }}</td>
@@ -24,7 +24,8 @@
         </template>
       </tbody>
     </v-table>
-    <GraduationProgramRules :prop="selectedchoices"></GraduationProgramRules>
+    <!-- <GraduationProgramRules :prop="selectedchoices" v-if="selectedchoices"></GraduationProgramRules> -->
+    <GraduationProgramRules :selectedProgramCode="selectedProgramCode" :selectedProgramSet="selectedProgramSet" v-if="selectedProgramSet"></GraduationProgramRules>
   </div>
 </template>
 
@@ -37,16 +38,18 @@ export default {
    'GraduationProgramRules': GraduationProgramRules
   },
   props: {},
-  computed: {
-    selectedchoices: [],
-  },
+  computed: {},
   data: function () {
     return {
       opened: [],
       graduationProgramSets:[],
+      parentSelectedProgramCode:'',
+      selectedProgramCode: '',
+      selectedProgramSet: ''
     };
   },
   created() {
+    this.parentSelectedProgramCode = this.$parent.selectedProgramCode
     GraduationProgramsService.getGraduationProgramSets(this.$parent.selectedProgramCode)
       .then((response) => {
         this.graduationProgramSets = response.data.gradProgramSetList;
@@ -57,9 +60,9 @@ export default {
       });
   },
   methods: {
-    selectProgramRules(selectedProgramCode, selectedProgramSet){
-      this.selectedchoices.push(selectedProgramCode)
-      this.selectedchoices.push(selectedProgramSet)
+    selectProgramRules(programCode, programSet){
+      this.selectedProgramCode = programCode;
+      this.selectedProgramSet = programSet
     },
     toggle(id) {
       const index = this.opened.indexOf(id);

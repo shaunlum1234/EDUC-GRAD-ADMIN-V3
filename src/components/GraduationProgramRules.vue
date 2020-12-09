@@ -1,30 +1,41 @@
 <template>
-  <div class="container">
-    <h1>Success</h1>
-    <!-- <b-spinner v-if="!graduationProgramSets.length" label="Loading"
+  <div>
+    <b-spinner v-if="!graduationProgramRules.length" label="Loading"
       >Loading</b-spinner
     >
     <v-table
-      :data="graduationProgramSets"
+      :data="graduationProgramRules"
       class="table table-sm table-hover table-striped align-middle"
     >
       <thead slot="head" class="">
-        <v-th sortKey="programSet">Program Set</v-th>
-        <v-th sortKey="programSetName">Program Set Name</v-th>
+        <v-th sortKey="ruleCode">Rule #</v-th>
+        <v-th sortKey="requirementName">Requirement Name</v-th>
+        <v-th sortKey="requiredCredits">Required Credits</v-th>
+        <v-th sortKey="notMetDesc">Not Met Description</v-th>
+        <v-th sortKey="requirementType">Requirement Type</v-th>
+        <v-th sortKey="requiredLevel">Required Level</v-th>
+        <v-th sortKey="languageOfInstruction">Language of Instruction</v-th>
+        <v-th sortKey="requirementDesc">Description</v-th>
       </thead>
       <tbody slot="body" slot-scope="{ displayData }">
         <template v-for="row in displayData">
           <tr
-            :key="row.programSet"
-            @click="toggle(row.programSet + row.programSetName)"
-            :class="{ opened: opened.includes(row.programSet) }"
+            :key="row.ruleCode"
+            @click="toggle(row.ruleCode + row.requirementName)"
+            :class="{ opened: opened.includes(row.ruleCode) }"
           >
-            <td>{{ row.programSet }}</td>
-            <td>{{ row.programSetName }}</td>
+            <td>{{ row.ruleCode }}</td>
+            <td>{{ row.requirementName }}</td>
+            <td>{{ row.requiredCredits }}</td>
+            <td>{{ row.notMetDesc }}</td>
+            <td>{{ row.requirementType }}</td>
+            <td>{{ row.requiredLevel }}</td>
+            <td>{{ row.languageOfInstruction }}</td>
+            <td>{{ row.requirementDesc }}</td>
           </tr>
         </template>
       </tbody>
-    </v-table> -->
+    </v-table>
   </div>
 </template>
 
@@ -32,7 +43,10 @@
 import GraduationProgramRuleService from "@/services/GraduationProgramRuleService.js";
 export default {
   name: "GraduationProgramRules",
-  props: {},
+  props: {
+    selectedProgramCode: String,
+    selectedProgramSet: String
+  },
   computed: {},
   data: function () {
     return {
@@ -41,10 +55,11 @@ export default {
     };
   },
   created() {
-    console.log('I am in GraduationProgramRules Comp - $parent:' + this.$parent)
-    GraduationProgramRuleService.getProgramRule('2018', 'FI')
+    // console.log('PropA:' + this.propA)
+    // console.log('PropA:' + this.propB)
+    GraduationProgramRuleService.getProgramRule(this.selectedProgramCode, this.selectedProgramSet)
       .then((response) => {
-        this.graduationProgramRules = response;
+        this.graduationProgramRules = response.data;
         console.log(this.graduationProgramRules);
       })
       // eslint-disable-next-line no-unused-vars
