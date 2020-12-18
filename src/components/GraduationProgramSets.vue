@@ -1,8 +1,11 @@
 <template>
-  <div>
+<div>
+  <div class="card mb-2">
+    <div class="card-body">
     <b-spinner v-if="!graduationProgramSets.length" label="Loading"
       >Loading</b-spinner
     >
+    <div v-if="!graduationProgramSets.length"> <h2>No data please select another Program Code</h2></div>
     <v-table
       :data="graduationProgramSets"
       class="table table-sm table-hover table-striped align-middle"
@@ -16,7 +19,7 @@
           <tr
             :key="row.programSet"
             v-on:click="selectProgramRules(parentSelectedProgramCode , row.programSet)"
-            :class="{ opened: opened.includes(row.programSet) }"
+            v-bind:class="{'table-primary': (selectedProgramSet == row.programSet)}"
           >
             <td>{{ row.programSet }}</td>
             <td>{{ row.programSetName }}</td>
@@ -25,8 +28,13 @@
       </tbody>
     </v-table>
     <!-- <GraduationProgramRules :prop="selectedchoices" v-if="selectedchoices"></GraduationProgramRules> -->
-    <GraduationProgramRules :key="selectedProgramSet" :selectedProgramCode="selectedProgramCode" :selectedProgramSet="selectedProgramSet" v-if="selectedProgramSet"></GraduationProgramRules>
+   
   </div>
+  </div>
+
+   <GraduationProgramRules :key="selectedProgramSet" :selectedProgramCode="selectedProgramCode" :selectedProgramSet="selectedProgramSet" v-if="selectedProgramSet"></GraduationProgramRules>
+
+</div>
 </template>
 
 <script>
@@ -53,6 +61,7 @@ export default {
     GraduationProgramsService.getGraduationProgramSets(this.$parent.selectedProgramCode)
       .then((response) => {
         this.graduationProgramSets = response.data.gradProgramSetList;
+        console.log(this.graduationProgramSets);
       })
       // eslint-disable-next-line no-unused-vars
       .catch((error) => {

@@ -1,5 +1,8 @@
 <template>
-  <div class="container">
+  <div>
+    <!-- <div v-if="!isHidden"> -->
+    <div class='card mb-2'>
+    <div class='card-body'>
     <b-spinner v-if="!graduationPrograms.length" label="Loading"
       >Loading</b-spinner
     >
@@ -14,15 +17,17 @@
         <v-th sortKey="programStartDate">Program Start Date</v-th>
         <v-th sortKey="programEndDate">Program End Date</v-th>
       </thead>
+      <!-- @click="toggle(row.programCode + row.programType)" -->
+      <!-- :class="{ opened: opened.includes(row.programCode) }" -->
       <tbody slot="body" slot-scope="{ displayData }">
         <template v-for="row in displayData">
           <tr
             :key="row.programCode"
-            @click="toggle(row.programCode + row.programType)"
-            :class="{ opened: opened.includes(row.programCode) }"
+            v-on:click="selectGradSet(row.programCode)"
+            v-bind:class="{'table-primary': (selectedProgramCode == row.programCode)}"
           >
             <td>
-              <a href="#" v-on:click="selectGradSet(row.programCode)">{{ row.programCode }}</a>
+              {{ row.programCode }}
             </td>
             <td>{{ row.programName }}</td>
             <td>{{ row.programType }}</td>
@@ -32,7 +37,10 @@
         </template>
       </tbody>
     </v-table>
-    <GraduationProgramSets :key="selectedProgramCode" :prop="selectedProgramCode" v-if="selectedProgramCode"></GraduationProgramSets>
+    </div>  
+    </div>
+    <!-- </div> -->
+    <GraduationProgramSets :key="selectedProgramCode" :prop="selectedProgramCode" v-if="selectedProgramCode" ></GraduationProgramSets>
   </div>
 </template>
 
@@ -57,7 +65,7 @@ export default {
   data: function () {
     return {
       show: false,
-      //isHidden: false,
+      isHidden: false,
       opened: [],
       graduationPrograms:[],
       selectedProgramCode:""
@@ -75,7 +83,7 @@ export default {
   },
   methods: {
     selectGradSet(programCode){
-      //this.isHidden = true
+      // this.isHidden = true
       this.selectedProgramCode = programCode;
     },
     toggle(id) {

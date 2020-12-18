@@ -1,8 +1,11 @@
 <template>
-  <div>
+  <div class="">
+    <div class="card mb-2">
+    <div class="card-body">
     <b-spinner v-if="!graduationProgramRules.length" label="Loading"
       >Loading</b-spinner
     >
+    <div v-if="!graduationProgramRules.length"><h2>No Data please select another Program Set</h2></div>
     <v-table
       :data="graduationProgramRules"
       class="table table-sm table-hover table-striped align-middle"
@@ -36,6 +39,8 @@
         </template>
       </tbody>
     </v-table>
+    </div>
+    </div>  
   </div>
 </template>
 
