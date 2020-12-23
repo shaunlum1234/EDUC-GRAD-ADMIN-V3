@@ -65,7 +65,7 @@ export default {
     GraduationProgramRuleService.getProgramRule(this.selectedProgramCode, this.selectedProgramSet)
       .then((response) => {
         this.graduationProgramRules = response.data;
-        console.log(this.graduationProgramRules);
+        // console.log(this.graduationProgramRules);
       })
       // eslint-disable-next-line no-unused-vars
       .catch((error) => {

@@ -61,7 +61,7 @@ export default {
     GraduationProgramsService.getGraduationProgramSets(this.$parent.selectedProgramCode)
       .then((response) => {
         this.graduationProgramSets = response.data.gradProgramSetList;
-        console.log(this.graduationProgramSets);
+        // console.log(this.graduationProgramSets);
       })
       // eslint-disable-next-line no-unused-vars
       .catch((error) => {

@@ -31,10 +31,10 @@
         }
       },
       setStudentGradStatus(state, payload) {
-        console.log("mutating grad status");
+        // console.log("mutating grad status");
         state.student.gradStatus = payload;
         if(state.student.gradStatus.length){
-          console.log("has grad status");
+          // console.log("has grad status");
           state.student.hasGradStatus = true;
         }
       },
@@ -85,7 +85,7 @@
       setStudentGradStatus({
         commit
       }, payload) {
-        console.log("setting grad status");
+        //console.log("setting grad status");
         commit('setStudentGradStatus', payload);
       }      
       

@@ -20,7 +20,7 @@ export default {
     getStudentsByAdvancedSearch(advancedSearchInput){
         let queryString = ""
         for (var key in advancedSearchInput) {
-            console.log(key);
+            // console.log(key);
             if (advancedSearchInput.hasOwnProperty(key)) {
                 if(advancedSearchInput[key].value){
                     let contains = (advancedSearchInput[key].contains) ? "*":"";
@@ -31,12 +31,12 @@ export default {
                         + contains
                         + "&";
 
-                        console.log(queryString);
+                        // console.log(queryString);
                 }
             }
         }
         queryString = queryString.slice(0, -1); //remove trailing ampersand
-        console.log('/api/v1/studentsearch?' + queryString);
+        //console.log('/api/v1/studentsearch?' + queryString);
         return apiClient.get('/api/v1/studentsearch?' + queryString); 
     }
     

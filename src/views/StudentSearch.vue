@@ -224,6 +224,7 @@ export default {
       studentSearchResults: [],
       searchResultMessage: "",
       message: "",
+      errorMessage:"",
       penInput: "",
       selectedPen: "",
       variants: ["success"],
@@ -305,7 +306,7 @@ export default {
       );
        GraduationStatusService.getGraduationStatus(pen).then(
         (response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.$store.dispatch("setStudentGradStatus", response.data);
         }
       );
@@ -368,6 +369,7 @@ export default {
     },
     findStudentsByAdvancedSearch: function() {
       this.message = "";
+      this.errorMessage="";
       if (!this.isEmpty(this.advancedSearchInput)) {
         this.advancedSearchLoading = true;
         this.studentSearchResults = [];
@@ -381,12 +383,11 @@ export default {
             .catch((err) => {
               this.advancedSearchLoading = false;
               this.message = "Student not found";
-              
-            
-              console.log(err);
+              this.errorMessage = err;
+              // console.log(err);
             });
         } catch (error) {
-          console.log("Error with webservice");
+          //console.log("Error with webservice");
         }
       }else{
         this.message = "Enter at least one field to search."

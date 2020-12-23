@@ -1,5 +1,5 @@
-import axios from 'axios'
-import qs from 'query-string'
+import axios from 'axios';
+import qs from 'query-string';
 
 const apiClient = axios.create({
     // baseURL: process.env.KEY_CLOAK_AUTH_HOST,
@@ -8,10 +8,9 @@ const apiClient = axios.create({
       Accept: '*/*',
       'Content-Type': 'application/x-www-form-urlencoded',   
     }
-})
+});
 
 export default {
-
     login() {
         let requestBody={
               "client_id":process.env.VUE_APP_CLIENT_ID,
@@ -24,10 +23,12 @@ export default {
         let url = process.env.VUE_APP_AUTH_HOST;
         apiClient.post(url, qs.stringify(requestBody))
             .then(res => {
-                console.log(res.data.access_token);
+                // console.log(res.data.access_token);
                 return res.data.access_token;
                 //router.push("/")
             })
-            .catch(error => console.log(error))
+            .catch(
+                // error => console.log(error)
+            );
     }
-}
+};
