@@ -14,8 +14,8 @@
         <v-th sortKey="programCode">Grad Program Code</v-th>
         <v-th sortKey="programName">Program Name</v-th>
         <v-th sortKey="programType">Program Type</v-th>
-        <v-th sortKey="programStartDate">Program Start Date</v-th>
-        <v-th sortKey="programEndDate">Program End Date</v-th>
+        <!-- <v-th sortKey="programStartDate">Program Start Date</v-th>
+        <v-th sortKey="programEndDate">Program End Date</v-th> -->
       </thead>
       <!-- @click="toggle(row.programCode + row.programType)" -->
       <!-- :class="{ opened: opened.includes(row.programCode) }" -->
@@ -31,16 +31,17 @@
             </td>
             <td>{{ row.programName }}</td>
             <td>{{ row.programType }}</td>
-            <td>{{ row.programStartDate }}</td>
-            <td>{{ row.programEndDate }}</td>
+            <!-- <td>{{ row.programStartDate }}</td>
+            <td>{{ row.programEndDate }}</td> -->
           </tr>
         </template>
       </tbody>
     </v-table>
+    <GraduationProgramSets :key="selectedProgramCode" :prop="selectedProgramCode" v-if="selectedProgramCode" ></GraduationProgramSets>
     </div>  
     </div>
     <!-- </div> -->
-    <GraduationProgramSets :key="selectedProgramCode" :prop="selectedProgramCode" v-if="selectedProgramCode" ></GraduationProgramSets>
+    
   </div>
 </template>
 

@@ -1,7 +1,26 @@
 <template>
-  <div>
-      {{ token }}
-  </div>
+  <div class="d-flex justify-content-center">
+    <div class="card col-sm-12 col-md-4 col-lg-4">
+      <div class="container pt-3 pb-4"> 
+        <form>
+            <div class="form-group">
+              <label for="id" >User ID</label>
+                  <input id="id" type="text" class="form-control form-control-lg" v-model="id" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="password" >Password</label>
+                <input id="password" type="password" class="form-control form-control-lg" v-model="password" required>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block" @click="submit">
+                    Login
+                </button>
+            </div>
+        </form>
+      </div>  
+    </div>
+  </div>  
 </template>
 
 <script>
@@ -12,10 +31,20 @@ export default {
   data() {
     return {
       token: "",
+      id : "",
+      password : ""
     }
   },
   created() {
-      this.token = LoginService.login();
+      // this.token = LoginService.login();
+  },
+  methods: {
+    submit(e){
+      e.preventDefault()
+      if (this.password.length > 0) {
+        this.token = LoginService.handleSubmit(this.id, this.password);
+      }
+    }
   },
 }
 </script>
