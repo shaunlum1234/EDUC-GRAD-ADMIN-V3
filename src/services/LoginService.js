@@ -44,8 +44,23 @@ export default {
             .then(response => {
                 console.log(response);
                 console.log(response.data.access_token);
-                return response.data.access_token;
-                //router.push("/")
+                localStorage.setItem('jwt',response.data.access_token)
+                localStorage.setItem('refresh',response.data.refresh_token)
+                if (localStorage.getItem('jwt') != null){
+                    //this.$emit('loggedIn')
+                    console.log('loggedIn')
+                    // if(this.$route.params.nextUrl != null){
+                    //     this.$router.push(this.$route.params.nextUrl)
+                    // }
+                    // else {
+                    //     if(is_admin== 1){
+                    //         this.$router.push('admin')
+                    //     }
+                    //     else {
+                    //         this.$router.push('dashboard')
+                    //     }
+                    // }
+                }   
             })
             .catch(
                 // error => console.log(error)

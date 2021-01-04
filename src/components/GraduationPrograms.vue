@@ -76,6 +76,7 @@ export default {
     GraduationProgramsService.getGraduationPrograms()
       .then((response) => {
         this.graduationPrograms = response.data;
+        console.log(this.graduationPrograms);
       })
       // eslint-disable-next-line no-unused-vars
       .catch((error) => {

@@ -11,22 +11,34 @@ Vue.use(VueRouter)
 const routes = [{
     path: '/login',
     name: 'login',
-    component: Login
+    component: Login,
+    meta: {
+      guest: true
+    }
   },
   {
     path: '/',
     name: 'student-search',
-    component: StudentSearch
+    component: StudentSearch,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/student-profile',
     name: 'student-profile',
-    component: StudentProfile
+    component: StudentProfile,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/admin-graduation-programs',
     name: 'admin-graduation-programs',
-    component: AdminGraduationPrograms
+    component: AdminGraduationPrograms,
+    meta: {
+      requiresAuth: true
+    }
   }
 ]
 
@@ -36,4 +48,22 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+      if (localStorage.getItem('jwt') == null) {
+          next({
+              path: '/login',
+              params: { nextUrl: to.fullPath }
+          })
+      }
+      else {
+          //let user = JSON.parse(localStorage.getItem('user'))   
+            //next({ name: 'student-search'})  
+            next()
+      }
+  } 
+   else {
+       next()
+  }
+})
 export default router
