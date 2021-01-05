@@ -1,5 +1,6 @@
 import axios from 'axios';
 import qs from 'query-string';
+import Router from '../router/index.js'
 
 const apiClient = axios.create({
     // baseURL: process.env.KEY_CLOAK_AUTH_HOST,
@@ -31,6 +32,12 @@ export default {
                 // error => console.log(error)
             );
     },
+    logout() {
+        if (localStorage.getItem('jwt') != null){
+            localStorage.removeItem('jwt');
+            localStorage.removeItem('refresh');
+        }         
+    },
     handleSubmit(id, password){   
         let requestBody= {
             "client_id":process.env.VUE_APP_CLIENT_ID,
@@ -47,46 +54,12 @@ export default {
                 localStorage.setItem('jwt',response.data.access_token)
                 localStorage.setItem('refresh',response.data.refresh_token)
                 if (localStorage.getItem('jwt') != null){
-                    //this.$emit('loggedIn')
                     console.log('loggedIn')
-                    // if(this.$route.params.nextUrl != null){
-                    //     this.$router.push(this.$route.params.nextUrl)
-                    // }
-                    // else {
-                    //     if(is_admin== 1){
-                    //         this.$router.push('admin')
-                    //     }
-                    //     else {
-                    //         this.$router.push('dashboard')
-                    //     }
-                    // }
-                }   
+                }
+                Router.push('/')   
             })
             .catch(
                 // error => console.log(error)
             );
-        // .then(response => {
-        //     let is_admin = response.data.user.is_admin
-        //     localStorage.setItem('user',JSON.stringify(response.data.user))
-        //     localStorage.setItem('jwt',response.data.token)
-
-        //     if (localStorage.getItem('jwt') != null){
-        //         this.$emit('loggedIn')
-        //         if(this.$route.params.nextUrl != null){
-        //             this.$router.push(this.$route.params.nextUrl)
-        //         }
-        //         else {
-        //             if(is_admin== 1){
-        //                 this.$router.push('admin')
-        //             }
-        //             else {
-        //                 this.$router.push('dashboard')
-        //             }
-        //         }
-        //     }        
-        // })
-        // .catch(function (error) {
-        //     console.error(error.response);
-        // });
     }
 };

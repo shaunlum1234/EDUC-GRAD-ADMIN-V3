@@ -53,6 +53,9 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/">Graduation Programs</router-link>
           </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" @click="logout()">Logout</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -61,14 +64,17 @@
         <ul>
           <li><router-link to="/">Select Student</router-link></li>
           <li><router-link to="/admin-graduation-programs">Graduation Programs</router-link></li>
-        </ul>
-        
+          <li class="nav-item">
+            <a href="#" class="nav-link" @click="logout()">Logout</a>
+          </li>
+        </ul> 
       </div>
     </nav>
   </div>
 </template>
 
 <script>
+import LoginService from "@/services/LoginService.js";
 export default {
   data() {
     return {
@@ -76,6 +82,12 @@ export default {
     };
   },
   created() {},
+  methods: {
+    logout(){
+      LoginService.logout();
+      this.$router.push('/login')
+    }
+  }
 };
 </script>
 <style scoped>
