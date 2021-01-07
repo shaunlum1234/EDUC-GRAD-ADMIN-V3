@@ -51,12 +51,16 @@ export default {
             .then(response => {
                 console.log(response);
                 console.log(response.data.access_token);
-                localStorage.setItem('jwt',response.data.access_token)
-                localStorage.setItem('refresh',response.data.refresh_token)
+                let token_expire_period = response.data.expires_in;
+                let expires_in = new Date();
+                expires_in.setSeconds(expires_in.getSeconds() + token_expire_period);
+                console.log(expires_in);
+                localStorage.setItem('jwt',response.data.access_token);
+                localStorage.setItem('refresh',response.data.refresh_token);
                 if (localStorage.getItem('jwt') != null){
                     console.log('loggedIn')
                 }
-                Router.push('/')   
+                Router.push('/');   
             })
             .catch(
                 // error => console.log(error)

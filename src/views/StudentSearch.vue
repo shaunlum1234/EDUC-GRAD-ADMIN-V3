@@ -326,25 +326,31 @@ export default {
       }
     },
     findStudentByPen: function() {
-      if (this.penInput) {
+      if (localStorage.getItem('jwt') != null){
+        if (this.penInput) {
         this.message ="";
         this.searchLoading = true;
         this.studentSearchResults = [];
 
-          StudentService.getStudentByPen(this.penInput)
-            .then((response) => {
-              if (response.data) {
-                this.searchLoading = false;
-                this.studentSearchResults.push(response.data);
-                this.message = "1 Student found";
-              }
-            })
-            .catch(() => {
+        StudentService.getStudentByPen(this.penInput)
+          .then((response) => {
+            if (response.data) {
               this.searchLoading = false;
-              this.message = "Student not found";
-            });
-
-      }
+              this.studentSearchResults.push(response.data);
+              this.message = "1 Student found";
+            }
+          })
+          .catch((error) => {
+            if (error.response.data.error.statusCode === 401) {
+              this.$router.push({ name: "login" });
+            }
+            this.searchLoading = false;
+            this.message = "Student not found";
+          });
+        }//pen input check
+      } else {
+        this.$router.push({ name: "login" });
+      }    
     },
     findStudentBySurname: function() {
       this.message = "";
