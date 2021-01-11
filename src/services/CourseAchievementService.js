@@ -1,11 +1,20 @@
 import axios from 'axios'
+// import Router from '../router/index.js'
+// if (localStorage.getItem('jwt') != null){
+  var token = localStorage.getItem('jwt');
+// } else {
+//   Router.push('/');
+// }
+
+
 const apiClient = axios.create({
 
   baseURL: process.env.VUE_APP_COURSE_ACHIEVEMENT_API_HOST,
-  withCredentials: true,
+  //withCredentials: true,
   headers: {
     Accept: 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer '+ token
   }
 }
 )

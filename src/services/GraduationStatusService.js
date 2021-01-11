@@ -1,12 +1,13 @@
 import axios from 'axios'
-
+var token = localStorage.getItem('jwt');
 const apiClient = axios.create({
   
   baseURL: process.env.VUE_APP_GRADUATION_STATUS_API_HOST,
-  withCredentials: false,
+  //withCredentials: false,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
+    'Authorization': 'Bearer '+ token
   }
 })
 export default {

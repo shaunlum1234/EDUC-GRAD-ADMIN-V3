@@ -1,11 +1,11 @@
 import axios from 'axios'
-import Router from '../router/index.js'
+// import Router from '../router/index.js'
 
-if (localStorage.getItem('jwt') != null){
-    var token = localStorage.getItem('jwt');
-}  else {
-    Router.push('/login');
-}
+// if (localStorage.getItem('jwt') != null){
+var token = localStorage.getItem('jwt');
+// }  else {
+//     Router.push('/login');
+// }
  
 var apiClient = axios.create({
     baseURL: process.env.VUE_APP_STUDENTS_API_HOST,

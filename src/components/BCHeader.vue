@@ -85,7 +85,7 @@ export default {
   methods: {
     logout(){
       LoginService.logout();
-      this.$router.push('/login')
+      this.$router.push('login')
     }
   }
 };
