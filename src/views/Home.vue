@@ -74,7 +74,7 @@
                     aria-expanded="false"
                     aria-controls="expandable1"
                   >
-                    Requirements Met: {{ requirementsMet.length }}
+                    Requirements met: {{ requirementsMet.length }}
                   </button>
                 </h5>
               </div>
@@ -106,7 +106,7 @@
                     aria-expanded="false"
                     aria-controls="expandable1"
                   >
-                    Non-Grad Reasons: {{ requirementsNotMet.length }}
+                    Requirements not met: {{ requirementsNotMet.length }}
                   </button>
                 </h5>
               </div>
