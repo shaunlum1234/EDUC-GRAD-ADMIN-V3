@@ -7,6 +7,9 @@
       //Initialize the store
     },
     state: {
+      token: "",
+      refreshToken: "",
+      tokenTimeout: "",
       student: {
         profile: {},
         courses: "not loaded",
@@ -21,6 +24,9 @@
       }
     },
     mutations: {
+      setToken(state, payload) {
+        state.token = payload;
+      },
       setStudentProfile(state, payload) {
         state.student.profile = payload;
       },
@@ -62,6 +68,9 @@
       },
     },
     actions: {
+      setToken({commit}, payload) {
+        commit('setToken', payload);
+      },
       setStudentProfile({
         commit
       }, payload) {
@@ -92,6 +101,9 @@
 
     },
     getters: {
+      getToken(state) {
+        return state.token;
+      },
       getStudentProfile(state) {
         return state.student.profile;
       },

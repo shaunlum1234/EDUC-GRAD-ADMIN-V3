@@ -1,6 +1,7 @@
 <template>
   <div>
     
+    {{studentGradStatus}}
         <div class="accordion col-12 px-0 mx-0" role="tablist">
           <b-card no-body class="col-12 px-0 mx-0">
             <b-card-header header-tag="header" class="col-12 px-0 mx-0" role="tab">
