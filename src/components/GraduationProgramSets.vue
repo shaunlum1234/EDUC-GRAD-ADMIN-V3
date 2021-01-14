@@ -58,7 +58,7 @@ export default {
   },
   created() {
     this.parentSelectedProgramCode = this.$parent.selectedProgramCode
-    GraduationProgramsService.getGraduationProgramSets(this.$parent.selectedProgramCode)
+    GraduationProgramsService.getGraduationProgramSets(this.$parent.selectedProgramCode, localStorage.getItem('jwt'))
       .then((response) => {
         this.graduationProgramSets = response.data.gradProgramSetList;
         // console.log(this.graduationProgramSets);

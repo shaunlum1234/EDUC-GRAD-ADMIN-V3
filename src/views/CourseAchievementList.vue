@@ -187,7 +187,7 @@ export default {
       this.pen = this.student.pen;
     }
     if (this.student) {
-      CourseAchievementService.getStudentCourseAchievements(this.student.pen)
+      CourseAchievementService.getStudentCourseAchievements(this.student.pen, localStorage.getItem('jwt'))
         .then((response) => {
           this.achievements = response.data;
           //console.log('current student achievements: ' + this.achievements);
@@ -200,19 +200,6 @@ export default {
         })
         // eslint-disable-next-line no-unused-vars
         .catch((error) => {});
-      //replace the course ids with names from the courses array
-      // CourseService.getCourses()
-      //   .then((response) => {
-      //     let data = response.data;
-      //     this.courses = data.map((item) => {
-      //       return {
-      //         id: item.courseId,
-      //         name: item.courseName,
-      //       };
-      //     });
-      //   })
-        // eslint-disable-next-line no-unused-vars
-        // .catch((error) => {});
     } else {
       this.inputPenMissing = true;
     }
@@ -245,7 +232,7 @@ export default {
       this.InputPen = "";
     },
     search: function() {
-      CourseAchievementService.getStudentCourseAchievements(this.InputPen)
+      CourseAchievementService.getStudentCourseAchievements(this.InputPen, localStorage.getItem('jwt'))
         .then((response) => {
           this.achievements = [response.data];
         })

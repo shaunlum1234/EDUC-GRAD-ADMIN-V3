@@ -73,7 +73,7 @@ export default {
     };
   },
   created() {
-    GraduationProgramsService.getGraduationPrograms()
+    GraduationProgramsService.getGraduationPrograms(localStorage.getItem('jwt'))
       .then((response) => {
         this.graduationPrograms = response.data;
         console.log(this.graduationPrograms);
