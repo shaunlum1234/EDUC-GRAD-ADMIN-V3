@@ -5,7 +5,7 @@
         <div class="accordion col-12 px-0 mx-0" role="tablist">
           <b-card no-body class="col-12 px-0 mx-0">
             <b-card-header header-tag="header" class="col-12 px-0 mx-0" role="tab">
-              <b-button block v-b-toggle.accordion-1 variant="info" class="text-left"><i class="fas fa-info-circle primary"></i> Student Graduation Information</b-button>
+              <b-button block v-b-toggle.accordion-1 variant="info" class="text-left"><i class="fas fa-info-circle primary"></i> Student graduation information</b-button>
             </b-card-header>
             <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
               <b-card-body>
@@ -32,9 +32,9 @@
                       <div class="col-12 header">Certification/Dogwoods</div>
                       <ul>
                         <li v-if="studentGradStatus.certificateType1"><strong>Certificate (Type 1):</strong> {{ studentGradStatus.certificateType1 }}</li>
-                        <li v-if="studentGradStatus.certificateType1Datev">{{ studentGradStatus.certificateType1Datev }}</li>
+                        <li v-if="studentGradStatus.certificateType1Datev"><strong>(Type 1) date:</strong> {{ studentGradStatus.certificateType1Datev }}</li>
                         <li v-if="studentGradStatus.certificateType2"><strong>Certificate (Type 2):</strong> {{ studentGradStatus.certificateType2 }}</li>
-                        <li v-if="studentGradStatus.certificateType2Date">{{ studentGradStatus.certificateType2Date }}</li>
+                        <li v-if="studentGradStatus.certificateType2Date"><strong>(Type 2) date:</strong> {{ studentGradStatus.certificateType2Date }}</li>
                         <li v-if="studentGradStatus.dualDogwoodEligibility"><strong>Dual Dogwood</strong>{{ studentGradStatus.dualDogwoodEligibility }}</li>
                         <li v-if="studentGradStatus.transcriptDate"><strong>Transcript Date:</strong>    {{ studentGradStatus.transcriptDate }}</li>
                         <li v-if="studentGradStatus.createdBy"><strong>Created By:</strong> {{ studentGradStatus.createdBy }}</li>

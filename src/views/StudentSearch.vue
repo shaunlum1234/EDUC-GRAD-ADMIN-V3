@@ -1,8 +1,8 @@
 <template>
   <div class="studentlist">
-    <h1>Student Graduation Status</h1>
+    <h1>Student graduation status search</h1>
     <p>
-      Enter a Personal Education Number (PEN) to retrieve the student’s course
+      Enter a Personal Education Number (PEN) to retrieve a student’s course
       achievements.
     </p>
 
@@ -14,7 +14,7 @@
           <div class="search">
             <input
               v-model="penInput"
-              placeholder="Student PEN"
+              placeholder="Enter a student's PEN"
               class="pen-search"
               ref="penSearch"
               v-on:keyup="keyHandler"
@@ -176,16 +176,16 @@
       v-show="studentSearchResults.length"
     >
       <thead slot="head" class="">
-        <v-th sortKey="pen">Pen</v-th>
-        <v-th sortKey="studSurname">Surname</v-th>
-        <v-th sortKey="studGiven">First Name</v-th>
+        <v-th sortKey="pen">PEN</v-th>
+        <v-th sortKey="studSurname">Last name</v-th>
+        <v-th sortKey="studGiven">First name</v-th>
         <v-th sortKey="studMiddle">Middle</v-th>
         <v-th sortKey="studBirth">Birthdate</v-th>
         <v-th sortKey="studGender">Gender</v-th>
         <v-th sortKey="studentGrade">Grade</v-th>
-        <v-th sortKey="mincode_grad">School</v-th>
-        <v-th sortKey="schoolName">School Name</v-th>
-        <v-th sortKey="gradRequirementYear">Grad Program</v-th>
+        <v-th sortKey="mincode_grad">School code</v-th>
+        <v-th sortKey="schoolName">School</v-th>
+        <v-th sortKey="gradRequirementYear">Program</v-th>
       </thead>
       <tbody slot="body" slot-scope="{ displayData }">
         <template v-for="row in displayData">
@@ -279,7 +279,8 @@ export default {
       profile: "getStudentProfile",
       courses: "getStudentCourses",
       exams: "getStudentExams",
-      gradStatus: "getStudentGradStus",
+      gradStatus: "getStudentGradStatus",
+      accessToken: "getToken",
     }),
   },
 
@@ -326,15 +327,15 @@ export default {
       }
     },
     findStudentByPen: function() {
-      if (localStorage.getItem('jwt') != null){
+
         console.log("FIND STUDENT BY PEN");
-        console.log(localStorage.getItem('jwt'));
+        console.log("TOKENX" + this.accessToken);
         if (this.penInput) {
         this.message ="";
         this.searchLoading = true;
         this.studentSearchResults = [];
-
-        StudentService.getStudentByPen(this.penInput)
+    
+        StudentService.getStudentByPen(this.penInput, this.accessToken)
           .then((response) => {
             if (response.data) {
               this.searchLoading = false;

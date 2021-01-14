@@ -11,7 +11,7 @@
       class="table table-sm table-hover table-striped align-middle"
     >
       <thead slot="head" class="">
-        <v-th sortKey="programCode">Grad Program Code</v-th>
+        <v-th sortKey="programCode">Program Code</v-th>
         <v-th sortKey="programName">Program Name</v-th>
         <v-th sortKey="programType">Program Type</v-th>
         <!-- <v-th sortKey="programStartDate">Program Start Date</v-th>

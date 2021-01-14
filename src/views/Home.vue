@@ -5,7 +5,7 @@
         Please enter a valid Personal Education Number (PEN)
       </div>
 
-      <h1>Student Graduation Status</h1>
+      <h1>Student graduation status search</h1>
       <p>
         Enter a Personal Education Number (PEN) to retrieve the student’s
         current graduation status.

@@ -11,7 +11,7 @@
         <h1 class="profile-name">
           {{ studentFullName }}
           <button v-on:click="closeRecord" class="btn btn-primary close-record">
-            <i class="far fa-times-circle"></i> Close Student Record
+            <i class="far fa-times-circle"></i> Close record
           </button>
         </h1>
         <StudentInfo />
@@ -37,7 +37,7 @@
             <transition name="fade">
               <b-tab
                 v-if="studentHasCourses"
-                title="Student Courses"
+                title="Courses"
                 class="py-3 px-0 m-1"
               >
                 <b-card-text><StudentCourses /></b-card-text>
@@ -45,7 +45,7 @@
             </transition>
             <transition name="fade">
               <b-tab
-                title="Student Assessments"
+                title="Assessments"
                 v-if="studentHasAssessments"
                 class="py-3 px-0 m-1"
               >
@@ -53,7 +53,7 @@
               </b-tab>
             </transition>
             <b-tab
-              title="Student Exams"
+              title="Exams"
               v-if="studentHasExams"
               class="py-3 px-0 m-1"
             >
@@ -105,7 +105,8 @@ export default {
       show: false,
       opened: [],
       displayMessage: null,
-      smallScreen: false
+      smallScreen: false,
+      token: "hey",
     };
   },
   computed: {
