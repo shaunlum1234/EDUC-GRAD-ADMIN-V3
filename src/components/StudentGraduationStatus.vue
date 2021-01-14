@@ -15,7 +15,7 @@
                       <!-- Student Graduation Status -->
                       <div class="col-12 header">Graduation status</div>
                       <ul>
-                        <li v-if="studentGradStatus.gradProgram"><strong>Graduation Program:</strong> {{ studentGradStatus.gradProgram }}</li>
+                        <li v-if="studentGradStatus.gradProgram"><strong>Program:</strong> {{ studentGradStatus.gradProgram }}</li>
                         <li v-if="studentGradStatus.gradProgramAtGraduation"><strong>Grad Program at Graduation:</strong> {{ studentGradStatus.gradProgramAtGraduation }}</li>
 
                         <li v-if="studentGradStatus.graduationDate"><strong>Graduation Date:</strong> {{ studentGradStatus.graduationDate }}</li>
