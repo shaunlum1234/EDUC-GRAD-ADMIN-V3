@@ -6,7 +6,7 @@
             >{{ studentInfo.gradRequirementYear }}
           </div>
           <div><strong>Grade: </strong>{{ studentInfo.studentGrade }}</div>
-          <div><strong>Date of Birth:</strong> {{ studentInfo.studBirth }}</div>
+          <div><strong>Birthdate:</strong> {{ studentInfo.studBirth }}</div>
           <div><strong>Gender:</strong> {{ studentInfo.studSex }}</div>
           <!--div><strong>Status: </strong>{{ studentInfo.studentStatus }}</div-->
           <!--div><strong>Archived:</strong> {{ studentInfo.archiveFlag }}</div-->
