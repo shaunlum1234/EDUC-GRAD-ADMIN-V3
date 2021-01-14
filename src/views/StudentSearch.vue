@@ -327,6 +327,8 @@ export default {
     },
     findStudentByPen: function() {
       if (localStorage.getItem('jwt') != null){
+        console.log("FIND STUDENT BY PEN");
+        console.log(localStorage.getItem('jwt'));
         if (this.penInput) {
         this.message ="";
         this.searchLoading = true;
