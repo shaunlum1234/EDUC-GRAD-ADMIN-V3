@@ -105,7 +105,8 @@ export default {
       show: false,
       opened: [],
       displayMessage: null,
-      smallScreen: false
+      smallScreen: false,
+      token: "hey",
     };
   },
   computed: {
