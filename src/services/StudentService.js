@@ -20,6 +20,7 @@ var apiClient = axios.create({
 
 export default {
     getStudentByPen(pen) {
+        console.log("TOKEN IN SERVICE" + token);
         return apiClient.get('/api/v1/' + pen);
     },
     getStudentBySurname(surname) {
