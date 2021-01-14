@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Login from '../views/Login.vue';
+import Logout from '../views/Logout.vue';
 import StudentSearch from '../views/StudentSearch.vue';
 import StudentProfile from '../views/StudentProfile.vue';
 import AdminGraduationPrograms from '../views/AdminGraduationPrograms.vue';
@@ -12,6 +13,14 @@ const routes = [{
     path: '/login',
     name: 'login',
     component: Login,
+    meta: {
+      guest: true
+    }
+  },
+  {
+    path: '/logout',
+    name: 'logout',
+    component: Logout,
     meta: {
       guest: true
     }
@@ -52,7 +61,7 @@ router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
       if (localStorage.getItem('jwt') == null) {
           next({
-              path: '/login',
+              path: '/logout',
               params: { nextUrl: to.fullPath }
           })
       }

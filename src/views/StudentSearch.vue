@@ -344,14 +344,14 @@ export default {
           })
           .catch((error) => {
             if (error.response.data.error.statusCode === 401) {
-              this.$router.push({ name: "login" });
+              this.$router.push({ name: "logout" });
             }
             this.searchLoading = false;
             this.message = "Student not found";
           });
         }//pen input check
       } else {
-        this.$router.push({ name: "login" });
+        this.$router.push({ name: "logout" });
       }    
     },
     findStudentBySurname: function() {
