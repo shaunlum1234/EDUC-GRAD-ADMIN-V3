@@ -195,7 +195,7 @@ export default {
   },
   created() {
     if (store.currentPen != null) {
-      GraduationStatusService.getGraduationStatus(store.currentPen)
+      GraduationStatusService.getGraduationStatus(store.currentPen, localStorage.getItem('jwt'))
         .then((response) => {
           this.inputPen = store.currentPen;
           this.selectedPen = this.inputPen;
@@ -252,7 +252,7 @@ export default {
         });
     },
     search: function() {
-      GraduationStatusService.getGraduationStatus(this.inputPen)
+      GraduationStatusService.getGraduationStatus(this.inputPen, localStorage.getItem('jwt'))
         .then((response) => {
           store.currentPen = this.inputPen;
           this.selectedPen = this.inputPen;
