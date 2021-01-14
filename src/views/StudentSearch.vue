@@ -279,7 +279,8 @@ export default {
       profile: "getStudentProfile",
       courses: "getStudentCourses",
       exams: "getStudentExams",
-      gradStatus: "getStudentGradStus",
+      gradStatus: "getStudentGradStatus",
+      accessToken: "getToken",
     }),
   },
 
@@ -326,15 +327,15 @@ export default {
       }
     },
     findStudentByPen: function() {
-      if (localStorage.getItem('jwt') != null){
+
         console.log("FIND STUDENT BY PEN");
-        console.log(localStorage.getItem('jwt'));
+        console.log("TOKENX" + this.accessToken);
         if (this.penInput) {
         this.message ="";
         this.searchLoading = true;
         this.studentSearchResults = [];
-
-        StudentService.getStudentByPen(this.penInput)
+    
+        StudentService.getStudentByPen(this.penInput, this.accessToken)
           .then((response) => {
             if (response.data) {
               this.searchLoading = false;
@@ -350,9 +351,7 @@ export default {
             this.message = "Student not found";
           });
         }//pen input check
-      } else {
-        this.$router.push({ name: "login" });
-      }    
+  
     },
     findStudentBySurname: function() {
       this.message = "";

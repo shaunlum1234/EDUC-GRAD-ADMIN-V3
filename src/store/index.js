@@ -25,7 +25,11 @@
     },
     mutations: {
       setToken(state, payload) {
-        state.token = payload;
+        //state.token = payload;
+        console.log("PAYLOAD" + payload);
+        localStorage.setItem("jwt", payload);
+        localStorage.setItem("refresh", payload);
+
       },
       setStudentProfile(state, payload) {
         state.student.profile = payload;

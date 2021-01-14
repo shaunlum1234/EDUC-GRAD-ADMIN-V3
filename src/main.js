@@ -57,9 +57,11 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
 
 
     // TODO: Maybe dont store the token in the localstore, rather use it direct from the keycloak.token object
-    localStorage.setItem("jwt", keycloak.token);
-    localStorage.setItem("refresh", keycloak.refreshToken);
-    console.log(localStorage.getItem("jwt"));
+    //localStorage.setItem("jwt", keycloak.token);
+    //localStorage.setItem("refresh", keycloak.refreshToken);
+    console.log("KEYCLOAK TOK" + keycloak.token);
+    store.commit("setToken",keycloak.token);
+    //console.log(localStorage.getItem("jwt"));
     setInterval(() =>{
       keycloak.updateToken(70).success((refreshed)=>{
         if (refreshed) {
