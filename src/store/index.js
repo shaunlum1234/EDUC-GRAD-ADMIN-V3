@@ -7,8 +7,6 @@
       //Initialize the store
     },
     state: {
-      token: "",
-      refreshToken: "",
       tokenTimeout: "",
       student: {
         profile: {},
@@ -28,8 +26,11 @@
         //state.token = payload;
         console.log("PAYLOAD" + payload);
         localStorage.setItem("jwt", payload);
+      },
+      setRefreshToken(state, payload) {
+        //state.token = payload;
+        console.log("PAYLOAD" + payload);
         localStorage.setItem("refresh", payload);
-
       },
       setStudentProfile(state, payload) {
         state.student.profile = payload;
@@ -75,6 +76,9 @@
       setToken({commit}, payload) {
         commit('setToken', payload);
       },
+      setRefreshToken({commit}, payload) {
+        commit('setRefreshToken', payload);
+      },
       setStudentProfile({
         commit
       }, payload) {
@@ -105,9 +109,6 @@
 
     },
     getters: {
-      getToken(state) {
-        return state.token;
-      },
       getStudentProfile(state) {
         return state.student.profile;
       },
