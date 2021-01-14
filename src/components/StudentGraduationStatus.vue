@@ -47,7 +47,7 @@
                       <ul>
                         <li v-if="studentGradStatus.honoursFlag"><strong>Honours:</strong> {{ studentGradStatus.honoursFlag }}</li>
                         <li v-if="studentGradStatus.frenchProgramParticipation"><strong>Program cadre:</strong> {{ studentGradStatus.frenchProgramParticipation }}</li>
-                        <li v-if="studentGradStatus.advancePlacementParticipation"><strong>AP:</strong> {{ studentGradStatus.advancePlacementParticipation }}</li>
+                        <li v-if="studentGradStatus.advancePlacementParticipation"><strong>Advance Placement:</strong> {{ studentGradStatus.advancePlacementParticipation }}</li>
                         <li v-if="studentGradStatus.careerProgramParticipation"><strong>Career program:</strong> {{ studentGradStatus.careerProgramParticipation }}</li>
                         <li v-if="studentGradStatus.recalculateFlag"><strong>Recalculate flag</strong>{{ studentGradStatus.recalculateFlag }}</li>
                         <li v-if="studentGradStatus.ibParticipationFlag"><strong>IB:</strong> {{ studentGradStatus.ibParticipationFlag }}</li>
