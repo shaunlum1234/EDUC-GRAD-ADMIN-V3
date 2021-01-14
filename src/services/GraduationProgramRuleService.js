@@ -7,7 +7,7 @@ const apiClient = axios.create({
 export default {
   getProgramRule(programCode, programSet, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-    console.log("TOKEN IN SERVICE getProgramRule: " + token);
+    //console.log("TOKEN IN SERVICE getProgramRule: " + token);
     return apiClient.get('/api/v1/programmanagement/programrules?programCode=' + programCode + '&programSet=' + programSet,{ headers })
   }
 }

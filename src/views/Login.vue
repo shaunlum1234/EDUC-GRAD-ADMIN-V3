@@ -52,7 +52,7 @@ export default {
             this.$store.dispatch('setToken', response.data.access_token);
         });
         
-        console.log("HELLO WORLD" + this.getToken);
+       // console.log("HELLO WORLD" + this.getToken);
       }
     }
   }

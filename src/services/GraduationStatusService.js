@@ -6,7 +6,7 @@ const apiClient = axios.create({
 export default {
   getGraduationStatus(pen, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-    console.log("TOKEN IN SERVICE getGraduationStatus: " + token);
+    //console.log("TOKEN IN SERVICE getGraduationStatus: " + token);
     return apiClient.get('/api/v1/gradstatus/pen/' + pen,{ headers });
   },
   // getAchievementReport(pen) {

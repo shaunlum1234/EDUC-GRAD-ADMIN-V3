@@ -327,12 +327,12 @@ export default {
     },
     findStudentByPen: function() {
 
-        console.log("FIND STUDENT BY PEN");
+        //console.log("FIND STUDENT BY PEN");
         if (this.penInput) {
         this.message ="";
         this.searchLoading = true;
         this.studentSearchResults = [];
-        console.log("localstorage at StudenSearch: "+localStorage.getItem('jwt'));
+        //console.log("localstorage at StudenSearch: "+localStorage.getItem('jwt'));
         //StudentService.setClient(localStorage.getItem('jwt'));
         StudentService.getStudentByPen(this.penInput, localStorage.getItem('jwt'))
           .then((response) => {
