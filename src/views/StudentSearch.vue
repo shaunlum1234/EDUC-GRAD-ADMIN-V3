@@ -280,7 +280,6 @@ export default {
       courses: "getStudentCourses",
       exams: "getStudentExams",
       gradStatus: "getStudentGradStatus",
-      accessToken: "getToken",
     }),
   },
 
