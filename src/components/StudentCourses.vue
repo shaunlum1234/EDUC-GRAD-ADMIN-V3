@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="table-responsive">
     <b-spinner v-if="!courses.length" label="Loading">Loading</b-spinner>
     <v-table
       :data="courses"

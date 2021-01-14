@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="table-responsive">
     <b-spinner v-if="!assessments.length" label="Loading">Loading</b-spinner>
     <v-table
       :data="assessments"
@@ -10,13 +10,13 @@
         <v-th sortKey="assessmentCode">Code</v-th>
         <v-th sortKey="sessionDate">Session</v-th>
         <v-th sortKey="assessmentName">Name</v-th>
-        <v-th sortKey="specialCase">Special Case</v-th>
-        <v-th sortKey="exceededWriteFlag">Exceeded Writes Flag</v-th>
-        <v-th sortKey="wroteFlag">Wrote Flag</v-th>
-        <v-th sortKey="rawScore">Raw Score</v-th>
+        <v-th sortKey="specialCase">Special case</v-th>
+        <v-th sortKey="exceededWriteFlag">Exceeded writes flag</v-th>
+        <v-th sortKey="wroteFlag">Wrote flag</v-th>
+        <v-th sortKey="rawScore">Raw score</v-th>
         <v-th sortKey="percentComplete">% Complete</v-th>
-        <v-th sortKey="irtScore">IRT Score</v-th>
-        <v-th sortKey="proficiencyScore">Proficiency Score</v-th>
+        <v-th sortKey="irtScore">IRT score</v-th>
+        <v-th sortKey="proficiencyScore">Proficiency score</v-th>
         <v-th sortKey="gradReqMet">Req Met</v-th>
         <!-- <v-th sortKey="gradReqMet">Req Met</v-th> -->
       </thead>

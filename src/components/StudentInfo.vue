@@ -2,17 +2,17 @@
     <div>
       <div class="student-info">
           <div>
-            <strong>Graduation Program: </strong
+            <strong>Program: </strong
             >{{ studentInfo.gradRequirementYear }}
           </div>
           <div><strong>Grade: </strong>{{ studentInfo.studentGrade }}</div>
           <div><strong>Date of Birth:</strong> {{ studentInfo.studBirth }}</div>
-          <div><strong>Sex:</strong> {{ studentInfo.studSex }}</div>
+          <div><strong>Gender:</strong> {{ studentInfo.studSex }}</div>
           <!--div><strong>Status: </strong>{{ studentInfo.studentStatus }}</div-->
           <!--div><strong>Archived:</strong> {{ studentInfo.archiveFlag }}</div-->
           <div><strong>School: </strong>{{ studentInfo.schoolName }}</div>
           <div class="">
-            <strong>Student Address:</strong>
+            <strong>Student address:</strong>
             {{ studentInfo.address1 }} {{ studentInfo.address2 }}
             {{ studentInfo.city }}, {{ studentInfo.provinceCode }}
             {{ studentInfo.provinceName }}

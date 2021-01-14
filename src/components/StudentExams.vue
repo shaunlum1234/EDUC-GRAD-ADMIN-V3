@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="table-responsive">
     <b-spinner v-if="!exams.length" label="Loading">Loading</b-spinner>
     <v-table
       :data="exams"
@@ -14,8 +14,8 @@
         <v-th sortKey="courseEquivChal">Equiv, Chal</v-th>
         <v-th sortKey="credits">Credits</v-th>
         <v-th sortKey="completedCourseSchoolPercentage">School %</v-th>
-        <v-th sortKey="wroteFlag">Wrote Exam</v-th>
-        <v-th sortKey="specialCase">Special Case</v-th>
+        <v-th sortKey="wroteFlag">Wrote exam</v-th>
+        <v-th sortKey="specialCase">Special case</v-th>
         <v-th sortKey="completedCourseExamPercentage">Exam %</v-th>
         <v-th sortKey="completedCourseFinalPercentage">Final %</v-th>
         <v-th sortKey="completedCourseLetterGrade">Final LG</v-th>
