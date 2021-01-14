@@ -350,7 +350,7 @@ export default {
             this.searchLoading = false;
             this.message = "Student not found";
           });
-        }//pen input check
+//pen input check
       } else {
         this.$router.push({ name: "logout" });
       }    
