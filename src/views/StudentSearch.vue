@@ -329,13 +329,13 @@ export default {
     findStudentByPen: function() {
 
         console.log("FIND STUDENT BY PEN");
-        console.log("TOKENX" + this.accessToken);
         if (this.penInput) {
         this.message ="";
         this.searchLoading = true;
         this.studentSearchResults = [];
-    
-        StudentService.getStudentByPen(this.penInput, this.accessToken)
+        console.log("localstorage at StudenSearch: "+localStorage.getItem('jwt'));
+        //StudentService.setClient(localStorage.getItem('jwt'));
+        StudentService.getStudentByPen(this.penInput, localStorage.getItem('jwt'))
           .then((response) => {
             if (response.data) {
               this.searchLoading = false;

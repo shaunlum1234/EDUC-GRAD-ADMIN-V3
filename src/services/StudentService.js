@@ -1,27 +1,28 @@
-import axios from 'axios'
+import axios from 'axios';
 // import Router from '../router/index.js'
 
 // if (localStorage.getItem('jwt') != null){
-var token = localStorage.getItem('jwt');
+// var token = localStorage.getItem('jwt');
 // }  else {
 //     Router.push('/login');
 // }
- 
+
 var apiClient = axios.create({
     baseURL: process.env.VUE_APP_STUDENTS_API_HOST,
     //withCredentials: false,
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        "Access-Control-Allow-Origin": "*",
-        'Authorization': 'Bearer '+ token
-    }
+    // headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //     "Access-Control-Allow-Origin": "*",
+    //     'Authorization': 'Bearer '+ token
+    // }
 })
 
 export default {
-    getStudentByPen(pen) {
+    getStudentByPen(pen, token) {
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         console.log("TOKEN IN SERVICE" + token);
-        return apiClient.get('/api/v1/' + pen);
+        return apiClient.get('/api/v1/' + pen,{ headers });
     },
     getStudentBySurname(surname) {
         return apiClient.get('/api/v1/gradstudent?lastName=' + surname);
