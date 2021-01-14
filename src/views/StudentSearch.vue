@@ -294,7 +294,7 @@ export default {
           this.$store.dispatch('setStudentAssessments', response.data);
       });
 
-      StudentExamsService.getStudentExams(pen).then((response) => {
+      StudentExamsService.getStudentExams(pen,localStorage.getItem('jwt')).then((response) => {
         // this.$store.commit('setStudentExams',response.data);
         this.$store.dispatch('setStudentExams', response.data);
       })
@@ -304,7 +304,7 @@ export default {
           this.$store.dispatch("setStudentCourses", response.data);
         }
       );
-       GraduationStatusService.getGraduationStatus(pen).then(
+       GraduationStatusService.getGraduationStatus(pen, localStorage.getItem('jwt')).then(
         (response) => {
           // console.log(response.data);
           this.$store.dispatch("setStudentGradStatus", response.data);
@@ -354,27 +354,6 @@ export default {
         this.$router.push({ name: "logout" });
       }    
     },
-    findStudentBySurname: function() {
-      this.message = "";
-      if (this.surnameInput) {
-        this.searchLoading = true;
-        this.studentSearchResults = [];
-        try {
-          StudentService.getStudentBySurname(this.surnameInput)
-            .then((response) => {
-              this.searchLoading = false;
-              this.studentSearchResults = response.data;
-              this.message = this.studentSearchResults.length + " student(s) found"
-            })
-            .catch(() => {
-              this.searchLoading = false;
-              this.message = "Student not found";
-            });
-        } catch (error) {
-          this.message = error;
-        }
-      }
-    },
     findStudentsByAdvancedSearch: function() {
       this.message = "";
       this.errorMessage="";
@@ -382,7 +361,7 @@ export default {
         this.advancedSearchLoading = true;
         this.studentSearchResults = [];
         try {
-          StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput)
+          StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, localStorage.getItem('jwt'))
             .then((response) => {
               this.advancedSearchLoading = false;
               this.studentSearchResults = response.data;
