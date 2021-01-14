@@ -13,13 +13,13 @@
                   <div class="row">
                     <div class="col-12 graduation-status-content"><div>
                       <!-- Student Graduation Status -->
-                      <div class="col-12 header">Graduation Status</div>
+                      <div class="col-12 header">Graduation status</div>
                       <ul>
                         <li v-if="studentGradStatus.gradProgram"><strong>Graduation Program:</strong> {{ studentGradStatus.gradProgram }}</li>
                         <li v-if="studentGradStatus.gradProgramAtGraduation"><strong>Grad Program at Graduation:</strong> {{ studentGradStatus.gradProgramAtGraduation }}</li>
 
                         <li v-if="studentGradStatus.graduationDate"><strong>Graduation Date:</strong> {{ studentGradStatus.graduationDate }}</li>
-                        <li v-if="studentGradStatus.gpa"><strong>GPA {{ studentGradStatus.gpa }}</strong></li>
+                        <li v-if="studentGradStatus.gpa"><strong>GPA:</strong> {{ studentGradStatus.gpa }}</li>
                         
                         <li v-if="studentGradStatus.sccpGraduationDate">
                           <strong>School Completion Certificate Program (SCCP) Graduation Date:</strong>{{ studentGradStatus.sccpGraduationDate }}
@@ -31,16 +31,16 @@
                       <!-- Student Certifications and Diplomas -->
                       <div class="col-12 header">Certification/Dogwoods</div>
                       <ul>
-                        <li v-if="studentGradStatus.certificateType1"><strong>Certificate (Type 1):</strong>{{ studentGradStatus.certificateType1 }}</li>
+                        <li v-if="studentGradStatus.certificateType1"><strong>Certificate (Type 1):</strong> {{ studentGradStatus.certificateType1 }}</li>
                         <li v-if="studentGradStatus.certificateType1Datev">{{ studentGradStatus.certificateType1Datev }}</li>
                         <li v-if="studentGradStatus.certificateType2"><strong>Certificate (Type 2):</strong> {{ studentGradStatus.certificateType2 }}</li>
                         <li v-if="studentGradStatus.certificateType2Date">{{ studentGradStatus.certificateType2Date }}</li>
                         <li v-if="studentGradStatus.dualDogwoodEligibility"><strong>Dual Dogwood</strong>{{ studentGradStatus.dualDogwoodEligibility }}</li>
-                        <li v-if="studentGradStatus.transcriptDate"><strong>Transcript Date</strong>{{ studentGradStatus.transcriptDate }}</li>
+                        <li v-if="studentGradStatus.transcriptDate"><strong>Transcript Date:</strong>    {{ studentGradStatus.transcriptDate }}</li>
                         <li v-if="studentGradStatus.createdBy"><strong>Created By:</strong> {{ studentGradStatus.createdBy }}</li>
-                        <li v-if="studentGradStatus.createdTimestamp"><strong>Created Timestamp:</strong> {{ studentGradStatus.createdTimestamp }}</li>
-                        <li v-if="studentGradStatus.updatedBy"><strong>Updated By</strong> {{ studentGradStatus.updatedBy }}</li>
-                        <li v-if="studentGradStatus.updatedTimestamp"><strong>Updated</strong> ({{ studentGradStatus.updatedTimestamp }})</li>
+                        <li v-if="studentGradStatus.createdTimestamp"><strong>Created:</strong> {{ studentGradStatus.createdTimestamp }}</li>
+                        <li v-if="studentGradStatus.updatedBy"><strong>Updated By:</strong> {{ studentGradStatus.updatedBy }}</li>
+                        <li v-if="studentGradStatus.updatedTimestamp"><strong>Updated:</strong> {{ studentGradStatus.updatedTimestamp }}</li>
                       </ul>
                        <!-- Programs -->
                       <div class="col-12 header">Programs</div>
@@ -52,7 +52,7 @@
                         <li v-if="studentGradStatus.recalculateFlag"><strong>Recalculate Flag</strong>{{ studentGradStatus.recalculateFlag }}</li>
                         <li v-if="studentGradStatus.ibParticipationFlag"><strong>IB:</strong> {{ studentGradStatus.ibParticipationFlag }}</li>
                       </ul>
-                      <div class="col-12 header">Graduation Reports</div>
+                      <div class="col-12 header">Graduation reports</div>
                       <div class="col-12">Last updated: March 10, 2020 <button class="float-right primary btn-primary ml-3"><i class="fas fa-sync"></i> Update</button></div>
                       <div class="col-12">
                       <ul>
@@ -74,13 +74,13 @@
 
           <b-card no-body class="col-12 px-0 mx-0">
             <b-card-header header-tag="header" class="col-12 px-0 mx-0" role="tab">
-              <b-button block v-b-toggle.accordion-2 variant="info" class="text-left"><i class="fas fa-times-circle text-danger"></i> Non Grad Reasons (5)</b-button>
+              <b-button block v-b-toggle.accordion-2 variant="info" class="text-left"><i class="fas fa-times-circle text-danger"></i> Requirements not met (5)</b-button>
             </b-card-header>
             <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
               <b-card-body>
                 <b-card-text>
                   <ul class="non-grad-reasons">
-                    <li><i class="fas fa-times-circle text-danger"></i> Fewer than 16 Gr 12 Credits</li>
+                    <li><i class="fas fa-times-circle text-danger"></i> Fewer than 16 Grade 12 credits</li>
                     <li><i class="fas fa-times-circle text-danger"></i> No Social Studies 11 or 12</li>
                     <li><i class="fas fa-times-circle text-danger"></i> No Mathematics 11 or 12</li>
                     <li><i class="fas fa-times-circle text-danger"></i> No Science 11 or 12</li>
@@ -93,7 +93,7 @@
 
           <b-card no-body class="col-12 px-0 mx-0">
             <b-card-header header-tag="header" class="col-12 px-0 mx-0" role="tab">
-              <b-button block v-b-toggle.accordion-3 variant="info" class="text-left"><i class="fas fa-check-circle text-success"></i> Requirements Met (6)</b-button>
+              <b-button block v-b-toggle.accordion-3 variant="info" class="text-left"><i class="fas fa-check-circle text-success"></i> Requirements met (6)</b-button>
             </b-card-header>
             <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
               <b-card-body>
