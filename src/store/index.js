@@ -24,12 +24,12 @@
     mutations: {
       setToken(state, payload) {
         //state.token = payload;
-        console.log("PAYLOAD" + payload);
+        //console.log("PAYLOAD" + payload);
         localStorage.setItem("jwt", payload);
       },
       setRefreshToken(state, payload) {
         //state.token = payload;
-        console.log("PAYLOAD" + payload);
+        //console.log("PAYLOAD" + payload);
         localStorage.setItem("refresh", payload);
       },
       setStudentProfile(state, payload) {

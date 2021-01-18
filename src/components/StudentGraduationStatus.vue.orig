@@ -1,6 +1,5 @@
 <template>
   <div>
-<<<<<<< HEAD
     <div class="accordion col-12 px-0 mx-0" role="tablist">
       <b-card no-body class="col-12 px-0 mx-0">
         <b-card-header header-tag="header" class="col-12 px-0 mx-0" role="tab">
@@ -142,31 +141,15 @@
                       </button>
                     </div>
                     <div class="col-12">
-=======
-    
-    {{studentGradStatus}}
-        <div class="accordion col-12 px-0 mx-0" role="tablist">
-          <b-card no-body class="col-12 px-0 mx-0">
-            <b-card-header header-tag="header" class="col-12 px-0 mx-0" role="tab">
-              <b-button block v-b-toggle.accordion-1 variant="info" class="text-left"><i class="fas fa-info-circle primary"></i> Student graduation information</b-button>
-            </b-card-header>
-            <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
-              <b-card-body>
-                <b-card-text> 
-                  <div class="row">
-                    <div class="col-12 graduation-status-content"><div>
-                      <!-- Student Graduation Status -->
-                      <div class="col-12 header">Graduation status</div>
                       <ul>
-                        <li v-if="studentGradStatus.gradProgram"><strong>Program:</strong> {{ studentGradStatus.gradProgram }}</li>
-                        <li v-if="studentGradStatus.gradProgramAtGraduation"><strong>Program at graduation:</strong> {{ studentGradStatus.gradProgramAtGraduation }}</li>
-
-                        <li v-if="studentGradStatus.graduationDate"><strong>Graduation date:</strong> {{ studentGradStatus.graduationDate }}</li>
-                        <li v-if="studentGradStatus.gpa"><strong>GPA:</strong> {{ studentGradStatus.gpa }}</li>
-                        
-                        <li v-if="studentGradStatus.sccpGraduationDate">
-                          <strong>School Completion Certificate Program (SCCP) graduation date:</strong>{{ studentGradStatus.sccpGraduationDate }}
+                        <li class="">
+                          <a href="#">Student Acheivement Report (PDF)</a>
                         </li>
+                        <li class="">
+                          <a href="#">Student Transcript Report (PDF)</a>
+                        </li>
+<<<<<<< HEAD
+=======
                         <li v-if="studentGradStatus.schoolAtGrad"><strong>School at graduation:</strong>{{ studentGradStatus.schoolAtGrad }}</li>
                         <li v-if="studentGradStatus.studentGradeAtGraduation"><strong>Grade at graduation:</strong>{{ studentGradStatus.studentGradeAtGraduation }}</li>
                       </ul>
@@ -190,7 +173,7 @@
                       <ul>
                         <li v-if="studentGradStatus.honoursFlag"><strong>Honours:</strong> {{ studentGradStatus.honoursFlag }}</li>
                         <li v-if="studentGradStatus.frenchProgramParticipation"><strong>Program cadre:</strong> {{ studentGradStatus.frenchProgramParticipation }}</li>
-                        <li v-if="studentGradStatus.advancePlacementParticipation"><strong>AP:</strong> {{ studentGradStatus.advancePlacementParticipation }}</li>
+                        <li v-if="studentGradStatus.advancePlacementParticipation"><strong>Advance Placement:</strong> {{ studentGradStatus.advancePlacementParticipation }}</li>
                         <li v-if="studentGradStatus.careerProgramParticipation"><strong>Career program:</strong> {{ studentGradStatus.careerProgramParticipation }}</li>
                         <li v-if="studentGradStatus.recalculateFlag"><strong>Recalculate flag</strong>{{ studentGradStatus.recalculateFlag }}</li>
                         <li v-if="studentGradStatus.ibParticipationFlag"><strong>IB:</strong> {{ studentGradStatus.ibParticipationFlag }}</li>
@@ -198,14 +181,10 @@
                       <div class="col-12 header">Graduation reports</div>
                       <div class="col-12">Last updated: March 10, 2020 <button class="float-right primary btn-primary ml-3"><i class="fas fa-sync"></i> Update</button></div>
                       <div class="col-12">
->>>>>>> 960244e859ff598196a6c315d59e2a310ca367c7
                       <ul>
-                        <li class="">
-                          <a href="#">Student Acheivement Report (PDF)</a>
-                        </li>
-                        <li class="">
-                          <a href="#">Student Transcript Report (PDF)</a>
-                        </li>
+                        <li class=""><a href="#">Student Acheivement Report (PDF)</a></li>
+                        <li class=""><a href="#">Student Transcript Report (PDF)</a></li>
+>>>>>>> d85ee05ec3795d43a2718045164fa6d7e79e9de6
                       </ul>
                     </div>
                   </div>
@@ -335,4 +314,3 @@ ul.non-grad-reasons {
 .card-header > button {
   border-radius: 0px !important;
 }
-</style>

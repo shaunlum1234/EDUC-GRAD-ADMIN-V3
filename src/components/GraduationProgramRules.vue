@@ -62,7 +62,7 @@ export default {
   created() {
     // console.log('PropA:' + this.propA)
     // console.log('PropA:' + this.propB)
-    GraduationProgramRuleService.getProgramRule(this.selectedProgramCode, this.selectedProgramSet)
+    GraduationProgramRuleService.getProgramRule(this.selectedProgramCode, this.selectedProgramSet, localStorage.getItem('jwt'))
       .then((response) => {
         this.graduationProgramRules = response.data;
         // console.log(this.graduationProgramRules);

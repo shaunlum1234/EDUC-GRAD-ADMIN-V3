@@ -289,7 +289,7 @@ export default {
     },
     loadStudent(pen) {
 
-      AssessmentService.getStudentAssessment(pen).then((response) => {
+      AssessmentService.getStudentAssessment(pen,localStorage.getItem('jwt')).then((response) => {
           // this.$store.commit('setStudentExams',response.data);
           this.$store.dispatch('setStudentAssessments', response.data);
       });
@@ -299,7 +299,7 @@ export default {
         this.$store.dispatch('setStudentExams', response.data);
       })
 
-      CourseAchievementService.getStudentCourseAchievements(pen).then(
+      CourseAchievementService.getStudentCourseAchievements(pen, localStorage.getItem('jwt')).then(
         (response) => {
           this.$store.dispatch("setStudentCourses", response.data);
         }
@@ -327,12 +327,12 @@ export default {
     },
     findStudentByPen: function() {
 
-        console.log("FIND STUDENT BY PEN");
+        //console.log("FIND STUDENT BY PEN");
         if (this.penInput) {
         this.message ="";
         this.searchLoading = true;
         this.studentSearchResults = [];
-        console.log("localstorage at StudenSearch: "+localStorage.getItem('jwt'));
+        //console.log("localstorage at StudenSearch: "+localStorage.getItem('jwt'));
         //StudentService.setClient(localStorage.getItem('jwt'));
         StudentService.getStudentByPen(this.penInput, localStorage.getItem('jwt'))
           .then((response) => {

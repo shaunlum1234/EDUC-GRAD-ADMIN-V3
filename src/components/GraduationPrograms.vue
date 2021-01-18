@@ -73,10 +73,10 @@ export default {
     };
   },
   created() {
-    GraduationProgramsService.getGraduationPrograms()
+    GraduationProgramsService.getGraduationPrograms(localStorage.getItem('jwt'))
       .then((response) => {
         this.graduationPrograms = response.data;
-        console.log(this.graduationPrograms);
+        //console.log(this.graduationPrograms);
       })
       // eslint-disable-next-line no-unused-vars
       .catch((error) => {

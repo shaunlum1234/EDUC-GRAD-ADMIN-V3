@@ -65,7 +65,8 @@
           <li><router-link to="/">Select Student</router-link></li>
           <li><router-link to="/admin-graduation-programs">Graduation Programs</router-link></li>
           <li class="nav-item">
-            <a href="https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F" class="nav-link">Logout</a>
+
+            <a v-bind:href="'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + host" class="nav-link">Logout</a>
           </li>
         </ul> 
       </div>
@@ -79,6 +80,7 @@ export default {
   data() {
     return {
       pen: "",
+      host: location.protocol + "//" +  location.host
     };
   },
   created() {},
