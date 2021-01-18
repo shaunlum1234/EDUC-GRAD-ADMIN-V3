@@ -19,7 +19,7 @@
               alt="B.C. Government Logo"
             />
           </a>
-          <h1>Graduation Admin</h1>
+          <h1>Graduation Records and Achievement </h1>
         </div>
         <div class="other">
           <a class="nav-btn">
@@ -51,7 +51,7 @@
             <router-link class="nav-link" to="/">Select Students</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/">Graduation Programs</router-link>
+            <router-link class="nav-link" to="/">Program Management</router-link>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link" @click="logout()">Logout</a>

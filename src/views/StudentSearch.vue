@@ -1,6 +1,6 @@
 <template>
   <div class="studentlist">
-    <h1>Student graduation status search</h1>
+    <h1>Studen search</h1>
     <p>
       Enter a Personal Education Number (PEN) to retrieve a student’s course
       achievements.
