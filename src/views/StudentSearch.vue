@@ -20,10 +20,10 @@
               v-on:keyup="keyHandler"
               tabindex="1"
             /><button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
-              <i class="fas fa-search"></i> Find Student by PEN
+              <i class="fas fa-search"></i> Search by PEN
             </button>
             <button v-if="searchLoading" class="btn btn-success">
-              <i class="fas fa-search"></i> Find Student by PEN
+              <i class="fas fa-search"></i> Search by PEN
             </button>
           </div>
           

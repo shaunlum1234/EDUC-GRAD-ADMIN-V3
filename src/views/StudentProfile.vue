@@ -6,16 +6,29 @@
     ></SiteMessage>
     <!-- Button trigger modal -->
 
-    <div class="row col-12 p-3 m-0">
-      <div class="col-12">
-        <h1 class="profile-name">
-          {{ studentFullName }}
-          <button v-on:click="closeRecord" class="btn btn-primary close-record">
+    <div class="row p-3 m-0">
+        <div class="col-9">
+          <h1 class="profile-name">
+            {{ studentFullName }}
+            
+          </h1>
+          <StudentInfo />
+        </div>
+        <div class="col-3">
+          <button v-on:click="closeRecord" class="btn btn-primary">
             <i class="far fa-times-circle"></i> Close record
           </button>
-        </h1>
-        <StudentInfo />
+          <ul class="my-2 list-unstyled">
+            <li class="pb-1">Created by:</li>
+            <li class="pb-1">Created:</li>
+            <li class="pb-1">Updated by:</li>
+            <li>Updated:</li>
+          </ul>
+        </div>
       </div>
+
+    <div class="row col-12 p-3 m-0">
+      
 
       <div class="col-4" v-if="!smallScreen">
         <StudentGraduationStatus />
