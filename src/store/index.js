@@ -108,7 +108,18 @@
       
 
     },
+
+    
+
     getters: {
+      getStudentGraduationCreationAndUpdate(state){
+        return {
+          "createdBy" : state.student.gradStatus.createdBy,
+          "createdTimestamp": state.student.gradStatus.createdTimestamp,
+          "updatedBy" : state.student.gradStatus.updatedBy,
+          "updatedTimestamp": state.student.gradStatus.updatedTimestamp
+        }
+      },
       getStudentProfile(state) {
         return state.student.profile;
       },

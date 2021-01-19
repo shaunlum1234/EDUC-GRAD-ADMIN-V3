@@ -18,6 +18,8 @@
           <button v-on:click="closeRecord" class="btn btn-primary">
             <i class="far fa-times-circle"></i> Close record
           </button>
+                 {{gradInfo}}
+      
           <ul class="my-2 list-unstyled">
             <li class="pb-1">Created by:</li>
             <li class="pb-1">Created:</li>
@@ -132,6 +134,7 @@ export default {
       studentHasCourses: "studentHasCourses",
       studentHasAssessments: "studentHasAssessments",
       studentHasExams: "studentHasExams",
+      gradInfo: "getStudentGraduationCreationAndUpdate"
     }),
   },
   created() {
