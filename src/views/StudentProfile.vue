@@ -10,7 +10,6 @@
         <div class="col-9">
           <h1 class="profile-name">
             {{ studentFullName }}
-            
           </h1>
           <StudentInfo />
         </div>
@@ -96,13 +95,14 @@
 </template>
 
 <script>
-// import CourseService from "@/services/CourseService.js";
+
 import SiteMessage from "@/components/SiteMessage";
 import StudentCourses from "@/components/StudentCourses";
 import StudentInfo from "@/components/StudentInfo";
 import StudentExams from "@/components/StudentExams";
 import StudentAssessments from "@/components/StudentAssessments";
 import StudentGraduationStatus from "@/components/StudentGraduationStatus";
+
 import { mapGetters } from "vuex";
 //import { store } from "@/store.js";
 export default {
@@ -145,7 +145,8 @@ export default {
     closeRecord: function() {
       this.$store.commit("unsetStudent");
       this.$router.push({ name: "student-search" });
-    },
+    }
+    
   },
 };
 </script>

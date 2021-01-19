@@ -139,6 +139,9 @@
                       <button class="float-right primary btn-primary ml-3">
                         <i class="fas fa-sync"></i> Update
                       </button>
+                      <a v-on:click="getStudentAchivementReportPDF" href="#" class=""
+            >Student Achievement Report (PDF)</a
+          >
                     </div>
                   </div>
                 </div>
@@ -238,6 +241,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import GraduationCommonService from "@/services/GraduationCommonService.js";
 export default {
   name: "StudentGraduationStatus",
   computed: {
@@ -246,6 +250,28 @@ export default {
     }),
   },
   created() {},
+  methods: {
+    getStudentAchivementReportPDF: function(){
+          GraduationCommonService.getAchievementReport(this.studentGradStatus.pen, localStorage.getItem('jwt'))
+          .then((response) => {
+             //Create a Blob from the PDF Stream
+              const file = new Blob(
+              [response.data], 
+              {type: 'application/pdf'});
+              //Build a URL from the file
+              if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE
+                  window.navigator.msSaveOrOpenBlob(file);
+              }else {
+                  const fileURL = URL.createObjectURL(file);
+                  window.open(fileURL); //Open the URL on new Window
+              }
+          })
+          // eslint-disable-next-line no-unused-vars
+          .catch((error) => {
+            //console.log('There was an error:' + error.response);
+          });    
+      },
+  },
 };
 </script>
 
