@@ -48,13 +48,13 @@
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active"></li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/">Select Students</router-link>
+            <a href="#" class="nav-link" @click="selectStudent()">Select Student</a>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/">Program Management</router-link>
+            <router-link class="nav-link" to="/admin-graduation-programs">Graduation Programs</router-link>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" @click="logout()">Logout</a>
+            <a v-bind:href="'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + host" class="nav-link">Logout</a>
           </li>
         </ul>
       </div>
@@ -62,10 +62,12 @@
     <nav class="navigation-main" id="navbar">
       <div class="container">
         <ul>
-          <li><router-link to="/">Select Student</router-link></li>
+          <li>
+            <!-- <router-link to="/">Select Student</router-link> -->
+            <a href="#" class="nav-link" @click="selectStudent()">Select Student</a>
+          </li>
           <li><router-link to="/admin-graduation-programs">Graduation Programs</router-link></li>
           <li class="nav-item">
-
             <a v-bind:href="'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + host" class="nav-link">Logout</a>
           </li>
         </ul> 
@@ -87,7 +89,12 @@ export default {
   methods: {
     logout(){
       LoginService.logout();
+      this.$store.commit("unsetStudent");
       this.$router.push('logout')
+    },
+    selectStudent(){
+      this.$store.commit("unsetStudent");
+      this.$router.push('/')
     }
   }
 };

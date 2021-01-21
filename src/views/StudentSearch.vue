@@ -1,6 +1,6 @@
 <template>
   <div class="studentlist">
-    <h1>Studen search</h1>
+    <h1>Student search</h1>
     <p>
       Enter a Personal Education Number (PEN) to retrieve a student’s course
       achievements.
@@ -297,6 +297,7 @@ export default {
 
       StudentExamsService.getStudentExams(pen,localStorage.getItem('jwt')).then((response) => {
         // this.$store.commit('setStudentExams',response.data);
+        //console.log(response)
         this.$store.dispatch('setStudentExams', response.data);
       })
 

@@ -1,2 +1,0 @@
-FROM nginx as production-stage
-RUN mkdir /app
