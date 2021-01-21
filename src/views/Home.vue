@@ -7,8 +7,7 @@
 
       <h1>Student search</h1>
       <p>
-        Enter a Personal Education Number (PEN) to retrieve the student’s
-        current graduation status.
+        Enter a Personal Education Number (PEN) to retrieve a student’s graduation and achievement data.
       </p>
 
       <div class="form-group">

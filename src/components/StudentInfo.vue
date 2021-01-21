@@ -1,23 +1,17 @@
 <template>
     <div>
       <div class="student-info">
-          <div>
-            <strong>Program: </strong
-            >{{ studentInfo.gradRequirementYear }}
-          </div>
-          <div><strong>Grade: </strong>{{ studentInfo.studentGrade }}</div>
+          
+          <div><strong>Grade:</strong> {{ studentInfo.studentGrade }}</div>
           <div><strong>Birthdate:</strong> {{ studentInfo.studBirth }}</div>
           <div><strong>Gender:</strong> {{ studentInfo.studSex }}</div>
           <!--div><strong>Status: </strong>{{ studentInfo.studentStatus }}</div-->
           <!--div><strong>Archived:</strong> {{ studentInfo.archiveFlag }}</div-->
-          <div><strong>School: </strong>{{ studentInfo.schoolName }}</div>
-          <div class="">
-            <strong>Student address:</strong>
-            {{ studentInfo.address1 }} {{ studentInfo.address2 }}
+          <!--div><strong>School: </strong>{{ studentInfo.schoolName }}</div-->
+          <div><strong>Postal Code:</strong> {{ studentInfo.postalCode }}
+            <!--{{ studentInfo.address1 }} {{ studentInfo.address2 }}
             {{ studentInfo.city }}, {{ studentInfo.provinceCode }}
-            {{ studentInfo.provinceName }}
-            {{ studentInfo.postalCode }}, {{ studentInfo.countryCode }}
-            {{ studentInfo.countryName }}
+            {{ studentInfo.provinceName }}{{ studentInfo.countryCode }}{{ studentInfo.countryName }}-->           
           </div>
       </div>
   </div>

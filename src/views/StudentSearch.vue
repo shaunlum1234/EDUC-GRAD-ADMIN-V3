@@ -2,29 +2,43 @@
   <div class="studentlist">
     <h1>Student search</h1>
     <p>
-      Enter a Personal Education Number (PEN) to retrieve a student’s course
-      achievements.
+      Enter a Personal Education Number (PEN) to retrieve a student’s graduation and achievement data.
     </p>
 
     <div>
       <form v-on:submit.prevent>
+        
         <div class="form-group">
+
+          
 
           <!-- Pen Input -->
           <div class="search">
-            <input
-              v-model="penInput"
-              placeholder="Enter a student's PEN"
-              class="pen-search"
-              ref="penSearch"
-              v-on:keyup="keyHandler"
-              tabindex="1"
-            /><button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
-              <i class="fas fa-search"></i> Search by PEN
-            </button>
-            <button v-if="searchLoading" class="btn btn-success">
-              <i class="fas fa-search"></i> Search by PEN
-            </button>
+            <b-input-group size="lg" class="mb-2">
+                <b-form-input size="lg" type="search" 
+                   v-model="penInput"
+                  placeholder="For example: 123456789"
+                  class="pen-search"
+                  ref="penSearch"
+                  v-on:keyup="keyHandler"
+                  tabindex="1"
+                 >
+                 </b-form-input>
+              <!--input
+                v-model="penInput"
+                placeholder="Enter a student's PEN"
+                class="pen-search"
+                ref="penSearch"
+                v-on:keyup="keyHandler"
+                tabindex="1"
+              /-->
+              <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
+                <i class="fas fa-search"></i> Search
+              </button>
+              <button v-if="searchLoading" class="btn btn-success">
+                <i class="fas fa-search"></i> Searching
+              </button>
+            </b-input-group>
           </div>
           
             <b-spinner
@@ -39,10 +53,11 @@
         
           <!-- advanced Search -->
           
-        <a v-on:click="showAdvancedSearch" href="#" class="ml-3">Advanced Search</a>
+        <a v-on:click="showAdvancedSearch" href="#" class="ml-3">Advanced search</a>
         <transition name="fade">
           <div v-if="showAdvancedSearchForm" class="advanced-search-form mx-0 px-2">
             <div class="row col-12 mb-3">
+              <div class="col-12"><h2>Advance search</h2></div>
                 <div class="advanced-search-field col-12 col-md-3">
                   <label>First Name </label>
                   <a 
@@ -449,8 +464,11 @@ input{
   padding: 5px;
   border-radius: 0px !important
 }
+
+.primary { color: #003366;}
+
 .pen-search{
-  width: 400px;
+  width: 700px;
   margin-right: 9px;
   float: left;
   padding-left:25px;
@@ -498,6 +516,7 @@ h6 {
   clear:both;
 }
 .advanced-search-form{
+  background-color: #fff;
   margin-top: 40px;
   border: 1px solid #DEE2EB;
   padding:20px;
