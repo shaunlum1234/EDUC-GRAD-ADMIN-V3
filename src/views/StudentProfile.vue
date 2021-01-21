@@ -7,24 +7,29 @@
     <!-- Button trigger modal -->
 
     <div class="row p-3 m-0">
-        <div class="col-9">
+        <div class="col-10">
           <h1 class="profile-name">
             {{ studentFullName }}
           </h1>
           <StudentInfo />
         </div>
-        <div class="col-3">
-          <button v-on:click="closeRecord" class="btn btn-primary">
-            <i class="far fa-times-circle"></i> Close record
-          </button>
-                 {{gradInfo}}
-      
-          <ul class="my-2 list-unstyled">
-            <li class="pb-1">Created by:</li>
-            <li class="pb-1">Created:</li>
-            <li class="pb-1">Updated by:</li>
-            <li>Updated:</li>
-          </ul>
+        <div class="col-2">
+          <div>
+          <b-button v-on:click="closeRecord" variant="primary" size="sm" class="my-2 close-record">
+            <i class="far fa-times-circle"></i> Close
+          </b-button>
+                 <!--{{gradInfo}}-->
+                 <br/>
+          
+            <b-dropdown variant="outline-primary" id="dropdown-1" class="close-record" size="sm"  text="Record details" >
+              <b-dropdown-item disabled class="no-underline">Created by: {{ gradInfo.createdBy }}</b-dropdown-item>
+              <b-dropdown-item disabled>Created: {{ gradInfo.createdTimestamp }}</b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item disabled>Updated by: {{ gradInfo.updatedBy }}</b-dropdown-item>
+              <b-dropdown-item disabled>Updated: {{ gradInfo.updatedTimestamp }}</b-dropdown-item>
+            </b-dropdown>
+          </div>
+
         </div>
       </div>
 
@@ -167,6 +172,10 @@ export default {
 }
 header.card-header button{
   border-radius: 0px !important;
+}
+
+.no-underline {
+  text-decoration: none;
 }
 
 </style>

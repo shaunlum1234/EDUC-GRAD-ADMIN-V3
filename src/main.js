@@ -11,6 +11,10 @@ import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
 import store from './store/index.js';
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
+import { BootstrapVueIcons } from 'bootstrap-vue'
+
+
+
 // Install BootstrapVue
 
 //import store from './store';
@@ -33,6 +37,8 @@ Vue.use(qs)
 Vue.use(VueFilterDateParse)
 Vue.use(VueFilterDateFormat)
 Vue.use(Vuex)
+Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
 
 //keycloak init options
 let initOptions = {

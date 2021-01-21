@@ -22,25 +22,36 @@
             <b-card-text>
               <div class="row">
                 <div class="col-12 graduation-status-content">
+
+                  <!-- Hide Output {{studentGradStatus}}-->
                   <div>
                     <!-- Student Graduation Status -->
-                    <div class="col-12 header">Graduation status</div>
+                    <div class="col-12 header">
+                      <h2>Graduation status</h2></div>
                     <ul>
-                      <li v-if="studentGradStatus.gradProgram">
-                        <strong>Graduation Program:</strong>
-                        {{ studentGradStatus.gradProgram }}
+                      <li v-if="studentGradStatus.program">
+                        <strong>Program:</strong>
+                        {{ studentGradStatus.program }}
                       </li>
                       <li v-if="studentGradStatus.gradProgramAtGraduation">
-                        <strong>Grad Program at Graduation:</strong>
+                        <strong>Program at graduation:</strong>
                         {{ studentGradStatus.gradProgramAtGraduation }}
                       </li>
-
+                       <li v-if="studentGradStatus.studentGrade">
+                        <strong>Grade at graduation:</strong>
+                        {{ studentGradStatus.studentGrade }}
+                      </li>
+                      
                       <li v-if="studentGradStatus.graduationDate">
                         <strong>Graduation Date:</strong>
                         {{ studentGradStatus.graduationDate }}
                       </li>
                       <li v-if="studentGradStatus.gpa">
                         <strong>GPA:</strong> {{ studentGradStatus.gpa }}
+                      </li>
+                      <li v-if="studentGradStatus.honoursFlag">
+                        <strong>Honours:</strong>
+                        {{ studentGradStatus.honoursFlag }}
                       </li>
 
                       <li v-if="studentGradStatus.sccpGraduationDate">
@@ -60,24 +71,32 @@
                     </ul>
 
                     <!-- Student Certifications and Diplomas -->
-                    <div class="col-12 header">Certification/Dogwoods</div>
+                    <div class="col-12 header">
+                      <h2>Certification/Dogwoods</h2></div>
                     <ul>
                       <li v-if="studentGradStatus.certificateType1">
-                        <strong>Certificate (Type 1):</strong>
+                        <strong>Certificate #1:</strong>
                         {{ studentGradStatus.certificateType1 }}
+                        <br>
+                        <span v-if="studentGradStatus.certificateType1Date">
+                            <strong>Date obtained:</strong>
+                            {{ studentGradStatus.certificateType1Date }}
+                          </span>
                       </li>
-                      <li v-if="studentGradStatus.certificateType1Datev">
-                        <strong>(Type 1) date:</strong>
-                        {{ studentGradStatus.certificateType1Datev }}
-                      </li>
+                    </ul>
+                    <ul>
                       <li v-if="studentGradStatus.certificateType2">
-                        <strong>Certificate (Type 2):</strong>
+                        <strong>Certificate #2:</strong>
                         {{ studentGradStatus.certificateType2 }}
-                      </li>
-                      <li v-if="studentGradStatus.certificateType2Date">
-                        <strong>(Type 2) date:</strong>
+                        <br>
+                      <span v-if="studentGradStatus.certificateType2Date">
+                        <strong>Date obtained:</strong>
                         {{ studentGradStatus.certificateType2Date }}
+                      </span>
                       </li>
+                    </ul>
+                    <ul>
+
                       <li v-if="studentGradStatus.dualDogwoodEligibility">
                         <strong>Dual Dogwood</strong
                         >{{ studentGradStatus.dualDogwoodEligibility }}
@@ -86,30 +105,15 @@
                         <strong>Transcript Date:</strong>
                         {{ studentGradStatus.transcriptDate }}
                       </li>
-                      <li v-if="studentGradStatus.createdBy">
-                        <strong>Created By:</strong>
-                        {{ studentGradStatus.createdBy }}
-                      </li>
-                      <li v-if="studentGradStatus.createdTimestamp">
-                        <strong>Created:</strong>
-                        {{ studentGradStatus.createdTimestamp }}
-                      </li>
-                      <li v-if="studentGradStatus.updatedBy">
-                        <strong>Updated By:</strong>
-                        {{ studentGradStatus.updatedBy }}
-                      </li>
-                      <li v-if="studentGradStatus.updatedTimestamp">
-                        <strong>Updated:</strong>
-                        {{ studentGradStatus.updatedTimestamp }}
-                      </li>
+                      
                     </ul>
                     <!-- Programs -->
-                    <div class="col-12 header">Programs</div>
+                    <div class="col-12 header">
+                      <h2>Special programs</h2>
+                    
+                    </div>
                     <ul>
-                      <li v-if="studentGradStatus.honoursFlag">
-                        <strong>Honours:</strong>
-                        {{ studentGradStatus.honoursFlag }}
-                      </li>
+                      
                       <li v-if="studentGradStatus.frenchProgramParticipation">
                         <strong>Program Cadre:</strong>
                         {{ studentGradStatus.frenchProgramParticipation }}
@@ -133,9 +137,9 @@
                         {{ studentGradStatus.ibParticipationFlag }}
                       </li>
                     </ul>
-                    <div class="col-12 header">Graduation reports</div>
+                    <div class="col-12 header"><h2>Graduation reports</h2></div>
                     <div class="col-12">
-                      Last updated: March 10, 2020
+                      
                       <button class="float-right primary btn-primary ml-3">
                         <i class="fas fa-sync"></i> Update
                       </button>
