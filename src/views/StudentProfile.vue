@@ -159,6 +159,11 @@ export default {
 <style scoped>
 .close-record {
   float: right;
+  width: 125px;
+  text-align:center;
+}
+.close-record .dropdown-menu.show{
+    left: -120px !important;
 }
 .tab-loading {
   color: green !important;

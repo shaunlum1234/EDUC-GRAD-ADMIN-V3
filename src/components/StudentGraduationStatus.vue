@@ -300,3 +300,4 @@ ul.non-grad-reasons {
 .card-header > button {
   border-radius: 0px !important;
 }
+
