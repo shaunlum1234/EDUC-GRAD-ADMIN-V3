@@ -349,20 +349,19 @@ export default {
         this.message ="";
         this.searchLoading = true;
         this.studentSearchResults = [];
-        //console.log("localstorage at StudenSearch: "+localStorage.getItem('jwt'));
-        //StudentService.setClient(localStorage.getItem('jwt'));
         StudentService.getStudentByPen(this.penInput, localStorage.getItem('jwt'))
           .then((response) => {
             if (response.data) {
+              this.selectStudent(response.data);
+              /*
+              //select student in list
               this.searchLoading = false;
               this.studentSearchResults.push(response.data);
               this.message = "1 Student found";
+              */
             }
           })
-          .catch((error) => {
-            if (error.response.data.error.statusCode === 401) {
-              this.$router.push({ name: "logout" });
-            }
+          .catch(() => {
             this.searchLoading = false;
             this.message = "Student not found";
           });

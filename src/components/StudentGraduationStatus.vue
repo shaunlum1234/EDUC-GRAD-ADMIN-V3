@@ -140,7 +140,7 @@
                     <div class="col-12 header"><h2>Graduation reports</h2></div>
                     <div class="col-12">
                       
-                      <button class="float-right primary btn-primary ml-3">
+                      <button v-on:@click="updateGraduationStatus" class="float-right primary btn-primary ml-3" >
                         <i class="fas fa-sync"></i> Update
                       </button>
                       <a v-on:click="getStudentAchivementReportPDF" href="#" class=""
@@ -246,6 +246,7 @@
 <script>
 import { mapGetters } from "vuex";
 import GraduationCommonService from "@/services/GraduationCommonService.js";
+import GraduationStatusService from "@/services/GraduationStatusService.js";
 export default {
   name: "StudentGraduationStatus",
   computed: {
@@ -255,6 +256,9 @@ export default {
   },
   created() {},
   methods: {
+    updateGraduationStatus: function(){
+      GraduationStatusService
+    },
     getStudentAchivementReportPDF: function(){
           GraduationCommonService.getAchievementReport(this.studentGradStatus.pen, localStorage.getItem('jwt'))
           .then((response) => {
