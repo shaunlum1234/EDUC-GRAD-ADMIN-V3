@@ -323,7 +323,7 @@ export default {
       );
        GraduationStatusService.getGraduationStatus(pen, localStorage.getItem('jwt')).then(
         (response) => {
-          // console.log(response.data);
+          //console.log('Graduation Status: ' + response.data);
           this.$store.dispatch("setStudentGradStatus", response.data);
         }
       );

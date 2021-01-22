@@ -33,9 +33,17 @@
                         <strong>Program:</strong>
                         {{ studentGradStatus.program }}
                       </li>
+                      <li v-if="studentGradStatus.programCompletionDate">
+                        <strong>Program Completion Date:</strong>
+                        {{ studentGradStatus.programCompletionDate }}
+                      </li>
                       <li v-if="studentGradStatus.gradProgramAtGraduation">
                         <strong>Program at graduation:</strong>
                         {{ studentGradStatus.gradProgramAtGraduation }}
+                      </li>
+                      <li v-if="studentGradStatus.schoolOfRecord">
+                        <strong>School of Record:</strong>
+                        {{ studentGradStatus.schoolOfRecord }}
                       </li>
                        <li v-if="studentGradStatus.studentGrade">
                         <strong>Grade at graduation:</strong>
@@ -140,7 +148,7 @@
                     <div class="col-12 header"><h2>Graduation reports</h2></div>
                     <div class="col-12">
                       
-                      <button v-on:@click="updateGraduationStatus" class="float-right primary btn-primary ml-3" >
+                      <button v-if="!studentGradStatus.programCompletionDate" v-on:@click="updateGraduationStatus" class="float-right primary btn-primary ml-3" >
                         <i class="fas fa-sync"></i> Update
                       </button>
                       <a v-on:click="getStudentAchivementReportPDF" href="#" class=""

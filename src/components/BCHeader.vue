@@ -66,7 +66,7 @@
             <!-- <router-link to="/">Select Student</router-link> -->
             <a href="#" class="nav-link" @click="selectStudent()">Select Student</a>
           </li>
-          <li><router-link to="/admin-graduation-programs">Graduation Programs</router-link></li>
+          <li><router-link to="/admin-graduation-programs">Programs</router-link></li>
           <li class="nav-item">
             <a v-bind:href="'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + host" class="nav-link">Logout</a>
           </li>
