@@ -5,23 +5,19 @@
       v-if="displayMessage"
     ></SiteMessage>
     <!-- Button trigger modal -->
-
-    <div class="row p-3 m-0">
-        <div class="col-10">
+    <div class="row p-3 m-0 ">
+        <div class="col-md-10 col-12">
           <h1 class="profile-name">
             {{ studentFullName }}
           </h1>
           <StudentInfo />
         </div>
-        <div class="col-2">
-          <div>
-          <b-button v-on:click="closeRecord" variant="primary" size="sm" class="my-2 close-record">
-            <i class="far fa-times-circle"></i> Close
-          </b-button>
-                 <!--{{gradInfo}}-->
-                 <br/>
-          
-            <b-dropdown variant="outline-primary" id="dropdown-1" class="close-record" size="sm"  text="Record details" >
+        <div class="col-md-2 col-12">
+          <div class="row px-0">
+            <b-button v-on:click="closeRecord" variant="primary" size="sm" class="col-6 close-record">
+              <i class="far fa-times-circle"></i> Close
+            </b-button>
+            <b-dropdown variant="outline-primary" id="dropdown-1" class="col-6 close-record" size="sm"  text="Record details" >
               <b-dropdown-item disabled class="no-underline">Created by: {{ gradInfo.createdBy }}</b-dropdown-item>
               <b-dropdown-item disabled>Created: {{ gradInfo.createdTimestamp }}</b-dropdown-item>
               <b-dropdown-divider></b-dropdown-divider>
@@ -39,7 +35,7 @@
       <div class="col-4" v-if="!smallScreen">
         <StudentGraduationStatus />
       </div>
-      <div class="col-8 px-0">
+      <div class="col-md-12 col-lg-8 px-0">
       <div>
         <b-card class="py-1">
           <b-tabs>
@@ -128,6 +124,10 @@ export default {
       displayMessage: null,
       smallScreen: false,
       token: "no token",
+      window: {
+        width: 0,
+        height: 0
+      }
     };
   },
   computed: {
@@ -144,13 +144,34 @@ export default {
     }),
   },
   created() {
-    //Load student Data into studentInfo:
+    this.window.width = window.innerWidth;
+    this.window.height = window.innerHeight;
+    if(this.window.width < 960){
+      this.smallScreen = true;
+    }
+    window.addEventListener('resize', this.handleResize);
+    this.handleResize();
     
   },
+   destroyed() {
+        window.removeEventListener('resize', this.handleResize);
+   },
   methods: {
     closeRecord: function() {
       this.$store.commit("unsetStudent");
       this.$router.push({ name: "student-search" });
+    },
+    handleResize() {
+      
+      this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;
+      console.log("resize" + this.window.width  + " " + this.window.height + this.smallScreen) ;
+      if(this.window.width < 992){
+        //md
+        this.smallScreen = true;
+      }else{
+        this.smallScreen = false;
+      }
     }
     
   },
