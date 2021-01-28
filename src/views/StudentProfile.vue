@@ -47,7 +47,7 @@
               <b-tab
                 v-if="smallScreen"
                 title="Graduation Status"
-                class="py-3 px-0 m-1" 
+                class="py-3 px-0 m-1 " 
                 ref="studentCoursesTab"
               >
                 <b-card-text><StudentGraduationStatus /></b-card-text>
@@ -55,11 +55,11 @@
             </transition>            
             <transition name="fade">
               <b-tab
-                v-if="studentHasCourses"
                 title="Courses"
                 class="py-3 px-0 m-1"
               >
-                <b-card-text><StudentCourses /></b-card-text>
+                <b-card-text v-if="!studentHasCourses">Loading Student Courses <b-spinner variant="success" label="Spinning"></b-spinner></b-card-text>
+                <b-card-text v-if="studentHasCourses"><StudentCourses /></b-card-text>
               </b-tab>
             </transition>
             <transition name="fade">
@@ -111,6 +111,7 @@ import StudentGraduationStatus from "@/components/StudentGraduationStatus";
 import { mapGetters } from "vuex";
 //import { store } from "@/store.js";
 export default {
+
   name: "studentProfile",
   components: {
     SiteMessage: SiteMessage,
@@ -126,7 +127,7 @@ export default {
       opened: [],
       displayMessage: null,
       smallScreen: false,
-      token: "hey",
+      token: "no token",
     };
   },
   computed: {
@@ -178,7 +179,6 @@ export default {
 header.card-header button{
   border-radius: 0px !important;
 }
-
 .no-underline {
   text-decoration: none;
 }

@@ -175,12 +175,11 @@
       <p class="sample-pens">
         Samples:
         <ul>
-          <li>140341157 (Exams and Assessment)</li>
-          <li>130129323 (Exams and Assessment)</li>
-          <li>101696920 (Exams Only)</li>
-          <li>124411075 (Student Achievement Report)</li>
-          
-
+          <li><a href="#" v-on:click="findStudentByPenSample(140341157)">140341157</a> (Exams and Assessment)</li>
+          <li><a href="#" v-on:click="findStudentByPenSample(130129323)">130129323</a> (Exams and Assessment)</li>
+          <li><a href="#" v-on:click="findStudentByPenSample(101696920)">101696920</a> (Exams Only)</li>
+          <li><a href="#" v-on:click="findStudentByPenSample(124411075)">124411075</a> (Student Achievement Report)</li>
+          <li><a href="#" v-on:click="findStudentByPenSample(141761569)">141761569</a> (Student with no Grad Status)</li>
         </ul>
       </p>
 
@@ -341,6 +340,10 @@ export default {
           this.findStudentBySurname();
         }
       }
+    },
+    findStudentByPenSample:function(pen){
+      this.penInput = pen;
+      this.findStudentByPen();
     },
     findStudentByPen: function() {
 

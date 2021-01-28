@@ -2,7 +2,7 @@
   <div>
     <div class="accordion col-12 px-0 mx-0" role="tablist">
       <b-card no-body class="col-12 px-0 mx-0">
-        <b-card-header header-tag="header" class="col-12 px-0 mx-0" role="tab">
+        <b-card-header header-tag="header" class="card-header-title col-12 px-0 mx-0" role="tab">
           <b-button
             block
             v-b-toggle.accordion-1
@@ -24,7 +24,7 @@
                 <div class="col-12 graduation-status-content">
 
                   <!-- Hide Output {{studentGradStatus}}-->
-                  <div>
+                  <div v-if="studentGradStatus">
                     <!-- Student Graduation Status -->
                     <div class="col-12 header">
                       <h2>Graduation status</h2></div>
@@ -163,7 +163,7 @@
         </b-collapse>
       </b-card>
       <b-card no-body class="col-12 px-0 mx-0">
-        <b-card-header header-tag="header" class="col-12 px-0 mx-0" role="tab">
+        <b-card-header header-tag="header" class="card-header-title  col-12 px-0 mx-0" role="tab">
           <b-button
             block
             v-b-toggle.accordion-2
@@ -204,7 +204,7 @@
       </b-card>
 
       <b-card no-body class="col-12 px-0 mx-0">
-        <b-card-header header-tag="header" class="col-12 px-0 mx-0" role="tab">
+        <b-card-header header-tag="header" class="card-header-title col-12 px-0 mx-0" role="tab">
           <b-button
             block
             v-b-toggle.accordion-3
@@ -291,21 +291,25 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .graduation-status-content .header {
   border-bottom: 1px solid #ccc;
   font-weight: bold;
   color: #517195;
   margin: 10px 0px;
+
 }
 ul.requirements-met,
 ul.non-grad-reasons {
   list-style: none;
 }
-.card-header {
-  padding: 0px !important;
+header {
+  color:red;
 }
 .card-header > button {
   border-radius: 0px !important;
+}
+.accordion >.card .card-header{
+  padding: 0px !important;
 }
 

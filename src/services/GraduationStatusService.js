@@ -8,11 +8,5 @@ export default {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     //console.log("TOKEN IN SERVICE getGraduationStatus: " + token);
     return apiClient.get('/api/v1/gradstatus/pen/' + pen,{ headers });
-  },
-  // getAchievementReport(pen) {
-  //   return apiClient.get('/api/v1/graduation-status/' + pen + "/achievement-report", {responseType: 'arraybuffer'});
-  // },
-  // refreshGraduationStatus(pen){
-  //  return apiClient.post('/api/v1/graduation-status/' + pen);
-  // }
+  }
 }
