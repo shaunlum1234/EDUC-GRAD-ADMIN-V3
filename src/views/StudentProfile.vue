@@ -96,7 +96,11 @@
 </template>
 
 <script>
-
+import CourseAchievementService from "@/services/CourseAchievementService.js";
+import StudentService from "@/services/StudentService.js";
+import StudentExamsService from "@/services/StudentExamsService.js";
+import AssessmentService from "@/services/AssessmentService.js"
+import GraduationStatusService from "@/services/GraduationStatusService.js"
 import SiteMessage from "@/components/SiteMessage";
 import StudentCourses from "@/components/StudentCourses";
 import StudentInfo from "@/components/StudentInfo";
@@ -116,6 +120,11 @@ export default {
     StudentExams: StudentExams,
     StudentAssessments: StudentAssessments,
     StudentGraduationStatus: StudentGraduationStatus,
+  },
+  props:{
+    pen:{
+      type:String,
+    }
   },
   data() {
     return {
@@ -144,6 +153,10 @@ export default {
     }),
   },
   created() {
+      const penFromURL = this.$route.params.pen;
+      console.log("PEM FRP< URL" + penFromURL);
+      this.loadStudent( penFromURL);
+ 
     this.window.width = window.innerWidth;
     this.window.height = window.innerHeight;
     if(this.window.width < 960){
@@ -172,7 +185,35 @@ export default {
       }else{
         this.smallScreen = false;
       }
+    },
+
+    loadStudent(pen) {
+      StudentService.getStudentByPen(pen,localStorage.getItem('jwt')).then((response) => {
+        this.$store.dispatch('setStudentProfile', response.data);
+      });
+
+      AssessmentService.getStudentAssessment(pen,localStorage.getItem('jwt')).then((response) => {
+          this.$store.dispatch('setStudentAssessments', response.data);
+      });
+
+      StudentExamsService.getStudentExams(pen,localStorage.getItem('jwt')).then((response) => {
+        this.$store.dispatch('setStudentExams', response.data);
+      })
+
+      CourseAchievementService.getStudentCourseAchievements(pen, localStorage.getItem('jwt')).then(
+        (response) => {
+          this.$store.dispatch("setStudentCourses", response.data);
+        }
+      );
+       GraduationStatusService.getGraduationStatus(pen, localStorage.getItem('jwt')).then(
+        (response) => {
+          this.$store.dispatch("setStudentGradStatus", response.data);
+        }
+      );
     }
+
+   
+
     
   },
 };

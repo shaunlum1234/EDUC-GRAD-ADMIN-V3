@@ -42,6 +42,14 @@ const routes = [{
     }
   },
   {
+    path: '/student-profile/:pen',
+    name: 'student-profile',
+    component: StudentProfile,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/admin-graduation-programs',
     name: 'admin-graduation-programs',
     component: AdminGraduationPrograms,

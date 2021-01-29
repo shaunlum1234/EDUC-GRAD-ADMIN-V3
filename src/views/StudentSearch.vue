@@ -227,11 +227,7 @@
 <script>
 // @ is an alias to /src
 import { mapGetters } from "vuex";
-import CourseAchievementService from "@/services/CourseAchievementService.js";
 import StudentService from "@/services/StudentService.js";
-import StudentExamsService from "@/services/StudentExamsService.js";
-import AssessmentService from "@/services/AssessmentService.js"
-import GraduationStatusService from "@/services/GraduationStatusService.js"
 export default {
   name: "studentSearch",
   data() {
@@ -282,12 +278,11 @@ export default {
       }
     };
   },
-  mounted() {
-    this.focusInput();
+  created() {
   },
-  beforeRouteLeave(to, from, next) {
-    next(this.loadStudent(this.selectedPen));
-  },
+  // beforeRouteLeave(to, from, next) {
+  //   next(this.loadStudent(this.selectedPen));
+  // },
   components: {},
   computed: {
     ...mapGetters({
@@ -299,37 +294,6 @@ export default {
   },
 
   methods: {
-    focusInput() {
-      this.$refs.penSearch.focus();
-    },
-    loadStudent(pen) {
-
-      AssessmentService.getStudentAssessment(pen,localStorage.getItem('jwt')).then((response) => {
-          // this.$store.commit('setStudentExams',response.data);
-          this.$store.dispatch('setStudentAssessments', response.data);
-      });
-
-      StudentExamsService.getStudentExams(pen,localStorage.getItem('jwt')).then((response) => {
-        // this.$store.commit('setStudentExams',response.data);
-        //console.log(response)
-        this.$store.dispatch('setStudentExams', response.data);
-      })
-
-      CourseAchievementService.getStudentCourseAchievements(pen, localStorage.getItem('jwt')).then(
-        (response) => {
-          this.$store.dispatch("setStudentCourses", response.data);
-        }
-      );
-       GraduationStatusService.getGraduationStatus(pen, localStorage.getItem('jwt')).then(
-        (response) => {
-          //console.log('Graduation Status: ' + response.data);
-          this.$store.dispatch("setStudentGradStatus", response.data);
-        }
-      );
-
-      //let currentObj = this;
-      //currentObj.$router.push({name: 'student-profile'});
-    },
     keyHandler: function(e) {
       if (e.keyCode === 13) {
         //enter key pressed
@@ -369,9 +333,7 @@ export default {
             this.message = "Student not found";
           });
 //pen input check
-      } else {
-        this.$router.push({ name: "logout" });
-      }    
+      }
     },
     findStudentsByAdvancedSearch: function() {
       this.message = "";
@@ -404,8 +366,8 @@ export default {
     },
     selectStudent: function(student) {
       this.selectedPen = student.pen;
-      this.$store.commit("setStudentProfile", student);
-      this.$router.push({ name: "student-profile" });
+       this.$router.push({path: `/student-profile/${this.selectedPen}`});
+      //this.$router.push({ name: "student-profile", params: {pen: this.selectedPen}});
     },
     clearStudent: function() {},
     clearInput: function() {

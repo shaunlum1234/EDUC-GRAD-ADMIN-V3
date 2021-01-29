@@ -27,6 +27,7 @@
             @click="toggle(row.courseCode + row.courseLevel)"
             :class="{ opened: opened.includes(row.courseCode) }"
           >
+            <!--td><td><a href="#" v-b-tooltip.hover v-bind:title="row.courseName">{{ row.courseCode }}</a></td-->
             <td>{{ row.courseCode }}</td>
             <td>{{ row.courseLevel }}</td>
             <td>{{ row.sessionDate }}</td>
