@@ -1,7 +1,15 @@
 <template>
   <div>
+        <img
+              class="min-nav d-md-none"
+              src="../assets/images/bcid-logo-rev-en.svg"
+              width="200"
+              height="44"
+              alt="B.C. Government Logo"
+            />
     <header>
       <div class="container">
+    
         <div class="banner">
           <a class="navbar-brand" href="https://www2.gov.bc.ca">
             <img
@@ -11,24 +19,9 @@
               height="44"
               alt="B.C. Government Logo"
             />
-            <img
-              class="img-fluid d-md-none"
-              src="../assets/images/bcid-logo-rev-en.svg"
-              width="200"
-              height="44"
-              alt="B.C. Government Logo"
-            />
+     
           </a>
           <h1>Graduation Records and Achievement </h1>
-        </div>
-        <div class="other">
-          <a class="nav-btn">
-            <i class="fas fa-bars" id="menu"></i>
-          </a>
-          <!--
-      This place is for anything that needs to be right aligned
-      beside the logo.
-    -->
         </div>
       </div>
     </header>
@@ -258,5 +251,14 @@ header .nav-btn {
     font-size: 2em;
     visibility: visible;
   }
+}
+.min-nav{
+    position: fixed;
+    left: 80px;
+    z-index: 110;
+    top: 5px;
+}
+.burgernav{
+  position:fixed;
 }
 </style>

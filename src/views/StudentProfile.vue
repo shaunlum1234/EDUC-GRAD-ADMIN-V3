@@ -14,15 +14,20 @@
         </div>
         <div class="col-md-2 col-12">
           <div class="row px-0">
-            <b-button v-on:click="closeRecord" variant="primary" size="sm" class="col-6 close-record">
+            <b-button v-on:click="closeRecord" variant="primary" size="sm" class="col-6 col-md-12 close-record">
               <i class="far fa-times-circle"></i> Close
             </b-button>
-            <b-dropdown variant="outline-primary" id="dropdown-1" class="col-6 close-record" size="sm"  text="Record details" >
-              <b-dropdown-item disabled class="no-underline">Created by: {{ gradInfo.createdBy }}</b-dropdown-item>
-              <b-dropdown-item disabled>Created: {{ gradInfo.createdTimestamp }}</b-dropdown-item>
-              <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item disabled>Updated by: {{ gradInfo.updatedBy }}</b-dropdown-item>
-              <b-dropdown-item disabled>Updated: {{ gradInfo.updatedTimestamp }}</b-dropdown-item>
+            <b-dropdown variant="outline-primary" id="dropdown-1" class="col-6 col-md-12 px-0 close-record" size="sm"  text="Record details" >
+              <div v-if="hasGradStatus">
+                <b-dropdown-item disabled class="no-underline">Created by: {{ gradInfo.createdBy }}</b-dropdown-item>
+                <b-dropdown-item disabled>Created: {{ gradInfo.createdTimestamp }}</b-dropdown-item>
+                <b-dropdown-divider></b-dropdown-divider>
+                <b-dropdown-item disabled>Updated by: {{ gradInfo.updatedBy }}</b-dropdown-item>
+                <b-dropdown-item disabled>Updated: {{ gradInfo.updatedTimestamp }}</b-dropdown-item>
+              </div>
+              <div v-if="!hasGradStatus" class="p-3">
+                This student has no graduation record details.
+              </div>
             </b-dropdown>
           </div>
 
@@ -149,12 +154,12 @@ export default {
       studentHasCourses: "studentHasCourses",
       studentHasAssessments: "studentHasAssessments",
       studentHasExams: "studentHasExams",
-      gradInfo: "getStudentGraduationCreationAndUpdate"
+      gradInfo: "getStudentGraduationCreationAndUpdate",
+      hasGradStatus: "studentHasGradStatus"
     }),
   },
   created() {
       const penFromURL = this.$route.params.pen;
-      console.log("PEM FRP< URL" + penFromURL);
       this.loadStudent( penFromURL);
  
     this.window.width = window.innerWidth;
@@ -178,7 +183,6 @@ export default {
       
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
-      console.log("resize" + this.window.width  + " " + this.window.height + this.smallScreen) ;
       if(this.window.width < 992){
         //md
         this.smallScreen = true;
@@ -190,6 +194,7 @@ export default {
     loadStudent(pen) {
       StudentService.getStudentByPen(pen,localStorage.getItem('jwt')).then((response) => {
         this.$store.dispatch('setStudentProfile', response.data);
+        
       });
 
       AssessmentService.getStudentAssessment(pen,localStorage.getItem('jwt')).then((response) => {
@@ -205,8 +210,11 @@ export default {
           this.$store.dispatch("setStudentCourses", response.data);
         }
       );
-       GraduationStatusService.getGraduationStatus(pen, localStorage.getItem('jwt')).then(
+      // Student Grad Status will return 404 if there is not grad status for the pen specified. We handle
+      // this in the catch
+      GraduationStatusService.getGraduationStatus(pen, localStorage.getItem('jwt')).then(
         (response) => {
+          console.log(response);
           this.$store.dispatch("setStudentGradStatus", response.data);
         }
       );

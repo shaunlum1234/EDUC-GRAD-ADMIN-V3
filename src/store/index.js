@@ -13,7 +13,7 @@
         courses: "not loaded",
         assessments: "not loaded",
         exams: "not loaded",
-        gradStatus: "not loaded",
+        gradStatus: {},
         hasExams: false,
         hasAssessments: false,
         hasCourses: false,
@@ -42,12 +42,13 @@
         }
       },
       setStudentGradStatus(state, payload) {
-        // console.log("mutating grad status");
         state.student.gradStatus = payload;
-        if(state.student.gradStatus.length){
-          // console.log("has grad status");
+        console.log(payload);
+        if(state.student.gradStatus != "not loaded"){
+          console.log("has grad status");
           state.student.hasGradStatus = true;
         }
+        console.log(state.student.hasGradStatus);
       },
       setStudentAssessments(state, payload) {
         state.student.assessments = payload;
@@ -70,6 +71,7 @@
         state.student.hasExams = false;
         state.student.hasAssessments = false;
         state.student.hasCourses = false;
+        state.student.hasGradStatus = false;
       },
     },
     actions: {
@@ -102,9 +104,8 @@
       setStudentGradStatus({
         commit
       }, payload) {
-        //console.log("setting grad status");
         commit('setStudentGradStatus', payload);
-      }      
+      }
       
 
     },

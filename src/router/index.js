@@ -34,14 +34,6 @@ const routes = [{
     }
   },
   {
-    path: '/student-profile',
-    name: 'student-profile',
-    component: StudentProfile,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: '/student-profile/:pen',
     name: 'student-profile',
     component: StudentProfile,

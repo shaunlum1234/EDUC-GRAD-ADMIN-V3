@@ -1,7 +1,32 @@
 <template>
   <div>
-    <div class="accordion col-12 px-0 mx-0" role="tablist">
-      <b-card no-body class="col-12 px-0 mx-0">
+
+      <b-card no-body class="col-12 px-0 mx-0" v-if="!hasGradStatus">
+        <b-card-header header-tag="header" class="card-header-title col-12 px-0 mx-0" role="tab">
+          <b-button
+            block
+            v-b-toggle.accordion-1
+            variant="info"
+            class="text-left"
+            ><i class="fas fa-info-circle primary"></i> Student graduation
+            information</b-button
+          >
+        </b-card-header>
+        <b-card-body >
+            <b-card-text>
+              <div v-if="!hasGradStatus">
+                No graduation information available
+                <button v-if="!studentGradStatus.programCompletionDate" v-on:@click="updateGraduationStatus" class="float-left primary btn-primary" >
+                    <i class="fas fa-sync"></i> Run Grad Algorithm
+                </button>
+              </div>
+            </b-card-text>
+        </b-card-body>
+
+      </b-card>
+   
+    <div class="accordion col-12 px-0 mx-0" role="tablist" v-if="hasGradStatus">
+      <b-card no-body class="col-12 px-0 mx-0" >
         <b-card-header header-tag="header" class="card-header-title col-12 px-0 mx-0" role="tab">
           <b-button
             block
@@ -18,13 +43,11 @@
           accordion="my-accordion"
           role="tabpanel"
         >
-          <b-card-body>
+          <b-card-body >
             <b-card-text>
               <div class="row">
-                <div class="col-12 graduation-status-content">
-
-                  <!-- Hide Output {{studentGradStatus}}-->
-                  <div v-if="studentGradStatus">
+                <div class="col-12 graduation-status-content">           
+                  <div >
                     <!-- Student Graduation Status -->
                     <div class="col-12 header">
                       <h2>Graduation status</h2></div>
@@ -260,6 +283,7 @@ export default {
   computed: {
     ...mapGetters({
       studentGradStatus: "getStudentGradStatus",
+      hasGradStatus: "studentHasGradStatus",
     }),
   },
   created() {},
@@ -308,6 +332,9 @@ header {
 }
 .card-header > button {
   border-radius: 0px !important;
+}
+.card-header{
+  padding: 0px 0px !important;
 }
 .accordion >.card .card-header{
   padding: 0px !important;

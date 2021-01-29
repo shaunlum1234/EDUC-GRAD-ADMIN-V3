@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <!-- <Header></Header> -->
-    <Bcheader style="margin-bottom: 15px;"></Bcheader>
-    <div class="main-container container">
+    <Bcheader class="bcheader" style="margin-bottom: 15px;"></Bcheader>
+    <div class="container">
         <transition
           name="fade"
         >
@@ -72,6 +72,16 @@ ul.sidebar-panel-nav > li > a {
 @media (min-width: 1300px){
   .container {
       max-width: 1300px !important;
+  }
+
+  
+}
+  .bcheader{
+    height:115px;
+  }
+@media (max-width: 768px){
+  .bcheader{
+    height:75px;
   }
 }
 </style>
