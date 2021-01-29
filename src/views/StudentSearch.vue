@@ -24,14 +24,6 @@
                   tabindex="1"
                  >
                  </b-form-input>
-              <!--input
-                v-model="penInput"
-                placeholder="Enter a student's PEN"
-                class="pen-search"
-                ref="penSearch"
-                v-on:keyup="keyHandler"
-                tabindex="1"
-              /-->
               <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
                 <i class="fas fa-search"></i> Search
               </button>
@@ -50,7 +42,8 @@
             ></b-spinner>
           
         </div>
-        
+        </form>
+        <form v-on:submit.prevent>
           <!-- advanced Search -->
           
         <a v-on:click="showAdvancedSearch" href="#" class="ml-3">Advanced search</a>
@@ -428,11 +421,9 @@ input{
   padding: 5px;
   border-radius: 0px !important
 }
-
 .primary { color: #003366;}
-
 .pen-search{
-  width: 700px;
+  width: 100%;
   margin-right: 9px;
   float: left;
   padding-left:25px;

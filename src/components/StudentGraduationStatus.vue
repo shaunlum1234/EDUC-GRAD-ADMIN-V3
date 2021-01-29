@@ -2,16 +2,16 @@
   <div>
 
       <b-card no-body class="col-12 px-0 mx-0" v-if="!hasGradStatus">
-        <b-card-header header-tag="header" class="card-header-title col-12 px-0 mx-0" role="tab">
-          <b-button
-            block
-            v-b-toggle.accordion-1
-            variant="info"
-            class="text-left"
-            ><i class="fas fa-info-circle primary"></i> Student graduation
-            information</b-button
-          >
-        </b-card-header>
+        
+        <b-button
+          block
+          v-b-toggle.accordion-1
+          variant="info"
+          class="text-left"
+          ><i class="fas fa-info-circle primary"></i> Student graduation
+          information</b-button
+        >
+    
         <b-card-body >
             <b-card-text>
               <div v-if="!hasGradStatus">
@@ -27,16 +27,16 @@
    
     <div class="accordion col-12 px-0 mx-0" role="tablist" v-if="hasGradStatus">
       <b-card no-body class="col-12 px-0 mx-0" >
-        <b-card-header header-tag="header" class="card-header-title col-12 px-0 mx-0" role="tab">
+        
           <b-button
             block
             v-b-toggle.accordion-1
             variant="info"
-            class="text-left"
+            class="text-left pt-4"
             ><i class="fas fa-info-circle primary"></i> Student graduation
             information</b-button
           >
-        </b-card-header>
+        
         <b-collapse
           id="accordion-1"
           visible
@@ -46,7 +46,7 @@
           <b-card-body >
             <b-card-text>
               <div class="row">
-                <div class="col-12 graduation-status-content">           
+                <div class="graduation-status-content col-12 px-0 mx-0">           
                   <div >
                     <!-- Student Graduation Status -->
                     <div class="col-12 header">
@@ -186,7 +186,7 @@
         </b-collapse>
       </b-card>
       <b-card no-body class="col-12 px-0 mx-0">
-        <b-card-header header-tag="header" class="card-header-title  col-12 px-0 mx-0" role="tab">
+        
           <b-button
             block
             v-b-toggle.accordion-2
@@ -195,7 +195,7 @@
             ><i class="fas fa-times-circle text-danger"></i> Requirements not
             met (5)</b-button
           >
-        </b-card-header>
+        
         <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
           <b-card-body>
             <b-card-text>
@@ -227,16 +227,16 @@
       </b-card>
 
       <b-card no-body class="col-12 px-0 mx-0">
-        <b-card-header header-tag="header" class="card-header-title col-12 px-0 mx-0" role="tab">
-          <b-button
-            block
-            v-b-toggle.accordion-3
-            variant="info"
-            class="text-left"
-            ><i class="fas fa-check-circle text-success"></i> Requirements met
-            (6)</b-button
-          >
-        </b-card-header>
+       
+        <b-button
+          block
+          v-b-toggle.accordion-3
+          variant="info"
+          class="text-left"
+          ><i class="fas fa-check-circle text-success"></i> Requirements met
+          (6)</b-button
+        >
+        
         <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
           <b-card-body>
             <b-card-text>
@@ -321,14 +321,17 @@ export default {
   font-weight: bold;
   color: #517195;
   margin: 10px 0px;
+  background: #f2f2f2 !important; 
 
+}
+.graduation-status-content .header h2{
+  font-size: 16px;
+  margin: 0px !important;
+  padding:10px;
 }
 ul.requirements-met,
 ul.non-grad-reasons {
   list-style: none;
-}
-header {
-  color:red;
 }
 .card-header > button {
   border-radius: 0px !important;
@@ -336,7 +339,13 @@ header {
 .card-header{
   padding: 0px 0px !important;
 }
+.card{
+  border-radius: 0px;
+}
 .accordion >.card .card-header{
   padding: 0px !important;
 }
-
+.btn{
+  border-radius:0px !important;
+}
+</style>
