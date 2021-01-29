@@ -12,7 +12,6 @@ import store from './store/index.js';
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
 import { BootstrapVueIcons } from 'bootstrap-vue'
-import '@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css'
 
 
 
@@ -20,6 +19,7 @@ import '@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css'
 
 //import store from './store';
 import SmartTable from 'vuejs-smart-table';
+require('../node_modules/@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css')
 Vue.config.productionTip = false;
 const options = {
   isEnabled: true,
