@@ -214,7 +214,6 @@ export default {
       // this in the catch
       GraduationStatusService.getGraduationStatus(pen, localStorage.getItem('jwt')).then(
         (response) => {
-          console.log(response);
           this.$store.dispatch("setStudentGradStatus", response.data);
         }
       );

@@ -43,12 +43,9 @@
       },
       setStudentGradStatus(state, payload) {
         state.student.gradStatus = payload;
-        console.log(payload);
         if(state.student.gradStatus != "not loaded"){
-          console.log("has grad status");
           state.student.hasGradStatus = true;
         }
-        console.log(state.student.hasGradStatus);
       },
       setStudentAssessments(state, payload) {
         state.student.assessments = payload;
