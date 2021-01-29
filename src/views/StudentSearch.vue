@@ -311,27 +311,27 @@ export default {
     },
     findStudentByPen: function() {
 
-        //console.log("FIND STUDENT BY PEN");
-        if (this.penInput) {
-        this.message ="";
-        this.searchLoading = true;
-        this.studentSearchResults = [];
-        StudentService.getStudentByPen(this.penInput, localStorage.getItem('jwt'))
-          .then((response) => {
-            if (response.data) {
-              this.selectStudent(response.data);
-              /*
-              //select student in list
-              this.searchLoading = false;
-              this.studentSearchResults.push(response.data);
-              this.message = "1 Student found";
-              */
-            }
-          })
-          .catch(() => {
+      //console.log("FIND STUDENT BY PEN");
+      if (this.penInput) {
+      this.message ="";
+      this.searchLoading = true;
+      this.studentSearchResults = [];
+      StudentService.getStudentByPen(this.penInput, localStorage.getItem('jwt'))
+        .then((response) => {
+          if (response.data) {
+            this.selectStudent(response.data);
+            /*
+            //select student in list
             this.searchLoading = false;
-            this.message = "Student not found";
-          });
+            this.studentSearchResults.push(response.data);
+            this.message = "1 Student found";
+            */
+          }
+        })
+        .catch(() => {
+          this.searchLoading = false;
+          this.message = "Student not found";
+        });
 //pen input check
       }
     },
