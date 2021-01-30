@@ -19,9 +19,6 @@ export default {
   }
 };
 </script>
-<style lang="css">
-@import "/node_modules/@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css";
-</style>
 
 <style>
 #app {

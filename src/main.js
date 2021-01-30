@@ -20,7 +20,7 @@ import '@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css'
 
 //import store from './store';
 import SmartTable from 'vuejs-smart-table';
-
+//require('../node_modules/@mygovbc-bootstrap-theme/dist/mygovbc-bootstrap-theme.min.css')
 Vue.config.productionTip = false;
 const options = {
   isEnabled: true,
