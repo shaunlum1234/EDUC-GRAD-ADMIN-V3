@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import GraduationProgramsService from "@/services/GraduationProgramsService.js";
+import ProgramManagementService from "@/services/ProgramManagementService.js";
 import GraduationProgramSets from '@/components/GraduationProgramSets';
 
 export default {
@@ -77,7 +77,7 @@ export default {
     };
   },
   created() {
-    GraduationProgramsService.getGraduationPrograms(localStorage.getItem('jwt'))
+    ProgramManagementService.getGraduationPrograms(localStorage.getItem('jwt'))
       .then((response) => {
         this.graduationPrograms = response.data;
         //console.log(this.graduationPrograms);

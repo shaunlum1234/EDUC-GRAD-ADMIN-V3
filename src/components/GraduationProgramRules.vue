@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import GraduationProgramRuleService from "@/services/GraduationProgramRuleService.js";
+
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 export default {
   name: "GraduationProgramRules",
@@ -86,7 +86,7 @@ export default {
   created() {
     // console.log('PropA:' + this.propA)
     // console.log('PropA:' + this.propB)
-    GraduationProgramRuleService.getProgramRule(this.selectedProgramCode, this.selectedProgramSet, localStorage.getItem('jwt'))
+    ProgramManagementService.getProgramRule(this.selectedProgramCode, this.selectedProgramSet, localStorage.getItem('jwt'))
       .then((response) => {
         this.graduationProgramRules = response.data;
         // console.log(this.graduationProgramRules);
