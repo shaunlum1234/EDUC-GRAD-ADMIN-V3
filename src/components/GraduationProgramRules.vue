@@ -68,7 +68,6 @@
 
 <script>
 import GraduationProgramRuleService from "@/services/GraduationProgramRuleService.js";
-import ProgramManagementService from "@/services/ProgramManagementService.js";
 export default {
   name: "GraduationProgramRules",
   props: {
@@ -96,14 +95,7 @@ export default {
         //console.log('There was an error:' + error.response);
       });
 
-      ProgramManagementService.getLetterGrades(localStorage.getItem('jwt'))
-      .then((response) => {
-        this.letterGrades = response.data;
-      })
-      // eslint-disable-next-line no-unused-vars
-      .catch((error) => {
-        //console.log('There was an error:' + error.response);
-      });
+
   },
   methods: {
     toggle(id) {
