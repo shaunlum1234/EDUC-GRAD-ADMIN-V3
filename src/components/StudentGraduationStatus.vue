@@ -183,7 +183,7 @@
                     </ul>
                     <div class="col-12 header"><h2>Graduation reports</h2></div>
                     <div class="col-12">
-                        <button v-on:click="updateGraduationStatus(studentPen)" class="float-right primary btn-primary ml-3" >
+                        <button v-on:click="updateGraduationStatus(studentPen)" class="float-right btn-primary btn-sm ml-3" >
                           <i class="fas fa-sync"></i> Update
                         </button>
                         <ul>

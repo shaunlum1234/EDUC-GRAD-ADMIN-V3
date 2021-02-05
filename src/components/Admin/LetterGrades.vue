@@ -1,6 +1,7 @@
 <template>
   <div>
-<table class="col-3 table table-striped table-bordered">
+  <p>Letter grade values used for graduation</p>
+  <table class="col-3 table table-striped table-bordered">
       <thead>
           <tr>
               <th>Letter Grade</th>

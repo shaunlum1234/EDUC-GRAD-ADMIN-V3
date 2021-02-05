@@ -44,13 +44,7 @@
             <a href="#" class="nav-link" @click="selectStudent()">Select Student</a>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/admin-graduation-programs">Programs</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/admin-graduation-programs">Courses</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/admin-graduation-programs">Special Cases</router-link>
+            <router-link class="nav-link" to="/admin-graduation-programs">Program Management</router-link>
           </li>
           <li class="nav-item">
             <a v-bind:href="'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + host" class="nav-link">Logout</a>
@@ -65,7 +59,7 @@
             <!-- <router-link to="/">Select Student</router-link> -->
             <a href="#" class="nav-link" @click="selectStudent()">Select Student</a>
           </li>
-          <li><router-link to="/admin-graduation-programs">Programs</router-link></li>
+          <li><router-link to="/admin-graduation-programs">Program Mangement</router-link></li>
           <li class="nav-item">
             <a v-bind:href="'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + host" class="nav-link">Logout</a>
           </li>
