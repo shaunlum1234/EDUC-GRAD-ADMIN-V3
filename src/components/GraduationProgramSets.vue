@@ -39,7 +39,7 @@
 
 <script>
 //import GradeService from "@/services/GradeService.js";
-import GraduationProgramsService from "@/services/GraduationProgramsService.js";
+import ProgramManagementService from "@/services/ProgramManagementService.js";
 import GraduationProgramRules from '@/components/GraduationProgramRules';
 export default {
   name: "GraduationProgramSets",
@@ -59,7 +59,7 @@ export default {
   },
   created() {
     this.parentSelectedProgramCode = this.$parent.selectedProgramCode
-    GraduationProgramsService.getGraduationProgramSets(this.$parent.selectedProgramCode, localStorage.getItem('jwt'))
+    ProgramManagementService.getGraduationProgramSets(this.$parent.selectedProgramCode, localStorage.getItem('jwt'))
       .then((response) => {
         this.graduationProgramSets = response.data.gradProgramSetList;
         // console.log(this.graduationProgramSets);
