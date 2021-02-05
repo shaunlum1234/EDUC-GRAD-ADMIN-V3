@@ -39,6 +39,28 @@
         </template>
       </tbody>
     </v-table>
+
+
+    <table class="col-3 table table-striped table-bordered">
+      <thead>
+          <tr>
+              <th>Letter Grade</th>
+              <th>GPA Mark</th>
+              <th>PASS FLAG</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr v-for="letterGrade in letterGrades.gradLetterGradeList" :key="letterGrade">
+              <td>{{letterGrade.letterGrade}}</td>
+              <td>{{letterGrade.gpaMarkValue}}</td>
+              <td>{{letterGrade.passFlag}}</td>
+          </tr>
+      </tbody>
+  </table>
+  
+   
+    {{letterGrades}}
+
     </div>
     </div>  
   </div>
@@ -46,6 +68,7 @@
 
 <script>
 import GraduationProgramRuleService from "@/services/GraduationProgramRuleService.js";
+import GradeService from "@/services/GradeService.js";
 export default {
   name: "GraduationProgramRules",
   props: {
@@ -57,6 +80,7 @@ export default {
     return {
       opened: [],
       graduationProgramRules:[],
+      letterGrades: {},
     };
   },
   created() {
@@ -66,6 +90,15 @@ export default {
       .then((response) => {
         this.graduationProgramRules = response.data;
         // console.log(this.graduationProgramRules);
+      })
+      // eslint-disable-next-line no-unused-vars
+      .catch((error) => {
+        //console.log('There was an error:' + error.response);
+      });
+
+      GradeService.getGrades(localStorage.getItem('jwt'))
+      .then((response) => {
+        this.letterGrades = response.data;
       })
       // eslint-disable-next-line no-unused-vars
       .catch((error) => {

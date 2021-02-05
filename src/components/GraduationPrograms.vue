@@ -37,6 +37,9 @@
         </template>
       </tbody>
     </v-table>
+
+
+  
     <GraduationProgramSets :key="selectedProgramCode" :prop="selectedProgramCode" v-if="selectedProgramCode" ></GraduationProgramSets>
     </div>  
     </div>
@@ -48,6 +51,7 @@
 <script>
 import GraduationProgramsService from "@/services/GraduationProgramsService.js";
 import GraduationProgramSets from '@/components/GraduationProgramSets';
+
 export default {
   name: "GraduationPrograms",
   components: {

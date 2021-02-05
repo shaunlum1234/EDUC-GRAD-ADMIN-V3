@@ -2,7 +2,6 @@ import axios from 'axios';
 
 var apiClient = axios.create({
     baseURL: process.env.VUE_APP_STUDENTS_API_HOST,
-    withCredentials: false,
 })
 
 export default {

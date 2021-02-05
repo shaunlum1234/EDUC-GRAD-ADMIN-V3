@@ -122,7 +122,16 @@
         return state.student.profile;
       },
       getStudentFullName(state) {
-        return state.student.profile.studSurname + ", " + state.student.profile.studGiven + " " + state.student.profile.studMiddle + "(" + state.student.profile.pen + ")";
+        //return state.student.profile.studSurname + ", " + state.student.profile.studGiven + " " + state.student.profile.studMiddle + "(" + state.student.profile.pen + ")";
+        return {
+          "studSurname": state.student.profile.studSurname,
+          "studGiven": state.student.profile.studGiven,
+          "studMiddle": state.student.profile.studMiddle,
+          "studPen": state.student.profile.pen
+        };
+      },
+      getStudentPen(state) {
+        return state.student.profile.pen;
       },
       getStudentGradStatus(state) {
         return state.student.gradStatus;

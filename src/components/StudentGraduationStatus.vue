@@ -1,6 +1,5 @@
 <template>
   <div>
-
       <b-card no-body class="col-12 px-0 mx-0" v-if="!hasGradStatus">
         
         <b-button
@@ -16,8 +15,8 @@
             <b-card-text>
               <div v-if="!hasGradStatus">
                 No graduation information available
-                <button v-if="!studentGradStatus.programCompletionDate" v-on:@click="updateGraduationStatus" class="float-left primary btn-primary" >
-                    <i class="fas fa-sync"></i> Run Grad Algorithm
+                <button v-if="!studentGradStatus.programCompletionDate" v-on:click="updateGraduationStatus(studentPen)" class="float-left primary btn-primary" >
+                    <i class="fas fa-sync"></i> This student does not have a Graduation Status
                 </button>
               </div>
             </b-card-text>
@@ -64,9 +63,23 @@
                         <strong>Program at graduation:</strong>
                         {{ studentGradStatus.gradProgramAtGraduation }}
                       </li>
-                      <li v-if="studentGradStatus.schoolOfRecord">
+                     <li v-if="studentGradStatus.schoolInfo">
                         <strong>School of Record:</strong>
-                        {{ studentGradStatus.schoolOfRecord }}
+                                <div class="p-2">
+                         
+                                  <span class="link" href="#" id="popover-button-sync" variant="primary"
+                                  >{{studentGradStatus.schoolInfo.schoolName}} ({{studentGradStatus.schoolInfo.minCode}})
+                                  </span>
+                              </div>
+                              <b-popover :show.sync="show" target="popover-button-sync" title="School Information">
+                                 <p><strong>District:</strong> {{studentGradStatus.schoolInfo.districtName}}</p>
+                                 <p><strong>Certificate Eligibility:</strong> {{studentGradStatus.schoolInfo.certificateEligibility}}</p>
+                                 <p><strong>Independent:</strong> {{studentGradStatus.schoolInfo.independentDesignation}}</p>
+                                 <p><strong>Mailer Type:</strong> {{studentGradStatus.schoolInfo.mailerType}}</p>
+                                 <p><strong>Address:</strong> {{studentGradStatus.schoolInfo.address1}}</p>
+                                 <p><strong>Postal:</strong> {{studentGradStatus.schoolInfo.postal}}</p>
+                                 <b-button class="px-1" @click="popClose">Close</b-button>
+                              </b-popover>
                       </li>
                        <li v-if="studentGradStatus.studentGrade">
                         <strong>Grade at graduation:</strong>
@@ -170,13 +183,19 @@
                     </ul>
                     <div class="col-12 header"><h2>Graduation reports</h2></div>
                     <div class="col-12">
-                      
-                      <button v-if="!studentGradStatus.programCompletionDate" v-on:@click="updateGraduationStatus" class="float-right primary btn-primary ml-3" >
-                        <i class="fas fa-sync"></i> Update
-                      </button>
-                      <a v-on:click="getStudentAchivementReportPDF" href="#" class=""
-            >Student Achievement Report (PDF)</a
-          >
+                        <button v-on:click="updateGraduationStatus(studentPen)" class="float-right primary btn-primary ml-3" >
+                          <i class="fas fa-sync"></i> Update
+                        </button>
+                        <ul>
+                          <li>
+                        <a v-on:click="getStudentAchievementReportPDF" href="#" class=""
+              >Achievement Report (PDF)</a>
+                          </li>
+                          <li>
+                          <a v-on:click="getStudentTranscriptPDF" href="#" class=""
+              >Transcript (PDF)</a>
+                          </li>
+                        </ul>
                     </div>
                   </div>
                 </div>
@@ -277,40 +296,85 @@
 <script>
 import { mapGetters } from "vuex";
 import GraduationCommonService from "@/services/GraduationCommonService.js";
-import GraduationStatusService from "@/services/GraduationStatusService.js";
+import GraduationService from "@/services/GraduationService.js";
+
 export default {
   name: "StudentGraduationStatus",
+
   computed: {
     ...mapGetters({
       studentGradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
-    }),
+      studentPen: "getStudentPen",
+      
+      
+      
+    })
+    
   },
-  created() {},
+  data() {
+    return {
+      show: false,
+    };
+  },
+  created() {
+
+  },
   methods: {
-    updateGraduationStatus: function(){
-      GraduationStatusService
-    },
-    getStudentAchivementReportPDF: function(){
-          GraduationCommonService.getAchievementReport(this.studentGradStatus.pen, localStorage.getItem('jwt'))
-          .then((response) => {
-             //Create a Blob from the PDF Stream
-              const file = new Blob(
-              [response.data], 
-              {type: 'application/pdf'});
-              //Build a URL from the file
-              if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE
-                  window.navigator.msSaveOrOpenBlob(file);
-              }else {
-                  const fileURL = URL.createObjectURL(file);
-                  window.open(fileURL); //Open the URL on new Window
-              }
-          })
-          // eslint-disable-next-line no-unused-vars
-          .catch((error) => {
-            //console.log('There was an error:' + error.response);
-          });    
+     popClose() {
+        this.show = false;
       },
+    updateGraduationStatus: function(pen){
+      console.log("GRAD STATUS |" + pen 
+      + " | "  + localStorage.getItem('jwt'));
+      GraduationService.graduateStudent(pen, localStorage.getItem('jwt')).then((response) => {
+        console.log(response.data);
+        this.$store.dispatch("setStudentGradStatus", response.data);
+      }).catch((error) => {
+        console.log('There was an error:' + error.response);
+      });  
+    },
+    getStudentAchievementReportPDF: function(){
+      GraduationCommonService.getAchievementReport(this.studentGradStatus.pen, localStorage.getItem('jwt'))
+      .then((response) => {
+          //Create a Blob from the PDF Stream
+          const file = new Blob(
+          [response.data], 
+          {type: 'application/pdf'});
+          //Build a URL from the file
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE
+              window.navigator.msSaveOrOpenBlob(file);
+          }else {
+              const fileURL = URL.createObjectURL(file);
+              window.open(fileURL); //Open the URL on new Window
+          }
+      })
+      // eslint-disable-next-line no-unused-vars
+      .catch((error) => {
+        //console.log('There was an error:' + error.response);
+      });    
+    },
+    getStudentTranscriptPDF: function(){
+      console.log("transcript");
+      GraduationCommonService.getStudentTranscript(this.studentGradStatus.pen, localStorage.getItem('jwt'))
+      .then((response) => {
+          //Create a Blob from the PDF Stream
+          const file = new Blob(
+          [response.data], 
+          {type: 'application/pdf'});
+          //Build a URL from the file
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE
+              window.navigator.msSaveOrOpenBlob(file);
+          }else {
+              const fileURL = URL.createObjectURL(file);
+              window.open(fileURL); //Open the URL on new Window
+          }
+      })
+      // eslint-disable-next-line no-unused-vars
+      .catch((error) => {
+        //console.log('There was an error:' + error.response);
+      });    
+    },
   },
 };
 </script>
@@ -348,4 +412,15 @@ ul.non-grad-reasons {
 .btn{
   border-radius:0px !important;
 }
+span.link {
+    color: #1a5a96;
+    text-decoration: underline;
+    background-color: transparent;
+}
+span.link:hover {
+    color: #0000f3;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 </style>

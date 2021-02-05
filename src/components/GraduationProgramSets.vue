@@ -38,6 +38,7 @@
 </template>
 
 <script>
+//import GradeService from "@/services/GradeService.js";
 import GraduationProgramsService from "@/services/GraduationProgramsService.js";
 import GraduationProgramRules from '@/components/GraduationProgramRules';
 export default {
@@ -67,6 +68,17 @@ export default {
       .catch((error) => {
         //console.log('There was an error:' + error.response);
       });
+
+      //  GradeService.getGrades(localStorage.getItem('jwt'))
+      // .then((response) => {
+      //   console.log(response.data);
+      //   this.graduationProgramSets = response.data.gradProgramSetList;
+      // })
+      // // eslint-disable-next-line no-unused-vars
+      // .catch((error) => {
+      //   //console.log('There was an error:' + error.response);
+      // });
+
   },
   methods: {
     selectProgramRules(programCode, programSet){

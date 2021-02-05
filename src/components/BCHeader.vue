@@ -47,6 +47,12 @@
             <router-link class="nav-link" to="/admin-graduation-programs">Programs</router-link>
           </li>
           <li class="nav-item">
+            <router-link class="nav-link" to="/admin-graduation-programs">Courses</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/admin-graduation-programs">Special Cases</router-link>
+          </li>
+          <li class="nav-item">
             <a v-bind:href="'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + host" class="nav-link">Logout</a>
           </li>
         </ul>

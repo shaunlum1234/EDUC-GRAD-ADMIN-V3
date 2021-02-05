@@ -5,10 +5,29 @@
       v-if="displayMessage"
     ></SiteMessage>
     <!-- Button trigger modal -->
-    <div class="row p-3 m-0 ">
+    <div class="row p-3 m-0">
         <div class="col-md-10 col-12">
           <h1 class="profile-name">
-            {{ studentFullName }}
+            <div v-if="studentFullName.studSurname">
+              <label>Last Name</label>
+              <span class="px-0">{{ studentFullName.studSurname.trim() }},</span>
+              
+            </div>
+            <div v-if="studentFullName.studGiven">
+              <label>Given Name</label>
+              <span class="px-0">{{ studentFullName.studGiven }}</span>
+              
+            </div> 
+            <div v-if="studentFullName.studMiddle">
+              <label>Middle Name</label>
+              <span class="px-0">{{ studentFullName.studMiddle }}</span>
+              
+            </div>
+            <div v-if="studentFullName.studPen">
+              <label>Pen</label>
+              <span class="px-0">({{ studentFullName.studPen }})</span>
+              
+            </div>
           </h1>
           <StudentInfo />
         </div>
@@ -112,6 +131,7 @@ import StudentInfo from "@/components/StudentInfo";
 import StudentExams from "@/components/StudentExams";
 import StudentAssessments from "@/components/StudentAssessments";
 import StudentGraduationStatus from "@/components/StudentGraduationStatus";
+import SchoolService from "@/services/SchoolService.js";
 
 import { mapGetters } from "vuex";
 //import { store } from "@/store.js";
@@ -210,14 +230,25 @@ export default {
           this.$store.dispatch("setStudentCourses", response.data);
         }
       );
-      // Student Grad Status will return 404 if there is not grad status for the pen specified. We handle
-      // this in the catch
       GraduationStatusService.getGraduationStatus(pen, localStorage.getItem('jwt')).then(
         (response) => {
-          this.$store.dispatch("setStudentGradStatus", response.data);
+          let schoolInfo = "";
+          let studentSchool = response.data.schoolOfRecord;
+          console.log("student SChoo;" + studentSchool);
+          SchoolService.getSchoolInfo(studentSchool, localStorage.getItem('jwt')).then((res) => {
+            console.log(res.data);
+            schoolInfo = res.data;
+            response.data.schoolInfo = schoolInfo
+            this.$store.dispatch("setStudentGradStatus", response.data); 
+          }).catch((error) => {
+            console.log('There was an error adding School information to Grad Status:' + error.response);
+            this.$store.dispatch("setStudentGradStatus", response.data); 
+          });  
+          
         }
       );
-    }
+    },
+
 
    
 
@@ -251,5 +282,23 @@ header.card-header button{
 .no-underline {
   text-decoration: none;
 }
-
+.profile-name div{
+  float:left;
+  margin-right:10px;
+}
+.profile-name div span{
+  float:left;
+  clear:both;
+  padding:5px;
+  margin-right:5px;
+  border-bottom: 1px dotted #ccc;
+}
+.profile-name div label{
+  font-size: 10px;
+  float:left; 
+  clear:both;
+  margin-bottom: 0px;
+  width: 100%;
+  color:#ccc;
+}
 </style>

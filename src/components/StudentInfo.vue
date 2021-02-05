@@ -5,13 +5,7 @@
           <div><strong>Grade:</strong> {{ studentInfo.studentGrade }}</div>
           <div><strong>Birthdate:</strong> {{ studentInfo.studBirth }}</div>
           <div><strong>Gender:</strong> {{ studentInfo.studSex }}</div>
-          <!--div><strong>Status: </strong>{{ studentInfo.studentStatus }}</div-->
-          <!--div><strong>Archived:</strong> {{ studentInfo.archiveFlag }}</div-->
-          <!--div><strong>School: </strong>{{ studentInfo.schoolName }}</div-->
-          <div><strong>Postal Code:</strong> {{ studentInfo.postalCode }}
-            <!--{{ studentInfo.address1 }} {{ studentInfo.address2 }}
-            {{ studentInfo.city }}, {{ studentInfo.provinceCode }}
-            {{ studentInfo.provinceName }}{{ studentInfo.countryCode }}{{ studentInfo.countryName }}-->           
+          <div><strong>Postal Code:</strong> {{ studentInfo.postalCode }}      
           </div>
       </div>
   </div>
