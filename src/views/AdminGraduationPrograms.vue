@@ -1,21 +1,18 @@
 <template>
- <div><div>
-  <b-card no-body>
-    <b-tabs pills card vertical>
-      <b-tab title="Programs" active><b-card-text>
-      <GraduationPrograms></GraduationPrograms>
-      </b-card-text></b-tab>
-      <b-tab title="LetterGrades"><b-card-text>
-      <LetterGrades></LetterGrades>
-      </b-card-text></b-tab>
-      <b-tab title="Special Cases"><b-card-text>Special Cases</b-card-text></b-tab>
-    </b-tabs>
-  </b-card>
-</div>
+  <div>
+    <b-card no-body>
+      <b-tabs pills card vertical>
+        <b-tab title="Programs" active><b-card-text>
+          <GraduationPrograms></GraduationPrograms>
+        </b-card-text></b-tab>
+        <b-tab title="LetterGrades"><b-card-text>
+          <LetterGrades></LetterGrades>
+        </b-card-text></b-tab>
+        <b-tab title="Special Cases"><b-card-text><SpecialCases></SpecialCases></b-card-text></b-tab>
+      </b-tabs>
+    </b-card>
+  </div>
 
-
-     <SpecialCases></SpecialCases>
- </div>
 </template>
 
 <script>

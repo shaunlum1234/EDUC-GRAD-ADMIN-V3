@@ -1,6 +1,21 @@
 <template>
   <div>
-  {{letterGrades}}
+<table class="col-3 table table-striped table-bordered">
+      <thead>
+          <tr>
+              <th>Letter Grade</th>
+              <th>GPA Mark</th>
+              <th>PASS FLAG</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr v-for="letterGrade in letterGrades.gradLetterGradeList" :key="letterGrade.letterGrade">
+              <td>{{letterGrade.letterGrade}}</td>
+              <td>{{letterGrade.gpaMarkValue}}</td>
+              <td>{{letterGrade.passFlag}}</td>
+          </tr>
+      </tbody>
+  </table>
   </div>
 </template>
 

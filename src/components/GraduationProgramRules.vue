@@ -39,40 +39,13 @@
         </template>
       </tbody>
     </v-table>
-
-
-    <table class="col-3 table table-striped table-bordered">
-      <thead>
-          <tr>
-              <th>Letter Grade</th>
-              <th>GPA Mark</th>
-              <th>PASS FLAG</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr v-for="letterGrade in letterGrades.gradLetterGradeList" :key="letterGrade.letterGrade">
-              <td>{{letterGrade.letterGrade}}</td>
-              <td>{{letterGrade.gpaMarkValue}}</td>
-              <td>{{letterGrade.passFlag}}</td>
-          </tr>
-      </tbody>
-  </table>
-  
-   
-    {{letterGrades}}
-
     </div>
     </div>  
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
-import GraduationProgramRuleService from "@/services/GraduationProgramRuleService.js";
-=======
-
 import ProgramManagementService from "@/services/ProgramManagementService.js";
->>>>>>> b8ff751d22c9037ae83b3359a8704c59d13f3f4b
 export default {
   name: "GraduationProgramRules",
   props: {
@@ -84,7 +57,6 @@ export default {
     return {
       opened: [],
       graduationProgramRules:[],
-      letterGrades: {},
     };
   },
   created() {
@@ -99,7 +71,6 @@ export default {
       .catch((error) => {
         //console.log('There was an error:' + error.response);
       });
-
 
   },
   methods: {
