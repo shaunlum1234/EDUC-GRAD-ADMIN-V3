@@ -68,7 +68,7 @@
 
 <script>
 import GraduationProgramRuleService from "@/services/GraduationProgramRuleService.js";
-import GradeService from "@/services/GradeService.js";
+import ProgramManagementService from "@/services/ProgramManagementService.js";
 export default {
   name: "GraduationProgramRules",
   props: {
@@ -96,7 +96,7 @@ export default {
         //console.log('There was an error:' + error.response);
       });
 
-      GradeService.getGrades(localStorage.getItem('jwt'))
+      ProgramManagementService.getLetterGrades(localStorage.getItem('jwt'))
       .then((response) => {
         this.letterGrades = response.data;
       })
