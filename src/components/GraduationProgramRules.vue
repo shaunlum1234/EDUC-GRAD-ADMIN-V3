@@ -50,7 +50,7 @@
           </tr>
       </thead>
       <tbody>
-          <tr v-for="letterGrade in letterGrades.gradLetterGradeList" :key="letterGrade">
+          <tr v-for="letterGrade in letterGrades.gradLetterGradeList" :key="letterGrade.letterGrade">
               <td>{{letterGrade.letterGrade}}</td>
               <td>{{letterGrade.gpaMarkValue}}</td>
               <td>{{letterGrade.passFlag}}</td>
