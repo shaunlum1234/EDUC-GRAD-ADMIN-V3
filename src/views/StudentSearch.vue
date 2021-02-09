@@ -170,7 +170,7 @@
           <li><a href="#" v-on:click="findStudentByPenSample(101696920)">101696920</a> (Exams Only)</li>
           <li><a href="#" v-on:click="findStudentByPenSample(124411075)">124411075</a> (Student Achievement Report)</li>
           <li><a href="#" v-on:click="findStudentByPenSample(141761569)">141761569</a> (Student with no Grad Status)</li>
-          <li><a href="#" v-on:click="findStudentByPenSample(127863819)">127863819</a> Achievement and Transcript</li>
+          <li><a href="#" v-on:click="findStudentByPenSample(127863819)">127863819</a> (Achievement and Transcript)</li>
           <!--li><a href="#" v-on:click="test()">TEST CORS</a></li-->
           <!--li><a href="#" v-on:click="test2()">TEST2 CORS</a></li-->
         </ul>
@@ -424,7 +424,7 @@ var axios = require('axios');
             }
           })
           .then(response => {
-            // eslint-disable-next-line no-use-before-define
+            // eslint-disable-next-line
             console.log(response.data)
           })
     },
@@ -443,11 +443,11 @@ var axios = require('axios');
 
           axios(config)
           .then(function (response) {
-            // eslint-disable-next-line no-use-before-define
+            // eslint-disable-next-line
             console.log(JSON.stringify(response.data));
           })
           .catch(function (error) {
-            // eslint-disable-next-line no-use-before-define
+            // eslint-disable-next-line
             console.log(error);
           });
     }
