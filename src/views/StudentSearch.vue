@@ -424,13 +424,14 @@ var axios = require('axios');
             }
           })
           .then(response => {
+            // eslint-disable-next-line no-use-before-define
             console.log(response.data)
           })
     },
     test(){
 
           var axios = require('axios');
-          console.log("HI");
+
           var config = {
             method: 'get',
             url: 'http://localhost:3000/json_placeholder/posts/1',
@@ -442,10 +443,11 @@ var axios = require('axios');
 
           axios(config)
           .then(function (response) {
+            // eslint-disable-next-line no-use-before-define
             console.log(JSON.stringify(response.data));
           })
           .catch(function (error) {
-            console.log("caught");
+            // eslint-disable-next-line no-use-before-define
             console.log(error);
           });
     }

@@ -234,13 +234,12 @@ export default {
         (response) => {
           let schoolInfo = "";
           let studentSchool = response.data.schoolOfRecord;
-          console.log("student SChoo;" + studentSchool);
           SchoolService.getSchoolInfo(studentSchool, localStorage.getItem('jwt')).then((res) => {
-            console.log(res.data);
             schoolInfo = res.data;
             response.data.schoolInfo = schoolInfo
             this.$store.dispatch("setStudentGradStatus", response.data); 
           }).catch((error) => {
+            // eslint-disable-next-line no-use-before-define
             console.log('There was an error adding School information to Grad Status:' + error.response);
             this.$store.dispatch("setStudentGradStatus", response.data); 
           });  

@@ -205,41 +205,23 @@
         </b-collapse>
       </b-card>
       <b-card no-body class="col-12 px-0 mx-0">
-        
           <b-button
             block
             v-b-toggle.accordion-2
             variant="info"
             class="text-left"
             ><i class="fas fa-times-circle text-danger"></i> Requirements not
-            met (5)</b-button
+            met ({{studentGradStatus.studentGradData.nonGradReasons.length}})</b-button
           >
         
         <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text>
-              <ul class="non-grad-reasons">
-                <li>
-                  <i class="fas fa-times-circle text-danger"></i> Fewer than 16
-                  Grade 12 credits
-                </li>
-                <li>
-                  <i class="fas fa-times-circle text-danger"></i> No Social
-                  Studies 11 or 12
-                </li>
-                <li>
-                  <i class="fas fa-times-circle text-danger"></i> No Mathematics
-                  11 or 12
-                </li>
-                <li>
-                  <i class="fas fa-times-circle text-danger"></i> No Science 11
-                  or 12
-                </li>
-                <li>
-                  <i class="fas fa-times-circle text-danger"></i> No Literacy 12
-                  Assessment
-                </li>
-              </ul>
+            <b-card-text>      
+               <ul class="non-grad-reasons px-0">
+              <li v-for="requirement in studentGradStatus.studentGradData.nonGradReasons" :key="requirement.rule">
+               <i class="fas fa-check-circle text-success"></i> {{ requirement.description }} (Rule {{ requirement.rule }})
+              </li>
+            </ul>
             </b-card-text>
           </b-card-body>
         </b-collapse>
@@ -253,38 +235,19 @@
           variant="info"
           class="text-left"
           ><i class="fas fa-check-circle text-success"></i> Requirements met
-          (6)</b-button
+          ({{studentGradStatus.studentGradData.requirementsMet.length}})</b-button
         >
         
         <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
           <b-card-body>
             <b-card-text>
-              <ul class="requirements-met">
-                <li>
-                  <i class="fas fa-check-circle text-success"></i> Language Arts
-                  10
-                </li>
-                <li>
-                  <i class="fas fa-check-circle text-success"></i> Social
-                  Studies 10
-                </li>
-                <li>
-                  <i class="fas fa-check-circle text-success"></i> Language Arts
-                  11
-                </li>
-                <li>
-                  <i class="fas fa-check-circle text-success"></i> Mathematics
-                  10
-                </li>
-                <li>
-                  <i class="fas fa-check-circle text-success"></i> Numeracy 10
-                  Assessment
-                </li>
-                <li>
-                  <i class="fas fa-check-circle text-success"></i> Literacy 10
-                  Assessment
-                </li>
-              </ul>
+           
+
+            <ul class="requirements-met px-0">
+              <li v-for="requirement in studentGradStatus.studentGradData.requirementsMet" :key="requirement.rule">
+               <i class="fas fa-check-circle text-success"></i> {{ requirement.description }} (Rule {{ requirement.rule }})
+              </li>
+            </ul>
             </b-card-text>
           </b-card-body>
         </b-collapse>
@@ -325,10 +288,11 @@ export default {
         this.show = false;
       },
     updateGraduationStatus: function(pen){
+      // eslint-disable-next-line no-use-before-define
       console.log("GRAD STATUS |" + pen 
       + " | "  + localStorage.getItem('jwt'));
       GraduationService.graduateStudent(pen, localStorage.getItem('jwt')).then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
         this.$store.dispatch("setStudentGradStatus", response.data);
       }).catch((error) => {
         console.log('There was an error:' + error.response);
@@ -396,6 +360,10 @@ export default {
 ul.requirements-met,
 ul.non-grad-reasons {
   list-style: none;
+}
+ul.requirements-met li,
+ul.non-grad-reasons li {
+  border-bottom: 1px solid #ccc;
 }
 .card-header > button {
   border-radius: 0px !important;

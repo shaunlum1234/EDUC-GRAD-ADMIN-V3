@@ -1,7 +1,7 @@
 <template>
   <div>
   <p>Special cases used for graduation</p>
-  <table class="col-3 table table-striped table-bordered">
+  <table class="table table-striped table-bordered">
       <thead>
           <tr>
               <th>Created By</th>

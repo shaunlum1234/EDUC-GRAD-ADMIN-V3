@@ -227,7 +227,6 @@ export default {
           this.statusData = response.data.statusDate;
           this.transcriptReport = response.transcriptReport;
         })
-        // eslint-disable-next-line no-unused-vars
         .catch((error) => {
           this.student = false;
           this.noPen = true;
@@ -245,7 +244,6 @@ export default {
           //Open the URL on new Window
           window.open(fileURL);
         })
-        // eslint-disable-next-line no-unused-vars
         .catch((error) => {
           //console.log('There was an error:' + error.response);
         });
@@ -287,11 +285,12 @@ export default {
           this.achievementReport = response.achievementReport;
           this.transcriptReport = response.transcriptReport;
         })
-        // eslint-disable-next-line no-unused-vars
+        
         .catch((error) => {
           this.student = false;
           this.noPen = true;
-          //console.log('There was an error:' + error.response);
+          // eslint-disable-next-line no-unused-vars
+          console.log('There was an error:' + error.response);
         });
     },
     refresh: function() {

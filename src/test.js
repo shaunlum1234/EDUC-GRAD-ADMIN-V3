@@ -2,7 +2,7 @@ var http = require('http');
 
 http.createServer(function (req, res) {
 
-  console.log(req);
+  //console.log(req);
   var axios = require('axios');
 
   var config = {
@@ -17,7 +17,7 @@ http.createServer(function (req, res) {
   
   axios(config)
   .then(function (response) {
-console.log(response);
+//console.log(response);
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.end(response.data.pen);
     

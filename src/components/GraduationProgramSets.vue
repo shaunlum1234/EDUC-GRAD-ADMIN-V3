@@ -64,9 +64,10 @@ export default {
         this.graduationProgramSets = response.data.gradProgramSetList;
         // console.log(this.graduationProgramSets);
       })
-      // eslint-disable-next-line no-unused-vars
+     
       .catch((error) => {
-        //console.log('There was an error:' + error.response);
+         // eslint-disable-next-line no-unused-vars
+        console.log('There was an error:' + error.response);
       });
 
       //  GradeService.getGrades(localStorage.getItem('jwt'))
@@ -74,9 +75,10 @@ export default {
       //   console.log(response.data);
       //   this.graduationProgramSets = response.data.gradProgramSetList;
       // })
-      // // eslint-disable-next-line no-unused-vars
+      // 
       // .catch((error) => {
-      //   //console.log('There was an error:' + error.response);
+      // // eslint-disable-next-line no-unused-vars
+        //console.log('There was an error:' + error.response);
       // });
 
   },
