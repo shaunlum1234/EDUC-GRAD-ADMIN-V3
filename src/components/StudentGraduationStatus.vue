@@ -211,7 +211,7 @@
             variant="info"
             class="text-left"
             ><i class="fas fa-times-circle text-danger"></i> Requirements not
-            met ({{studentGradStatus.studentGradData.nonGradReasons.length}})</b-button
+            met ({{studentGradStatus.studentGradData.nonGradReasons.length}}) </b-button
           >
         
         <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
@@ -219,7 +219,7 @@
             <b-card-text>      
                <ul class="non-grad-reasons px-0">
               <li v-for="requirement in studentGradStatus.studentGradData.nonGradReasons" :key="requirement.rule">
-               <i class="fas fa-check-circle text-success"></i> {{ requirement.description }} (Rule {{ requirement.rule }})
+               <i class="fas fa-check-circle text-danger"></i> {{ requirement.description }} (Rule {{ requirement.rule }})
               </li>
             </ul>
             </b-card-text>
