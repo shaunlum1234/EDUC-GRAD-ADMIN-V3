@@ -290,14 +290,16 @@ header.card-header button{
   clear:both;
   padding:5px;
   margin-right:5px;
-  border-bottom: 1px dotted #ccc;
+ 
 }
 .profile-name div label{
-  font-size: 10px;
+  font-size: 11px;
   float:left; 
   clear:both;
+  padding: 5px 0;
   margin-bottom: 0px;
   width: 100%;
-  color:#ccc;
+  color:#036;
+   border-bottom: 1px dotted #ccc;
 }
 </style>
