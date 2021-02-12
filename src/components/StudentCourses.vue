@@ -1,5 +1,6 @@
 <template>
   <div class="table-responsive">
+
     <b-spinner v-if="!courses.length" label="Loading">Loading</b-spinner>
     <v-table
       :data="courses"
@@ -26,6 +27,7 @@
             :key="row.courseAchievementId"
             @click="toggle(row.courseCode + row.courseLevel)"
             :class="{ opened: opened.includes(row.courseCode) }"
+            :ref="createRef(row.pen,row.courseCode,row.courseLevel,row.sessionDate)"
           >
             <!--td><td><a href="#" v-b-tooltip.hover v-bind:title="row.courseName">{{ row.courseCode }}</a></td-->
             <td>{{ row.courseCode }}</td>
@@ -45,12 +47,15 @@
 
 
 
-
-
-    
+           <button @click="displayRef('140341157BI11')">
+                 Click to see the input ref
+            </button>
+            <button @click="displayAllRefs()">
+                 Click to see the input ref
+            </button>
   </div>
 </template>
-
+     
 <script>
 import { mapGetters } from "vuex";
 export default {
@@ -65,6 +70,7 @@ export default {
     return {
       show: false,
       opened: [],
+      message: "",
       achievements: [],
       InputCourse: "",
       student: [],
@@ -88,7 +94,6 @@ export default {
       inputPenMissing: false,
     };
   },
-  created() {},
   methods: {
     toggle(id) {
       const index = this.opened.indexOf(id);
@@ -98,20 +103,18 @@ export default {
         this.opened.push(id);
       }
     },
-    showMsgBoxOne(message) {
-      this.$bvModal.msgBoxOk(message);
+    createRef(pen, code, level,sessionDate){
+      return pen.trim() + code.trim() + level.trim()+sessionDate.trim();
+
     },
-    getCourseName: function(cid) {
-      let result = "";
-      this.courses.filter(function(n) {
-        if (n.id === cid) {
-          result = n.name;
-          return result;
+    displayRef(ref) {
+          this.$refs[ref][0].classList.add('highlight'); // <= accessing the dynamic ref
+    },
+    displayAllRefs() {
+            console.log(this.$refs)
         }
-      });
-      return result;
-    },
-  },
+    }
+
 };
 </script>
 
@@ -121,5 +124,8 @@ export default {
 }
 .table th svg{
   display:none !important;
+}
+.highlight{
+  background:aliceblue !important;
 }
 </style>

@@ -73,11 +73,19 @@
                 <b-card-text><StudentGraduationStatus /></b-card-text>
               </b-tab>
             </transition>            
+            
             <transition name="fade">
               <b-tab
                 title="Courses"
                 class="py-3 px-0 m-1"
               >
+              
+                <b-dropdown id="filter-dropdown" text="Filter" class="m-md-2 float-right">
+                  <b-dropdown-item>Requirements met</b-dropdown-item>
+                  <b-dropdown-item>Requirements not met</b-dropdown-item>
+                  <b-dropdown-item>Show all courses</b-dropdown-item>
+                </b-dropdown>
+
                 <b-card-text v-if="!studentHasCourses">Loading Student Courses <b-spinner variant="success" label="Spinning"></b-spinner></b-card-text>
                 <b-card-text v-if="studentHasCourses"><StudentCourses /></b-card-text>
               </b-tab>
@@ -91,6 +99,7 @@
                 <b-card-text><StudentAssessments /></b-card-text>
               </b-tab>
             </transition>
+            <transition name="fade">
             <b-tab
               title="Exams"
               v-if="studentHasExams"
@@ -109,6 +118,8 @@
             >
               <b-card-text class="text-center">Loading Student Courses, Exams and Assesments</b-card-text>
             </b-tab>
+            </transition>
+            
           </b-tabs>
         </b-card>
       </div>
@@ -181,7 +192,6 @@ export default {
   created() {
       const penFromURL = this.$route.params.pen;
       this.loadStudent( penFromURL);
- 
     this.window.width = window.innerWidth;
     this.window.height = window.innerHeight;
     if(this.window.width < 960){
@@ -299,5 +309,12 @@ header.card-header button{
   margin-bottom: 0px;
   width: 100%;
   color:#ccc;
+}
+#filter-dropdown{
+  position:absolute;
+  right: 0; 
+  top: 0;
+ 
+
 }
 </style>

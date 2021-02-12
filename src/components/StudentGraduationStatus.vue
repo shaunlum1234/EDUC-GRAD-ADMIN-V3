@@ -1,5 +1,6 @@
 <template>
   <div>
+  
       <b-card no-body class="col-12 px-0 mx-0" v-if="!hasGradStatus">
         
         <b-button
@@ -14,16 +15,16 @@
         <b-card-body >
             <b-card-text>
               <div v-if="!hasGradStatus">
-                No graduation information available
-                <button v-if="!studentGradStatus.programCompletionDate" v-on:click="updateGraduationStatus(studentPen)" class="float-left primary btn-primary" >
-                    <i class="fas fa-sync"></i> This student does not have a Graduation Status
-                </button>
+
+                
+                    <i class="fas fa-info-circle primary"></i> {{studentFullName.studGiven }} does not have a Graduation Status
+              
               </div>
             </b-card-text>
         </b-card-body>
 
       </b-card>
-   
+
     <div class="accordion col-12 px-0 mx-0" role="tablist" v-if="hasGradStatus">
       <b-card no-body class="col-12 px-0 mx-0" >
         
@@ -245,7 +246,9 @@
 
             <ul class="requirements-met px-0">
               <li v-for="requirement in studentGradStatus.studentGradData.requirementsMet" :key="requirement.rule">
-               <i class="fas fa-check-circle text-success"></i> {{ requirement.description }} (Rule {{ requirement.rule }})
+               <i class="fas fa-check-circle text-success"></i> <a href="#" @click='getCourseCompletedProgramCode(requirement.rule,studentGradStatus.studentGradData.studentCourses.studentCourseList)' >{{ requirement.description }} (Rule {{ requirement.rule }})</a>
+               
+               
               </li>
             </ul>
             </b-card-text>
@@ -269,10 +272,9 @@ export default {
       studentGradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
       studentPen: "getStudentPen",
-      
-      
-      
-    })
+      studentFullName: "getStudentFullName",
+    }),
+    
     
   },
   data() {
@@ -284,9 +286,23 @@ export default {
 
   },
   methods: {
-     popClose() {
-        this.show = false;
-      },
+    popClose() {
+      this.show = false;
+    },
+  getCourseCompletedProgramCode(code, courses) {
+      
+      var result = courses.filter(
+        function(course){ 
+          return course.gradReqMet.trim() == code; 
+          }
+      );
+      
+      //let ref = result[0].pen.trim()+result[0].courseCode.trim()+result[0].courseLevel.trim()+result[0].sessionDate.trim();
+      let ref = result[0].courseName;
+      alert(ref);
+      //this.$refs[ref][0].classList.add('highlight'); 
+      
+    },
     updateGraduationStatus: function(pen){
       // eslint-disable-next-line no-use-before-define
       console.log("GRAD STATUS |" + pen 
