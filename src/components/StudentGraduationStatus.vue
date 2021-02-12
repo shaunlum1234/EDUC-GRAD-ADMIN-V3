@@ -72,11 +72,11 @@
                                   >{{studentGradStatus.schoolInfo.schoolName}} ({{studentGradStatus.schoolInfo.minCode}})
                                   </span>
                               </div>
-                              <b-popover :show.sync="show" target="popover-button-sync" title="School Information">
+                              <b-popover :show.sync="show" :boundary-padding="50" target="popover-button-sync" title="School Information">
                                  <p><strong>District:</strong> {{studentGradStatus.schoolInfo.districtName}}</p>
-                                 <p><strong>Certificate Eligibility:</strong> {{studentGradStatus.schoolInfo.certificateEligibility}}</p>
+                                 <p><strong>Certificate eligibility:</strong> {{studentGradStatus.schoolInfo.certificateEligibility}}</p>
                                  <p><strong>Independent:</strong> {{studentGradStatus.schoolInfo.independentDesignation}}</p>
-                                 <p><strong>Mailer Type:</strong> {{studentGradStatus.schoolInfo.mailerType}}</p>
+                                 <p><strong>Mailer type:</strong> {{studentGradStatus.schoolInfo.mailerType}}</p>
                                  <p><strong>Address:</strong> {{studentGradStatus.schoolInfo.address1}}</p>
                                  <p><strong>Postal:</strong> {{studentGradStatus.schoolInfo.postal}}</p>
                                  <b-button class="px-1" @click="popClose">Close</b-button>
