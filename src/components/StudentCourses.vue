@@ -44,15 +44,6 @@
         </template>
       </tbody>
     </v-table>
-
-
-
-           <button @click="displayRef('140341157BI11')">
-                 Click to see the input ref
-            </button>
-            <button @click="displayAllRefs()">
-                 Click to see the input ref
-            </button>
   </div>
 </template>
      
@@ -106,13 +97,6 @@ export default {
     createRef(pen, code, level,sessionDate){
       return pen.trim() + code.trim() + level.trim()+sessionDate.trim();
 
-    },
-    displayRef(ref) {
-          this.$refs[ref][0].classList.add('highlight'); // <= accessing the dynamic ref
-    },
-    displayAllRefs() {
-            console.log(this.$refs)
-        }
     }
 
 };
