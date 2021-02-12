@@ -13,16 +13,18 @@
       <thead slot="head" class="">
         <v-th sortKey="programSet">Program Set</v-th>
         <v-th sortKey="programSetName">Program Set Name</v-th>
+        <v-th sortKey="programSetName">Id</v-th>
       </thead>
       <tbody slot="body" slot-scope="{ displayData }">
         <template v-for="row in displayData">
           <tr
             :key="row.programSet"
-            v-on:click="selectProgramRules(parentSelectedProgramCode , row.programSet)"
-            v-bind:class="{'table-primary': (selectedProgramSet == row.programSet)}"
+            v-on:click="onClickButton(row.id)"
+            v-bind:class="{'table-primary': (selectedId == row.id)}"
           >
-            <td>{{ row.programSet }}</td>
-            <td>{{ row.programSetName }}</td>
+            <td>{{ row.specialProgramCode }}</td>
+            <td>{{ row.specialProgramName }}</td>
+            <td>{{ row.id }}</td>
           </tr>
         </template>
       </tbody>
@@ -54,15 +56,17 @@ export default {
       graduationProgramSets:[],
       parentSelectedProgramCode:'',
       selectedProgramCode: '',
-      selectedProgramSet: ''
+      selectedProgramSet: '',
+      selectedId:''
     };
   },
   created() {
     this.parentSelectedProgramCode = this.$parent.selectedProgramCode
+    
     ProgramManagementService.getGraduationProgramSets(this.$parent.selectedProgramCode, localStorage.getItem('jwt'))
       .then((response) => {
-        this.graduationProgramSets = response.data.gradProgramSetList;
-        // console.log(this.graduationProgramSets);
+        this.graduationProgramSets = response.data;
+        console.log('Graduation Program Sets: ' + this.graduationProgramSets);
       })
      
       .catch((error) => {
@@ -83,6 +87,9 @@ export default {
 
   },
   methods: {
+    onClickButton (id) {
+      this.$emit('clicked', id)
+    },
     selectProgramRules(programCode, programSet){
       this.selectedProgramCode = programCode;
       this.selectedProgramSet = programSet
