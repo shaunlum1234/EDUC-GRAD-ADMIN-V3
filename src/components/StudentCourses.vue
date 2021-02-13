@@ -96,10 +96,10 @@ export default {
     },
     createRef(pen, code, level,sessionDate){
       return pen.trim() + code.trim() + level.trim()+sessionDate.trim();
-
     }
 
-};
+  }
+}
 </script>
 
 <style>
