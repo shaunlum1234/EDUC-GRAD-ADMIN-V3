@@ -25,8 +25,7 @@
             </div>
             <div v-if="studentFullName.studPen">
               <label>Pen</label>
-              <span class="px-0">({{ studentFullName.studPen }})</span>
-              
+              <span class="px-0">{{ studentFullName.studPen }}</span>
             </div>
           </h1>
           <StudentInfo />

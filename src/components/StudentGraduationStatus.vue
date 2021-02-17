@@ -217,8 +217,11 @@
         
         <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text>      
-               <ul class="non-grad-reasons px-0">
+            <b-card-text> 
+              <ul v-if="!studentGradStatus.studentGradData.nonGradReasons.length">
+                <li>All graduation requirements have been met</li>
+              </ul>
+               <ul v-if="studentGradStatus.studentGradData.nonGradReasons.length" class="non-grad-reasons px-0">
               <li v-for="requirement in studentGradStatus.studentGradData.nonGradReasons" :key="requirement.rule">
                <i class="fas fa-check-circle text-danger"></i> {{ requirement.description }} (Rule {{ requirement.rule }})
               </li>
