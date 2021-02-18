@@ -4,6 +4,7 @@ import Login from '../views/Login.vue';
 import Logout from '../views/Logout.vue';
 import StudentSearch from '../views/StudentSearch.vue';
 import StudentProfile from '../views/StudentProfile.vue';
+import Courses from '../views/Courses.vue';
 import AdminGraduationPrograms from '../views/AdminGraduationPrograms.vue';
 
 
@@ -48,7 +49,15 @@ const routes = [{
     meta: {
       requiresAuth: true
     }
-  }
+  },
+  {
+    path: '/courses',
+    name: 'courses',
+    component: Courses,
+    meta: {
+      requiresAuth: true
+    }
+  },
 ]
 
 const router = new VueRouter({

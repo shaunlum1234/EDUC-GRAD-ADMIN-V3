@@ -46,11 +46,20 @@
           <b-card-body >
             <b-card-text>
               <div class="row">
+                <div class="col-12">
+                        <button v-on:click="updateGraduationStatus(studentPen)" class="float-left btn-primary btn-sm" >
+                          <i class="fas fa-eye"></i> Projected Graduation Status
+                        </button>
+                          <button v-on:click="updateGraduationStatus(studentPen)" class="float-right btn-primary btn-sm" >
+                          <i class="fas fa-sync"></i> Update
+                        </button>
+                    </div>
                 <div class="graduation-status-content col-12 px-0 mx-0">           
                   <div >
                     <!-- Student Graduation Status -->
                     <div class="col-12 header">
                       <h2>Graduation status</h2></div>
+                      
                     <ul>
                       <li v-if="studentGradStatus.program">
                         <strong>Program:</strong>
@@ -184,9 +193,7 @@
                     </ul>
                     <div class="col-12 header"><h2>Graduation reports</h2></div>
                     <div class="col-12">
-                        <button v-on:click="updateGraduationStatus(studentPen)" class="float-right btn-primary btn-sm ml-3" >
-                          <i class="fas fa-sync"></i> Update
-                        </button>
+                 
                         <ul>
                           <li>
                         <a v-on:click="getStudentAchievementReportPDF" href="#" class=""
@@ -198,6 +205,7 @@
                           </li>
                         </ul>
                     </div>
+                    
                   </div>
                 </div>
               </div>
