@@ -165,12 +165,13 @@
       <p class="sample-pens">
         Samples:
         <ul>
-          <li><a href="#" v-on:click="findStudentByPenSample(140341157)">140341157</a> (Exams and Assessment)</li>
-          <li><a href="#" v-on:click="findStudentByPenSample(130129323)">130129323</a> (Exams and Assessment)</li>
-          <li><a href="#" v-on:click="findStudentByPenSample(101696920)">101696920</a> (Exams Only)</li>
-          <li><a href="#" v-on:click="findStudentByPenSample(124411075)">124411075</a> (Student Achievement Report)</li>
-          <li><a href="#" v-on:click="findStudentByPenSample(141761569)">141761569</a> (Student with no Grad Status)</li>
-          <li><a href="#" v-on:click="findStudentByPenSample(127863819)">127863819</a> (Achievement and Transcript)</li>
+          <li><a href="#" v-on:click="findStudentByPenSample(122630833)">122630833</a></li>
+          <li><a href="#" v-on:click="findStudentByPenSample(123515553)">123515553</a></li>
+          <li><a href="#" v-on:click="findStudentByPenSample(123615700)">123615700</a></li>
+          <li><a href="#" v-on:click="findStudentByPenSample(126594217)">126594217</a> has special program (FI)</li>
+          <li><a href="#" v-on:click="findStudentByPenSample(127863819)">127863819</a> has “clob”, has reports, has ungrad reason</li>
+          <li><a href="#" v-on:click="findStudentByPenSample(140341157)">140341157</a> has “clob”, has reports </li>
+
           <!--li><a href="#" v-on:click="test()">TEST CORS</a></li-->
           <!--li><a href="#" v-on:click="test2()">TEST2 CORS</a></li-->
         </ul>

@@ -9,7 +9,6 @@
               <input v-model="courseCode" placeholder="Course Code: BI">
               <input type="submit" @click="getAllCourses">
               <!-- <input type="submit" @click="searchCourseByCourseCode"> -->
-
               <table v-if="courses" class="table table-striped table-bordered">
                 <thead>
                   <tr>

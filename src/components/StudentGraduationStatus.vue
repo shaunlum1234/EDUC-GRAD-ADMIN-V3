@@ -314,12 +314,12 @@ export default {
       //this.$refs[ref][0].classList.add('highlight'); 
       
     },
+    
     updateGraduationStatus: function(pen){
       // eslint-disable-next-line no-use-before-define
       console.log("GRAD STATUS |" + pen 
       + " | "  + localStorage.getItem('jwt'));
       GraduationService.graduateStudent(pen, localStorage.getItem('jwt')).then((response) => {
-        //console.log(response.data);
         this.$store.dispatch("setStudentGradStatus", response.data);
       }).catch((error) => {
         console.log('There was an error:' + error.response);
