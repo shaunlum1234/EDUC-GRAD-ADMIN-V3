@@ -41,6 +41,11 @@
               Course Requirements
             </b-card-text>
           </b-tab>
+          <b-tab title="Course Restrictions">
+            <b-card-text>
+              Course Requirements
+            </b-card-text>
+          </b-tab>
         </b-tabs>
       </b-card>
     </div>
