@@ -1,11 +1,9 @@
 <template>
   <div class="">
-    <div class="card mb-2">
-    <div class="card-body">
     <b-spinner v-if="!graduationProgramRules.length" label="Loading"
       >Loading</b-spinner
     >
-    <div v-if="!graduationProgramRules.length"><h2>No Data please select another Program Set</h2></div>
+    <div v-if="!graduationProgramRules.length"><h2>Loading</h2></div>
     <v-table
       :data="graduationProgramRules"
       class="table table-sm table-hover table-striped align-middle"
@@ -39,8 +37,6 @@
         </template>
       </tbody>
     </v-table>
-    </div>
-    </div>  
   </div>
 </template>
 
@@ -57,15 +53,17 @@ export default {
     return {
       opened: [],
       graduationProgramRules:[],
+      parentSelectedProgramCode:'',
     };
   },
   created() {
+    this.parentSelectedProgramCode = this.$parent.selectedProgramCode
     // console.log('PropA:' + this.propA)
     // console.log('PropA:' + this.propB)
-    ProgramManagementService.getProgramRule(this.selectedProgramCode, this.selectedProgramSet, localStorage.getItem('jwt'))
+    ProgramManagementService.getProgramRule(this.parentSelectedProgramCode, localStorage.getItem('jwt'))
       .then((response) => {
         this.graduationProgramRules = response.data;
-        // console.log(this.graduationProgramRules);
+        console.log('Graduation Program Rules: ' + this.graduationProgramRules);
       })
      
       .catch((error) => {
