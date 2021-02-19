@@ -13,7 +13,7 @@
         courses: "not loaded",
         assessments: "not loaded",
         exams: "not loaded",
-        gradStatus: {},
+        gradStatus: "not loaded",
         hasExams: false,
         hasAssessments: false,
         hasCourses: false,
