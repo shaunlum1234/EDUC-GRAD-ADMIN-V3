@@ -1,5 +1,6 @@
 <template>
   <div>
+  
       <b-card no-body class="col-12 px-0 mx-0" v-if="!hasGradStatus">
         
         <b-button
@@ -14,16 +15,16 @@
         <b-card-body >
             <b-card-text>
               <div v-if="!hasGradStatus">
-                No graduation information available
-                <button v-if="!studentGradStatus.programCompletionDate" v-on:click="updateGraduationStatus(studentPen)" class="float-left primary btn-primary" >
-                    <i class="fas fa-sync"></i> This student does not have a Graduation Status
-                </button>
+
+                
+                    <i class="fas fa-info-circle primary"></i> {{studentFullName.studGiven }} does not have a Graduation Status
+              
               </div>
             </b-card-text>
         </b-card-body>
 
       </b-card>
-   
+
     <div class="accordion col-12 px-0 mx-0" role="tablist" v-if="hasGradStatus">
       <b-card no-body class="col-12 px-0 mx-0" >
         
@@ -45,11 +46,20 @@
           <b-card-body >
             <b-card-text>
               <div class="row">
+                <div class="col-12">
+                        <button v-on:click="updateGraduationStatus(studentPen)" class="float-left btn-primary btn-sm" >
+                          <i class="fas fa-eye"></i> Projected Graduation Status
+                        </button>
+                          <button v-on:click="updateGraduationStatus(studentPen)" class="float-right btn-primary btn-sm" >
+                          <i class="fas fa-sync"></i> Update
+                        </button>
+                    </div>
                 <div class="graduation-status-content col-12 px-0 mx-0">           
                   <div >
                     <!-- Student Graduation Status -->
                     <div class="col-12 header">
                       <h2>Graduation status</h2></div>
+                      
                     <ul>
                       <li v-if="studentGradStatus.program">
                         <strong>Program:</strong>
@@ -183,9 +193,7 @@
                     </ul>
                     <div class="col-12 header"><h2>Graduation reports</h2></div>
                     <div class="col-12">
-                        <button v-on:click="updateGraduationStatus(studentPen)" class="float-right btn-primary btn-sm ml-3" >
-                          <i class="fas fa-sync"></i> Update
-                        </button>
+                 
                         <ul>
                           <li>
                         <a v-on:click="getStudentAchievementReportPDF" href="#" class=""
@@ -197,6 +205,7 @@
                           </li>
                         </ul>
                     </div>
+                    
                   </div>
                 </div>
               </div>
@@ -216,8 +225,11 @@
         
         <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text>      
-               <ul class="non-grad-reasons px-0">
+            <b-card-text> 
+              <ul v-if="!studentGradStatus.studentGradData.nonGradReasons.length">
+                <li>All graduation requirements have been met</li>
+              </ul>
+               <ul v-if="studentGradStatus.studentGradData.nonGradReasons.length" class="non-grad-reasons px-0">
               <li v-for="requirement in studentGradStatus.studentGradData.nonGradReasons" :key="requirement.rule">
                <i class="fas fa-check-circle text-danger"></i> {{ requirement.description }} (Rule {{ requirement.rule }})
               </li>
@@ -245,7 +257,9 @@
 
             <ul class="requirements-met px-0">
               <li v-for="requirement in studentGradStatus.studentGradData.requirementsMet" :key="requirement.rule">
-               <i class="fas fa-check-circle text-success"></i> {{ requirement.description }} (Rule {{ requirement.rule }})
+               <i class="fas fa-check-circle text-success"></i> <a href="#" @click='getCourseCompletedProgramCode(requirement.rule,studentGradStatus.studentGradData.studentCourses.studentCourseList)' >{{ requirement.description }} (Rule {{ requirement.rule }})</a>
+               
+               
               </li>
             </ul>
             </b-card-text>
@@ -269,10 +283,9 @@ export default {
       studentGradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
       studentPen: "getStudentPen",
-      
-      
-      
-    })
+      studentFullName: "getStudentFullName",
+    }),
+    
     
   },
   data() {
@@ -284,9 +297,23 @@ export default {
 
   },
   methods: {
-     popClose() {
-        this.show = false;
-      },
+    popClose() {
+      this.show = false;
+    },
+  getCourseCompletedProgramCode(code, courses) {
+      
+      var result = courses.filter(
+        function(course){ 
+          return course.gradReqMet.trim() == code; 
+          }
+      );
+      
+      //let ref = result[0].pen.trim()+result[0].courseCode.trim()+result[0].courseLevel.trim()+result[0].sessionDate.trim();
+      let ref = result[0].courseName;
+      alert(ref);
+      //this.$refs[ref][0].classList.add('highlight'); 
+      
+    },
     updateGraduationStatus: function(pen){
       // eslint-disable-next-line no-use-before-define
       console.log("GRAD STATUS |" + pen 

@@ -1,5 +1,6 @@
 <template>
   <div class="table-responsive">
+
     <b-spinner v-if="!courses.length" label="Loading">Loading</b-spinner>
     <v-table
       :data="courses"
@@ -26,6 +27,7 @@
             :key="row.courseAchievementId"
             @click="toggle(row.courseCode + row.courseLevel)"
             :class="{ opened: opened.includes(row.courseCode) }"
+            :ref="createRef(row.pen,row.courseCode,row.courseLevel,row.sessionDate)"
           >
             <!--td><td><a href="#" v-b-tooltip.hover v-bind:title="row.courseName">{{ row.courseCode }}</a></td-->
             <td>{{ row.courseCode }}</td>
@@ -42,15 +44,9 @@
         </template>
       </tbody>
     </v-table>
-
-
-
-
-
-    
   </div>
 </template>
-
+     
 <script>
 import { mapGetters } from "vuex";
 export default {
@@ -65,6 +61,7 @@ export default {
     return {
       show: false,
       opened: [],
+      message: "",
       achievements: [],
       InputCourse: "",
       student: [],
@@ -88,7 +85,6 @@ export default {
       inputPenMissing: false,
     };
   },
-  created() {},
   methods: {
     toggle(id) {
       const index = this.opened.indexOf(id);
@@ -98,21 +94,12 @@ export default {
         this.opened.push(id);
       }
     },
-    showMsgBoxOne(message) {
-      this.$bvModal.msgBoxOk(message);
-    },
-    getCourseName: function(cid) {
-      let result = "";
-      this.courses.filter(function(n) {
-        if (n.id === cid) {
-          result = n.name;
-          return result;
-        }
-      });
-      return result;
-    },
-  },
-};
+    createRef(pen, code, level,sessionDate){
+      return pen.trim() + code.trim() + level.trim()+sessionDate.trim();
+    }
+
+  }
+}
 </script>
 
 <style>
@@ -121,5 +108,8 @@ export default {
 }
 .table th svg{
   display:none !important;
+}
+.highlight{
+  background:aliceblue !important;
 }
 </style>
