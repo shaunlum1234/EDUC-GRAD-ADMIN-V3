@@ -74,6 +74,14 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
       keycloak.updateToken(70).success((refreshed)=>{
         if (refreshed) {
           Vue.$log.debug('Token refreshed');
+          console.log(refreshed);
+          console.log(refreshed.token);
+          console.log(refreshed.refreshToken);
+          console.log("NEW TOKEN" + keycloak.token);
+          console.log("REFRESH TOKEN" + keycloak.refreshToken);
+          store.commit("setToken",keycloak.token);
+          store.commit("setRefreshToken",keycloak.refreshToken);
+          
         } else {
           Vue.$log.warn('Token not refreshed, valid for '
           + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
