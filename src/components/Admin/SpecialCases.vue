@@ -23,11 +23,14 @@
 </template>
 
 <script>
+import {
+  mapGetters
+} from "vuex";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 export default {
   name: 'Special Cases',
   created() {
-     ProgramManagementService.getSpecialCases(localStorage.getItem('jwt'))
+     ProgramManagementService.getSpecialCases(this.token)
       .then((response) => {
         this.specialCases = response.data;
       })
@@ -40,6 +43,11 @@ export default {
     return {
       specialCases: [],
     };
+  },
+  computed: {
+    ...mapGetters({  
+      token: "getToken"
+    }),
   },
   methods: {
   },

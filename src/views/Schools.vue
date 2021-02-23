@@ -38,6 +38,9 @@
 
 <script>
   import SchoolService from '@/services/SchoolService.js';
+    import {
+    mapGetters
+  } from "vuex";
   export default {
     name: "schools",
     components: {
@@ -56,14 +59,16 @@
       };
     },
     computed: {
-
+      ...mapGetters({
+        token: "getToken"
+      }),
     },
     created() {
 
     },
     methods: {
       getAllSchools(){
-        SchoolService.getAllSchools(localStorage.getItem('jwt')).then((res) => {
+        SchoolService.getAllSchools(this.token).then((res) => {
           this.schools = res.data;
         }).catch((error) => {
           // eslint-disable-next-line no-use-before-define

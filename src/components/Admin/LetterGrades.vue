@@ -21,11 +21,14 @@
 </template>
 
 <script>
+import {
+  mapGetters
+} from "vuex";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 export default {
   name: 'Letter Grades',
   created() {
-     ProgramManagementService.getLetterGrades(localStorage.getItem('jwt'))
+     ProgramManagementService.getLetterGrades(this.token)
       .then((response) => {
         this.letterGrades = response.data;
       })
@@ -38,6 +41,11 @@ export default {
     return {
       letterGrades: [],
     };
+  },
+  computed: {
+    ...mapGetters({  
+      token: "getToken",
+    }),
   },
   methods: {
   },

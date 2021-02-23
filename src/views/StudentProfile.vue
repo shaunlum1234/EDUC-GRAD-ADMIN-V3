@@ -70,15 +70,6 @@
               
               <transition name="fade">
                 <b-tab title="Courses" class="py-3 px-0 m-1">
-                  <div class="float-right">Current View: {{courseViewMode}}</div>
-
-                  <b-dropdown id="filter-dropdown" text="Course Views" class="m-md-2 float-right">
-                    <b-dropdown-item @click="courseViewMode='Course requirements met'">Requirements met</b-dropdown-item>
-                    <!-- <b-dropdown-item @click="courseViewMode='Course requirements not met'">Requirements not met
-                    </b-dropdown-item> -->
-                    <b-dropdown-item @click="courseViewMode='All courses'">Show all courses</b-dropdown-item>
-                  </b-dropdown>
-
                   <b-card-text v-if="!studentHasCourses">Loading Student Courses <b-spinner variant="success"
                       label="Spinning"></b-spinner>
                   </b-card-text>
@@ -190,7 +181,6 @@
         opened: [],
         displayMessage: null,
         smallScreen: false,
-        token: "no token",
         window: {
           width: 0,
           height: 0
@@ -211,6 +201,7 @@
         gradInfo: "getStudentGraduationCreationAndUpdate",
         hasGradStatus: "studentHasGradStatus",
         studentGradStatus: "getStudentGradStatus",
+        token: "getToken"
       }),
     },
     created() {
@@ -247,29 +238,25 @@
         }
       },
       loadStudent(pen) {
-        StudentService.getStudentByPen(pen, localStorage.getItem('jwt')).then((response) => {
+        console.log(this.token);
+        StudentService.getStudentByPen(pen, this.token).then((response) => {
           this.$store.dispatch('setStudentProfile', response.data);
 
         });
 
-        AssessmentService.getStudentAssessment(pen, localStorage.getItem('jwt')).then((response) => {
+        AssessmentService.getStudentAssessment(pen, this.token).then((response) => {
           this.$store.dispatch('setStudentAssessments', response.data);
         });
 
-        StudentExamsService.getStudentExams(pen, localStorage.getItem('jwt')).then((response) => {
+        StudentExamsService.getStudentExams(pen, this.token).then((response) => {
           this.$store.dispatch('setStudentExams', response.data);
         })
 
-        CourseAchievementService.getStudentCourseAchievements(pen, localStorage.getItem('jwt')).then(
-          (response) => {
-            this.$store.dispatch("setStudentCourses", response.data);
-          }
-        );
-        GraduationStatusService.getGraduationStatus(pen, localStorage.getItem('jwt')).then(
+        GraduationStatusService.getGraduationStatus(pen, this.token).then(
           (response) => {
             let schoolInfo = "";
             let studentSchool = response.data.schoolOfRecord;
-            SchoolService.getSchoolInfo(studentSchool, localStorage.getItem('jwt')).then((res) => {
+            SchoolService.getSchoolInfo(studentSchool, this.token).then((res) => {
               schoolInfo = res.data;
               response.data.schoolInfo = schoolInfo
               this.$store.dispatch("setStudentGradStatus", response.data);
@@ -278,7 +265,11 @@
               console.log('There was an error adding School information to Grad Status:' + error.response);
               this.$store.dispatch("setStudentGradStatus", response.data);
             });
-
+          }
+        );
+        CourseAchievementService.getStudentCourseAchievements(pen, this.token).then(
+          (response) => {
+            this.$store.dispatch("setStudentCourses", response.data);
           }
         );
       },

@@ -54,7 +54,8 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
     } else {
       Vue.$log.info("Authenticated");
     }
-  
+    store.dispatch("setToken",keycloak.token);
+    store.dispatch("setRefreshToken",keycloak.refreshToken);
     new Vue({
       router,
       store,
@@ -66,8 +67,7 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
     //localStorage.setItem("jwt", keycloak.token);
     //localStorage.setItem("refresh", keycloak.refreshToken);
     console.log("KEYCLOAK TOKEN" + keycloak.token);
-    store.commit("setToken",keycloak.token);
-    store.commit("setRefreshToken",keycloak.refreshToken);
+
     //console.log(localStorage.getItem("jwt"));
     //console.log(keycloak);
     setInterval(() =>{
@@ -79,8 +79,8 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
           console.log(refreshed.refreshToken);
           console.log("NEW TOKEN" + keycloak.token);
           console.log("REFRESH TOKEN" + keycloak.refreshToken);
-          store.commit("setToken",keycloak.token);
-          store.commit("setRefreshToken",keycloak.refreshToken);
+          store.dispatch("setToken",keycloak.token);
+          store.dispatch("setRefreshToken",keycloak.refreshToken);
           
         } else {
           Vue.$log.warn('Token not refreshed, valid for '

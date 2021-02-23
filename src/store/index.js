@@ -8,6 +8,8 @@
     },
     state: {
       tokenTimeout: "",
+      token:"",
+      refreshToken: "",
       student: {
         profile: {},
         courses: "not loaded",
@@ -26,11 +28,15 @@
         //state.token = payload;
        // console.log("PAYLOAD" + payload);
         localStorage.setItem("jwt", payload);
+        state.token = payload;
+        
       },
       setRefreshToken(state, payload) {
         //state.token = payload;
         //console.log("PAYLOAD" + payload);
+        
         localStorage.setItem("refresh", payload);
+        state.refreshToken = payload;
       },
       setStudentProfile(state, payload) {
         state.student.profile = payload;
@@ -158,6 +164,12 @@
       },
       studentHasGradStatus(state){
         return state.student.hasGradStatus;
+      },
+      gradStatusCourses(state){
+        return state.student.gradStatus.studentGradData.studentCourses.studentCourseList;
+      },
+      getToken(state){
+        return state.token;
       }
 
       // getStudentProfile: state => state.student.profiles

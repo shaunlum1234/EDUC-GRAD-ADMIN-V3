@@ -284,6 +284,7 @@ export default {
       hasGradStatus: "studentHasGradStatus",
       studentPen: "getStudentPen",
       studentFullName: "getStudentFullName",
+      token: "getToken"
     }),
     
     
@@ -302,31 +303,32 @@ export default {
     },
   getCourseCompletedProgramCode(code, courses) {
       
-      var result = courses.filter(
-        function(course){ 
-          return course.gradReqMet.trim() == code; 
-          }
-      );
+      // var result = courses.filter(
+      //   function(course){ 
+      //     return course.gradReqMet.trim() == code; 
+      //     }
+      // );
       
-      //let ref = result[0].pen.trim()+result[0].courseCode.trim()+result[0].courseLevel.trim()+result[0].sessionDate.trim();
-      let ref = result[0].courseName;
-      alert(ref);
-      //this.$refs[ref][0].classList.add('highlight'); 
-      
+      // //let ref = result[0].pen.trim()+result[0].courseCode.trim()+result[0].courseLevel.trim()+result[0].sessionDate.trim();
+      // let ref = result[0].courseName;
+      // alert(ref);
+      // //this.$refs[ref][0].classList.add('highlight'); 
+      console.log(code + courses);
+      return "hello";
     },
     
     updateGraduationStatus: function(pen){
       // eslint-disable-next-line no-use-before-define
-      console.log("GRAD STATUS |" + pen 
-      + " | "  + localStorage.getItem('jwt'));
-      GraduationService.graduateStudent(pen, localStorage.getItem('jwt')).then((response) => {
+     
+      GraduationService.graduateStudent(pen, this.token).then((response) => {
+        //console.log(response.data);
         this.$store.dispatch("setStudentGradStatus", response.data);
       }).catch((error) => {
         console.log('There was an error:' + error.response);
       });  
     },
     getStudentAchievementReportPDF: function(){
-      GraduationCommonService.getAchievementReport(this.studentGradStatus.pen, localStorage.getItem('jwt'))
+      GraduationCommonService.getAchievementReport(this.studentGradStatus.pen, this.token)
       .then((response) => {
           //Create a Blob from the PDF Stream
           const file = new Blob(
@@ -347,7 +349,7 @@ export default {
     },
     getStudentTranscriptPDF: function(){
       console.log("transcript");
-      GraduationCommonService.getStudentTranscript(this.studentGradStatus.pen, localStorage.getItem('jwt'))
+      GraduationCommonService.getStudentTranscript(this.studentGradStatus.pen, this.token)
       .then((response) => {
           //Create a Blob from the PDF Stream
           const file = new Blob(

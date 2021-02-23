@@ -53,6 +53,9 @@
 </template>
 
 <script>
+  import {
+    mapGetters
+  } from "vuex";
   import CourseService from '@/services/CourseService.js';
   export default {
     name: "courses",
@@ -68,14 +71,16 @@
       };
     },
     computed: {
-
+      ...mapGetters({
+        token: "getToken"
+      }),
     },
     created() {
       this.getAllCourses();
     },
     methods: {
       searchCourseByCourseCode() {
-        CourseService.getCourses(this.courseCode, localStorage.getItem('jwt'))
+        CourseService.getCourses(this.courseCode, this.token)
           .then((response) => {
             this.courses = response.data;
           })
@@ -85,7 +90,7 @@
           });
       },
       getAllCourses() {
-        CourseService.getAllCourses(localStorage.getItem('jwt'))
+        CourseService.getAllCourses(this.token)
           .then((response) => {
             this.courses = response.data;
           })

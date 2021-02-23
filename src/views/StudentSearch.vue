@@ -272,6 +272,7 @@ export default {
     };
   },
   created() {
+    console.log(this.token);
   },
   // beforeRouteLeave(to, from, next) {
   //   next(this.loadStudent(this.selectedPen));
@@ -283,6 +284,7 @@ export default {
       courses: "getStudentCourses",
       exams: "getStudentExams",
       gradStatus: "getStudentGradStatus",
+      token: "getToken",
     }),
   },
 
@@ -309,7 +311,7 @@ export default {
       this.message ="";
       this.searchLoading = true;
       this.studentSearchResults = [];
-      StudentService.getStudentByPen(this.penInput, localStorage.getItem('jwt'))
+      StudentService.getStudentByPen(this.penInput, this.token)
         .then((response) => {
           if (response.data) {
             this.selectStudent(response.data);
@@ -335,7 +337,7 @@ export default {
         this.advancedSearchLoading = true;
         this.studentSearchResults = [];
         try {
-          StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, localStorage.getItem('jwt'))
+          StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token)
             .then((response) => {
               this.advancedSearchLoading = false;
               this.studentSearchResults = response.data;
