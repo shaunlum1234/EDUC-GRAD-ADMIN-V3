@@ -77,7 +77,6 @@
       },
       searchSchools(){
         this.schools = {};
-        console.log(this.search);
         SchoolService.searchSchools(this.search, localStorage.getItem('jwt')).then((res) => {
           this.schools = res.data;
         }).catch((error) => {

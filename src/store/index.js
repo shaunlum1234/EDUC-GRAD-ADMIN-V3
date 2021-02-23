@@ -20,10 +20,14 @@
         hasAssessments: false,
         hasCourses: false,
         hasGradStatus: false,
+        hasGradStatusPendingUpdates: false,
 
       }
     },
     mutations: {
+      setHasGradStatusPendingUpdates(state, payload) {
+          state.student.hasGradStatusPendingUpdates = payload;
+      },
       setToken(state, payload) {
         //state.token = payload;
        // console.log("PAYLOAD" + payload);
@@ -48,6 +52,7 @@
         }
       },
       setStudentGradStatus(state, payload) {
+        console.log("payload:" + payload.program )
         state.student.gradStatus = payload;
         //when commiting gradstatus to store, we need to put the json string in to a json object to call it easier
         state.student.gradStatus.studentGradData = JSON.parse(state.student.gradStatus.studentGradData); 
@@ -77,6 +82,7 @@
         state.student.hasAssessments = false;
         state.student.hasCourses = false;
         state.student.hasGradStatus = false;
+        state.student.gradStatusPendingUpdates = false;
       },
     },
     actions: {
@@ -125,6 +131,10 @@
           "updatedBy" : state.student.gradStatus.updatedBy,
           "updatedTimestamp": state.student.gradStatus.updatedTimestamp
         }
+      },
+      getHasGradStatusPendingUpdates(state){
+
+          return state.student.hasGradStatusPendingUpdates;
       },
       getStudentProfile(state) {
         return state.student.profile;

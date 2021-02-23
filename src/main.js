@@ -66,7 +66,7 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
     // TODO: Maybe dont store the token in the localstore, rather use it direct from the keycloak.token object
     //localStorage.setItem("jwt", keycloak.token);
     //localStorage.setItem("refresh", keycloak.refreshToken);
-    console.log("KEYCLOAK TOKEN" + keycloak.token);
+    //console.log(keycloak.token);
 
     //console.log(localStorage.getItem("jwt"));
     //console.log(keycloak);
@@ -74,11 +74,11 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
       keycloak.updateToken(70).success((refreshed)=>{
         if (refreshed) {
           Vue.$log.debug('Token refreshed');
-          console.log(refreshed);
-          console.log(refreshed.token);
-          console.log(refreshed.refreshToken);
-          console.log("NEW TOKEN" + keycloak.token);
-          console.log("REFRESH TOKEN" + keycloak.refreshToken);
+          // console.log(refreshed);
+          // console.log(refreshed.token);
+          // console.log(refreshed.refreshToken);
+          // console.log("NEW TOKEN" + keycloak.token);
+          // console.log("REFRESH TOKEN" + keycloak.refreshToken);
           store.dispatch("setToken",keycloak.token);
           store.dispatch("setRefreshToken",keycloak.refreshToken);
           

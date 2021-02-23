@@ -1,6 +1,6 @@
 <template>
   <div>
-  
+
       <b-card no-body class="col-12 px-0 mx-0" v-if="!hasGradStatus">
         
         <b-button
@@ -61,15 +61,15 @@
                       <h2>Graduation status</h2></div>
                       
                     <ul>
-                      <li v-if="studentGradStatus.program">
+                      <li>
                         <strong>Program:</strong>
                         {{ studentGradStatus.program }}
                       </li>
-                      <li v-if="studentGradStatus.programCompletionDate">
-                        <strong>Program Completion Date:</strong>
+                      <li>
+                        <strong>Program completion date:</strong>
                         {{ studentGradStatus.programCompletionDate }}
                       </li>
-                      <li v-if="studentGradStatus.gradProgramAtGraduation">
+                      <li>
                         <strong>Program at graduation:</strong>
                         {{ studentGradStatus.gradProgramAtGraduation }}
                       </li>
@@ -99,6 +99,10 @@
                       <li v-if="studentGradStatus.graduationDate">
                         <strong>Graduation Date:</strong>
                         {{ studentGradStatus.graduationDate }}
+                      </li>
+                      <li>
+                        <strong>Credits used for Graduation:</strong>
+                        {{ studentGradStatus.creditsUsedForGrad }}
                       </li>
                       <li v-if="studentGradStatus.gpa">
                         <strong>GPA:</strong> {{ studentGradStatus.gpa }}
@@ -220,7 +224,7 @@
             variant="info"
             class="text-left"
             ><i class="fas fa-times-circle text-danger"></i> Requirements not
-            met ({{studentGradStatus.studentGradData.nonGradReasons.length}}) </b-button
+            met ({{studentGradStatus.studentGradData.nonGradReasons.length}} <span v-if=hasGradStatusPendingUpdates>TBD</span>) </b-button
           >
         
         <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
@@ -247,7 +251,7 @@
           variant="info"
           class="text-left"
           ><i class="fas fa-check-circle text-success"></i> Requirements met
-          ({{studentGradStatus.studentGradData.requirementsMet.length}})</b-button
+          ({{studentGradStatus.studentGradData.requirementsMet.length}} <span v-if=hasGradStatusPendingUpdates>TBD</span>)</b-button
         >
         
         <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
@@ -284,7 +288,8 @@ export default {
       hasGradStatus: "studentHasGradStatus",
       studentPen: "getStudentPen",
       studentFullName: "getStudentFullName",
-      token: "getToken"
+      token: "getToken",
+      hasGradStatusPendingUpdates: "getHasGradStatusPendingUpdates",
     }),
     
     

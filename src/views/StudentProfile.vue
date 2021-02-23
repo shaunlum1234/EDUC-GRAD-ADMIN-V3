@@ -153,7 +153,6 @@
   import StudentExams from "@/components/StudentExams";
   import StudentAssessments from "@/components/StudentAssessments";
   import StudentGraduationStatus from "@/components/StudentGraduationStatus";
-  import SchoolService from "@/services/SchoolService.js";
 
   import {
     mapGetters
@@ -254,17 +253,8 @@
 
         GraduationStatusService.getGraduationStatus(pen, this.token).then(
           (response) => {
-            let schoolInfo = "";
-            let studentSchool = response.data.schoolOfRecord;
-            SchoolService.getSchoolInfo(studentSchool, this.token).then((res) => {
-              schoolInfo = res.data;
-              response.data.schoolInfo = schoolInfo
-              this.$store.dispatch("setStudentGradStatus", response.data);
-            }).catch((error) => {
-              // eslint-disable-next-line no-use-before-define
-              console.log('There was an error adding School information to Grad Status:' + error.response);
-              this.$store.dispatch("setStudentGradStatus", response.data);
-            });
+            this.$store.dispatch("setStudentGradStatus", response.data);
+            console.log("IN" + response.data);
           }
         );
         CourseAchievementService.getStudentCourseAchievements(pen, this.token).then(

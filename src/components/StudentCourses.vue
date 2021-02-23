@@ -39,7 +39,8 @@
           <v-th sortKey="credits">Credits</v-th>
           <v-th sortKey="interimPercent">Interim %</v-th>
           <v-th sortKey="completedCourseLetterGrade">Final %</v-th>
-          <v-th sortKey="programCode">Program Code</v-th>
+          <v-th sortKey="creditsUsedForGrad">Grad Credits</v-th> 
+          <v-th sortKey="programCode">Req Code</v-th>
         </thead>
         <tbody slot="body" slot-scope="{ displayData }">
           <template v-for="row in displayData">
@@ -55,6 +56,7 @@
               <td>{{ row.credits }}</td>
               <td>{{ row.interimPercent }}% <br>{{ row.interimLetterGrade }}</td>
               <td>{{ row.completedCoursePercentage }}% <br>{{ row.completedCourseLetterGrade }}</td>
+              <td>{{ row.creditsUsedForGrad}}</td>
               <td>{{ row.gradReqMet}}</td>
             </tr>
           </template>
@@ -107,6 +109,7 @@
         gradStatusCourses: "gradStatusCourses",
         studentGradStatus: "getStudentGradStatus",
         hasGradStatus: "studentHasGradStatus",
+        hasGradStatusPendingUpdates: "getHasGradStatusPendingUpdates"
       }),
     },
     data: function () {
@@ -180,6 +183,9 @@
             }
           
         }
+        if(this.gradStatusPendingUpdates.length){
+          this.$store.commit('setHasGradStatusPendingUpdates', true);
+        }
       }
 
       
@@ -221,7 +227,6 @@
           }
         );
         if (!result.length) {
-          console.log("TBD - New Course Added")
           this.gradStatusPendingUpdates.push(course.courseName + " ADDED");
           return "TBD - New Course Added";
         } else if (result[0].gradReqMet) {
@@ -232,11 +237,9 @@
             this.gradStatusPendingUpdates.push(course.courseName + "UPDATED");
             return "TBD - Modified"
           } else {
-            console.log("found");
             return result[0].gradReqMet;
           }
         } else {
-          console.log("not a Grad requirement");
           return "---";
         }
 
