@@ -1,11 +1,7 @@
 <template>
   <div>
     <h1>School Search</h1>
-    <div>
-      <b-card no-body>
-        <b-tabs pills card vertical>
-          <b-tab title="School Search" active>
-            <b-card-text>
+
               <input v-model="search.city" placeholder="City">
               <input v-model="search.schoolName" placeholder="School Name">
               <input v-model="search.districtName" placeholder="District Name">
@@ -27,11 +23,7 @@
                   </tr>
                 </tbody>
               </table>
-            </b-card-text>
-          </b-tab>
-        </b-tabs>
-      </b-card>
-    </div>
+
 
   </div>
 </template>
@@ -64,7 +56,7 @@
       }),
     },
     created() {
-
+      this.getAllSchools();
     },
     methods: {
       getAllSchools(){

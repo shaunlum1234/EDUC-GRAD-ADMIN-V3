@@ -78,8 +78,6 @@
                       <div v-if="hasGradStatus">
                         <div v-show="this.courseViewMode == 'Course requirements met'">
                           <h2>Course Requirements Met</h2>
-                          <p> {{studentFullName.studGiven }}'s current graduation status' completed course requirements in the <strong>{{studentGradStatus.studentGradData.gradStatus.program}}</strong> Program. This was last updated by {{studentGradStatus.updatedBy}} on {{studentGradStatus.updatedTimestamp}}.</p>
-                          <blockquote>Note: Changes to the course table are not reflected in this table until the "Graduation Algorithm" is run.</blockquote> 
                           <table class="table table-striped">
                             <thead>
                               <tr>
@@ -106,6 +104,45 @@
                         </div>
                       </div>
                     </StudentCourses>
+                  </b-card-text>
+                </b-tab>
+              </transition>
+
+              <transition name="fade">
+                <b-tab title="Requirements Met" class="py-3 px-0 m-1">
+                  <b-card-text v-if="!studentHasCourses">Loading Student Courses <b-spinner variant="success"
+                      label="Spinning"></b-spinner>
+                  </b-card-text>
+                  <b-card-text v-if="studentHasCourses">
+                      <div v-if="hasGradStatus">
+            
+                          <h2>Course Requirements Met</h2>
+                          <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th>Course Code</th>
+                                <th>Course Level</th>
+                                <th>Course Name</th>
+                                <th>Session Date</th>
+                                <th>Grad Req Met</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <template
+                                v-for="(course,i) in studentGradStatus.studentGradData.studentCourses.studentCourseList">
+                                <tr v-if="course.gradReqMet" :key="i">
+                                  <td scope="row">{{ course.courseCode }}</td>
+                                  <td scope="row">{{course.courseLevel}}</td>
+                                  <td scope="row">{{ course.courseName }}</td>
+                                  <td scope="row">{{course.sessionDate}}</td>
+                                  <td scope="row">{{course.gradReqMet}}</td>
+                                </tr>
+                              </template>
+                            </tbody>
+                          </table>
+                      
+                      </div>
+              
                   </b-card-text>
                 </b-tab>
               </transition>
@@ -237,7 +274,6 @@
         }
       },
       loadStudent(pen) {
-        console.log(this.token);
         StudentService.getStudentByPen(pen, this.token).then((response) => {
           this.$store.dispatch('setStudentProfile', response.data);
 
@@ -254,7 +290,6 @@
         GraduationStatusService.getGraduationStatus(pen, this.token).then(
           (response) => {
             this.$store.dispatch("setStudentGradStatus", response.data);
-            console.log("IN" + response.data);
           }
         );
         CourseAchievementService.getStudentCourseAchievements(pen, this.token).then(

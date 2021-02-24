@@ -6,6 +6,7 @@ import StudentSearch from '../views/StudentSearch.vue';
 import StudentProfile from '../views/StudentProfile.vue';
 import Courses from '../views/Courses.vue';
 import Schools from '../views/Schools.vue';
+import PSI from '../views/PSI.vue';
 import AdminGraduationPrograms from '../views/AdminGraduationPrograms.vue';
 
 
@@ -63,6 +64,14 @@ const routes = [{
     path: '/schools',
     name: 'schools',
     component: Schools,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/psi',
+    name: 'psi',
+    component: PSI,
     meta: {
       requiresAuth: true
     }
