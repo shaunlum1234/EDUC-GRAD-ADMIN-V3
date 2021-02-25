@@ -63,7 +63,7 @@ export default {
     ProgramManagementService.getProgramRule(this.parentSelectedProgramCode, localStorage.getItem('jwt'))
       .then((response) => {
         this.graduationProgramRules = response.data;
-        console.log('Graduation Program Rules: ' + this.graduationProgramRules);
+        
       })
      
       .catch((error) => {

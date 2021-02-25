@@ -6,8 +6,10 @@
         <b-tabs pills card vertical>
           <b-tab title="Course Search" active>
             <b-card-text>
-              <input v-model="courseCode" placeholder="Course Code: BI">
-              <input type="submit" @click="getAllCourses">
+              <div class="row">
+                <b-input class="col-4 my-2 ml-3" v-model="courseCode" placeholder="Course Code: BI"/>
+                <b-button class="col-4 my-2 mx-1" @click="getAllCourses">Search</b-button>
+              </div>
               <!-- <input type="submit" @click="searchCourseByCourseCode"> -->
               <table v-if="courses" class="table table-striped table-bordered">
                 <thead>
