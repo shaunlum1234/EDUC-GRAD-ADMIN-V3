@@ -1,23 +1,7 @@
 <template>
   <div>
     <h1>PSI</h1>
-              <b-table striped hover :items="psi" :fields="psiFields"></b-table>
-              <table v-if="psi" class="table table-striped table-bordered">
-                <thead>
-                  <tr>
-                    <th>Mincode</th>
-                    <th>School Name</th>
-                    <th>District Name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="p in psi" :key="p.description">
-                    <td>{{p}}</td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
+              <b-table striped hover :items="psi"></b-table>
 
 
   </div>

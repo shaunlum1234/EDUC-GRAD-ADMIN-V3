@@ -224,7 +224,7 @@
             variant="info"
             class="text-left"
             ><i class="fas fa-times-circle text-danger"></i> Requirements not
-            met ({{studentGradStatus.studentGradData.nonGradReasons.length}} <span v-if=hasGradStatusPendingUpdates>TBD</span>) </b-button
+            met ({{studentGradStatus.studentGradData.nonGradReasons.length}} <span v-if="hasGradStatusPendingUpdates">TBD</span>) </b-button
           >
         
         <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
@@ -251,7 +251,7 @@
           variant="info"
           class="text-left"
           ><i class="fas fa-check-circle text-success"></i> Requirements met
-          ({{studentGradStatus.studentGradData.requirementsMet.length}} <span v-if=hasGradStatusPendingUpdates>TBD</span>)</b-button
+          ({{studentGradStatus.studentGradData.requirementsMet.length}} <span v-if="hasGradStatusPendingUpdates">TBD</span>)</b-button
         >
         
         <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">

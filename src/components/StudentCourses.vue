@@ -73,7 +73,7 @@
               <strong>({{ course.gradReqMet }})</strong>
             </li>
           </ul>
-          {{gradStatusCourses}}
+        
 
         </div>
         <div class="col-6">
@@ -86,7 +86,6 @@
 
             </li>
           </ul>
-          {{courses}}
         </div>
 
 
@@ -242,20 +241,6 @@
         } else {
           return "---";
         }
-
-
-
-        //this.$refs[ref][0].classList.add('highlight'); 
-
-
-
-
-
-
-
-
-        //console.log("COURSE ACHIVEMENTS: " + course);
-        //return "TBD";
       },
       createRef(pen, code, level, sessionDate) {
         return pen.trim() + code.trim() + level.trim() + sessionDate.trim();
