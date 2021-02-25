@@ -9,6 +9,11 @@
             <GraduationPrograms></GraduationPrograms>
           </b-card-text>
         </b-tab>
+        <b-tab title="Special Programs">
+          <b-card-text>
+            <GraduationSpecialProgram></GraduationSpecialProgram>
+          </b-card-text>
+        </b-tab>
         <b-tab title="LetterGrades"><b-card-text>
           <LetterGrades></LetterGrades>
         </b-card-text></b-tab>
@@ -21,12 +26,14 @@
 
 <script>
 import GraduationPrograms from '@/components/GraduationPrograms';
+import GraduationSpecialProgram from '@/components/GraduationSpecialProgram';
 import LetterGrades from '@/components/Admin/LetterGrades';
 import SpecialCases from '@/components/Admin/SpecialCases';
 export default {
   name: "graduationPrograms",
   components: {
    'GraduationPrograms': GraduationPrograms,
+   'GraduationSpecialProgram':GraduationSpecialProgram,
    'LetterGrades': LetterGrades,
    'SpecialCases': SpecialCases
 
