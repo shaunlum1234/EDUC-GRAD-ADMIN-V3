@@ -42,13 +42,19 @@
 
 <script>
 import ProgramManagementService from "@/services/ProgramManagementService.js";
+import {
+    mapGetters
+} from "vuex";
+
 export default {
   name: "GraduationProgramRules",
   props: {
     selectedProgramCode: String,
     selectedProgramSet: String
   },
-  computed: {},
+  computed: {...mapGetters({
+      token: "getToken"
+  })},
   data: function () {
     return {
       opened: [],
@@ -58,43 +64,16 @@ export default {
   },
   created() {
     this.parentSelectedProgramCode = this.$parent.selectedProgramCode
-    // console.log('PropA:' + this.propA)
-    // console.log('PropA:' + this.propB)
-    ProgramManagementService.getProgramRule(this.parentSelectedProgramCode, localStorage.getItem('jwt'))
+    ProgramManagementService.getProgramRule(this.parentSelectedProgramCode, this.token)
       .then((response) => {
         this.graduationProgramRules = response.data;
-        
       })
-     
       .catch((error) => {
         // eslint-disable-next-line no-unused-vars
         console.log('There was an error:' + error.response);
       });
-
   },
-  methods: {
-    toggle(id) {
-      const index = this.opened.indexOf(id);
-      if (index > -1) {
-        this.opened.splice(index, 1);
-      } else {
-        this.opened.push(id);
-      }
-    },
-    showMsgBoxOne(message) {
-      this.$bvModal.msgBoxOk(message);
-    },
-    // getCourseName: function (cid) {
-    //   let result = "";
-    //   this.courses.filter(function (n) {
-    //     if (n.id === cid) {
-    //       result = n.name;
-    //       return result;
-    //     }
-    //   });
-    //   return result;
-    // },
-  },
+  methods: {},
 };
 </script>
 

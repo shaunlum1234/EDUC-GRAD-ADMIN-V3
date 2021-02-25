@@ -48,10 +48,17 @@
 
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 import GraduationSpecialProgramRules from "@/components/GraduationSpecialProgramRules";
+import {
+    mapGetters
+} from "vuex";
+
 export default {
   name: "GraduationSpecialProgram",
   props: {},
-  computed: {},
+  computed: {
+    ...mapGetters({
+      token: "getToken"
+  })},
   components: {
    'GraduationSpecialProgramRules': GraduationSpecialProgramRules,
   },
@@ -65,7 +72,7 @@ export default {
     };
   },
   created() {
-     ProgramManagementService.getSpecialProgram(localStorage.getItem("jwt"))
+     ProgramManagementService.getSpecialProgram(this.token)
       .then((response) => {
         this.GraduationSpecialPrograms = response.data;
       })

@@ -48,18 +48,20 @@
 
 <script>
 import ProgramManagementService from "@/services/ProgramManagementService.js";
-// import GraduationProgramSets from "@/components/GraduationProgramSets";
-// import GraduationSpecialProgram from "@/components/GraduationSpecialProgram";
 import GraduationProgramRules from "@/components/GraduationProgramRules";
+import {
+    mapGetters
+} from "vuex";
+
 export default {
   name: "GraduationPrograms",
   components: {
     GraduationProgramRules: GraduationProgramRules,
   },
-  props: {
-
-  },
-  computed: {},
+  props: {},
+  computed: {...mapGetters({
+      token: "getToken"
+  })},
   data: function () {
     return {
       show: false,
@@ -71,7 +73,7 @@ export default {
     };
   },
   created() {
-    ProgramManagementService.getGraduationPrograms(localStorage.getItem("jwt"))
+    ProgramManagementService.getGraduationPrograms(this.token)
       .then((response) => {
         this.graduationPrograms = response.data;
       })
@@ -87,17 +89,6 @@ export default {
     },
     resetProgramCode(){
       this.selectedProgramCode = '';
-    },
-    toggle(id) {
-      const index = this.opened.indexOf(id);
-      if (index > -1) {
-        this.opened.splice(index, 1);
-      } else {
-        this.opened.push(id);
-      }
-    },
-    showMsgBoxOne(message) {
-      this.$bvModal.msgBoxOk(message);
     },
     getCourseName: function (cid) {
       let result = "";

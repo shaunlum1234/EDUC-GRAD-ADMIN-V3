@@ -42,13 +42,15 @@
 
 <script>
 import ProgramManagementService from "@/services/ProgramManagementService.js";
+import {
+    mapGetters
+} from "vuex";
 export default {
   name: "GraduationSpecialProgramRules",
-  props: {
-    // selectedProgramCode: String,
-    // selectedProgramSet: String
-  },
-  computed: {},
+  props: {},
+  computed: {...mapGetters({
+      token: "getToken"
+  })},
   data: function () {
     return {
       opened: [],
@@ -57,9 +59,8 @@ export default {
     };
   },
   created() {
-//this.parentSelectedProgramCode = this.$parent.selectedProgramCode
     this.parentSelectedProgramCode = this.$parent.selectedProgramId
-    ProgramManagementService.getSpecialProgramRule(this.parentSelectedProgramCode, localStorage.getItem('jwt'))
+    ProgramManagementService.getSpecialProgramRule(this.parentSelectedProgramCode, this.token)
       .then((response) => {
         this.graduationSpecialProgramRules = response.data;
         console.log('Graduation Special Program Rules: ' + this.graduationSpecialProgramRules);
