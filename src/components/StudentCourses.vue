@@ -14,9 +14,6 @@
                 <tr><td><i class="fas fa-pen-square"></i> CHEMISTRY 12 - UPDATED</td></tr>
                 <tr><td><i class="fas fa-minus-square"></i> COMPUTER SCIENCE 11 - DELETED</td></tr>
               </table>
-
-
-
             </b-card-text>
             <b-button v-on:click="updateGraduationStatus(studentPen)" class="float-right btn-primary btn-sm">
               <i class="fas fa-sync"></i> Update Graduation Status
@@ -27,6 +24,8 @@
 
 
       <b-spinner v-if="!courses.length" label="Loading">Loading</b-spinner>
+
+      <DisplayTable :items="courses" :fields="fields2" />
       <v-table :data="courses" :filters="filters" class="table table-sm table-hover table-striped align-middle">
         <thead slot="head" class="">
           <v-th sortKey="courseCode">Code</v-th>
@@ -99,8 +98,12 @@
   import {
     mapGetters
   } from "vuex";
+  import DisplayTable from "@/components/DisplayTable.vue";
   export default {
     name: "StudentCourses",
+    components: {
+      DisplayTable: DisplayTable,
+    },
     props: {},
     computed: {
       ...mapGetters({
@@ -108,7 +111,7 @@
         gradStatusCourses: "gradStatusCourses",
         studentGradStatus: "getStudentGradStatus",
         hasGradStatus: "studentHasGradStatus",
-        hasGradStatusPendingUpdates: "getHasGradStatusPendingUpdates"
+        gradStatusPendingUpdates: "getHasGradStatusPendingUpdates"
       }),
     },
     data: function () {
@@ -125,7 +128,27 @@
           "completedCoursePercentage",
           "completedCourseLetterGrade",
         ],
-
+        fields2: [
+          { key: 'courseCode', label: 'Course Code', sortable: true, sortDirection: 'desc' },
+          { key: 'codeLevel', label: 'Code Level', sortable: true, class: 'text-center' },
+          { key: 'sessionDate', label: 'Session Date', sortable: true, sortDirection: 'desc' },
+          { key: 'courseName', label: 'Course Name', sortable: true, class: 'text-center' },
+          { key: 'courseEquivChal', label: 'Course Equivalent Challenge', sortable: true, sortDirection: 'desc' },
+          { key: 'credits', label: 'Credits', sortable: true, class: 'text-center' },
+          { key: 'interimLetterGrade', label: 'Intermediate Letter Grade', sortable: true, sortDirection: 'desc' },
+          { key: 'completedCoursePercentage', label: 'Completed Course Percentage'},
+          {
+            key: 'isActive',
+            label: 'Is Active',
+            formatter: (value) => {
+              return value ? 'Yes' : 'No'
+            },
+            sortable: true,
+            sortByFormatted: true,
+            filterByFormatted: true
+          },
+          { key: 'actions', label: 'Actions' }
+        ],
         gradStatusPendingUpdates: [],
         show: false,
         opened: [],
@@ -158,38 +181,8 @@
       };
     },
     created() {
-      let i = 0;
-      let j = 0;
-      if(this.hasGradStatus){
-        for (i = 0; i < this.courses.length; i++) {
-          this.courses[i].gradReqMet = this.getProgramCode(this.courses[i]);
-        }
-        //check for deleted courses
-        for (i = 0; i < this.gradStatusCourses.length; i++) {
-          let courseDeleted = true;
-          for (j = 0; j < this.courses.length; j++) {
-           
-            if(this.courses[j].courseCode+this.courses[j].courseLevel+this.courses[j].sessionDate+this.courses[j].pen
-            ==this.gradStatusCourses[i].courseCode+this.gradStatusCourses[i].courseLevel+this.gradStatusCourses[i].sessionDate+this.gradStatusCourses[i].pen)
-            {
-              courseDeleted=false;
-              break;
-            }
-           
-          }
-           if(courseDeleted){
-              this.gradStatusPendingUpdates.push(this.gradStatusCourses[i].courseName + "REMOVED");
-            }
-          
-        }
-        if(this.gradStatusPendingUpdates.length){
-          this.$store.commit('setHasGradStatusPendingUpdates', true);
-        }
-      }
-
-      
-
-
+      console.log("CREATED");
+      this.checkForPendingUpdates();
     },
     methods: {
       toggle(id) {
@@ -200,11 +193,40 @@
           this.opened.push(id);
         }
       },
-      // getCoursePrimaryKey(course){
-      //   console.log("getting primary key" + course)
-
-      // },
-      // Returns true if course1 == course2. Comparison is based on editiable fields defined
+      checkForPendingUpdates(){
+         let i = 0;
+          let j = 0;
+          console.log(this.gradStatusPendingUpdates);
+          if(this.hasGradStatus){
+            for (i = 0; i < this.courses.length; i++) {
+              this.courses[i].gradReqMet = this.getProgramCode(this.courses[i]);
+            }
+            //check for deleted courses
+            for (i = 0; i < this.gradStatusCourses.length; i++) {
+              let courseDeleted = true;
+              for (j = 0; j < this.courses.length; j++) {
+                if(this.courses[j].courseCode+this.courses[j].courseLevel+this.courses[j].sessionDate+this.courses[j].pen
+                ==this.gradStatusCourses[i].courseCode+this.gradStatusCourses[i].courseLevel+this.gradStatusCourses[i].sessionDate+this.gradStatusCourses[i].pen)
+                {
+                  courseDeleted=false;
+                  break;
+                }
+              }
+              if(courseDeleted){
+                  this.gradStatusPendingUpdates.push(this.gradStatusCourses[i].courseName + "REMOVED");
+                }
+            }
+            if(this.gradStatusPendingUpdates.length){
+              this.$store.dispatch('setHasGradStatusPendingUpdates', true);
+              console.log(this.gradStatusPendingUpdates);
+            }else{
+              console.log("NO CHANGES");
+              this.$store.dispatch('setHasGradStatusPendingUpdates', false);
+                console.log(this.gradStatusPendingUpdates);
+            }
+            
+          }
+      },
       compareCourses(course1, course2) {
         this.fields.forEach(function (field) {
           if (course1[field] != course2[field]) {
@@ -233,6 +255,7 @@
 
             //Course has been monified and not updated in the Grad Status Course List
             //this.gradStatusPendingUpdates.push("world");
+  
             this.gradStatusPendingUpdates.push(course.courseName + "UPDATED");
             return "TBD - Modified"
           } else {

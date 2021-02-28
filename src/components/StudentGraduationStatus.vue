@@ -218,13 +218,13 @@
         </b-collapse>
       </b-card>
       <b-card no-body class="col-12 px-0 mx-0">
-          <b-button
+       <b-button
             block
             v-b-toggle.accordion-2
             variant="info"
             class="text-left"
             ><i class="fas fa-times-circle text-danger"></i> Requirements not
-            met ({{studentGradStatus.studentGradData.nonGradReasons.length}} <span v-if="hasGradStatusPendingUpdates">TBD</span>) </b-button
+            met ({{studentGradStatus.studentGradData.nonGradReasons.length}}) </b-button
           >
         
         <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
@@ -251,7 +251,7 @@
           variant="info"
           class="text-left"
           ><i class="fas fa-check-circle text-success"></i> Requirements met
-          ({{studentGradStatus.studentGradData.requirementsMet.length}} <span v-if="hasGradStatusPendingUpdates">TBD</span>)</b-button
+          ({{studentGradStatus.studentGradData.requirementsMet.length}} )</b-button
         >
         
         <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
@@ -289,7 +289,6 @@ export default {
       studentPen: "getStudentPen",
       studentFullName: "getStudentFullName",
       token: "getToken",
-      hasGradStatusPendingUpdates: "getHasGradStatusPendingUpdates",
     }),
     
     
@@ -300,28 +299,12 @@ export default {
     };
   },
   created() {
-
   },
   methods: {
     popClose() {
       this.show = false;
     },
-  getCourseCompletedProgramCode(code, courses) {
-      
-      // var result = courses.filter(
-      //   function(course){ 
-      //     return course.gradReqMet.trim() == code; 
-      //     }
-      // );
-      
-      // //let ref = result[0].pen.trim()+result[0].courseCode.trim()+result[0].courseLevel.trim()+result[0].sessionDate.trim();
-      // let ref = result[0].courseName;
-      // alert(ref);
-      // //this.$refs[ref][0].classList.add('highlight'); 
-      console.log(code + courses);
-      return "hello";
-    },
-    
+  
     updateGraduationStatus: function(pen){
       // eslint-disable-next-line no-use-before-define
      

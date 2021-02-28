@@ -47,6 +47,7 @@
             <router-link class="nav-link" to="/admin-graduation-programs">Program Management</router-link>
           </li>
           <li><router-link to="/psi">PSI</router-link></li>
+          <li><router-link to="/test">TEST</router-link></li>
           <li class="nav-item">
             <a v-bind:href="'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + host" class="nav-link">Logout</a>
           </li>
@@ -64,6 +65,7 @@
           <li><router-link to="/courses">Courses</router-link></li>
           <li><router-link to="/schools">Schools</router-link></li>
           <li><router-link to="/psi">PSI</router-link></li>
+          <li><router-link to="/test">TEST</router-link></li>
           <li class="nav-item">
             <a v-bind:href="'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + host" class="nav-link">Logout</a>
           </li>

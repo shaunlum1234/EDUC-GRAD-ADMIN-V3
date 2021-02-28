@@ -283,7 +283,7 @@ export default {
       courses: "getStudentCourses",
       exams: "getStudentExams",
       gradStatus: "getStudentGradStatus",
-      token: "getToken",
+      token: "getToken"
     }),
   },
 

@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --mode development",
     "start": "vue-cli-service serve",
     "serve:demo": "vue-cli-service serve --mode demo",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --dest dist/app/view",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
