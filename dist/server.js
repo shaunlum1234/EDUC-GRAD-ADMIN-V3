@@ -3,8 +3,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
-const path = __dirname + '/app/views/';
-
+const path = __dirname + '/app/view/';
+console.log(path);
 const app = express();
 
 app.use(express.static(path));
