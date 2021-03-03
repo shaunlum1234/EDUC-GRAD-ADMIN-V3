@@ -34,7 +34,7 @@
           </v-table>
         </div>
         <div class="card-body" v-if="selectedProgramCode">
-          <button v-on:click="resetProgramCode()" type="button" class="btn btn-light">Select another program</button>
+          <b-button v-on:click="resetProgramCode()" type="button" class="btn btn-primary">Select another program</b-button>
           <GraduationProgramRules
             :key="selectedProgramCode"
             :prop="selectedProgramCode"

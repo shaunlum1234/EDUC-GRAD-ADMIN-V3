@@ -46,7 +46,6 @@ let initOptions = {
 }
 
 let keycloak = Keycloak(initOptions);
-
 keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success((auth) =>{
     
     if(!auth) {
@@ -56,6 +55,7 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
     }
     store.dispatch("setToken",keycloak.token);
     store.dispatch("setRefreshToken",keycloak.refreshToken);
+    console.log(keycloak.token);
     new Vue({
       router,
       store,

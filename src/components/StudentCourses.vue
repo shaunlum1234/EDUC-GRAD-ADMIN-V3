@@ -22,10 +22,9 @@
         </b-card-group>
       </div>
 
-
       <b-spinner v-if="!courses.length" label="Loading">Loading</b-spinner>
 
-      <DisplayTable :items="courses" :fields="fields2" />
+      <!--DisplayTable :items="courses" :fields="fields2" /-->
       <v-table :data="courses" :filters="filters" class="table table-sm table-hover table-striped align-middle">
         <thead slot="head" class="">
           <v-th sortKey="courseCode">Code</v-th>
@@ -61,35 +60,6 @@
           </template>
         </tbody>
       </v-table>
-      <div class="row">
-        <div class="col-6" v-if="hasGradStatus">
-          <h1>GRAD STATUS COURSES</h1>
-          <ul id="courses-list">
-            <li v-for="course in gradStatusCourses" :key="course.courseName + course.sessionDate">
-              {{ course.courseCode }}
-              {{ course.courseLevel }}
-              {{ course.sessionDate }}
-              <strong>({{ course.gradReqMet }})</strong>
-            </li>
-          </ul>
-        
-
-        </div>
-        <div class="col-6">
-          <h1>COURSES</h1>
-          <ul id="courses-list">
-            <li v-for="course in courses" :key="course.courseName + course.sessionDate">
-              {{ course.courseCode }}
-              {{ course.courseLevel }}
-              {{ course.sessionDate }}
-
-            </li>
-          </ul>
-        </div>
-
-
-
-      </div>
     </div>
   </div>
 </template>
@@ -98,11 +68,11 @@
   import {
     mapGetters
   } from "vuex";
-  import DisplayTable from "@/components/DisplayTable.vue";
+  //import DisplayTable from "@/components/DisplayTable.vue";
   export default {
     name: "StudentCourses",
     components: {
-      DisplayTable: DisplayTable,
+      //DisplayTable: DisplayTable,
     },
     props: {},
     computed: {
@@ -182,9 +152,12 @@
     },
     created() {
       console.log("CREATED");
-      this.checkForPendingUpdates();
+      if(this.hasGradStatus){
+        this.checkForPendingUpdates();
+      }
     },
     methods: {
+      
       toggle(id) {
         const index = this.opened.indexOf(id);
         if (index > -1) {
