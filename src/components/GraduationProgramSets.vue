@@ -66,12 +66,12 @@ export default {
     ProgramManagementService.getGraduationProgramSets(this.$parent.selectedProgramCode, localStorage.getItem('jwt'))
       .then((response) => {
         this.graduationProgramSets = response.data;
-        console.log('Graduation Program Sets: ' + this.graduationProgramSets);
+        //console.log('Graduation Program Sets: ' + this.graduationProgramSets);
       })
      
       .catch((error) => {
          // eslint-disable-next-line no-unused-vars
-        console.log('There was an error:' + error.response);
+        //console.log('There was an error:' + error.response);
       });
 
       //  GradeService.getGrades(localStorage.getItem('jwt'))

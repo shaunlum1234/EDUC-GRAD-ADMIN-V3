@@ -465,15 +465,15 @@
         this.show = false;
       },
       projectGraduationStatus(pen) {
-        console.log( "PROJECTED" + this.projectedStudentGradStatus);
+      //  console.log( "PROJECTED" + this.projectedStudentGradStatus);
         GraduationStatusService.getGraduationStatus(pen, this.token) .then((response) => {
             this.projectedStudentGradStatus = response.data;
             this.projectedStudentGradStatus.studentGradData = JSON.parse(this.projectedStudentGradStatus.studentGradData); 
-            console.log( "PROJECTED" + this.projectedStudentGradStatus);
+      //      console.log( "PROJECTED" + this.projectedStudentGradStatus);
             this.$bvModal.show("modal-1");
             this.showModal = true;
         }).catch((error) => {
-          console.log('There was an error:' + error.response);
+    //      console.log('There was an error:' + error.response);
         });
 
 
@@ -487,7 +487,7 @@
           //console.log(response.data);
           this.$store.dispatch("setStudentGradStatus", response.data);
         }).catch((error) => {
-          console.log('There was an error:' + error.response);
+      //    console.log('There was an error:' + error.response);
         });
       },
       getStudentAchievementReportPDF: function () {
@@ -512,7 +512,7 @@
           });
       },
       getStudentTranscriptPDF: function () {
-        console.log("transcript");
+      //  console.log("transcript");
         GraduationCommonService.getStudentTranscript(this.studentGradStatus.pen, this.token)
           .then((response) => {
             //Create a Blob from the PDF Stream

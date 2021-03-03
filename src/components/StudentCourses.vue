@@ -151,7 +151,7 @@
       };
     },
     created() {
-      console.log("CREATED");
+      //console.log("CREATED");
       if(this.hasGradStatus){
         this.checkForPendingUpdates();
       }
@@ -169,7 +169,7 @@
       checkForPendingUpdates(){
          let i = 0;
           let j = 0;
-          console.log(this.gradStatusPendingUpdates);
+          //console.log(this.gradStatusPendingUpdates);
           if(this.hasGradStatus){
             for (i = 0; i < this.courses.length; i++) {
               this.courses[i].gradReqMet = this.getProgramCode(this.courses[i]);
@@ -191,11 +191,11 @@
             }
             if(this.gradStatusPendingUpdates.length){
               this.$store.dispatch('setHasGradStatusPendingUpdates', true);
-              console.log(this.gradStatusPendingUpdates);
+              //console.log(this.gradStatusPendingUpdates);
             }else{
-              console.log("NO CHANGES");
+              //console.log("NO CHANGES");
               this.$store.dispatch('setHasGradStatusPendingUpdates', false);
-                console.log(this.gradStatusPendingUpdates);
+              //  console.log(this.gradStatusPendingUpdates);
             }
             
           }

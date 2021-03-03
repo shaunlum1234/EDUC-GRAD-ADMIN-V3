@@ -11,7 +11,7 @@ export default {
     },
     getSpecialCases(token){
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('api/v1/programmanagement/specialcase',{ headers });
+        return apiClient.get('/api/v1/programmanagement/specialcase',{ headers });
     },
     getGraduationPrograms(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
@@ -26,7 +26,7 @@ export default {
     getGraduationProgramSets(gradProgram, token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         //console.log("TOKEN IN SERVICE getGraduationProgramSets: " + token);
-        return apiClient.get('api/v1/programmanagement/specialprograms/' + gradProgram,{ headers });
+        return apiClient.get('/api/v1/programmanagement/specialprograms/' + gradProgram,{ headers });
     }, 
     getSpecialProgram(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
@@ -35,7 +35,7 @@ export default {
     },
     getSpecialProgramRule(programId, token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        console.log("programId IN SERVICE getSpecialProgramRule: " + programId);
+    //    console.log("programId IN SERVICE getSpecialProgramRule: " + programId);
         return apiClient.get('/api/v1/programmanagement/specialprogramrules?specialProgramID=' + programId,{ headers })
     },
 };

@@ -13,21 +13,17 @@ var corsOptions = {
   origin: "http://localhost:8080"
 };
 
-
-const COURSE_API_HOST="https://grad-course-api-wbmfsf-dev.pathfinder.gov.bc.ca/"
-const COURSE_ACHIEVEMENT_API_HOST="https://student-course-api-wbmfsf-dev.pathfinder.gov.bc.ca"
-const PROGRAM_RULES_API_HOST=" https://educ-grad-program-management-api-wbmfsf-dev.pathfinder.gov.bc.ca"
-const GRADUATION_STATUS_API_HOST="https://educ-grad-graduation-status-api-wbmfsf-dev.pathfinder.gov.bc.ca"
-const STUDENTS_API_HOST="https://gradstudent-api-wbmfsf-dev.pathfinder.gov.bc.ca"
-const STUDENT_EXAMS_API_HOST="https://student-exam-api-wbmfsf-dev.pathfinder.gov.bc.ca"
-const STUDENT_ASSESSMENTS_API_HOST="https://student-assessment-api-wbmfsf-dev.pathfinder.gov.bc.ca"
-const GRADUATION_PROGRAMS_API_HOST="https://educ-grad-program-management-api-wbmfsf-dev.pathfinder.gov.bc.ca"
-const GRADUATION_COMMON_API_HOST =" https://educ-grad-common-api-wbmfsf-dev.pathfinder.gov.bc.ca"
-const SCHOOL_API_HOST =" https://educ-grad-school-api-wbmfsf-dev.pathfinder.gov.bc.ca"
-const GRADUATION_API_HOST="https://educ-grad-graduation-api-wbmfsf-dev.pathfinder.gov.bc.ca"
-const PROGRAM_MANAGEMENT_API_HOST="https://educ-grad-program-management-api-wbmfsf-dev.pathfinder.gov.bc.ca"
-const PSI_API_HOST="https://educ-grad-psi-api-wbmfsf-dev.pathfinder.gov.bc.ca"
-
+const COURSE_API_HOST="https://grad-course-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const COURSE_ACHIEVEMENT_API_HOST="https://student-course-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const GRADUATION_STATUS_API_HOST="https://educ-grad-graduation-status-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const STUDENTS_API_HOST="https://gradstudent-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const STUDENT_EXAMS_API_HOST="https://student-exam-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const STUDENT_ASSESSMENTS_API_HOST="https://student-assessment-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const GRADUATION_COMMON_API_HOST =" https://educ-grad-common-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const SCHOOL_API_HOST =" https://educ-grad-school-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const GRADUATION_API_HOST="https://educ-grad-graduation-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const PROGRAM_MANAGEMENT_API_HOST="https://educ-grad-program-management-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const PSI_API_HOST="https://educ-grad-psi-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
@@ -46,8 +42,6 @@ app.use('/api/students', createProxyMiddleware({
   pathRewrite: {
       [`^/api/students`]: '',
   },
-  
-  
 }));
 
 app.use('/api/course-achievement', createProxyMiddleware({
@@ -57,6 +51,7 @@ app.use('/api/course-achievement', createProxyMiddleware({
       [`^/api/course-achievement`]: '',
   },
 }));
+
 app.use('/api/student-assessments', createProxyMiddleware({
   target: STUDENT_ASSESSMENTS_API_HOST,
   changeOrigin: true,
@@ -65,6 +60,75 @@ app.use('/api/student-assessments', createProxyMiddleware({
   },
 }));
 
+app.use('/api/program-management', createProxyMiddleware({
+  target: PROGRAM_MANAGEMENT_API_HOST,
+  changeOrigin: true,
+  pathRewrite: {
+      [`^/api/program-management`]: '',
+  },
+}));
+
+// app.use('/api/program-rules', createProxyMiddleware({
+//   target: PROGRAM_RULES_API_HOST,
+//   changeOrigin: true,
+//   pathRewrite: {
+//       [`^/api/program-rules`]: '',
+//   },
+// }));
+
+app.use('/api/graduation-status', createProxyMiddleware({
+  target: GRADUATION_STATUS_API_HOST,
+  changeOrigin: true,
+  pathRewrite: {
+      [`^/api/graduation-status`]: '',
+  },
+}));
+
+app.use('/api/student-exams', createProxyMiddleware({
+  target: STUDENT_EXAMS_API_HOST,
+  changeOrigin: true,
+  pathRewrite: {
+      [`^/api/student-exams`]: '',
+  },
+}));
+
+app.use('/api/graduation-common', createProxyMiddleware({
+  target: GRADUATION_COMMON_API_HOST,
+  changeOrigin: true,
+  pathRewrite: {
+      [`^/api/graduation-common`]: '',
+  },
+}));
+
+app.use('/api/school', createProxyMiddleware({
+  target: SCHOOL_API_HOST,
+  changeOrigin: true,
+  pathRewrite: {
+      [`^/api/school`]: '',
+  },
+}));
+
+app.use('/api-graduation', createProxyMiddleware({
+  target: GRADUATION_API_HOST,
+  changeOrigin: true,
+  pathRewrite: {
+      [`^/api-graduation`]: '',
+  },
+}));
+app.use('/api/psi', createProxyMiddleware({
+  target: PSI_API_HOST,
+  changeOrigin: true,
+  pathRewrite: {
+      [`^/api/psi`]: '',
+  },
+}));
+app.use('/api/course', createProxyMiddleware({
+  target: COURSE_API_HOST,
+  changeOrigin: true,
+  pathRewrite: {
+      [`^/api/course`]: '',
+  },
+}));
 //require("./app/routes/turorial.routes")(app);
 
 // set port, listen for requests

@@ -82,7 +82,7 @@ export default {
   methods: {
     onClickChild(value) {
       this.selectedProgramId = value;
-      console.log("Program Id: " + value); // someValue
+      //console.log("Program Id: " + value); // someValue
     },
     selectGradRule(programCode) {
       this.selectedProgramCode = programCode;

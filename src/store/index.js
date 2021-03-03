@@ -25,7 +25,7 @@
     },
     mutations: {
       setHasGradStatusPendingUpdates(state, payload) {
-        console.log(payload);
+      //  console.log(payload);
           state.student.hasGradStatusPendingUpdates = payload;
       },
       setToken(state, payload) {

@@ -63,11 +63,11 @@ export default {
     ProgramManagementService.getSpecialProgramRule(this.parentSelectedProgramCode, this.token)
       .then((response) => {
         this.graduationSpecialProgramRules = response.data;
-        console.log('Graduation Special Program Rules: ' + this.graduationSpecialProgramRules);
+        //('Graduation Special Program Rules: ' + this.graduationSpecialProgramRules);
       })
       .catch((error) => {
         // eslint-disable-next-line no-unused-vars
-        console.log('There was an error:' + error.response);
+        //console.log('There was an error:' + error.response);
     });
   },
   methods: {

@@ -294,7 +294,7 @@
         );
         CourseAchievementService.getStudentCourseAchievements(pen, this.token).then(
           (response) => {
-            console.log("COURSES" + response.data)
+          //  console.log("COURSES" + response.data)
             this.$store.dispatch("setStudentCourses", response.data);
           }
         );

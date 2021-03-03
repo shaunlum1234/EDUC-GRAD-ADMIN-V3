@@ -63,6 +63,7 @@
         SchoolService.getAllSchools(this.token).then((res) => {
           this.schools = res.data;
         }).catch((error) => {
+
           // eslint-disable-next-line
           console.log('There was an error adding School information to Grad Status:' + error.response);
         });  

@@ -73,7 +73,7 @@
         this.psi = res.data;
       }).catch((error) => {
         // eslint-disable-next-line no-use-before-define
-        console.log('There was an error adding psi information:' + error.response);
+      //  console.log('There was an error adding psi information:' + error.response);
       });
     },
     methods: {

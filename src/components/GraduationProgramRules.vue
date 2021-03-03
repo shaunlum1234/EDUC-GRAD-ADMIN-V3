@@ -70,7 +70,7 @@ export default {
       })
       .catch((error) => {
         // eslint-disable-next-line no-unused-vars
-        console.log('There was an error:' + error.response);
+        //console.log('There was an error:' + error.response);
       });
   },
   methods: {},
