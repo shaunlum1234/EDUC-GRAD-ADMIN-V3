@@ -4,14 +4,14 @@ const cors = require("cors");
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const path = __dirname + '/app/view/';
-const history = require('connect-history-api-fallback');
+//const history = require('connect-history-api-fallback');
 const app = express();
 
 app.use(express.static(path));
-app.use(history({
-  disableDotRule: true,
-  verbose: true
-}));
+// app.use(history({
+//   disableDotRule: true,
+//   verbose: true
+// }));
 var corsOptions = {
   origin: "https://localhost:8080"
 };
