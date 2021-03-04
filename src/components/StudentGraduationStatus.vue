@@ -62,27 +62,34 @@
                               <strong>Program at graduation:</strong>
                               {{ projectedStudentGradStatus.gradProgramAtGraduation }}
                             </li>
-                            <li v-if="projectedStudentGradStatus.schoolInfo">
+                            <li>
                               <strong>School of Record:</strong>
-                              <div class="p-2">
+                              <li>
+                        <strong>School of Record:</strong>
+                               <div class="p-2">
 
                                 <span class="link" href="#" id="popover-button-sync"
-                                  variant="primary">{{projectedStudentGradStatus.schoolInfo.schoolName}}
-                                  ({{projectedStudentGradStatus.schoolInfo.minCode}})
+                                  variant="primary">{{projectedStudentGradStatus.studentGradData.school.schoolName}}
+                                  ({{projectedStudentGradStatus.studentGradData.school.minCode}})
                                 </span>
                               </div>
-                              <b-popover :show.sync="show" :boundary-padding="50" target="popover-button-sync"
-                                title="School Information">
-                                <p><strong>District:</strong> {{projectedStudentGradStatus.schoolInfo.districtName}}</p>
-                                <p><strong>Certificate eligibility:</strong>
-                                  {{projectedStudentGradStatus.schoolInfo.certificateEligibility}}</p>
-                                <p><strong>Independent:</strong> {{projectedStudentGradStatus.schoolInfo.independentDesignation}}
-                                </p>
-                                <p><strong>Mailer type:</strong> {{projectedStudentGradStatus.schoolInfo.mailerType}}</p>
-                                <p><strong>Address:</strong> {{projectedStudentGradStatus.schoolInfo.address1}}</p>
-                                <p><strong>Postal:</strong> {{projectedStudentGradStatus.schoolInfo.postal}}</p>
-                                <b-button class="px-1" @click="popClose">Close</b-button>
-                              </b-popover>
+                          <b-popover :show.sync="show" :boundary-padding="50" target="popover-button-sync"
+                            title="School Information">
+                            <p><strong>District:</strong> {{projectedStudentGradStatus.studentGradData.school.districtName}}</p>
+                            <p><strong>Certificate eligibility:</strong>
+                              {{projectedStudentGradStatus.studentGradData.school.certificateEligibility}}</p>
+                            <p><strong>Independent:</strong> {{projectedStudentGradStatus.studentGradData.school.independentDesignation}}
+                            </p>
+                            <p><strong>Mailer type:</strong> {{projectedStudentGradStatus.studentGradData.school.mailerType}}</p>
+                            <p><strong>Address:</strong> {{projectedStudentGradStatus.studentGradData.school.address1}}</p>
+                            <p><strong>Postal:</strong> {{projectedStudentGradStatus.studentGradData.school.postal}}</p>
+                            <b-button class="px-1" @click="popClose">Close</b-button>
+                          </b-popover>
+
+
+                      
+          
+        
                             </li>
                             <li v-if="projectedStudentGradStatus.studentGrade">
                               <strong>Grade at graduation:</strong>
@@ -236,28 +243,30 @@
                       </li>
                       <li>
                         <strong>Program at graduation:</strong>
+            
                         {{ studentGradStatus.gradProgramAtGraduation }}
                       </li>
-                      <li v-if="studentGradStatus.schoolInfo">
+                      <li>
                         <strong>School of Record:</strong>
-                        <div class="p-2">
+                               <div class="p-2">
 
-                          <span class="link" href="#" id="popover-button-sync"
-                            variant="primary">{{studentGradStatus.schoolInfo.schoolName}}
-                            ({{studentGradStatus.schoolInfo.minCode}})
-                          </span>
-                        </div>
-                        <b-popover :show.sync="show" :boundary-padding="50" target="popover-button-sync"
-                          title="School Information">
-                          <p><strong>District:</strong> {{studentGradStatus.schoolInfo.districtName}}</p>
-                          <p><strong>Certificate eligibility:</strong>
-                            {{studentGradStatus.schoolInfo.certificateEligibility}}</p>
-                          <p><strong>Independent:</strong> {{studentGradStatus.schoolInfo.independentDesignation}}</p>
-                          <p><strong>Mailer type:</strong> {{studentGradStatus.schoolInfo.mailerType}}</p>
-                          <p><strong>Address:</strong> {{studentGradStatus.schoolInfo.address1}}</p>
-                          <p><strong>Postal:</strong> {{studentGradStatus.schoolInfo.postal}}</p>
-                          <b-button class="px-1" @click="popClose">Close</b-button>
-                        </b-popover>
+                                <span class="link" href="#" id="popover-button-sync"
+                                  variant="primary">{{studentGradStatus.studentGradData.school.schoolName}}
+                                  ({{studentGradStatus.studentGradData.school.minCode}})
+                                </span>
+                              </div>
+                          <b-popover :show.sync="show" :boundary-padding="50" target="popover-button-sync"
+                            title="School Information">
+                            <p><strong>District:</strong> {{studentGradStatus.studentGradData.school.districtName}}</p>
+                            <p><strong>Certificate eligibility:</strong>
+                              {{studentGradStatus.studentGradData.school.certificateEligibility}}</p>
+                            <p><strong>Independent:</strong> {{studentGradStatus.studentGradData.school.independentDesignation}}
+                            </p>
+                            <p><strong>Mailer type:</strong> {{studentGradStatus.studentGradData.school.mailerType}}</p>
+                            <p><strong>Address:</strong> {{studentGradStatus.studentGradData.school.address1}}</p>
+                            <p><strong>Postal:</strong> {{studentGradStatus.studentGradData.school.postal}}</p>
+                            <b-button class="px-1" @click="popClose">Close</b-button>
+                          </b-popover>
                       </li>
                       <li v-if="studentGradStatus.studentGrade">
                         <strong>Grade at graduation:</strong>
@@ -469,11 +478,12 @@
         GraduationStatusService.getGraduationStatus(pen, this.token) .then((response) => {
             this.projectedStudentGradStatus = response.data;
             this.projectedStudentGradStatus.studentGradData = JSON.parse(this.projectedStudentGradStatus.studentGradData); 
-      //      console.log( "PROJECTED" + this.projectedStudentGradStatus);
+            //console.log( "PROJECTED" + this.projectedStudentGradStatus);
             this.$bvModal.show("modal-1");
             this.showModal = true;
         }).catch((error) => {
-    //      console.log('There was an error:' + error.response);
+          // eslint-disable-next-line
+          console.log('There was an error:' + error.response);
         });
 
 
@@ -487,7 +497,8 @@
           //console.log(response.data);
           this.$store.dispatch("setStudentGradStatus", response.data);
         }).catch((error) => {
-      //    console.log('There was an error:' + error.response);
+          // eslint-disable-next-line
+          console.log('There was an error:' + error.response);
         });
       },
       getStudentAchievementReportPDF: function () {

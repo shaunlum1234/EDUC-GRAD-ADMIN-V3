@@ -72,8 +72,8 @@
       PSIService.getPSI(this.token).then((res) => {
         this.psi = res.data;
       }).catch((error) => {
-        // eslint-disable-next-line no-use-before-define
-      //  console.log('There was an error adding psi information:' + error.response);
+        // eslint-disable-next-line
+        console.log('There was an error adding psi information:' + error.response);
       });
     },
     methods: {
