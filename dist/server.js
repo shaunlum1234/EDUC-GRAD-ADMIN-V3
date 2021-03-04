@@ -3,11 +3,16 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
+const history = require('connect-history-api-fallback');
 const path = __dirname + '/app/view/';
 console.log(path);
 const app = express();
 
 app.use(express.static(path));
+app.use(history({
+  disableDotRule: true,
+  verbose: true
+}));
 
 var corsOptions = {
   origin: "http://localhost:8080"
@@ -27,7 +32,9 @@ const PSI_API_HOST="https://educ-grad-psi-api-77c02f-dev.apps.silver.devops.gov.
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 // const db = require("./app/models");
 
