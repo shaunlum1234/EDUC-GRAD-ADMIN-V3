@@ -10,7 +10,7 @@ const app = express();
 app.use(express.static(path));
 
 var corsOptions = {
-  origin: "http://localhost:8080"
+  origin: "https://localhost:8080"
 };
 
 const COURSE_API_HOST="https://grad-course-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
@@ -32,9 +32,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // const db = require("./app/models");
 
 // db.sequelize.sync();
+app.get('/info', (req, res, next) => {
+  res.send('This is a proxy service which proxies.');
+});
 
 app.get('/index.html', function (req,res) {
-  console.log(path + "index.html");
   res.sendFile(path + "index.html");
 });
 app.use('/api/students', createProxyMiddleware({
@@ -133,7 +135,12 @@ app.use('/api/course', createProxyMiddleware({
 //require("./app/routes/turorial.routes")(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+// const PORT = process.env.PORT || 8080;
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}.`);
+// });
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+app.listen(port, ipaddress, function() {
+  console.log(`Server is running on port ` + port);
 });
