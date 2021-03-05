@@ -18,17 +18,17 @@ var corsOptions = {
   origin: "http://localhost:8080"
 };
 
-const COURSE_API_HOST="https://grad-course-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
-const COURSE_ACHIEVEMENT_API_HOST="https://student-course-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
-const GRADUATION_STATUS_API_HOST="https://educ-grad-graduation-status-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
-const STUDENTS_API_HOST="https://gradstudent-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
-const STUDENT_EXAMS_API_HOST="https://student-exam-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
-const STUDENT_ASSESSMENTS_API_HOST="https://student-assessment-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
-const GRADUATION_COMMON_API_HOST =" https://educ-grad-common-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
-const SCHOOL_API_HOST =" https://educ-grad-school-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
-const GRADUATION_API_HOST="https://educ-grad-graduation-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
-const PROGRAM_MANAGEMENT_API_HOST="https://educ-grad-program-management-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
-const PSI_API_HOST="https://educ-grad-psi-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const COURSE_API_HOST= process.env.COURSE_API_HOST|| "https://grad-course-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const COURSE_ACHIEVEMENT_API_HOST= process.env.COURSE_ACHIEVEMENT_API_HOST|| "https://student-course-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const GRADUATION_STATUS_API_HOST = process.env.GRADUATION_STATUS_API_HOST || "https://educ-grad-graduation-status-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const STUDENTS_API_HOST= process.env.STUDENTS_API_HOST || "https://gradstudent-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const STUDENT_EXAMS_API_HOST= process.env.STUDENT_EXAMS_API_HOST || "https://student-exam-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const STUDENT_ASSESSMENTS_API_HOST= process.env.STUDENT_ASSESSMENTS_API_HOST || "https://student-assessment-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const GRADUATION_COMMON_API_HOST = process.env.GRADUATION_COMMON_API_HOST || " https://educ-grad-common-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const SCHOOL_API_HOST = process.env.SCHOOL_API_HOST || "https://educ-grad-school-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const GRADUATION_API_HOST= process.env.GRADUATION_API_HOST || "https://educ-grad-graduation-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const PROGRAM_MANAGEMENT_API_HOST= process.env.PROGRAM_MANAGEMENT_API_HOST || "https://educ-grad-program-management-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
+const PSI_API_HOST= process.env.PSI_API_HOST || "https://educ-grad-psi-api-77c02f-dev.apps.silver.devops.gov.bc.ca";
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
