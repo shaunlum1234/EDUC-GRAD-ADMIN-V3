@@ -42,7 +42,7 @@ Vue.use(BootstrapVueIcons)
 
 //keycloak init options
 let initOptions = {
-  url: process.env.VUE_APP_KEYCLOAK_AUTH_HOST || 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth' , realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
+  url:  process.env.KEYCLOAK_AUTH_HOST || process.env.VUE_APP_KEYCLOAK_AUTH_HOST , realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
 }
 
 let keycloak = Keycloak(initOptions);
