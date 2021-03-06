@@ -133,10 +133,10 @@
                                 v-for="(course,i) in studentGradStatus.studentGradData.studentCourses.studentCourseList">
                                 <tr v-if="course.gradReqMet" :key="i">
                                   <td scope="row">{{ course.courseCode }}</td>
-                                  <td scope="row">{{course.courseLevel}}</td>
+                                  <td scope="row">{{ course.courseLevel}}</td>
                                   <td scope="row">{{ course.courseName }}</td>
-                                  <td scope="row">{{course.sessionDate}}</td>
-                                  <td scope="row">{{course.gradReqMet}}</td>
+                                  <td scope="row">{{ course.sessionDate}}</td>
+                                  <td scope="row">{{ course.gradReqMet}}</td>
                                 </tr>
                               </template>
                             </tbody>
@@ -195,9 +195,7 @@
   import {
     mapGetters
   } from "vuex";
-  //import { store } from "@/store.js";
   export default {
-
     name: "studentProfile",
     components: {
       SiteMessage: SiteMessage,
