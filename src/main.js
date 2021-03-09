@@ -41,10 +41,11 @@ Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 
 //keycloak init options
+// eslint-disable-next-line
+console.log(process.env.KEYCLOAK_AUTH_HOST );
 let initOptions = {
-  url:  process.env.KEYCLOAK_AUTH_HOST || 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth' , realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
+  url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
 }
-
 let keycloak = Keycloak(initOptions);
 keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success((auth) =>{
     
