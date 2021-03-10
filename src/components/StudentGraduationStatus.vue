@@ -85,11 +85,6 @@
                             <p><strong>Postal:</strong> {{projectedStudentGradStatus.studentGradData.school.postal}}</p>
                             <b-button class="px-1" @click="popClose">Close</b-button>
                           </b-popover>
-
-
-                      
-          
-        
                             </li>
                             <li v-if="projectedStudentGradStatus.studentGrade">
                               <strong>Grade at graduation:</strong>
@@ -214,13 +209,8 @@
                           </ul>
                         </div>
                       </div>
-
-
-
                     </b-modal>
                   </div>
-
-
                   <button v-on:click="updateGraduationStatus(studentPen)" class="float-right w-50 btn-primary btn-sm">
                     <i class="fas fa-sync"></i> Run Graduation<br>Algorithm
                   </button>
@@ -231,7 +221,7 @@
                     <div class="col-12 header">
                       <h2>Graduation status</h2>
                     </div>
-
+                      Edit
                     <ul>
                       <li>
                         <strong>Program:</strong>
