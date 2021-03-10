@@ -43,6 +43,7 @@
               <DisplayTable v-bind:items="courseRestrictions" v-bind:fields="courseRestrictionFields"></DisplayTable>
             </b-card-text>
           </b-tab>
+        </b-tabs>
       </b-card>
     </div>
 
