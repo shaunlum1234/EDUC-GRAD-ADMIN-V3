@@ -233,6 +233,9 @@
                       <button v-on:click="editGradStatus" class="btn-sm">
                         <span v-if="!showEdit"> Edit</span><span v-if="showEdit"> Cancel</span>
                       </button>
+                      <button v-on:click="saveEditedGradStatus(studentPen)" class="btn-primary">
+                        <span> Save</span>
+                      </button>
                     </div>
 
                     <ul>
@@ -483,6 +486,7 @@
         showEdit:false,
         show: false,
         projectedStudentGradStatus: [],
+        updateStatus:[],
         editedGradStatus: {
             createdBy:"",
             createdTimestamp: "",
@@ -503,11 +507,28 @@
     methods: {
       editGradStatus() {
         this.showEdit = !this.showEdit;
+        this.editedGradStatus.pen = this.studentGradStatus.pen;
         this.editedGradStatus.program = this.studentGradStatus.program;  
+        this.editedGradStatus.gpa = this.studentGradStatus.gpa;  
       },
+
+      saveEditedGradStatus(pen) {
+        GraduationStatusService.editGraduationStatus(pen, this.token, this.editedGradStatus)
+          .then((response) => {
+            this.updateStatus = response.data;
+            this.studentGradStatus.program = this.editedGradStatus.program;
+            this.studentGradStatus.gpa = this.editedGradStatus.gpa;
+            console.log('Update status: ' + this.updateStatus);
+          }).catch((error) => {
+          // eslint-disable-next-line
+          console.log('There was an error:' + error.response);
+        });
+      },
+
       popClose() {
         this.show = false;
       },
+
       projectGraduationStatus(pen) {
       //  console.log( "PROJECTED" + this.projectedStudentGradStatus);
         GraduationStatusService.getGraduationStatus(pen, this.token) .then((response) => {
@@ -520,14 +541,10 @@
           // eslint-disable-next-line
           console.log('There was an error:' + error.response);
         });
-
-
- 
-
       },
+
       updateGraduationStatus: function (pen) {
         // eslint-disable-next-line no-use-before-define
-
         GraduationService.graduateStudent(pen, this.token).then((response) => {
           //console.log(response.data);
           this.$store.dispatch("setStudentGradStatus", response.data);
@@ -644,3 +661,4 @@
     font-size: 30px !important;
   }
 </style>
+
