@@ -37,14 +37,10 @@
               </table>
             </b-card-text>
           </b-tab>
-          <b-tab title="Course Requirements">
+          <b-tab title="Course Restrictons">
             <b-card-text>
-              Course Requirements
-            </b-card-text>
-          </b-tab>
-          <b-tab title="Course Restrictions">
-            <b-card-text>
-              Course Requirements
+              Course Restrictions
+              <DisplayTable v-bind:items="courseRestrictions" v-bind:fields="courseRestrictionFields"></DisplayTable>
             </b-card-text>
           </b-tab>
         </b-tabs>
@@ -59,14 +55,25 @@
     mapGetters
   } from "vuex";
   import CourseService from '@/services/CourseService.js';
+  import DisplayTable from '@/components/DisplayTable.vue';
   export default {
     name: "courses",
     components: {
-
+      DisplayTable: DisplayTable
     },
     data() {
       return {
         courses: {},
+        courseRestrictions:{},
+        courseRestrictionFields: [
+          { key: 'courseRestrictionId', label: 'ID', sortable: true, sortDirection: 'desc' },
+          { key: 'mainCourse', label: 'Course', sortable: true, class: 'text-center' },
+          { key: 'restrictedCourse', label: 'Restricted Course', sortable: true, sortDirection: 'desc' },
+          { key: 'restrictedCourseLevel', label: 'Course Level', sortable: true, class: 'text-center' },
+          { key: 'restrictionStartDate', label: 'Start Date', sortable: true, sortDirection: 'desc' },
+          { key: 'restrictionEndDate', label: 'End Date', sortable: true, class: 'text-center' },
+          { key: 'actions', label: 'Actions' }
+        ],
         courseCode: "",
         show: false,
         displayMessage: null,
@@ -79,6 +86,7 @@
     },
     created() {
       this.getAllCourses();
+      this.getAllCourseRestrictions();
     },
     methods: {
       searchCourseByCourseCode() {
@@ -101,6 +109,28 @@
             //console.log('There was an error:' + error.response);
           });
       },
+      getAllCourseRestrictions(){
+          CourseService.getCourseRestrictions(this.token)
+          .then((response) => {
+            this.courseRestrictions = response.data;
+          })
+          // eslint-disable-next-line no-unused-vars
+          .catch((error) => {
+            //console.log('There was an error:' + error.response);
+          });
+      },
+      getAllCourseRestriction(mainCourseLevel, mainCourseCode){
+          CourseService.getCourseRestriction(mainCourseLevel, mainCourseCode, this.token)
+          .then((response) => {
+            this.courseRestrictions = response.data;
+          })
+          // eslint-disable-next-line no-unused-vars
+          .catch((error) => {
+            //console.log('There was an error:' + error.response);
+          });
+      }
+
+
     },
   };
 </script>

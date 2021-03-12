@@ -20,7 +20,7 @@
       </b-card-body>
 
     </b-card>
-<h1>{{editedGradStatus.program}}</h1>
+
     <div class="accordion col-12 px-0 mx-0" role="tablist" v-if="hasGradStatus">
       <b-card no-body class="col-12 px-0 mx-0">
 
@@ -214,8 +214,13 @@
                           </ul>
                         </div>
                       </div>
+
+
+
                     </b-modal>
                   </div>
+
+
                   <button v-on:click="updateGraduationStatus(studentPen)" class="float-right w-50 btn-primary btn-sm">
                     <i class="fas fa-sync"></i> Run Graduation<br>Algorithm
                   </button>
@@ -229,6 +234,7 @@
                         <span v-if="!showEdit"> Edit</span><span v-if="showEdit"> Cancel</span>
                       </button>
                     </div>
+
                     <ul>
                       <li v-if="!showEdit">
                         <strong>Program:</strong>
@@ -247,6 +253,7 @@
                       </li>
                       <li>
                         <strong>Program at graduation:</strong>
+            
                         {{ studentGradStatus.gradProgramAtGraduation }}
                       </li>
                        <!-- <li v-if="showEdit">
@@ -255,6 +262,7 @@
                       <li>
                         <strong>School of Record:</strong>
                                <div class="p-2">
+
                                 <span class="link" href="#" id="popover-button-sync"
                                   variant="primary">{{studentGradStatus.studentGradData.school.schoolName}}
                                   ({{studentGradStatus.studentGradData.school.minCode}})
