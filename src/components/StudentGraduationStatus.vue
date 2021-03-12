@@ -20,7 +20,7 @@
       </b-card-body>
 
     </b-card>
-
+<h1>{{editedGradStatus.program}}</h1>
     <div class="accordion col-12 px-0 mx-0" role="tablist" v-if="hasGradStatus">
       <b-card no-body class="col-12 px-0 mx-0">
 
@@ -214,13 +214,8 @@
                           </ul>
                         </div>
                       </div>
-
-
-
                     </b-modal>
                   </div>
-
-
                   <button v-on:click="updateGraduationStatus(studentPen)" class="float-right w-50 btn-primary btn-sm">
                     <i class="fas fa-sync"></i> Run Graduation<br>Algorithm
                   </button>
@@ -230,26 +225,36 @@
                     <!-- Student Graduation Status -->
                     <div class="col-12 header">
                       <h2>Graduation status</h2>
+                      <button v-on:click="editGradStatus" class="btn-sm">
+                        <span v-if="!showEdit"> Edit</span><span v-if="showEdit"> Cancel</span>
+                      </button>
                     </div>
-
                     <ul>
-                      <li>
+                      <li v-if="!showEdit">
                         <strong>Program:</strong>
                         {{ studentGradStatus.program }}
                       </li>
-                      <li>
+                      <li v-if="showEdit">
+                        <strong>Program:</strong><b-input v-model='editedGradStatus.program'></b-input>      
+                      </li>
+                      
+                      <li v-if="!showEdit">
                         <strong>Program completion date:</strong>
                         {{ studentGradStatus.programCompletionDate }}
                       </li>
+                      <li v-if="showEdit">
+                        <strong>Program completion date:</strong><b-input v-model='editedGradStatus.programCompletionDate'></b-input>      
+                      </li>
                       <li>
                         <strong>Program at graduation:</strong>
-            
                         {{ studentGradStatus.gradProgramAtGraduation }}
                       </li>
+                       <!-- <li v-if="showEdit">
+                        <strong>Program at graduation:</strong><b-input v-model='editedGradStatus.gradProgramAtGraduation'></b-input>      
+                      </li> -->
                       <li>
                         <strong>School of Record:</strong>
                                <div class="p-2">
-
                                 <span class="link" href="#" id="popover-button-sync"
                                   variant="primary">{{studentGradStatus.studentGradData.school.schoolName}}
                                   ({{studentGradStatus.studentGradData.school.minCode}})
@@ -281,8 +286,11 @@
                         <strong>Credits used for Graduation:</strong>
                         {{ studentGradStatus.creditsUsedForGrad }}
                       </li>
-                      <li v-if="studentGradStatus.gpa">
+                      <li v-if="!showEdit">
                         <strong>GPA:</strong> {{ studentGradStatus.gpa }}
+                      </li>
+                       <li v-if="showEdit">
+                        <strong>GPA:</strong><b-input v-model='editedGradStatus.gpa'></b-input>      
                       </li>
                       <li v-if="studentGradStatus.honoursFlag">
                         <strong>Honours:</strong>
@@ -464,12 +472,31 @@
     data() {
       return {
         showModal: false,
+        showEdit:false,
         show: false,
         projectedStudentGradStatus: [],
+        editedGradStatus: {
+            createdBy:"",
+            createdTimestamp: "",
+            updatedBy: "",
+            updatedTimestamp: "",
+            pen: "",
+            program: "TEST",
+            programCompletionDate: null,
+            gpa: "",
+            honoursStanding: null,
+            recalculateGradStatus: null,
+            schoolOfRecord: "",
+            studentGrade: ""
+          }
       };
     },
     created() {},
     methods: {
+      editGradStatus() {
+        this.showEdit = !this.showEdit;
+        this.editedGradStatus.program = this.studentGradStatus.program;  
+      },
       popClose() {
         this.show = false;
       },
