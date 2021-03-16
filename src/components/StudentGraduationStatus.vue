@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <b-card no-body class="col-12 px-0 mx-0" v-if="!hasGradStatus">
 
       <b-button block v-b-toggle.accordion-1 variant="info" class="text-left"><i class="fas fa-info-circle primary"></i>
@@ -482,7 +481,10 @@
     },
     data() {
       return {
+        dismissSecs: 3,
+        dismissCountDown: 0,
         showModal: false,
+        showTop: false,
         showEdit:false,
         show: false,
         projectedStudentGradStatus: [],
@@ -505,13 +507,23 @@
     },
     created() {},
     methods: {
+      makeToast(variant = null, bodyContent) {
+        this.$bvToast.toast(bodyContent, {
+          title: `Variant ${variant || 'default'}`,
+          variant: variant,
+          solid: true,
+          autoHideDelay: 5000,
+        })
+      },
       editGradStatus() {
         this.showEdit = !this.showEdit;
         this.editedGradStatus.pen = this.studentGradStatus.pen;
         this.editedGradStatus.program = this.studentGradStatus.program;  
         this.editedGradStatus.gpa = this.studentGradStatus.gpa;  
       },
-
+      countDownChanged(dismissCountDown) {
+        this.dismissCountDown = dismissCountDown
+      },
       saveEditedGradStatus(pen) {
         GraduationStatusService.editGraduationStatus(pen, this.token, this.editedGradStatus)
           .then((response) => {
@@ -519,6 +531,9 @@
             this.studentGradStatus.program = this.editedGradStatus.program;
             this.studentGradStatus.gpa = this.editedGradStatus.gpa;
             console.log('Update status: ' + this.updateStatus);
+            this.showTop = !this.showTop
+            // this.dismissCountDown = this.dismissSecs
+            this.makeToast('success', 'Grad Status Saved')
           }).catch((error) => {
           // eslint-disable-next-line
           console.log('There was an error:' + error.response);

@@ -5,6 +5,7 @@ import VueLogger from 'vuejs-logger';
 import * as Keycloak from 'keycloak-js'
 import router from './router';
 import BootstrapVue from 'bootstrap-vue';
+import { ToastPlugin } from 'bootstrap-vue'
 import qs from 'query-string';
 import VueFilterDateParse from '@vuejs-community/vue-filter-date-parse';
 import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
@@ -32,13 +33,14 @@ const options = {
   showConsoleColors: true
 };
 Vue.use(VueLogger, options);
-Vue.use(SmartTable)
-Vue.use(qs)
-Vue.use(VueFilterDateParse)
-Vue.use(VueFilterDateFormat)
-Vue.use(Vuex)
-Vue.use(BootstrapVue)
-Vue.use(BootstrapVueIcons)
+Vue.use(SmartTable);
+Vue.use(qs);
+Vue.use(VueFilterDateParse);
+Vue.use(VueFilterDateFormat);
+Vue.use(Vuex);
+Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
+Vue.use(ToastPlugin)
 
 //keycloak init options
 // eslint-disable-next-line
