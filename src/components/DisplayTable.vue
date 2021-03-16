@@ -4,61 +4,6 @@
     <b-row>
       <b-col lg="6" class="my-1">
         <b-form-group
-          label="Sort"
-          label-for="sort-by-select"
-          label-cols-sm="3"
-          label-align-sm="right"
-          label-size="sm"
-          class="mb-0"
-          v-slot="{ ariaDescribedby }"
-        >
-          <b-input-group size="sm">
-            <b-form-select
-              id="sort-by-select"
-              v-model="sortBy"
-              :options="sortOptions"
-              :aria-describedby="ariaDescribedby"
-              class="w-75"
-            >
-              <template #first>
-                <option value="">-- none --</option>
-              </template>
-            </b-form-select>
-
-            <b-form-select
-              v-model="sortDesc"
-              :disabled="!sortBy"
-              :aria-describedby="ariaDescribedby"
-              size="sm"
-              class="w-25"
-            >
-              <option :value="false">Asc</option>
-              <option :value="true">Desc</option>
-            </b-form-select>
-          </b-input-group>
-        </b-form-group>
-      </b-col>
-
-      <b-col lg="6" class="my-1">
-        <b-form-group
-          label="Initial sort"
-          label-for="initial-sort-select"
-          label-cols-sm="3"
-          label-align-sm="right"
-          label-size="sm"
-          class="mb-0"
-        >
-          <b-form-select
-            id="initial-sort-select"
-            v-model="sortDirection"
-            :options="['asc', 'desc', 'last']"
-            size="sm"
-          ></b-form-select>
-        </b-form-group>
-      </b-col>
-
-      <b-col lg="6" class="my-1">
-        <b-form-group
           label="Filter"
           label-for="filter-input"
           label-cols-sm="3"
@@ -80,64 +25,66 @@
           </b-input-group>
         </b-form-group>
       </b-col>
-
-      <b-col lg="6" class="my-1">
-        <b-form-group
-          v-model="sortDirection"
-          label="Filter On"
-          description="Leave all unchecked to filter on all data"
-          label-cols-sm="3"
-          label-align-sm="right"
-          label-size="sm"
-          class="mb-0"
-          v-slot="{ ariaDescribedby }"
-        >
-          <b-form-checkbox-group
-            v-model="filterOn"
-            :aria-describedby="ariaDescribedby"
-            class="mt-1"
-          >
-            <b-form-checkbox value="name">Name</b-form-checkbox>
-            <b-form-checkbox value="age">Age</b-form-checkbox>
-            <b-form-checkbox value="isActive">Active</b-form-checkbox>
-          </b-form-checkbox-group>
-        </b-form-group>
-      </b-col>
-
-      <b-col sm="5" md="6" class="my-1">
-        <b-form-group
-          label="Per page"
-          label-for="per-page-select"
-          label-cols-sm="6"
-          label-cols-md="4"
-          label-cols-lg="3"
-          label-align-sm="right"
-          label-size="sm"
-          class="mb-0"
-        >
-          <b-form-select
-            id="per-page-select"
-            v-model="perPage"
-            :options="pageOptions"
-            size="sm"
-          ></b-form-select>
-        </b-form-group>
-      </b-col>
-
-      <b-col sm="7" md="6" class="my-1">
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-          align="fill"
-          size="sm"
-          class="my-0"
-        ></b-pagination>
-      </b-col>
     </b-row>
-
     <!-- Main table element -->
     <b-table
+      :items="items"
+      :fields="fields"
+      :current-page="currentPage"
+      :per-page="perPage"
+      :filter="filter"
+      :filter-included-fields="filterOn"
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
+      :sort-direction="sortDirection"
+      stacked="sm"
+      show-empty
+      small
+      @filtered="onFiltered"
+    >
+      <template #cell(name)="row">
+        {{ row.value.first }} {{ row.value.last }}
+
+      </template>
+      
+
+      <template #cell(actions)="row">
+        <!-- <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
+          More
+        </b-button> -->
+        <b-button size="sm" @click="row.toggleDetails">
+          {{ row.detailsShowing ? 'Hide' : 'More' }} Details
+        </b-button>
+        <b-button size="sm" @click="row.toggleDetails">
+          {{ row.detailsShowing ? 'Close' : 'Edit' }}
+        </b-button>
+      </template>
+
+      <template #row-details="row">
+        <b-card>
+         
+        <ul>
+<!--          
+           <p><strong>row ITEMS: {{row['item']}}:{{value}}</strong></p>
+           <p><strong>row FIELDS: {{row['fields']}}:{{value}}</strong></p> -->
+           <ul>
+              <li v-for="(v,k) in row['item']" :key="k">
+                  {{k}}<input :value="v">
+                </li>
+            </ul>
+        
+        </ul>
+            
+          <!--ul>
+            <li v-for="(value, key, index) in row.item" :key="key">{{ key }}: {{ value }} {{label}} {{index}} </li> 
+          </ul-->
+        <b-button size="sm" @click="row.toggleDetails">Save</b-button>
+        <b-button size="sm" @click="row.toggleDetails">Cancel</b-button>
+        </b-card>
+
+      </template>
+    </b-table>
+    <!-- <b-table-simple hover small caption-top stacked
       :items="items"
       :fields="fields"
       :current-page="currentPage"
@@ -152,29 +99,10 @@
       small
       @filtered="onFiltered"
     >
-      <template #cell(name)="row">
-        {{ row.value.first }} {{ row.value.last }}
-      </template>
-      
+    </b-table-simple> -->
 
-      <template #cell(actions)="row">
-        <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
-          Info modal
-        </b-button>
-        <b-button size="sm" @click="row.toggleDetails">
-          {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
-        </b-button>
-      </template>
 
-      <template #row-details="row">
-        <b-card>
-          <ul>
-            <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li> 
-            {{row.item.completedCourseLetterGrade}}
-          </ul>
-        </b-card>
-      </template>
-    </b-table>
+
 
     <!-- Info modal -->
     <b-modal :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal">
