@@ -66,7 +66,7 @@
         courses: {},
         courseRestrictions:{},
         courseRestrictionFields: [
-          { key: 'courseRestrictionId', label: 'ID', sortable: true, sortDirection: 'desc' },
+          { key: 'courseRestrictionId', label: 'ID', sortable: true, sortDirection: 'desc', more: "MONEY"},
           { key: 'mainCourse', label: 'Course', sortable: true, class: 'text-center' },
           { key: 'restrictedCourse', label: 'Restricted Course', sortable: true, sortDirection: 'desc' },
           { key: 'restrictedCourseLevel', label: 'Course Level', sortable: true, class: 'text-center' },
@@ -96,7 +96,7 @@
           })
           // eslint-disable-next-line no-unused-vars
           .catch((error) => {
-            //console.log('There was an error:' + error.response);
+            console.log('There was an error:' + error.response);
           });
       },
       getAllCourses() {
