@@ -507,6 +507,13 @@
     },
     created() {},
     methods: {
+      toast() {
+          this.$bvToast.toast(`hello`, {
+          title: "toast",
+          autoHideDelay: 8000,
+          toaster: "b-toaster-top-center"
+        });
+      },
       makeToast(variant = null, bodyContent) {
         this.$bvToast.toast(bodyContent, {
           title: `Variant ${variant || 'default'}`,
