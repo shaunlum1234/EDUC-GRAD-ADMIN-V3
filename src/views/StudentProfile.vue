@@ -6,23 +6,25 @@
       <div class="col-md-10 col-12">
         <h1 class="profile-name">
           <div v-if="studentFullName.studPen">
-            <label>PEN</label>
+            
             <span class="px-0">{{ studentFullName.studPen }}</span>
+            <label>PEN</label>
           </div>
           <div v-if="studentFullName.studSurname">
-            <label>Last Name</label>
+            
             <span class="px-0">{{ studentFullName.studSurname.trim() }},</span>
+            <label>Last Name</label>
 
           </div>
           <div v-if="studentFullName.studGiven">
-            <label>Given Name</label>
+            
             <span class="px-0">{{ studentFullName.studGiven }}</span>
-
+            <label>Given Name</label>
           </div>
           <div v-if="studentFullName.studMiddle">
-            <label>Middle Name</label>
+            
             <span class="px-0">{{ studentFullName.studMiddle }}</span>
-
+            <label>Middle Name</label>
           </div>
 
         </h1>
