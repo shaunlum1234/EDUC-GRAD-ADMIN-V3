@@ -6,7 +6,7 @@
       <div class="col-md-10 col-12">
         <h1 class="profile-name">
           <div v-if="studentFullName.studPen">
-            <label>Pen</label>
+            <label>PEN</label>
             <span class="px-0">{{ studentFullName.studPen }}</span>
           </div>
           <div v-if="studentFullName.studSurname">
