@@ -251,7 +251,7 @@
                         {{ studentGradStatus.programCompletionDate }}
                       </li>
                       <li v-if="showEdit">
-                        <strong>Program completion date:</strong><b-input v-model='editedGradStatus.programCompletionDate'></b-input>      
+                        <strong>Program completion date:</strong><b-input type="date" v-model='editedGradStatus.programCompletionDate'></b-input>      
                       </li>
                       <li>
                         <strong>Program at graduation:</strong>
@@ -300,7 +300,7 @@
                         <strong>GPA:</strong> {{ studentGradStatus.gpa }}
                       </li>
                        <li v-if="showEdit">
-                        <strong>GPA:</strong><b-input v-model='editedGradStatus.gpa'></b-input>      
+                        <strong>GPA:</strong><b-input size="sm" max="4" pattern="^\d*(\.\d{0,4})?$" type="number" v-model='editedGradStatus.gpa'></b-input>      
                       </li>
                       <li v-if="studentGradStatus.honoursFlag">
                         <strong>Honours:</strong>
@@ -507,13 +507,6 @@
     },
     created() {},
     methods: {
-      toast() {
-          this.$bvToast.toast(`hello`, {
-          title: "toast",
-          autoHideDelay: 8000,
-          toaster: "b-toaster-top-center"
-        });
-      },
       makeToast(variant = null, bodyContent) {
         this.$bvToast.toast(bodyContent, {
           title: `Variant ${variant || 'default'}`,
@@ -543,7 +536,8 @@
             this.makeToast('success', 'Grad Status Saved')
           }).catch((error) => {
           // eslint-disable-next-line
-          console.log('There was an error:' + error.response);
+            this.makeToast('danger', 'There was an error: '+ error.response.data.messages[0].message);
+          //console.log('There was an error:' + error.response);
         });
       },
 
