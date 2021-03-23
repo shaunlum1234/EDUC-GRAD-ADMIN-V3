@@ -3,7 +3,7 @@
   <h1>Program Management</h1>
   <p> Manage graduation settings (Admin Access Required)</p>
     <b-card no-body>
-      <b-tabs pills card vertical>
+      <b-tabs card>
         <b-tab title="Programs" active>
           <b-card-text>
             <GraduationPrograms></GraduationPrograms>

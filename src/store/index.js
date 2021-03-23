@@ -2,6 +2,8 @@
   import Vuex from "vuex";
 
   Vue.use(Vuex);
+  import CourseService from '@/services/CourseService.js';
+  import ProgramManagementService from '@/services/ProgramManagementService.js';
   export default new Vuex.Store({
     init: {
       //Initialize the store
@@ -10,6 +12,7 @@
       tokenTimeout: "",
       token:"",
       refreshToken: "",
+      roles: "unauthenticated",
       student: {
         profile: {},
         courses: "not loaded",
@@ -21,6 +24,7 @@
         hasCourses: false,
         hasGradStatus: false,
         hasgradStatusPendingUpdates: false,
+        
       }
     },
     mutations: {
@@ -83,8 +87,36 @@
         state.student.hasGradStatus = false;
         state.student.hasgradStatusPendingUpdates = false;
       },
+      setRoles(state, payload){
+        console.log("SETTING ADMINISTRATOR");
+        state.roles = payload;
+
+      }
     },
     actions: {
+      //Courses Restrictions
+      createCourseRestriction({state}, payload) {
+        console.log("STORE TOKEN" + state.token);
+        console.log("PAYLOAD " + payload);
+        CourseService.createCourseRestriction(payload, state.token).then(
+          (response) => {
+            console.log("got a response from course SErvice");
+            return "STORE REspsonse to display table COURSE RESTRICTION:" + response;
+          }
+        ).catch((error) => {
+          console.log(error.response.status);
+        });
+      },    
+      // Programs
+      createProgram({state}, payload) {
+        ProgramManagementService.createProgram(state.token, payload).then(
+          (response) => {
+            return "STORE REspsonse to display table" + response;
+          }
+        ).catch((error) => {
+          console.log(error.response.status);
+        });
+      },        
       setHasGradStatusPendingUpdates({commit}, payload) {
         commit('setHasGradStatusPendingUpdates', payload);
       },
@@ -118,14 +150,20 @@
         commit
       }, payload) {
         commit('setStudentGradStatus', payload);
-      }
-      
+      },
+      setRoles({
+        commit
+      }, payload) {
+        console.log(payload);
+        commit('setRoles', payload);
 
+      },      
     },
 
     
 
     getters: {
+      
       getStudentGraduationCreationAndUpdate(state){
         return {
           "createdBy" : state.student.gradStatus.createdBy,
@@ -181,9 +219,16 @@
       },
       getToken(state){
         return state.token;
+      },
+      getRoles(state){
+        return state.roles;
+      },
+      isAdmin(state){
+        return (state.roles == "administrator")
+      },
+      isAuthenticated(state){
+        return (state.roles == "authenticated")
       }
-
-      // getStudentProfile: state => state.student.profiles
     },
     modules: {}
   })

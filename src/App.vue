@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <!-- <Header></Header> -->
-    <Bcheader class="bcheader" style="margin-bottom: 15px;"></Bcheader>
+    <Bcheader class="bcheader" style="margin-bottom: 15px; text-transform: capitalize"><a @click="toggleRole">{{role}}</a> </Bcheader>
+    
     <div class="container">
         <transition
           name="fade"
@@ -12,12 +13,31 @@
   </div>
 </template>
 <script>
+import {
+  mapGetters
+} from "vuex";
 import Bcheader from "@/components/BCHeader";
 export default {
   components: {
     Bcheader
+  },
+  computed: {
+    ...mapGetters({
+      role: "getRoles"
+    }),
+  },
+  methods:{
+    toggleRole(){
+      if(this.role == "administrator"){
+         this.$store.dispatch("setRoles","authenticated");
+      }else if(this.role == "authenticated"){
+         this.$store.dispatch("setRoles","administrator");
+      }
+
+    }
   }
 };
+
 </script>
 
 <style>

@@ -6,7 +6,24 @@
         <b-spinner v-if="!graduationPrograms.length" label="Loading"
           >Loading</b-spinner
         >
-        <div class="card-body" v-if="!selectedProgramCode">
+
+    <div class="card-body" v-if="!selectedProgramCode">
+          <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="courseCode"
+            v-bind:role="role" :slots="templates">
+
+
+          </DisplayTable>
+        
+           
+          <!-- <DisplayTable title="Program" v-bind:items="graduationPrograms" v-bind:fields="graduationProgramsFields" id="programCode"
+                 create="createProgramCode" delete="deleteProgramCode"
+                update="updateProgramCode" :slots="templates">
+                <template slot="program" slot-scope="data">
+                  {{ data.tbl.item.programCode }} dsrinks cofsssfee
+                </template>
+          </DisplayTable> -->
+
+          
           <v-table
             :data="graduationPrograms"
             class="table table-sm table-hover table-striped align-middle"
@@ -31,7 +48,7 @@
                 </tr>
               </template>
             </tbody>
-          </v-table>
+          </v-table> 
         </div>
         <div class="card-body" v-if="selectedProgramCode">
           <b-button v-on:click="resetProgramCode()" type="button" class="btn btn-primary">Select another program</b-button>
@@ -49,25 +66,64 @@
 <script>
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 import GraduationProgramRules from "@/components/GraduationProgramRules";
+
 import {
     mapGetters
 } from "vuex";
-
 export default {
   name: "GraduationPrograms",
   components: {
     GraduationProgramRules: GraduationProgramRules,
+
   },
   props: {},
   computed: {...mapGetters({
-      token: "getToken"
+      token: "getToken",
   })},
   data: function () {
     return {
+      
       show: false,
       isHidden: false,
       opened: [],
+      templates: [
+        {
+          name: "program",
+          field: "programCode"
+        },
+        {
+          name: "lastName",
+          field: "last_name"
+        }
+      ],
       graduationPrograms: [],
+      graduationProgramsFields: [{
+            key: 'more',
+            label: 'More'
+          },
+          {
+            key: 'programCode',
+            label: 'Program Code',
+            sortable: true,
+            sortDirection: 'desc',
+            editable: true
+          },
+          {
+            key: 'programName',
+            label: 'Program Name',
+            sortable: true,
+            class: 'text-center',
+            editable: true
+          },
+          {
+            key: 'actions',
+            label: 'Edit'
+          },
+          {
+            key: 'delete',
+            label: 'Delete'
+          }
+        ],
       selectedProgramCode: "",
       selectedProgramId: "",
     };

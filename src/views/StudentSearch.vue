@@ -272,6 +272,7 @@ export default {
     };
   },
   created() {
+
   },
   // beforeRouteLeave(to, from, next) {
   //   next(this.loadStudent(this.selectedPen));

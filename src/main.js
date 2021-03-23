@@ -60,6 +60,8 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
     }
     store.dispatch("setToken",keycloak.token);
     store.dispatch("setRefreshToken",keycloak.refreshToken);
+    store.dispatch("setRoles","authenticated");
+    //store.dispatch("setRoles","administrator");
   //  console.log(keycloak.token);
     new Vue({
       router,
@@ -87,12 +89,16 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
           store.dispatch("setToken",keycloak.token);
           store.dispatch("setRefreshToken",keycloak.refreshToken);
           
+          
+          
         } else {
           Vue.$log.warn('Token not refreshed, valid for '
           + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
+          
         }
       }).error(()=>{
           Vue.$log.error('Failed to refresh token');
+          
       });
 
 
