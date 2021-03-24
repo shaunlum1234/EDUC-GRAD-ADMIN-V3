@@ -3,7 +3,7 @@
     <!-- User Interface controls -->    
     <b-row>
       <b-col  lg="7" class="pr-5 float-left">
-        <b-button v-if="role=='administrator' && !disableCreate" variant="success" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
+        <b-button v-if="role=='administrator' && createAllowed" variant="success" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
         </b-button>
       </b-col>
       <b-col v-if="role=='authenticated'" lg="7" class="pr-5 float-left">
@@ -52,22 +52,31 @@
    
       <template v-slot:cell(actions)="{ item }">
         <b-button-group v-if="itemRow && itemRow[id] === item[id] && editMode">
-
           <b-btn style="width: 60px;" variant="success" size="sm" @click="saveEdit">
             Save
           </b-btn>
           <b-btn variant="outline-primary" size="sm" @click="resetEdit">
             Cancel
           </b-btn>
-
         </b-button-group>
         <b-btn v-else-if="role=='administrator'" variant="primary" size="sm" @click="edit(item)" class="square">
           <i class="fas fa-edit"></i>
         </b-btn>
-
       </template>
 
-
+      <template v-slot:cell(actions)="{ item }">
+        <b-button-group v-if="itemRow && itemRow[id] === item[id] && editMode">
+          <b-btn style="width: 60px;" variant="success" size="sm" @click="saveEdit">
+            Save
+          </b-btn>
+          <b-btn variant="outline-primary" size="sm" @click="resetEdit">
+            Cancel
+          </b-btn>
+        </b-button-group>
+        <b-btn v-else-if="role=='administrator'" variant="primary" size="sm" @click="edit(item)" class="square">
+          <i class="fas fa-edit"></i>
+        </b-btn>
+      </template>
   
       <template v-slot:cell(delete)="{ item }">
         <b-button-group v-if="itemRow && itemRow[id] === item[id] && deleteMode">
@@ -78,7 +87,6 @@
           @click="cancelDelete()">
             Cancel
           </b-btn>
-
 
         </b-button-group>
         <b-btn v-else-if="role=='administrator'" variant="danger" size="sm" @click="confirmDelete(item)"  class="square">
@@ -115,10 +123,10 @@
     props: ['items', 'title', 'fields', 'id', 'create','update','delete', 'slots'],
     data() {
       return {
-        
-        disableUpdate: false,
-        disableDelete: false,
-        disableCreate: false,
+        isAdmin: false,
+        updateAllowed: false,
+        deleteAllowed: false,
+        createAllowed: false,
         editMode: false,
         deleteMode: false,
         addMode: false,
@@ -167,16 +175,36 @@
       }
     },
     created() {
-      //console.log(this.items)
-      if(!this.create){
-        this.disableCreate = true;
+
+      //Set up permissions from role
+      this.setAdmin(this.role);
+      
+      //add Default Columns for table
+      this.fields.unshift({
+        key: 'more', 
+        label: 'More'
+      });
+      //remove Columns based on permssions, create, update and delete props
+      if(this.create && this.isAdmin){
+        this.createAllowed = true;
       }
-      if(!this.delete){
-        this.disableDelete = true;
+
+      if(this.update && this.isAdmin){
+          this.updateAllowed = true;
+           this.fields.push({
+            key: 'actions',
+            class: 'text-right',
+            label: 'Edit'
+          });
+      }
+      if(this.delete && this.isAdmin){
+        this.deleteAllowed = true;
+          this.fields.push({
+            key: 'delete',
+            class: 'text-left',
+            label: 'Delete'
+          });
       } 
-      if(!this.update){
-          this.disableUpdate = true;
-      }
       //this.itemToAdd = JSON.parse(JSON.stringify(this.items[0]));
       this.itemToAdd = {... this.items[0]} ;
       
@@ -184,7 +212,6 @@
         console.log(this.itemToAdd[this.fields[i].key]);
         this.itemToAdd[this.fields[i].key] = "";
       }
-      
     
       // for (var i = 0; i < this.fields.length; i++) {
       //   this.itemToAdd[this.fields[i].key] = "N/A";
@@ -199,6 +226,14 @@
       this.totalRows = this.items.length;
     },
     methods: {
+      setAdmin(role){
+        console.log("ROLE : " + role);
+        if(role == "administrator"){
+          this.isAdmin = true;
+        }else{
+          this.isAdmin = false;
+        }
+      },
       addItem() {
         var newItem = this.itemToAdd;
         this.items.push(newItem);

@@ -7,18 +7,9 @@
     <div class="card-body" v-if="!selectedProgramCode">
 
           <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="programCode"
-            v-bind:role="role" :slots="templates" create="createProgram" delete="deleteProgram" update="updateProgram">
+            v-bind:role="role" create="createProgram" delete="deleteProgram" update="updateProgram">
           </DisplayTable>
-        
-           
-          <!-- <DisplayTable title="Program" v-bind:items="graduationPrograms" v-bind:fields="graduationProgramsFields" id="programCode"
-                 create="createProgramCode" delete="deleteProgramCode"
-                update="updateProgramCode" :slots="templates">
-                <template slot="program" slot-scope="data">
-                  {{ data.tbl.item.programCode }} dsrinks cofsssfee
-                </template>
-          </DisplayTable> -->
-
+    
           
           <!-- <v-table
             :data="graduationPrograms"
@@ -74,7 +65,7 @@ export default {
   props: {},
   computed: {...mapGetters({
       token: "getToken",
-      role: "getRoles",
+      role: "getRoles", 
   })},
   data: function () {
     return {
@@ -82,53 +73,21 @@ export default {
       show: false,
       isHidden: false,
       opened: [],
-      templates: [
-        {
-          name: "program",
-          field: "programCode"
-        },
-        {
-          name: "lastName",
-          field: "last_name"
-        }
-      ],
       graduationPrograms: [],
-      graduationProgramsFields: [{
-            key: 'more', 
-            label: 'More'
-          },
+      graduationProgramsFields: [
           {
             key: 'programCode',
             label: 'Program Code',
             sortable: true,
             sortDirection: 'desc',
+            editable: true,
             class: 'w-1',
-            editable: true
           },
           {
             key: 'programName',
             label: 'Program Name',
             sortable: true,
-            
             editable: true
-          },
-            {
-            key: 'createdBy',
-            label: 'Created By',
-            sortable: true,
-            
-            editable: true
-          },
-          
-          {
-            key: 'actions',
-            class: 'w-1',
-            label: 'Edit'
-          },
-          {
-            key: 'delete',
-            class: 'w-1',
-            label: 'Delete'
           }
         ],
       selectedProgramCode: "",
@@ -141,6 +100,7 @@ export default {
         this.graduationPrograms = response.data;
       })
       .catch(() => {});
+      
   },
   methods: {
     onClickChild(value) {
