@@ -26,7 +26,7 @@ import {
 } from "vuex";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 export default {
-  name: 'Letter Grades',
+  name: 'LetterGrades',
   created() {
      ProgramManagementService.getLetterGrades(this.token)
       .then((response) => {

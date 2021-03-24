@@ -1,7 +1,5 @@
 <template>
   <div>
-    <div class="card mb-2">
-      <div class="card-body">
         <b-spinner v-if="!GraduationSpecialPrograms.length" label="Loading"
           >Loading</b-spinner
         >
@@ -39,8 +37,6 @@
           >
           </GraduationSpecialProgramRules>
         </div> 
-      </div>
-    </div>
   </div>
 </template>
 

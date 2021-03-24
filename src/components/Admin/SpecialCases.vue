@@ -28,7 +28,7 @@ import {
 } from "vuex";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 export default {
-  name: 'Special Cases',
+  name: 'SpecialCases',
   created() {
      ProgramManagementService.getSpecialCases(this.token)
       .then((response) => {

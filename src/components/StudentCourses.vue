@@ -11,8 +11,6 @@
                 <tr v-for="item in gradStatusPendingUpdates" :key="item.message">
                   <td ><i class="fas fa-plus-square"></i> <span class="pl-2">{{ item }}</span></td>
                 </tr>
-                <tr><td><i class="fas fa-pen-square"></i> CHEMISTRY 12 - UPDATED</td></tr>
-                <tr><td><i class="fas fa-minus-square"></i> COMPUTER SCIENCE 11 - DELETED</td></tr>
               </table>
             </b-card-text>
             <b-button v-on:click="updateGraduationStatus(studentPen)" class="float-right btn-primary btn-sm">
@@ -81,7 +79,7 @@
         gradStatusCourses: "gradStatusCourses",
         studentGradStatus: "getStudentGradStatus",
         hasGradStatus: "studentHasGradStatus",
-        gradStatusPendingUpdates: "getHasGradStatusPendingUpdates"
+        hasGradStatusPendingUpdates: "getHasGradStatusPendingUpdates"
       }),
     },
     data: function () {
@@ -169,7 +167,6 @@
       checkForPendingUpdates(){
          let i = 0;
           let j = 0;
-          //console.log(this.gradStatusPendingUpdates);
           if(this.hasGradStatus){
             for (i = 0; i < this.courses.length; i++) {
               this.courses[i].gradReqMet = this.getProgramCode(this.courses[i]);

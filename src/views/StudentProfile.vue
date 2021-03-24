@@ -63,15 +63,12 @@
         <div>
           <b-card class="py-1">
             <b-tabs>
-              <transition name="fade">
                 <b-tab v-if="smallScreen" title="Graduation Status" class="py-3 px-0 m-1 " ref="studentCoursesTab">
                   <b-card-text>
                     <StudentGraduationStatus></StudentGraduationStatus>
                   </b-card-text>
                 </b-tab>
-              </transition>
-
-              <transition name="fade">
+      
                 <b-tab title="Courses" class="py-3 px-0 m-1">
                   <b-card-text v-if="!studentHasCourses">Loading Student Courses <b-spinner variant="success"
                       label="Spinning"></b-spinner>
@@ -109,9 +106,7 @@
                     </StudentCourses>
                   </b-card-text>
                 </b-tab>
-              </transition>
-
-              <transition name="fade">
+ 
                 <b-tab title="Requirements Met" class="py-3 px-0 m-1">
                   <b-card-text v-if="!studentHasCourses">Loading Student Courses <b-spinner variant="success"
                       label="Spinning"></b-spinner>
@@ -148,15 +143,12 @@
 
                   </b-card-text>
                 </b-tab>
-              </transition>
-              <transition name="fade">
+ 
                 <b-tab title="Assessments" v-if="studentHasAssessments" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentAssessments />
                   </b-card-text>
                 </b-tab>
-              </transition>
-              <transition name="fade">
                 <b-tab title="Exams" v-if="studentHasExams" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentExams />
@@ -169,7 +161,7 @@
               " title="Loading ..." class="tab-loading py-3 px-0 m-1">
                   <b-card-text class="text-center">Loading Student Courses, Exams and Assesments</b-card-text>
                 </b-tab>
-              </transition>
+        
 
             </b-tabs>
           </b-card>

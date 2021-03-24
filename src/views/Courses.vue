@@ -7,8 +7,8 @@
           <b-tab title="Course Search" active>
             <b-card-text>
               <div class="row col-12">
-                <b-input class="col-10 my-2 ml-3" v-model="courseCode" placeholder="Course Code: BI" />
-                <b-button class="col-2 my-2 mx-1" @click="getAllCourses">Search</b-button>
+                <b-input class="col-10 my-2" v-model="courseCode" placeholder="Course Code: BI" />
+                <b-button class="col-2 my-2" @click="getAllCourses">Search</b-button>
               </div>
               <DisplayTable title="Courses" v-bind:items="courses" v-bind:fields="courseFields" id="courseCode"
                 v-bind:role="role"></DisplayTable>
@@ -95,12 +95,6 @@
             label: 'More'
           },
           {
-            key: 'courseRestrictionId',
-            label: 'ID',
-            sortable: true,
-            sortDirection: 'desc'
-          },
-          {
             key: 'mainCourse',
             label: 'Course',
             sortable: true,
@@ -152,7 +146,8 @@
     },
     computed: {
       ...mapGetters({
-        token: "getToken"
+        token: "getToken",
+        role: "getRoles"
       }),
     },
     created() {

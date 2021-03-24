@@ -109,14 +109,47 @@
       },    
       // Programs
       createProgram({state}, payload) {
-        ProgramManagementService.createProgram(state.token, payload).then(
+        console.log("create Program Store" + state.token);
+        console.log("PAYLOAD in create Program", payload);
+        ProgramManagementService.createProgram(payload, state.token).then(
           (response) => {
             return "STORE REspsonse to display table" + response;
           }
         ).catch((error) => {
           console.log(error.response.status);
         });
-      },        
+      },   
+      deleteProgram({state}, payload) {
+        
+        ProgramManagementService.deleteProgram(payload, state.token).then(
+          (response) => {
+            console.log(response);
+          }
+        ).catch((error) => {
+          console.log(error.response.status);
+        });
+      },   
+      updateProgram({state}, payload) {
+        
+        ProgramManagementService.updateProgram(payload, state.token).then(
+          (response) => {
+            console.log(response);
+          }
+        ).catch((error) => {
+          console.log(error.response.status);
+        });
+      },   
+      getGraduationPrograms({state}) {
+        
+        ProgramManagementService.getGraduationPrograms(state.token).then(
+          (response) => {
+            console.log("GET GRAD PROGRAMS" + response.data);
+            return response.data;
+          }
+        ).catch((error) => {
+          console.log(error.response.status);
+        });
+      },    
       setHasGradStatusPendingUpdates({commit}, payload) {
         commit('setHasGradStatusPendingUpdates', payload);
       },
@@ -163,7 +196,6 @@
     
 
     getters: {
-      
       getStudentGraduationCreationAndUpdate(state){
         return {
           "createdBy" : state.student.gradStatus.createdBy,

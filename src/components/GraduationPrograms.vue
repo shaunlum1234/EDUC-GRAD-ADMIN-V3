@@ -1,17 +1,13 @@
 <template>
   <div>
     <!-- <div v-if="!isHidden"> -->
-    <div class="card mb-2">
-      <div class="card-body">
         <b-spinner v-if="!graduationPrograms.length" label="Loading"
           >Loading</b-spinner
         >
-
     <div class="card-body" v-if="!selectedProgramCode">
-          <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="courseCode"
-            v-bind:role="role" :slots="templates">
 
-
+          <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="programCode"
+            v-bind:role="role" :slots="templates" create="createProgram" delete="deleteProgram" update="updateProgram">
           </DisplayTable>
         
            
@@ -24,7 +20,7 @@
           </DisplayTable> -->
 
           
-          <v-table
+          <!-- <v-table
             :data="graduationPrograms"
             class="table table-sm table-hover table-striped align-middle"
           >
@@ -48,7 +44,7 @@
                 </tr>
               </template>
             </tbody>
-          </v-table> 
+          </v-table> -->
         </div>
         <div class="card-body" v-if="selectedProgramCode">
           <b-button v-on:click="resetProgramCode()" type="button" class="btn btn-primary">Select another program</b-button>
@@ -59,14 +55,13 @@
           ></GraduationProgramRules>
         </div> 
       </div>
-    </div>
-  </div>
+
 </template>
 
 <script>
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 import GraduationProgramRules from "@/components/GraduationProgramRules";
-
+import DisplayTable from "@/components/DisplayTable";
 import {
     mapGetters
 } from "vuex";
@@ -74,11 +69,12 @@ export default {
   name: "GraduationPrograms",
   components: {
     GraduationProgramRules: GraduationProgramRules,
-
+    DisplayTable: DisplayTable,
   },
   props: {},
   computed: {...mapGetters({
       token: "getToken",
+      role: "getRoles",
   })},
   data: function () {
     return {
@@ -98,7 +94,7 @@ export default {
       ],
       graduationPrograms: [],
       graduationProgramsFields: [{
-            key: 'more',
+            key: 'more', 
             label: 'More'
           },
           {
@@ -106,21 +102,32 @@ export default {
             label: 'Program Code',
             sortable: true,
             sortDirection: 'desc',
+            class: 'w-1',
             editable: true
           },
           {
             key: 'programName',
             label: 'Program Name',
             sortable: true,
-            class: 'text-center',
+            
             editable: true
           },
+            {
+            key: 'createdBy',
+            label: 'Created By',
+            sortable: true,
+            
+            editable: true
+          },
+          
           {
             key: 'actions',
+            class: 'w-1',
             label: 'Edit'
           },
           {
             key: 'delete',
+            class: 'w-1',
             label: 'Delete'
           }
         ],

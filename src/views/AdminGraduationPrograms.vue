@@ -14,7 +14,7 @@
             <GraduationSpecialProgram></GraduationSpecialProgram>
           </b-card-text>
         </b-tab>
-        <b-tab title="LetterGrades"><b-card-text>
+        <b-tab title="Letter Grades"><b-card-text>
           <LetterGrades></LetterGrades>
         </b-card-text></b-tab>
         <b-tab title="Special Cases"><b-card-text><SpecialCases></SpecialCases></b-card-text></b-tab>

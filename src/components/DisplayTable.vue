@@ -1,6 +1,6 @@
 <template>
   <b-container fluid>
-    <!-- User Interface controls -->
+    <!-- User Interface controls -->    
     <b-row>
       <b-col  lg="7" class="pr-5 float-left">
         <b-button v-if="role=='administrator' && !disableCreate" variant="success" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
@@ -27,46 +27,37 @@
           {{ field.label }} <b-input v-model="itemToAdd[field.key]"></b-input>
         </div>
       </div>
-      <b-button variant="outline-primary" @click="addItem" class="float-left btn-outline-primary">Cancel</b-button>
+      <b-button variant="outline-primary" @click="cancelAddItem" class="float-left btn-outline-primary">Cancel</b-button>
       <b-button variant="success" @click="addItem" class="float-left"><i class="fas fa-plus"></i> Add</b-button>
       
     </b-row>
     <!-- Main table element -->
-    SLOTS {{slots}}
-    <hr>
-    ITEMS {{items}}
-    <hr>
      
-  <b-table striped hover :items="items">
-
-  </b-table>
     
-
     <b-table :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter"
       :filter-included-fields="filterOn" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
       :sort-direction="sortDirection" stacked="sm" show-empty striped hover small @filtered="onFiltered">
     
     
-
+        
       <template v-for="field in editableFields" v-slot:[`cell(${field.key})`]="{ value, item, field }">
+       
         <b-input v-if="itemRow && itemRow[id] === item[id] && !deleteMode" v-model="itemRow[field.key]" :type="field.type  || 'text'"
           :key="field.key" :number="field.isNumber" style="height:auto; padding: 0px;" class="pl-2">
         </b-input>
+        
         <template v-else-if="itemRow && itemRow[id] === item[id] && deleteMode"><div :key="field.key"><del class="text-danger">{{ value }}</del></div></template>
         <template v-else>{{ value }}</template>
       </template>
-        
-        <template v-slot:cell(this.test)="{ item }">
-             <a v-bind:href="item.programCode">{{item.programCode}}</a>
-        </template>
    
       <template v-slot:cell(actions)="{ item }">
         <b-button-group v-if="itemRow && itemRow[id] === item[id] && editMode">
-          <b-btn variant="outline-primary" size="sm" @click="resetEdit">
-            Cancel
-          </b-btn>
+
           <b-btn style="width: 60px;" variant="success" size="sm" @click="saveEdit">
             Save
+          </b-btn>
+          <b-btn variant="outline-primary" size="sm" @click="resetEdit">
+            Cancel
           </b-btn>
 
         </b-button-group>
@@ -80,12 +71,14 @@
   
       <template v-slot:cell(delete)="{ item }">
         <b-button-group v-if="itemRow && itemRow[id] === item[id] && deleteMode">
-          <b-btn variant="outline-primary" size="sm" @click="cancelDelete()">
-            Cancel
-          </b-btn>
           <b-btn variant="danger" size="sm" @click="deleteItem(item)">
             Delete
           </b-btn>
+          <b-btn variant="outline-primary" size="sm" 
+          @click="cancelDelete()">
+            Cancel
+          </b-btn>
+
 
         </b-button-group>
         <b-btn v-else-if="role=='administrator'" variant="danger" size="sm" @click="confirmDelete(item)"  class="square">
@@ -122,14 +115,14 @@
     props: ['items', 'title', 'fields', 'id', 'create','update','delete', 'slots'],
     data() {
       return {
-        test: "programCode",
+        
         disableUpdate: false,
         disableDelete: false,
         disableCreate: false,
         editMode: false,
         deleteMode: false,
         addMode: false,
-        itemToAdd: "",
+        itemToAdd: [],
         showConfirm: false,
         checked: "false",
         itemRow: null,
@@ -137,7 +130,7 @@
         editItem: "notloaded",
         totalRows: 1,
         currentPage: 1,
-        perPage: 10,
+        perPage: 100,
         pageOptions: [10, 20, 50, {
           value: 100,
           text: "Show a lot"
@@ -184,14 +177,21 @@
       if(!this.update){
           this.disableUpdate = true;
       }
-      this.itemToAdd = {
-        ...this.items[0]
-      };
-      for (var i = 0; i < this.fields.length; i++) {
-        this.itemToAdd[this.fields[i].key] = "N/A";
+      //this.itemToAdd = JSON.parse(JSON.stringify(this.items[0]));
+      this.itemToAdd = {... this.items[0]} ;
+      
+      for(var i = 0; i < this.fields.length; i++){
+        console.log(this.itemToAdd[this.fields[i].key]);
+        this.itemToAdd[this.fields[i].key] = "";
       }
-     
+      
+    
+      // for (var i = 0; i < this.fields.length; i++) {
+      //   this.itemToAdd[this.fields[i].key] = "N/A";
+      // }
+
       console.log("FIELDS" + this.fields);
+      console.log("CREATED" + this.itemsToAdd);
      
     },
     mounted() {
@@ -200,25 +200,25 @@
     },
     methods: {
       addItem() {
-        this.items.push({... this.itemToAdd});
-        //this.items.push(this.items[0]);
-        this.addItem = false;
+        var newItem = this.itemToAdd;
+        this.items.push(newItem);
+      
         this.addMode = false;
-        this.clearAddForm();
+        
         this.$bvToast.toast("Record was Added", {
           title: "Success",
           variant: 'success',
         });
-        console.log("Display Table is creating using to vuex: " + this.create);
-        console.log(this.$store.dispatch(this.create, this.itemtoAdd));
+        console.log(this.itemToAdd);
+        this.$store.dispatch(this.create, this.itemToAdd);
+    
       },
-      clearAddForm() {
-        for (var i = 0; i < this.fields.length; i++) {
-          this.itemToAdd[this.fields[i].key] = "N/A";
-        }
+      cancelAddItem() {
+        this.addMode = false;
       },
       deleteItem(item) {
-        console.log("DELETING: " + item.courseRestrictionId);
+        console.log("DELETING: " + item[this.id]);
+        this.$store.dispatch(this.delete, item[this.id]);
         this.items.splice(this.items.indexOf(item), 1)
         this.$bvToast.toast("Record was deleted", {
           title: "Success",
@@ -228,6 +228,7 @@
         this.deleteMode = false;
       },
       confirmDelete(item) {
+        
         this.deleteMode = true;
         this.editMode = false;
         let doDelete = true;
@@ -247,8 +248,6 @@
         }
       },
       edit(item) {
-        console.log(this.itemRow);
-        console.log("UPDATE/EDIT: " + item[this.id]);
         this.editMode = true;
         this.deleteMode = false;
         let doEdit = true;
@@ -269,7 +268,7 @@
       saveEdit() {
         let item = this.items.find((u) => u[this.id] === this.itemRow[this.id]);
         Object.assign(item, this.itemRow);
-
+        this.$store.dispatch(this.update, item);
         this.resetEdit();
         this.$bvToast.toast("Record was saved/updated", {
           title: "Success",
