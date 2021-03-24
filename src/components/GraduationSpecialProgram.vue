@@ -1,11 +1,14 @@
 <template>
   <div>
-        <b-spinner v-if="!GraduationSpecialPrograms.length" label="Loading"
+        <b-spinner v-if="!graduationSpecialPrograms.length" label="Loading"
           >Loading</b-spinner
         >
-        <div class="card-body" v-if="!selectedProgramId">
+        <DisplayTable v-bind:items="graduationSpecialPrograms" title="Special Programs" v-bind:fields="graduationSpecialProgramsFields" id="id"
+            v-bind:role="role" create="createProgram" delete="deleteProgram" update="updateProgram">
+        </DisplayTable>
+        <!-- <div class="card-body" v-if="!selectedProgramId">
           <v-table
-            :data="GraduationSpecialPrograms"
+            :data="graduationSpecialPrograms"
             class="table table-sm table-hover table-striped align-middle"
           >
             <thead slot="head" class="">
@@ -27,8 +30,8 @@
               </template>
             </tbody>
           </v-table>
-        </div>
-        <div class="card-body" v-if="selectedProgramId">
+        </div> -->
+        <!-- <div class="card-body" v-if="selectedProgramId">
           <button v-on:click="resetProgramId()" type="button" class="btn btn-light">Select another program</button>
           <GraduationSpecialProgramRules
             :key="selectedProgramId"
@@ -36,14 +39,15 @@
             v-if="selectedProgramId"
           >
           </GraduationSpecialProgramRules>
-        </div> 
+        </div>  -->
   </div>
 </template>
 
 <script>
 
 import ProgramManagementService from "@/services/ProgramManagementService.js";
-import GraduationSpecialProgramRules from "@/components/GraduationSpecialProgramRules";
+//import GraduationSpecialProgramRules from "@/components/GraduationSpecialProgramRules";
+import DisplayTable from "@/components/DisplayTable";
 import {
     mapGetters
 } from "vuex";
@@ -53,24 +57,43 @@ export default {
   props: {},
   computed: {
     ...mapGetters({
-      token: "getToken"
+      token: "getToken",
+      role: "getRoles", 
   })},
   components: {
-   'GraduationSpecialProgramRules': GraduationSpecialProgramRules,
+//   'GraduationSpecialProgramRules': GraduationSpecialProgramRules,
+   DisplayTable: DisplayTable,
   },
   data: function () {
     return {
       opened: [],
-      GraduationSpecialPrograms:[],
+      //graduationSpecialProgramsFields:[],
+      graduationSpecialPrograms:[],
       //selectedProgramCode: "",
       selectedProgramId: "",
-      selectedId:''
+      selectedId:'',
+      graduationSpecialProgramsFields: [
+          {
+            key: 'specialProgramCode',
+            label: 'Special Program Code',
+            sortable: true,
+            sortDirection: 'desc',
+            editable: true,
+            class: 'w-1',
+          },
+          {
+            key: 'specialProgramName',
+            label: 'Special Program Name',
+            sortable: true,
+            editable: true
+          }
+      ]
     };
   },
   created() {
      ProgramManagementService.getSpecialProgram(this.token)
       .then((response) => {
-        this.GraduationSpecialPrograms = response.data;
+        this.graduationSpecialPrograms = response.data;
       })
       .catch(() => {});
   },
