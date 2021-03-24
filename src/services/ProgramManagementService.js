@@ -13,7 +13,7 @@ export default {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         return apiClient.get('/api/v1/programmanagement/specialcase',{ headers });
     },
-    getGraduationPrograms(token) {
+    getGraduationPrograms(token) { 
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         //console.log("TOKEN IN SERVICE getGraduationPrograms: " + token);
         return apiClient.get('/api/v1/programmanagement/programs',{ headers });
@@ -38,4 +38,20 @@ export default {
     //    console.log("programId IN SERVICE getSpecialProgramRule: " + programId);
         return apiClient.get('/api/v1/programmanagement/specialprogramrules?specialProgramID=' + programId,{ headers })
     },
+    createProgram(program, token){
+        console.log("IN PROGRAM SERVICE");
+        console.log(program);
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        return apiClient.post('/api/v1/programmanagement/programs',program,{ headers })
+    },
+    deleteProgram(id, token){
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        return apiClient.delete('/api/v1/programmanagement/programs/' + id, { headers })
+    },
+    updateProgram(program, token){
+        console.log(program);
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        return apiClient.put('/api/v1/programmanagement/programs',program,{ headers })
+    },    
+
 };

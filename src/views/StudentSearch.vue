@@ -47,7 +47,7 @@
         <transition name="fade">
           <div v-if="showAdvancedSearchForm" class="advanced-search-form mx-0 px-2">
             <div class="row col-12 mb-3">
-              <div class="col-12"><h2>Advance search</h2></div>
+              <div class="col-12"><h2>Advanced search</h2></div>
                 <div class="advanced-search-field col-12 col-md-3">
                   <label>First Name </label>
                   <a 
@@ -272,6 +272,7 @@ export default {
     };
   },
   created() {
+
   },
   // beforeRouteLeave(to, from, next) {
   //   next(this.loadStudent(this.selectedPen));

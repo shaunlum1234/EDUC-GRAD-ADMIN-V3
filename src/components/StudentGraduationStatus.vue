@@ -85,9 +85,6 @@
                             <b-button class="px-1" @click="popClose">Close</b-button>
                           </b-popover>
 
-
-                      
-          
         
                             </li>
                             <li v-if="projectedStudentGradStatus.studentGrade">
@@ -229,12 +226,23 @@
                     <!-- Student Graduation Status -->
                     <div class="col-12 header">
                       <h2>Graduation status</h2>
-                      <button v-on:click="editGradStatus" class="btn-sm">
-                        <span v-if="!showEdit"> Edit</span><span v-if="showEdit"> Cancel</span>
-                      </button>
-                      <button v-on:click="saveEditedGradStatus(studentPen)" class="btn-primary">
-                        <span> Save</span>
-                      </button>
+                      <b-button-group v-if="this.role =='administrator'" class="gradstatus-actions float-right">
+                        <div v-if="!showEdit">
+                          
+                          <b-btn class="edit" v-on:click="editGradStatus" size="sm" variant="primary">
+                             Edit 
+                          </b-btn>
+                        </div>
+                        <div v-if="showEdit">
+                          <b-btn v-on:click="saveEditedGradStatus(studentPen)" size="sm" variant="primary">
+                             Save 
+                          </b-btn>
+                          <b-btn v-on:click="cancelGradStatus"  size="sm" variant="outline-primary">
+                            Cancel
+                          </b-btn>
+            
+                        </div>
+                      </b-button-group>
                     </div>
 
                     <ul>
@@ -243,6 +251,8 @@
                         {{ studentGradStatus.program }}
                       </li>
                       <li v-if="showEdit">
+
+                        {{this.programDropdownList}}
                         <strong>Program:</strong><b-input v-model='editedGradStatus.program'></b-input>      
                       </li>
                       
@@ -475,6 +485,7 @@
         studentPen: "getStudentPen",
         studentFullName: "getStudentFullName",
         token: "getToken",
+        role: "getRoles",
       }),
 
 
@@ -489,6 +500,7 @@
         show: false,
         projectedStudentGradStatus: [],
         updateStatus:[],
+        programDropdownList: [],
         editedGradStatus: {
             createdBy:"",
             createdTimestamp: "",
@@ -505,7 +517,13 @@
           }
       };
     },
-    created() {},
+    created() {
+      this.programDropdownList = this.$store.dispatch("getGraduationPrograms");
+      console.log(this.programDropdownList);
+  
+      
+
+    },
     methods: {
       makeToast(variant = null, bodyContent) {
         this.$bvToast.toast(bodyContent, {
@@ -516,10 +534,17 @@
         })
       },
       editGradStatus() {
-        this.showEdit = !this.showEdit;
+
+        this.showEdit = true;
+       
+        console.log("DROPDOWN " + this.programDropdownList);
         this.editedGradStatus.pen = this.studentGradStatus.pen;
         this.editedGradStatus.program = this.studentGradStatus.program;  
         this.editedGradStatus.gpa = this.studentGradStatus.gpa;  
+        this.editedGradStatus.programCompletionDate = this.studentGradStatus.programCompletionDate
+      },
+      cancelGradStatus(){
+        this.showEdit = false;
       },
       countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown
@@ -532,6 +557,7 @@
             this.studentGradStatus.gpa = this.editedGradStatus.gpa;
             console.log('Update status: ' + this.updateStatus);
             this.showTop = !this.showTop
+            this.showEdit=false;
             // this.dismissCountDown = this.dismissSecs
             this.makeToast('success', 'Grad Status Saved')
           }).catch((error) => {
@@ -675,6 +701,9 @@
   }
   h5.modal-title{
     font-size: 30px !important;
+  }
+  .gradstatus-actions{
+    margin-top:-35px;
   }
 </style>
 

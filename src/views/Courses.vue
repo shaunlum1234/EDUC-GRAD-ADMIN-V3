@@ -1,46 +1,26 @@
 <template>
   <div>
-    <h1>Course Search</h1>
+    <h1>Courses</h1>
     <div>
       <b-card no-body>
-        <b-tabs pills card vertical>
+        <b-tabs card>
           <b-tab title="Course Search" active>
             <b-card-text>
-              <div class="row">
-                <b-input class="col-4 my-2 ml-3" v-model="courseCode" placeholder="Course Code: BI"/>
-                <b-button class="col-4 my-2 mx-1" @click="getAllCourses">Search</b-button>
+              <div class="row col-12">
+                <b-input class="col-10 my-2" v-model="courseCode" placeholder="Course Code: BI" />
+                <b-button class="col-2 my-2" @click="getAllCourses">Search</b-button>
               </div>
-              <!-- <input type="submit" @click="searchCourseByCourseCode"> -->
-              <table v-if="courses" class="table table-striped table-bordered">
-                <thead>
-                  <tr>
-                    <th>Course Code</th>
-                    <th>Course Level</th>
-                    <th>Course Name</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Work Experience</th>
-                    <th>Generic Course Type</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="course in courses" :key="course.courseName">
-                    <td>{{course.courseCode}}</td>
-                    <td>{{course.courseLevel}}</td>
-                    <td>{{course.courseName}}</td>
-                    <td>{{course.startDate}}</td>
-                    <td>{{course.endDate}}</td>
-                    <td>{{course.workExpFlag}}</td>
-                    <td>{{course.genericCourseType}}</td>
-                  </tr>
-                </tbody>
-              </table>
+              <DisplayTable title="Courses" v-bind:items="courses" v-bind:fields="courseFields" id="courseCode"
+                v-bind:role="role"></DisplayTable>
             </b-card-text>
           </b-tab>
           <b-tab title="Course Restrictons">
             <b-card-text>
-              Course Restrictions
-              <DisplayTable v-bind:items="courseRestrictions" v-bind:fields="courseRestrictionFields"></DisplayTable>
+              <DisplayTable title="Course Restriction" v-bind:items="courseRestrictions"
+                v-bind:fields="courseRestrictionFields" id="courseRestrictionId"
+                create="createCourseRestriction" delete="deleteCourseRestriction" update="updateCourseRestriction">
+              </DisplayTable>
+
             </b-card-text>
           </b-tab>
         </b-tabs>
@@ -61,18 +41,103 @@
     components: {
       DisplayTable: DisplayTable
     },
+
+
+
     data() {
       return {
         courses: {},
-        courseRestrictions:{},
-        courseRestrictionFields: [
-          { key: 'courseRestrictionId', label: 'ID', sortable: true, sortDirection: 'desc', more: "MONEY"},
-          { key: 'mainCourse', label: 'Course', sortable: true, class: 'text-center' },
-          { key: 'restrictedCourse', label: 'Restricted Course', sortable: true, sortDirection: 'desc' },
-          { key: 'restrictedCourseLevel', label: 'Course Level', sortable: true, class: 'text-center' },
-          { key: 'restrictionStartDate', label: 'Start Date', sortable: true, sortDirection: 'desc' },
-          { key: 'restrictionEndDate', label: 'End Date', sortable: true, class: 'text-center' },
-          { key: 'actions', label: 'Actions' }
+        courseRestrictions: [],
+        courseFields: [{
+            key: 'more',
+            label: 'More'
+          },
+          {
+            key: 'courseCode',
+            label: 'Course Code',
+            sortable: true,
+            sortDirection: 'desc'
+          },
+          {
+            key: 'courseName',
+            label: 'Course Name',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: 'startDate',
+            label: 'Start Date',
+            sortable: true,
+            sortDirection: 'desc'
+          },
+          {
+            key: 'endDate',
+            label: 'End Date',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: 'workExpFlag',
+            label: 'Start Date',
+            sortable: true,
+            sortDirection: 'desc'
+          },
+          {
+            key: 'genericCourseType',
+            label: 'End Date',
+            sortable: true,
+            class: 'text-center'
+          },
+
+        ],
+        courseRestrictionFields: [{
+            key: 'more',
+            label: 'More'
+          },
+          {
+            key: 'mainCourse',
+            label: 'Course',
+            sortable: true,
+            class: 'text-center',
+            editable: true
+          },
+          {
+            key: 'restrictedCourse',
+            label: 'Restricted Course',
+            sortable: true,
+            sortDirection: 'desc',
+            editable: true
+          },
+          {
+            key: 'restrictedCourseLevel',
+            label: 'Course Level',
+            sortable: true,
+            class: 'text-center',
+            editable: true
+          },
+          {
+            key: 'restrictionStartDate',
+            label: 'Start Date',
+            sortable: true,
+            sortDirection: 'desc',
+            editable: true
+          },
+          {
+            key: 'restrictionEndDate',
+            label: 'End Date',
+            sortable: true,
+            class: 'text-center',
+            editable: true
+          },
+          {
+            key: 'actions',
+            label: 'Edit'
+          },
+          {
+            key: 'delete',
+            label: 'Delete'
+          }
+
         ],
         courseCode: "",
         show: false,
@@ -81,7 +146,8 @@
     },
     computed: {
       ...mapGetters({
-        token: "getToken"
+        token: "getToken",
+        role: "getRoles"
       }),
     },
     created() {
@@ -106,27 +172,40 @@
           })
           // eslint-disable-next-line no-unused-vars
           .catch((error) => {
-            console.log('There was an error:' + error.response.status);
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
           });
       },
-      getAllCourseRestrictions(){
-          CourseService.getCourseRestrictions(this.token)
+      getAllCourseRestrictions() {
+        CourseService.getCourseRestrictions(this.token)
           .then((response) => {
             this.courseRestrictions = response.data;
           })
           // eslint-disable-next-line no-unused-vars
           .catch((error) => {
-            //console.log('There was an error:' + error.response);
+            console.log(error.response.status);
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
           });
       },
-      getAllCourseRestriction(mainCourseLevel, mainCourseCode){
-          CourseService.getCourseRestriction(mainCourseLevel, mainCourseCode, this.token)
+      getAllCourseRestriction(mainCourseLevel, mainCourseCode) {
+        CourseService.getCourseRestriction(mainCourseLevel, mainCourseCode, this.token)
           .then((response) => {
             this.courseRestrictions = response.data;
           })
           // eslint-disable-next-line no-unused-vars
           .catch((error) => {
-            //console.log('There was an error:' + error.response);
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
           });
       }
 

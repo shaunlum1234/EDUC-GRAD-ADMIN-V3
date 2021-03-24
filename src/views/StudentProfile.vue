@@ -6,23 +6,23 @@
       <div class="col-md-10 col-12">
         <h1 class="profile-name">
           <div v-if="studentFullName.studPen">
-            
+
             <span class="px-0">{{ studentFullName.studPen }}</span>
             <label>PEN</label>
           </div>
           <div v-if="studentFullName.studSurname">
-            
+
             <span class="px-0">{{ studentFullName.studSurname.trim() }},</span>
             <label>Last Name</label>
 
           </div>
           <div v-if="studentFullName.studGiven">
-            
+
             <span class="px-0">{{ studentFullName.studGiven }}</span>
             <label>Given Name</label>
           </div>
           <div v-if="studentFullName.studMiddle">
-            
+
             <span class="px-0">{{ studentFullName.studMiddle }}</span>
             <label>Middle Name</label>
           </div>
@@ -63,15 +63,12 @@
         <div>
           <b-card class="py-1">
             <b-tabs>
-              <transition name="fade">
                 <b-tab v-if="smallScreen" title="Graduation Status" class="py-3 px-0 m-1 " ref="studentCoursesTab">
                   <b-card-text>
                     <StudentGraduationStatus></StudentGraduationStatus>
                   </b-card-text>
                 </b-tab>
-              </transition>
-              
-              <transition name="fade">
+      
                 <b-tab title="Courses" class="py-3 px-0 m-1">
                   <b-card-text v-if="!studentHasCourses">Loading Student Courses <b-spinner variant="success"
                       label="Spinning"></b-spinner>
@@ -109,54 +106,49 @@
                     </StudentCourses>
                   </b-card-text>
                 </b-tab>
-              </transition>
-
-              <transition name="fade">
+ 
                 <b-tab title="Requirements Met" class="py-3 px-0 m-1">
                   <b-card-text v-if="!studentHasCourses">Loading Student Courses <b-spinner variant="success"
                       label="Spinning"></b-spinner>
                   </b-card-text>
                   <b-card-text v-if="studentHasCourses">
-                      <div v-if="hasGradStatus">
-            
-                          <h2>Course Requirements Met</h2>
-                          <table class="table table-striped">
-                            <thead>
-                              <tr>
-                                <th>Course Code</th>
-                                <th>Course Level</th>
-                                <th>Course Name</th>
-                                <th>Session Date</th>
-                                <th>Grad Req Met</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <template
-                                v-for="(course,i) in studentGradStatus.studentGradData.studentCourses.studentCourseList">
-                                <tr v-if="course.gradReqMet" :key="i">
-                                  <td scope="row">{{ course.courseCode }}</td>
-                                  <td scope="row">{{ course.courseLevel}}</td>
-                                  <td scope="row">{{ course.courseName }}</td>
-                                  <td scope="row">{{ course.sessionDate}}</td>
-                                  <td scope="row">{{ course.gradReqMet}}</td>
-                                </tr>
-                              </template>
-                            </tbody>
-                          </table>
-                      
-                      </div>
-              
+                    <div v-if="hasGradStatus">
+
+                      <h2>Course Requirements Met</h2>
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>Course Code</th>
+                            <th>Course Level</th>
+                            <th>Course Name</th>
+                            <th>Session Date</th>
+                            <th>Grad Req Met</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <template
+                            v-for="(course,i) in studentGradStatus.studentGradData.studentCourses.studentCourseList">
+                            <tr v-if="course.gradReqMet" :key="i">
+                              <td scope="row">{{ course.courseCode }}</td>
+                              <td scope="row">{{ course.courseLevel}}</td>
+                              <td scope="row">{{ course.courseName }}</td>
+                              <td scope="row">{{ course.sessionDate}}</td>
+                              <td scope="row">{{ course.gradReqMet}}</td>
+                            </tr>
+                          </template>
+                        </tbody>
+                      </table>
+
+                    </div>
+
                   </b-card-text>
                 </b-tab>
-              </transition>
-              <transition name="fade">
+ 
                 <b-tab title="Assessments" v-if="studentHasAssessments" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentAssessments />
                   </b-card-text>
                 </b-tab>
-              </transition>
-              <transition name="fade">
                 <b-tab title="Exams" v-if="studentHasExams" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentExams />
@@ -169,7 +161,7 @@
               " title="Loading ..." class="tab-loading py-3 px-0 m-1">
                   <b-card-text class="text-center">Loading Student Courses, Exams and Assesments</b-card-text>
                 </b-tab>
-              </transition>
+        
 
             </b-tabs>
           </b-card>
@@ -277,28 +269,62 @@
       loadStudent(pen) {
         StudentService.getStudentByPen(pen, this.token).then((response) => {
           this.$store.dispatch('setStudentProfile', response.data);
-
+        }).catch((error) => {
+          console.log(error.response.status);
+          this.$bvToast.toast("ERROR " + error.response.statusText, {
+            title: "ERROR" + error.response.status,
+            variant: 'danger',
+            noAutoHide: true,
+          });
         });
 
         AssessmentService.getStudentAssessment(pen, this.token).then((response) => {
           this.$store.dispatch('setStudentAssessments', response.data);
+        }).catch((error) => {
+          console.log(error.response.status);
+          this.$bvToast.toast("ERROR " + error.response.statusText, {
+            title: "ERROR" + error.response.status,
+            variant: 'danger',
+            noAutoHide: true,
+          });
         });
 
         StudentExamsService.getStudentExams(pen, this.token).then((response) => {
           this.$store.dispatch('setStudentExams', response.data);
-        })
+        }).catch((error) => {
+          console.log(error.response.status);
+          this.$bvToast.toast("ERROR " + error.response.statusText, {
+            title: "ERROR" + error.response.status,
+            variant: 'danger',
+            noAutoHide: true,
+          });
+        });
 
         GraduationStatusService.getGraduationStatus(pen, this.token).then(
           (response) => {
             this.$store.dispatch("setStudentGradStatus", response.data);
           }
-        );
+        ).catch((error) => {
+          console.log(error.response.status);
+          this.$bvToast.toast("ERROR " + error.response.statusText, {
+            title: "ERROR" + error.response.status,
+            variant: 'danger',
+            noAutoHide: true,
+          });
+        });
         CourseAchievementService.getStudentCourseAchievements(pen, this.token).then(
           (response) => {
-          //  console.log("COURSES" + response.data)
+            //  console.log("COURSES" + response.data)
             this.$store.dispatch("setStudentCourses", response.data);
           }
-        );
+        ).catch((error) => {
+          console.log(error.response.status);
+          this.$bvToast.toast("ERROR " + error.response.statusText, {
+            title: "ERROR" + error.response.status,
+            variant: 'danger',
+            noAutoHide: true,
+          });
+        });
       },
 
 

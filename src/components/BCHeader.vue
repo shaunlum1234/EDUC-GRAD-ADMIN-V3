@@ -52,6 +52,7 @@
             <a v-bind:href="'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + host" class="nav-link">Logout</a>
           </li>
         </ul>
+        <div class="float:right"><slot></slot></div>
       </div>
     </nav>
     <nav class="navigation-main" id="navbar">
@@ -68,9 +69,13 @@
           <li class="nav-item">
             <a v-bind:href="'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + host" class="nav-link">Logout</a>
           </li>
+          <li></li>
         </ul> 
+        <div class="float-right" style="margin-top:-20px"><slot></slot></div>
       </div>
+      
     </nav>
+    
   </div>
 </template>
 
