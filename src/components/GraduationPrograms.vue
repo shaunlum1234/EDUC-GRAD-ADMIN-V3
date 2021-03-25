@@ -4,7 +4,7 @@
         <b-spinner v-if="!graduationPrograms.length" label="Loading"
           >Loading</b-spinner
         >
-    <div class="card-body" v-if="!selectedProgramCode">
+    <div v-if="!selectedProgramCode">
 
           <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="programCode"
             v-bind:role="role" create="createProgram" delete="deleteProgram" update="updateProgram">

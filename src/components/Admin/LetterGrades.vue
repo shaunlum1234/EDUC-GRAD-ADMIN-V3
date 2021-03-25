@@ -1,22 +1,8 @@
 <template>
   <div>
-  <p>Letter grade values used for graduation</p>
-  <table class="table table-striped table-bordered">
-      <thead>
-          <tr>
-              <th>Letter Grade</th>
-              <th>GPA Mark</th>
-              <th>PASS FLAG</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr v-for="letterGrade in letterGrades.gradLetterGradeList" :key="letterGrade.letterGrade">
-              <td>{{letterGrade.letterGrade}}</td>
-              <td>{{letterGrade.gpaMarkValue}}</td>
-              <td>{{letterGrade.passFlag}}</td>
-          </tr>
-      </tbody>
-  </table>
+    <DisplayTable v-bind:items="letterGrades.gradLetterGradeList" title="Letter Grade" v-bind:fields="letterGradesFields" id="letterGrade"
+        v-bind:role="role">
+    </DisplayTable>
   </div>
 </template>
 
@@ -24,9 +10,13 @@
 import {
   mapGetters
 } from "vuex";
+import DisplayTable from "@/components/DisplayTable";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 export default {
   name: 'LetterGrades',
+  components: {
+    DisplayTable: DisplayTable,
+  },  
   created() {
      ProgramManagementService.getLetterGrades(this.token)
       .then((response) => {
@@ -38,8 +28,27 @@ export default {
       });
   },
   data: function() {
+
     return {
       letterGrades: [],
+      letterGradesFields: [
+        {
+          key: 'letterGrade',
+          label: 'Letter Grade',
+          sortable: true,
+          sortDirection: 'desc',
+        },
+        {
+          key: 'gpaMarkValue',
+          label: 'GPA Mark',
+          sortable: true,
+        },
+        {
+          key: 'passFlag',
+          label: 'Pass Flag',
+          sortable: true,
+        }
+      ],
     };
   },
   computed: {
