@@ -98,13 +98,14 @@
             key: 'mainCourse',
             label: 'Course',
             sortable: true,
-            class: 'text-center',
+            class: 'text-left',
             editable: true
           },
           {
             key: 'restrictedCourse',
             label: 'Restricted Course',
             sortable: true,
+            class: 'text-left',
             sortDirection: 'desc',
             editable: true
           },
@@ -112,13 +113,14 @@
             key: 'restrictedCourseLevel',
             label: 'Course Level',
             sortable: true,
-            class: 'text-center',
+            class: 'text-left',
             editable: true
           },
           {
             key: 'restrictionStartDate',
             label: 'Start Date',
             sortable: true,
+            class: 'text-left',
             sortDirection: 'desc',
             editable: true
           },
@@ -126,16 +128,8 @@
             key: 'restrictionEndDate',
             label: 'End Date',
             sortable: true,
-            class: 'text-center',
+            class: 'text-left',
             editable: true
-          },
-          {
-            key: 'actions',
-            label: 'Edit'
-          },
-          {
-            key: 'delete',
-            label: 'Delete'
           }
 
         ],

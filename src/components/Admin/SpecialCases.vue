@@ -1,24 +1,8 @@
 <template>
   <div>
-  <p>Special cases used for graduation</p>
-  <table class="table table-striped table-bordered">
-      <thead>
-          <tr>
-              <th>Special Case</th>
-              <th>Pass Flag</th>
-              <th>Description</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr v-for="specialCase in specialCases" :key="specialCase.description">
-              <td>{{specialCase.specialCase}}</td>
-              <td>{{specialCase.passFlag}}</td>
-              <td>{{specialCase.description}}</td>
-              
-
-          </tr>
-      </tbody>
-  </table>
+  <DisplayTable v-bind:items="specialCases" title="Program" v-bind:fields="specialCasesFields" id="specialCase"
+        v-bind:role="role">
+    </DisplayTable>
   </div>
 </template>
 
@@ -26,9 +10,13 @@
 import {
   mapGetters
 } from "vuex";
+import DisplayTable from "@/components/DisplayTable";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 export default {
   name: 'SpecialCases',
+  components: {
+    DisplayTable: DisplayTable,
+  },
   created() {
      ProgramManagementService.getSpecialCases(this.token)
       .then((response) => {
@@ -42,11 +30,30 @@ export default {
   data: function() {
     return {
       specialCases: [],
+      specialCasesFields: [
+        {
+          key: 'specialCase',
+          label: 'Special Case',
+          sortable: true,
+          sortDirection: 'desc',
+        },
+        {
+          key: 'passFlag',
+          label: 'Pass Flag',
+          sortable: true,
+        },
+        {
+          key: 'description',
+          label: 'Description',
+          sortable: true,
+        }
+      ],
     };
   },
   computed: {
     ...mapGetters({  
-      token: "getToken"
+      token: "getToken",
+      role: "getRoles"
     }),
   },
   methods: {

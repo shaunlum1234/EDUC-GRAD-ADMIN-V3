@@ -2,7 +2,7 @@
   import Vuex from "vuex";
 
   Vue.use(Vuex);
-  import CourseService from '@/services/CourseService.js';
+  //import CourseService from '@/services/CourseService.js';
   import ProgramManagementService from '@/services/ProgramManagementService.js';
   export default new Vuex.Store({
     init: {
@@ -88,34 +88,21 @@
         state.student.hasgradStatusPendingUpdates = false;
       },
       setRoles(state, payload){
-        console.log("SETTING ADMINISTRATOR");
         state.roles = payload;
-
       }
     },
     actions: {
       //Courses Restrictions
-      createCourseRestriction({state}, payload) {
-        console.log("STORE TOKEN" + state.token);
-        console.log("PAYLOAD " + payload);
-        CourseService.createCourseRestriction(payload, state.token).then(
-          (response) => {
-            console.log("got a response from course SErvice");
-            return "STORE REspsonse to display table COURSE RESTRICTION:" + response;
-          }
-        ).catch((error) => {
-          console.log(error.response.status);
-        });
-      },    
+
       // Programs
+
       createProgram({state}, payload) {
-        console.log("create Program Store" + state.token);
-        console.log("PAYLOAD in create Program", payload);
         ProgramManagementService.createProgram(payload, state.token).then(
           (response) => {
             return "STORE REspsonse to display table" + response;
           }
         ).catch((error) => {
+          // eslint-disable-next-line
           console.log(error.response.status);
         });
       },   
@@ -123,9 +110,11 @@
         
         ProgramManagementService.deleteProgram(payload, state.token).then(
           (response) => {
+            // eslint-disable-next-line
             console.log(response);
           }
         ).catch((error) => {
+          // eslint-disable-next-line
           console.log(error.response.status);
         });
       },   
@@ -133,9 +122,11 @@
         
         ProgramManagementService.updateProgram(payload, state.token).then(
           (response) => {
+            // eslint-disable-next-line
             console.log(response);
           }
         ).catch((error) => {
+          // eslint-disable-next-line
           console.log(error.response.status);
         });
       },   
@@ -175,10 +166,12 @@
         
         ProgramManagementService.getGraduationPrograms(state.token).then(
           (response) => {
+            // eslint-disable-next-line
             console.log("GET GRAD PROGRAMS" + response.data);
             return response.data;
           }
         ).catch((error) => {
+          // eslint-disable-next-line
           console.log(error.response.status);
         });
       },    
@@ -219,6 +212,7 @@
       setRoles({
         commit
       }, payload) {
+        // eslint-disable-next-line
         console.log(payload);
         commit('setRoles', payload);
 
