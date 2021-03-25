@@ -46,7 +46,6 @@ Vue.use(ToastPlugin)
 
 //keycloak init options
 // eslint-disable-next-line
-console.log(process.env.KEYCLOAK_AUTH_HOST );
 let initOptions = {
   url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
 }
@@ -73,7 +72,6 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
     // TODO: Maybe dont store the token in the localstore, rather use it direct from the keycloak.token object
     //localStorage.setItem("jwt", keycloak.token);
     //localStorage.setItem("refresh", keycloak.refreshToken);
-    console.log(keycloak.token);
 
     //console.log(localStorage.getItem("jwt"));
     //console.log(keycloak);

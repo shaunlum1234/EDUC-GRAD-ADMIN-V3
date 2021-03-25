@@ -22,14 +22,7 @@ export default {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     return apiClient.get('/api/v1/course/courserestrictionsearch?mainCourseLevel=' + mainCourseLevel + '&mainCourseCode=' + mainCourseCode,{ headers });
   },
-  createCourseRestriction(course,token){
-    console.log("adding Course Restriction (COURSE WEB SERVICE)" + course + token);
-    return "Added Courses, heres the response 200(COURSE WEBSERVICE)";
-  }
-  // updateCourseRestriction(course,token){
-  // }
-  // deleteCourseRestriction(course,token){
-  // }
+
 
 }
 

@@ -119,7 +119,6 @@
                               <strong>Grade at Graduation:</strong>{{ projectedStudentGradStatus.studentGradeAtGraduation }}
                             </li>
                           </ul>
-
                           <!-- Student Certifications and Diplomas -->
                           <div class="col-12 header">
                             <h4>Certification/Dogwoods</h4>
@@ -147,7 +146,6 @@
                             </li>
                           </ul>
                           <ul>
-
                             <li v-if="projectedStudentGradStatus.dualDogwoodEligibility">
                               <strong>Dual Dogwood</strong>{{ projectedStudentGradStatus.dualDogwoodEligibility }}
                             </li>
@@ -210,13 +208,8 @@
                           </ul>
                         </div>
                       </div>
-
-
-
                     </b-modal>
                   </div>
-
-
                   <button v-on:click="updateGraduationStatus(studentPen)" class="float-right w-50 btn-primary btn-sm">
                     <i class="fas fa-sync"></i> Run Graduation<br>Algorithm
                   </button>
@@ -251,8 +244,6 @@
                         {{ studentGradStatus.program }}
                       </li>
                       <li v-if="showEdit">
-
-                        {{this.programDropdownList}}
                         <strong>Program:</strong><b-input v-model='editedGradStatus.program'></b-input>      
                       </li>
                       
@@ -519,10 +510,6 @@
     },
     created() {
       this.programDropdownList = this.$store.dispatch("getGraduationPrograms");
-      console.log(this.programDropdownList);
-  
-      
-
     },
     methods: {
       makeToast(variant = null, bodyContent) {
@@ -537,7 +524,6 @@
 
         this.showEdit = true;
        
-        console.log("DROPDOWN " + this.programDropdownList);
         this.editedGradStatus.pen = this.studentGradStatus.pen;
         this.editedGradStatus.program = this.studentGradStatus.program;  
         this.editedGradStatus.gpa = this.studentGradStatus.gpa;  
@@ -555,7 +541,6 @@
             this.updateStatus = response.data;
             this.studentGradStatus.program = this.editedGradStatus.program;
             this.studentGradStatus.gpa = this.editedGradStatus.gpa;
-            console.log('Update status: ' + this.updateStatus);
             this.showTop = !this.showTop
             this.showEdit=false;
             // this.dismissCountDown = this.dismissSecs

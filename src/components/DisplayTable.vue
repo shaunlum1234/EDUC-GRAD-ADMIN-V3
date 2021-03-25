@@ -1,8 +1,9 @@
 <template>
   <b-container fluid>
-    <!-- User Interface controls -->    
+    <!-- User Interface controls -->   
+    <b-btn v-if="isAdmin && updateAllowed" v-bind:class="this.quickEdit?'btn-success':'btn-primary'" class="float-right" @click="toggleQuickEdit"><i class="far fa-edit"></i> Quick Edit</b-btn>
     <b-row>
-      <b-col  lg="7" class="pr-5 float-left">
+      <b-col lg="7" class="px-0 float-left">
         <b-button v-if="role=='administrator' && createAllowed" variant="success" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
         </b-button>
       </b-col>
@@ -31,6 +32,7 @@
       <b-button variant="success" @click="addItem" class="float-left"><i class="fas fa-plus"></i> Add</b-button>
       
     </b-row>
+
     <!-- Main table element -->
      
     
@@ -38,16 +40,15 @@
       :filter-included-fields="filterOn" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
       :sort-direction="sortDirection" stacked="sm" show-empty striped hover small @filtered="onFiltered">
     
-    
         
       <template v-for="field in editableFields" v-slot:[`cell(${field.key})`]="{ value, item, field }">
        
-        <b-input v-if="itemRow && itemRow[id] === item[id] && !deleteMode" v-model="itemRow[field.key]" :type="field.type  || 'text'"
+        <b-input v-if="itemRow && itemRow[id] === item[id] && !deleteMode" v-on:keyup="validateInput" v-model="itemRow[field.key]" :type="field.type  || 'text'"
           :key="field.key" :number="field.isNumber" style="height:auto; padding: 0px;" class="pl-2">
         </b-input>
         
         <template v-else-if="itemRow && itemRow[id] === item[id] && deleteMode"><div :key="field.key"><del class="text-danger">{{ value }}</del></div></template>
-        <template v-else>{{ value }}</template>
+        <template v-else> <div class="px-2" @click='edit(item)' v-bind:key="field.key"> {{ value }} </div></template>
       </template>
    
       <template v-slot:cell(actions)="{ item }">
@@ -64,19 +65,6 @@
         </b-btn>
       </template>
 
-      <template v-slot:cell(actions)="{ item }">
-        <b-button-group v-if="itemRow && itemRow[id] === item[id] && editMode">
-          <b-btn style="width: 60px;" variant="success" size="sm" @click="saveEdit">
-            Save
-          </b-btn>
-          <b-btn variant="outline-primary" size="sm" @click="resetEdit">
-            Cancel
-          </b-btn>
-        </b-button-group>
-        <b-btn v-else-if="role=='administrator'" variant="primary" size="sm" @click="edit(item)" class="square">
-          <i class="fas fa-edit"></i>
-        </b-btn>
-      </template>
   
       <template v-slot:cell(delete)="{ item }">
         <b-button-group v-if="itemRow && itemRow[id] === item[id] && deleteMode">
@@ -123,6 +111,7 @@
     props: ['items', 'title', 'fields', 'id', 'create','update','delete', 'slots'],
     data() {
       return {
+        quickEdit: false,
         isAdmin: false,
         updateAllowed: false,
         deleteAllowed: false,
@@ -188,7 +177,6 @@
       if(this.create && this.isAdmin){
         this.createAllowed = true;
       }
-
       if(this.update && this.isAdmin){
           this.updateAllowed = true;
            this.fields.push({
@@ -205,6 +193,7 @@
             label: 'Delete'
           });
       } 
+
       //this.itemToAdd = JSON.parse(JSON.stringify(this.items[0]));
       this.itemToAdd = {... this.items[0]} ;
       
@@ -226,6 +215,21 @@
       this.totalRows = this.items.length;
     },
     methods: {
+      toggleQuickEdit(){
+        this.quickEdit = !this.quickEdit;
+      },
+      validateInput: function(e){
+        if (e.keyCode === 27){
+          this.resetEdit()
+        
+        }else if (e.keyCode === 13) {
+          if(this.quickEdit){
+            this.saveEdit();
+          }
+        }
+        
+        
+      },
       setAdmin(role){
         console.log("ROLE : " + role);
         if(role == "administrator"){
@@ -286,18 +290,20 @@
         this.editMode = true;
         this.deleteMode = false;
         let doEdit = true;
-        if (
-          this.itemRow &&
-          !confirm(
-            "You have unsaved changes, are you sure you want to continue?"
-          )
-        ) {
-          doEdit = false;
+        if(!this.quickEdit){
+          if ((this.itemRow && 
+              !confirm(
+                "You have unsaved changes, are you sure you want to continue?"
+              ) )
+          ) {
+            doEdit = false;
+          }
         }
         if (doEdit) {
           this.itemRow = {
             ...item
           };
+          console.log("EDITED ROW")
         }
       },
       saveEdit() {
