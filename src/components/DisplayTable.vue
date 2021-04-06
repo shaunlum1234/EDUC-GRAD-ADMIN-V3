@@ -1,18 +1,29 @@
 <template>
   <b-container fluid>
-    <!-- User Interface controls -->   
-    <b-btn v-if="isAdmin && updateAllowed" v-bind:class="this.quickEdit?'btn-success':'btn-primary'" class="float-right" @click="toggleQuickEdit"><i class="far fa-edit"></i> Quick Edit</b-btn>
-    <b-row>
-      <b-col lg="7" class="px-0 float-left">
+    <!-- User Interface controls -->
+
+    <b-button-toolbar key-nav aria-label="Toolbar with button groups">
+      <b-button-group class="mx-1">
         <b-button v-if="role=='administrator' && createAllowed" variant="success" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
         </b-button>
+        <b-btn v-if="isAdmin && updateAllowed" v-bind:class="this.quickEdit?'btn-primary':'btn-primary'" class="float-right" @click="toggleQuickEdit">Edit</b-btn>
+        
+      </b-button-group>
+    
+  </b-button-toolbar>
+   
+    <!--b-btn v-if="isAdmin && updateAllowed" v-bind:class="this.quickEdit?'btn-success':'btn-primary'" class="float-right" @click="toggleQuickEdit">Edit</b-btn-->
+    <b-row>
+      <b-col lg="7" class="px-0 float-left">
+        <!--b-button v-if="role=='administrator' && createAllowed" variant="success" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
+        </b-button-->
       </b-col>
       <b-col v-if="role=='authenticated'" lg="7" class="pr-5 float-left">
       </b-col>
       <b-col lg="5" class="my-1">
         <b-form-group label="Filter" label-for="filter-input" label-cols-sm="3" label-align-sm="right" label-size="sm"
           class="mb-0">
-          <b-input-group size="sm">
+          <b-input-group >
             <b-form-input id="filter-input" v-model="filter" type="search" placeholder="Type to Search"></b-form-input>
             <b-input-group-append>
               <b-button class="mr-10" :disabled="!filter" @click="filter = ''">Clear</b-button>
