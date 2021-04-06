@@ -12,6 +12,7 @@
           <!-- Pen Input -->
           <div class="search">
             <b-input-group size="lg" class="mb-2">
+              <label for="input-none">Enter student personal education number:</label>
                 <b-form-input size="lg" type="search" 
                    v-model="penInput"
                   placeholder="For example: 123456789"

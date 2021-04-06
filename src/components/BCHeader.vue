@@ -21,7 +21,7 @@
             />
      
           </a>
-          <h1>Graduation Records and Achievement </h1>
+          <h1>Graduation Records and Achievement Data </h1>
         </div>
       </div>
     </header>
@@ -130,6 +130,7 @@ header h1 {
   font-family: ‘BCSans’, ‘Noto Sans’, Verdana, Arial, sans-serif;
   font-weight: normal; /* 400 */
   margin: 5px 5px 0 18px;
+  text-transform: none;
   visibility: hidden;
 }
 
