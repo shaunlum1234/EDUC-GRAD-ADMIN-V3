@@ -11,24 +11,50 @@
         <div class="form-group">
           <!-- Pen Input -->
           <div class="search">
-            <b-input-group size="lg" class="mb-2">
-              <label for="input-none">Enter student personal education number:</label>
-                <b-form-input size="lg" type="search" 
-                   v-model="penInput"
-                  placeholder="For example: 123456789"
+            <!--b-form-group label="Search by PEN" size="lg" class="mb-2">
+              <b-form-input
+                  size="lg" type="search" 
+                  v-model="penInput"
+                  placeholder=""
                   class="pen-search"
                   ref="penSearch"
                   v-on:keyup="keyHandler"
                   tabindex="1"
                  >
                  </b-form-input>
-              <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
-                <i class="fas fa-search"></i> Search
-              </button>
-              <button v-if="searchLoading" class="btn btn-success">
-                <i class="fas fa-search"></i> Searching
-              </button>
+                  <div class="input-group-append">
+                    <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
+                      <i class="fas fa-search"></i> Search
+                    </button>
+                    <button v-if="searchLoading" class="btn btn-success">
+                      <i class="fas fa-search"></i> Searching
+                    </button>
+                  </div>
+            </b-form-group-->
+
+            
+
+            <b-input-group class="mt-3" size="lg">
+              <b-form-input
+                size="lg" type="search" 
+                v-model="penInput"
+                placeholder=""                
+                ref="penSearch"
+                v-on:keyup="keyHandler"
+                tabindex="1"
+                style="border: 2px solid #606060; border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;" 
+              ></b-form-input>
+              <b-input-group-append>
+                <b-button v-if="!searchLoading" v-on:click="findStudentByPen" class="" variant="primary">
+                      <i class="fas fa-search"></i> Search
+                    </b-button>
+                    <b-button v-if="searchLoading" class="" variant="success">
+                      <i class="fas fa-search"></i> Searching
+                    </b-button>
+              </b-input-group-append>
             </b-input-group>
+
           </div>
           
             <b-spinner
@@ -43,6 +69,7 @@
         </form>
         <form v-on:submit.prevent>
           <!-- advanced Search -->
+          <br />
           
         <a v-on:click="showAdvancedSearch" href="#" class="ml-3">Advanced search</a>
         <transition name="fade">
@@ -460,6 +487,7 @@ h6 {
     float: left;
     clear: both;
     margin-top: 5px;
+    
 }
 .fade-enter-active {
   transition: opacity .8s;
