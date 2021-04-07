@@ -50,7 +50,6 @@ export default {
   name: "GraduationProgramRules",
   props: {
     selectedProgramCode: String,
-    selectedProgramSet: String
   },
   computed: {...mapGetters({
       token: "getToken"
@@ -59,12 +58,11 @@ export default {
     return {
       opened: [],
       graduationProgramRules:[],
-      parentSelectedProgramCode:'',
     };
   },
   created() {
-    this.parentSelectedProgramCode = this.$parent.selectedProgramCode
-    ProgramManagementService.getProgramRule(this.parentSelectedProgramCode, this.token)
+    
+    ProgramManagementService.getProgramRule(this.$route.params.selectedProgramCode, this.token)
       .then((response) => {
         this.graduationProgramRules = response.data;
       })
@@ -73,7 +71,9 @@ export default {
         console.log('There was an error:' + error.response);
       });
   },
-  methods: {},
+  methods: {
+    
+  },
 };
 </script>
 

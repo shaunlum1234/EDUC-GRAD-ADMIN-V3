@@ -88,7 +88,13 @@
         </b-btn> -->
       </template>
 
+  <template v-for="(_, slotName) of $scopedSlots" v-slot:[slotName]="scope">
+    <slot :name="slotName" v-bind="scope"/>
+  </template>
+
+
   
+    
       <template v-slot:cell(delete)="{ item }">
         <b-button-group v-if="itemRow && itemRow[id] === item[id] && deleteMode">
           <b-btn variant="danger" size="sm" @click="deleteItem(item)">
@@ -105,10 +111,9 @@
         </b-btn>
       </template>
 
-
       <template #cell(more)="row">
-        <b-btn variant='info' style="color:white" size="sm" @click="row.toggleDetails">
-          <i class="fas fa-lg fa-caret-down"></i>
+        <b-btn variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
+          <i class="fas fa-sm fa-caret-down"></i>
         </b-btn>
       </template>
 
@@ -165,7 +170,7 @@
           id: 'info-modal',
           title: '',
           content: ''
-        }
+        },
       }
     },
     computed: {
@@ -190,7 +195,6 @@
     created() {
       console.log(this.fields[this.fields.length-1].class);
       window.addEventListener('keyup', this.validateInput)
-      
       //Set up permissions from role
       this.setAdmin(this.role);
       

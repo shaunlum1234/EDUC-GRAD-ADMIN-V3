@@ -4,38 +4,14 @@
         <b-spinner v-if="!graduationPrograms.length" label="Loading"
           >Loading</b-spinner
         >
-    <div v-if="!selectedProgramCode">
+        <div v-if="!selectedProgramCode">
 
           <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="programCode"
-            v-bind:role="role" create="createProgram" delete="deleteProgram" update="updateProgram">
-          </DisplayTable>
-    
-          
-          <!-- <v-table
-            :data="graduationPrograms"
-            class="table table-sm table-hover table-striped align-middle"
-          >
-            <thead slot="head" class="">
-              <v-th sortKey="programCode">Program Code</v-th>
-              <v-th sortKey="programName">Program Name</v-th>
-            </thead>
-            <tbody slot="body" slot-scope="{ displayData }">
-              <template v-for="row in displayData">
-                <tr
-                  :key="row.programCode"
-                  v-on:click="selectGradRule(row.programCode)"
-                  v-bind:class="{
-                    'table-primary': selectedProgramCode == row.programCode,
-                  }"
-                >
-                  <td>
-                    {{ row.programCode }}
-                  </td>
-                  <td>{{ row.programName }}</td>
-                </tr>
+            v-bind:role="role" create="createProgram" delete="deleteProgram" update="updateProgram" :slots="templates">
+              <template #cell(programCode)="data">
+                <router-link :to="'/admin-graduation-programs/program/' + data.item.programCode ">{{ data.item.programCode }}</router-link>
               </template>
-            </tbody>
-          </v-table> -->
+          </DisplayTable>
         </div>
         <div class="card-body" v-if="selectedProgramCode">
           <b-button v-on:click="resetProgramCode()" type="button" class="btn btn-primary">Select another program</b-button>
@@ -45,7 +21,10 @@
             v-if="selectedProgramCode"
           ></GraduationProgramRules>
         </div> 
+      <router-view v-bind:key="$route.fullPath"></router-view>
+      
       </div>
+      
 
 </template>
 
@@ -74,14 +53,19 @@ export default {
       isHidden: false,
       opened: [],
       graduationPrograms: [],
+      templates: [
+        {
+          name: "programCode",
+          field: "programCode"
+        }
+      ],
       graduationProgramsFields: [
- {
+      {
             key: 'programCode',
             label: 'Program Code',
             sortable: true,
             sortDirection: 'desc',
             editable: true,
-            class: 'd-none',
           },
           {
             key: 'programName',
@@ -95,6 +79,7 @@ export default {
     };
   },
   created() {
+    
     ProgramManagementService.getGraduationPrograms(this.token)
       .then((response) => {
         this.graduationPrograms = response.data;

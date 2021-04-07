@@ -51,7 +51,7 @@ export default {
             }
         }
         queryString = queryString.slice(0, -1); //remove trailing ampersand
-        console.log(apiClient.get('/api/v1/pen?' + queryString,{ headers }));
-        return apiClient.get('/api/v1/pen?' + queryString,{ headers }); 
+        console.log(apiClient.get('/api/v1/studentsearch?' + queryString,{ headers }));
+        return apiClient.get('/api/v1/studentsearch?' + queryString,{ headers }); 
     }  
 }

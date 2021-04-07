@@ -9,7 +9,7 @@ import Schools from '../views/Schools.vue';
 import PSI from '../views/PSI.vue';
 import Test from '../views/Table.vue';
 import AdminGraduationPrograms from '../views/AdminGraduationPrograms.vue';
-
+import GraduationProgramRules from '../components/GraduationProgramRules.vue';
 
 Vue.use(VueRouter)
 
@@ -49,9 +49,13 @@ const routes = [{
     path: '/admin-graduation-programs',
     name: 'admin-graduation-programs',
     component: AdminGraduationPrograms,
+    children: [
+      { path: 'program/:selectedProgramCode', component: GraduationProgramRules },
+    ],
     meta: {
       requiresAuth: true
-    }
+    },
+    props: true
   },
   {
     path: '/courses',

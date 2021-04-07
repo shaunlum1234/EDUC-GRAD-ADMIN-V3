@@ -3,10 +3,10 @@
     <h1>Student search</h1>
     <p>Search by Personal Education Number(PEN) or use the advanced search tab to search by other search criteria.</p>
     <div>
-
+      
       <div>
         <b-card no-body class="p-0">
-          <b-tabs card >
+          <b-tabs card>
             <b-tab title="PEN Search" active>
               <b-card-text>
                 <p>
@@ -126,6 +126,41 @@
                   </div>
                   <div class="search-results-message"><strong><span v-if="message">{{ message }}</span></strong></div>
                 </form>
+                <transition name="fade">
+                  <v-table :data="studentSearchResults" class="table table-sm table-hover table-striped align-middle"
+                    v-show="studentSearchResults.length">
+                    <thead slot="head" class="">
+                      <v-th sortKey="pen">PEN</v-th>
+                      <v-th sortKey="legalLastName">Last name</v-th>
+                      <v-th sortKey="legalFirstName">First name</v-th>
+                      <v-th sortKey="legalMiddleNames">Middle</v-th>
+                      <v-th sortKey="dob">Birthdate</v-th>
+                      <v-th sortKey="genderCode">Gender</v-th>
+                      <v-th sortKey="gradeCode">Grade</v-th>
+                      <v-th sortKey="mincode">School code</v-th>
+                      <v-th sortKey="sc">School</v-th>
+                      <v-th sortKey="gradeYear">Program</v-th>
+                    </thead>
+                    <tbody slot="body" slot-scope="{ displayData }">
+                      <template v-for="row in displayData">
+                        <tr :key="row.pen">
+                          <td>
+                            <a href="#" v-on:click="selectStudent(row)">{{ row.pen }}</a>
+                          </td>
+                          <td>{{ row.legalLastName }}</td>
+                          <td>{{ row.legalFirstName }}</td>
+                          <td>{{ row.legalMiddleNames }}</td>
+                          <td>{{ row.dob }}</td>
+                          <td>{{ row.genderCode }}</td>
+                          <td>{{ row.gradeCode }}</td>
+                          <td>{{ row.mincode }}</td>
+                          <td>{{ row.schoolName }}</td>
+                          <td>{{ row.gradeYear }}</td>
+                        </tr>
+                      </template>
+                    </tbody>
+                  </v-table>
+                </transition>
 
 
               </b-card-text>
@@ -138,41 +173,7 @@
 
 
     </div>
-    <transition name="fade">
-      <v-table :data="studentSearchResults" class="table table-sm table-hover table-striped align-middle"
-        v-show="studentSearchResults.length">
-        <thead slot="head" class="">
-          <v-th sortKey="pen">PEN</v-th>
-          <v-th sortKey="legalLastName">Last name</v-th>
-          <v-th sortKey="legalFirstName">First name</v-th>
-          <v-th sortKey="legalMiddleNames">Middle</v-th>
-          <v-th sortKey="dob">Birthdate</v-th>
-          <v-th sortKey="genderCode">Gender</v-th>
-          <v-th sortKey="gradeCode">Grade</v-th>
-          <v-th sortKey="mincode">School code</v-th>
-          <v-th sortKey="sc">School</v-th>
-          <v-th sortKey="gradeYear">Program</v-th>
-        </thead>
-        <tbody slot="body" slot-scope="{ displayData }">
-          <template v-for="row in displayData">
-            <tr :key="row.pen">
-              <td>
-                <a href="#" v-on:click="selectStudent(row)">{{ row.pen }}</a>
-              </td>
-              <td>{{ row.legalLastName }}</td>
-              <td>{{ row.legalFirstName }}</td>
-              <td>{{ row.legalMiddleNames }}</td>
-              <td>{{ row.dob }}</td>
-              <td>{{ row.genderCode }}</td>
-              <td>{{ row.gradeCode }}</td>
-              <td>{{ row.mincode }}</td>
-              <td>{{ row.schoolName }}</td>
-              <td>{{ row.gradeYear }}</td>
-            </tr>
-          </template>
-        </tbody>
-      </v-table>
-    </transition>
+
   </div>
 </template>
 <script>
@@ -301,8 +302,9 @@
               .then((response) => {
                 console.log(response.data);
                 this.advancedSearchLoading = false;
-                this.studentSearchResults = response.data;
-                this.message = this.studentSearchResults.length + " student(s) found"
+                this.searchResults = response.data;
+                this.studentSearchResults = response.data.gradSearchStudents;
+                this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
               })
               .catch((err) => {
                 this.advancedSearchLoading = false;
@@ -502,6 +504,7 @@
     text-decoration: none;
     cursor: pointer;
   }
+
   .wild-card-button:visited {
     color: #DEE2EB;
     text-decoration: none;
@@ -510,7 +513,6 @@
   .wild-card-button.active {
     color: green
   }
-
 
   svg {
     display: none !important;
