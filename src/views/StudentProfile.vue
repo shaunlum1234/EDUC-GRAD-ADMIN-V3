@@ -4,30 +4,42 @@
     <!-- Button trigger modal -->
     <div class="row p-3 m-0">
       <div class="col-md-10 col-12">
-        <h1 class="profile-name">
-          <div v-if="studentFullName.studPen">
-
-            <span class="px-0">{{ studentFullName.studPen }}</span>
-            <label>PEN</label>
+          
+          <table v-if="!smallScreen" class="profile-name">
+            <tr>
+              <td class="align-top profile-name-header"><label>Personal Education Number</label></td>
+              <td class="align-top profile-name-header"><label>Last Name</label></td>
+              <td class="align-top profile-name-header"><label>Given Name</label></td>
+              <td class="align-top profile-name-header" v-if="studentFullName.studMiddle"><label>Middle Name</label></td>
+            </tr>
+            <tr>
+              <td class="align-top profile-name-data" v-if="studentFullName.studPen"><h1>{{ studentFullName.studPen }}</h1></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.studSurname"><h1>{{ studentFullName.studSurname }}</h1></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.studGiven"><h1>{{ studentFullName.studGiven }}</h1></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.studMiddle"><h1>{{ studentFullName.studMiddle }}</h1></td>
+            </tr>
+          </table>
+          <div v-if="smallScreen" class="profile-name">
+            <div v-if="studentFullName.studPen" class="p-0 profile-name-data">
+              <label>Personal Education Number</label>
+              <h2 class="px-0">{{ studentFullName.studPen }}</h2>
+            </div>
+            <div v-if="studentFullName.studSurname" class="p-0 profile-name-data">
+              <label>Last Name</label>
+              <h2 class="px-0">{{ studentFullName.studSurname }}</h2>
+            </div>
+            <div v-if="studentFullName.studGiven" class="p-0 profile-name-data">
+              <label>Given Name</label>
+              <h2 class="px-0">{{ studentFullName.studGiven }}</h2>
+              
+            </div>
+            <div v-if="studentFullName.studMiddle" class="p-0 profile-name-data">
+              <label>Middle Name</label>
+              <h2 class="px-0">{{ studentFullName.studMiddle }}</h2>
+            </div>
           </div>
-          <div v-if="studentFullName.studSurname">
 
-            <span class="px-0">{{ studentFullName.studSurname.trim() }},</span>
-            <label>Last Name</label>
-
-          </div>
-          <div v-if="studentFullName.studGiven">
-
-            <span class="px-0">{{ studentFullName.studGiven }}</span>
-            <label>Given Name</label>
-          </div>
-          <div v-if="studentFullName.studMiddle">
-
-            <span class="px-0">{{ studentFullName.studMiddle }}</span>
-            <label>Middle Name</label>
-          </div>
-
-        </h1>
+        
         <StudentInfo />
       </div>
       <div class="col-md-2 col-12">
@@ -52,19 +64,17 @@
 
       </div>
     </div>
-
     <div class="row col-12 p-3 m-0">
-
-
       <div class="col-4" v-if="!smallScreen">
         <StudentGraduationStatus />
       </div>
       <div class="col-md-12 col-lg-8 px-0">
         <div>
           <b-card class="py-1">
-            <b-tabs>
+            <b-tabs :pills="smallScreen">
                 <b-tab v-if="smallScreen" title="Graduation Status" class="py-3 px-0 m-1 " ref="studentCoursesTab">
                   <b-card-text>
+                    
                     <StudentGraduationStatus></StudentGraduationStatus>
                   </b-card-text>
                 </b-tab>
@@ -270,34 +280,37 @@
         StudentService.getStudentByPen(pen, this.token).then((response) => {
           this.$store.dispatch('setStudentProfile', response.data);
         }).catch((error) => {
-          console.log(error.response.status);
-          this.$bvToast.toast("ERROR " + error.response.statusText, {
-            title: "ERROR" + error.response.status,
-            variant: 'danger',
-            noAutoHide: true,
-          });
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
         });
 
         AssessmentService.getStudentAssessment(pen, this.token).then((response) => {
           this.$store.dispatch('setStudentAssessments', response.data);
         }).catch((error) => {
-          console.log(error.response.status);
-          this.$bvToast.toast("ERROR " + error.response.statusText, {
-            title: "ERROR" + error.response.status,
-            variant: 'danger',
-            noAutoHide: true,
-          });
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
         });
 
         StudentExamsService.getStudentExams(pen, this.token).then((response) => {
           this.$store.dispatch('setStudentExams', response.data);
         }).catch((error) => {
-          console.log(error.response.status);
-          this.$bvToast.toast("ERROR " + error.response.statusText, {
-            title: "ERROR" + error.response.status,
-            variant: 'danger',
-            noAutoHide: true,
-          });
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
         });
 
         GraduationStatusService.getGraduationStatus(pen, this.token).then(
@@ -305,25 +318,27 @@
             this.$store.dispatch("setStudentGradStatus", response.data);
           }
         ).catch((error) => {
-          console.log(error.response.status);
-          this.$bvToast.toast("ERROR " + error.response.statusText, {
-            title: "ERROR" + error.response.status,
-            variant: 'danger',
-            noAutoHide: true,
-          });
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
         });
         CourseAchievementService.getStudentCourseAchievements(pen, this.token).then(
           (response) => {
-            //  console.log("COURSES" + response.data)
+            console.log("COURSES" + response.data)
             this.$store.dispatch("setStudentCourses", response.data);
           }
         ).catch((error) => {
-          console.log(error.response.status);
-          this.$bvToast.toast("ERROR " + error.response.statusText, {
-            title: "ERROR" + error.response.status,
-            variant: 'danger',
-            noAutoHide: true,
-          });
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
         });
       },
 
@@ -336,6 +351,7 @@
 </script>
 
 <style scoped>
+  
   .close-record {
     float: right;
     width: 125px;
@@ -366,21 +382,11 @@
   .no-underline {
     text-decoration: none;
   }
-
-  .profile-name div {
-    float: left;
-    margin-right: 10px;
+  .profile-name-data{
+    word-break: break-all;
+    max-width:400px;
   }
-
-  .profile-name div span {
-    float: left;
-    clear: both;
-    padding: 5px;
-    margin-right: 5px;
-
-  }
-
-  .profile-name div label {
+  .profile-name label {
     font-size: 11px;
     float: left;
     clear: both;
@@ -390,12 +396,14 @@
     color: #036;
     border-bottom: 1px dotted #ccc;
   }
+  .profile-name td {
+      padding: 0px 10px
+  }
 
   #filter-dropdown {
     position: absolute;
     right: 0;
     top: 0;
-
-
   }
+
 </style>

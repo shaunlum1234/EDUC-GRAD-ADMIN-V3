@@ -6,7 +6,6 @@ const apiClient = axios.create({
 export default {
   getStudentCourseAchievements(pen, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-    //console.log("TOKEN IN SERVICE getStudentCourseAchievements: " + token);
     return apiClient.get('/api/v1/studentcourse/pen/' + pen,{ headers })
   }
 }

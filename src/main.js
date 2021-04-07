@@ -74,7 +74,7 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
     //localStorage.setItem("refresh", keycloak.refreshToken);
 
     //console.log(localStorage.getItem("jwt"));
-    //console.log(keycloak);
+    console.log(keycloak.token);
     setInterval(() =>{
       keycloak.updateToken(70).success((refreshed)=>{
         if (refreshed) {

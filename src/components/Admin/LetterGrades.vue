@@ -54,6 +54,7 @@ export default {
   computed: {
     ...mapGetters({  
       token: "getToken",
+      role: "getRoles"
     }),
   },
   methods: {

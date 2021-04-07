@@ -31,7 +31,7 @@
           <b-card-body>
             <b-card-text>
               <div class="row">
-                <div class="col-12">
+                <div class="col-12 px-0">
                   <div>
                     <button @click="projectGraduationStatus(studentPen)" class="w-50 float-left btn-primary btn-sm">
                       <i class="fas fa-eye"></i> Projected<br> Graduation Status

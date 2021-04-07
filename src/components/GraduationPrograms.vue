@@ -75,13 +75,13 @@ export default {
       opened: [],
       graduationPrograms: [],
       graduationProgramsFields: [
-          {
+ {
             key: 'programCode',
             label: 'Program Code',
             sortable: true,
             sortDirection: 'desc',
             editable: true,
-            class: 'w-1',
+            class: 'd-none',
           },
           {
             key: 'programName',

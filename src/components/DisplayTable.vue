@@ -1,17 +1,17 @@
 <template>
   <b-container fluid>
     <!-- User Interface controls -->   
-    <b-btn v-if="isAdmin && updateAllowed" v-bind:class="this.quickEdit?'btn-success':'btn-primary'" class="float-right" @click="toggleQuickEdit"><i class="far fa-edit"></i> Quick Edit</b-btn>
+    <b-btn v-if="isAdmin && updateAllowed" v-bind:class="this.quickEdit?'btn-success':'btn-primary'" size="sm" class="float-right m-1" @click="toggleQuickEdit"><i class="far fa-edit"></i></b-btn>
     <b-row>
       <b-col lg="7" class="px-0 float-left">
-        <b-button v-if="role=='administrator' && createAllowed" variant="success" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
+        <b-button v-if="role=='administrator' && createAllowed && !addMode" variant="success" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
         </b-button>
       </b-col>
       <b-col v-if="role=='authenticated'" lg="7" class="pr-5 float-left">
       </b-col>
       <b-col lg="5" class="my-1">
         <b-form-group label="Filter" label-for="filter-input" label-cols-sm="3" label-align-sm="right" label-size="sm"
-          class="mb-0">
+          class="">
           <b-input-group size="sm">
             <b-form-input id="filter-input" v-model="filter" type="search" placeholder="Type to Search"></b-form-input>
             <b-input-group-append>
@@ -22,15 +22,23 @@
       </b-col>
       
     </b-row>
-    <b-row lg="12" v-if="addMode">
-      <div v-for="field in this.fields" v-bind:key="field.key" class="col-6">
-        <div v-if="field.key != 'delete' && field.key != 'actions' && field.key != 'more' && field['editable']">
-          {{ field.label }} <b-input v-model="itemToAdd[field.key]"></b-input>
-        </div>
-      </div>
-      <b-button variant="outline-primary" @click="cancelAddItem" class="float-left btn-outline-primary">Cancel</b-button>
-      <b-button variant="success" @click="addItem" class="float-left"><i class="fas fa-plus"></i> Add</b-button>
-      
+    <b-row lg="12" v-if="addMode" class="card my-4">
+        <b-card
+          :title="'Add'+title"
+          class="mb-1 mt-1"
+        >
+        <b-card-text>
+          <div v-for="field in this.fields" v-bind:key="field.key" class="col-6">
+            <div v-if="field.key != 'delete' && field.key != 'actions' && field.key != 'more' && field.editable">
+              {{ field.label }} <b-input v-model="itemToAdd[field.key]"></b-input>
+            </div>
+          </div>
+          <div class="col-12 my-3">
+            <b-button variant="outline-primary" @click="cancelAddItem" class="float-left btn-outline-primary">Cancel</b-button>
+            <b-button variant="success" @click="addItem" class="float-left"><i class="fas fa-plus"></i> Add</b-button>
+          </div>
+        </b-card-text>
+      </b-card>
     </b-row>
 
     <!-- Main table element -->
@@ -48,7 +56,9 @@
         </b-input>
         
         <template v-else-if="itemRow && itemRow[id] === item[id] && deleteMode"><div :key="field.key"><del class="text-danger">{{ value }}</del></div></template>
-        <template v-else> <div class="px-2" @click='edit(item)' v-bind:key="field.key"> {{ value }} </div></template>
+        <template v-else> 
+            <div v-if="quickEdit" class="px-2" @click='edit(item)' v-bind:key="field.key"> {{ value }} </div>
+            <div v-if="!quickEdit" class="px-2" v-bind:key="field.key"> {{ value }} </div></template>
       </template>
    
       <template v-slot:cell(actions)="{ item }">
@@ -56,13 +66,15 @@
           <b-btn style="width: 60px;" variant="success" size="sm" @click="saveEdit">
             Save
           </b-btn>
-          <b-btn variant="outline-primary" size="sm" @click="resetEdit">
+          <!-- <b-btn variant="outline-primary" size="sm" @click="resetEdit">
             Cancel
-          </b-btn>
+          </b-btn> -->
         </b-button-group>
-        <b-btn v-else-if="role=='administrator'" variant="primary" size="sm" @click="edit(item)" class="square">
+
+        
+        <!-- <b-btn v-else-if="role=='administrator'" variant="primary" size="sm" @click="edit(item)" class="square">
           <i class="fas fa-edit"></i>
-        </b-btn>
+        </b-btn> -->
       </template>
 
   
@@ -71,16 +83,17 @@
           <b-btn variant="danger" size="sm" @click="deleteItem(item)">
             Delete
           </b-btn>
-          <b-btn variant="outline-primary" size="sm" 
+          <!-- <b-btn variant="outline-primary" size="sm" 
           @click="cancelDelete()">
             Cancel
-          </b-btn>
-
+          </b-btn> -->
         </b-button-group>
-        <b-btn v-else-if="role=='administrator'" variant="danger" size="sm" @click="confirmDelete(item)"  class="square">
+        
+        <b-btn v-else-if="role=='administrator' && quickEdit" variant="danger" size="sm" @click="confirmDelete(item)"  class="square">
           <i class="fas fa-lg fa-times"></i>
         </b-btn>
       </template>
+
 
       <template #cell(more)="row">
         <b-btn variant='info' style="color:white" size="sm" @click="row.toggleDetails">
@@ -91,10 +104,10 @@
       <template #row-details="row">
         <b-card>
           <ul>
-            <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
+            <li v-for="(value, key, index) in row.item" :key="index">{{ key }}: {{ value }}</li>
           </ul>
         </b-card>
-      </template>
+      </template> 
 
     </b-table>
 
@@ -117,7 +130,7 @@
         deleteAllowed: false,
         createAllowed: false,
         editMode: false,
-        deleteMode: false,
+        deleteMode: true,
         addMode: false,
         itemToAdd: [],
         showConfirm: false,
@@ -164,7 +177,9 @@
       }
     },
     created() {
-
+      console.log(this.fields[this.fields.length-1].class);
+      window.addEventListener('keyup', this.validateInput)
+      
       //Set up permissions from role
       this.setAdmin(this.role);
       
@@ -181,7 +196,7 @@
           this.updateAllowed = true;
            this.fields.push({
             key: 'actions',
-            class: 'text-right',
+            class: 'd-none',
             label: 'Edit'
           });
       }
@@ -189,7 +204,7 @@
         this.deleteAllowed = true;
           this.fields.push({
             key: 'delete',
-            class: 'text-left',
+            class: 'd-none',
             label: 'Delete'
           });
       } 
@@ -198,17 +213,12 @@
       this.itemToAdd = {... this.items[0]} ;
       
       for(var i = 0; i < this.fields.length; i++){
-        console.log(this.itemToAdd[this.fields[i].key]);
         this.itemToAdd[this.fields[i].key] = "";
       }
     
       // for (var i = 0; i < this.fields.length; i++) {
       //   this.itemToAdd[this.fields[i].key] = "N/A";
       // }
-
-      console.log("FIELDS" + this.fields);
-      console.log("CREATED" + this.itemsToAdd);
-     
     },
     mounted() {
       // Set the initial number of items
@@ -217,21 +227,36 @@
     methods: {
       toggleQuickEdit(){
         this.quickEdit = !this.quickEdit;
+        this.resetEdit();
+        if(this.quickEdit){
+          this.fields[this.fields.length-1].class = "d-block";
+           this.fields[this.fields.length-2].class = "d-block";
+           console.log(this.fields[this.fields.length-1].class);
+        }else{
+          this.fields[this.fields.length-1].class = "d-none";
+          this.fields[this.fields.length-2].class = "d-none";
+        }
       },
       validateInput: function(e){
-        if (e.keyCode === 27){
-          this.resetEdit()
         
-        }else if (e.keyCode === 13) {
-          if(this.quickEdit){
-            this.saveEdit();
+          if (e.keyCode === 27){
+            if(this.editMode){
+              this.resetEdit();
+            }else if(this.deleteMode){
+              this.cancelDelete();
+            }
+          
+          }else if (e.keyCode === 13) {
+            if(this.quickEdit && this.editMode){
+              this.saveEdit();
+            }
           }
-        }
+        
+
         
         
       },
       setAdmin(role){
-        console.log("ROLE : " + role);
         if(role == "administrator"){
           this.isAdmin = true;
         }else{
@@ -248,7 +273,6 @@
           title: "Success",
           variant: 'success',
         });
-        console.log(this.itemToAdd);
         this.$store.dispatch(this.create, this.itemToAdd);
     
       },
@@ -256,7 +280,6 @@
         this.addMode = false;
       },
       deleteItem(item) {
-        console.log("DELETING: " + item[this.id]);
         this.$store.dispatch(this.delete, item[this.id]);
         this.items.splice(this.items.indexOf(item), 1)
         this.$bvToast.toast("Record was deleted", {
@@ -303,7 +326,6 @@
           this.itemRow = {
             ...item
           };
-          console.log("EDITED ROW")
         }
       },
       saveEdit() {
