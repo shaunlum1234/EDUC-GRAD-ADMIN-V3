@@ -2,8 +2,8 @@
   <div>
     <b-card no-body class="col-12 px-0 mx-0" v-if="!hasGradStatus">
 
-      <b-button block v-b-toggle.accordion-1 variant="info" class="text-left"><i class="fas fa-info-circle primary"></i>
-        Student graduation
+      <b-button block v-b-toggle.accordion-1 variant="primary" class="text-left">
+        Graduation
         information</b-button>
 
       <b-card-body>
@@ -12,7 +12,7 @@
           <div v-if="!hasGradStatus">
 
 
-            <i class="fas fa-info-circle primary"></i> {{studentFullName.studGiven }} does not have a Graduation Status
+            {{studentFullName.studGiven }} does not have a Graduation Status
 
           </div>
         </b-card-text>

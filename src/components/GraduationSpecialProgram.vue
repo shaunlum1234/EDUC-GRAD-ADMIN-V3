@@ -4,7 +4,7 @@
           >Loading</b-spinner
         >
         <DisplayTable v-bind:items="graduationSpecialPrograms" title="Special Programs" v-bind:fields="graduationSpecialProgramsFields" id="id"
-            v-bind:role="role" create="createProgram" delete="deleteProgram" update="updateProgram">
+            v-bind:role="role" create="createSpecialProgram" delete="deleteSpecialProgram" update="updateSpecialProgram">
         </DisplayTable>
         <!-- <div class="card-body" v-if="!selectedProgramId">
           <v-table
@@ -73,6 +73,14 @@ export default {
       selectedProgramId: "",
       selectedId:'',
       graduationSpecialProgramsFields: [
+          {
+            key: 'programCode',
+            label: 'Program Code',
+            sortable: true,
+            sortDirection: 'desc',
+            editable: true,
+            class: 'w-1',
+          },
           {
             key: 'specialProgramCode',
             label: 'Special Program Code',
