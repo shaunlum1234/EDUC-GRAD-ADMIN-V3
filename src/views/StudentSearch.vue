@@ -13,11 +13,10 @@
                   <div class="form-group">
                     <!-- Pen Input -->
                     <div class="search">
-                      <div class="mt-2"></div>
-                      <label for="search-by-pen">Search by PEN:</label>
+                        <label for="search-by-pen">Search by PEN:</label>
                         
-                        <b-form-input id="search-by-pen" size="md" type="search" v-model="penInput" placeholder="For example: 123456789"
-                          class="pen-search text_input" ref="penSearch" v-on:keyup="keyHandler" tabindex="1">
+                        <b-form-input id="search-by-pen" size="lg" type="search" v-model="penInput" placeholder=""
+                          class="text_input" ref="penSearch" v-on:keyup="keyHandler" tabindex="1">
                         </b-form-input>
                         <button v-if="!searchLoading" v-on:click="findStudentByPen" class="BC-Gov-PrimaryButton">
                           <i class="fas fa-search"></i> Search
@@ -52,7 +51,7 @@
 
 
                   <div class="advanced-search-form">
-                    <div class="row">
+                    <div class="row my-3">
                       <div class="advanced-search-field col-12 col-md-3">
                         <label>First Name </label>
                         <div href="#"
