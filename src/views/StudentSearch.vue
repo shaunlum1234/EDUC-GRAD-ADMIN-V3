@@ -1,7 +1,7 @@
 <template>
   <div class="studentlist">
     <h1>Student search</h1>
-    <p>Search by Personal Education Number(PEN) or use the advanced search tab to search by other search criteria.</p>
+    
     <div>
       
       <div>
@@ -14,11 +14,10 @@
                   <div class="form-group">
                     <!-- Pen Input -->
                     <div class="search">
-                      <div class="mt-2"></div>
                       <label for="search-by-pen">Search by PEN:</label>
-                      <b-input-group size="md" class="mb-2">
+                      <b-input-group size="lg" class="mb-2">
                         
-                        <b-form-input id="search-by-pen" size="md" type="search" v-model="penInput" placeholder="For example: 123456789"
+                        <b-form-input id="search-by-pen" size="lg" type="search" v-model="penInput" placeholder=""
                           class="pen-search" ref="penSearch" v-on:keyup="keyHandler" tabindex="1">
                         </b-form-input>
                         <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
@@ -398,7 +397,7 @@
   .card,
   input {
     padding: 5px;
-    border-radius: 0px !important
+    
   }
 
   .primary {
@@ -410,7 +409,17 @@
     margin-right: 9px;
     float: left;
     /*padding-left: 25px;*/
+    border: 2px solid #606060;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 25px;
+    
   }
+
+  .pen-search[type="search"]:focus {
+    outline: 4px solid #3B99FC;
+    outline-offset: 1px;
+}
 
   h6 {
     font-size: 1.5rem;
