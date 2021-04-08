@@ -9,18 +9,16 @@
           <b-tabs card>
             <b-tab title="PEN Search" active>
               <b-card-text>
-                <p>
-                  Enter a Personal Education Number (PEN) to retrieve a student’s graduation and achievement data.
-                </p>
+                
                 <form v-on:submit.prevent>
                   <div class="form-group">
                     <!-- Pen Input -->
                     <div class="search">
-             
-                        <div class="w-100 float-left">
-                          <label class="text_label">Personal Education Number</label>
-                        </div>
-                        <b-form-input size="md" type="text" v-model="penInput"
+                      <div class="mt-2"></div>
+                      <label for="search-by-pen">Search by PEN:</label>
+                      <b-input-group size="md" class="mb-2">
+                        
+                        <b-form-input id="search-by-pen" size="md" type="search" v-model="penInput" placeholder="For example: 123456789"
                           class="pen-search text_input" ref="penSearch" v-on:keyup="keyHandler" tabindex="1">
                         </b-form-input>
                         <button v-if="!searchLoading" v-on:click="findStudentByPen" class="BC-Gov-PrimaryButton">
@@ -404,7 +402,7 @@
     width: 100%;
     margin-right: 9px;
     float: left;
-    padding-left: 25px;
+    /*padding-left: 25px;*/
   }
 
   h6 {
