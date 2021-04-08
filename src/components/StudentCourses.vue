@@ -2,7 +2,7 @@
   <div>
     <div class="table-responsive">
       
-      <div v-if="gradStatusPendingUpdates.length">
+      <!-- <div v-if="gradStatusPendingUpdates.length">
         <b-card-group deck >
           <b-card v-bind:header="'Student Record Changes - Last Updated ' + studentGradStatus.updatedTimestamp" header-tag="header" footer-tag="footer">
             <b-card-text>
@@ -18,7 +18,7 @@
             </b-button>
           </b-card>
         </b-card-group>
-      </div>
+      </div> -->
 
       <b-spinner v-if="!courses.length" label="Loading">Loading</b-spinner>
 

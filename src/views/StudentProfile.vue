@@ -42,7 +42,7 @@
         
         <StudentInfo />
       </div>
-      <div class="col-md-2 col-12">
+      <div v-if="role=='administrator'" class="col-md-2 col-12">
         <div class="row px-0">
           <b-button v-on:click="closeRecord" variant="primary" size="sm" class="col-6 col-md-12 close-record">
             <i class="far fa-times-circle"></i> Close

@@ -3,7 +3,6 @@
     <h1>Student search</h1>
     <p>Search by Personal Education Number(PEN) or use the advanced search tab to search by other search criteria.</p>
     <div>
-      
       <div>
         <b-card no-body class="p-0">
           <b-tabs card>
@@ -125,8 +124,9 @@
                         v-show="advancedSearchLoading" class="advanced-loading-spinner"></b-spinner>
                     </div>
                   </div>
-                  <div class="search-results-message"><strong><span v-if="message">{{ message }}</span></strong></div>
+                  
                 </form>
+                
                 <transition name="fade">
                   <v-table :data="studentSearchResults" class="table table-sm table-hover table-striped align-middle"
                     v-show="studentSearchResults.length">
@@ -169,8 +169,7 @@
           </b-tabs>
         </b-card>
       </div>
-
-
+      <b-alert show v-if="message">{{message}}</b-alert>
 
 
     </div>
