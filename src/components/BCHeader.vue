@@ -41,9 +41,9 @@
         <ul class="navbar-nav mr-auto">
           <li>
             <!-- <router-link to="/">Select Student</router-link> -->
-            <a href="#" class="nav-link" @click="selectStudent()">Select Student</a>
+            <a href="#" class="nav-link" @click="selectStudent()">Student search</a>
           </li>
-          <li><router-link to="/admin-graduation-programs">Program Management</router-link></li>
+          <li><router-link to="/admin-graduation-programs">Program management</router-link></li>
           <li><router-link to="/courses">Courses</router-link></li>
           <li><router-link to="/schools">Schools</router-link></li>
           <li><router-link to="/psi">PSI</router-link></li>
