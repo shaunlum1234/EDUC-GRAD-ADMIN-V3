@@ -1,7 +1,7 @@
 <template>
   <div class="studentlist">
     <h1>Student search</h1>
-    
+    <p>Search by Personal Education Number(PEN) or use the advanced search tab to search by other search criteria.</p>
     <div>
       
       <div>
@@ -14,23 +14,24 @@
                   <div class="form-group">
                     <!-- Pen Input -->
                     <div class="search">
+                      <div class="mt-2"></div>
                       <label for="search-by-pen">Search by PEN:</label>
-                      <b-input-group size="lg" class="mb-2">
                         
-                        <b-form-input id="search-by-pen" size="lg" type="search" v-model="penInput" placeholder=""
-                          class="pen-search" ref="penSearch" v-on:keyup="keyHandler" tabindex="1">
+                        <b-form-input id="search-by-pen" size="md" type="search" v-model="penInput" placeholder="For example: 123456789"
+                          class="pen-search text_input" ref="penSearch" v-on:keyup="keyHandler" tabindex="1">
                         </b-form-input>
-                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
+                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="BC-Gov-PrimaryButton">
                           <i class="fas fa-search"></i> Search
                         </button>
-                        <button v-if="searchLoading" class="btn btn-success">
-                          <i class="fas fa-search"></i> Searching
+                        <button v-if="searchLoading" class="btn btn-success BC-Gov-PrimaryButton">
+                          <i class="fas fa-search"></i> Search <b-spinner v-for="variant in variants" :variant="variant" :key="variant" v-show="searchLoading"
+                      class="loading-spinner float-right"></b-spinner>
                         </button>
-                      </b-input-group>
+                        
+                  
                     </div>
 
-                    <b-spinner v-for="variant in variants" :variant="variant" :key="variant" v-show="searchLoading"
-                      class="loading-spinner"></b-spinner>
+                    
 
                   </div>
                 </form>
@@ -395,31 +396,13 @@
 <style scoped>
   .alert,
   .card,
-  input {
-    padding: 5px;
-    
-  }
-
-  .primary {
-    color: #003366;
-  }
 
   .pen-search {
     width: 100%;
     margin-right: 9px;
     float: left;
     /*padding-left: 25px;*/
-    border: 2px solid #606060;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    border-radius: 25px;
-    
   }
-
-  .pen-search[type="search"]:focus {
-    outline: 4px solid #3B99FC;
-    outline-offset: 1px;
-}
 
   h6 {
     font-size: 1.5rem;
@@ -448,9 +431,6 @@
     margin-top: 15px;
   }
 
-  .search-student-dropdown {
-    border-radius: 0px;
-  }
 
   .search-results-message {
     float: left;
