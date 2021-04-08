@@ -67,11 +67,6 @@ export default {
       .then((response) => {
         this.graduationProgramSets = response.data;
         //console.log('Graduation Program Sets: ' + this.graduationProgramSets);
-      })
-     
-      .catch((error) => {
-         // eslint-disable-next-line no-unused-vars
-        //console.log('There was an error:' + error.response);
       });
 
       //  GradeService.getGrades(localStorage.getItem('jwt'))

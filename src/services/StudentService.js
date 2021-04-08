@@ -33,7 +33,7 @@ export default {
     //     return apiClient.get('/api/v1/studentsearch?' + queryString,{ headers }); 
     // }  
 
-    getStudentsByAdvancedSearch(advancedSearchInput, token){
+    getStudentsByAdvancedSearch(advancedSearchInput, token, pageNumber=3, pageSize=10){
         const headers = { Accept: 'application/json','Content-Type': 'application/json','Access-Control-Allow-Origin': '*','Authorization': 'Bearer '+ token }
         //console.log("TOKEN IN SERVICE getStudentsByAdvancedSearch " + token);
         let queryString = ""
@@ -50,8 +50,7 @@ export default {
                 }
             }
         }
-        queryString = queryString.slice(0, -1); //remove trailing ampersand
         console.log(apiClient.get('/api/v1/studentsearch?' + queryString,{ headers }));
-        return apiClient.get('/api/v1/studentsearch?' + queryString,{ headers }); 
+        return apiClient.get('/api/v1/studentsearch?' + queryString  + "pageSize=" + pageSize + "&pageNumber=" + pageNumber,{ headers }); 
     }  
 }

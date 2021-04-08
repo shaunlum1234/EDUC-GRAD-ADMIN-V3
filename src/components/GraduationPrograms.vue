@@ -66,12 +66,14 @@ export default {
             sortable: true,
             sortDirection: 'desc',
             editable: true,
+            class: 'w-25',
           },
           {
             key: 'programName',
             label: 'Program Name',
             sortable: true,
-            editable: true
+            editable: true,
+            class: 'w-75',
           }
         ],
       selectedProgramCode: "",

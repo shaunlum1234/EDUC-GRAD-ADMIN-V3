@@ -10,6 +10,10 @@ import PSI from '../views/PSI.vue';
 import Test from '../views/Table.vue';
 import AdminGraduationPrograms from '../views/AdminGraduationPrograms.vue';
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
+import GraduationProgramSets from '../components/GraduationProgramSets.vue';
+import GraduationPrograms from '@/components/GraduationPrograms';
+import GraduationSpecialPrograms from '@/components/GraduationSpecialProgram';
+import SpecialProgramRules from '@/components/GraduationSpecialProgramRules';
 
 Vue.use(VueRouter)
 
@@ -49,8 +53,25 @@ const routes = [{
     path: '/admin-graduation-programs',
     name: 'admin-graduation-programs',
     component: AdminGraduationPrograms,
+    // children: [
+    //   { path: '', 
+    //     components: {
+    //       program : GraduationPrograms,
+    //       specialProgram: GraduationSpecialPrograms 
+    //     }
+    //   },
+    //   { path: 'program/:selectedProgramCode', components: { program : GraduationProgramRules} },
+    //   { path: 'program/:selectedProgramCode/:rule', components: { progran : GraduationProgramSets} },
+    // ],
     children: [
+      { path: '', 
+        component: GraduationPrograms,
+      },
+      { path: 'programs/', component: GraduationPrograms },
       { path: 'program/:selectedProgramCode', component: GraduationProgramRules },
+      { path: 'program/:selectedProgramCode/:rule', component: GraduationProgramSets },
+      { path: 'special-programs/', component: GraduationSpecialPrograms },
+      { path: 'special-programs/:selectedSpecialProgramCode', component: SpecialProgramRules },
     ],
     meta: {
       requiresAuth: true

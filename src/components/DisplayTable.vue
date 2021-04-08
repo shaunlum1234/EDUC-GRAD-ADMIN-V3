@@ -1,12 +1,12 @@
 <template>
-  <b-container fluid>
+  <b-container fluid class="m-0 p-0">
     <!-- User Interface controls -->
 
-    <b-button-toolbar key-nav aria-label="Toolbar with button groups">
+    <b-button-toolbar key-nav aria-label="Toolbar with button groups" class="float-left">
       <b-button-group class="mx-1">
-        <b-button v-if="role=='administrator' && createAllowed" variant="success" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
+        <b-button v-if="role=='administrator' && createAllowed" variant="success" size="sm" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
         </b-button>
-        <b-btn v-if="isAdmin && updateAllowed" v-bind:class="this.quickEdit?'btn-primary':'btn-primary'" class="float-right" @click="toggleQuickEdit">Edit</b-btn>
+        <b-btn v-if="isAdmin && updateAllowed" v-bind:class="this.quickEdit?'btn-primary':'btn-primary'" size="sm" class="float-right" @click="toggleQuickEdit">Edit</b-btn>
         
       </b-button-group>
     
@@ -45,8 +45,10 @@
             </div>
           </div>
           <div class="col-12 my-3">
-            <b-button variant="outline-primary" @click="cancelAddItem" class="float-left btn-outline-primary">Cancel</b-button>
-            <b-button variant="success" @click="addItem" class="float-left"><i class="fas fa-plus"></i> Add</b-button>
+            <b-button-toolbar key-nav aria-label="Toolbar with button groups" class="float-left">
+              <b-button variant="outline-primary" size="sm" @click="cancelAddItem" class="float-left btn-outline-primary">Cancel</b-button>
+              <b-button variant="success" size="sm" @click="addItem" class="float-left"><i class="fas fa-plus"></i> Add</b-button>
+            </b-button-toolbar>
           </div>
         </b-card-text>
       </b-card>
@@ -81,8 +83,6 @@
             Cancel
           </b-btn> -->
         </b-button-group>
-
-        
         <!-- <b-btn v-else-if="role=='administrator'" variant="primary" size="sm" @click="edit(item)" class="square">
           <i class="fas fa-edit"></i>
         </b-btn> -->

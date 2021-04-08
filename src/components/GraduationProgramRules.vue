@@ -25,7 +25,7 @@
             @click="toggle(row.ruleCode + row.requirementName)"
             :class="{ opened: opened.includes(row.ruleCode) }"
           >
-            <td>{{ row.ruleCode }}</td>
+            <td><router-link :to="'/admin-graduation-programs/program/' + row.programCode + '/' + row.ruleCode  "> {{ row.ruleCode }}</router-link></td>
             <td>{{ row.requirementName }}</td>
             <td>{{ row.requiredCredits }}</td>
             <td>{{ row.notMetDesc }}</td>
