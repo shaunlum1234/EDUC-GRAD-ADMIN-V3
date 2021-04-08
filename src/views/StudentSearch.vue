@@ -16,7 +16,6 @@
                     <div class="search">
                       <div class="mt-2"></div>
                       <label for="search-by-pen">Search by PEN:</label>
-                      <b-input-group size="md" class="mb-2">
                         
                         <b-form-input id="search-by-pen" size="md" type="search" v-model="penInput" placeholder="For example: 123456789"
                           class="pen-search text_input" ref="penSearch" v-on:keyup="keyHandler" tabindex="1">
