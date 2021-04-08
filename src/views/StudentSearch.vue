@@ -16,21 +16,25 @@
                   <div class="form-group">
                     <!-- Pen Input -->
                     <div class="search">
-                      <b-input-group size="md" class="mb-2">
-                        <b-form-input size="md" type="search" v-model="penInput" placeholder="For example: 123456789"
-                          class="pen-search" ref="penSearch" v-on:keyup="keyHandler" tabindex="1">
+             
+                        <div class="w-100 float-left">
+                          <label class="text_label">Personal Education Number</label>
+                        </div>
+                        <b-form-input size="md" type="text" v-model="penInput"
+                          class="pen-search text_input" ref="penSearch" v-on:keyup="keyHandler" tabindex="1">
                         </b-form-input>
-                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
+                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="BC-Gov-PrimaryButton">
                           <i class="fas fa-search"></i> Search
                         </button>
-                        <button v-if="searchLoading" class="btn btn-success">
-                          <i class="fas fa-search"></i> Searching
+                        <button v-if="searchLoading" class="btn btn-success BC-Gov-PrimaryButton">
+                          <i class="fas fa-search"></i> Search <b-spinner v-for="variant in variants" :variant="variant" :key="variant" v-show="searchLoading"
+                      class="loading-spinner float-right"></b-spinner>
                         </button>
-                      </b-input-group>
+                        
+                  
                     </div>
 
-                    <b-spinner v-for="variant in variants" :variant="variant" :key="variant" v-show="searchLoading"
-                      class="loading-spinner"></b-spinner>
+                    
 
                   </div>
                 </form>
@@ -395,14 +399,6 @@
 <style scoped>
   .alert,
   .card,
-  input {
-    padding: 5px;
-    border-radius: 0px !important
-  }
-
-  .primary {
-    color: #003366;
-  }
 
   .pen-search {
     width: 100%;
@@ -438,9 +434,6 @@
     margin-top: 15px;
   }
 
-  .search-student-dropdown {
-    border-radius: 0px;
-  }
 
   .search-results-message {
     float: left;

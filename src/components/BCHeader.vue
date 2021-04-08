@@ -126,7 +126,7 @@ header {
 }
 
 header h1 {
-  font-family: ‘BCSans’, ‘Noto Sans’, Verdana, Arial, sans-serif;
+  font-family: 'BC Sans', 'Noto Sans', Verdana, Arial, sans-serif;
   font-weight: normal; /* 400 */
   margin: 5px 5px 0 18px;
   text-transform: none;
