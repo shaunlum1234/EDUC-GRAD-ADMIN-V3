@@ -52,7 +52,7 @@
 
 
                   <div class="advanced-search-form">
-                    <div class="row">
+                    <div class="row my-3">
                       <div class="advanced-search-field col-12 col-md-3">
                         <label>First Name </label>
                         <div href="#"
