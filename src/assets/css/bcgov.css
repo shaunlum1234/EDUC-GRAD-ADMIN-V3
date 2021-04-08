@@ -48,7 +48,7 @@ text-decoration: underline;
 opacity: 0.80;
 }
 
-:focus {
+.text_input:focus {
 outline: 4px solid #3B99FC;
 outline-offset: 1px;
 }
