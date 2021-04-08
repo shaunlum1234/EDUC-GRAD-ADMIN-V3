@@ -61,7 +61,7 @@
                           v-b-tooltip.hover title="First Name Contains">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.legalFirstName.value" placeholder="John"
+                        <b-input v-model="advancedSearchInput.legalFirstName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="2" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-3">
@@ -72,7 +72,7 @@
                           v-b-tooltip.hover title="Last Name Contains">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.legalLastName.value" placeholder="Smith"
+                        <b-input v-model="advancedSearchInput.legalLastName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="3" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-3">
@@ -83,34 +83,34 @@
                           class="wild-card-button" v-b-tooltip.hover title="Middle Name Contains">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.legalMiddleNames.value" placeholder="Middle Name"
+                        <b-input v-model="advancedSearchInput.legalMiddleNames.value" placeholder=""
                           v-on:keyup=" keyHandler" tabindex="4" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-3">
                         <label>Gender</label>
-                        <b-input v-model="advancedSearchInput.gender.value" placeholder="M|F" v-on:keyup="keyHandler"
+                        <b-input v-model="advancedSearchInput.gender.value" placeholder="" v-on:keyup="keyHandler"
                           tabindex="5" />
                       </div>
                     </div>
                     <div class="row">
                       <div class="advanced-search-field col-12 col-md-3">
                         <label>Grade</label>
-                        <b-input v-model="advancedSearchInput.grade.value" placeholder="12" v-on:keyup=" keyHandler"
+                        <b-input v-model="advancedSearchInput.grade.value" placeholder="" v-on:keyup=" keyHandler"
                           tabindex="6" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-3">
                         <label>Mincode</label>
-                        <b-input v-model="advancedSearchInput.mincode.value" placeholder="12345678"
+                        <b-input v-model="advancedSearchInput.mincode.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="7" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-3">
                         <label>Local ID</label>
-                        <b-input v-model="advancedSearchInput.localId.value" placeholder="063" v-on:keyup=" keyHandler"
+                        <b-input v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
                           tabindex="8" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-3">
                         <label>Birthdate</label>
-                        <b-input v-model="advancedSearchInput.birthDate.value" placeholder="MM|DD|YYYY"
+                        <b-input v-model="advancedSearchInput.birthDate.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="9" />
                       </div>
                       <div class="advanced-search-button">
