@@ -305,6 +305,13 @@
             class: 'w-1',
           },
           {
+            key: 'genderCode',
+            label: 'Gender',
+            sortable: true,
+            editable: false,
+            class: 'w-1',
+          },
+          {
             key: 'schoolName',
             label: 'School (SLD)',
             sortable: true,
