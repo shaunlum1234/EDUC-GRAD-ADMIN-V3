@@ -174,12 +174,6 @@
           </b-tabs>
         </b-card>
       </div>
-<<<<<<< HEAD
-      <b-alert show v-if="message">{{message}}</b-alert>
-
-
-=======
->>>>>>> e1ac981147f06db0e4d12d51f64dfc34972db3db
     </div>
   </div>
 </template>
