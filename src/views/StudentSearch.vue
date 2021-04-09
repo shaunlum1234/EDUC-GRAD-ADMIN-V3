@@ -60,7 +60,7 @@
                           v-b-tooltip.hover title="First Name Contains">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.legalFirstName.value" placeholder="John"
+                        <b-input v-model="advancedSearchInput.legalFirstName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="2" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-3">
@@ -71,7 +71,7 @@
                           v-b-tooltip.hover title="Last Name Contains">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.legalLastName.value" placeholder="Smith"
+                        <b-input v-model="advancedSearchInput.legalLastName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="3" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-3">
@@ -82,34 +82,34 @@
                           class="wild-card-button" v-b-tooltip.hover title="Middle Name Contains">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.legalMiddleNames.value" placeholder="Middle Name"
+                        <b-input v-model="advancedSearchInput.legalMiddleNames.value" placeholder=""
                           v-on:keyup=" keyHandler" tabindex="4" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-3">
                         <label>Gender</label>
-                        <b-input v-model="advancedSearchInput.gender.value" placeholder="M|F" v-on:keyup="keyHandler"
+                        <b-input v-model="advancedSearchInput.gender.value" placeholder="" v-on:keyup="keyHandler"
                           tabindex="5" />
                       </div>
                     </div>
                     <div class="row">
                       <div class="advanced-search-field col-12 col-md-3">
                         <label>Grade</label>
-                        <b-input v-model="advancedSearchInput.grade.value" placeholder="12" v-on:keyup=" keyHandler"
+                        <b-input v-model="advancedSearchInput.grade.value" placeholder="" v-on:keyup=" keyHandler"
                           tabindex="6" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-3">
                         <label>Mincode</label>
-                        <b-input v-model="advancedSearchInput.mincode.value" placeholder="12345678"
+                        <b-input v-model="advancedSearchInput.mincode.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="7" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-3">
                         <label>Local ID</label>
-                        <b-input v-model="advancedSearchInput.localId.value" placeholder="063" v-on:keyup=" keyHandler"
+                        <b-input v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
                           tabindex="8" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-3">
                         <label>Birthdate</label>
-                        <b-input v-model="advancedSearchInput.birthDate.value" placeholder="MM|DD|YYYY"
+                        <b-input v-model="advancedSearchInput.birthDate.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="9" />
                       </div>
                       <div class="advanced-search-button">
@@ -127,7 +127,10 @@
                 </form>
                 
                 <transition name="fade">
-                  <v-table :data="studentSearchResults" class="table table-sm table-hover table-striped align-middle"
+                  <DisplayTable v-if="studentSearchResults.length" v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="id"
+                    v-bind:pen="pen">
+                  </DisplayTable>
+                  <!-- <v-table :data="studentSearchResults" class="table table-sm table-hover table-striped align-middle"
                     v-show="studentSearchResults.length">
                     <thead slot="head" class="">
                       <v-th sortKey="pen">PEN</v-th>
@@ -159,20 +162,25 @@
                         </tr>
                       </template>
                     </tbody>
-                  </v-table>
+                  </v-table> -->
                 </transition>
-
-
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      <li v-for="index in totalPages" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a class="page-link" href="#" v-on:click="AdvancedSearchPagination(index, 10)">{{ index  }}</a></li>
+                    </ul>
+                  </nav>
               </b-card-text>
             </b-tab>
           </b-tabs>
         </b-card>
       </div>
+<<<<<<< HEAD
       <b-alert show v-if="message">{{message}}</b-alert>
 
 
+=======
+>>>>>>> e1ac981147f06db0e4d12d51f64dfc34972db3db
     </div>
-
   </div>
 </template>
 <script>
@@ -181,11 +189,123 @@
     mapGetters
   } from "vuex";
   import StudentService from "@/services/StudentService.js";
+  import DisplayTable from "@/components/DisplayTable";
   export default {
     name: "studentSearch",
     data() {
       return {
         studentSearchResults: [],
+        studentSearchResultsFields: [
+          {
+            key: 'pen',
+            label: 'PEN',
+            sortable: false,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'legalLastName',
+            label: 'Legal Surname',
+            sortable: false,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'usualLastName',
+            label: 'Usual Surname',
+            sortable: false,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'legalFirstName',
+            label: 'Legal Given/Usual',
+            sortable: false,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'usualFirstName',
+            label: 'Usual Given',
+            sortable: false,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'legalMiddleNames',
+            label: 'Legal Middle/Usual',
+            sortable: false,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'usualMiddleNames',
+            label: 'Usual Middle',
+            sortable: false,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'dob',
+            label: 'Birthdate',
+            sortable: true,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'schoolName',
+            label: 'School (SLD)',
+            sortable: true,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'program',
+            label: 'Program (GRAD)',
+            sortable: true,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'gradeCode',
+            label: 'Student Grade (GRAD)',
+            sortable: true,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'schoolOfRecord',
+            label: 'School of Record (GRAD)',
+            sortable: true,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'schoolName',
+            label: 'School of Record Name (GRAD)',
+            sortable: true,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'statusCode',
+            label: 'Student Status (GRAD)',
+            sortable: true,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'statusCode',
+            label: 'School Independent Affiliation (GRAD)',
+            sortable: true,
+            editable: false,
+            class: 'w-1',
+          },
+        ],
+        totalElements:"",
+        numberOfElements:"",
+        totalPages:"",
+        selectedPage:"",
         searchResultMessage: "",
         message: "",
         errorMessage: "",
@@ -231,13 +351,13 @@
         }
       };
     },
-    created() {
-
-    },
+    created() {},
     // beforeRouteLeave(to, from, next) {
     //   next(this.loadStudent(this.selectedPen));
     // },
-    components: {},
+    components: {
+      DisplayTable: DisplayTable,
+    },
     computed: {
       ...mapGetters({
         profile: "getStudentProfile",
@@ -245,7 +365,7 @@
         exams: "getStudentExams",
         gradStatus: "getStudentGradStatus",
         token: "getToken"
-      }),
+      })
     },
 
     methods: {
@@ -303,6 +423,41 @@
                 this.advancedSearchLoading = false;
                 this.searchResults = response.data;
                 this.studentSearchResults = response.data.gradSearchStudents;
+                this.totalElements = this.searchResults.totalElements;
+                this.numberOfElements = this.searchResults.numberOfElements;
+                this.totalPages = this.searchResults.totalPages;
+                this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
+              })
+              .catch((err) => {
+                this.advancedSearchLoading = false;
+                this.message = "Student not found";
+                this.errorMessage = err;
+                // console.log(err);
+              });
+          } catch (error) {
+            //console.log("Error with webservice");
+          }
+        } else {
+          this.message = "Enter at least one field to search."
+        }
+      },
+      AdvancedSearchPagination: function (pageNumber, pageSize) {
+        this.message = "";
+        this.errorMessage = "";
+        this.selectedPage = pageNumber;
+        if (!this.isEmpty(this.advancedSearchInput)) {
+          this.advancedSearchLoading = true;
+          this.studentSearchResults = [];
+          try {
+            StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token, pageNumber - 1, pageSize)
+              .then((response) => {
+                console.log(response.data);
+                this.advancedSearchLoading = false;
+                this.searchResults = response.data;
+                this.studentSearchResults = response.data.gradSearchStudents;
+                this.totalElements = this.searchResults.totalElements;
+                this.numberOfElements = this.searchResults.numberOfElements;
+                this.totalPages = this.searchResults.totalPages;
                 this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
               })
               .catch((err) => {
