@@ -193,7 +193,7 @@
       }
     },
     created() {
-      console.log(this.fields[this.fields.length-1].class);
+//      console.log(this.fields[this.fields.length-1].class);
       window.addEventListener('keyup', this.validateInput)
       //Set up permissions from role
       this.setAdmin(this.role);
@@ -246,7 +246,7 @@
         if(this.quickEdit){
           this.fields[this.fields.length-1].class = "d-block";
            this.fields[this.fields.length-2].class = "d-block";
-           console.log(this.fields[this.fields.length-1].class);
+          //  console.log(this.fields[this.fields.length-1].class);
         }else{
           this.fields[this.fields.length-1].class = "d-none";
           this.fields[this.fields.length-2].class = "d-none";

@@ -27,7 +27,7 @@ export default {
                 }
             }
         }
-        console.log(apiClient.get('/api/v1/studentsearch?' + queryString,{ headers }));
+        //console.log(apiClient.get('/api/v1/studentsearch?' + queryString,{ headers }));
         return apiClient.get('/api/v1/studentsearch?' + queryString  + "pageSize=" + pageSize + "&pageNumber=" + pageNumber,{ headers }); 
     }  
 }

@@ -132,8 +132,6 @@
       },   
        // Special Programs
        createSpecialProgram({state}, payload) {
-        console.log("create Special Program Store" + state.token);
-        console.log("PAYLOAD in create Program", payload);
         ProgramManagementService.createSpecialProgram(payload, state.token).then(
           (response) => {
             return "STORE REspsonse to display table" + response;
@@ -146,9 +144,11 @@
         
         ProgramManagementService.deleteSpecialProgram(payload, state.token).then(
           (response) => {
+            // eslint-disable-next-line
             console.log(response);
           }
         ).catch((error) => {
+          // eslint-disable-next-line
           console.log(error.response.status);
         });
       },   
@@ -156,9 +156,11 @@
         
         ProgramManagementService.updateSpecialProgram(payload, state.token).then(
           (response) => {
+            // eslint-disable-next-line
             console.log(response);
           }
         ).catch((error) => {
+          // eslint-disable-next-line
           console.log(error.response.status);
         });
       },   
@@ -166,8 +168,6 @@
         
         ProgramManagementService.getGraduationPrograms(state.token).then(
           (response) => {
-            // eslint-disable-next-line
-            console.log("GET GRAD PROGRAMS" + response.data);
             return response.data;
           }
         ).catch((error) => {
@@ -187,8 +187,6 @@
       setStudentProfile({
         commit
       }, payload) {
-  
-        console.log(payload[0]);
         commit('setStudentProfile', payload[0]);
       },
       setStudentCourses({

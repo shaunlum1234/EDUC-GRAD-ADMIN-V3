@@ -41,7 +41,6 @@ app.use(bodyParser.urlencoded({
 // db.sequelize.sync();
 
 app.get('/index.html', function (req,res) {
-  console.log(path + "index.html");
   res.sendFile(path + "index.html");
 });
 app.use('/api/students', createProxyMiddleware({

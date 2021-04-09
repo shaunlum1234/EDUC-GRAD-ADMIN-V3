@@ -820,7 +820,7 @@
           try {
             StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token)
               .then((response) => {
-                console.log(response.data);
+
                 this.advancedSearchLoading = false;
                 this.searchResults = response.data;
                 this.studentSearchResults = response.data.gradSearchStudents;
@@ -860,7 +860,7 @@
           try {
             StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token, pageNumber - 1, pageSize)
               .then((response) => {
-                console.log(response.data);
+
                 this.advancedSearchLoading = false;
                 this.searchResults = response.data;
                 this.studentSearchResults = response.data.gradSearchStudents;
@@ -961,7 +961,6 @@
           if (obj.hasOwnProperty(key)) {
             //console.log(obj[key])
             if (obj[key].value != "") {
-              console.log("not empty")
               isEmpty = false;
                 if(key == "mincode"){
                   //contains all digits
