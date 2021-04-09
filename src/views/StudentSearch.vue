@@ -13,23 +13,24 @@
                 <form v-on:submit.prevent>
                   <div class="form-group">
                     <!-- Pen Input -->
-                    <div class="search">
-                        <label for="search-by-pen">Search by PEN:</label>
+                    <div class="search w-100">
+                        <label for="search-by-pen" class="float-left w-100">Search by PEN:</label>
                         
                         <b-form-input id="search-by-pen" size="lg" type="search" v-model="penInput" placeholder=""
-                          class="text_input" ref="penSearch" v-on:keyup="keyHandler" tabindex="1">
+                         ref="penSearch" v-on:keyup="keyHandler" tabindex="1" class="w-50 float-left">
                         </b-form-input>
-                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
+                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary mt-2 float-left">
                           <i class="fas fa-search"></i> Search
                         </button>
-                        <button v-if="searchLoading" class="btn btn-success BC-Gov-PrimaryButton">
-                          <i class="fas fa-search"></i> Search <b-spinner v-for="variant in variants" :variant="variant" :key="variant" v-show="searchLoading"
-                      class="loading-spinner float-right"></b-spinner>
+                        <button v-if="searchLoading" class=" btn btn-primary mt-2 float-left">
+                          <i class="fas fa-search"></i> Search 
                         </button>
+                        <b-spinner v-for="variant in variants" :variant="variant" :key="variant" v-show="searchLoading"
+                      class="loading-spinner float-left"></b-spinner>
                         
                   
                     </div>
-
+                    <div class="search-results-message"><strong><span v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
                     
 
                   </div>
@@ -156,22 +157,22 @@
                         <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading"
                           class="btn btn-primary" tabindex="12">Search</button>
                         <button v-if="advancedSearchLoading" class="btn btn-success">Search</button>
-                        <button @click="clearInput" class=" btn btn-primary mx-2">Reset</button>
+                        <button @click="clearInput" class=" btn btn-primary mx-2">Clear</button>
                       </div>
                       <b-spinner v-for="variant in variants" :variant="variant" :key="variant"
                         v-show="advancedSearchLoading" class="advanced-loading-spinner"></b-spinner>
                     </div>
                   </div>
-                  <div class="search-results-message"><strong><span v-if="message">{{ message }}</span></strong></div>
+                  <div class="search-results-message"><strong><span v-if="advancedSearchMessage">{{ advancedSearchMessage }}</span></strong></div>
                 </form>
                 <transition name="fade">
                   <DisplayTable v-if="studentSearchResults.length" v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="id"
                     v-bind:pen="pen">
                   </DisplayTable>
                 </transition>
-                <nav aria-label="Page navigation example">
+                  <nav aria-label="Page Navigation">
                     <ul class="pagination">
-                      <li v-for="index in totalPages" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a class="page-link" href="#" v-on:click="AdvancedSearchPagination(index, 10)">{{ index  }}</a></li>
+                      <li v-for="index in totalPages" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a class="page-link" href="#" v-on:click="advancedSearchPagination(index, 10)">{{ index  }}</a></li>
                     </ul>
                   </nav>
               </b-card-text>
@@ -305,8 +306,8 @@
         numberOfElements:"",
         totalPages:"",
         selectedPage:"",
-        searchResultMessage: "",
-        message: "",
+        searchByPenMessage: "",
+        advancedSearchMessage: "",
         errorMessage: "",
         penInput: "",
         selectedPen: "",
@@ -363,9 +364,6 @@
       };
     },
     created() {},
-    // beforeRouteLeave(to, from, next) {
-    //   next(this.loadStudent(this.selectedPen));
-    // },
     components: {
       DisplayTable: DisplayTable,
     },
@@ -399,24 +397,18 @@
 
         //console.log("FIND STUDENT BY PEN");
         if (this.penInput) {
-          this.message = "";
+          this.searchByPenMessage = "";
           this.searchLoading = true;
           this.studentSearchResults = [];
           StudentService.getStudentByPen(this.penInput, this.token)
             .then((response) => {
               if (response.data) {
                 this.selectStudent(response.data);
-                /*
-                //select student in list
-                this.searchLoading = false;
-                this.studentSearchResults.push(response.data);
-                this.message = "1 Student found";
-                */
               }
             })
             .catch(() => {
               this.searchLoading = false;
-              this.message = "Student not found";
+              this.searchByPenMessage = "Student not found";
             });
           //pen input check
         }
@@ -438,21 +430,28 @@
                 this.totalElements = this.searchResults.totalElements;
                 this.numberOfElements = this.searchResults.numberOfElements;
                 this.totalPages = this.searchResults.totalPages;
-                this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
+                if(this.searchResults.totalElements > 0){
+                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
+                }else{
+                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
+                }
+                
               })
               .catch((err) => {
                 this.advancedSearchLoading = false;
-                this.message = "Student not found";
+                this.advancedSearchMessage = "Student not found";
                 this.errorMessage = err;
                 // console.log(err);
               });
           } catch (error) {
+             this.advancedSearchLoading = false;
+             this.advancedSearchMessage = "Advanced Search Error";
             //console.log("Error with webservice");
           }
         }
       },
-      AdvancedSearchPagination: function (pageNumber, pageSize) {
-        this.message = "";
+      advancedSearchPagination: function (pageNumber, pageSize) {
+        this.advancedSearchMessage = "";
         this.errorMessage = "";
         this.selectedPage = pageNumber;
         if (!this.isEmpty(this.advancedSearchInput)) {
@@ -487,7 +486,7 @@
         this.showAdvancedSearchForm = true;
       },
       selectStudent: function (student) {
-        this.selectedPen = student.pen;
+        this.selectedPen = student[0].pen;
         this.$router.push({
           path: `/student-profile/${this.selectedPen}`
         });
@@ -496,52 +495,63 @@
       clearStudent: function () {},
       clearInput: function () {
         this.penInput = "";
-        this.advancedSearchInput = {
-          legalFirstName: {
-            value: "",
-            contains: false,
-          },
-          legalLastName: {
-            value: "",
-            contains: false,
-          },
-          legalMiddleNames: {
-            value: "",
-            contains: false,
-          },
-          gender: {
-            value: "",
-            contains: false,
-          },
-          mincode: {
-            value: "",
-            contains: false,
-          },
-          localId: {
-            value: "",
-            contains: false,
-          },
-          birthdateFrom: {
-            value: "",
-            contains: false,
-          },
-          birthdateTo: {
-            value: "",
-            contains: false,
-          },
-          usualFirstName: {
-            value: "",
-            contains: false,
-          },
-          usualLastName: {
-            value: "",
-            contains: false,
-          },
-          usualMiddleNames: {
-            value: "",
-            contains: false,
-          },
-        }
+
+    
+
+          for (var key in this.advancedSearchInput) {
+            if (this.advancedSearchInput.hasOwnProperty(key)) {
+              this.advancedSearchInput[key].value = "";
+              this.advancedSearchInput[key].contains = false;
+            }
+          }
+  
+
+        // this.advancedSearchInput = {
+        //   legalFirstName: {
+        //     value: "",
+        //     contains: false,
+        //   },
+        //   legalLastName: {
+        //     value: "",
+        //     contains: false,
+        //   },
+        //   legalMiddleNames: {
+        //     value: "",
+        //     contains: false,
+        //   },
+        //   gender: {
+        //     value: "",
+        //     contains: false,
+        //   },
+        //   mincode: {
+        //     value: "",
+        //     contains: false,
+        //   },
+        //   localId: {
+        //     value: "",
+        //     contains: false,
+        //   },
+        //   birthdateFrom: {
+        //     value: "",
+        //     contains: false,
+        //   },
+        //   birthdateTo: {
+        //     value: "",
+        //     contains: false,
+        //   },
+        //   usualFirstName: {
+        //     value: "",
+        //     contains: false,
+        //   },
+        //   usualLastName: {
+        //     value: "",
+        //     contains: false,
+        //   },
+        //   usualMiddleNames: {
+        //     value: "",
+        //     contains: false,
+        //   },
+        //}
       },
       advancedSearchValidate(obj){
         //check if all inputs are empty
@@ -555,16 +565,15 @@
               isEmpty = false;
                 if(key == "mincode"){
                   //contains all digits
-                  console.log("mincode" + obj[key].value + "X");
                   if(!isNaN(obj[key].value) === false){
-                    this.message += "mincode must be contain numeric digits only"
+                    this.advancedSearchMessage = "Mincode must contain digits only"
                     isValid = false;
-                  }else{
-                    if(obj[key].value.length >= 3 && obj[key].value.length <= 9){
-                      this.message += "Add wild card"
-                      obj[key].value += "*";
-                    }else{
-                      this.message += "mincode must contain at least 3 digits"
+                  }else {
+                    if(obj[key].value.length >= 1 && obj[key].value.length <= 7){
+                      this.advancedSearchMessage += "Add wild card"
+                      obj[key].contains = true;
+                    }else if(obj[key].value.length != 8){
+                      this.advancedSearchMessage += "mincode must be between 1-8 digits. "
                       isValid = false;
                     }
                   }
