@@ -1,12 +1,8 @@
 <template>
     <div>
       <div class="student-info">
-          
-          <div><strong>Grade:</strong> {{ studentInfo.studentGrade }}</div>
-          <div><strong>Birthdate:</strong> {{ studentInfo.studBirth }}</div>
-          <div><strong>Gender:</strong> {{ studentInfo.studSex }}</div>
-          <div><strong>Postal Code:</strong> {{ studentInfo.postalCode }}      
-          </div>
+          <div><strong>Birthdate:</strong> {{ studentInfo.dob }}</div>
+          <!-- <div><strong>Gender:</strong> {{ studentInfo.studSex }}</div> -->
       </div>
   </div>
 </template>
