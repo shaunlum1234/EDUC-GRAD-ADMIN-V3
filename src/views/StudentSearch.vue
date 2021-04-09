@@ -487,6 +487,9 @@
         if (!this.isEmpty(this.advancedSearchInput)) {
           this.advancedSearchLoading = true;
           this.studentSearchResults = [];
+          if(!this.advancedSearchInput.birthdateTo.value){
+            this.advancedSearchInput.birthdateTo.value = this.advancedSearchInput.birthdateFrom.value
+          }
           try {
             StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token)
               .then((response) => {
@@ -519,6 +522,9 @@
         if (!this.isEmpty(this.advancedSearchInput)) {
           this.advancedSearchLoading = true;
           this.studentSearchResults = [];
+          if(!this.advancedSearchInput.birthdateTo.value){
+            this.advancedSearchInput.birthdateTo.value = this.advancedSearchInput.birthdateFrom.value
+          }
           try {
             StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token, pageNumber - 1, pageSize)
               .then((response) => {
