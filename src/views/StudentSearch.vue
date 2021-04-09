@@ -48,6 +48,7 @@
             </b-tab>
             <b-tab title="Advanced Search">
               <b-card-text>
+                {{advancedSearchInput.birthdateTo.value}}
                 <form v-on:submit.prevent>
                   <!-- advanced Search -->
 
@@ -90,18 +91,63 @@
                       </div>
                       <div class="advanced-search-field  col-12 col-md-2">
                         <label>Gender</label>
-                        <b-input v-model="advancedSearchInput.gender.value" placeholder="" v-on:keyup="keyHandler"
-                          tabindex="4" />
+                        <!-- <b-input v-model="advancedSearchInput.gender.value" placeholder="" v-on:keyup="keyHandler"
+                          tabindex="4" /> -->
+                         <b-form-select v-model="advancedSearchInput.gender.value" :options="genderOptions" tabindex="4"></b-form-select>  
                       </div>
                       <div class="advanced-search-field  col-12 col-md-2">
-                        <label>Birthdate FROM</label>
-                        <b-input v-model="advancedSearchInput.birthdateFrom.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="5" />
+                        <label for="datepicker-birthdate-from">Birthdate FROM</label>
+                        <!-- <b-input v-model="advancedSearchInput.birthdateFrom.value" placeholder=""
+                          v-on:keyup="keyHandler" tabindex="5" /> -->
+                        <b-input-group class="mb-3">
+                          <b-form-input
+                            id="datepicker-birthdate-from"
+                            v-model="advancedSearchInput.birthdateFrom.value"
+                            type="text"
+                            placeholder="YYYY-MM-DD"
+                            autocomplete="off"
+                            tabindex="6"
+                            v-on:keyup="keyHandler"
+                          ></b-form-input>
+                          <b-input-group-append>
+                            <b-form-datepicker
+                              v-model="advancedSearchInput.birthdateFrom.value"
+                              button-only
+                              size="sm"
+                              right
+                              locale="en-US"
+                              aria-controls="datepicker-birthdate-to"
+                              @context="onContext"
+                            ></b-form-datepicker>
+                          </b-input-group-append>
+                        </b-input-group>    
                       </div>
                       <div class="advanced-search-field  col-12 col-md-2">
-                        <label>Birthdate TO</label>
-                        <b-input v-model="advancedSearchInput.birthdateTo.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="6" />
+                        <label for="datepicker-birthdate-to">Birthdate TO</label>
+                        <!-- <b-input v-model="advancedSearchInput.birthdateTo.value" placeholder=""
+                          v-on:keyup="keyHandler" tabindex="6" /> -->
+                        <b-input-group class="mb-3">
+                          <b-form-input
+                            id="datepicker-birthdate-to"
+                            v-model="advancedSearchInput.birthdateTo.value"
+                            type="text"
+                            placeholder="YYYY-MM-DD"
+                            autocomplete="off"
+                            tabindex="6"
+                            v-on:keyup="keyHandler"
+                          ></b-form-input>
+                          <b-input-group-append>
+                            <b-form-datepicker
+                              v-model="advancedSearchInput.birthdateTo.value"
+                              button-only
+                              size="sm"
+                              right
+                              locale="en-US"
+                              aria-controls="datepicker-birthdate-to"
+                              @context="onContext"
+                            ></b-form-datepicker>
+                          </b-input-group-append>
+                        </b-input-group>     
                       </div>
                     </div>
 
@@ -194,6 +240,13 @@
     name: "studentSearch",
     data() {
       return {
+        genderOptions: [
+          { value: null, text: 'Please select an option' },
+          { value: 'M', text: 'Male' },
+          { value: 'F', text: 'Female' },
+          { value: 'X', text: 'Gender Diverse' },
+          { value: 'U', text: 'Unknown' }
+        ],
         studentSearchResults: [],
         studentSearchResultsFields: [
           {
@@ -248,6 +301,13 @@
           {
             key: 'dob',
             label: 'Birthdate',
+            sortable: true,
+            editable: false,
+            class: 'w-1',
+          },
+          {
+            key: 'genderCode',
+            label: 'Gender',
             sortable: true,
             editable: false,
             class: 'w-1',
@@ -420,6 +480,9 @@
         if (this.advancedSearchValidate(this.advancedSearchInput)) {
           this.advancedSearchLoading = true;
           this.studentSearchResults = [];
+          if(!this.advancedSearchInput.birthdateTo.value){
+            this.advancedSearchInput.birthdateTo.value = this.advancedSearchInput.birthdateFrom.value
+          }
           try {
             StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token)
               .then((response) => {
@@ -457,6 +520,9 @@
         if (!this.isEmpty(this.advancedSearchInput)) {
           this.advancedSearchLoading = true;
           this.studentSearchResults = [];
+          if(!this.advancedSearchInput.birthdateTo.value){
+            this.advancedSearchInput.birthdateTo.value = this.advancedSearchInput.birthdateFrom.value
+          }
           try {
             StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token, pageNumber - 1, pageSize)
               .then((response) => {
