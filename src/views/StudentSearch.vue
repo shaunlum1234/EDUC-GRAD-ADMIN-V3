@@ -62,7 +62,7 @@
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.legalLastName.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="3" />
+                          v-on:keyup="keyHandler" tabindex="1" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-3">
                         <label>Legal Given</label>
@@ -85,7 +85,7 @@
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.legalMiddleNames.value" placeholder=""
-                          v-on:keyup=" keyHandler" tabindex="4" />
+                          v-on:keyup=" keyHandler" tabindex="3" />
                       </div>  
                     </div>
 
@@ -99,7 +99,7 @@
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.usualLastName.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="3" />
+                          v-on:keyup="keyHandler" tabindex="4" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-3">
                         <label>Usual Given</label>
@@ -110,7 +110,7 @@
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.usualFirstName.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="2" />
+                          v-on:keyup="keyHandler" tabindex="5" />
                       </div>
                       
                       <div class="advanced-search-field col-12 col-md-3">
@@ -122,7 +122,7 @@
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.usualMiddleNames.value" placeholder=""
-                          v-on:keyup=" keyHandler" tabindex="4" />
+                          v-on:keyup=" keyHandler" tabindex="6" />
                       </div>  
                     </div>
               
@@ -130,12 +130,12 @@
                       <div class="advanced-search-field  col-12 col-md-3">
                         <label>Gender</label>
                         <b-input v-model="advancedSearchInput.gender.value" placeholder="" v-on:keyup="keyHandler"
-                          tabindex="5" />
+                          tabindex="7" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-3">
                         <label>Birthdate FROM</label>
                         <b-input v-model="advancedSearchInput.birthdateFrom.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="9" />
+                          v-on:keyup="keyHandler" tabindex="8" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-3">
                         <label>Birthdate TO</label>
@@ -147,16 +147,16 @@
                       <div class="advanced-search-field col-12 col-md-3">
                         <label>Local ID</label>
                         <b-input v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
-                          tabindex="8" />
+                          tabindex="10" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-3">
                         <label>Mincode</label>
                         <b-input v-model="advancedSearchInput.mincode.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="7" />
+                          v-on:keyup="keyHandler" tabindex="11" />
                       </div>               
                       <div class="advanced-search-button">
                         <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading"
-                          class="btn btn-primary" tabindex="10">Search</button>
+                          class="btn btn-primary" tabindex="12">Search</button>
                         <button v-if="advancedSearchLoading" class="btn btn-success">Search</button>
                         <button @click="clearInput" class=" btn btn-primary mx-2">Reset</button>
                       </div>
