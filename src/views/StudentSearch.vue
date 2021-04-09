@@ -1,7 +1,6 @@
 <template>
   <div class="studentlist">
     <h1>Student search</h1>
-    
     <p>Search by Personal Education Number(PEN) or use the advanced search tab to search by other search criteria.</p>
     <div>
       
@@ -23,11 +22,16 @@
                         <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
                           <i class="fas fa-search"></i> Search
                         </button>
-                        <button v-if="searchLoading" class="btn btn-success">
+                        <button v-if="searchLoading" class="btn btn-success BC-Gov-PrimaryButton">
                           <i class="fas fa-search"></i> Search <b-spinner v-for="variant in variants" :variant="variant" :key="variant" v-show="searchLoading"
                       class="loading-spinner float-right"></b-spinner>
                         </button>
+                        
+                  
                     </div>
+
+                    
+
                   </div>
                 </form>
                 <p class="sample-pens">
@@ -45,74 +49,116 @@
               <b-card-text>
                 <form v-on:submit.prevent>
                   <!-- advanced Search -->
+
+
                   <div class="advanced-search-form">
                     <div class="row my-3">
                       <div class="advanced-search-field col-12 col-md-3">
-                        <label>First Name </label>
-                        <div href="#"
-                          v-on:click="advancedSearchInput.legalFirstName.contains = !advancedSearchInput.legalFirstName.contains"
-                          v-bind:class="{active: advancedSearchInput.legalFirstName.contains}" class="wild-card-button"
-                          v-b-tooltip.hover title="First Name Contains">
-                          [.*]
-                        </div>
-                        <b-input v-model="advancedSearchInput.legalFirstName.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="2" />
-                      </div>
-                      <div class="advanced-search-field col-12 col-md-3">
-                        <label>Last Name</label>
+                        <label>Legal Surname</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.legalLastName.contains = !advancedSearchInput.legalLastName.contains"
                           v-bind:class="{active: advancedSearchInput.legalLastName.contains}" class="wild-card-button"
-                          v-b-tooltip.hover title="Last Name Contains">
+                          v-b-tooltip.hover title="Legal Surname starts with">
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.legalLastName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="3" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-3">
-                        <label>Middle Name</label>
+                        <label>Legal Given</label>
+                        <div href="#"
+                          v-on:click="advancedSearchInput.legalFirstName.contains = !advancedSearchInput.legalFirstName.contains"
+                          v-bind:class="{active: advancedSearchInput.legalFirstName.contains}" class="wild-card-button"
+                          v-b-tooltip.hover title="Legal Given starts with">
+                          [.*]
+                        </div>
+                        <b-input v-model="advancedSearchInput.legalFirstName.value" placeholder=""
+                          v-on:keyup="keyHandler" tabindex="2" />
+                      </div>
+                      
+                      <div class="advanced-search-field col-12 col-md-3">
+                        <label>Legal Middle</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.legalMiddleNames.contains = !advancedSearchInput.legalMiddleNames.contains"
                           v-bind:class="{active: advancedSearchInput.legalMiddleNames.contains}"
-                          class="wild-card-button" v-b-tooltip.hover title="Middle Name Contains">
+                          class="wild-card-button" v-b-tooltip.hover title="Legal Middle starts with">
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.legalMiddleNames.value" placeholder=""
                           v-on:keyup=" keyHandler" tabindex="4" />
+                      </div>  
+                    </div>
+
+                    <div class="row">
+                       <div class="advanced-search-field col-12 col-md-3">
+                        <label>Usual Surname</label>
+                        <div href="#"
+                          v-on:click="advancedSearchInput.usualLastName.contains = !advancedSearchInput.usualLastName.contains"
+                          v-bind:class="{active: advancedSearchInput.usualLastName.contains}" class="wild-card-button"
+                          v-b-tooltip.hover title="Usual Surname starts with">
+                          [.*]
+                        </div>
+                        <b-input v-model="advancedSearchInput.usualLastName.value" placeholder=""
+                          v-on:keyup="keyHandler" tabindex="3" />
                       </div>
+                      <div class="advanced-search-field col-12 col-md-3">
+                        <label>Usual Given</label>
+                        <div href="#"
+                          v-on:click="advancedSearchInput.usualFirstName.contains = !advancedSearchInput.usualFirstName.contains"
+                          v-bind:class="{active: advancedSearchInput.usualFirstName.contains}" class="wild-card-button"
+                          v-b-tooltip.hover title="Usual Given starts with">
+                          [.*]
+                        </div>
+                        <b-input v-model="advancedSearchInput.usualFirstName.value" placeholder=""
+                          v-on:keyup="keyHandler" tabindex="2" />
+                      </div>
+                      
+                      <div class="advanced-search-field col-12 col-md-3">
+                        <label>Usual Middle</label>
+                        <div href="#"
+                          v-on:click="advancedSearchInput.usualMiddleNames.contains = !advancedSearchInput.usualMiddleNames.contains"
+                          v-bind:class="{active: advancedSearchInput.usualMiddleNames.contains}"
+                          class="wild-card-button" v-b-tooltip.hover title="Usual Middle starts with">
+                          [.*]
+                        </div>
+                        <b-input v-model="advancedSearchInput.usualMiddleNames.value" placeholder=""
+                          v-on:keyup=" keyHandler" tabindex="4" />
+                      </div>  
+                    </div>
+              
+                    <div class="row">
                       <div class="advanced-search-field  col-12 col-md-3">
                         <label>Gender</label>
                         <b-input v-model="advancedSearchInput.gender.value" placeholder="" v-on:keyup="keyHandler"
                           tabindex="5" />
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="advanced-search-field col-12 col-md-3">
-                        <label>Grade</label>
-                        <b-input v-model="advancedSearchInput.grade.value" placeholder="" v-on:keyup=" keyHandler"
-                          tabindex="6" />
+                      <div class="advanced-search-field  col-12 col-md-3">
+                        <label>Birthdate FROM</label>
+                        <b-input v-model="advancedSearchInput.birthdateFrom.value" placeholder=""
+                          v-on:keyup="keyHandler" tabindex="9" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-3">
-                        <label>Mincode</label>
-                        <b-input v-model="advancedSearchInput.mincode.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="7" />
+                        <label>Birthdate TO</label>
+                        <b-input v-model="advancedSearchInput.birthdateTo.value" placeholder=""
+                          v-on:keyup="keyHandler" tabindex="9" />
                       </div>
+                    </div>
+                    <div class="row">
                       <div class="advanced-search-field col-12 col-md-3">
                         <label>Local ID</label>
                         <b-input v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
                           tabindex="8" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-3">
-                        <label>Birthdate</label>
-                        <b-input v-model="advancedSearchInput.birthDate.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="9" />
-                      </div>
+                        <label>Mincode</label>
+                        <b-input v-model="advancedSearchInput.mincode.value" placeholder=""
+                          v-on:keyup="keyHandler" tabindex="7" />
+                      </div>               
                       <div class="advanced-search-button">
                         <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading"
                           class="btn btn-primary" tabindex="10">Search</button>
                         <button v-if="advancedSearchLoading" class="btn btn-success">Search</button>
                         <button @click="clearInput" class=" btn btn-primary mx-2">Reset</button>
-
                       </div>
                       <b-spinner v-for="variant in variants" :variant="variant" :key="variant"
                         v-show="advancedSearchLoading" class="advanced-loading-spinner"></b-spinner>
@@ -123,43 +169,7 @@
                 <transition name="fade">
                   <DisplayTable v-if="studentSearchResults.length" v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="id"
                     v-bind:pen="pen">
-                      <template #cell(pen)="data">
-                        <router-link :to="'/student-profile/' + data.item.pen ">{{ data.item.pen }}</router-link>
-                    </template>
                   </DisplayTable>
-                  <!-- <v-table :data="studentSearchResults" class="table table-sm table-hover table-striped align-middle"
-                    v-show="studentSearchResults.length">
-                    <thead slot="head" class="">
-                      <v-th sortKey="pen">PEN</v-th>
-                      <v-th sortKey="legalLastName">Last name</v-th>
-                      <v-th sortKey="legalFirstName">First name</v-th>
-                      <v-th sortKey="legalMiddleNames">Middle</v-th>
-                      <v-th sortKey="dob">Birthdate</v-th>
-                      <v-th sortKey="genderCode">Gender</v-th>
-                      <v-th sortKey="gradeCode">Grade</v-th>
-                      <v-th sortKey="mincode">School code</v-th>
-                      <v-th sortKey="sc">School</v-th>
-                      <v-th sortKey="gradeYear">Program</v-th>
-                    </thead>
-                    <tbody slot="body" slot-scope="{ displayData }">
-                      <template v-for="row in displayData">
-                        <tr :key="row.pen">
-                          <td>
-                            <a href="#" v-on:click="selectStudent(row)">{{ row.pen }}</a>
-                          </td>
-                          <td>{{ row.legalLastName }}</td>
-                          <td>{{ row.legalFirstName }}</td>
-                          <td>{{ row.legalMiddleNames }}</td>
-                          <td>{{ row.dob }}</td>
-                          <td>{{ row.genderCode }}</td>
-                          <td>{{ row.gradeCode }}</td>
-                          <td>{{ row.mincode }}</td>
-                          <td>{{ row.schoolName }}</td>
-                          <td>{{ row.gradeYear }}</td>
-                        </tr>
-                      </template>
-                    </tbody>
-                  </v-table> -->
                 </transition>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
@@ -323,10 +333,6 @@
             value: "",
             contains: false,
           },
-          grade: {
-            value: "",
-            contains: false,
-          },
           mincode: {
             value: "",
             contains: false,
@@ -335,10 +341,26 @@
             value: "",
             contains: false,
           },
-          birthDate: {
+          birthdateFrom: {
             value: "",
             contains: false,
-          }
+          },
+          birthdateTo: {
+            value: "",
+            contains: false,
+          },
+          usualFirstName: {
+            value: "",
+            contains: false,
+          },
+          usualLastName: {
+            value: "",
+            contains: false,
+          },
+          usualMiddleNames: {
+            value: "",
+            contains: false,
+          },
         }
       };
     },
@@ -404,31 +426,31 @@
       findStudentsByAdvancedSearch: function () {
         this.message = "";
         this.errorMessage = "";
-        console.log(this.advancedSearchValidate(this.advancedSearchInput));
+        // console.log(this.advancedSearchValidate(this.advancedSearchInput));
         if (this.advancedSearchValidate(this.advancedSearchInput)) {
           this.advancedSearchLoading = true;
           this.studentSearchResults = [];
-          // try {
-          //   StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token)
-          //     .then((response) => {
-          //       console.log(response.data);
-          //       this.advancedSearchLoading = false;
-          //       this.searchResults = response.data;
-          //       this.studentSearchResults = response.data.gradSearchStudents;
-          //       this.totalElements = this.searchResults.totalElements;
-          //       this.numberOfElements = this.searchResults.numberOfElements;
-          //       this.totalPages = this.searchResults.totalPages;
-          //       this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
-          //     })
-          //     .catch((err) => {
-          //       this.advancedSearchLoading = false;
-          //       this.message = "Student not found";
-          //       this.errorMessage = err;
-          //       // console.log(err);
-          //     });
-          // } catch (error) {
-          //   //console.log("Error with webservice");
-          // }
+          try {
+            StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token)
+              .then((response) => {
+                console.log(response.data);
+                this.advancedSearchLoading = false;
+                this.searchResults = response.data;
+                this.studentSearchResults = response.data.gradSearchStudents;
+                this.totalElements = this.searchResults.totalElements;
+                this.numberOfElements = this.searchResults.numberOfElements;
+                this.totalPages = this.searchResults.totalPages;
+                this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
+              })
+              .catch((err) => {
+                this.advancedSearchLoading = false;
+                this.message = "Student not found";
+                this.errorMessage = err;
+                // console.log(err);
+              });
+          } catch (error) {
+            //console.log("Error with webservice");
+          }
         }
       },
       AdvancedSearchPagination: function (pageNumber, pageSize) {
@@ -467,7 +489,7 @@
         this.showAdvancedSearchForm = true;
       },
       selectStudent: function (student) {
-        this.selectedPen = student[0].pen;
+        this.selectedPen = student.pen;
         this.$router.push({
           path: `/student-profile/${this.selectedPen}`
         });
@@ -477,7 +499,7 @@
       clearInput: function () {
         this.penInput = "";
         this.advancedSearchInput = {
-          legallegalFirstName: {
+          legalFirstName: {
             value: "",
             contains: false,
           },
@@ -493,10 +515,6 @@
             value: "",
             contains: false,
           },
-          grade: {
-            value: "",
-            contains: false,
-          },
           mincode: {
             value: "",
             contains: false,
@@ -505,7 +523,11 @@
             value: "",
             contains: false,
           },
-          birthDate: {
+          birthdateFrom: {
+            value: "",
+            contains: false,
+          },
+          birthdateTo: {
             value: "",
             contains: false,
           },
@@ -517,8 +539,10 @@
             value: "",
             contains: false,
           },
-
-
+          usualMiddleNames: {
+            value: "",
+            contains: false,
+          },
         }
       },
       advancedSearchValidate(obj){
@@ -531,23 +555,26 @@
             if (obj[key].value != "") {
               console.log("not empty")
               isEmpty = false;
+                if(key == "mincode"){
+                  //contains all digits
+                  console.log("mincode" + obj[key].value + "X");
+                  if(!isNaN(obj[key].value) === false){
+                    this.message += "mincode must be contain numeric digits only"
+                    isValid = false;
+                  }else{
+                    if(obj[key].value.length >= 3 && obj[key].value.length <= 9){
+                      this.message += "Add wild card"
+                      obj[key].value += "*";
+                    }else{
+                      this.message += "mincode must contain at least 3 digits"
+                      isValid = false;
+                    }
+                  }
+                  
+                  //add wildcard to mincode if at least 3 digits are included      
+                }  
             }
-            if(key == "mincode"){
-              //contains all digits
-              console.log("mincode" + obj[key].value + "X");
-              if(!isNaN(obj[key].value) === false){
-                this.message += "mincode must be contain numeric digits only"
-                isValid = false;
-              }
-              // if(obj[key].value.length >= 3){
-              //   this.message += "Add wild card"
-              //   obj[key].value += "*";
-              // }else{
-              //   this.message += "mincode must contain at least 3 digits"
-              //   isValid = false;
-              // }
-              //add wildcard to mincode if at least 3 digits are included      
-            }  
+            
           }
         }
         if(isEmpty){
