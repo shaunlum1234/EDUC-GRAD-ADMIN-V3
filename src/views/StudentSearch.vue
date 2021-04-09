@@ -113,7 +113,6 @@
                             <b-form-datepicker
                               v-model="advancedSearchInput.birthdateFrom.value"
                               button-only
-                              size="sm"
                               right
                               locale="en-US"
                               aria-controls="datepicker-birthdate-to"
@@ -139,8 +138,7 @@
                           <b-input-group-append>
                             <b-form-datepicker
                               v-model="advancedSearchInput.birthdateTo.value"
-                              button-only
-                              size="sm"
+                              button-only     
                               right
                               locale="en-US"
                               aria-controls="datepicker-birthdate-to"
@@ -738,6 +736,7 @@
           birthdateFrom: {
             value: "",
             contains: false,
+            error:false
           },
           birthdateTo: {
             value: "",
@@ -978,9 +977,16 @@
                       isValid = false;
                     }
                   }
-                  
                   //add wildcard to mincode if at least 3 digits are included      
-                }  
+                }//mincode
+                if(key == "birthdateFrom") {
+                  let dateToCheck = Date.parse(obj[key].value);
+                  let today = new Date();
+                  if(dateToCheck > today){
+                    this.advancedSearchMessage += "The Birthdate From must be greater than today. "
+                    isValid = false;
+                  }
+                }
             }
             
           }
@@ -1008,6 +1014,12 @@
   };
 </script>
 <style scoped>
+.input-group-append {
+    margin-left: -1px;
+    position: absolute;
+    right: 0;
+    z-index: 99;
+}
   .alert,
   .card,
 
