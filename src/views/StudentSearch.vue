@@ -20,7 +20,7 @@
                         <b-form-input id="search-by-pen" size="lg" type="search" v-model="penInput" placeholder=""
                           class="text_input" ref="penSearch" v-on:keyup="keyHandler" tabindex="1">
                         </b-form-input>
-                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="">
+                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
                           <i class="fas fa-search"></i> Search
                         </button>
                         <button v-if="searchLoading" class="btn btn-success">
@@ -404,32 +404,31 @@
       findStudentsByAdvancedSearch: function () {
         this.message = "";
         this.errorMessage = "";
-        if (!this.isEmpty(this.advancedSearchInput)) {
+        console.log(this.advancedSearchValidate(this.advancedSearchInput));
+        if (this.advancedSearchValidate(this.advancedSearchInput)) {
           this.advancedSearchLoading = true;
           this.studentSearchResults = [];
-          try {
-            StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token)
-              .then((response) => {
-                console.log(response.data);
-                this.advancedSearchLoading = false;
-                this.searchResults = response.data;
-                this.studentSearchResults = response.data.gradSearchStudents;
-                this.totalElements = this.searchResults.totalElements;
-                this.numberOfElements = this.searchResults.numberOfElements;
-                this.totalPages = this.searchResults.totalPages;
-                this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
-              })
-              .catch((err) => {
-                this.advancedSearchLoading = false;
-                this.message = "Student not found";
-                this.errorMessage = err;
-                // console.log(err);
-              });
-          } catch (error) {
-            //console.log("Error with webservice");
-          }
-        } else {
-          this.message = "Enter at least one field to search."
+          // try {
+          //   StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token)
+          //     .then((response) => {
+          //       console.log(response.data);
+          //       this.advancedSearchLoading = false;
+          //       this.searchResults = response.data;
+          //       this.studentSearchResults = response.data.gradSearchStudents;
+          //       this.totalElements = this.searchResults.totalElements;
+          //       this.numberOfElements = this.searchResults.numberOfElements;
+          //       this.totalPages = this.searchResults.totalPages;
+          //       this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
+          //     })
+          //     .catch((err) => {
+          //       this.advancedSearchLoading = false;
+          //       this.message = "Student not found";
+          //       this.errorMessage = err;
+          //       // console.log(err);
+          //     });
+          // } catch (error) {
+          //   //console.log("Error with webservice");
+          // }
         }
       },
       AdvancedSearchPagination: function (pageNumber, pageSize) {
@@ -522,18 +521,54 @@
 
         }
       },
+      advancedSearchValidate(obj){
+        //check if all inputs are empty
+        let isValid = true;
+        let isEmpty = true;
+        for (var key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            //console.log(obj[key])
+            if (obj[key].value != "") {
+              console.log("not empty")
+              isEmpty = false;
+            }
+            if(key == "mincode"){
+              //contains all digits
+              console.log("mincode" + obj[key].value + "X");
+              if(!isNaN(obj[key].value) === false){
+                this.message += "mincode must be contain numeric digits only"
+                isValid = false;
+              }
+              // if(obj[key].value.length >= 3){
+              //   this.message += "Add wild card"
+              //   obj[key].value += "*";
+              // }else{
+              //   this.message += "mincode must contain at least 3 digits"
+              //   isValid = false;
+              // }
+              //add wildcard to mincode if at least 3 digits are included      
+            }  
+          }
+        }
+        if(isEmpty){
+          isValid = false;
+          this.message += "Enter at least one field to search."
+        }
+        //this.message += "VALID:" + isValid;
+      
+        return isValid;
+      },
       isEmpty(obj) {
         let isEmpty = true;
         for (var key in obj) {
           if (obj.hasOwnProperty(key)) {
-            if (obj[key] != "") {
+            if (obj[key] != "" ) {
               isEmpty = false;
             }
           }
         }
         return isEmpty;
       },
-
     },
   };
 </script>
