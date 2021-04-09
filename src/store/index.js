@@ -187,7 +187,9 @@
       setStudentProfile({
         commit
       }, payload) {
-        commit('setStudentProfile', payload);
+  
+        console.log(payload[0]);
+        commit('setStudentProfile', payload[0]);
       },
       setStudentCourses({
         commit
@@ -237,12 +239,13 @@
         return state.student.profile;
       },
       getStudentFullName(state) {
-        //return state.student.profile.studSurname + ", " + state.student.profile.studGiven + " " + state.student.profile.studMiddle + "(" + state.student.profile.pen + ")";
+  
+
         return {
-          "studSurname": state.student.profile.studSurname,
-          "studGiven": state.student.profile.studGiven,
-          "studMiddle": state.student.profile.studMiddle,
-          "studPen": state.student.profile.pen
+          "legalLastName": state.student.profile.legalLastName,
+          "legalFirstName": state.student.profile.legalFirstName,
+          "legalMiddleNames": state.student.profile.legalMiddleNames,
+          "pen": state.student.profile.pen
         };
       },
       getStudentPen(state) {

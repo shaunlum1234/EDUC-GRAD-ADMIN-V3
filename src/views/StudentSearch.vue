@@ -1,8 +1,10 @@
 <template>
   <div class="studentlist">
     <h1>Student search</h1>
+    
     <p>Search by Personal Education Number(PEN) or use the advanced search tab to search by other search criteria.</p>
     <div>
+      
       <div>
         <b-card no-body class="p-0">
           <b-tabs card>
@@ -18,19 +20,14 @@
                         <b-form-input id="search-by-pen" size="lg" type="search" v-model="penInput" placeholder=""
                           class="text_input" ref="penSearch" v-on:keyup="keyHandler" tabindex="1">
                         </b-form-input>
-                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="BC-Gov-PrimaryButton">
+                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="">
                           <i class="fas fa-search"></i> Search
                         </button>
-                        <button v-if="searchLoading" class="btn btn-success BC-Gov-PrimaryButton">
+                        <button v-if="searchLoading" class="btn btn-success">
                           <i class="fas fa-search"></i> Search <b-spinner v-for="variant in variants" :variant="variant" :key="variant" v-show="searchLoading"
                       class="loading-spinner float-right"></b-spinner>
                         </button>
-                        
-                  
                     </div>
-
-                    
-
                   </div>
                 </form>
                 <p class="sample-pens">
@@ -48,8 +45,6 @@
               <b-card-text>
                 <form v-on:submit.prevent>
                   <!-- advanced Search -->
-
-
                   <div class="advanced-search-form">
                     <div class="row my-3">
                       <div class="advanced-search-field col-12 col-md-3">
@@ -123,12 +118,14 @@
                         v-show="advancedSearchLoading" class="advanced-loading-spinner"></b-spinner>
                     </div>
                   </div>
-                  
+                  <div class="search-results-message"><strong><span v-if="message">{{ message }}</span></strong></div>
                 </form>
-                
                 <transition name="fade">
                   <DisplayTable v-if="studentSearchResults.length" v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="id"
                     v-bind:pen="pen">
+                      <template #cell(pen)="data">
+                        <router-link :to="'/student-profile/' + data.item.pen ">{{ data.item.pen }}</router-link>
+                    </template>
                   </DisplayTable>
                   <!-- <v-table :data="studentSearchResults" class="table table-sm table-hover table-striped align-middle"
                     v-show="studentSearchResults.length">
@@ -174,12 +171,6 @@
           </b-tabs>
         </b-card>
       </div>
-<<<<<<< HEAD
-      <b-alert show v-if="message">{{message}}</b-alert>
-
-
-=======
->>>>>>> e1ac981147f06db0e4d12d51f64dfc34972db3db
     </div>
   </div>
 </template>
@@ -477,7 +468,7 @@
         this.showAdvancedSearchForm = true;
       },
       selectStudent: function (student) {
-        this.selectedPen = student.pen;
+        this.selectedPen = student[0].pen;
         this.$router.push({
           path: `/student-profile/${this.selectedPen}`
         });
