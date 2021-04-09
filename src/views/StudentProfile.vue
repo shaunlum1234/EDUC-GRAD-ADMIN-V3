@@ -7,42 +7,42 @@
           
           <table v-if="!smallScreen" class="profile-name">
             <tr>
-              <td class="align-top profile-name-header"><label>Personal Education Number</label></td>
-              <td class="align-top profile-name-header"><label>Last Name</label></td>
-              <td class="align-top profile-name-header"><label>Given Name</label></td>
-              <td class="align-top profile-name-header" v-if="studentFullName.studMiddle"><label>Middle Name</label></td>
+              <td class="align-top profile-name-header"><label>PEN</label></td>
+              <td class="align-top profile-name-header"><label>Legal Surname</label></td>
+              <td class="align-top profile-name-header"><label>Legal Given</label></td>
+              <td class="align-top profile-name-header"><label>Legal Middle</label></td>
             </tr>
             <tr>
-              <td class="align-top profile-name-data" v-if="studentFullName.studPen"><h1>{{ studentFullName.studPen }}</h1></td>
-              <td class="align-top profile-name-data" v-if="studentFullName.studSurname"><h1>{{ studentFullName.studSurname }}</h1></td>
-              <td class="align-top profile-name-data" v-if="studentFullName.studGiven"><h1>{{ studentFullName.studGiven }}</h1></td>
-              <td class="align-top profile-name-data" v-if="studentFullName.studMiddle"><h1>{{ studentFullName.studMiddle }}</h1></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.pen"><h1>{{ studentFullName.pen }}</h1></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.legalLastName"><h1>{{ studentFullName.legalLastName }}</h1></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.legalFirstName"><h1>{{ studentFullName.legalFirstName }}</h1></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.legalMiddleNames"><h1>{{ studentFullName.legalMiddleNames }}</h1></td>
             </tr>
           </table>
           <div v-if="smallScreen" class="profile-name">
-            <div v-if="studentFullName.studPen" class="p-0 profile-name-data">
-              <label>Personal Education Number</label>
-              <h2 class="px-0">{{ studentFullName.studPen }}</h2>
+            <div v-if="studentFullName.pen" class="p-0 profile-name-data">
+              <label>PEN</label>
+              <h2 class="px-0">{{ studentFullName.pen }}</h2>
             </div>
-            <div v-if="studentFullName.studSurname" class="p-0 profile-name-data">
-              <label>Last Name</label>
-              <h2 class="px-0">{{ studentFullName.studSurname }}</h2>
+            <div v-if="studentFullName.legalLastName" class="p-0 profile-name-data">
+              <label>Legal Surname</label>
+              <h2 class="px-0">{{ studentFullName.legalLastName }}</h2>
             </div>
-            <div v-if="studentFullName.studGiven" class="p-0 profile-name-data">
-              <label>Given Name</label>
-              <h2 class="px-0">{{ studentFullName.studGiven }}</h2>
+            <div v-if="studentFullName.legalFirstName" class="p-0 profile-name-data">
+              <label>Legal Given</label>
+              <h2 class="px-0">{{ studentFullName.legalFirstName }}</h2>
               
             </div>
-            <div v-if="studentFullName.studMiddle" class="p-0 profile-name-data">
-              <label>Middle Name</label>
-              <h2 class="px-0">{{ studentFullName.studMiddle }}</h2>
+            <div v-if="studentFullName.legalMiddleNames" class="p-0 profile-name-data">
+              <label>Legal Middle</label>
+              <h2 class="px-0">{{ studentFullName.legalMiddleNames }}</h2>
             </div>
           </div>
 
         
         <StudentInfo />
       </div>
-      <div v-if="role=='administrator'" class="col-md-2 col-12">
+      <div class="col-md-2 col-12">
         <div class="row px-0">
           <b-button v-on:click="closeRecord" variant="primary" size="sm" class="col-6 col-md-12 close-record">
             <i class="far fa-times-circle"></i> Close
