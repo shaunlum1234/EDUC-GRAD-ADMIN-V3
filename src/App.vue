@@ -41,6 +41,7 @@ export default {
 </script>
 
 <style>
+
 #app {
   background: #F9F9FB;
   -webkit-font-smoothing: antialiased;

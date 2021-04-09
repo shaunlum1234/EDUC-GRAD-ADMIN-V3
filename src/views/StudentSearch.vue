@@ -9,28 +9,28 @@
           <b-tabs card>
             <b-tab title="PEN Search" active>
               <b-card-text>
-                <p>
-                  Enter a Personal Education Number (PEN) to retrieve a student’s graduation and achievement data.
-                </p>
+                
                 <form v-on:submit.prevent>
                   <div class="form-group">
                     <!-- Pen Input -->
                     <div class="search">
-                      <b-input-group size="md" class="mb-2">
-                        <b-form-input size="md" type="search" v-model="penInput" placeholder="For example: 123456789"
-                          class="pen-search" ref="penSearch" v-on:keyup="keyHandler" tabindex="1">
+                        <label for="search-by-pen">Search by PEN:</label>
+                        
+                        <b-form-input id="search-by-pen" size="lg" type="search" v-model="penInput" placeholder=""
+                          class="text_input" ref="penSearch" v-on:keyup="keyHandler" tabindex="1">
                         </b-form-input>
-                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary">
+                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="BC-Gov-PrimaryButton">
                           <i class="fas fa-search"></i> Search
                         </button>
-                        <button v-if="searchLoading" class="btn btn-success">
-                          <i class="fas fa-search"></i> Searching
+                        <button v-if="searchLoading" class="btn btn-success BC-Gov-PrimaryButton">
+                          <i class="fas fa-search"></i> Search <b-spinner v-for="variant in variants" :variant="variant" :key="variant" v-show="searchLoading"
+                      class="loading-spinner float-right"></b-spinner>
                         </button>
-                      </b-input-group>
+                        
+                  
                     </div>
 
-                    <b-spinner v-for="variant in variants" :variant="variant" :key="variant" v-show="searchLoading"
-                      class="loading-spinner"></b-spinner>
+                    
 
                   </div>
                 </form>
@@ -52,7 +52,7 @@
 
 
                   <div class="advanced-search-form">
-                    <div class="row">
+                    <div class="row my-3">
                       <div class="advanced-search-field col-12 col-md-3">
                         <label>First Name </label>
                         <div href="#"
@@ -61,7 +61,7 @@
                           v-b-tooltip.hover title="First Name Contains">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.legalFirstName.value" placeholder="John"
+                        <b-input v-model="advancedSearchInput.legalFirstName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="2" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-3">
@@ -72,7 +72,7 @@
                           v-b-tooltip.hover title="Last Name Contains">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.legalLastName.value" placeholder="Smith"
+                        <b-input v-model="advancedSearchInput.legalLastName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="3" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-3">
@@ -83,34 +83,34 @@
                           class="wild-card-button" v-b-tooltip.hover title="Middle Name Contains">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.legalMiddleNames.value" placeholder="Middle Name"
+                        <b-input v-model="advancedSearchInput.legalMiddleNames.value" placeholder=""
                           v-on:keyup=" keyHandler" tabindex="4" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-3">
                         <label>Gender</label>
-                        <b-input v-model="advancedSearchInput.gender.value" placeholder="M|F" v-on:keyup="keyHandler"
+                        <b-input v-model="advancedSearchInput.gender.value" placeholder="" v-on:keyup="keyHandler"
                           tabindex="5" />
                       </div>
                     </div>
                     <div class="row">
                       <div class="advanced-search-field col-12 col-md-3">
                         <label>Grade</label>
-                        <b-input v-model="advancedSearchInput.grade.value" placeholder="12" v-on:keyup=" keyHandler"
+                        <b-input v-model="advancedSearchInput.grade.value" placeholder="" v-on:keyup=" keyHandler"
                           tabindex="6" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-3">
                         <label>Mincode</label>
-                        <b-input v-model="advancedSearchInput.mincode.value" placeholder="12345678"
+                        <b-input v-model="advancedSearchInput.mincode.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="7" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-3">
                         <label>Local ID</label>
-                        <b-input v-model="advancedSearchInput.localId.value" placeholder="063" v-on:keyup=" keyHandler"
+                        <b-input v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
                           tabindex="8" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-3">
                         <label>Birthdate</label>
-                        <b-input v-model="advancedSearchInput.birthDate.value" placeholder="MM|DD|YYYY"
+                        <b-input v-model="advancedSearchInput.birthDate.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="9" />
                       </div>
                       <div class="advanced-search-button">
@@ -543,20 +543,12 @@
 <style scoped>
   .alert,
   .card,
-  input {
-    padding: 5px;
-    border-radius: 0px !important
-  }
-
-  .primary {
-    color: #003366;
-  }
 
   .pen-search {
     width: 100%;
     margin-right: 9px;
     float: left;
-    padding-left: 25px;
+    /*padding-left: 25px;*/
   }
 
   h6 {
@@ -586,9 +578,6 @@
     margin-top: 15px;
   }
 
-  .search-student-dropdown {
-    border-radius: 0px;
-  }
 
   .search-results-message {
     float: left;

@@ -199,10 +199,10 @@
       this.setAdmin(this.role);
       
       //add Default Columns for table
-      this.fields.unshift({
-        key: 'more', 
-        label: 'More'
-      });
+      // this.fields.unshift({
+      //   key: 'more', 
+      //   label: 'More'
+      // });
       //remove Columns based on permssions, create, update and delete props
       if(this.create && this.isAdmin){
         this.createAllowed = true;
