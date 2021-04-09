@@ -53,7 +53,7 @@
 
                   <div class="advanced-search-form">
                     <div class="row my-3">
-                      <div class="advanced-search-field col-12 col-md-3">
+                      <div class="advanced-search-field col-12 col-md-2">
                         <label>Legal Surname</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.legalLastName.contains = !advancedSearchInput.legalLastName.contains"
@@ -62,9 +62,9 @@
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.legalLastName.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="3" />
+                          v-on:keyup="keyHandler" tabindex="1" />
                       </div>
-                      <div class="advanced-search-field col-12 col-md-3">
+                      <div class="advanced-search-field col-12 col-md-2">
                         <label>Legal Given</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.legalFirstName.contains = !advancedSearchInput.legalFirstName.contains"
@@ -76,7 +76,7 @@
                           v-on:keyup="keyHandler" tabindex="2" />
                       </div>
                       
-                      <div class="advanced-search-field col-12 col-md-3">
+                      <div class="advanced-search-field col-12 col-md-2">
                         <label>Legal Middle</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.legalMiddleNames.contains = !advancedSearchInput.legalMiddleNames.contains"
@@ -85,12 +85,27 @@
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.legalMiddleNames.value" placeholder=""
-                          v-on:keyup=" keyHandler" tabindex="4" />
-                      </div>  
+                          v-on:keyup=" keyHandler" tabindex="3" />
+                      </div>
+                      <div class="advanced-search-field  col-12 col-md-2">
+                        <label>Gender</label>
+                        <b-input v-model="advancedSearchInput.gender.value" placeholder="" v-on:keyup="keyHandler"
+                          tabindex="4" />
+                      </div>
+                      <div class="advanced-search-field  col-12 col-md-2">
+                        <label>Birthdate FROM</label>
+                        <b-input v-model="advancedSearchInput.birthdateFrom.value" placeholder=""
+                          v-on:keyup="keyHandler" tabindex="5" />
+                      </div>
+                      <div class="advanced-search-field  col-12 col-md-2">
+                        <label>Birthdate TO</label>
+                        <b-input v-model="advancedSearchInput.birthdateTo.value" placeholder=""
+                          v-on:keyup="keyHandler" tabindex="6" />
+                      </div>
                     </div>
 
                     <div class="row">
-                       <div class="advanced-search-field col-12 col-md-3">
+                       <div class="advanced-search-field col-12 col-md-2">
                         <label>Usual Surname</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.usualLastName.contains = !advancedSearchInput.usualLastName.contains"
@@ -99,9 +114,9 @@
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.usualLastName.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="3" />
+                          v-on:keyup="keyHandler" tabindex="7" />
                       </div>
-                      <div class="advanced-search-field col-12 col-md-3">
+                      <div class="advanced-search-field col-12 col-md-2">
                         <label>Usual Given</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.usualFirstName.contains = !advancedSearchInput.usualFirstName.contains"
@@ -110,10 +125,10 @@
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.usualFirstName.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="2" />
+                          v-on:keyup="keyHandler" tabindex="8" />
                       </div>
                       
-                      <div class="advanced-search-field col-12 col-md-3">
+                      <div class="advanced-search-field col-12 col-md-2">
                         <label>Usual Middle</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.usualMiddleNames.contains = !advancedSearchInput.usualMiddleNames.contains"
@@ -122,41 +137,24 @@
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.usualMiddleNames.value" placeholder=""
-                          v-on:keyup=" keyHandler" tabindex="4" />
+                          v-on:keyup=" keyHandler" tabindex="9" />
                       </div>  
-                    </div>
-              
-                    <div class="row">
-                      <div class="advanced-search-field  col-12 col-md-3">
-                        <label>Gender</label>
-                        <b-input v-model="advancedSearchInput.gender.value" placeholder="" v-on:keyup="keyHandler"
-                          tabindex="5" />
-                      </div>
-                      <div class="advanced-search-field  col-12 col-md-3">
-                        <label>Birthdate FROM</label>
-                        <b-input v-model="advancedSearchInput.birthdateFrom.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="9" />
-                      </div>
-                      <div class="advanced-search-field  col-12 col-md-3">
-                        <label>Birthdate TO</label>
-                        <b-input v-model="advancedSearchInput.birthdateTo.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="9" />
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="advanced-search-field col-12 col-md-3">
+                      <div class="advanced-search-field col-12 col-md-2">
                         <label>Local ID</label>
                         <b-input v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
-                          tabindex="8" />
+                          tabindex="10" />
                       </div>
-                      <div class="advanced-search-field  col-12 col-md-3">
+                      <div class="advanced-search-field  col-12 col-md-2">
                         <label>Mincode</label>
                         <b-input v-model="advancedSearchInput.mincode.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="7" />
-                      </div>               
+                          v-on:keyup="keyHandler" tabindex="11" />
+                      </div>     
+                    </div>
+
+                    <div class="row">                              
                       <div class="advanced-search-button">
                         <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading"
-                          class="btn btn-primary" tabindex="10">Search</button>
+                          class="btn btn-primary" tabindex="12">Search</button>
                         <button v-if="advancedSearchLoading" class="btn btn-success">Search</button>
                         <button @click="clearInput" class=" btn btn-primary mx-2">Reset</button>
                       </div>
