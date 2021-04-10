@@ -155,8 +155,8 @@
             this.courses = response.data;
           })   
           .catch((error) => {
-            // eslint-disable-next-line no-unused-vars
-            console.log('There was an error:' + error.response);
+            // eslint-disable-next-line
+            console.log('There was an error:' + error);
           });
       },
       getAllCourses() {
@@ -164,7 +164,7 @@
           .then((response) => {
             this.courses = response.data;
           })
-          // eslint-disable-next-line no-unused-vars
+          // eslint-disable-next-line
           .catch((error) => {
             this.$bvToast.toast("ERROR " + error.response.statusText, {
               title: "ERROR" + error.response.status,

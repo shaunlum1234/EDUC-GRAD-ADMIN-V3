@@ -16,10 +16,10 @@
                     <div class="search w-100">
                         <label for="search-by-pen" class="float-left w-100">Search by PEN:</label>
                         
-                        <b-form-input id="search-by-pen" size="lg" type="search" v-model="penInput" placeholder=""
+                        <b-form-input id="search-by-pen" type="search" v-model="penInput" placeholder=""
                          ref="penSearch" v-on:keyup="keyHandler" tabindex="1" class="w-50 float-left">
                         </b-form-input>
-                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary mt-2 float-left">
+                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary ml-2 float-left">
                           <i class="fas fa-search"></i> Search
                         </button>
                         <button v-if="searchLoading" class=" btn btn-primary mt-2 float-left">
