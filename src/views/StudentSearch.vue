@@ -2,20 +2,17 @@
   <div class="studentlist">
     <h1>Student search</h1>
     <p>Search by Personal Education Number(PEN) or use the advanced search tab to search by other search criteria.</p>
-    <div>
-      
+    <div>  
       <div>
         <b-card no-body class="p-0">
           <b-tabs card>
             <b-tab title="PEN Search" active>
-              <b-card-text>
-                
+              <b-card-text>        
                 <form v-on:submit.prevent>
                   <div class="form-group">
                     <!-- Pen Input -->
                     <div class="search w-100">
-                        <label for="search-by-pen" class="float-left w-100">Search by PEN:</label>
-                        
+                        <label for="search-by-pen" class="float-left w-100">Search by PEN:</label>                   
                         <b-form-input id="search-by-pen" type="search" v-model="penInput" placeholder=""
                          ref="penSearch" v-on:keyup="keyHandler" tabindex="1" class="w-50 float-left">
                         </b-form-input>
@@ -26,13 +23,9 @@
                           <i class="fas fa-search"></i> Search 
                         </button>
                         <b-spinner v-for="variant in variants" :variant="variant" :key="variant" v-show="searchLoading"
-                      class="loading-spinner float-left"></b-spinner>
-                        
-                  
+                      class="loading-spinner float-left"></b-spinner>             
                     </div>
                     <div class="search-results-message"><strong><span v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
-                    
-
                   </div>
                 </form>
                 <p class="sample-pens">
@@ -50,8 +43,6 @@
               <b-card-text>
                 <form v-on:submit.prevent>
                   <!-- advanced Search -->
-
-
                   <div class="advanced-search-form">
                     <div class="row my-3">
                       <div class="advanced-search-field col-12 col-md-2">
@@ -90,14 +81,10 @@
                       </div>
                       <div class="advanced-search-field  col-12 col-md-2">
                         <label>Gender</label>
-                        <!-- <b-input v-model="advancedSearchInput.gender.value" placeholder="" v-on:keyup="keyHandler"
-                          tabindex="4" /> -->
                          <b-form-select v-model="advancedSearchInput.gender.value" :options="genderOptions" tabindex="4"></b-form-select>  
                       </div>
                       <div class="advanced-search-field  col-12 col-md-2">
                         <label for="datepicker-birthdate-from">Birthdate FROM</label>
-                        <!-- <b-input v-model="advancedSearchInput.birthdateFrom.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="5" /> -->
                         <b-input-group class="mb-3">
                           <b-form-input
                             id="datepicker-birthdate-from"
@@ -122,8 +109,6 @@
                       </div>
                       <div class="advanced-search-field  col-12 col-md-2">
                         <label for="datepicker-birthdate-to">Birthdate TO</label>
-                        <!-- <b-input v-model="advancedSearchInput.birthdateTo.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="6" /> -->
                         <b-input-group class="mb-3">
                           <b-form-input
                             id="datepicker-birthdate-to"
@@ -171,7 +156,7 @@
                         <b-input v-model="advancedSearchInput.usualFirstName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="8" />
                       </div>
-                      
+
                       <div class="advanced-search-field col-12 col-md-2">
                         <label>Usual Middle</label>
                         <div href="#"
@@ -194,7 +179,6 @@
                           v-on:keyup="keyHandler" tabindex="11" />
                       </div>     
                     </div>
-
                     <div class="row">                              
                       <div class="advanced-search-button">
                         <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading"
@@ -210,11 +194,13 @@
                 </form>
                 <transition name="fade">
                   <DisplayTable v-if="studentSearchResults.length" v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="id"
-                    v-bind:pen="pen" v-bind:showFilter=false>
+                    v-bind:pen="pen" v-bind:showFilter=false :slots="templates">
+                      <template #cell(pen)="data">
+                        <router-link :to="'/student-profile/' + data.item.pen ">{{ data.item.pen }}</router-link>
+                      </template>
                   </DisplayTable>
                 </transition>
-                  <nav aria-label="Page Navigation">
-                    
+                  <nav aria-label="Page Navigation">         
                     <ul class="pagination">
                       <li v-if="selectedPage != 1 && selectedPage >= 5 "><a class="page-link" href="#" v-on:click="advancedSearchPagination(1, 10)">First</a></li>
                       <li v-for="index in totalPages" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a v-if="paginationRange(index)" class="page-link" href="#" v-on:click="advancedSearchPagination(index, 10)">{{ index  }}</a></li>
@@ -437,7 +423,6 @@
         token: "getToken"
       })
     },
-
     methods: {
       paginationRange(index){
         if(this.selectedPage == 1 && index <= 5){
@@ -463,9 +448,8 @@
         this.penInput = pen;
         this.findStudentByPen();
       },
-      findStudentByPen: function () {
 
-        //console.log("FIND STUDENT BY PEN");
+      findStudentByPen: function () {
         if (this.penInput) {
           this.searchByPenMessage = "";
           this.searchLoading = true;
@@ -483,6 +467,7 @@
           //pen input check
         }
       },
+
       findStudentsByAdvancedSearch: function () {
         this.message = "";
         this.errorMessage = "";
@@ -523,6 +508,7 @@
           }
         }
       },
+
       advancedSearchPagination: function (pageNumber, pageSize) {
         this.advancedSearchMessage = "";
         this.errorMessage = "";
@@ -558,9 +544,11 @@
           this.message = "Enter at least one field to search."
         }
       },
+
       showAdvancedSearch: function () {
         this.showAdvancedSearchForm = true;
       },
+
       selectStudent: function (student) {
         this.selectedPen = student[0].pen;
         this.$router.push({
@@ -568,20 +556,17 @@
         });
         //this.$router.push({ name: "student-profile", params: {pen: this.selectedPen}});
       },
+
       clearStudent: function () {},
+
       clearInput: function () {
         this.penInput = "";
-
-    
-
-          for (var key in this.advancedSearchInput) {
-            if (this.advancedSearchInput.hasOwnProperty(key)) {
-              this.advancedSearchInput[key].value = "";
-              this.advancedSearchInput[key].contains = false;
-            }
+        for (var key in this.advancedSearchInput) {
+          if (this.advancedSearchInput.hasOwnProperty(key)) {
+            this.advancedSearchInput[key].value = "";
+            this.advancedSearchInput[key].contains = false;
           }
-  
-
+        }
         // this.advancedSearchInput = {
         //   legalFirstName: {
         //     value: "",
@@ -671,7 +656,6 @@
           this.message += "Enter at least one field to search."
         }
         //this.message += "VALID:" + isValid;
-      
         return isValid;
       },
       isEmpty(obj) {
