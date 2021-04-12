@@ -184,7 +184,7 @@
                         <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading"
                           class="btn btn-primary" tabindex="12">Search</button>
                         <button v-if="advancedSearchLoading" class="btn btn-success">Search</button>
-                        <button @click="clearInput" class=" btn btn-primary mx-2">Clear</button>
+                        <button @click="clearInput" class=" btn btn-secondary mx-2">Clear</button>
                       </div>
                       <b-spinner v-for="variant in variants" :variant="variant" :key="variant"
                         v-show="advancedSearchLoading" class="advanced-loading-spinner"></b-spinner>
@@ -193,12 +193,14 @@
                   <div class="search-results-message"><strong><span v-if="advancedSearchMessage">{{ advancedSearchMessage }}</span></strong></div>
                 </form>
                 <transition name="fade">
+                <div class="table-responsive">  
                   <DisplayTable v-if="studentSearchResults.length" v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="id"
                     v-bind:pen="pen" v-bind:showFilter=false :slots="templates">
-                      <template #cell(pen)="data">
+                      <template  #cell(pen)="data">
                         <router-link :to="'/student-profile/' + data.item.pen ">{{ data.item.pen }}</router-link>
                       </template>
                   </DisplayTable>
+                </div>  
                 </transition>
                   <nav aria-label="Page Navigation">         
                     <ul class="pagination">
@@ -313,8 +315,8 @@
             class: 'w-1',
           },
           {
-            key: 'gradeCode',
-            label: 'Student grade (GRAD)',
+            key: 'studentGrade',
+            label: 'Student Grade (GRAD)',
             sortable: true,
             editable: false,
             class: 'w-1',
@@ -327,21 +329,21 @@
             class: 'w-1',
           },
           {
-            key: 'schoolName',
+            key: 'schoolOfRecordName',
             label: 'School of Record name (GRAD)',
             sortable: true,
             editable: false,
             class: 'w-1',
           },
           {
-            key: 'statusCode',
-            label: 'Student status (GRAD)',
+            key: 'studentStatus',
+            label: 'Student Status (GRAD)',
             sortable: true,
             editable: false,
             class: 'w-1',
           },
           {
-            key: 'statusCode',
+            key: 'schoolOfRecordindependentAffiliation',
             label: 'School independent affiliation (GRAD)',
             sortable: true,
             editable: false,
@@ -529,7 +531,12 @@
                 this.totalElements = this.searchResults.totalElements;
                 this.numberOfElements = this.searchResults.numberOfElements;
                 this.totalPages = this.searchResults.totalPages;
-                this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
+              //  this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
+                if(this.searchResults.totalElements > 0){
+                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. This is page " + this.selectedPage + " of " + this.searchResults.totalPages + " page(s)";
+                }else{
+                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
+                }
               })
               .catch((err) => {
                 this.advancedSearchLoading = false;

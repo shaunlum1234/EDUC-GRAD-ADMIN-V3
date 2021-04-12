@@ -24,8 +24,8 @@
       <b-card no-body class="col-12 px-0 mx-0">
 
         <b-button block v-b-toggle.accordion-1 variant="info" class="text-left pt-4"><i
-            class="fas fa-info-circle primary"></i> Student graduation
-          information</b-button>
+            class="fas fa-info-circle primary"></i> Student GRAD
+          record</b-button>
 
         <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
           <b-card-body>
