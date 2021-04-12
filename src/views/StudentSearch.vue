@@ -228,8 +228,8 @@
       return {
         genderOptions: [
           { value: null, text: 'Please select an option' },
-          { value: 'M', text: 'Male' },
-          { value: 'F', text: 'Female' },
+          { value: 'M', text: 'Male (M)' },
+          { value: 'F', text: 'Female (F)' },
           { value: 'X', text: 'Gender diverse (X)' },
           { value: 'U', text: 'Unknown (U)' }
         ],
