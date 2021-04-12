@@ -184,10 +184,15 @@
                         <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading"
                           class="btn btn-primary" tabindex="12">Search</button>
                         <button v-if="advancedSearchLoading" class="btn btn-success">Search</button>
-                        <button @click="clearInput" class=" btn btn-secondary mx-2">Clear</button>
+                        <button @click="clearInput" class=" btn btn-secondary mx-2">Clear</button>                
                       </div>
+                        
                       <b-spinner v-for="variant in variants" :variant="variant" :key="variant"
                         v-show="advancedSearchLoading" class="advanced-loading-spinner"></b-spinner>
+                    </div>
+                    <div class="results-option-group">
+                      <label v-if="totalPages > 1">Results per page  </label>
+                      <b-form-select class="results-option" v-if="totalPages > 1" v-model="numberOfElements" :options="numberOfElementsOptions"></b-form-select>
                     </div>
                   </div>
                   <div class="search-results-message"><strong><span v-if="advancedSearchMessage">{{ advancedSearchMessage }}</span></strong></div>
@@ -202,11 +207,11 @@
                   </DisplayTable>
                 </div>  
                 </transition>
-                  <nav aria-label="Page Navigation">         
+                  <nav aria-label="Page Navigation">          
                     <ul class="pagination">
-                      <li v-if="selectedPage != 1 && selectedPage >= 5 "><a class="page-link" href="#" v-on:click="advancedSearchPagination(1, 10)">First</a></li>
-                      <li v-for="index in totalPages" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a v-if="paginationRange(index)" class="page-link" href="#" v-on:click="advancedSearchPagination(index, 10)">{{ index  }}</a></li>
-                      <li v-if="selectedPage != totalPages && totalPages != 6 && selectedPage+5 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="advancedSearchPagination(totalPages, 10)">{{totalPages}}</a></li>
+                      <li v-if="selectedPage != 1 && selectedPage >= 5 "><a class="page-link" href="#" v-on:click="advancedSearchPagination(1, numberOfElements)">First</a></li>
+                      <li v-for="index in totalPages" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a v-if="paginationRange(index)" class="page-link" href="#" v-on:click="advancedSearchPagination(index, numberOfElements)">{{ index  }}</a></li>
+                      <li v-if="selectedPage != totalPages && totalPages != 6 && selectedPage+5 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="advancedSearchPagination(totalPages, numberOfElements)">{{totalPages}}</a></li>
                     </ul>
                   </nav>
               </b-card-text>
@@ -228,6 +233,12 @@
     name: "studentSearch",
     data() {
       return {
+        numberOfElementsOptions: [
+          { value: 10, text: 'Default 10' },
+          { value: 25, text: '25' },
+          { value: 50, text: '50' },
+          { value: 100, text: '100' },
+        ],
         genderOptions: [
           { value: null, text: 'Please select an option' },
           { value: 'M', text: 'Male (M)' },
@@ -481,7 +492,7 @@
             this.advancedSearchInput.birthdateTo.value = this.advancedSearchInput.birthdateFrom.value
           }
           try {
-            StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token)
+            StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token, 0, this.numberOfElements)
               .then((response) => {
 
                 this.advancedSearchLoading = false;
@@ -680,6 +691,13 @@
   };
 </script>
 <style scoped>
+.results-option-group{
+  margin-top: 10px;
+}
+.results-option{
+    width: 11%;
+    margin-left: 10px;
+}
 .input-group-append {
     margin-left: -1px;
     position: absolute;
