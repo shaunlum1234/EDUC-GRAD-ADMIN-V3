@@ -102,7 +102,6 @@
                               right
                               locale="en-US"
                               aria-controls="datepicker-birthdate-to"
-                              @context="onContext"
                             ></b-form-datepicker>
                           </b-input-group-append>
                         </b-input-group>    
@@ -126,7 +125,7 @@
                               right
                               locale="en-US"
                               aria-controls="datepicker-birthdate-to"
-                              @context="onContext"
+
                             ></b-form-datepicker>
                           </b-input-group-append>
                         </b-input-group>     
