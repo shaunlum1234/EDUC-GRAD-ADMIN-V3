@@ -12,7 +12,7 @@
           <div v-if="!hasGradStatus">
 
 
-            {{studentFullName.studGiven }} does not have a Graduation Status
+            {{studentFullName.legalFirstName }} found on the Student (common) database <strong>but does not have a GRAD system record</strong>
 
           </div>
         </b-card-text>

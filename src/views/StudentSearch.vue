@@ -29,13 +29,13 @@
                   </div>
                 </form>
                 <p class="sample-pens">
-                  Samples:
+                  <!-- Samples:
                   <ul>
                     <li><a href="#" v-on:click="findStudentByPenSample(126966100)">126966100</a> (All)</li>
                     <li><a href="#" v-on:click="findStudentByPenSample(140341157)">126966100</a> (Exams and Assessment
                       No grad
                       status)</li>
-                  </ul>
+                  </ul> -->
                 </p>
               </b-card-text>
             </b-tab>
@@ -462,7 +462,7 @@
             })
             .catch(() => {
               this.searchLoading = false;
-              this.searchByPenMessage = "Student not found";
+              this.searchByPenMessage = "Student cannot be found on the STUDENT (common) database";
             });
           //pen input check
         }
@@ -533,7 +533,7 @@
               })
               .catch((err) => {
                 this.advancedSearchLoading = false;
-                this.message = "Student not found";
+                this.message = "Student cannot be found on the STUDENT (common) database";
                 this.errorMessage = err;
                 // console.log(err);
               });
