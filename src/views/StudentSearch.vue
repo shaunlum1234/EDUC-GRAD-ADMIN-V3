@@ -22,7 +22,7 @@
                         <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary ml-2 float-left">
                           <i class="fas fa-search"></i> Search
                         </button>
-                        <button v-if="searchLoading" class=" btn btn-primary mt-2 float-left">
+                        <button v-if="searchLoading" class=" btn btn-primary ml-2 float-left">
                           <i class="fas fa-search"></i> Search 
                         </button>
                         <b-spinner v-for="variant in variants" :variant="variant" :key="variant" v-show="searchLoading"
@@ -215,8 +215,11 @@
                   </DisplayTable>
                 </transition>
                   <nav aria-label="Page Navigation">
+                    
                     <ul class="pagination">
-                      <li v-for="index in totalPages" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a class="page-link" href="#" v-on:click="advancedSearchPagination(index, 10)">{{ index  }}</a></li>
+                      <li v-if="selectedPage != 1 && selectedPage >= 5 "><a class="page-link" href="#" v-on:click="advancedSearchPagination(1, 10)">First</a></li>
+                      <li v-for="index in totalPages" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a v-if="paginationRange(index)" class="page-link" href="#" v-on:click="advancedSearchPagination(index, 10)">{{ index  }}</a></li>
+                      <li v-if="selectedPage != totalPages && selectedPage+5 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="advancedSearchPagination(totalPages, 10)">{{totalPages}}</a></li>
                     </ul>
                   </nav>
               </b-card-text>
@@ -363,7 +366,7 @@
         totalElements:"",
         numberOfElements:"",
         totalPages:"",
-        selectedPage:"",
+        selectedPage:1,
         searchByPenMessage: "",
         advancedSearchMessage: "",
         errorMessage: "",
@@ -437,6 +440,15 @@
     },
 
     methods: {
+      paginationRange(index){
+        if(this.selectedPage == 1 && index <= 5){
+          return true;
+        }else if(this.selectedPage <= 5 && index <= this.selectedPage + 5){
+          return true;
+        }else if(index > this.selectedPage-5 &&  index < this.selectedPage + 5){
+           return true;
+        }else return false;
+      },
       keyHandler: function (e) {
         if (e.keyCode === 13) {
           //enter key pressed
@@ -774,7 +786,6 @@
     margin-top: 32px;
     padding-left: 15px;
   }
-
   .wild-card-button {
     color: #DEE2EB;
     position: absolute;
@@ -782,7 +793,7 @@
     top: 40px;
     z-index: 10;
     text-decoration: none;
-    cursor: pointer;
+  
   }
 
   .wild-card-button:visited {
