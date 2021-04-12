@@ -48,7 +48,6 @@
             </b-tab>
             <b-tab title="Advanced Search">
               <b-card-text>
-                {{advancedSearchInput.birthdateTo.value}}
                 <form v-on:submit.prevent>
                   <!-- advanced Search -->
 
@@ -219,7 +218,7 @@
                     <ul class="pagination">
                       <li v-if="selectedPage != 1 && selectedPage >= 5 "><a class="page-link" href="#" v-on:click="advancedSearchPagination(1, 10)">First</a></li>
                       <li v-for="index in totalPages" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a v-if="paginationRange(index)" class="page-link" href="#" v-on:click="advancedSearchPagination(index, 10)">{{ index  }}</a></li>
-                      <li v-if="selectedPage != totalPages && selectedPage+5 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="advancedSearchPagination(totalPages, 10)">{{totalPages}}</a></li>
+                      <li v-if="selectedPage != totalPages && totalPages != 6 && selectedPage+5 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="advancedSearchPagination(totalPages, 10)">{{totalPages}}</a></li>
                     </ul>
                   </nav>
               </b-card-text>
