@@ -258,7 +258,7 @@
           },
           {
             key: 'legalFirstName',
-            label: 'Legal Given/Usual',
+            label: 'Legal Given',
             sortable: false,
             editable: false,
             class: 'w-1',
@@ -272,7 +272,7 @@
           },
           {
             key: 'legalMiddleNames',
-            label: 'Legal Middle/Usual',
+            label: 'Legal Middle',
             sortable: false,
             editable: false,
             class: 'w-1',
