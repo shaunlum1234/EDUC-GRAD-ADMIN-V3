@@ -13,10 +13,10 @@
               <td class="align-top profile-name-header"><label>Legal Middle</label></td>
             </tr>
             <tr>
-              <td class="align-top profile-name-data" v-if="studentFullName.pen"><h1>{{ studentFullName.pen }}</h1></td>
-              <td class="align-top profile-name-data" v-if="studentFullName.legalLastName"><h1>{{ studentFullName.legalLastName }}</h1></td>
-              <td class="align-top profile-name-data" v-if="studentFullName.legalFirstName"><h1>{{ studentFullName.legalFirstName }}</h1></td>
-              <td class="align-top profile-name-data" v-if="studentFullName.legalMiddleNames"><h1>{{ studentFullName.legalMiddleNames }}</h1></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.pen"><strong><p class="profile-info">{{ studentFullName.pen }}</p></strong></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.legalLastName"><p class="profile-info">{{ studentFullName.legalLastName }}</p></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.legalFirstName"><p class="profile-info">{{ studentFullName.legalFirstName }}</p></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.legalMiddleNames"><p class="profile-info">{{ studentFullName.legalMiddleNames }}</p></td>
             </tr>
           </table>
           <div v-if="smallScreen" class="profile-name">
@@ -351,6 +351,9 @@
 </script>
 
 <style scoped>
+  .profile-info{
+    font-size: 18px;
+  }
   
   .close-record {
     float: right;
