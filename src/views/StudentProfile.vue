@@ -8,9 +8,9 @@
           <table v-if="!smallScreen" class="profile-name">
             <tr>
               <td class="align-top profile-name-header"><label>PEN</label></td>
-              <td class="align-top profile-name-header"><label>Legal Surname</label></td>
-              <td class="align-top profile-name-header"><label>Legal Given</label></td>
-              <td class="align-top profile-name-header"><label>Legal Middle</label></td>
+              <td class="align-top profile-name-header"><label>Legal surname</label></td>
+              <td class="align-top profile-name-header"><label>Legal given</label></td>
+              <td class="align-top profile-name-header"><label>Legal middle</label></td>
             </tr>
             <tr>
               <td class="align-top profile-name-data" v-if="studentFullName.pen"><strong><p class="profile-info">{{ studentFullName.pen }}</p></strong></td>
@@ -25,16 +25,16 @@
               <h2 class="px-0">{{ studentFullName.pen }}</h2>
             </div>
             <div v-if="studentFullName.legalLastName" class="p-0 profile-name-data">
-              <label>Legal Surname</label>
+              <label>Legal surname</label>
               <h2 class="px-0">{{ studentFullName.legalLastName }}</h2>
             </div>
             <div v-if="studentFullName.legalFirstName" class="p-0 profile-name-data">
-              <label>Legal Given</label>
+              <label>Legal given</label>
               <h2 class="px-0">{{ studentFullName.legalFirstName }}</h2>
               
             </div>
             <div v-if="studentFullName.legalMiddleNames" class="p-0 profile-name-data">
-              <label>Legal Middle</label>
+              <label>Legal middle</label>
               <h2 class="px-0">{{ studentFullName.legalMiddleNames }}</h2>
             </div>
           </div>
