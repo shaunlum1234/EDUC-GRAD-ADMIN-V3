@@ -46,22 +46,22 @@
                   <div class="advanced-search-form">
                     <div class="row my-3">
                       <div class="advanced-search-field col-12 col-md-2">
-                        <label>Legal Surname</label>
+                        <label>Legal surname</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.legalLastName.contains = !advancedSearchInput.legalLastName.contains"
                           v-bind:class="{active: advancedSearchInput.legalLastName.contains}" class="wild-card-button"
-                          v-b-tooltip.hover title="Legal Surname starts with">
+                          v-b-tooltip.hover title="Legal surname starts with">
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.legalLastName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="1" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-2">
-                        <label>Legal Given</label>
+                        <label>Legal given</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.legalFirstName.contains = !advancedSearchInput.legalFirstName.contains"
                           v-bind:class="{active: advancedSearchInput.legalFirstName.contains}" class="wild-card-button"
-                          v-b-tooltip.hover title="Legal Given starts with">
+                          v-b-tooltip.hover title="Legal given starts with">
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.legalFirstName.value" placeholder=""
@@ -69,11 +69,11 @@
                       </div>
                       
                       <div class="advanced-search-field col-12 col-md-2">
-                        <label>Legal Middle</label>
+                        <label>Legal middle</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.legalMiddleNames.contains = !advancedSearchInput.legalMiddleNames.contains"
                           v-bind:class="{active: advancedSearchInput.legalMiddleNames.contains}"
-                          class="wild-card-button" v-b-tooltip.hover title="Legal Middle starts with">
+                          class="wild-card-button" v-b-tooltip.hover title="Legal middle starts with">
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.legalMiddleNames.value" placeholder=""
@@ -84,7 +84,7 @@
                          <b-form-select v-model="advancedSearchInput.gender.value" :options="genderOptions" tabindex="4"></b-form-select>  
                       </div>
                       <div class="advanced-search-field  col-12 col-md-2">
-                        <label for="datepicker-birthdate-from">Birthdate FROM</label>
+                        <label for="datepicker-birthdate-from">Birthdate from</label>
                         <b-input-group class="mb-3">
                           <b-form-input
                             id="datepicker-birthdate-from"
@@ -108,7 +108,7 @@
                         </b-input-group>    
                       </div>
                       <div class="advanced-search-field  col-12 col-md-2">
-                        <label for="datepicker-birthdate-to">Birthdate TO</label>
+                        <label for="datepicker-birthdate-to">Birthdate to</label>
                         <b-input-group class="mb-3">
                           <b-form-input
                             id="datepicker-birthdate-to"
@@ -135,22 +135,22 @@
 
                     <div class="row">
                        <div class="advanced-search-field col-12 col-md-2">
-                        <label>Usual Surname</label>
+                        <label>Usual surname</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.usualLastName.contains = !advancedSearchInput.usualLastName.contains"
                           v-bind:class="{active: advancedSearchInput.usualLastName.contains}" class="wild-card-button"
-                          v-b-tooltip.hover title="Usual Surname starts with">
+                          v-b-tooltip.hover title="Usual surname starts with">
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.usualLastName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="7" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-2">
-                        <label>Usual Given</label>
+                        <label>Usual given</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.usualFirstName.contains = !advancedSearchInput.usualFirstName.contains"
                           v-bind:class="{active: advancedSearchInput.usualFirstName.contains}" class="wild-card-button"
-                          v-b-tooltip.hover title="Usual Given starts with">
+                          v-b-tooltip.hover title="Usual given starts with">
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.usualFirstName.value" placeholder=""
@@ -158,11 +158,11 @@
                       </div>
 
                       <div class="advanced-search-field col-12 col-md-2">
-                        <label>Usual Middle</label>
+                        <label>Usual middle</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.usualMiddleNames.contains = !advancedSearchInput.usualMiddleNames.contains"
                           v-bind:class="{active: advancedSearchInput.usualMiddleNames.contains}"
-                          class="wild-card-button" v-b-tooltip.hover title="Usual Middle starts with">
+                          class="wild-card-button" v-b-tooltip.hover title="Usual middle starts with">
                           [.*]
                         </div>
                         <b-input v-model="advancedSearchInput.usualMiddleNames.value" placeholder=""
@@ -230,8 +230,8 @@
           { value: null, text: 'Please select an option' },
           { value: 'M', text: 'Male' },
           { value: 'F', text: 'Female' },
-          { value: 'X', text: 'Gender Diverse' },
-          { value: 'U', text: 'Unknown' }
+          { value: 'X', text: 'Gender diverse (X)' },
+          { value: 'U', text: 'Unknown (U)' }
         ],
         studentSearchResults: [],
         studentSearchResultsFields: [
@@ -244,42 +244,42 @@
           },
           {
             key: 'legalLastName',
-            label: 'Legal Surname',
+            label: 'Legal surname',
             sortable: false,
             editable: false,
             class: 'w-1',
           },
           {
             key: 'usualLastName',
-            label: 'Usual Surname',
+            label: 'Usual surname',
             sortable: false,
             editable: false,
             class: 'w-1',
           },
           {
             key: 'legalFirstName',
-            label: 'Legal Given',
+            label: 'Legal given',
             sortable: false,
             editable: false,
             class: 'w-1',
           },
           {
             key: 'usualFirstName',
-            label: 'Usual Given',
+            label: 'Usual given',
             sortable: false,
             editable: false,
             class: 'w-1',
           },
           {
             key: 'legalMiddleNames',
-            label: 'Legal Middle',
+            label: 'Legal middle',
             sortable: false,
             editable: false,
             class: 'w-1',
           },
           {
             key: 'usualMiddleNames',
-            label: 'Usual Middle',
+            label: 'Usual middle',
             sortable: false,
             editable: false,
             class: 'w-1',
@@ -314,7 +314,7 @@
           },
           {
             key: 'gradeCode',
-            label: 'Student Grade (GRAD)',
+            label: 'Student grade (GRAD)',
             sortable: true,
             editable: false,
             class: 'w-1',
@@ -328,21 +328,21 @@
           },
           {
             key: 'schoolName',
-            label: 'School of Record Name (GRAD)',
+            label: 'School of Record name (GRAD)',
             sortable: true,
             editable: false,
             class: 'w-1',
           },
           {
             key: 'statusCode',
-            label: 'Student Status (GRAD)',
+            label: 'Student status (GRAD)',
             sortable: true,
             editable: false,
             class: 'w-1',
           },
           {
             key: 'statusCode',
-            label: 'School Independent Affiliation (GRAD)',
+            label: 'School independent affiliation (GRAD)',
             sortable: true,
             editable: false,
             class: 'w-1',
