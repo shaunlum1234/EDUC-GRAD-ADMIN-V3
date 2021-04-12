@@ -211,7 +211,7 @@
                 </form>
                 <transition name="fade">
                   <DisplayTable v-if="studentSearchResults.length" v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="id"
-                    v-bind:pen="pen">
+                    v-bind:pen="pen" v-bind:showFilter=false>
                   </DisplayTable>
                 </transition>
                   <nav aria-label="Page Navigation">
@@ -785,6 +785,10 @@
   .advanced-search-button {
     margin-top: 32px;
     padding-left: 15px;
+  }
+  .wild-card-button:hover{
+    cursor: pointer;
+
   }
   .wild-card-button {
     color: #DEE2EB;

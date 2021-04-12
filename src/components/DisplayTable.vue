@@ -20,10 +20,10 @@
       </b-col>
       <b-col v-if="role=='authenticated'" lg="7" class="pr-5 float-left">
       </b-col>
-      <b-col lg="5" class="my-1">
+      <b-col lg="5" class="my-1" v-if="this.showFilter">
         <b-form-group label="Filter" label-for="filter-input" label-cols-sm="3" label-align-sm="right" label-size="sm"
           class="mb-0">
-          <b-input-group >
+          <b-input-group  >
             <b-form-input id="filter-input" v-model="filter" type="search" placeholder="Type to Search"></b-form-input>
             <b-input-group-append>
               <b-button class="mr-10" :disabled="!filter" @click="filter = ''">Clear</b-button>
@@ -137,7 +137,7 @@
 <script>
   import {mapGetters} from "vuex";
   export default {
-    props: ['items', 'title', 'fields', 'id', 'create','update','delete', 'slots'],
+    props: ['items', 'title', 'fields', 'id', 'create','update','delete', 'slots', 'showFilter'],
     data() {
       return {
         quickEdit: false,
@@ -166,6 +166,7 @@
         sortDirection: 'asc',
         filter: null,
         filterOn: [],
+
         infoModal: {
           id: 'info-modal',
           title: '',
