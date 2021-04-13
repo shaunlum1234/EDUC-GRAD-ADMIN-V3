@@ -21,9 +21,7 @@
                         </button>
                         <button v-if="searchLoading" class=" btn btn-primary ml-2 float-left">
                           <i class="fas fa-search"></i> Search 
-                        </button>
-                        <b-spinner v-for="variant in variants" :variant="variant" :key="variant" v-show="searchLoading"
-                      class="loading-spinner float-left"></b-spinner>             
+                        </button>      
                     </div>
                     <div class="search-results-message my-4"><strong><span v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
                   </div>
@@ -184,16 +182,17 @@
                         <button v-if="advancedSearchLoading" class="btn btn-success">Search</button>
                         <button @click="clearInput" class="btn btn-outline-primary mx-2">Clear</button>                
                       </div>
-                        
-                      <b-spinner v-for="variant in variants" :vagriant="variant" :key="variant"
-                        v-show="advancedSearchLoading" class="advanced-loading-spinner"></b-spinner>
                     </div>
-                    <div class="results-option-group">
-                      <label v-if="totalPages > 1">Results per page  </label>
+
+                  </div>
+                  <div class="row">
+                    <div class="search-results-message my-4 col-12 col-md-8"><strong><span v-if="advancedSearchMessage">{{ advancedSearchMessage }}</span></strong></div>
+                    <div class="results-option-group col-12 col-md-4">
+                      <label v-if="totalPages > 1">Results per page</label>
                       <b-form-select class="results-option" v-if="totalPages > 1" @change="advancedSearchPagination(1,resultsPerPage)" v-model="resultsPerPage" :options="resultsPerPageOptions"></b-form-select>
                     </div>
                   </div>
-                  <div class="search-results-message"><strong><span v-if="advancedSearchMessage">{{ advancedSearchMessage }}</span></strong></div>
+                  
                 </form>
                 <transition name="fade">
                 <div class="table-responsive">  
@@ -232,7 +231,7 @@
     data() {
       return {
         resultsPerPageOptions: [
-          { value: 10, text: 'Default 10' },
+          { value: 10, text: '10' },
           { value: 25, text: '25' },
           { value: 50, text: '50' },
           { value: 100, text: '100' },
@@ -360,7 +359,7 @@
           },
         ],
         totalElements:"",
-        resultsPerPage:"",
+        resultsPerPage:"25",
         totalPages:"",
         selectedPage:1,
         searchByPenMessage: "",
@@ -500,9 +499,9 @@
                 this.resultsPerPage = this.searchResults.numberOfElements;
                 this.totalPages = this.searchResults.totalPages;
                 if(this.searchResults.totalElements > 0){
-                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.resultsPerPage + " results. Number of Pages: " + this.searchResults.totalPages;
+                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.resultsPerPage + " results. Number of Pages: " + this.searchResults.totalPages;
                 }else{
-                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.resultsPerPage + " results. Number of Pages: " + this.searchResults.totalPages;
+                  this.advancedSearchMessage = "No students found.";
                 }
                 
               })
@@ -542,9 +541,9 @@
                 this.totalPages = this.searchResults.totalPages;
               //  this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
                 if(this.searchResults.totalElements > 0){
-                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.resultsPerPage + " results. This is page " + this.selectedPage + " of " + this.searchResults.totalPages + " page(s)";
+                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.resultsPerPage + " results. This is page " + this.selectedPage + " of " + this.searchResults.totalPages + " page(s)";
                 }else{
-                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.resultsPerPage + " results. Number of Pages: " + this.searchResults.totalPages;
+                  this.advancedSearchMessage =  "No students found.";
                 }
               })
               .catch((err) => {
@@ -690,10 +689,11 @@
 </script>
 <style scoped>
 .results-option-group{
+  text-align:right;
   margin-top: 10px;
 }
 .results-option{
-    width: 11%;
+    width: 100px;
     margin-left: 10px;
 }
 .input-group-append {
