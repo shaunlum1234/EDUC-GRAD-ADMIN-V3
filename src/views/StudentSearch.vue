@@ -38,19 +38,14 @@
               </b-card-text>
             </b-tab>
 
-            <div class="form-group" :class="{ 'form-group--error': $v.test.$error }">
-              <b-input v-model="test" placeholder=""/>
-              <div class="error form__input" v-if="!$v.test.minLength">Test must have at least {{$v.test.$params.minLength.min}} letters.</div>
-            </div>
-
             <b-tab title="Advanced search">
               <b-card-text>
                 <form v-on:submit.prevent>
                   <!-- advanced Search -->
                   <div class="advanced-search-form">
                     <div class="row my-3">
-                      <div class="form-group advanced-search-field col-12 col-md-2" :class="{ 'form-group--error': $v.advancedSearchInput.legalLastName.$error }">
-                        <label class="form__label">Legal surname</label>
+                      <div class="advanced-search-field col-12 col-md-2">
+                        <label >Legal surname</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.legalLastName.contains = !advancedSearchInput.legalLastName.contains"
                           v-bind:class="{active: advancedSearchInput.legalLastName.contains}" class="wild-card-button"
@@ -59,7 +54,6 @@
                         </div>
                         <b-input class="form__input" v-model="advancedSearchInput.legalLastName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="1" />
-                        <div class="error form__input" v-if="!$v.advancedSearchInput.legalLastName.minLength">Legal surname name must have at least {{$v.advancedSearchInput.legalLastName.$params.minLength.min}} letters.</div>
                       </div>
                       <div class="advanced-search-field col-12 col-md-2">
                         <label>Legal given</label>
@@ -171,22 +165,25 @@
                         </div>
                         <b-input v-model="advancedSearchInput.usualMiddleNames.value" placeholder=""
                           v-on:keyup=" keyHandler" tabindex="9" />
-                      </div>  
+                      </div> 
+                      <div class="advanced-search-field form-group col-12 col-md-2" :class="{ 'form-group--error': $v.advancedSearchInput.mincode.value.$error }">
+                          <label class="form__label">Mincode</label>
+                          <b-input class="form__input" v-model="advancedSearchInput.mincode.value" placeholder=""
+                            v-on:keyup="keyHandler" tabindex="11" />
+                          <div class="error" v-if="!$v.advancedSearchInput.mincode.value.numeric">Field is not numeric.</div>  
+                      </div>   
+                          
                       <div class="advanced-search-field col-12 col-md-2">
                         <label>Local ID</label>
                         <b-input v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
                           tabindex="10" />
                       </div>
-                      <div class="advanced-search-field  col-12 col-md-2">
-                        <label>Mincode</label>
-                        <b-input v-model="advancedSearchInput.mincode.value" placeholder=""
-                          v-on:keyup="keyHandler" tabindex="11" />
-                      </div>     
+                        {{this.$v.$invalid}}
                     </div>
                     <div class="row">                              
                       <div class="advanced-search-button">
                         <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading" class="btn btn-primary" tabindex="12">Search</button>
-                        <button v-if="advancedSearchLoading" class="btn btn-success">Search</button>
+                        <button v-if="advancedSearchLoading" :class="!this.$v.$invalid?'btn btn-success':'btn btn-danger'">Search</button>
                         <button @click="clearInput" class="btn btn-outline-primary mx-2">Clear</button>                
                       </div>
                     </div>
@@ -234,13 +231,12 @@
   } from "vuex";
   import StudentService from "@/services/StudentService.js";
   import DisplayTable from "@/components/DisplayTable";
-  import { minLength } from 'vuelidate/lib/validators';
+  import { numeric } from 'vuelidate/lib/validators';
 
   export default {
     name: "studentSearch",
     data() {
       return {
-        test:"",
         resultsPerPageOptions: [
           { value: 10, text: '10' },
           { value: 25, text: '25' },
@@ -432,8 +428,10 @@
     },
     validations: {
       advancedSearchInput: {
-          legalLastName:{
-          minLength: minLength(3)
+        mincode:{
+          value: {
+            numeric:numeric
+          }
         }  
       } 
     },
@@ -498,8 +496,10 @@
       findStudentsByAdvancedSearch: function () {
         this.message = "";
         this.errorMessage = "";
+        this.$v.$touch();
         // console.log(this.advancedSearchValidate(this.advancedSearchInput));
-        if (this.advancedSearchValidate(this.advancedSearchInput)) {
+
+        if ( !this.$v.$invalid) {
           this.advancedSearchLoading = true;
           this.studentSearchResults = [];
           if(!this.advancedSearchInput.birthdateTo.value){
