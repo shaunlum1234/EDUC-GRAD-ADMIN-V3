@@ -178,12 +178,11 @@
                         <b-input v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
                           tabindex="10" />
                       </div>
-                        {{this.$v.$invalid}}
                     </div>
                     <div class="row">                              
                       <div class="advanced-search-button">
-                        <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading" class="btn btn-primary" tabindex="12">Search</button>
-                        <button v-if="advancedSearchLoading" :class="!this.$v.$invalid?'btn btn-success':'btn btn-danger'">Search</button>
+                        <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading" :class="!this.$v.$invalid?'btn btn-primary':'btn btn-secondary'" tabindex="12">Search</button>
+                        <button @click="findStudentsByAdvancedSearch" v-if="advancedSearchLoading" class="btn btn-success" tabindex="12">Search</button>
                         <button @click="clearInput" class="btn btn-outline-primary mx-2">Clear</button>                
                       </div>
                     </div>
@@ -494,12 +493,16 @@
       },
 
       findStudentsByAdvancedSearch: function () {
+        this.advancedSearchMessage = "";
         this.message = "";
         this.errorMessage = "";
         this.$v.$touch();
         // console.log(this.advancedSearchValidate(this.advancedSearchInput));
+        if(this.$v.$invalid){
+          this.advancedSearchMessage += "Form Validation Error: please correct the form input";
+        }
+        else if (!this.$v.$invalid && this.advancedSearchValidate(this.advancedSearchInput)) {
 
-        if ( !this.$v.$invalid) {
           this.advancedSearchLoading = true;
           this.studentSearchResults = [];
           if(!this.advancedSearchInput.birthdateTo.value){
@@ -544,7 +547,10 @@
         this.advancedSearchMessage = "";
         this.errorMessage = "";
         this.selectedPage = pageNumber;
-        if (!this.isEmpty(this.advancedSearchInput)) {
+        if(this.$v.$invalid){
+          this.advancedSearchMessage += "Form Validation Error: please correct the form input";
+        }
+        else if (!this.$v.$invalid && !this.isEmpty(this.advancedSearchInput)) {
           this.advancedSearchLoading = true;
           this.studentSearchResults = [];
           if(!this.advancedSearchInput.birthdateTo.value){
@@ -665,18 +671,10 @@
               isEmpty = false;
                 if(key == "mincode"){
                   //contains all digits
-                  if(!isNaN(obj[key].value) === false){
-                    this.advancedSearchMessage = "Mincode must contain digits only"
-                    isValid = false;
-                  }else {
                     if(obj[key].value.length >= 1 && obj[key].value.length <= 7){
-                      this.advancedSearchMessage += "Add wild card"
                       obj[key].contains = true;
-                    }else if(obj[key].value.length != 8){
-                      this.advancedSearchMessage += "mincode must be between 1-8 digits. "
-                      isValid = false;
+                      
                     }
-                  }
                   //add wildcard to mincode if at least 3 digits are included      
                 }//mincode
                 if(key == "birthdateFrom") {
@@ -693,9 +691,9 @@
         }
         if(isEmpty){
           isValid = false;
-          this.message += "Enter at least one field to search."
+          this.advancedSearchMessage += "Enter at least one field to search."
         }
-        //this.message += "VALID:" + isValid;
+
         return isValid;
       },
       isEmpty(obj) {
@@ -757,7 +755,12 @@
   .search {
     float: left;
   }
-
+  div.error{
+    position: absolute;
+    top: 77px;
+    font-size: 11px;
+    color:red;
+  }
   .sample-pens {
     float: left;
     clear: both;
