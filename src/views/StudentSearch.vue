@@ -37,22 +37,29 @@
                 </p>
               </b-card-text>
             </b-tab>
+
+            <div class="form-group" :class="{ 'form-group--error': $v.test.$error }">
+              <b-input v-model="test" placeholder=""/>
+              <div class="error form__input" v-if="!$v.test.minLength">Test must have at least {{$v.test.$params.minLength.min}} letters.</div>
+            </div>
+
             <b-tab title="Advanced search">
               <b-card-text>
                 <form v-on:submit.prevent>
                   <!-- advanced Search -->
                   <div class="advanced-search-form">
                     <div class="row my-3">
-                      <div class="advanced-search-field col-12 col-md-2">
-                        <label>Legal surname</label>
+                      <div class="form-group advanced-search-field col-12 col-md-2" :class="{ 'form-group--error': $v.advancedSearchInput.legalLastName.$error }">
+                        <label class="form__label">Legal surname</label>
                         <div href="#"
                           v-on:click="advancedSearchInput.legalLastName.contains = !advancedSearchInput.legalLastName.contains"
                           v-bind:class="{active: advancedSearchInput.legalLastName.contains}" class="wild-card-button"
                           v-b-tooltip.hover title="Legal surname starts with">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.legalLastName.value" placeholder=""
+                        <b-input class="form__input" v-model="advancedSearchInput.legalLastName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="1" />
+                        <div class="error form__input" v-if="!$v.advancedSearchInput.legalLastName.minLength">Legal surname name must have at least {{$v.advancedSearchInput.legalLastName.$params.minLength.min}} letters.</div>
                       </div>
                       <div class="advanced-search-field col-12 col-md-2">
                         <label>Legal given</label>
@@ -227,10 +234,13 @@
   } from "vuex";
   import StudentService from "@/services/StudentService.js";
   import DisplayTable from "@/components/DisplayTable";
+  import { minLength } from 'vuelidate/lib/validators';
+
   export default {
     name: "studentSearch",
     data() {
       return {
+        test:"",
         resultsPerPageOptions: [
           { value: 10, text: '10' },
           { value: 25, text: '25' },
@@ -419,6 +429,13 @@
           },
         }
       };
+    },
+    validations: {
+      advancedSearchInput: {
+          legalLastName:{
+          minLength: minLength(3)
+        }  
+      } 
     },
     created() {},
     components: {
