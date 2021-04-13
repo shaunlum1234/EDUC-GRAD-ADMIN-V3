@@ -202,15 +202,16 @@
                         <router-link :to="'/student-profile/' + data.item.pen ">{{ data.item.pen }}</router-link>
                       </template>
                   </DisplayTable>
-                </div>  
-                </transition>
-                  <nav aria-label="Page Navigation">          
+                  <nav v-if="studentSearchResults.length" aria-label="Pagination">          
                     <ul class="pagination">
                       <li v-if="selectedPage != 1 && selectedPage >= 5 "><a class="page-link" href="#" v-on:click="advancedSearchPagination(1, resultsPerPage)">First</a></li>
                       <li v-for="index in totalPages" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a v-if="paginationRange(index)" class="page-link" href="#" v-on:click="advancedSearchPagination(index, resultsPerPage)">{{ index  }}</a></li>
                       <li v-if="selectedPage != totalPages && totalPages != 6 && selectedPage+5 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="advancedSearchPagination(totalPages, resultsPerPage)">{{totalPages}}</a></li>
                     </ul>
                   </nav>
+                </div>  
+                </transition>
+               
               </b-card-text>
             </b-tab>
           </b-tabs>
@@ -540,7 +541,7 @@
                 this.totalPages = this.searchResults.totalPages;
               //  this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
                 if(this.searchResults.totalElements > 0){
-                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.resultsPerPage + " results. This is page " + this.selectedPage + " of " + this.searchResults.totalPages + " page(s)";
+                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.resultsPerPage + " results. This is page " + this.selectedPage + " of " + this.searchResults.totalPages + ".";
                 }else{
                   this.advancedSearchMessage =  "No students found.";
                 }
