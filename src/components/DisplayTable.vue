@@ -57,7 +57,7 @@
     <!-- Main table element -->
      
     
-    <b-table :responsive="responsive" :sticky-header="stickyHeader" :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter"
+    <b-table :responsive="responsive" :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter"
       :filter-included-fields="filterOn" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
       :sort-direction="sortDirection" stacked="sm" show-empty striped hover small @filtered="onFiltered">
       
@@ -141,7 +141,6 @@
     data() {
       return {
         responsive:true,
-       // stickyHeader: true,
         quickEdit: false,
         isAdmin: false,
         updateAllowed: false,
