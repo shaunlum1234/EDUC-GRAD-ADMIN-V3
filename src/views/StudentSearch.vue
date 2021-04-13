@@ -499,9 +499,13 @@
                 this.resultsPerPage = this.searchResults.numberOfElements;
                 this.totalPages = this.searchResults.totalPages;
                 if(this.searchResults.totalElements > 0){
-                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.resultsPerPage + " results. Number of Pages: " + this.searchResults.totalPages;
+                  if(this.searchResults.totalElements == 1){
+                    this.advancedSearchMessage = "1 student record found.";
+                  }else{
+                    this.advancedSearchMessage = this.searchResults.totalElements + " student records found.";
+                  }
                 }else{
-                  this.advancedSearchMessage = "No students found.";
+                  this.advancedSearchMessage =  "No student record found.";
                 }
                 
               })
@@ -541,7 +545,11 @@
                 this.totalPages = this.searchResults.totalPages;
               //  this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
                 if(this.searchResults.totalElements > 0){
-                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.resultsPerPage + " results. This is page " + this.selectedPage + " of " + this.searchResults.totalPages + ".";
+                  if(this.searchResults.totalElements == 1){
+                    this.advancedSearchMessage = "1 student record found.";
+                  }else{
+                    this.advancedSearchMessage = this.searchResults.totalElements + " student records found.";
+                  }
                 }else{
                   this.advancedSearchMessage =  "No students found.";
                 }
