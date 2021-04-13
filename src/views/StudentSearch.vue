@@ -190,7 +190,7 @@
                     </div>
                     <div class="results-option-group">
                       <label v-if="totalPages > 1">Results per page  </label>
-                      <b-form-select class="results-option" v-if="totalPages > 1" v-model="resultsPerPage" :options="resultsPerPageOptions"></b-form-select>
+                      <b-form-select class="results-option" v-if="totalPages > 1" @change="advancedSearchPagination(1,resultsPerPage)" v-model="resultsPerPage" :options="resultsPerPageOptions"></b-form-select>
                     </div>
                   </div>
                   <div class="search-results-message"><strong><span v-if="advancedSearchMessage">{{ advancedSearchMessage }}</span></strong></div>
