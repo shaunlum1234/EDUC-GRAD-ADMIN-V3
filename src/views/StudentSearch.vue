@@ -237,7 +237,6 @@
           { value: 100, text: '100' },
         ],
         genderOptions: [
-          { value: null, text: 'Please select an option' },
           { value: 'M', text: 'Male (M)' },
           { value: 'F', text: 'Female (F)' },
           { value: 'X', text: 'Gender diverse (X)' },
@@ -260,13 +259,6 @@
             class: 'w-1',
           },
           {
-            key: 'usualLastName',
-            label: 'Usual surname',
-            sortable: false,
-            editable: false,
-            class: 'w-1',
-          },
-          {
             key: 'legalFirstName',
             label: 'Legal given',
             sortable: false,
@@ -274,15 +266,22 @@
             class: 'w-1',
           },
           {
-            key: 'usualFirstName',
-            label: 'Usual given',
+            key: 'usualLastName',
+            label: 'Usual surname',
             sortable: false,
             editable: false,
             class: 'w-1',
-          },
+          },  
           {
             key: 'legalMiddleNames',
             label: 'Legal middle',
+            sortable: false,
+            editable: false,
+            class: 'w-1',
+          },    
+          {
+            key: 'usualFirstName',
+            label: 'Usual given',
             sortable: false,
             editable: false,
             class: 'w-1',

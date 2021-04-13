@@ -31,7 +31,7 @@
               <b-input class="float-left col-3 mx-1 my-3" v-model="search.districtName" placeholder="District name"/>
               <b-button variant="primary" class="float-left col-auto mx-1 my-3" type="submit" @click="searchSchools"> Search </b-button>-->
               <!-- <input type="submit" @click="searchCourseByCourseCode"> -->
-              <table v-if="schools" class="table table-striped table-bordered">
+              <table v-if="schools" class="table table-striped">
                 <thead>
                   <tr>
                     <th>Mincode</th>

@@ -44,8 +44,13 @@
       </div>
       <div class="col-md-1 col-12">
         <div class="row px-0">
+<<<<<<< HEAD
           <b-button v-on:click="closeRecord" variant="primary" size="sm" class="col-6 col-md-12 close-record">
             Close
+=======
+          <b-button v-on:click="closeRecord" variant="primary" size="sm" class="close-record">
+            <i class="far fa-times-circle"></i> Close
+>>>>>>> b64f51c09e8ce937191e205436bdab42a9800cc7
           </b-button>
           <!-- <b-dropdown variant="outline-primary" id="dropdown-1" class="col-6 col-md-12 px-0 close-record" size="sm"
             text="Record details">
