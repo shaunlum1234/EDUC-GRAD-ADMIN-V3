@@ -13,10 +13,10 @@
               <td class="align-top profile-name-header"><label>Legal middle</label></td>
             </tr>
             <tr>
-              <td class="align-top profile-name-data" v-if="studentFullName.pen"><h1>{{ studentFullName.pen }}</h1></td>
-              <td class="align-top profile-name-data" v-if="studentFullName.legalLastName"><h1>{{ studentFullName.legalLastName }}</h1></td>
-              <td class="align-top profile-name-data" v-if="studentFullName.legalFirstName"><h1>{{ studentFullName.legalFirstName }}</h1></td>
-              <td class="align-top profile-name-data" v-if="studentFullName.legalMiddleNames"><h1>{{ studentFullName.legalMiddleNames }}</h1></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.pen"><strong><p class="profile-info">{{ studentFullName.pen }}</p></strong></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.legalLastName"><p class="profile-info">{{ studentFullName.legalLastName }}</p></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.legalFirstName"><p class="profile-info">{{ studentFullName.legalFirstName }}</p></td>
+              <td class="align-top profile-name-data" v-if="studentFullName.legalMiddleNames"><p class="profile-info">{{ studentFullName.legalMiddleNames }}</p></td>
             </tr>
           </table>
           <div v-if="smallScreen" class="profile-name">
@@ -70,7 +70,7 @@
       </div>
       <div class="col-md-12 col-lg-8 px-0">
         <div>
-          <b-card class="py-1">
+          <b-card class="py-1" v-if="studentHasCourses || studentHasAssessments || studentHasExams">
             <b-tabs :pills="smallScreen">
                 <b-tab v-if="smallScreen" title="Graduation Status" class="py-3 px-0 m-1 " ref="studentCoursesTab">
                   <b-card-text>
@@ -79,9 +79,10 @@
                   </b-card-text>
                 </b-tab>
       
-                <b-tab title="Courses" class="py-3 px-0 m-1">
-                  <b-card-text v-if="!studentHasCourses">Loading Student Courses <b-spinner variant="success"
-                      label="Spinning"></b-spinner>
+                <b-tab title="Courses" v-if="studentHasCourses" class="py-3 px-0 m-1">
+                  <b-card-text v-if="!studentHasCourses">Student has no courses 
+                    <!-- <b-spinner variant="success"
+                      label="Spinning"></b-spinner> -->
                   </b-card-text>
                   <b-card-text v-if="studentHasCourses">
                     <StudentCourses>
@@ -117,9 +118,10 @@
                   </b-card-text>
                 </b-tab>
  
-                <b-tab title="Requirements Met" class="py-3 px-0 m-1">
-                  <b-card-text v-if="!studentHasCourses">Loading Student Courses <b-spinner variant="success"
-                      label="Spinning"></b-spinner>
+                <b-tab v-if="studentHasCourses" title="Requirements Met" class="py-3 px-0 m-1">
+                  <b-card-text v-if="!studentHasCourses">Student has no courses 
+                    <!-- <b-spinner variant="success"
+                      label="Spinning"></b-spinner> -->
                   </b-card-text>
                   <b-card-text v-if="studentHasCourses">
                     <div v-if="hasGradStatus">
@@ -351,6 +353,9 @@
 </script>
 
 <style scoped>
+  .profile-info{
+    font-size: 18px;
+  }
   
   .close-record {
     float: right;

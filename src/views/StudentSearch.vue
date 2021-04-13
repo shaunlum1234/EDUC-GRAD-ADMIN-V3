@@ -29,13 +29,13 @@
                   </div>
                 </form>
                 <p class="sample-pens">
-                  Samples:
+                  <!-- Samples:
                   <ul>
                     <li><a href="#" v-on:click="findStudentByPenSample(126966100)">126966100</a> (All)</li>
                     <li><a href="#" v-on:click="findStudentByPenSample(140341157)">126966100</a> (Exams and Assessment
                       No grad
                       status)</li>
-                  </ul>
+                  </ul> -->
                 </p>
               </b-card-text>
             </b-tab>
@@ -102,7 +102,6 @@
                               right
                               locale="en-US"
                               aria-controls="datepicker-birthdate-to"
-                              @context="onContext"
                             ></b-form-datepicker>
                           </b-input-group-append>
                         </b-input-group>    
@@ -126,7 +125,7 @@
                               right
                               locale="en-US"
                               aria-controls="datepicker-birthdate-to"
-                              @context="onContext"
+
                             ></b-form-datepicker>
                           </b-input-group-append>
                         </b-input-group>     
@@ -184,27 +183,38 @@
                         <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading"
                           class="btn btn-primary" tabindex="12">Search</button>
                         <button v-if="advancedSearchLoading" class="btn btn-success">Search</button>
+<<<<<<< HEAD
                         <button @click="clearInput" class=" btn btn-outline-primary mx-2">Clear</button>
+=======
+                        <button @click="clearInput" class=" btn btn-secondary mx-2">Clear</button>                
+>>>>>>> 4dc8ac2d3c8fb04044e5d718f0dce7c5e6380b84
                       </div>
+                        
                       <b-spinner v-for="variant in variants" :variant="variant" :key="variant"
                         v-show="advancedSearchLoading" class="advanced-loading-spinner"></b-spinner>
+                    </div>
+                    <div class="results-option-group">
+                      <label v-if="totalPages > 1">Results per page  </label>
+                      <b-form-select class="results-option" v-if="totalPages > 1" v-model="numberOfElements" :options="numberOfElementsOptions"></b-form-select>
                     </div>
                   </div>
                   <div class="search-results-message"><strong><span v-if="advancedSearchMessage">{{ advancedSearchMessage }}</span></strong></div>
                 </form>
                 <transition name="fade">
+                <div class="table-responsive">  
                   <DisplayTable v-if="studentSearchResults.length" v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="id"
                     v-bind:pen="pen" v-bind:showFilter=false :slots="templates">
-                      <template #cell(pen)="data">
+                      <template  #cell(pen)="data">
                         <router-link :to="'/student-profile/' + data.item.pen ">{{ data.item.pen }}</router-link>
                       </template>
                   </DisplayTable>
+                </div>  
                 </transition>
-                  <nav aria-label="Page Navigation">         
+                  <nav aria-label="Page Navigation">          
                     <ul class="pagination">
-                      <li v-if="selectedPage != 1 && selectedPage >= 5 "><a class="page-link" href="#" v-on:click="advancedSearchPagination(1, 10)">First</a></li>
-                      <li v-for="index in totalPages" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a v-if="paginationRange(index)" class="page-link" href="#" v-on:click="advancedSearchPagination(index, 10)">{{ index  }}</a></li>
-                      <li v-if="selectedPage != totalPages && totalPages != 6 && selectedPage+5 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="advancedSearchPagination(totalPages, 10)">{{totalPages}}</a></li>
+                      <li v-if="selectedPage != 1 && selectedPage >= 5 "><a class="page-link" href="#" v-on:click="advancedSearchPagination(1, numberOfElements)">First</a></li>
+                      <li v-for="index in totalPages" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a v-if="paginationRange(index)" class="page-link" href="#" v-on:click="advancedSearchPagination(index, numberOfElements)">{{ index  }}</a></li>
+                      <li v-if="selectedPage != totalPages && totalPages != 6 && selectedPage+5 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="advancedSearchPagination(totalPages, numberOfElements)">{{totalPages}}</a></li>
                     </ul>
                   </nav>
               </b-card-text>
@@ -226,6 +236,12 @@
     name: "studentSearch",
     data() {
       return {
+        numberOfElementsOptions: [
+          { value: 10, text: 'Default 10' },
+          { value: 25, text: '25' },
+          { value: 50, text: '50' },
+          { value: 100, text: '100' },
+        ],
         genderOptions: [
           { value: null, text: 'Please select an option' },
           { value: 'M', text: 'Male (M)' },
@@ -313,8 +329,8 @@
             class: 'w-1',
           },
           {
-            key: 'gradeCode',
-            label: 'Student grade (GRAD)',
+            key: 'studentGrade',
+            label: 'Student Grade (GRAD)',
             sortable: true,
             editable: false,
             class: 'w-1',
@@ -327,21 +343,21 @@
             class: 'w-1',
           },
           {
-            key: 'schoolName',
+            key: 'schoolOfRecordName',
             label: 'School of Record name (GRAD)',
             sortable: true,
             editable: false,
             class: 'w-1',
           },
           {
-            key: 'statusCode',
-            label: 'Student status (GRAD)',
+            key: 'studentStatus',
+            label: 'Student Status (GRAD)',
             sortable: true,
             editable: false,
             class: 'w-1',
           },
           {
-            key: 'statusCode',
+            key: 'schoolOfRecordindependentAffiliation',
             label: 'School independent affiliation (GRAD)',
             sortable: true,
             editable: false,
@@ -462,7 +478,7 @@
             })
             .catch(() => {
               this.searchLoading = false;
-              this.searchByPenMessage = "Student not found";
+              this.searchByPenMessage = "Student cannot be found on the STUDENT (common) database";
             });
           //pen input check
         }
@@ -479,7 +495,7 @@
             this.advancedSearchInput.birthdateTo.value = this.advancedSearchInput.birthdateFrom.value
           }
           try {
-            StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token)
+            StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token, 0, this.numberOfElements)
               .then((response) => {
 
                 this.advancedSearchLoading = false;
@@ -529,11 +545,16 @@
                 this.totalElements = this.searchResults.totalElements;
                 this.numberOfElements = this.searchResults.numberOfElements;
                 this.totalPages = this.searchResults.totalPages;
-                this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
+              //  this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
+                if(this.searchResults.totalElements > 0){
+                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. This is page " + this.selectedPage + " of " + this.searchResults.totalPages + " page(s)";
+                }else{
+                  this.advancedSearchMessage = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
+                }
               })
               .catch((err) => {
                 this.advancedSearchLoading = false;
-                this.message = "Student not found";
+                this.message = "Student cannot be found on the STUDENT (common) database";
                 this.errorMessage = err;
                 // console.log(err);
               });
@@ -673,6 +694,13 @@
   };
 </script>
 <style scoped>
+.results-option-group{
+  margin-top: 10px;
+}
+.results-option{
+    width: 11%;
+    margin-left: 10px;
+}
 .input-group-append {
     margin-left: -1px;
     position: absolute;

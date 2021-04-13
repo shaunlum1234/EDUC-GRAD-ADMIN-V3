@@ -8,7 +8,8 @@ form {
   font-family: ‘BCSans’, ‘Noto Sans’, Verdana, Arial, sans-serif;
 
 }
-
+.form-control{border: 1px solid #212529;}
+.custom-select{border: 1px solid #212529;}
 .text_input {
   font-family: ‘BCSans’, ‘Noto Sans’, Verdana, Arial, sans-serif;
 }
