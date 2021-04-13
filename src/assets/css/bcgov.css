@@ -1,5 +1,14 @@
 /* Updates BC Gov Bootstrap theme with new design system https://developer.gov.bc.ca/Design-System */
 
+body {
+  color:#313132;
+  size: 16px;
+}
+
+#app {
+  background: #fff;
+}
+
 .form-control {
   border: 1px solid #606060;
 }
