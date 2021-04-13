@@ -1,4 +1,9 @@
 /* Updates BC Gov Bootstrap theme with new design system https://developer.gov.bc.ca/Design-System */
+
+.form-control {
+  border: 1px solid #606060;
+}
+
 form {
   font-family: ‘BCSans’, ‘Noto Sans’, Verdana, Arial, sans-serif;
 

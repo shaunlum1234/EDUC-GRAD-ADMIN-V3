@@ -1,7 +1,7 @@
 <template>
   <div class="studentlist">
     <h1>Student search</h1>
-    <p>Search by Personal Education Number(PEN) or use the advanced search tab to search by other search criteria.</p>
+    <p>Search by Personal Education Number(PEN) or use the advanced search to look up students by other criteria.</p>
     <div>  
       <div>
         <b-card no-body class="p-0">
@@ -25,7 +25,7 @@
                         <b-spinner v-for="variant in variants" :variant="variant" :key="variant" v-show="searchLoading"
                       class="loading-spinner float-left"></b-spinner>             
                     </div>
-                    <div class="search-results-message"><strong><span v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
+                    <div class="search-results-message my-4"><strong><span v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
                   </div>
                 </form>
                 <p class="sample-pens">
@@ -184,7 +184,7 @@
                         <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading"
                           class="btn btn-primary" tabindex="12">Search</button>
                         <button v-if="advancedSearchLoading" class="btn btn-success">Search</button>
-                        <button @click="clearInput" class=" btn btn-primary mx-2">Clear</button>
+                        <button @click="clearInput" class=" btn btn-outline-primary mx-2">Clear</button>
                       </div>
                       <b-spinner v-for="variant in variants" :variant="variant" :key="variant"
                         v-show="advancedSearchLoading" class="advanced-loading-spinner"></b-spinner>
@@ -720,7 +720,7 @@
   .search-results-message {
     float: left;
     clear: both;
-    margin-top: 5px;
+    
   }
 
   .fade-enter-active {

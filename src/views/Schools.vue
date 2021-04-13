@@ -1,18 +1,42 @@
 <template>
   <div>
-    <h1>School Search</h1>
+    <h1>School search</h1>
+      <b-container class="my-4">
+        <b-row align-v="stretch" class="row-eq-height">
+          <b-col>
+            <label class="float-left" for="city">City</label>
+            <b-input class="" v-model="search.city" placeholder="" id="city"/>
+          </b-col>
+          <b-col>
+            <label class="w-100" for="school name">School name</label>
+            <b-input class="" v-model="search.schoolName" id="school name" placeholder=""/>
+          </b-col>
+          <b-col>
+            <label class="w-100" for="district name">District name</label>
+            <b-input class="" v-model="search.districtName" id="district name" placeholder=""/>
+          </b-col>
+          <b-col align-self="baseline">
+            <label class="w-100 h-100">&nbsp;<br /></label>
+            <b-button variant="primary" class="" type="submit" @click="searchSchools"> Search </b-button>
+          </b-col>
+        </b-row>
+      </b-container>
 
-              <b-input class="float-left col-3 mx-1 my-3" v-model="search.city" placeholder="City"/>
-              <b-input class="float-left col-3 mx-1 my-3" v-model="search.schoolName" placeholder="School Name"/>
-              <b-input class="float-left col-3 mx-1 my-3" v-model="search.districtName" placeholder="District Name"/>
-              <b-button class="float-left col-auto mx-1 my-3" type="submit" @click="searchSchools"> Search </b-button>
+
+ 
+
+              
+              <!--<b-input class="float-left col-3 mx-1 my-3" v-model="search.city" placeholder="City"/>
+              <b-input class="float-left col-3 mx-1 my-3" v-model="search.schoolName" placeholder="School name"/>
+              <b-input class="float-left col-3 mx-1 my-3" v-model="search.districtName" placeholder="District name"/>
+              <b-button variant="primary" class="float-left col-auto mx-1 my-3" type="submit" @click="searchSchools"> Search </b-button>-->
               <!-- <input type="submit" @click="searchCourseByCourseCode"> -->
               <table v-if="schools" class="table table-striped table-bordered">
                 <thead>
                   <tr>
                     <th>Mincode</th>
-                    <th>School Name</th>
-                    <th>District Name</th>
+                    <th>School name</th>
+                    <th>District name</th>
                   </tr>
                 </thead>
                 <tbody>

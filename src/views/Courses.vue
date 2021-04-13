@@ -7,8 +7,9 @@
           <b-tab title="Course Search" active>
             <b-card-text>
               <div class="row col-12">
-                <b-input class="col-10 my-2" v-model="courseCode" placeholder="Course Code: BI" />
-                <b-button class="col-2 my-2" @click="getAllCourses">Search</b-button>
+                <label class="float-left w-100">Search by course code:</label>
+                <b-input class="col-10 my-2" v-model="courseCode" placeholder="" />
+                <b-button variant="primary" class="m-2" @click="getAllCourses">Search</b-button>
               </div>
               <DisplayTable title="Courses" v-bind:items="courses" v-bind:fields="courseFields" id="courseCode"
                 v-bind:role="role"></DisplayTable>
