@@ -55,37 +55,37 @@
           },
           {
             key: 'courseCode',
-            label: 'Course Code',
+            label: 'Course code',
             sortable: true,
             sortDirection: 'desc'
           },
           {
             key: 'courseName',
-            label: 'Course Name',
+            label: 'Course name',
             sortable: true,
             class: 'text-center'
           },
           {
             key: 'startDate',
-            label: 'Start Date',
+            label: 'Start date',
             sortable: true,
             sortDirection: 'desc'
           },
           {
             key: 'endDate',
-            label: 'End Date',
+            label: 'End date',
             sortable: true,
             class: 'text-center'
           },
           {
             key: 'workExpFlag',
-            label: 'Start Date',
+            label: 'Start date',
             sortable: true,
             sortDirection: 'desc'
           },
           {
             key: 'genericCourseType',
-            label: 'End Date',
+            label: 'End date',
             sortable: true,
             class: 'text-center'
           },
@@ -104,7 +104,7 @@
           },
           {
             key: 'restrictedCourse',
-            label: 'Restricted Course',
+            label: 'Restricted course',
             sortable: true,
             class: 'text-left',
             sortDirection: 'desc',
@@ -112,14 +112,14 @@
           },
           {
             key: 'restrictedCourseLevel',
-            label: 'Course Level',
+            label: 'Course level',
             sortable: true,
             class: 'text-left',
             editable: true
           },
           {
             key: 'restrictionStartDate',
-            label: 'Start Date',
+            label: 'Start date',
             sortable: true,
             class: 'text-left',
             sortDirection: 'desc',
@@ -127,7 +127,7 @@
           },
           {
             key: 'restrictionEndDate',
-            label: 'End Date',
+            label: 'End date',
             sortable: true,
             class: 'text-left',
             editable: true

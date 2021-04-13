@@ -3,7 +3,7 @@
     <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
     <!-- Button trigger modal -->
     <div class="row p-3 m-0">
-      <div class="col-md-10 col-12">
+      <div class="col-md-11 col-12">
           
           <table v-if="!smallScreen" class="profile-name">
             <tr>
@@ -42,12 +42,12 @@
         
         <StudentInfo />
       </div>
-      <div class="col-md-2 col-12">
+      <div class="col-md-1 col-12">
         <div class="row px-0">
           <b-button v-on:click="closeRecord" variant="primary" size="sm" class="col-6 col-md-12 close-record">
-            <i class="far fa-times-circle"></i> Close
+            Close
           </b-button>
-          <b-dropdown variant="outline-primary" id="dropdown-1" class="col-6 col-md-12 px-0 close-record" size="sm"
+          <!-- <b-dropdown variant="outline-primary" id="dropdown-1" class="col-6 col-md-12 px-0 close-record" size="sm"
             text="Record details">
             <div v-if="hasGradStatus">
               <b-dropdown-item disabled class="no-underline">Created by: {{ gradInfo.createdBy }}</b-dropdown-item>
@@ -59,7 +59,7 @@
             <div v-if="!hasGradStatus" class="p-3">
               This student has no graduation record details.
             </div>
-          </b-dropdown>
+          </b-dropdown> -->
         </div>
 
       </div>
@@ -354,12 +354,12 @@
 
 <style scoped>
   .profile-info{
-    font-size: 18px;
+    font-size: 30px;
+
   }
   
   .close-record {
     float: right;
-    width: 125px;
     text-align: center;
   }
 
