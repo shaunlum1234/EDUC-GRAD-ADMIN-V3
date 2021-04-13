@@ -4,7 +4,7 @@
     <div>
       <b-card no-body>
         <b-tabs card>
-          <b-tab title="Course Search" active>
+          <b-tab title="Course search" active>
             <b-card-text>
               <div class="row col-12">
                 <label class="float-left w-100">Search by course code:</label>
@@ -15,9 +15,9 @@
                 v-bind:role="role"></DisplayTable>
             </b-card-text>
           </b-tab>
-          <b-tab title="Course Restrictons">
+          <b-tab title="Course restrictons">
             <b-card-text>
-              <DisplayTable title="Course Restriction" v-bind:items="courseRestrictions"
+              <DisplayTable title="Course restriction" v-bind:items="courseRestrictions"
                 v-bind:fields="courseRestrictionFields" id="courseRestrictionId"
                 create="createCourseRestriction" delete="deleteCourseRestriction" update="updateCourseRestriction">
               </DisplayTable>

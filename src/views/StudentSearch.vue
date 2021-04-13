@@ -6,7 +6,7 @@
       <div>
         <b-card no-body class="p-0">
           <b-tabs card>
-            <b-tab title="PEN Search" active>
+            <b-tab title="PEN search" active>
               <b-card-text>        
                 <form v-on:submit.prevent>
                   <div class="form-group">
@@ -39,7 +39,7 @@
                 </p>
               </b-card-text>
             </b-tab>
-            <b-tab title="Advanced Search">
+            <b-tab title="Advanced search">
               <b-card-text>
                 <form v-on:submit.prevent>
                   <!-- advanced Search -->
@@ -182,7 +182,7 @@
                       <div class="advanced-search-button">
                         <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading" class="btn btn-primary" tabindex="12">Search</button>
                         <button v-if="advancedSearchLoading" class="btn btn-success">Search</button>
-                        <button @click="clearInput" class=" btn btn-secondary mx-2">Clear</button>                
+                        <button @click="clearInput" class="btn btn-outline-primary mx-2">Clear</button>                
                       </div>
                         
                       <b-spinner v-for="variant in variants" :vagriant="variant" :key="variant"

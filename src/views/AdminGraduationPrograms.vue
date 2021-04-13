@@ -1,6 +1,6 @@
 <template>
   <div>
-  <h1>Program Management</h1>
+  <h1>Program management</h1>
   <p> Manage graduation settings (Admin Access Required)</p>
 
 
@@ -9,9 +9,9 @@
     <b-card-header header-tag="nav">
       <b-nav card-header tabs>
         <b-nav-item to="/admin-graduation-programs/programs" :active="tab === 1" @click="tab = 1"> Programs</b-nav-item>
-        <b-nav-item to="/admin-graduation-programs/special-programs" :active="tab === 2" @click="tab = 2"> Special Programs</b-nav-item>
-        <b-nav-item :active="tab === 3" @click="tab = 3">Letter Grades</b-nav-item>
-        <b-nav-item :active="tab === 4" @click="tab = 4">Special Cases</b-nav-item>
+        <b-nav-item to="/admin-graduation-programs/special-programs" :active="tab === 2" @click="tab = 2"> Special programs</b-nav-item>
+        <b-nav-item :active="tab === 3" @click="tab = 3">Letter grades</b-nav-item>
+        <b-nav-item :active="tab === 4" @click="tab = 4">Special cases</b-nav-item>
       </b-nav>
     </b-card-header>
      <b-card-body >
