@@ -110,8 +110,7 @@
                             ></b-form-datepicker>
                           </b-input-group-append>
                         </b-input-group>
-                      </div>
-                      <div
+                         <div
                         class="error"
                         v-if="
                           !$v.dateObject.maxValue
@@ -119,6 +118,8 @@
                       >
                         Birthday from must be greater than today.
                       </div>
+                      </div>
+                     
                       <div class="advanced-search-field col-12 col-md-2">
                         <label for="datepicker-birthdate-to"
                           >Birthdate to</label
@@ -570,57 +571,6 @@ export default {
       }
     },
 
-      findStudentsByAdvancedSearch: function () {
-        this.advancedSearchMessage = "";
-        this.message = "";
-        this.errorMessage = "";
-        this.$v.$touch();
-        // console.log(this.advancedSearchValidate(this.advancedSearchInput));
-        if(this.$v.$invalid){
-          this.advancedSearchMessage += "Form Validation Error: please correct the form input";
-        }
-        else if (!this.$v.$invalid && this.advancedSearchValidate(this.advancedSearchInput)) {
-
-          this.advancedSearchLoading = true;
-          this.studentSearchResults = [];
-          if(!this.advancedSearchInput.birthdateTo.value){
-            this.advancedSearchInput.birthdateTo.value = this.advancedSearchInput.birthdateFrom.value
-          }
-          try {
-            StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token, 0, this.resultsPerPage)
-              .then((response) => {
-
-                this.advancedSearchLoading = false;
-                this.searchResults = response.data;
-                this.studentSearchResults = response.data.gradSearchStudents;
-                this.totalElements = this.searchResults.totalElements;
-                this.resultsPerPage = this.searchResults.numberOfElements;
-                this.totalPages = this.searchResults.totalPages;
-                if(this.searchResults.totalElements > 0){
-                  if(this.searchResults.totalElements == 1){
-                    this.advancedSearchMessage = "1 student record found.";
-                  }else{
-                    this.advancedSearchMessage = this.searchResults.totalElements + " student records found.";
-                  }
-                }else{
-                  this.advancedSearchMessage =  "No student record found.";
-                }
-                
-              })
-              .catch((err) => {
-                this.advancedSearchLoading = false;
-                this.advancedSearchMessage = "Student not found";
-                this.errorMessage = err;
-                // console.log(err);
-              });
-          } catch (error) {
-             this.advancedSearchLoading = false;
-             this.advancedSearchMessage = "Advanced Search Error";
-            //console.log("Error with webservice");
-          }
-        }
-      },
-
       advancedSearchPagination: function (pageNumber, pageSize) {
         this.advancedSearchMessage = "";
         this.errorMessage = "";
@@ -774,14 +724,13 @@ export default {
                   "The Birthdate From must be greater than today. ";
                 isValid = false;
               }
-            }
-            
-          }
+            } 
         }
-        if(isEmpty){
-          isValid = false;
-          this.advancedSearchMessage += "Enter at least one field to search."
-        }
+      
+      if(isEmpty){
+        isValid = false;
+        this.advancedSearchMessage += "Enter at least one field to search."
+      }
 
         return isValid;
       },
