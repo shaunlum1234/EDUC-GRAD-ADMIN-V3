@@ -354,7 +354,7 @@
 
 <style scoped>
   .profile-info{
-    font-size: 30px;
+    font-size: 29px;
 
   }
   
