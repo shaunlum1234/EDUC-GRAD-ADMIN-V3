@@ -200,7 +200,7 @@
                       <div class="advanced-search-button">
                         <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading" :class="!this.$v.$invalid?'btn btn-primary':'btn btn-secondary'" tabindex="12">Search</button>
                         <button @click="findStudentsByAdvancedSearch" v-if="advancedSearchLoading" class="btn btn-success" tabindex="12">Search</button>
-                        <button @click="clearInput" class="btn btn-outline-primary mx-2">Clear</button>                
+                        <button @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
                       </div>
                     </div>
 
