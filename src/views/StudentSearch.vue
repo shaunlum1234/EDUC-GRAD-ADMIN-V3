@@ -94,7 +94,7 @@
                             id="datepicker-birthdate-from"
                             @input="$v.dateObject.$touch"
                             v-model="advancedSearchInput.birthdateFrom.value"
-                            type="text"
+                            type="date"
                             placeholder="YYYY-MM-DD"
                             autocomplete="off"
                             tabindex="6"
@@ -128,7 +128,7 @@
                           <b-form-input
                             id="datepicker-birthdate-to"
                             v-model="advancedSearchInput.birthdateTo.value"
-                            type="text"
+                            type="date"
                             placeholder="YYYY-MM-DD"
                             autocomplete="off"
                             tabindex="6"
