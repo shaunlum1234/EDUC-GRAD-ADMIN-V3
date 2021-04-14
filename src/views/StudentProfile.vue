@@ -80,14 +80,9 @@
                 </b-tab>
       
                 <b-tab title="Courses" v-if="studentHasCourses" class="py-3 px-0 m-1">
-                  <b-card-text v-if="!studentHasCourses">Student has no courses 
-                    <!-- <b-spinner variant="success"
-                      label="Spinning"></b-spinner> -->
-                  </b-card-text>
                   <b-card-text v-if="studentHasCourses">
-                    <StudentCourses>
-                      <div v-if="hasGradStatus">
-                        <div v-show="this.courseViewMode == 'Course requirements met'">
+                    <StudentCourses>  
+                        <!-- <div v-show="this.courseViewMode == 'Course requirements met'">
                           <h2>Course Requirements Met</h2>
                           <table class="table table-striped">
                             <thead>
@@ -112,8 +107,7 @@
                               </template>
                             </tbody>
                           </table>
-                        </div>
-                      </div>
+                        </div>            -->
                     </StudentCourses>
                   </b-card-text>
                 </b-tab>
@@ -124,7 +118,7 @@
                       label="Spinning"></b-spinner> -->
                   </b-card-text>
                   <b-card-text v-if="studentHasCourses">
-                    <div v-if="hasGradStatus">
+                    
 
                       <h2>Course Requirements Met</h2>
                       <table class="table table-striped">
@@ -151,7 +145,7 @@
                         </tbody>
                       </table>
 
-                    </div>
+                   
 
                   </b-card-text>
                 </b-tab>
