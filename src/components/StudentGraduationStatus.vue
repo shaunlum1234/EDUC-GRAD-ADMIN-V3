@@ -8,7 +8,6 @@
 
       <b-card-body>
         <b-card-text>
-          {{studentGradStatus}}
           <div v-if="!hasGradStatus">
 
 

@@ -81,45 +81,13 @@
       
                 <b-tab title="Courses" v-if="studentHasCourses" class="py-3 px-0 m-1">
                   <b-card-text v-if="studentHasCourses">
-                    <StudentCourses>  
-                        <!-- <div v-show="this.courseViewMode == 'Course requirements met'">
-                          <h2>Course Requirements Met</h2>
-                          <table class="table table-striped">
-                            <thead>
-                              <tr>
-                                <th>Course Code</th>
-                                <th>Course Level</th>
-                                <th>Course Name</th>
-                                <th>Session Date</th>
-                                <th>Grad Req Met</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <template
-                                v-for="(course,i) in studentGradStatus.studentGradData.studentCourses.studentCourseList">
-                                <tr v-if="course.gradReqMet" :key="i">
-                                  <td scope="row">{{ course.courseCode }}</td>
-                                  <td scope="row">{{course.courseLevel}}</td>
-                                  <td scope="row">{{ course.courseName }}</td>
-                                  <td scope="row">{{course.sessionDate}}</td>
-                                  <td scope="row">{{course.gradReqMet}}</td>
-                                </tr>
-                              </template>
-                            </tbody>
-                          </table>
-                        </div>            -->
-                    </StudentCourses>
+                    <StudentCourses></StudentCourses>
                   </b-card-text>
                 </b-tab>
- 
-                <b-tab v-if="studentHasCourses" title="Requirements Met" class="py-3 px-0 m-1">
-                  <b-card-text v-if="!studentHasCourses">Student has no courses 
-                    <!-- <b-spinner variant="success"
-                      label="Spinning"></b-spinner> -->
-                  </b-card-text>
+                
+                <!-- <b-tab v-if="studentHasCourses" title="Requirements Met" class="py-3 px-0 m-1">
                   <b-card-text v-if="studentHasCourses">
                     
-
                       <h2>Course Requirements Met</h2>
                       <table class="table table-striped">
                         <thead>
@@ -148,7 +116,7 @@
                    
 
                   </b-card-text>
-                </b-tab>
+                </b-tab> -->
  
                 <b-tab title="Assessments" v-if="studentHasAssessments" class="py-3 px-0 m-1">
                   <b-card-text>
