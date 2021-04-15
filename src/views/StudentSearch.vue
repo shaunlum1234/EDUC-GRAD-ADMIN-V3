@@ -94,7 +94,7 @@
                             id="datepicker-birthdate-from"
                             @input="$v.dateObject.$touch"
                             v-model="advancedSearchInput.birthdateFrom.value"
-                            type="text"
+                            type="date"
                             placeholder="YYYY-MM-DD"
                             autocomplete="off"
                             tabindex="6"
@@ -128,7 +128,7 @@
                           <b-form-input
                             id="datepicker-birthdate-to"
                             v-model="advancedSearchInput.birthdateTo.value"
-                            type="text"
+                            type="date"
                             placeholder="YYYY-MM-DD"
                             autocomplete="off"
                             tabindex="6"
@@ -198,8 +198,8 @@
                     </div>
                     <div class="row">                              
                       <div class="advanced-search-button">
-                        <button @click="findStudentsByAdvancedSearch" v-if="!advancedSearchLoading" :class="!this.$v.$invalid?'btn btn-primary':'btn btn-secondary'" tabindex="12">Search</button>
-                        <button @click="findStudentsByAdvancedSearch" v-if="advancedSearchLoading" class="btn btn-success" tabindex="12">Search</button>
+                        <button @click="findStudentsByAdvancedSearch(0,25)" v-if="!advancedSearchLoading" :class="!this.$v.$invalid?'btn btn-primary':'btn btn-secondary'" tabindex="12">Search</button>
+                        <button @click="findStudentsByAdvancedSearch(0,25)" v-if="advancedSearchLoading" class="btn btn-success" tabindex="12">Search</button>
                         <button @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
                       </div>
                     </div>
@@ -209,7 +209,7 @@
                     <div class="search-results-message my-4 col-12 col-md-8"><strong><span v-if="advancedSearchMessage">{{ advancedSearchMessage }}</span></strong></div>
                     <div class="results-option-group col-12 col-md-4">
                       <label v-if="totalPages > 1">Results per page</label>
-                      <b-form-select class="results-option" v-if="totalPages > 1" @change="advancedSearchPagination(1,resultsPerPage)" v-model="resultsPerPage" :options="resultsPerPageOptions" :value="resultsPerPage"></b-form-select>
+                      <b-form-select class="results-option" v-if="totalPages > 1" @change="findStudentsByAdvancedSearch(1,resultsPerPage)" v-model="resultsPerPage" :options="resultsPerPageOptions" :value="resultsPerPage"></b-form-select>
                     </div>
                   </div>
                   
@@ -224,17 +224,17 @@
                   </DisplayTable>
                   <nav v-if="studentSearchResults.length" aria-label="Pagination">          
                     <ul class="pagination" v-if="selectedPage<10" >
-                      <li v-if="selectedPage != 1 && selectedPage >= 5 "><a class="page-link" href="#" v-on:click="advancedSearchPagination(1, resultsPerPage)">First</a></li>
-                      <li v-for="index in 10" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a v-if="paginationRange(index)" class="page-link" href="#" v-on:click="advancedSearchPagination(index, resultsPerPage)">{{ index  }}</a></li>
+                      <li v-if="selectedPage != 1 && selectedPage >= 5 "><a class="page-link" href="#" v-on:click="findStudentsByAdvancedSearch(1, resultsPerPage)">First</a></li>
+                      <li v-for="index in 10" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a v-if="paginationRange(index)" class="page-link" href="#" v-on:click="findStudentsByAdvancedSearch(index, resultsPerPage)">{{ index  }}</a></li>
                       <li v-if="selectedPage != totalPages && totalPages != 10 && selectedPage+5 <= totalPages"><a class="page-link disabled">...</a></li>
-                      <li v-if="selectedPage != totalPages && totalPages != 10 && selectedPage+5 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="advancedSearchPagination(totalPages, resultsPerPage)">{{totalPages}}</a></li>
+                      <li v-if="selectedPage != totalPages && totalPages != 10 && selectedPage+5 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="findStudentsByAdvancedSearch(totalPages, resultsPerPage)">{{totalPages}}</a></li>
                     </ul>
                     <ul class="pagination"  v-if="selectedPage>=10" >
-                      <li><a class="page-link" href="#" v-on:click="advancedSearchPagination(1, resultsPerPage)">First</a></li>
+                      <li><a class="page-link" href="#" v-on:click="findStudentsByAdvancedSearch(1, resultsPerPage)">First</a></li>
                       <li><a class="page-link disabled">...</a></li>
-                       <li v-for="index in 10" :key="index" v-bind:class="{'page-item':true, active:selectedPage-5+index == selectedPage}"><a v-if="paginationRange(selectedPage-5+index)" class="page-link" href="#" v-on:click="advancedSearchPagination(selectedPage-5+index, resultsPerPage)">{{ selectedPage-5+index  }}</a></li>
+                       <li v-for="index in 10" :key="index" v-bind:class="{'page-item':true, active:selectedPage-5+index == selectedPage}"><a v-if="paginationRange(selectedPage-5+index)" class="page-link" href="#" v-on:click="findStudentsByAdvancedSearch(selectedPage-5+index, resultsPerPage)">{{ selectedPage-5+index  }}</a></li>
                       <li v-if="selectedPage != totalPages"><a class="page-link disabled">...</a></li>
-                      <li v-if="selectedPage != totalPages && totalPages != 6 && selectedPage+5 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="advancedSearchPagination(totalPages, resultsPerPage)">{{totalPages}}</a></li>
+                      <li v-if="selectedPage != totalPages && totalPages != 6 && selectedPage+5 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="findStudentsByAdvancedSearch(totalPages, resultsPerPage)">{{totalPages}}</a></li>
                     </ul>
                     
                   </nav>
@@ -532,7 +532,12 @@ export default {
       }
     },
 
-    findStudentsByAdvancedSearch: function () {
+    findStudentsByAdvancedSearch: function (pageNumber ,pageSize ) {
+      if(pageNumber != 0){
+        pageNumber = pageNumber - 1;
+      }
+      this.selectedPage = pageNumber;
+      this.advancedSearchMessage = "";
       this.message = "";
       this.errorMessage = "";
       this.$v.$touch();
@@ -548,12 +553,7 @@ export default {
           this.advancedSearchInput.birthdateTo.value = this.advancedSearchInput.birthdateFrom.value;
         }
         try {
-          StudentService.getStudentsByAdvancedSearch(
-            this.advancedSearchInput,
-            this.token,
-            0,
-            this.resultsPerPage
-          )
+          StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput,this.token,pageNumber,pageSize)
             .then((response) => {
               this.advancedSearchLoading = false;
               this.searchResults = response.data;
