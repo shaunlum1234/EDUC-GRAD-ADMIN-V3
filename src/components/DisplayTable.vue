@@ -91,10 +91,6 @@
   <template v-for="(_, slotName) of $scopedSlots" v-slot:[slotName]="scope">
     <slot :name="slotName" v-bind="scope"/>
   </template>
-
-
-  
-    
       <template v-slot:cell(delete)="{ item }">
         <b-button-group v-if="itemRow && itemRow[id] === item[id] && deleteMode">
           <b-btn variant="danger" size="sm" @click="deleteItem(item)">
@@ -110,7 +106,7 @@
           <i class="fas fa-lg fa-times"></i>
         </b-btn>
       </template>
-
+<!-- 
       <template #cell(more)="row">
         <b-btn variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
           <i class="fas fa-sm fa-caret-down"></i>
@@ -123,7 +119,7 @@
             <li v-for="(value, key, index) in row.item" :key="index">{{ key }}: {{ value }}</li>
           </ul>
         </b-card>
-      </template> 
+      </template>  -->
 
     </b-table>
 
@@ -381,5 +377,4 @@
   }
 </script>
 <style scoped>
-
 </style>

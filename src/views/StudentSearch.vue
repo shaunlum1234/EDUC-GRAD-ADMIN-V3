@@ -27,13 +27,13 @@
                   </div>
                 </form>
                 <p class="sample-pens">
-                  <!-- Samples:
+                  Samples:
                   <ul>
                     <li><a href="#" v-on:click="findStudentByPenSample(126966100)">126966100</a> (All)</li>
                     <li><a href="#" v-on:click="findStudentByPenSample(140341157)">126966100</a> (Exams and Assessment
                       No grad
                       status)</li>
-                  </ul> -->
+                  </ul>
                 </p>
               </b-card-text>
             </b-tab>
@@ -198,8 +198,8 @@
                     </div>
                     <div class="row">                              
                       <div class="advanced-search-button">
-                        <button @click="findStudentsByAdvancedSearch(0,25)" v-if="!advancedSearchLoading" :class="!this.$v.$invalid?'btn btn-primary':'btn btn-secondary'" tabindex="12">Search</button>
-                        <button @click="findStudentsByAdvancedSearch(0,25)" v-if="advancedSearchLoading" class="btn btn-success" tabindex="12">Search</button>
+                        <button @click="findStudentsByAdvancedSearch(1,resultsPerPage)" v-if="!advancedSearchLoading" :class="!this.$v.$invalid?'btn btn-primary':'btn btn-secondary'" tabindex="12">Search</button>
+                        <button @click="findStudentsByAdvancedSearch(1,resultsPerPage)" v-if="advancedSearchLoading" class="btn btn-success" tabindex="12">Search</button>
                         <button @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
                       </div>
                     </div>
@@ -233,8 +233,8 @@
                       <li><a class="page-link" href="#" v-on:click="findStudentsByAdvancedSearch(1, resultsPerPage)">First</a></li>
                       <li><a class="page-link disabled">...</a></li>
                        <li v-for="index in 10" :key="index" v-bind:class="{'page-item':true, active:selectedPage-5+index == selectedPage}"><a v-if="paginationRange(selectedPage-5+index)" class="page-link" href="#" v-on:click="findStudentsByAdvancedSearch(selectedPage-5+index, resultsPerPage)">{{ selectedPage-5+index  }}</a></li>
-                      <li v-if="selectedPage != totalPages"><a class="page-link disabled">...</a></li>
-                      <li v-if="selectedPage != totalPages && totalPages != 6 && selectedPage+5 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="findStudentsByAdvancedSearch(totalPages, resultsPerPage)">{{totalPages}}</a></li>
+                      <li v-if="selectedPage != totalPages && selectedPage+6 < totalPages"><a class="page-link disabled">...</a></li>
+                      <li v-if="selectedPage != totalPages && totalPages != 6 && selectedPage+6 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="findStudentsByAdvancedSearch(totalPages, resultsPerPage)">{{totalPages}}</a></li>
                     </ul>
                     
                   </nav>
@@ -389,7 +389,7 @@ export default {
         },
       ],
       totalElements: "",
-      resultsPerPage: "25",
+      resultsPerPage: 25,
       totalPages: "",
       selectedPage: 1,
       searchByPenMessage: "",
@@ -532,11 +532,12 @@ export default {
       }
     },
 
-    findStudentsByAdvancedSearch: function (pageNumber ,pageSize ) {
+    findStudentsByAdvancedSearch: function (pageNumber=1 ,pageSize=25) {
+      this.selectedPage = pageNumber;
       if(pageNumber != 0){
         pageNumber = pageNumber - 1;
       }
-      this.selectedPage = pageNumber;
+      
       this.advancedSearchMessage = "";
       this.message = "";
       this.errorMessage = "";
@@ -555,11 +556,11 @@ export default {
         try {
           StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput,this.token,pageNumber,pageSize)
             .then((response) => {
+              console.log(response.data);
               this.advancedSearchLoading = false;
               this.searchResults = response.data;
               this.studentSearchResults = response.data.gradSearchStudents;
               this.totalElements = this.searchResults.totalElements;
-              this.resultsPerPage = this.searchResults.numberOfElements;
               this.totalPages = this.searchResults.totalPages;
               if (this.searchResults.totalElements > 0) {
                 if (this.searchResults.totalElements == 1) {
@@ -586,56 +587,6 @@ export default {
         }
       }
     },
-
-      advancedSearchPagination: function (pageNumber, pageSize) {
-        this.advancedSearchMessage = "";
-        this.errorMessage = "";
-        this.selectedPage = pageNumber;
-        if(this.$v.$invalid){
-          this.advancedSearchMessage += "Form Validation Error: please correct the form input";
-        }
-        else if (!this.$v.$invalid && this.advancedSearchValidate(this.advancedSearchInput)) {
-          this.advancedSearchLoading = true;
-          this.studentSearchResults = [];
-          if(!this.advancedSearchInput.birthdateTo.value){
-            this.advancedSearchInput.birthdateTo.value = this.advancedSearchInput.birthdateFrom.value
-          }
-          try {
-            StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput, this.token, pageNumber - 1, pageSize)
-              .then((response) => {
-
-                this.advancedSearchLoading = false;
-                this.searchResults = response.data;
-                this.studentSearchResults = response.data.gradSearchStudents;
-                this.totalElements = this.searchResults.totalElements;
-                this.resultsPerPage = this.searchResults.numberOfElements;
-                this.totalPages = this.searchResults.totalPages;
-              //  this.message = this.searchResults.totalElements + " student(s) found. Showing " + this.searchResults.numberOfElements + " results. Number of Pages: " + this.searchResults.totalPages;
-                if(this.searchResults.totalElements > 0){
-                   this.advancedSearchLoading = false;
-                  if(this.searchResults.totalElements == 1){
-                    this.advancedSearchMessage = "1 student record found.";
-                  }else{
-                    this.advancedSearchMessage = this.searchResults.totalElements + " student records found.";
-                  }
-                }else{
-                  this.advancedSearchMessage =  "No students found.";
-                }
-              })
-              .catch((err) => {
-                this.advancedSearchLoading = false;
-                this.message = "Student cannot be found on the STUDENT (common) database";
-                this.errorMessage = err;
-                // console.log(err);
-              });
-          } catch (error) {
-            //console.log("Error with webservice");
-          }
-        } else {
-          this.message = "Enter at least one field to search."
-        }
-      },
-
       showAdvancedSearch: function () {
         this.showAdvancedSearchForm = true;
       },
@@ -658,52 +609,7 @@ export default {
             this.advancedSearchInput[key].contains = false;
           }
         }
-        // this.advancedSearchInput = {
-        //   legalFirstName: {
-        //     value: "",
-        //     contains: false,
-        //   },
-        //   legalLastName: {
-        //     value: "",
-        //     contains: false,
-        //   },
-        //   legalMiddleNames: {
-        //     value: "",
-        //     contains: false,
-        //   },
-        //   gender: {
-        //     value: "",
-        //     contains: false,
-        //   },
-        //   mincode: {
-        //     value: "",
-        //     contains: false,
-        //   },
-        //   localId: {
-        //     value: "",
-        //     contains: false,
-        //   },
-        //   birthdateFrom: {
-        //     value: "",
-        //     contains: false,
-        //   },
-        //   birthdateTo: {
-        //     value: "",
-        //     contains: false,
-        //   },
-        //   usualFirstName: {
-        //     value: "",
-        //     contains: false,
-        //   },
-        //   usualLastName: {
-        //     value: "",
-        //     contains: false,
-        //   },
-        //   usualMiddleNames: {
-        //     value: "",
-        //     contains: false,
-        //   },
-        //}
+
       },
       advancedSearchValidate(obj){
         //check if all inputs are empty

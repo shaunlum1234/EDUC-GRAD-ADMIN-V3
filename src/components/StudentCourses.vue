@@ -1,63 +1,48 @@
 <template>
   <div>
     <div class="table-responsive">
-      
-      <!-- <div v-if="gradStatusPendingUpdates.length">
-        <b-card-group deck >
-          <b-card v-bind:header="'Student Record Changes - Last Updated ' + studentGradStatus.updatedTimestamp" header-tag="header" footer-tag="footer">
-            <b-card-text>
-              <p>{{gradStatusPendingUpdates.length}} changes are not updated in this students graduation status. Run the Graduation Algorithm to update.</p>
-              <table>
-                <tr v-for="item in gradStatusPendingUpdates" :key="item.message">
-                  <td ><i class="fas fa-plus-square"></i> <span class="pl-2">{{ item }}</span></td>
-                </tr>
-              </table>
-            </b-card-text>
-            <b-button v-on:click="updateGraduationStatus(studentPen)" class="float-right btn-primary btn-sm">
-              <i class="fas fa-sync"></i> Update Graduation Status
-            </b-button>
-          </b-card>
-        </b-card-group>
-      </div> -->
+     <DisplayTable :items="courses" :fields="fields">
 
-      <b-spinner v-if="!courses.length" label="Loading">Loading</b-spinner>
-
-      <!--DisplayTable :items="courses" :fields="fields2" /-->
-      <v-table :data="courses" :filters="filters" class="table table-sm table-hover table-striped align-middle">
-        <thead slot="head" class="">
-          <v-th sortKey="courseCode">Code</v-th>
-          <v-th sortKey="courseLevel">Level</v-th>
-          <v-th sortKey="sessionDate">Session</v-th>
-          <!-- not sure -->
-          <v-th sortKey="courseName">Name</v-th>
-          <!-- not sure -->
-          <v-th sortKey="courseEquivChal">Equiv, Chal</v-th>
-          <v-th sortKey="credits">Credits</v-th>
-          <v-th sortKey="interimPercent">Interim %</v-th>
-          <v-th sortKey="completedCourseLetterGrade">Final %</v-th>
-          <v-th sortKey="creditsUsedForGrad">Grad Credits</v-th> 
-          <v-th sortKey="programCode">Req Code</v-th>
-        </thead>
-        <tbody slot="body" slot-scope="{ displayData }">
-          <template v-for="row in displayData">
-            <tr :key="row.courseAchievementId" @click="toggle(row.courseCode + row.courseLevel)"
-              :class="{ opened: opened.includes(row.courseCode) }"
-              :ref="createRef(row.pen,row.courseCode,row.courseLevel,row.sessionDate)">
-              <!--td><td><a href="#" v-b-tooltip.hover v-bind:title="row.courseName">{{ row.courseCode }}</a></td-->
-              <td>{{ row.courseCode }}</td>
-              <td>{{ row.courseLevel }}</td>
-              <td>{{ row.sessionDate }}</td>
-              <td>{{ row.courseName }}</td>
-              <td>{{ row.courseEquivChal }}</td>
-              <td>{{ row.credits }}</td>
-              <td>{{ row.interimPercent }}% <br>{{ row.interimLetterGrade }}</td>
-              <td>{{ row.completedCoursePercentage }}% <br>{{ row.completedCourseLetterGrade }}</td>
-              <td>{{ row.creditsUsedForGrad}}</td>
-              <td>{{ row.gradReqMet}}</td>
-            </tr>
+          <template #thead-top="data">
+            <b-tr>
+              <b-th colspan="1"></b-th>
+              <b-th colspan="3">Course</b-th>
+              <b-th colspan="2">Interim</b-th>
+              <b-th colspan="2">Final</b-th>
+              <b-th colspan="1">Equiv/</b-th>
+              <b-th colspan="1"></b-th>
+              <b-th colspan="1">Fine Arts/</b-th>
+              
+              
+            </b-tr>
           </template>
-        </tbody>
-      </v-table>
+
+        <template #cell(courseName)="row">
+          {{row.item}}
+          <div class="d-flex flex-column text-md-left">
+            <div class="">
+              <b-button :id="'popover-button-event'+row.item.courseCode+row.item.courseLevel+row.item.sessionDate" variant="link">{{row.item.courseName}}</b-button>
+            </div>
+
+            <b-popover ref="popover" :target="'popover-button-event'+row.item.courseCode+row.item.courseLevel+row.item.sessionDate" :title="row.item.courseCode">
+              {{row.item.courseName}} {{row.item.courseLevel}} {{row.item.sessionDate}}
+            </b-popover>
+          </div>
+      
+        </template>
+        <template #cell(more)="row">
+   
+          <b-btn v-if="row.item.hasRelatedCourse=='Y'" variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
+            <i class="fas fa-sm fa-caret-down"></i>
+          </b-btn>
+        </template>
+        <template #row-details="row">
+          <b-card>
+            {{row.item.courseCode}}
+          </b-card>
+        </template> 
+      </DisplayTable>
+
     </div>
   </div>
 </template>
@@ -66,11 +51,11 @@
   import {
     mapGetters
   } from "vuex";
-  //import DisplayTable from "@/components/DisplayTable.vue";
+  import DisplayTable from "@/components/DisplayTable.vue";
   export default {
     name: "StudentCourses",
     components: {
-      //DisplayTable: DisplayTable,
+      DisplayTable: DisplayTable,
     },
     props: {},
     computed: {
@@ -84,38 +69,21 @@
     },
     data: function () {
       return {
+        
         fields: [
-          "courseCode",
-          "courseCode",
-          "courseLevel",
-          "sessionDate",
-          "courseName",
-          "courseEquivChal",
-          "credits",
-          "interimLetterGrade",
-          "completedCoursePercentage",
-          "completedCourseLetterGrade",
-        ],
-        fields2: [
-          { key: 'courseCode', label: 'Course Code', sortable: true, sortDirection: 'desc' },
-          { key: 'codeLevel', label: 'Code Level', sortable: true, class: 'text-center' },
-          { key: 'sessionDate', label: 'Session Date', sortable: true, sortDirection: 'desc' },
-          { key: 'courseName', label: 'Course Name', sortable: true, class: 'text-center' },
-          { key: 'courseEquivChal', label: 'Course Equivalent Challenge', sortable: true, sortDirection: 'desc' },
-          { key: 'credits', label: 'Credits', sortable: true, class: 'text-center' },
-          { key: 'interimLetterGrade', label: 'Intermediate Letter Grade', sortable: true, sortDirection: 'desc' },
-          { key: 'completedCoursePercentage', label: 'Completed Course Percentage'},
-          {
-            key: 'isActive',
-            label: 'Is Active',
-            formatter: (value) => {
-              return value ? 'Yes' : 'No'
-            },
-            sortable: true,
-            sortByFormatted: true,
-            filterByFormatted: true
-          },
-          { key: 'actions', label: 'Actions' }
+          
+          { key: 'more', label: '' },
+          { key: 'courseCode', label: 'Code', sortable: true, sortDirection: 'desc' },
+          { key: 'courseLevel', label: 'Level', sortable: true, class: 'text-left' },
+          { key: 'sessionDate', label: 'Session', sortable: true, sortDirection: 'desc' },
+          { key: 'iterimPercent', label: '%', sortable: true, sortDirection: 'desc' },
+          { key: 'interimLetterGrade', label: 'LG', sortable: true, sortDirection: 'desc' },
+          { key: 'completedCoursePercentage', label: '%'},
+          { key: 'fcompletedCourseLetterGrade', label: 'LG'},
+          { key: 'courseEquivChal', label: 'Challenge', sortable: true, sortDirection: 'desc' },
+          { key: 'credits', label: 'Credits', sortable: true, class: 'text-left' },
+          { key: 'fineArtsAppSkills', label: 'App Skills', sortable: true, class: 'text-left' },
+          { key: 'courseName', label: 'Course Name', sortable: true, class: 'text-left' },
         ],
         gradStatusPendingUpdates: [],
         show: false,
