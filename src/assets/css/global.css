@@ -2,8 +2,8 @@
 .table-row-header-group{
   border-bottom: none
 }
-table th.table-header-group{
-  border-bottom: none;
+.table-row-header-group th{
+  border-bottom: none !important;
 }
 .table.b-table > thead > tr > [aria-sort="none"], .table.b-table > tfoot > tr > [aria-sort="none"]{
   background: none !important;

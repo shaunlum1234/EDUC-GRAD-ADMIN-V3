@@ -5,20 +5,28 @@
 
           <template #thead-top="data">
             <b-tr class="table-row-header-group">
-              <b-th colspan="1" class="table-header-group"></b-th>
-              <b-th colspan="3" class="table-header-group"><span>Course</span></b-th>
-              <b-th colspan="2" class="table-header-group"><span>Interim</span></b-th>
-              <b-th colspan="2" class="table-header-group"><span>Final</span></b-th>
+              <b-th colspan="1" class="table-header-group text-center"></b-th>
+              <b-th colspan="3" class="table-header-group text-center"><span>Course</span></b-th>
+              <b-th colspan="2" class="table-header-group text-center"><span>Interim</span></b-th>
+              <b-th colspan="2" class="table-header-group text-center"><span>Final</span></b-th>
               <b-th colspan="1">Equiv/</b-th>
               <b-th colspan="1"></b-th>
-              <b-th colspan="1">Fine Arts/</b-th>
-              
-              
+              <b-th colspan="1" >Fine Arts</b-th>
             </b-tr>
           </template>
 
         <template #cell(courseName)="row">
-          <div class="d-flex flex-column text-md-left">
+
+      
+        </template>
+        <template #cell(more)="row">
+          <b-btn v-if="row.item.hasRelatedCourse=='Y'" variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
+            <i class="fas fa-sm fa-caret-down"></i>
+          </b-btn>
+        </template>
+        <template #row-details="row">
+          <b-card>
+                      <div class="d-flex flex-column text-md-left">
             <div class="">
               <b-button :id="'popover-button-event'+row.item.courseCode+row.item.courseLevel+row.item.sessionDate" variant="link">{{row.item.courseName}}</b-button>
             </div>
@@ -27,22 +35,29 @@
               {{row.item.courseName}} {{row.item.courseLevel}} {{row.item.sessionDate}}
             </b-popover>
           </div>
-      
-        </template>
-        <template #cell(more)="row">
-   
-          <b-btn v-if="row.item.hasRelatedCourse=='Y'" variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
-            <i class="fas fa-sm fa-caret-down"></i>
-          </b-btn>
-        </template>
-        <template #row-details="row">
-          <b-card>
-            Related Course {{row.item.relatedCourse}}
-            Related Level {{row.item.relatedLevel}}
-            Alternate Course Name {{row.item.relatedCourse}}
-            Best School Percent {{row.item.bestSchoolPercent}}  
-            Best Exam Percent {{row.item.bestExamPercent}}
-            Assessment Equiv 
+            <table>
+              <tbody>
+                <tr>
+                  <td>Related Course {{row.item.relatedCourse}}</td>
+                </tr>
+                <tr>
+                    <td>Related Levelt {{row.item.relatedLevel}}</td>
+                </tr>
+                <tr>
+                  <td>Alternate Course Name {{row.item.relatedCourse}}</td>
+                </tr>
+                <tr>
+                  <td>Best School Percent {{row.item.bestSchoolPercent}}</td>
+                </tr>
+                <tr>
+                  <td>Best Exam Percentt {{row.item.bestExamPercent}}</td>
+                </tr>
+                <tr>
+                  <td>Assessment Equivt </td>
+                </tr>
+                <tr><td>{{row.item}}</td></tr>
+              </tbody>
+            </table>
           </b-card>
         </template> 
       </DisplayTable>
@@ -80,14 +95,14 @@
           { key: 'courseCode', label: 'Code', sortable: true, sortDirection: 'desc' },
           { key: 'courseLevel', label: 'Level', sortable: true, class: 'text-left' },
           { key: 'sessionDate', label: 'Session', sortable: true, sortDirection: 'desc' },
-          { key: 'iterimPercent', label: '%', sortable: true, sortDirection: 'desc' },
+          { key: 'interimPercent', label: '%', sortable: true, sortDirection: 'desc' },
           { key: 'interimLetterGrade', label: 'LG', sortable: true, sortDirection: 'desc' },
           { key: 'completedCoursePercentage', label: '%'},
-          { key: 'fcompletedCourseLetterGrade', label: 'LG'},
+          { key: 'completedCourseLetterGrade', label: 'LG'},
           { key: 'courseEquivChal', label: 'Challenge', sortable: true, sortDirection: 'desc' },
           { key: 'credits', label: 'Credits', sortable: true, class: 'text-left' },
           { key: 'fineArtsAppSkills', label: 'App Skills', sortable: true, class: 'text-left' },
-          { key: 'courseName', label: 'Course Name', sortable: true, class: 'text-left' },
+          
         ],
         gradStatusPendingUpdates: [],
         show: false,
