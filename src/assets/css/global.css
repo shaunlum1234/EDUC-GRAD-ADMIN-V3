@@ -1,0 +1,16 @@
+/* DisplayTable Component Style*/
+.table-row-header-group{
+  border-bottom: none
+}
+table th.table-header-group{
+  border-bottom: none;
+}
+.table.b-table > thead > tr > [aria-sort="none"], .table.b-table > tfoot > tr > [aria-sort="none"]{
+  background: none !important;
+}
+.table.b-table > thead > tr > [aria-sort="descending"], .table.b-table > tfoot > tr > [aria-sort="descending"]{ 
+  background: none !important;
+}
+.table.b-table > thead > tr > [aria-sort="ascending"], .table.b-table > tfoot > tr > [aria-sort="ascending"]{ 
+  background: none !important;
+}

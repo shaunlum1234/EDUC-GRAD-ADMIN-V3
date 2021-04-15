@@ -19,6 +19,7 @@ import { BootstrapVueIcons } from 'bootstrap-vue';
 import '@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import '../src/assets/css/bcgov.css';
+import '../src/assets/css/global.css';
 
 
 // Install BootstrapVue

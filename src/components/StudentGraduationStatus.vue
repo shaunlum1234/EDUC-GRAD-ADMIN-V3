@@ -9,16 +9,13 @@
       <b-card-body>
         <b-card-text>
           <div v-if="!hasGradStatus">
-
-
             {{studentFullName.legalFirstName }} found on the Student (common) database <strong>but does not have a GRAD system record</strong>
-
           </div>
         </b-card-text>
       </b-card-body>
 
     </b-card>
-
+  
     <div class="accordion col-12 px-0 mx-0" role="tablist" v-if="hasGradStatus">
       <b-card no-body class="col-12 px-0 mx-0">
 
@@ -38,174 +35,7 @@
 
                     <b-modal id="modal-1" size="lg" >
                       <div v-if="showModal" class="row col-12">
-                        <div class="col-12 header">
-                            <h2>Projected Graduation status</h2>
-                          </div>
-
-                        <div class="col-6">
-                          <div class="col-12 header">
-                            <h4>Graduation status</h4>
-                          </div>
-
-                          <ul>
-                            <li>
-                              <strong>Program:</strong>
-                              {{ projectedStudentGradStatus.program }}
-                            </li>
-                            <li>
-                              <strong>Program completion date:</strong>
-                              {{ projectedStudentGradStatus.programCompletionDate }}
-                            </li>
-                            <li>
-                              <strong>Program at graduation:</strong>
-                              {{ projectedStudentGradStatus.gradProgramAtGraduation }}
-                            </li>
-                            <li>
-                              <strong>School of Record:</strong>
-                              <li>
-                        <strong>School of Record:</strong>
-                               <div class="p-2">
-
-                                <span class="link" href="#" id="popover-button-sync"
-                                  variant="primary">{{projectedStudentGradStatus.studentGradData.school.schoolName}}
-                                  ({{projectedStudentGradStatus.studentGradData.school.minCode}})
-                                </span>
-                              </div>
-                          <b-popover :show.sync="show" :boundary-padding="50" target="popover-button-sync"
-                            title="School Information">
-                            <p><strong>District:</strong> {{projectedStudentGradStatus.studentGradData.school.districtName}}</p>
-                            <p><strong>Certificate eligibility:</strong>
-                              {{projectedStudentGradStatus.studentGradData.school.certificateEligibility}}</p>
-                            <p><strong>Independent:</strong> {{projectedStudentGradStatus.studentGradData.school.independentDesignation}}
-                            </p>
-                            <p><strong>Mailer type:</strong> {{projectedStudentGradStatus.studentGradData.school.mailerType}}</p>
-                            <p><strong>Address:</strong> {{projectedStudentGradStatus.studentGradData.school.address1}}</p>
-                            <p><strong>Postal:</strong> {{projectedStudentGradStatus.studentGradData.school.postal}}</p>
-                            <b-button class="px-1" @click="popClose">Close</b-button>
-                          </b-popover>
-
-        
-                            </li>
-                            <li v-if="projectedStudentGradStatus.studentGrade">
-                              <strong>Grade at graduation:</strong>
-                              {{ projectedStudentGradStatus.studentGrade }}
-                            </li>
-
-                            <li v-if="projectedStudentGradStatus.graduationDate">
-                              <strong>Graduation Date:</strong>
-                              {{ projectedStudentGradStatus.graduationDate }}
-                            </li>
-                            <li>
-                              <strong>Credits used for Graduation:</strong>
-                              {{ projectedStudentGradStatus.creditsUsedForGrad }}
-                            </li>
-                            <li v-if="projectedStudentGradStatus.gpa">
-                              <strong>GPA:</strong> {{ projectedStudentGradStatus.gpa }}
-                            </li>
-                            <li v-if="projectedStudentGradStatus.honoursFlag">
-                              <strong>Honours:</strong>
-                              {{ projectedStudentGradStatus.honoursFlag }}
-                            </li>
-
-                            <li v-if="projectedStudentGradStatus.sccpGraduationDate">
-                              <strong>School Completion Certificate Program (SCCP)
-                                Graduation Date:</strong>{{ projectedStudentGradStatus.sccpGraduationDate }}
-                            </li>
-                            <li v-if="projectedStudentGradStatus.schoolAtGrad">
-                              <strong>School at Graduation:</strong>{{ projectedStudentGradStatus.schoolAtGrad }}
-                            </li>
-                            <li v-if="projectedStudentGradStatus.studentGradeAtGraduation">
-                              <strong>Grade at Graduation:</strong>{{ projectedStudentGradStatus.studentGradeAtGraduation }}
-                            </li>
-                          </ul>
-                          <!-- Student Certifications and Diplomas -->
-                          <div class="col-12 header">
-                            <h4>Certification/Dogwoods</h4>
-                          </div>
-                          <ul>
-                            <li v-if="projectedStudentGradStatus.certificateType1">
-                              <strong>Certificate #1:</strong>
-                              {{ projectedStudentGradStatus.certificateType1 }}
-                              <br>
-                              <span v-if="projectedStudentGradStatus.certificateType1Date">
-                                <strong>Date obtained:</strong>
-                                {{ projectedStudentGradStatus.certificateType1Date }}
-                              </span>
-                            </li>
-                          </ul>
-                          <ul>
-                            <li v-if="projectedStudentGradStatus.certificateType2">
-                              <strong>Certificate #2:</strong>
-                              {{ projectedStudentGradStatus.certificateType2 }}
-                              <br>
-                              <span v-if="projectedStudentGradStatus.certificateType2Date">
-                                <strong>Date obtained:</strong>
-                                {{ projectedStudentGradStatus.certificateType2Date }}
-                              </span>
-                            </li>
-                          </ul>
-                          <ul>
-                            <li v-if="projectedStudentGradStatus.dualDogwoodEligibility">
-                              <strong>Dual Dogwood</strong>{{ projectedStudentGradStatus.dualDogwoodEligibility }}
-                            </li>
-                            <li v-if="projectedStudentGradStatus.transcriptDate">
-                              <strong>Transcript Date:</strong>
-                              {{ projectedStudentGradStatus.transcriptDate }}
-                            </li>
-
-                          </ul>
-                          <!-- Programs -->
-                          <div class="col-12 header">
-                            <h4>Special programs</h4>
-
-                          </div>
-                          <ul>
-
-                            <li v-if="projectedStudentGradStatus.frenchProgramParticipation">
-                              <strong>Program Cadre:</strong>
-                              {{ projectedStudentGradStatus.frenchProgramParticipation }}
-                            </li>
-                            <li v-if="projectedStudentGradStatus.advancePlacementParticipation">
-                              <strong>AP:</strong>
-                              {{ projectedStudentGradStatus.advancePlacementParticipation }}
-                            </li>
-                            <li v-if="projectedStudentGradStatus.careerProgramParticipation">
-                              <strong>Career Program:</strong>
-                              {{ projectedStudentGradStatus.careerProgramParticipation }}
-                            </li>
-                            <li v-if="projectedStudentGradStatus.recalculateFlag">
-                              <strong>Recalculate Flag</strong>{{ projectedStudentGradStatus.recalculateFlag }}
-                            </li>
-                            <li v-if="projectedStudentGradStatus.ibParticipationFlag">
-                              <strong>IB:</strong>
-                              {{ projectedStudentGradStatus.ibParticipationFlag }}
-                            </li>
-                          </ul>
-                        </div>
-                        <div class="col-6">
-                          <div class="col-12 header pl-0">
-                            <h4>Requirements Met</h4>
-                          </div>
-
-                          <ul class="requirements-met px-0">
-                            <li v-for="requirement in projectedStudentGradStatus.studentGradData.requirementsMet"
-                              :key="requirement.rule">
-                              <i class="fas fa-check-circle text-success"></i>{{ requirement.description }}
-                              (Rule {{ requirement.rule }})
-                            </li>
-                          </ul>
-
-                          <div class="col-12 header pl-0">
-                            <h4>Requirements Not Met</h4>
-                          </div>
-                          <ul class="requirements-met px-0">
-                            <li v-for="requirement in projectedStudentGradStatus.studentGradData.nonGradReasons"
-                              :key="requirement.rule">
-                              <i class="fas fa-check-circle text-success"></i> {{ requirement.description }}
-                              (Rule {{ requirement.rule }})
-                            </li>
-                          </ul>
-                        </div>
+                            PROJECTED GRAD STATUS
                       </div>
                     </b-modal>
                   </div>
@@ -261,7 +91,13 @@
                        <!-- <li v-if="showEdit">
                         <strong>Program at graduation:</strong><b-input v-model='editedGradStatus.gradProgramAtGraduation'></b-input>      
                       </li> -->
-                      <li>
+                      <li v-if="!studentGradStatus.studentGradData">
+                         <strong>School of Record:</strong>
+                            <div class="p-2">
+                              {{studentGradStatus.schoolOfRecord}}
+                            </div>
+                      </li>
+                      <li v-if="studentGradStatus.studentGradData">
                         <strong>School of Record:</strong>
                                <div class="p-2">
 
@@ -405,7 +241,7 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <b-card no-body class="col-12 px-0 mx-0">
+      <b-card no-body class="col-12 px-0 mx-0" v-if="studentGradStatus.studentGradData">
         <b-button block v-b-toggle.accordion-2 variant="info" class="text-left"><i
             class="fas fa-times-circle text-danger"></i> Requirements not
           met ({{studentGradStatus.studentGradData.nonGradReasons.length}}) </b-button>
@@ -427,7 +263,7 @@
         </b-collapse>
       </b-card>
 
-      <b-card no-body class="col-12 px-0 mx-0">
+      <b-card no-body class="col-12 px-0 mx-0" v-if="studentGradStatus.studentGradData">
 
         <b-button block v-b-toggle.accordion-3 variant="info" class="text-left"><i
             class="fas fa-check-circle text-success"></i> Requirements met
@@ -443,8 +279,6 @@
                   <i class="fas fa-check-circle text-success"></i> <a href="#"
                     @click='getCourseCompletedProgramCode(requirement.rule,studentGradStatus.studentGradData.studentCourses.studentCourseList)'>{{ requirement.description }}
                     (Rule {{ requirement.rule }})</a>
-
-
                 </li>
               </ul>
             </b-card-text>

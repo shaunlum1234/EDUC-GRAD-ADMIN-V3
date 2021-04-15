@@ -4,11 +4,11 @@
      <DisplayTable :items="courses" :fields="fields">
 
           <template #thead-top="data">
-            <b-tr>
-              <b-th colspan="1"></b-th>
-              <b-th colspan="3">Course</b-th>
-              <b-th colspan="2">Interim</b-th>
-              <b-th colspan="2">Final</b-th>
+            <b-tr class="table-row-header-group">
+              <b-th colspan="1" class="table-header-group"></b-th>
+              <b-th colspan="3" class="table-header-group"><span>Course</span></b-th>
+              <b-th colspan="2" class="table-header-group"><span>Interim</span></b-th>
+              <b-th colspan="2" class="table-header-group"><span>Final</span></b-th>
               <b-th colspan="1">Equiv/</b-th>
               <b-th colspan="1"></b-th>
               <b-th colspan="1">Fine Arts/</b-th>
@@ -18,7 +18,6 @@
           </template>
 
         <template #cell(courseName)="row">
-          {{row.item}}
           <div class="d-flex flex-column text-md-left">
             <div class="">
               <b-button :id="'popover-button-event'+row.item.courseCode+row.item.courseLevel+row.item.sessionDate" variant="link">{{row.item.courseName}}</b-button>
@@ -38,7 +37,12 @@
         </template>
         <template #row-details="row">
           <b-card>
-            {{row.item.courseCode}}
+            Related Course {{row.item.relatedCourse}}
+            Related Level {{row.item.relatedLevel}}
+            Alternate Course Name {{row.item.relatedCourse}}
+            Best School Percent {{row.item.bestSchoolPercent}}  
+            Best Exam Percent {{row.item.bestExamPercent}}
+            Assessment Equiv 
           </b-card>
         </template> 
       </DisplayTable>

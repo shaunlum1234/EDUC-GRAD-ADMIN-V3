@@ -377,4 +377,7 @@
   }
 </script>
 <style scoped>
+.table-header-group{
+  border: 1px solid #ccc;
+}
 </style>
