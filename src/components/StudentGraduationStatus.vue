@@ -84,32 +84,57 @@
                         <strong>Program completion date:</strong><b-input type="date" v-model='editedGradStatus.programCompletionDate'></b-input>      
                       </li>
                       <li>
-                        <strong>Program at graduation:</strong>
-            
-                        {{ studentGradStatus.gradProgramAtGraduation }}
+                        <strong>Student Status:</strong>
+                        {{ studentGradStatus.studentStatus }}
                       </li>
-                       <!-- <li v-if="showEdit">
-                        <strong>Program at graduation:</strong><b-input v-model='editedGradStatus.gradProgramAtGraduation'></b-input>      
-                      </li> -->
-                      <li v-if="!studentGradStatus.studentGradData">
-                         <strong>School of Record:</strong>
-                            <div class="p-2">
-                              {{studentGradStatus.schoolOfRecord}}
-                            </div>
-                      </li>
-                     
                       <li v-if="studentGradStatus.studentGrade">
-                        <strong>Grade at graduation:</strong>
+                        <strong>Student grade:</strong>
                         {{ studentGradStatus.studentGrade }}
                       </li>
-
-                      <li v-if="studentGradStatus.graduationDate">
-                        <strong>Graduation Date:</strong>
-                        {{ studentGradStatus.graduationDate }}
+                      <li v-if="studentGradStatus.schoolOfRecord">
+                        
+                          <strong>School of Record: </strong>
+                          <span class="link" href="#" id="popover-button-sync"
+                                  variant="primary" @click="getSchoolInfo(studentGradStatus.schoolOfRecord)"> {{studentGradStatus.schoolOfRecord}}
+                          </span>
+                        
+                        
+                        <b-popover :show.sync="show" :boundary-padding="50" target="popover-button-sync"
+                            title="School Information">
+                            <p><strong>School name:</strong> {{schoolInfo.schoolName}}</p>
+                            <p><strong>District:</strong> {{schoolInfo.districtName}}</p>
+                            <p><strong>Certificate eligibility:</strong>
+                              {{schoolInfo.certificateEligibility}}</p>
+                            <p><strong>Independent:</strong> {{schoolInfo.independentDesignation}}
+                            </p>
+                            <p><strong>Mailer type:</strong> {{schoolInfo.mailerType}}</p>
+                            <p><strong>Address:</strong> {{schoolInfo.address1}}</p>
+                            <p><strong>Postal:</strong> {{schoolInfo.postal}}</p>
+                            <b-button class="px-1" @click="popClose">Close</b-button>
+                          </b-popover> 
                       </li>
-                      <li>
-                        <strong>Credits used for Graduation:</strong>
-                        {{ studentGradStatus.creditsUsedForGrad }}
+                      <li v-if="studentGradStatus.studentGradData.gradStudent.schoolOfRecord">
+                        <strong>School at Graduation: </strong> {{ studentGradStatus.studentGradData.gradStudent.schoolOfRecord}}
+                        <!-- <span class="link" href="#" id="popover-button-sync"
+                                  variant="primary" @click="getSchoolInfo( studentGradStatus.studentGradData.gradStudent.schoolOfRecord)"> {{ studentGradStatus.studentGradData.gradStudent.schoolOfRecord}}
+                        </span> -->
+                        <!-- <b-popover :show.sync="show" :boundary-padding="50" target="popover-button-sync"
+                            title="School Information">
+                            <p><strong>School name:</strong> {{schoolInfo.schoolName}}</p>
+                            <p><strong>District:</strong> {{schoolInfo.districtName}}</p>
+                            <p><strong>Certificate eligibility:</strong>
+                              {{schoolInfo.certificateEligibility}}</p>
+                            <p><strong>Independent:</strong> {{schoolInfo.independentDesignation}}
+                            </p>
+                            <p><strong>Mailer type:</strong> {{schoolInfo.mailerType}}</p>
+                            <p><strong>Address:</strong> {{schoolInfo.address1}}</p>
+                            <p><strong>Postal:</strong> {{schoolInfo.postal}}</p>
+                            <b-button class="px-1" @click="popClose">Close</b-button>
+                          </b-popover>  -->
+                      </li>
+                      <li v-if="studentGradStatus.honoursStanding">
+                        <strong>Honours:</strong>
+                        {{ studentGradStatus.honoursStanding }}
                       </li>
                       <li v-if="!showEdit">
                         <strong>GPA:</strong> {{ studentGradStatus.gpa }}
@@ -117,25 +142,33 @@
                        <li v-if="showEdit">
                         <strong>GPA:</strong><b-input size="sm" max="4" pattern="^\d*(\.\d{0,4})?$" type="number" v-model='editedGradStatus.gpa'></b-input>      
                       </li>
-                      <li v-if="studentGradStatus.honoursFlag">
-                        <strong>Honours:</strong>
-                        {{ studentGradStatus.honoursFlag }}
+                    </ul>
+                      <!-- <li>
+                        <strong>Program at graduation:</strong>
+                        {{ studentGradStatus.gradProgramAtGraduation }}
+                      </li> -->
+                       <!-- <li v-if="showEdit">
+                        <strong>Program at graduation:</strong><b-input v-model='editedGradStatus.gradProgramAtGraduation'></b-input>      
+                      </li> -->
+                      <!-- <li v-if="studentGradStatus.graduationDate">
+                        <strong>Graduation Date:</strong>
+                        {{ studentGradStatus.graduationDate }}
                       </li>
-
+                      <li>
+                        <strong>Credits used for Graduation:</strong>
+                        {{ studentGradStatus.creditsUsedForGrad }}
+                      </li>
                       <li v-if="studentGradStatus.sccpGraduationDate">
                         <strong>School Completion Certificate Program (SCCP)
                           Graduation Date:</strong>{{ studentGradStatus.sccpGraduationDate }}
-                      </li>
-                      <li v-if="studentGradStatus.schoolAtGrad">
-                        <strong>School at Graduation:</strong>{{ studentGradStatus.schoolAtGrad }}
-                      </li>
+                      </li>                 
                       <li v-if="studentGradStatus.studentGradeAtGraduation">
                         <strong>Grade at Graduation:</strong>{{ studentGradStatus.studentGradeAtGraduation }}
                       </li>
-                    </ul>
+                     -->
 
                     <!-- Student Certifications and Diplomas -->
-                    <div class="col-12 header">
+                    <!-- <div class="col-12 header">
                       <h2>Certification/Dogwoods</h2>
                     </div>
                     <ul>
@@ -170,9 +203,9 @@
                         {{ studentGradStatus.transcriptDate }}
                       </li>
 
-                    </ul>
+                    </ul> -->
                     <!-- Programs -->
-                    <div class="col-12 header">
+                    <!-- <div class="col-12 header">
                       <h2>Special programs</h2>
 
                     </div>
@@ -211,7 +244,7 @@
                           <a v-on:click="getStudentTranscriptPDF" href="#" class="">Transcript (PDF)</a>
                         </li>
                       </ul>
-                    </div>
+                    </div> -->
 
                   </div>
                 </div>
@@ -287,7 +320,7 @@
   import GraduationCommonService from "@/services/GraduationCommonService.js";
   import GraduationService from "@/services/GraduationService.js";
   import GraduationStatusService from "@/services/GraduationStatusService.js";
-
+  import SchoolService from "@/services/SchoolService.js"
   export default {
     name: "StudentGraduationStatus",
 
@@ -313,6 +346,7 @@
         show: false,
         projectedStudentGradStatus: [],
         updateStatus:[],
+        schoolInfo:"",
         programDropdownList: [],
         editedGradStatus: {
             createdBy:"",
@@ -377,7 +411,18 @@
       popClose() {
         this.show = false;
       },
-
+      getSchoolInfo(mincode) {
+        SchoolService.getSchoolInfo(mincode, this.token) .then((response) => {
+          this.schoolInfo = response.data;
+          //this.projectedStudentGradStatus.studentGradData = JSON.parse(this.projectedStudentGradStatus.studentGradData); 
+          //console.log( "PROJECTED" + this.projectedStudentGradStatus);
+          // this.$bvModal.show("modal-1");
+          // this.showModal = true;
+        }).catch((error) => {
+          // eslint-disable-next-line
+          console.log('There was an error:' + error.response);
+        });
+      },
       projectGraduationStatus(pen) {
       //  console.log( "PROJECTED" + this.projectedStudentGradStatus);
         GraduationStatusService.getGraduationStatus(pen, this.token) .then((response) => {
