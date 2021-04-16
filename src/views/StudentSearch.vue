@@ -183,12 +183,12 @@
                         <b-input v-model="advancedSearchInput.usualMiddleNames.value" placeholder=""
                           v-on:keyup=" keyHandler" tabindex="9" />
                       </div> 
-                      <div class="advanced-search-field form-group col-12 col-md-2" :class="{ 'form-group--error': $v.advancedSearchInput.mincode.value.$error }">
+                      <!-- <div class="advanced-search-field form-group col-12 col-md-2" :class="{ 'form-group--error': $v.advancedSearchInput.mincode.value.$error }">
                           <label class="form__label">Mincode</label>
                           <b-input class="form__input" v-model="advancedSearchInput.mincode.value" placeholder=""
                             v-on:keyup="keyHandler" tabindex="11" />
                           <div class="error" v-if="!$v.advancedSearchInput.mincode.value.numeric">Field is not numeric.</div>  
-                      </div>   
+                      </div>    -->
                           
                       <div class="advanced-search-field col-12 col-md-2">
                         <label>Local ID</label>
@@ -254,7 +254,7 @@
 import { mapGetters } from "vuex";
 import StudentService from "@/services/StudentService.js";
 import DisplayTable from "@/components/DisplayTable";
-import { numeric, maxValue } from "vuelidate/lib/validators";
+import { maxValue } from "vuelidate/lib/validators";
 
 export default {
   name: "studentSearch",
@@ -418,10 +418,10 @@ export default {
           value: "",
           contains: false,
         },
-        mincode: {
-          value: "",
-          contains: false,
-        },
+        // mincode: {
+        //   value: "",
+        //   contains: false,
+        // },
         localId: {
           value: "",
           contains: false,
@@ -454,13 +454,13 @@ export default {
     dateObject: {
       maxValue: maxValue(new Date()),
     },
-    advancedSearchInput: {
-      mincode: {
-        value: {
-          numeric: numeric,
-        },
-      },
-    },
+    // advancedSearchInput: {
+    //   mincode: {
+    //     value: {
+    //       numeric: numeric,
+    //     },
+    //   },
+    // },
   },
   created() {},
   components: {
@@ -620,14 +620,14 @@ export default {
             //console.log(obj[key])
             if (obj[key].value != "") {
               isEmpty = false;
-                if(key == "mincode"){
-                  //contains all digits
-                    if(obj[key].value.length >= 1 && obj[key].value.length <= 7){
-                      obj[key].contains = true;
+                // if(key == "mincode"){
+                //   contains all digits
+                //     if(obj[key].value.length >= 1 && obj[key].value.length <= 7){
+                //       obj[key].contains = true;
                       
-                    }
-                  //add wildcard to mincode if at least 3 digits are included      
-                }//mincode
+                //     }
+                //   add wildcard to mincode if at least 3 digits are included      
+                // }//mincode
                 if(key == "birthdateFrom") {
                   let dateToCheck = Date.parse(obj[key].value);
                   let today = new Date();
