@@ -526,7 +526,7 @@ export default {
           .catch(() => {
             this.searchLoading = false;
             this.searchByPenMessage =
-              "Student cannot be found on the STUDENT (common) database";
+              "Student cannot be found on the STUDENT (PEN) database";
           });
         //pen input check
       }
