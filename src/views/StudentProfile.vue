@@ -165,6 +165,18 @@
   } from "vuex";
   export default {
     name: "studentProfile",
+    created() {
+      const penFromURL = this.$route.params.pen;
+      this.loadStudent(penFromURL);
+      this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;
+      if (this.window.width < 960) {
+        this.smallScreen = true;
+      }
+      window.addEventListener('resize', this.handleResize);
+      this.handleResize();
+
+    },
     components: {
       SiteMessage: SiteMessage,
       StudentCourses: StudentCourses,
@@ -207,18 +219,7 @@
         token: "getToken"
       }),
     },
-    created() {
-      const penFromURL = this.$route.params.pen;
-      this.loadStudent(penFromURL);
-      this.window.width = window.innerWidth;
-      this.window.height = window.innerHeight;
-      if (this.window.width < 960) {
-        this.smallScreen = true;
-      }
-      window.addEventListener('resize', this.handleResize);
-      this.handleResize();
-
-    },
+    
     destroyed() {
       window.removeEventListener('resize', this.handleResize);
     },
