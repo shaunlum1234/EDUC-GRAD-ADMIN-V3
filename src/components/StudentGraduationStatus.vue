@@ -222,18 +222,26 @@
       </b-card>
 
       <!-- GRAD REASONS FIX -->
-      <!-- <b-card no-body class="col-12 px-0 mx-0" v-if="studentGradStatus.studentGradData.nonGradReasons">
-        <b-button block v-b-toggle.accordion-2 variant="info" class="text-left"><i
+      <b-card no-body class="col-12 px-0 mx-0">
+          <b-button block v-b-toggle.accordion-2 variant="info" class="text-left" v-if="!studentGradStatus.studentGradData.nonGradReasons"><i
+            class="fas fa-times-circle text-danger"></i> Requirements not met (0)</b-button>
+        <b-button block v-b-toggle.accordion-2 variant="info" class="text-left" v-if="studentGradStatus.studentGradData.nonGradReasons"><i
             class="fas fa-times-circle text-danger"></i> Requirements not
           met ({{studentGradStatus.studentGradData.nonGradReasons.length}}) </b-button>
-
-        <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
+        <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel" v-if="!studentGradStatus.studentGradData.nonGradReasons">
           <b-card-body>
             <b-card-text>
-              <ul v-if="studentGradStatus.studentGradData.nonGradReasons">
+              <ul>
                 <li>All graduation requirements have been met</li>
               </ul>
-              <ul v-if="studentGradStatus.studentGradData.nonGradReasons.length" class="non-grad-reasons px-0">
+            </b-card-text>
+          </b-card-body>
+        </b-collapse>
+
+        <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel" v-if="studentGradStatus.studentGradData.nonGradReasons">
+          <b-card-body>
+            <b-card-text>
+              <ul v-if="studentGradStatus.studentGradData.nonGradReasons && studentGradStatus.studentGradData.nonGradReasons.length" class="non-grad-reasons px-0">
                 <li v-for="requirement in studentGradStatus.studentGradData.nonGradReasons" :key="requirement.rule">
                   <i class="fas fa-check-circle text-danger"></i> {{ requirement.description }} (Rule
                   {{ requirement.rule }})
@@ -242,11 +250,11 @@
             </b-card-text>
           </b-card-body>
         </b-collapse>
-      </b-card> -->
+      </b-card>
 
       <b-card no-body class="col-12 px-0 mx-0" v-if="studentGradStatus.studentGradData">
 
-        <b-button block v-b-toggle.accordion-3 variant="info" class="text-left"><i
+        <b-button block v-b-toggle.accordion-3 variant="info" class="text-left" v-if="studentGradStatus.studentGradData.requirementsMet"><i
             class="fas fa-check-circle text-success"></i> Requirements met
           ({{studentGradStatus.studentGradData.requirementsMet.length}} )</b-button>
 
