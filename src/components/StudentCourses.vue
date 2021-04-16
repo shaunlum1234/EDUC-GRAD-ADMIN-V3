@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{courseDetails}}
     <div class="table-responsive">
       <DisplayTable :items="courses" :fields="fields">
         <template #thead-top="data">
@@ -8,7 +9,6 @@
             <b-th colspan="3" class="table-header-group text-center">
               <div>Course</div></b-th
             >
-            <div><div></div></div>
             <b-th colspan="2" class="table-header-group text-center">
               <div>Interim</div>
             </b-th>
@@ -20,8 +20,37 @@
             <b-th colspan="1">Fine Arts</b-th>
           </b-tr>
         </template>
-
-        <template #cell(courseName)="row"> </template>
+        <template #cell(courseName)="row">
+          <div class="d-flex flex-column text-md-left">
+              <div class="">
+                <b-button
+                  @click="getCourseDetails(row.item.courseCode, row.item.courseLevel, row.item.sessionDate)"
+                  :id="
+                    'popover-button-event' +
+                    row.item.courseCode +
+                    row.item.courseLevel +
+                    row.item.sessionDate
+                  "
+                  variant="link"
+                  >{{ row.item.courseName }}</b-button
+                >
+              </div>
+              <b-popover
+                :ref="'popover'+row.item.courseCode +
+                  row.item.courseLevel + row.item.sessionDate"
+                :target="
+                  'popover-button-event' +
+                  row.item.courseCode +
+                  row.item.courseLevel +
+                  row.item.sessionDate
+                "
+                :title="row.item.courseCode"
+              >
+                {{ courseDetails }}
+                 
+              </b-popover>
+            </div>
+        </template>
         <template #cell(more)="row">
           <b-btn
             v-if="row.item.hasRelatedCourse == 'Y'"
@@ -34,35 +63,7 @@
           </b-btn>
         </template>
         <template #row-details="row">
-          <b-card>
-            <div class="d-flex flex-column text-md-left">
-              <div class="">
-                <b-button
-                  :id="
-                    'popover-button-event' +
-                    row.item.courseCode +
-                    row.item.courseLevel +
-                    row.item.sessionDate
-                  "
-                  variant="link"
-                  >{{ row.item.courseName }}</b-button
-                >
-              </div>
-
-              <b-popover
-                ref="popover"
-                :target="
-                  'popover-button-event' +
-                  row.item.courseCode +
-                  row.item.courseLevel +
-                  row.item.sessionDate
-                "
-                :title="row.item.courseCode"
-              >
-                {{ row.item.courseName }} {{ row.item.courseLevel }}
-                {{ row.item.sessionDate }}
-              </b-popover>
-            </div>
+          <b-card class="px-0">
             <table>
               <tbody>
                 <tr>
@@ -81,7 +82,7 @@
                   <td>Best Exam Percentt {{ row.item.bestExamPercent }}</td>
                 </tr>
                 <tr>
-                  <td>Assessment Equivt</td>
+                  <td>Assessment Equivt {{ row.item.genericCourseType }} </td>
                 </tr>
                 <tr>
                   <td>{{ row.item }}</td>
@@ -115,6 +116,7 @@ export default {
   },
   data: function () {
     return {
+      courseDetails:[],
       fields: [
         { key: "more", label: "" },
         {
@@ -140,15 +142,17 @@ export default {
           label: "%",
           sortable: true,
           sortDirection: "desc",
+          class: "text-center"
         },
         {
           key: "interimLetterGrade",
           label: "LG",
           sortable: true,
           sortDirection: "desc",
+          class: "text-center"
         },
-        { key: "completedCoursePercentage", label: "%" },
-        { key: "completedCourseLetterGrade", label: "LG" },
+        { key: "completedCoursePercentage", label: "%",class: "text-center" },
+        { key: "completedCourseLetterGrade", label: "LG",class: "text-center" },
         {
           key: "courseEquivChal",
           label: "Challenge",
@@ -164,6 +168,12 @@ export default {
         {
           key: "fineArtsAppSkills",
           label: "App Skills",
+          sortable: true,
+          class: "text-left",
+        },
+        {
+          key: "courseName",
+          label: "Course Name",
           sortable: true,
           class: "text-left",
         },
@@ -200,12 +210,14 @@ export default {
     };
   },
   created() {
-    //console.log("CREATED");
-    if (this.hasGradStatus) {
-      this.checkForPendingUpdates();
-    }
   },
   methods: {
+    getCourseDetails(code, level, session){
+        console.log(this.courseDetails);
+        this.courseDetails[code + level + session] = code + level;
+        console.log("COURSE" + this.courseDetails[code + level + session]);
+        this.$refs['popover' + code + level + session].$emit('open');
+    },
     toggle(id) {
       const index = this.opened.indexOf(id);
       if (index > -1) {

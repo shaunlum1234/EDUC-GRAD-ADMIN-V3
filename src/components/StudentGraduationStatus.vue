@@ -97,28 +97,7 @@
                               {{studentGradStatus.schoolOfRecord}}
                             </div>
                       </li>
-                      <li v-if="studentGradStatus.studentGradData">
-                        <strong>School of Record:</strong>
-                               <div class="p-2">
-
-                                <span class="link" href="#" id="popover-button-sync"
-                                  variant="primary">{{studentGradStatus.studentGradData.school.schoolName}}
-                                  ({{studentGradStatus.studentGradData.school.minCode}})
-                                </span>
-                              </div>
-                          <b-popover :show.sync="show" :boundary-padding="50" target="popover-button-sync"
-                            title="School Information">
-                            <p><strong>District:</strong> {{studentGradStatus.studentGradData.school.districtName}}</p>
-                            <p><strong>Certificate eligibility:</strong>
-                              {{studentGradStatus.studentGradData.school.certificateEligibility}}</p>
-                            <p><strong>Independent:</strong> {{studentGradStatus.studentGradData.school.independentDesignation}}
-                            </p>
-                            <p><strong>Mailer type:</strong> {{studentGradStatus.studentGradData.school.mailerType}}</p>
-                            <p><strong>Address:</strong> {{studentGradStatus.studentGradData.school.address1}}</p>
-                            <p><strong>Postal:</strong> {{studentGradStatus.studentGradData.school.postal}}</p>
-                            <b-button class="px-1" @click="popClose">Close</b-button>
-                          </b-popover>
-                      </li>
+                     
                       <li v-if="studentGradStatus.studentGrade">
                         <strong>Grade at graduation:</strong>
                         {{ studentGradStatus.studentGrade }}
@@ -241,7 +220,9 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <b-card no-body class="col-12 px-0 mx-0" v-if="studentGradStatus.studentGradData">
+
+      <!-- GRAD REASONS FIX -->
+      <!-- <b-card no-body class="col-12 px-0 mx-0" v-if="studentGradStatus.studentGradData.nonGradReasons">
         <b-button block v-b-toggle.accordion-2 variant="info" class="text-left"><i
             class="fas fa-times-circle text-danger"></i> Requirements not
           met ({{studentGradStatus.studentGradData.nonGradReasons.length}}) </b-button>
@@ -249,7 +230,7 @@
         <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
           <b-card-body>
             <b-card-text>
-              <ul v-if="!studentGradStatus.studentGradData.nonGradReasons.length">
+              <ul v-if="studentGradStatus.studentGradData.nonGradReasons">
                 <li>All graduation requirements have been met</li>
               </ul>
               <ul v-if="studentGradStatus.studentGradData.nonGradReasons.length" class="non-grad-reasons px-0">
@@ -261,7 +242,7 @@
             </b-card-text>
           </b-card-body>
         </b-collapse>
-      </b-card>
+      </b-card> -->
 
       <b-card no-body class="col-12 px-0 mx-0" v-if="studentGradStatus.studentGradData">
 
