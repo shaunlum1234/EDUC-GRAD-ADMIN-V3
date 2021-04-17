@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{courseDetails}}
     <div class="table-responsive">
       <DisplayTable :items="courses" :fields="fields">
         <template #thead-top="data">
@@ -17,14 +16,13 @@
             >
             <b-th colspan="1">Equiv/</b-th>
             <b-th colspan="1"></b-th>
-            <b-th colspan="1">Fine Arts</b-th>
+            <b-th colspan="1">F/A</b-th>
           </b-tr>
         </template>
         <template #cell(courseName)="row">
           <div class="d-flex flex-column text-md-left">
               <div class="">
                 <b-button
-                  @click="getCourseDetails(row.item.courseCode, row.item.courseLevel, row.item.sessionDate)"
                   :id="
                     'popover-button-event' +
                     row.item.courseCode +
@@ -32,21 +30,47 @@
                     row.item.sessionDate
                   "
                   variant="link"
-                  >{{ row.item.courseName }}</b-button
+                  class="m-0 p-0 text-left"
+                  >
+                    {{row.item.courseName}}
+                  </b-button
                 >
               </div>
               <b-popover
                 :ref="'popover'+row.item.courseCode +
                   row.item.courseLevel + row.item.sessionDate"
+                triggers="hover focus"
                 :target="
                   'popover-button-event' +
                   row.item.courseCode +
                   row.item.courseLevel +
                   row.item.sessionDate
                 "
-                :title="row.item.courseCode"
+                :title="row.item.courseName"
               >
-                {{ courseDetails }}
+                    <table>
+                      <tr>
+                        <td>Course Code {{ row.item.courseDetails.courseCode }}</td>
+                      </tr>
+                      <tr>
+                        <td>Course Level {{ row.item.courseDetails.courseLevel }}</td>
+                      </tr>
+                      <tr>                        
+                        <td> Course Name {{ row.item.courseDetails.courseName }}</td>
+                      </tr>
+                      <tr>                        
+                        <td>Language {{ row.item.courseDetails.language }}</td>
+                      </tr>
+                      <tr>                        
+                        <td>Start Date: {{ row.item.courseDetails.startDate}}</td>
+                      </tr>
+                      <tr>                        
+                        <td>Work Experience: {{ row.item.courseDetails.workExpFlag }}</td>
+                      </tr>
+                      <tr>                        
+                        <td> Generic Course Type: {{ row.item.courseDetails.genericCourseType }}</td>
+                      </tr>
+                    </table>
                  
               </b-popover>
             </div>
@@ -84,9 +108,6 @@
                 <tr>
                   <td>Assessment Equivt {{ row.item.genericCourseType }} </td>
                 </tr>
-                <tr>
-                  <td>{{ row.item }}</td>
-                </tr>
               </tbody>
             </table>
           </b-card>
@@ -116,7 +137,6 @@ export default {
   },
   data: function () {
     return {
-      courseDetails:[],
       fields: [
         { key: "more", label: "" },
         {
@@ -167,7 +187,7 @@ export default {
         },
         {
           key: "fineArtsAppSkills",
-          label: "App Skills",
+          label: "A/S",
           sortable: true,
           class: "text-left",
         },
@@ -212,12 +232,6 @@ export default {
   created() {
   },
   methods: {
-    getCourseDetails(code, level, session){
-        console.log(this.courseDetails);
-        this.courseDetails[code + level + session] = code + level;
-        console.log("COURSE" + this.courseDetails[code + level + session]);
-        this.$refs['popover' + code + level + session].$emit('open');
-    },
     toggle(id) {
       const index = this.opened.indexOf(id);
       if (index > -1) {

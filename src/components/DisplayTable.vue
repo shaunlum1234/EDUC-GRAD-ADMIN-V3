@@ -1,13 +1,11 @@
 <template>
   <b-container fluid class="m-0 p-0">
     <!-- User Interface controls -->
-
     <b-button-toolbar key-nav aria-label="Toolbar with button groups" class="float-left">
       <b-button-group class="mx-1">
         <b-button v-if="role=='administrator' && createAllowed" variant="success" size="sm" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
         </b-button>
         <b-btn v-if="isAdmin && updateAllowed" v-bind:class="this.quickEdit?'btn-primary':'btn-primary'" size="sm" class="float-right" @click="toggleQuickEdit">Edit</b-btn>
-        
       </b-button-group>
     
   </b-button-toolbar>
@@ -59,7 +57,7 @@
     
     <b-table :responsive="responsive" :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter"
       :filter-included-fields="filterOn" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
-      :sort-direction="sortDirection" stacked="sm" show-empty striped hover small @filtered="onFiltered">
+      :sort-direction="sortDirection" stacked="sm" sticky-header show-empty striped hover small @filtered="onFiltered">
       
          
       <template v-for="field in editableFields" v-slot:[`cell(${field.key})`]="{ value, item, field }">
