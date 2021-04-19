@@ -1,54 +1,103 @@
 <template>
-  <div class="table-responsive">
-    <b-spinner v-if="!assessments.length" label="Loading">Loading</b-spinner>
-    <v-table
-      :data="assessments"
-      :filters="filters"
-      class="table table-sm table-hover table-striped align-middle"
-    >
-      <thead slot="head" class="">
-        <v-th sortKey="assessmentCode">Code</v-th>
-        <v-th sortKey="sessionDate">Session</v-th>
-        <v-th sortKey="assessmentName">Name</v-th>
-        <v-th sortKey="specialCase">Special case</v-th>
-        <v-th sortKey="exceededWriteFlag">Exceeded writes flag</v-th>
-        <v-th sortKey="wroteFlag">Wrote flag</v-th>
-        <v-th sortKey="rawScore">Raw score</v-th>
-        <v-th sortKey="percentComplete">% Complete</v-th>
-        <v-th sortKey="irtScore">IRT score</v-th>
-        <v-th sortKey="proficiencyScore">Proficiency score</v-th>
-        <v-th sortKey="gradReqMet">Req Met</v-th>
-        <!-- <v-th sortKey="gradReqMet">Req Met</v-th> -->
-      </thead>
-      <tbody slot="body" slot-scope="{ displayData }">
-        <template v-for="row in displayData">
-          <tr
-            :key="row.courseAchievementId"
-            @click="toggle(row.courseCode + row.courseLevel)"
-            :class="{ opened: opened.includes(row.courseCode) }"
-          >
-            <td>{{ row.assessmentCode }}</td>
-            <td>{{ row.sessionDate }}</td>
-            <td>{{ row.assessmentName }}</td>
-            <td>{{ row.specialCase }}</td>
-            <td>{{ row.exceededWriteFlag }}</td>
-            <td>{{ row.wroteFlag }}</td>
-            <td>{{ row.rawScore }}</td>
-            <td>{{ row.percentComplete }} %</td>
-            <td>{{ row.irtScore }}</td>
-            <td>{{ row.proficiencyScore }}</td>
-            <td>{{ row.gradReqMet }}</td>
-          </tr>
+  <div >
+    <DisplayTable :items="assessments" :fields="fields" showFilter=true>
+        <template #cell(assessmentName)="row">
+          <div class="d-flex flex-column text-md-left">
+              <div class="">
+                <b-button
+                  :id="
+                    'popover-button-event' +
+                    row.item.assessmentCode +
+                    row.item.sessionDate
+                  "
+                  variant="link"
+                  class="m-0 p-0 text-left"
+                  >
+                    {{row.item.assessmentName}}
+                  </b-button
+                >
+              </div>
+              <b-popover
+                :ref="'popover'+row.item.assessmentCode +
+                  row.item.sessionDate"
+                triggers="hover focus"
+                :target="
+                  'popover-button-event' +
+                  row.item.assessmentCode +
+                  row.item.sessionDate
+                "
+                :title="row.item.assessmentName"
+              >
+                <table>
+                  <tr>
+                    <td>Assessment Code: {{row.item.assessmentDetails.assessmentCode}}</td>
+                  </tr>
+                  <tr>
+                    <td> Asessment Name: {{row.item.assessmentDetails.assessmentName}} </td>
+                  </tr>
+                  <tr>
+                    <td>Language: {{row.item.assessmentDetails.language}}</td>
+                  </tr>
+                  <tr>
+                    <td>Start Date: {{row.item.assessmentDetails.startDate}}</td>
+                  </tr>
+                  <tr>
+                    <td>End Date: {{row.item.assessmentDetails.endDate}}</td>
+                  </tr>
+                </table>
+                 
+              </b-popover>
+            </div>
         </template>
-      </tbody>
-    </v-table>
+        <template #cell(more)="row">
+          <b-btn
+            v-if="row.item.hasRelatedCourse == 'Y'"
+            variant="outline primary"
+            style="color: #666"
+            size="xs"
+            @click="row.toggleDetails"
+          >
+            <i class="fas fa-sm fa-caret-down"></i>
+          </b-btn>
+        </template>
+        <template #row-details="row">
+          <b-card class="px-0">
+            <table>
+              <tbody>
+                <tr>
+                  <td>Related Course {{ row.item.relatedCourse }}</td>
+                </tr>
+                <tr>
+                  <td>Related Levelt {{ row.item.relatedLevel }}</td>
+                </tr>
+                <tr>
+                  <td>Alternate Course Name {{ row.item.relatedCourse }}</td>
+                </tr>
+                <tr>
+                  <td>Best School Percent {{ row.item.bestSchoolPercent }}</td>
+                </tr>
+                <tr>
+                  <td>Best Exam Percentt {{ row.item.bestExamPercent }}</td>
+                </tr>
+                <tr>
+                  <td>Assessment Equivt {{ row.item.genericCourseType }} </td>
+                </tr>
+              </tbody>
+            </table>
+          </b-card>
+        </template>
+      </DisplayTable>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import DisplayTable from "@/components/DisplayTable.vue";
 export default {
   name: "StudentAssessments",
+  components: {
+    DisplayTable: DisplayTable
+  },
   props: {},
   computed: {
     ...mapGetters({
@@ -57,52 +106,53 @@ export default {
   },
   data: function() {
     return {
-      show: false,
-      opened: [],
-      student: [],
-      examsList: [],
-      filters: {
-        name: { value: "", keys: ["courseCode"] },
-      },
-      pen: "",
-      assessmentCode: "",
-      assessmentName: "",
-      sessionDate: "",
-      proficiencyScore: 0,
-      gradReqMet: "",
-      specialCase: "",
-      wroteFlag: "",
-      rawScore: 0,
-      irtScore: 0,
-      currentPage: 1,
-      totalPages: 0,
-      displayMessage: null,
-      modalVisible: null,
-      inputPenMissing: false,
-    };
+      fields: [
+        { key: "more", label: "" },
+        {
+          key: "assessmentCode",
+          label: "Asessment Code",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-md-left",
+        },
+        {
+          key: "sessionDate",
+          label: "Asessment Session",
+          sortable: true,
+          class: "text-md-center",
+        },
+        {
+          key: "specialCase",
+          label: "Special Case",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        {
+          key: "exceededWriteFlag",
+          label: "Exceeded Writes",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-md-center"
+        },
+        {
+          key: "proficiencyScore",
+          label: "Proficiency Score",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-md-center"
+        },        
+        {
+          key: "assessmentName",
+          label: "Assessment Name",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-left w-50"
+        },
+      ]
+    }
   },
   methods: {
-    toggle(id) {
-      const index = this.opened.indexOf(id);
-      if (index > -1) {
-        this.opened.splice(index, 1);
-      } else {
-        this.opened.push(id);
-      }
-    },
-    showMsgBoxOne(message) {
-      this.$bvModal.msgBoxOk(message);
-    },
-    getCourseName: function(cid) {
-      let result = "";
-      this.courses.filter(function(n) {
-        if (n.id === cid) {
-          result = n.name;
-          return result;
-        }
-      });
-      return result;
-    },
+
   },
 };
 </script>
@@ -110,6 +160,5 @@ export default {
 <style>
 .table th, .table td{
   border-top: none !important;
-
 }
 </style>

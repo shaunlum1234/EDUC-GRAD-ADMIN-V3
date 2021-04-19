@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-responsive">
-      <DisplayTable :items="courses" :fields="fields">
+      <DisplayTable :items="courses" :fields="fields" showFilter="yes">
         <template #thead-top="data">
           <b-tr class="table-row-header-group">
             <b-th colspan="1" class="table-header-group text-center"></b-th>
@@ -80,8 +80,9 @@
             v-if="row.item.hasRelatedCourse == 'Y'"
             variant="outline primary"
             style="color: #666"
-            size="xs"
+            size="sm"
             @click="row.toggleDetails"
+            class="more-button"
           >
             <i class="fas fa-sm fa-caret-down"></i>
           </b-btn>
@@ -162,17 +163,21 @@ export default {
           label: "%",
           sortable: true,
           sortDirection: "desc",
-          class: "text-center"
+          class: "text-md-right"
         },
         {
           key: "interimLetterGrade",
           label: "LG",
           sortable: true,
           sortDirection: "desc",
-          class: "text-center"
+          class: "text-md-left"
         },
-        { key: "completedCoursePercentage", label: "%",class: "text-center" },
-        { key: "completedCourseLetterGrade", label: "LG",class: "text-center" },
+        { key: "completedCoursePercentage", label: "%",class: "text-md-right ",
+          sortable: true,
+          sortDirection: "desc", },
+        { key: "completedCourseLetterGrade", label: "LG",class: "text-md-left",
+          sortable: true,
+          sortDirection: "desc", },
         {
           key: "courseEquivChal",
           label: "Challenge",
@@ -181,7 +186,7 @@ export default {
         },
         {
           key: "credits",
-          label: "Credits",
+          label: "Cr",
           sortable: true,
           class: "text-left",
         },
