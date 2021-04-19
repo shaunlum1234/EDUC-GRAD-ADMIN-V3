@@ -91,23 +91,23 @@
           <b-card class="px-0">
             <table>
               <tbody>
-                <tr>
-                  <td>Related Course {{ row.item.relatedCourse }}</td>
+                <tr v-if="row.item.relatedCourse">
+                  <td>Related Course: {{ row.item.relatedCourse }}</td>
                 </tr>
-                <tr>
-                  <td>Related Levelt {{ row.item.relatedLevel }}</td>
+                <tr v-if="row.item.relatedLevel">
+                  <td>Related Level: {{ row.item.relatedLevel }}</td>
                 </tr>
-                <tr>
-                  <td>Alternate Course Name {{ row.item.relatedCourse }}</td>
+                <tr v-if="row.item.relatedCourse">
+                  <td>Alternate Course Name: {{ row.item.relatedCourse }}</td>
                 </tr>
-                <tr>
-                  <td>Best School Percent {{ row.item.bestSchoolPercent }}</td>
+                <tr v-if="row.item.bestSchoolPercent">
+                  <td>Best School Percent: {{ row.item.bestSchoolPercent }}</td>
                 </tr>
-                <tr>
-                  <td>Best Exam Percentt {{ row.item.bestExamPercent }}</td>
+                <tr v-if="row.item.bestExamPercent">
+                  <td>Best Exam Percent: {{ row.item.bestExamPercent }}</td>
                 </tr>
-                <tr>
-                  <td>Assessment Equivt {{ row.item.genericCourseType }} </td>
+                <tr v-if="row.item.genericCourseType">
+                  <td>Assessment Equivalent: {{ row.item.genericCourseType }} </td>
                 </tr>
               </tbody>
             </table>
