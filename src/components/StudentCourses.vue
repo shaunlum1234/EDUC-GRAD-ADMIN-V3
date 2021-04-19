@@ -50,16 +50,16 @@
               >
                     <table>
                       <tr>
-                        <td>Course Code {{ row.item.courseDetails.courseCode }}</td>
+                        <td>Course Code: {{ row.item.courseDetails.courseCode }}</td>
                       </tr>
                       <tr>
-                        <td>Course Level {{ row.item.courseDetails.courseLevel }}</td>
+                        <td>Course Level: {{ row.item.courseDetails.courseLevel }}</td>
                       </tr>
                       <tr>                        
-                        <td> Course Name {{ row.item.courseDetails.courseName }}</td>
+                        <td> Course Name: {{ row.item.courseDetails.courseName }}</td>
                       </tr>
                       <tr>                        
-                        <td>Language {{ row.item.courseDetails.language }}</td>
+                        <td>Language: {{ row.item.courseDetails.language }}</td>
                       </tr>
                       <tr>                        
                         <td>Start Date: {{ row.item.courseDetails.startDate}}</td>

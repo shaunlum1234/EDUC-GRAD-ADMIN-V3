@@ -65,22 +65,22 @@
             <table>
               <tbody>
                 <tr>
-                  <td>Related Course {{ row.item.relatedCourse }}</td>
+                  <td>Related Course: {{ row.item.relatedCourse }}</td>
                 </tr>
                 <tr>
-                  <td>Related Levelt {{ row.item.relatedLevel }}</td>
+                  <td>Related Levelt: {{ row.item.relatedLevel }}</td>
                 </tr>
                 <tr>
-                  <td>Alternate Course Name {{ row.item.relatedCourse }}</td>
+                  <td>Alternate Course Name: {{ row.item.relatedCourse }}</td>
                 </tr>
                 <tr>
-                  <td>Best School Percent {{ row.item.bestSchoolPercent }}</td>
+                  <td>Best School Percent: {{ row.item.bestSchoolPercent }}</td>
                 </tr>
                 <tr>
-                  <td>Best Exam Percentt {{ row.item.bestExamPercent }}</td>
+                  <td>Best Exam Percentt: {{ row.item.bestExamPercent }}</td>
                 </tr>
                 <tr>
-                  <td>Assessment Equivt {{ row.item.genericCourseType }} </td>
+                  <td>Assessment Equivt: {{ row.item.genericCourseType }} </td>
                 </tr>
               </tbody>
             </table>
