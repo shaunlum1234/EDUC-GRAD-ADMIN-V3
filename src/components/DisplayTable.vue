@@ -16,7 +16,7 @@
         <!--b-button v-if="role=='administrator' && createAllowed" variant="success" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
         </b-button-->
       </b-col>
-      <b-col lg="5" class="my-1 table-filter" v-if="this.showFilter">
+      <b-col sm="12" lg="5" class="my-1 table-filter" v-if="this.showFilter">
       
         <b-form-group label-for="filter-input" label-cols-sm="3" label-align-sm="right" label-size="sm"
           class="mb-0 form-group-label">
@@ -25,7 +25,7 @@
             <div class="filter-icon p-2 text-secondary"><i class='fas fa-filter'></i></div>
             <b-form-input id="filter-input" size="md" v-model="filter" type="search" placeholder=""></b-form-input>
             <b-input-group-append>
-              <b-button class="mr-10" size="md" :disabled="!filter" @click="filter = ''">Clear</b-button>
+              <b-button class="mr-10 clear-button" size="md" :disabled="!filter" @click="filter = ''">Clear</b-button>
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
@@ -377,10 +377,13 @@
 </script>
 <style scoped>
 
-.table-filter{
+.col-lg-5 .table-filter {
   position:absolute;
   right: 0;
   top:10px
+}
+.clear-button{
+  background: #38598a;
 }
 
 </style>

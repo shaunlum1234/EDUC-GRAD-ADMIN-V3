@@ -70,7 +70,7 @@
       </div>
       <div class="col-md-12 col-lg-8 px-0">
         <div>
-          <b-card class="py-1" v-if="studentHasCourses || studentHasAssessments || studentHasExams">
+          <b-card class="py-1" v-if="studentHasCourses || studentHasAssessments">
             <b-tabs :pills="smallScreen">
                 <b-tab v-if="smallScreen" title="Graduation Status" class="py-3 px-0 m-1 " ref="studentCoursesTab">
                   <b-card-text>
@@ -84,56 +84,22 @@
                     <StudentCourses></StudentCourses>
                   </b-card-text>
                 </b-tab>
-                
-                <!-- <b-tab v-if="studentHasCourses" title="Requirements Met" class="py-3 px-0 m-1">
-                  <b-card-text v-if="studentHasCourses">
-                    
-                      <h2>Course Requirements Met</h2>
-                      <table class="table table-striped">
-                        <thead>
-                          <tr>
-                            <th>Course Code</th>
-                            <th>Course Level</th>
-                            <th>Course Name</th>
-                            <th>Session Date</th>
-                            <th>Grad Req Met</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <template
-                            v-for="(course,i) in studentGradStatus.studentGradData.studentCourses.studentCourseList">
-                            <tr v-if="course.gradReqMet" :key="i">
-                              <td scope="row">{{ course.courseCode }}</td>
-                              <td scope="row">{{ course.courseLevel}}</td>
-                              <td scope="row">{{ course.courseName }}</td>
-                              <td scope="row">{{ course.sessionDate}}</td>
-                              <td scope="row">{{ course.gradReqMet}}</td>
-                            </tr>
-                          </template>
-                        </tbody>
-                      </table>
-
-                   
-
-                  </b-card-text>
-                </b-tab> -->
- 
                 <b-tab title="Assessments" v-if="studentHasAssessments" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentAssessments />
                   </b-card-text>
                 </b-tab>
-                <b-tab title="Exams" v-if="studentHasExams" class="py-3 px-0 m-1">
+                <!-- <b-tab title="Exams" v-if="studentHasExams" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentExams />
                   </b-card-text>
-                </b-tab>
+                </b-tab> -->
                 <b-tab v-if="
                 this.courses == 'not loaded' ||
-                  this.exams == 'not loaded' ||
+  
                   this.assessments == 'not loaded'
               " title="Loading ..." class="tab-loading py-3 px-0 m-1">
-                  <b-card-text class="text-center">Loading Student Courses, Exams and Assesments</b-card-text>
+                  <b-card-text class="text-center">Loading Student Courses and Assesments</b-card-text>
                 </b-tab>
         
 
@@ -150,13 +116,11 @@
 <script>
   import CourseAchievementService from "@/services/CourseAchievementService.js";
   import StudentService from "@/services/StudentService.js";
-  import StudentExamsService from "@/services/StudentExamsService.js";
   import AssessmentService from "@/services/AssessmentService.js"
   import GraduationStatusService from "@/services/GraduationStatusService.js"
   import SiteMessage from "@/components/SiteMessage";
   import StudentCourses from "@/components/StudentCourses";
   import StudentInfo from "@/components/StudentInfo";
-  import StudentExams from "@/components/StudentExams";
   import StudentAssessments from "@/components/StudentAssessments";
   import StudentGraduationStatus from "@/components/StudentGraduationStatus";
 
@@ -181,7 +145,6 @@
       SiteMessage: SiteMessage,
       StudentCourses: StudentCourses,
       StudentInfo: StudentInfo,
-      StudentExams: StudentExams,
       StudentAssessments: StudentAssessments,
       StudentGraduationStatus: StudentGraduationStatus,
     },
@@ -208,11 +171,9 @@
         profile: "getStudentProfile",
         courses: "getStudentCourses",
         studentFullName: "getStudentFullName",
-        exams: "getStudentExams",
         assessments: "getStudentAssessments",
         studentHasCourses: "studentHasCourses",
         studentHasAssessments: "studentHasAssessments",
-        studentHasExams: "studentHasExams",
         gradInfo: "getStudentGraduationCreationAndUpdate",
         hasGradStatus: "studentHasGradStatus",
         studentGradStatus: "getStudentGradStatus",
@@ -266,17 +227,17 @@
           }
         });
 
-        StudentExamsService.getStudentExams(pen, this.token).then((response) => {
-          this.$store.dispatch('setStudentExams', response.data);
-        }).catch((error) => {
-          if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
-          }
-        });
+        // StudentExamsService.getStudentExams(pen, this.token).then((response) => {
+        //   this.$store.dispatch('setStudentExams', response.data);
+        // }).catch((error) => {
+        //   if(error.response.status){
+        //     this.$bvToast.toast("ERROR " + error.response.statusText, {
+        //       title: "ERROR" + error.response.status,
+        //       variant: 'danger',
+        //       noAutoHide: true,
+        //     });
+        //   }
+        // });
 
         GraduationStatusService.getGraduationStatus(pen, this.token).then(
           (response) => {

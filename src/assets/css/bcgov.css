@@ -71,6 +71,17 @@ outline-offset: 1px;
 .BC-Gov-PrimaryButton:active {
 opacity: 1;
 }
+.btn-secondary.disabled, .btn-secondary:disabled{
+    background:#38598a;
+}
+.btn-secondary:hover, .btn-secondary:hover {
+  color: #fff;
+  background-color: #2d476f;
+  border-color: #294266;
+}
+.btn-secondary.disabled::hover, .btn-secondary:disabled:hover{
+  background:#38598a
+}
 
 
 /* Buttons */

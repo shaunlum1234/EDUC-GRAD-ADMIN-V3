@@ -26,7 +26,7 @@
                     <div class="search-results-message my-4"><strong><span v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
                   </div>
                 </form>
-                <p class="sample-pens">
+                <!-- <p class="sample-pens">
                   Samples:
                   <ul>
                     <li><a href="#" v-on:click="findStudentByPenSample(126966100)">126966100</a> (All)</li>
@@ -34,7 +34,7 @@
                       No grad
                       status)</li>
                   </ul>
-                </p>
+                </p> -->
               </b-card-text>
             </b-tab>
 

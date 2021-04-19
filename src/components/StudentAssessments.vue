@@ -110,14 +110,14 @@ export default {
         { key: "more", label: "" },
         {
           key: "assessmentCode",
-          label: "Asessment Code",
+          label: "Code",
           sortable: true,
           sortDirection: "desc",
           class: "text-md-left",
         },
         {
           key: "sessionDate",
-          label: "Asessment Session",
+          label: "Session",
           sortable: true,
           class: "text-md-center",
         },
@@ -143,7 +143,7 @@ export default {
         },        
         {
           key: "assessmentName",
-          label: "Assessment Name",
+          label: "Name",
           sortable: true,
           sortDirection: "desc",
           class: "text-left w-50"
