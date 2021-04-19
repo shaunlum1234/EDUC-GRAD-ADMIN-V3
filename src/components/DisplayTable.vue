@@ -377,16 +377,26 @@
 </script>
 <style scoped>
 
-.col-lg-5.table-filter {
-  position:absolute;
-  right: 0;
-  top:10px
+/*
+Media Queries
+xs (for phones - screens less than 768px wide)
+sm (for tablets - screens equal to or greater than 768px wide)
+md (for small laptops - screens equal to or greater than 992px wide)
+lg (for laptops and desktops - screens equal to or greater than 1200px
+*/ 
+@media (min-width: 992px){
+  .col-lg-5.table-filter {
+    position:absolute;
+    right: 0;
+    top:10px
+  }
 }
-.col-sm-12.table-filter {
-  position:relative;
-  width:100%;
-  padding:20px;
+@media (max-width: 768px){
+  .col-lg-5.table-filter {
+    position:relative;
+  }
 }
+
 .clear-button{
   background: #38598a;
 }
