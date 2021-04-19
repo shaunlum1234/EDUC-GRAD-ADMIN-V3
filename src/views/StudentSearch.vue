@@ -556,7 +556,6 @@ export default {
         try {
           StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput,this.token,pageNumber,pageSize)
             .then((response) => {
-              console.log(response.data);
               this.advancedSearchLoading = false;
               this.searchResults = response.data;
               this.studentSearchResults = response.data.gradSearchStudents;
