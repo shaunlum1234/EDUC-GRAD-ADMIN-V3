@@ -377,10 +377,15 @@
 </script>
 <style scoped>
 
-.col-lg-5 .table-filter {
+.col-lg-5.table-filter {
   position:absolute;
   right: 0;
   top:10px
+}
+.col-sm-12.table-filter {
+  position:relative;
+  width:100%;
+  padding:20px;
 }
 .clear-button{
   background: #38598a;
