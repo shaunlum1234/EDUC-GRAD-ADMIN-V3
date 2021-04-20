@@ -27,7 +27,7 @@
           <b-card-body>
             <b-card-text>
               <div class="row">
-                <div class="col-12 px-0">
+                <!-- <div class="col-12 px-0">
                   <div>
                     <button @click="projectGraduationStatus(studentPen)" class="w-50 float-left btn-primary btn-sm">
                       <i class="fas fa-eye"></i> Projected<br> Graduation Status
@@ -42,7 +42,7 @@
                   <button v-on:click="updateGraduationStatus(studentPen)" class="float-right w-50 btn-primary btn-sm">
                     <i class="fas fa-sync"></i> Run Graduation<br>Algorithm
                   </button>
-                </div>
+                </div> -->
                 <div class="graduation-status-content col-12 px-0 mx-0">
                   <div>
                     <!-- Student Graduation Status -->
@@ -51,9 +51,9 @@
                       <b-button-group v-if="this.role =='administrator'" class="gradstatus-actions float-right">
                         <div v-if="!showEdit">
                           
-                          <b-btn class="edit" v-on:click="editGradStatus" size="sm" variant="primary">
+                          <!-- <b-btn class="edit" v-on:click="editGradStatus" size="sm" variant="primary">
                              Edit 
-                          </b-btn>
+                          </b-btn> -->
                         </div>
                         <div v-if="showEdit">
                           <b-btn v-on:click="saveEditedGradStatus(studentPen)" size="sm" variant="primary">
@@ -69,8 +69,8 @@
 
                     <ul>
                       <li v-if="!showEdit">
-                        <strong>Program:</strong>
-                        {{ studentGradStatus.program }}
+                        <strong>Program: </strong>
+                        <span v-b-tooltip.hover title="Tooltip directive content">{{ studentGradStatus.program }}</span>
                       </li>
                       <li v-if="showEdit">
                         <strong>Program:</strong><b-input v-model='editedGradStatus.program'></b-input>      
@@ -92,7 +92,6 @@
                         {{ studentGradStatus.studentGrade }}
                       </li>
                       <li v-if="studentGradStatus.schoolOfRecord">
-                        
                           <strong>School of Record: </strong>
                           <span class="link" href="#" id="popover-button-sync"
                                   variant="primary" @click="getSchoolInfo(studentGradStatus.schoolOfRecord)"> {{studentGradStatus.schoolOfRecord}}
