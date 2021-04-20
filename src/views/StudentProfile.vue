@@ -70,7 +70,7 @@
       </div>
       <div class="col-md-12 col-lg-8 px-0">
         <div>
-          <b-card class="py-1" v-if="studentHasCourses || studentHasAssessments">
+          <b-card class="py-0 my-0" v-if="studentHasCourses || studentHasAssessments">
             <b-tabs :pills="smallScreen">
                 <b-tab v-if="smallScreen" title="Graduation Status" class="py-3 px-0 m-1 " ref="studentCoursesTab">
                   <b-card-text>
@@ -89,11 +89,6 @@
                     <StudentAssessments />
                   </b-card-text>
                 </b-tab>
-                <!-- <b-tab title="Exams" v-if="studentHasExams" class="py-3 px-0 m-1">
-                  <b-card-text>
-                    <StudentExams />
-                  </b-card-text>
-                </b-tab> -->
                 <b-tab v-if="
                 this.courses == 'not loaded' ||
   

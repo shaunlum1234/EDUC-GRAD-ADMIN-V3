@@ -13,14 +13,6 @@
               </template>
           </DisplayTable>
         </div>
-        <div class="card-body" v-if="selectedProgramCode">
-          <b-button v-on:click="resetProgramCode()" type="button" class="btn btn-primary">Select another program</b-button>
-          <GraduationProgramRules
-            :key="selectedProgramCode"
-            :prop="selectedProgramCode"
-            v-if="selectedProgramCode"
-          ></GraduationProgramRules>
-        </div> 
       <router-view v-bind:key="$route.fullPath"></router-view>
       
       </div>

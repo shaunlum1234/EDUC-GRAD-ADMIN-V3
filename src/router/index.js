@@ -9,9 +9,8 @@ import Schools from '../views/Schools.vue';
 import PSI from '../views/PSI.vue';
 import Test from '../views/Table.vue';
 import AdminGraduationPrograms from '../views/AdminGraduationPrograms.vue';
+import GraduationProgramCourses from '../components/GraduationProgramCourses.vue';
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
-import GraduationProgramSets from '../components/GraduationProgramSets.vue';
-import GraduationPrograms from '@/components/GraduationPrograms';
 import GraduationSpecialPrograms from '@/components/GraduationSpecialProgram';
 import SpecialProgramRules from '@/components/GraduationSpecialProgramRules';
 
@@ -53,23 +52,13 @@ const routes = [{
     path: '/admin-graduation-programs',
     name: 'admin-graduation-programs',
     component: AdminGraduationPrograms,
-    // children: [
-    //   { path: '', 
-    //     components: {
-    //       program : GraduationPrograms,
-    //       specialProgram: GraduationSpecialPrograms 
-    //     }
-    //   },
-    //   { path: 'program/:selectedProgramCode', components: { program : GraduationProgramRules} },
-    //   { path: 'program/:selectedProgramCode/:rule', components: { progran : GraduationProgramSets} },
-    // ],
     children: [
       { path: '', 
-        component: GraduationPrograms,
+        component: GraduationProgramRules,
       },
-      { path: 'programs/', component: GraduationPrograms },
+      { path: 'programs/', component: GraduationProgramRules },
       { path: 'program/:selectedProgramCode', component: GraduationProgramRules },
-      { path: 'program/:selectedProgramCode/:rule', component: GraduationProgramSets },
+      { path: 'program/:selectedProgramCode/:rule', component: GraduationProgramCourses },
       { path: 'special-programs/', component: GraduationSpecialPrograms },
       { path: 'special-programs/:selectedSpecialProgramCode', component: SpecialProgramRules },
     ],

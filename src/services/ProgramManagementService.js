@@ -18,6 +18,17 @@ export default {
         //console.log("TOKEN IN SERVICE getGraduationPrograms: " + token);
         return apiClient.get('/api/v1/programmanagement/programs',{ headers });
     },
+
+    getGraduationProgramRuleCourses(rule, token) {
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        //console.log("TOKEN IN SERVICE getProgramRule: " + token);
+        return apiClient.get('/api/v1/programmanagement/programrules/' + rule,{ headers })
+    },
+    getProgramRules(token) {
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        //console.log("TOKEN IN SERVICE getProgramRule: " + token);
+        return apiClient.get('/api/v1/programmanagement/allprogramrules',{ headers })
+    },
     getProgramRule(programCode, token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         //console.log("TOKEN IN SERVICE getProgramRule: " + token);

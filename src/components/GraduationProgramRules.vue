@@ -1,68 +1,144 @@
 <template>
-  <div class="">
-    <b-spinner v-if="!graduationProgramRules.length" label="Loading"
-      >Loading</b-spinner
-    >
-    <div v-if="!graduationProgramRules.length"><h2>Loading</h2></div>
-    <v-table
-      :data="graduationProgramRules"
-      class="table table-sm table-hover table-striped align-middle"
-    >
-      <thead slot="head" class="">
-        <v-th sortKey="ruleCode">Rule #</v-th>
-        <v-th sortKey="requirementName">Requirement Name</v-th>
-        <v-th sortKey="requiredCredits">Required Credits</v-th>
-        <v-th sortKey="notMetDesc">Not Met Description</v-th>
-        <v-th sortKey="requirementType">Requirement Type</v-th>
-        <v-th sortKey="requiredLevel">Required Level</v-th>
-        <v-th sortKey="languageOfInstruction">Language of Instruction</v-th>
-        <v-th sortKey="requirementDesc">Description</v-th>
-      </thead>
-      <tbody slot="body" slot-scope="{ displayData }">
-        <template v-for="row in displayData">
-          <tr
-            :key="row.ruleCode"
-            @click="toggle(row.ruleCode + row.requirementName)"
-            :class="{ opened: opened.includes(row.ruleCode) }"
-          >
-            <td><router-link :to="'/admin-graduation-programs/program/' + row.programCode + '/' + row.ruleCode  "> {{ row.ruleCode }}</router-link></td>
-            <td>{{ row.requirementName }}</td>
-            <td>{{ row.requiredCredits }}</td>
-            <td>{{ row.notMetDesc }}</td>
-            <td>{{ row.requirementType }}</td>
-            <td>{{ row.requiredLevel }}</td>
-            <td>{{ row.languageOfInstruction }}</td>
-            <td>{{ row.requirementDesc }}</td>
-          </tr>
-        </template>
-      </tbody>
-    </v-table>
-  </div>
+  <div>
+    <!-- <div v-if="!isHidden"> -->
+        <b-spinner v-if="!graduationProgramRules.length" label="Loading"
+          >Loading</b-spinner
+        >
+        <div v-if="!selectedProgramCode">
+
+          <DisplayTable v-bind:items="graduationProgramRules" title="Program" v-bind:fields="graduationProgramsFields" id="programCode"
+            v-bind:role="role" :slots="templates" showFilter=true>
+              <template #cell(ruleCode)="row">
+                <b-btn variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
+                  <a >{{row.item.ruleCode}}</a>
+                </b-btn>
+              </template>
+
+              <template #row-details="row">
+                <b-card>
+                    <table>
+                        <tr><td>CODE LVL</td></tr>
+                        <tr><td>CODE LVL</td></tr>
+                        <tr><td>CODE LVL</td></tr>
+                        <tr><td>CODE LVL</td></tr>
+                        <tr><td>CODE LVL</td></tr>
+                    </table>
+                </b-card>
+              </template>
+
+
+          </DisplayTable>
+        </div>
+      
+      <router-view v-bind:key="$route.fullPath"></router-view>
+      
+      </div>
+      
+
 </template>
 
 <script>
 import ProgramManagementService from "@/services/ProgramManagementService.js";
+import DisplayTable from "@/components/DisplayTable";
 import {
     mapGetters
 } from "vuex";
-
 export default {
-  name: "GraduationProgramRules",
-  props: {
-    selectedProgramCode: String,
+  name: "GraduationPrograms",
+  components: {
+    DisplayTable: DisplayTable,
   },
+  props: {},
   computed: {...mapGetters({
-      token: "getToken"
+      token: "getToken",
+      role: "getRoles", 
   })},
   data: function () {
     return {
+      
+      show: false,
+      isHidden: false,
       opened: [],
-      graduationProgramRules:[],
+      graduationProgramRules: [],
+      templates: [
+        {
+          name: "programCode",
+          field: "programCode"
+        }
+      ],
+      graduationProgramsFields: [
+      {
+            key: 'programCode',
+            label: 'Program Code',
+            sortable: true,
+            sortDirection: 'desc',
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'ruleCode',
+            label: 'Rule #',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'requirementName',
+            label: 'Requirement Name',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'requiredCredits',
+            label: 'Required Credits',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'notMetDesc',
+            label: 'Not Met Description',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'requirementType',
+            label: 'Requirement Type',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'requiredLevel',
+            label: 'Required Level',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'languageOfInstruction',
+            label: 'Language',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'isActive',
+            label: 'Active',
+            sortable: true,
+            editable: true,
+            class: '',
+          }
+        ],
+      selectedProgramCode: "",
+      selectedProgramId: "",
     };
   },
   created() {
     
-    ProgramManagementService.getProgramRule(this.$route.params.selectedProgramCode, this.token)
+    ProgramManagementService.getProgramRules(this.token)
       .then((response) => {
         this.graduationProgramRules = response.data;
       })
@@ -70,9 +146,29 @@ export default {
          //eslint-disable-next-line
         console.log('There was an error:' + error.response);
       });
+      
   },
   methods: {
-    
+    onClickChild(value) {
+      this.selectedProgramId = value;
+      //console.log("Program Id: " + value); // someValue
+    },
+    selectGradRule(programCode) {
+      this.selectedProgramCode = programCode;
+    },
+    resetProgramCode(){
+      this.selectedProgramCode = '';
+    },
+    getCourseName: function (cid) {
+      let result = "";
+      this.courses.filter(function (n) {
+        if (n.id === cid) {
+          result = n.name;
+          return result;
+        }
+      });
+      return result;
+    },
   },
 };
 </script>
