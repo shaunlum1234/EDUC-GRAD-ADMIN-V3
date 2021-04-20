@@ -36,10 +36,11 @@
                   </b-button
                 >
               </div>
+              <!-- triggers="hover focus" -->
               <b-popover
                 :ref="'popover'+row.item.courseCode +
                   row.item.courseLevel + row.item.sessionDate"
-                triggers="hover focus"
+                triggers="focus"
                 :target="
                   'popover-button-event' +
                   row.item.courseCode +
@@ -50,25 +51,25 @@
               >
                     <table>
                       <tr>
-                        <td>Course Code: {{ row.item.courseDetails.courseCode }}</td>
+                        <td><strong>Code:</strong>  {{ row.item.courseDetails.courseCode }}</td>
                       </tr>
                       <tr>
-                        <td>Course Level: {{ row.item.courseDetails.courseLevel }}</td>
+                        <td><strong>Course Level:</strong> {{ row.item.courseDetails.courseLevel }}</td>
                       </tr>
                       <tr>                        
-                        <td> Course Name: {{ row.item.courseDetails.courseName }}</td>
+                        <td><strong>Course Name:</strong><br> {{ row.item.courseDetails.courseName }}</td>
                       </tr>
                       <tr>                        
-                        <td>Language: {{ row.item.courseDetails.language }}</td>
+                        <td><strong>Language:</strong> {{ row.item.courseDetails.language }}</td>
                       </tr>
                       <tr>                        
-                        <td>Start Date: {{ row.item.courseDetails.startDate}}</td>
+                        <td><strong>Start Date:</strong> {{ row.item.courseDetails.startDate}}</td>
                       </tr>
                       <tr>                        
-                        <td>Work Experience: {{ row.item.courseDetails.workExpFlag }}</td>
+                        <td><strong>Work Experience:</strong> {{ row.item.courseDetails.workExpFlag }}</td>
                       </tr>
                       <tr>                        
-                        <td> Generic Course Type: {{ row.item.courseDetails.genericCourseType }}</td>
+                        <td><strong>Generic Course Type:</strong> {{ row.item.courseDetails.genericCourseType }}</td>
                       </tr>
                     </table>
                  

@@ -311,7 +311,7 @@
     max-width:400px;
   }
   .profile-name label {
-    font-size: 11px;
+    font-size: 14px;
     float: left;
     clear: both;
     padding: 5px 0;
