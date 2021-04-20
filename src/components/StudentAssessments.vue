@@ -20,7 +20,7 @@
               <b-popover
                 :ref="'popover'+row.item.assessmentCode +
                   row.item.sessionDate"
-                triggers="hover focus"
+                triggers="focus"
                 :target="
                   'popover-button-event' +
                   row.item.assessmentCode +
@@ -30,19 +30,19 @@
               >
                 <table>
                   <tr>
-                    <td>Assessment Code: {{row.item.assessmentDetails.assessmentCode}}</td>
+                    <td><strong>Assessment Code:</strong> {{row.item.assessmentDetails.assessmentCode}}</td>
                   </tr>
                   <tr>
-                    <td> Asessment Name: {{row.item.assessmentDetails.assessmentName}} </td>
+                    <td><strong>Asessment Name:</strong><br> {{row.item.assessmentDetails.assessmentName}} </td>
                   </tr>
                   <tr>
-                    <td>Language: {{row.item.assessmentDetails.language}}</td>
+                    <td><strong>Language:</strong> {{row.item.assessmentDetails.language}}</td>
                   </tr>
                   <tr>
-                    <td>Start Date: {{row.item.assessmentDetails.startDate}}</td>
+                    <td><strong>Start Date:</strong> {{row.item.assessmentDetails.startDate}}</td>
                   </tr>
                   <tr>
-                    <td>End Date: {{row.item.assessmentDetails.endDate}}</td>
+                    <td><strong>End Date:</strong> {{row.item.assessmentDetails.endDate}}</td>
                   </tr>
                 </table>
                  

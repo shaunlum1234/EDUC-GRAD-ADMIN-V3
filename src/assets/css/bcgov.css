@@ -85,3 +85,15 @@ opacity: 1;
 
 
 /* Buttons */
+.gov-btn{
+  color: #fff;
+  background-color: #38598a;
+  border-color: #38598a;
+  font-size: 1.3rem;
+}
+.gov-btn:hover {
+  color: #fff;
+  background-color: #2d476f;
+  border-color: #294266;
+  font-size: 1.3rem;
+}
