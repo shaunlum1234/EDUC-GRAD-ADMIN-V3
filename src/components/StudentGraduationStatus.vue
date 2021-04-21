@@ -135,7 +135,7 @@
                             <!-- <b-button class="px-1" @click="popClose">Close</b-button> -->
                           </b-popover> 
                       </li>
-                      <li v-if="studentGradStatus.studentGradData.gradStudent.schoolOfRecord">
+                     <li v-if="studentGradStatus.studentGradData && studentGradStatus.studentGradData.gradStudent.schoolOfRecord">
                         <strong>School at Graduation: </strong> {{ studentGradStatus.studentGradData.gradStudent.schoolOfRecord}}
                         <!-- <span class="link" href="#" id="popover-button-sync"
                                   variant="primary" @click="getSchoolInfo( studentGradStatus.studentGradData.gradStudent.schoolOfRecord)"> {{ studentGradStatus.studentGradData.gradStudent.schoolOfRecord}}
@@ -277,8 +277,8 @@
       </b-card>
 
       <!-- GRAD REASONS FIX -->
-      <b-card no-body class="col-12 px-0 mx-0">
-          <b-button block v-b-toggle.accordion-2 variant="info" class="text-left gov-btn" v-if="!studentGradStatus.studentGradData.nonGradReasons"> Requirements not met (0)</b-button>
+      <b-card no-body class="col-12 px-0 mx-0" v-if="studentGradStatus.studentGradData">
+        <b-button block v-b-toggle.accordion-2 variant="info" class="text-left gov-btn" v-if="!studentGradStatus.studentGradData.nonGradReasons"> Requirements not met (0)</b-button>
         <b-button block v-b-toggle.accordion-2 variant="info" class="text-left gov-btn" v-if="studentGradStatus.studentGradData.nonGradReasons"> Requirements not
           met ({{studentGradStatus.studentGradData.nonGradReasons.length}}) </b-button>
         <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel" v-if="!studentGradStatus.studentGradData.nonGradReasons">
@@ -546,7 +546,9 @@
   .card-header {
     padding: 0px 0px !important;
   }
-
+  .card-body{
+    border-bottom: 1px solid #ccc;
+  }
   .card {
     border-radius: 0px;
   }
