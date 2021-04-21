@@ -38,11 +38,11 @@ export default {
     };
   },
   created() {
-    console.log("RULE" + this.$route.params.rule)
+    //console.log("RULE" + this.$route.params.rule)
     this.selectedRule = this.$route.params.rule
     ProgramManagementService.getGraduationProgramRuleCourses(this.$route.params.rule, this.token)
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         this.graduationProgramRuleCourses = response.data;
     });
   },
