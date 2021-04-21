@@ -135,7 +135,7 @@
                             <!-- <b-button class="px-1" @click="popClose">Close</b-button> -->
                           </b-popover> 
                       </li>
-                     <li v-if="studentGradStatus.studentGradData && studentGradStatus.studentGradData.gradStudent.schoolOfRecord">
+                      <li v-if="studentGradStatus.studentGradData && studentGradStatus.studentGradData.gradStudent.schoolOfRecord">
                         <strong>School at Graduation: </strong> {{ studentGradStatus.studentGradData.gradStudent.schoolOfRecord}}
                         <!-- <span class="link" href="#" id="popover-button-sync"
                                   variant="primary" @click="getSchoolInfo( studentGradStatus.studentGradData.gradStudent.schoolOfRecord)"> {{ studentGradStatus.studentGradData.gradStudent.schoolOfRecord}}

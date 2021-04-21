@@ -90,10 +90,16 @@
         </template>
         <template #row-details="row">
           <b-card class="px-0">
-            <ul>
+            <ul>        
                 <li v-if="row.item.relatedCourse">
                   <strong>Related Course:</strong> {{ row.item.relatedCourse }}
                 </li>
+                <li v-if="row.item.relatedLevel">
+                  <strong>Related Course Level:</strong> {{ row.item.relatedLevel }}
+                </li>                
+                <li v-if="row.item.relatedCourseName">
+                  <strong>Related Course Name:</strong> {{ row.item.relatedCourseName }}
+                </li>                      
                 <li v-if="row.item.alternateCourseName">
                   <strong>Alternate Course Name:</strong> {{ row.item.alternateCourseName}}
                 </li>
