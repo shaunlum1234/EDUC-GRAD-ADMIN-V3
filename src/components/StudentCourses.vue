@@ -14,9 +14,9 @@
             <b-th colspan="2" class="table-header-group text-center"
               ><div>Final</div></b-th
             >
-            <b-th colspan="1">Equiv/</b-th>
+            <b-th colspan="1">Eq/</b-th>
             <b-th colspan="1"></b-th>
-            <b-th colspan="1">F/A</b-th>
+            <b-th colspan="1">Fa</b-th>
           </b-tr>
         </template>
         <template #cell(courseName)="row">
@@ -90,28 +90,23 @@
         </template>
         <template #row-details="row">
           <b-card class="px-0">
-            <table>
-              <tbody>
-                <tr v-if="row.item.relatedCourse">
-                  <td>Related Course: {{ row.item.relatedCourse }}</td>
-                </tr>
-                <tr v-if="row.item.relatedLevel">
-                  <td>Related Level: {{ row.item.relatedLevel }}</td>
-                </tr>
-                <tr v-if="row.item.relatedCourse">
-                  <td>Alternate Course Name: {{ row.item.relatedCourse }}</td>
-                </tr>
-                <tr v-if="row.item.bestSchoolPercent">
-                  <td>Best School Percent: {{ row.item.bestSchoolPercent }}</td>
-                </tr>
-                <tr v-if="row.item.bestExamPercent">
-                  <td>Best Exam Percent: {{ row.item.bestExamPercent }}</td>
-                </tr>
-                <tr v-if="row.item.genericCourseType">
-                  <td>Assessment Equivalent: {{ row.item.genericCourseType }} </td>
-                </tr>
-              </tbody>
-            </table>
+            <ul>
+                <li v-if="row.item.relatedCourse">
+                  <strong>Related Course:</strong> {{ row.item.relatedCourse }}
+                </li>
+                <li v-if="row.item.alternateCourseName">
+                  <strong>Alternate Course Name:</strong> {{ row.item.alternateCourseName}}
+                </li>
+                <li v-if="row.item.bestSchoolPercent">
+                  <strong>Best School Percent:</strong> {{ row.item.bestSchoolPercent }}
+                </li>
+                <li v-if="row.item.bestExamPercent">
+                  <strong>Best Exam Percent:</strong> {{ row.item.bestExamPercent }}
+                </li>
+                <li v-if="row.item.metLitNumRequirement">
+                  <strong>Assessment Equivalent:</strong> {{ row.item.metLitNumRequirement }}
+                </li>
+            </ul>
           </b-card>
         </template>
       </DisplayTable>
@@ -149,7 +144,7 @@ export default {
         },
         {
           key: "courseLevel",
-          label: "Level",
+          label: "Lvl",
           sortable: true,
           class: "text-left",
         },
@@ -180,20 +175,20 @@ export default {
           sortable: true,
           sortDirection: "desc", },
         {
-          key: "courseEquivChal",
-          label: "Challenge",
+          key: "equivOrChallenge",
+          label: "Ch",
           sortable: true,
           sortDirection: "desc",
         },
         {
           key: "credits",
-          label: "Cr",
+          label: "Cred",
           sortable: true,
-          class: "text-left",
+          class: "text-center",
         },
         {
-          key: "fineArtsAppSkills",
-          label: "A/S",
+          key: "fineArtsAppliedSkills",
+          label: "As",
           sortable: true,
           class: "text-left",
         },
