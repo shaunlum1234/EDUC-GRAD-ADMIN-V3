@@ -5,9 +5,9 @@
 
 
 <div>
-<b-card title="Card Title" no-body>
-    <b-card-header header-tag="nav">
-      <b-nav card-header tabs>
+<b-card title="Program Management" no-body>
+    <b-card-header header-tag="nav" class="p-3">
+      <b-nav card-header tabs >
         <b-nav-item to="/admin-graduation-programs/programs" :active="tab === 1" @click="tab = 1"> Programs</b-nav-item>
         <b-nav-item to="/admin-graduation-programs/special-programs" :active="tab === 2" @click="tab = 2"> Special programs</b-nav-item>
         <b-nav-item :active="tab === 3" @click="tab = 3">Letter grades</b-nav-item>

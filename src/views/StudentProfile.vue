@@ -70,7 +70,7 @@
       </div>
       <div class="col-md-12 col-lg-8 px-0">
         <div>
-          <b-card class="py-0 my-0" v-if="studentHasCourses || studentHasAssessments">
+          <b-card class="py-0" v-if="studentHasCourses || studentHasAssessments">
             <b-tabs :pills="smallScreen">
                 <b-tab v-if="smallScreen" title="Graduation Status" class="py-3 px-0 m-1 " ref="studentCoursesTab">
                   <b-card-text>
@@ -311,7 +311,7 @@
     max-width:400px;
   }
   .profile-name label {
-    font-size: 14px;
+    font-size: 11px;
     float: left;
     clear: both;
     padding: 5px 0;
