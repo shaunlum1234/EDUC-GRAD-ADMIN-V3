@@ -98,28 +98,39 @@
                         
                         <b-popover :show.sync="show"   :boundary-padding="50" target="popover-button-sync"
                             title="School Information">
+ 
                             <table>
-                              <tr>
-                                <td><strong>School name:</strong> <br> {{schoolInfo.schoolName}}</td>
-                              </tr>
                               <tr>
                                 <td><strong>District:</strong> {{schoolInfo.districtName}}</td>
                               </tr>
-                              <tr>                        
-                                <td><strong>Certificate eligibility:</strong> {{schoolInfo.certificateEligibility}}</td>
+                              <tr>
+                                <td><strong>School name:</strong> <br> {{schoolInfo.schoolName}}</td>
+                              </tr> 
+                               <tr>                        
+                                <td><strong>Status:</strong> </td>
+                              </tr>
+                               <tr>                        
+                                <td><strong>Independent type:</strong> {{schoolInfo.independentDesignation}}</td>
+                              </tr>
+                               <tr>                        
+                                <td><strong>Independent affiliation:</strong> </td>
+                              </tr>
+                               <tr>                        
+                                <td><strong>Transcript eligible:</strong> {{schoolInfo.transcriptEligibility}}</td>
                               </tr>
                               <tr>                        
-                                <td><strong>Independent:</strong> {{schoolInfo.independentDesignation}}</td>
+                                <td><strong>Dogwood eligibility:</strong> {{schoolInfo.certificateEligibility}}</td>
                               </tr>
-                              <tr>                        
+                             
+                              <!-- <tr>                        
                                 <td><strong>Mailer type:</strong> {{schoolInfo.mailerType}}</td>
-                              </tr>
-                              <tr>                        
+                              </tr> -->
+                              <!-- <tr>                        
                                 <td><strong>Address:</strong> {{schoolInfo.address1}}</td>
                               </tr>
                               <tr>                        
                                 <td> <strong>Postal:</strong> {{schoolInfo.postal}}</td>
-                              </tr>
+                              </tr> -->
                             </table>
                             <!-- <b-button class="px-1" @click="popClose">Close</b-button> -->
                           </b-popover> 
