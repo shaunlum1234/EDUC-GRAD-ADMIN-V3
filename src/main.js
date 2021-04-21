@@ -65,7 +65,7 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
     store.dispatch("setRefreshToken",keycloak.refreshToken);
     //store.dispatch("setRoles","authenticated");
     store.dispatch("setRoles","administrator");
-  //  console.log(keycloak.token);
+    console.log(keycloak.token);
     new Vue({
       router,
       store,
