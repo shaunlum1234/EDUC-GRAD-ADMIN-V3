@@ -8,7 +8,7 @@ export default {
     getStudentByPen(pen, token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json','Access-Control-Allow-Origin': '*','Authorization': 'Bearer '+ token }
         //console.log("TOKEN IN SERVICE getStudentByPen " + token);
-        return apiClient.get('/api/v1/pen/' + pen,{ headers });
+        return apiClient.get('/api/v1/student/pen/' + pen,{ headers });
     },
 
     getStudentsByAdvancedSearch(advancedSearchInput, token, pageNumber=0, pageSize=10){
@@ -28,6 +28,6 @@ export default {
             }
         }
         //console.log(apiClient.get('/api/v1/studentsearch?' + queryString,{ headers }));
-        return apiClient.get('/api/v1/studentsearch?' + queryString  + "pageSize=" + pageSize + "&pageNumber=" + pageNumber,{ headers }); 
+        return apiClient.get('/api/v1/student/studentsearch?' + queryString  + "pageSize=" + pageSize + "&pageNumber=" + pageNumber,{ headers }); 
     }  
 }

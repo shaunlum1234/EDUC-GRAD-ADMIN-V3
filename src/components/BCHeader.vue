@@ -1,15 +1,14 @@
 <template>
   <div>
-        <img
-              class="min-nav d-md-none"
-              src="../assets/images/bcid-logo-rev-en.svg"
-              width="200"
-              height="44"
-              alt="B.C. Government Logo"
-            />
+    <img
+      class="min-nav d-md-none"
+      src="../assets/images/bcid-logo-rev-en.svg"
+      width="200"
+      height="44"
+      alt="B.C. Government Logo"
+    />
     <header>
       <div class="container">
-    
         <div class="banner">
           <a class="navbar-brand" href="https://www2.gov.bc.ca">
             <img
@@ -19,9 +18,8 @@
               height="44"
               alt="B.C. Government Logo"
             />
-     
           </a>
-          <h1>Graduation Records and Achievement Data </h1>
+          <h1>Graduation Records and Achievement Data</h1>
         </div>
       </div>
     </header>
@@ -41,14 +39,28 @@
         <ul class="navbar-nav mr-auto">
           <li>
             <!-- <router-link to="/">Select Student</router-link> -->
-            <a href="#" class="nav-link" @click="selectStudent()">Student search</a>
+            <a href="#" class="nav-link" @click="selectStudent()"
+              >Student search</a
+            >
           </li>
-          <li><router-link to="/admin-graduation-programs">Program management</router-link></li>
+          <li>
+            <router-link to="/admin-graduation-programs"
+              >Program management</router-link
+            >
+          </li>
           <li><router-link to="/courses">Courses</router-link></li>
+          <li><router-link to="/assessments">Assessments</router-link></li>
           <li><router-link to="/schools">Schools</router-link></li>
           <li><router-link to="/psi">PSI</router-link></li>
           <li class="nav-item">
-            <a v-bind:href="'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + host" class="nav-link">Logout</a>
+            <a
+              v-bind:href="
+                'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' +
+                host
+              "
+              class="nav-link"
+              >Logout</a
+            >
           </li>
         </ul>
         <div class="float:right"><slot></slot></div>
@@ -59,22 +71,34 @@
         <ul>
           <li>
             <!-- <router-link to="/">Select Student</router-link> -->
-            <a href="#" class="nav-link" @click="selectStudent()">Student search</a>
+            <a href="#" class="nav-link" @click="selectStudent()"
+              >Student search</a
+            >
           </li>
-          <li><router-link to="/admin-graduation-programs">Program Management</router-link></li>
+          <li>
+            <router-link to="/admin-graduation-programs"
+              >Program Management</router-link
+            >
+          </li>
           <li><router-link to="/courses">Courses</router-link></li>
+          <li><router-link to="/assessments">Assessments</router-link></li>
           <li><router-link to="/schools">Schools</router-link></li>
           <li><router-link to="/psi">PSI</router-link></li>
           <li class="nav-item">
-            <a v-bind:href="'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + host" class="nav-link">Logout</a>
+            <a
+              v-bind:href="
+                'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' +
+                host
+              "
+              class="nav-link"
+              >Logout</a
+            >
           </li>
           <li></li>
-        </ul> 
-        <div class="float-right" style="margin-top:-20px"><slot></slot></div>
+        </ul>
+        <div class="float-right" style="margin-top: -20px"><slot></slot></div>
       </div>
-      
     </nav>
-    
   </div>
 </template>
 
@@ -84,21 +108,21 @@ export default {
   data() {
     return {
       pen: "",
-      host: location.protocol + "//" +  location.host
+      host: location.protocol + "//" + location.host,
     };
   },
   created() {},
   methods: {
-    logout(){
+    logout() {
       LoginService.logout();
       this.$store.commit("unsetStudent");
-      this.$router.push('logout')
+      this.$router.push("logout");
     },
-    selectStudent(){
+    selectStudent() {
       this.$store.commit("unsetStudent");
-      this.$router.push('/')
-    }
-  }
+      this.$router.push("/");
+    },
+  },
 };
 </script>
 <style scoped>
@@ -126,7 +150,7 @@ header {
 }
 
 header h1 {
-  font-family: 'BC Sans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-family: "BC Sans", "Noto Sans", Verdana, Arial, sans-serif;
   font-weight: normal; /* 400 */
   margin: 5px 5px 0 18px;
   text-transform: none;
@@ -262,13 +286,13 @@ header .nav-btn {
     visibility: visible;
   }
 }
-.min-nav{
-    position: fixed;
-    left: 80px;
-    z-index: 110;
-    top: 5px;
+.min-nav {
+  position: fixed;
+  left: 80px;
+  z-index: 110;
+  top: 5px;
 }
-.burgernav{
-  position:fixed;
+.burgernav {
+  position: fixed;
 }
 </style>
