@@ -9,6 +9,7 @@ import Schools from '../views/Schools.vue';
 import PSI from '../views/PSI.vue';
 import Test from '../views/Table.vue';
 import AdminGraduationPrograms from '../views/AdminGraduationPrograms.vue';
+import GraduationPrograms from '../components/GraduationPrograms.vue';
 import GraduationProgramCourses from '../components/GraduationProgramCourses.vue';
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
 import GraduationSpecialPrograms from '@/components/GraduationSpecialProgram';
@@ -54,11 +55,11 @@ const routes = [{
     component: AdminGraduationPrograms,
     children: [
       { path: '', 
-        component: GraduationProgramRules,
+        component: GraduationPrograms,
       },
-      { path: 'programs/', component: GraduationProgramRules },
-      { path: 'program/:selectedProgramCode', component: GraduationProgramRules },
-      { path: 'program/:selectedProgramCode/:rule', component: GraduationProgramCourses },
+      { path: 'programs/', component: GraduationPrograms },
+      { path: 'program/:programCode', component: GraduationProgramRules },
+      { path: 'program/:programCode/:category/:rule', component: GraduationProgramCourses, name: "programRuleCourses"},
       { path: 'special-programs/', component: GraduationSpecialPrograms },
       { path: 'special-programs/:selectedSpecialProgramCode', component: SpecialProgramRules },
     ],

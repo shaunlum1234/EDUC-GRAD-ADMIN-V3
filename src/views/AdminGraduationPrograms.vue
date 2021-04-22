@@ -49,9 +49,11 @@
 //import GraduationSpecialProgram from '@/components/GraduationSpecialProgram';
 //import LetterGrades from '@/components/Admin/LetterGrades';
 //import SpecialCases from '@/components/Admin/SpecialCases';
+
 export default {
   name: "graduationPrograms",
   components: {
+   
   // 'GraduationSpecialProgram':GraduationSpecialProgram,
    //'LetterGrades': LetterGrades,
    //'SpecialCases': SpecialCases

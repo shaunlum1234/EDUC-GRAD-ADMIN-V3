@@ -111,7 +111,7 @@
 <script>
   import CourseAchievementService from "@/services/CourseAchievementService.js";
   import StudentService from "@/services/StudentService.js";
-  import AssessmentService from "@/services/AssessmentService.js"
+  import StudentAssessmentService from "@/services/StudentAssessmentService.js"
   import GraduationStatusService from "@/services/GraduationStatusService.js"
   import SiteMessage from "@/components/SiteMessage";
   import StudentCourses from "@/components/StudentCourses";
@@ -210,7 +210,7 @@
           }
         });
 
-        AssessmentService.getStudentAssessment(pen, this.token).then((response) => {
+        StudentAssessmentService.getStudentAssessment(pen, this.token).then((response) => {
           this.$store.dispatch('setStudentAssessments', response.data);
         }).catch((error) => {
           if(error.response.status){
