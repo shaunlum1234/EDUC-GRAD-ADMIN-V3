@@ -113,7 +113,7 @@
                                 <td><strong>Independent type:</strong> {{schoolInfo.independentDesignation}}</td>
                               </tr>
                                <tr>                        
-                                <td><strong>Independent affiliation:</strong> </td>
+                                <td><strong>Independent affiliation:</strong> {{schoolInfo.independentAffiliation}}</td>
                               </tr>
                                <tr>                        
                                 <td><strong>Transcript eligible:</strong> {{schoolInfo.transcriptEligibility}}</td>
