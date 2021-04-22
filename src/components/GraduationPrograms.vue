@@ -4,10 +4,12 @@
         <b-spinner v-if="!graduationPrograms.length" label="Loading"
           >Loading</b-spinner
         >
+        
+        
         <div v-if="!selectedProgramCode">
 
           <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="programCode"
-            v-bind:role="role" create="createProgram" delete="deleteProgram" update="updateProgram" :slots="templates">
+            v-bind:role="role">
               <template #cell(programCode)="data">
                 <router-link :to="'/admin-graduation-programs/program/' + data.item.programCode ">{{ data.item.programCode }}</router-link>
               </template>
@@ -22,7 +24,6 @@
 
 <script>
 import ProgramManagementService from "@/services/ProgramManagementService.js";
-import GraduationProgramRules from "@/components/GraduationProgramRules";
 import DisplayTable from "@/components/DisplayTable";
 import {
     mapGetters
@@ -30,8 +31,7 @@ import {
 export default {
   name: "GraduationPrograms",
   components: {
-    GraduationProgramRules: GraduationProgramRules,
-    DisplayTable: DisplayTable,
+     DisplayTable: DisplayTable,
   },
   props: {},
   computed: {...mapGetters({

@@ -154,9 +154,9 @@
                             <b-button class="px-1" @click="popClose">Close</b-button>
                           </b-popover>  -->
                       </li>
-                      <li v-if="studentGradStatus.honoursStanding">
+                      <li>
                         <strong>Honours:</strong>
-                        {{ studentGradStatus.honoursStanding }}
+                        <span v-if="studentGradStatus.honoursStanding"> {{ studentGradStatus.honoursStanding }}</span>
                       </li>
                       <li v-if="!showEdit">
                         <strong>GPA:</strong> {{ studentGradStatus.gpa }}

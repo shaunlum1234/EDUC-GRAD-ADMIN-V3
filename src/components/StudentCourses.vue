@@ -66,6 +66,9 @@
                         <td><strong>Start Date:</strong> {{ row.item.courseDetails.startDate}}</td>
                       </tr>
                       <tr>                        
+                        <td><strong>End Date:</strong> {{ row.item.courseDetails.endDate}}</td>
+                      </tr>                      
+                      <tr>                        
                         <td><strong>Work Experience:</strong> {{ row.item.courseDetails.workExpFlag }}</td>
                       </tr>
                       <tr>                        
