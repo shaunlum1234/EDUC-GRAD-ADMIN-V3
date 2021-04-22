@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-responsive">
-      <DisplayTable :items="courses" :fields="fields" showFilter="yes">
+      <DisplayTable :items="courses" :fields="fields" showFilter="true">
         <template #thead-top="data">
           <b-tr class="table-row-header-group">
             <b-th colspan="1" class="table-header-group text-center"></b-th>

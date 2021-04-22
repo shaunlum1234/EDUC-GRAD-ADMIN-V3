@@ -6,21 +6,21 @@
         <b-tabs card>
           <b-tab title="Course search" active>
             <b-card-text>
-              <div class="row col-12">
-                <label class="float-left w-100">Search by course code:</label>
-                <b-input class="col-10 my-2" v-model="courseCode" placeholder="" />
-                <b-button variant="primary" class="m-2" @click="getAllCourses">Search</b-button>
-              </div>
-              <DisplayTable title="Courses" v-bind:items="courses" v-bind:fields="courseFields" id="courseCode"
+              <DisplayTable title="Courses" v-bind:items="courses" v-bind:fields="courseFields" id="courseCode" showFilter="true" pagination="true"
                 v-bind:role="role"></DisplayTable>
             </b-card-text>
           </b-tab>
           <b-tab title="Course restrictons">
             <b-card-text>
-              <DisplayTable title="Course restriction" v-bind:items="courseRestrictions"
+              <!-- <DisplayTable title="Course restriction" v-bind:items="courseRestrictions"
                 v-bind:fields="courseRestrictionFields" id="courseRestrictionId"
                 create="createCourseRestriction" delete="deleteCourseRestriction" update="updateCourseRestriction">
+              </DisplayTable> -->
+              <DisplayTable title="Course restriction" v-bind:items="courseRestrictions"
+                v-bind:fields="courseRestrictionFields" id="courseRestrictionId"
+               >
               </DisplayTable>
+                   
 
             </b-card-text>
           </b-tab>
@@ -48,6 +48,7 @@
     data() {
       return {
         courses: {},
+  
         courseRestrictions: [],
         courseFields: [{
             key: 'more',

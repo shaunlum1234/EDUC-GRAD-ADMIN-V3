@@ -1,5 +1,6 @@
 <template>
   <b-container fluid class="m-0 p-0">
+
     <!-- User Interface controls -->
     <b-button-toolbar key-nav aria-label="Toolbar with button groups" class="float-left">
       <b-button-group class="mx-1">
@@ -23,12 +24,13 @@
           
           <b-input-group  >
             <div class="filter-icon p-2 text-secondary"><i class='fas fa-filter'></i></div>
-            <b-form-input id="filter-input" size="md" v-model="filter" type="search" placeholder=""></b-form-input>
+            <b-form-input debounce="500" id="filter-input" size="md" v-model="filter" type="search" placeholder=""></b-form-input>
             <b-input-group-append>
               <b-button class="mr-10 clear-button" size="md" :disabled="!filter" @click="filter = ''">Clear</b-button>
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
+
       </b-col>
       
     </b-row>
@@ -54,7 +56,12 @@
     </b-row>
 
     <!-- Main table element -->
-     
+             <b-pagination v-if="this.pagination"
+            v-model="currentPage"
+            :total-rows="totalRows"
+            :per-page="perPage"
+            aria-controls="my-table"
+          ></b-pagination>
     
     <b-table :responsive="responsive" :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter"
       :filter-included-fields="filterOn" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
@@ -132,7 +139,7 @@
 <script>
   import {mapGetters} from "vuex";
   export default {
-    props: ['items', 'title', 'fields', 'id', 'create','update','delete', 'slots', 'showFilter'],
+    props: ['items', 'totalitems', 'title', 'fields', 'id', 'create','update','delete', 'slots', 'showFilter', 'pagination'],
     data() {
       return {
         responsive:true,
@@ -152,7 +159,7 @@
         editItem: "notloaded",
         totalRows: 1,
         currentPage: 1,
-        perPage: 100,
+        perPage: 1000,
         pageOptions: [10, 20, 50, {
           value: 100,
           text: "Show a lot"
@@ -200,6 +207,10 @@
       //   key: 'more', 
       //   label: 'More'
       // });
+
+      if(this.pagination){
+        this.perPage = 25;
+      }
       //remove Columns based on permssions, create, update and delete props
       if(this.create && this.isAdmin){
         this.createAllowed = true;
@@ -220,6 +231,7 @@
             label: 'Delete'
           });
       } 
+      this.totalRows = this.totalitems;
 
       //this.itemToAdd = JSON.parse(JSON.stringify(this.items[0]));
       this.itemToAdd = {... this.items[0]} ;
@@ -234,9 +246,17 @@
     },
     mounted() {
       // Set the initial number of items
-      this.totalRows = this.items.length;
+  
+          this.totalRows = this.totalitems;
+    
+ 
+      
     },
     methods: {
+      myFn(val, e) {
+        console.log(val) // => The value of the input
+        console.log(e) // => The event object
+      },
       toggleQuickEdit(){
         this.quickEdit = !this.quickEdit;
         this.resetEdit();
