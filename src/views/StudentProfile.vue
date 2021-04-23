@@ -30,7 +30,7 @@
               <td class="align-top profile-name-header"><label>Legal surname</label></td>
               <td class="align-top profile-name-header"><label>Legal given</label></td>
               <td class="align-top profile-name-header"><label>Legal middle</label></td>
-              <td class="align-top profile-name-header"><label>Birthdate</label></td>
+              <td class="align-top profile-name-header"><label>Birthdate(yyyy-mm-dd)</label></td>
             </tr>
             <tr>
               <td class="align-top profile-name-data" v-if="studentFullName.pen"><strong><p class="profile-info">{{ studentFullName.pen }}</p></strong></td>
@@ -59,7 +59,7 @@
               <h2 class="px-0">{{ studentFullName.legalMiddleNames }}</h2>
             </div>
             <div v-if="studentInfo.dob" class="p-0 profile-name-data">
-              <label>Birthdate</label>
+              <label>Birthdate(yyyy-mm-dd)</label>
               <h2 class="px-0">{{ studentInfo.dob }}</h2>
             </div>
           </div>
