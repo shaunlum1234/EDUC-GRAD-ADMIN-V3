@@ -17,7 +17,7 @@
                 create="createCourseRestriction" delete="deleteCourseRestriction" update="updateCourseRestriction">
               </DisplayTable> -->
               <DisplayTable title="Course restriction" v-bind:items="courseRestrictions"
-                v-bind:fields="courseRestrictionFields" id="courseRestrictionId"
+                v-bind:fields="courseRestrictionFields" id="courseRestrictionId" showFilter="true"
                >
               </DisplayTable>
                    
@@ -48,17 +48,19 @@
     data() {
       return {
         courses: {},
-  
         courseRestrictions: [],
-        courseFields: [{
-            key: 'more',
-            label: 'More'
-          },
+        courseFields: [
           {
             key: 'courseCode',
             label: 'Course code',
             sortable: true,
             sortDirection: 'desc'
+          },
+          {
+            key: 'courseLevel',
+            label: 'Course Level',
+            sortable: true,
+            class: 'text-center'
           },
           {
             key: 'courseName',
@@ -67,35 +69,38 @@
             class: 'text-center'
           },
           {
+            key: 'language',
+            label: 'Language',
+            sortable: true,
+            class: 'text-center'
+          },          
+          {
             key: 'startDate',
-            label: 'Start date',
+            label: 'Course Start date',
             sortable: true,
             sortDirection: 'desc'
           },
           {
             key: 'endDate',
-            label: 'End date',
+            label: 'Course End date',
             sortable: true,
             class: 'text-center'
           },
           {
             key: 'workExpFlag',
-            label: 'Start date',
+            label: 'Work Experience',
             sortable: true,
             sortDirection: 'desc'
           },
           {
             key: 'genericCourseType',
-            label: 'End date',
+            label: 'Generic Course Type',
             sortable: true,
             class: 'text-center'
           },
 
         ],
-        courseRestrictionFields: [{
-            key: 'more',
-            label: 'More'
-          },
+        courseRestrictionFields: [
           {
             key: 'mainCourse',
             label: 'Course',
@@ -220,5 +225,8 @@
 
   .profile-name {
     padding-bottom: 10px;
+  }
+  .table-filter{
+    top: 0px !important
   }
 </style>
