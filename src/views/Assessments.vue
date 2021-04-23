@@ -5,7 +5,7 @@
       <b-card no-body>
         <b-tabs card>
           <b-tab title="Assessment search" active>
-            <b-card-text>
+            <b-card-text v-if="assessments">
               <DisplayTable
                 title="Assessments"
                 v-bind:items="assessments"
@@ -18,7 +18,7 @@
             </b-card-text>
           </b-tab>
           <b-tab title="Assessment requirements">
-            <b-card-text>
+            <b-card-text v-if="assessmentRequirements">
               <DisplayTable
                 title="Assessment requirements"
                 v-bind:items="assessmentRequirements"

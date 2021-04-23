@@ -52,22 +52,22 @@ export default {
         }
       ],
       graduationProgramsFields: [
-      {
-            key: 'programCode',
-            label: 'Program Code',
-            sortable: true,
-            sortDirection: 'desc',
-            editable: true,
-            class: 'w-15',
-          },
-          {
-            key: 'programName',
-            label: 'Program Name',
-            sortable: true,
-            editable: true,
-            class: 'w-85',
-          }
-        ],
+        {
+          key: 'programCode',
+          label: 'Program Code',
+          sortable: true,
+          sortDirection: 'desc',
+          editable: true,
+          class: 'w-15',
+        },
+        {
+          key: 'programName',
+          label: 'Program Name',
+          sortable: true,
+          editable: true,
+          class: 'w-85',
+        }
+      ],
       selectedProgramCode: "",
       selectedProgramId: "",
     };
