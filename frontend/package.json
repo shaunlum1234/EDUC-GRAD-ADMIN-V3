@@ -26,7 +26,6 @@
     "vue-router": "^3.5.1",
     "vuejs-logger": "1.5.3",
     "vuejs-smart-table": "0.0.7",
-    "vuelidate": "^0.7.6",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
