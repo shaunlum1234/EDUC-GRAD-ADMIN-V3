@@ -36,17 +36,20 @@ export default {
           label: 'Special Case',
           sortable: true,
           sortDirection: 'desc',
-        },
-        {
-          key: 'passFlag',
-          label: 'Pass Flag',
-          sortable: true,
+          class:'w-15'
         },
         {
           key: 'description',
           label: 'Description',
           sortable: true,
-        }
+          class:'w-15'
+        },
+        {
+          key: 'passFlag',
+          label: 'Pass Flag',
+          sortable: true,
+          class:'w-70 text-left'
+        }      
       ],
     };
   },

@@ -10,8 +10,8 @@
       <b-nav card-header tabs >
         <b-nav-item to="/admin-graduation-programs/programs" :active="tab === 1" @click="tab = 1"> Programs</b-nav-item>
         <b-nav-item to="/admin-graduation-programs/special-programs" :active="tab === 2" @click="tab = 2"> Special programs</b-nav-item>
-        <b-nav-item :active="tab === 3" @click="tab = 3">Letter grades</b-nav-item>
-        <b-nav-item :active="tab === 4" @click="tab = 4">Special cases</b-nav-item>
+        <b-nav-item to="/admin-graduation-programs/letter-grades" :active="tab === 3" @click="tab = 3">Letter grades</b-nav-item>
+        <b-nav-item to="/admin-graduation-programs/special-cases" :active="tab === 4" @click="tab = 4">Special cases</b-nav-item>
       </b-nav>
     </b-card-header>
      <b-card-body >
@@ -21,6 +21,7 @@
     </b-card-body>
     </b-card>
 </div>
+
 <!-- <router-view v-bind:key="$route.fullPath" name="specialProgram"></router-view> -->
 
     <!-- <b-card no-body>
@@ -46,17 +47,11 @@
 </template>
 
 <script>
-//import GraduationSpecialProgram from '@/components/GraduationSpecialProgram';
-//import LetterGrades from '@/components/Admin/LetterGrades';
-//import SpecialCases from '@/components/Admin/SpecialCases';
+
 
 export default {
   name: "graduationPrograms",
   components: {
-   
-  // 'GraduationSpecialProgram':GraduationSpecialProgram,
-   //'LetterGrades': LetterGrades,
-   //'SpecialCases': SpecialCases
 
   },
   data() {
