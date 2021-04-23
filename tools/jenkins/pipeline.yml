@@ -119,7 +119,7 @@ pipeline{
         }
       }
     }
-	stage('Promote to DEV') {
+               stage('Promote to DEV') {
       steps{
         deployStage('Dev', TOOLS, TOOLS_HOST_ROUTE, 'latest')
       }
@@ -143,7 +143,7 @@ def deployStage(String stageEnv, String projectEnv, String hostRouteEnv, String 
   }
 
   openshift.withCluster() {
-    openshift.withProject("${projectEnv}") {
+    openshift.withProject(${projectEnv}) {
       echo "Tagging image"
       openshift.tag("${TOOLS}/${REPO_NAME}-frontend-static:${tag}", "${REPO_NAME}-frontend-static:${tag}")
       def dcTemplate = openshift.process('-f',
@@ -174,3 +174,11 @@ def deployStage(String stageEnv, String projectEnv, String hostRouteEnv, String 
     }
   }
 }
+
+
+Regards,
+
+Harshit Kohli (Harry) |Sr. Developer 
+Digital Strategies and Services Branch | Ministry of Education
+M:778-678-1435
+
