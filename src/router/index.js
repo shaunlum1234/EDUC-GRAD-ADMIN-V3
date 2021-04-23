@@ -15,7 +15,8 @@ import GraduationProgramCourses from '../components/GraduationProgramCourses.vue
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
 import GraduationSpecialPrograms from '@/components/GraduationSpecialProgram';
 import SpecialProgramRules from '@/components/GraduationSpecialProgramRules';
-
+import LetterGrades from '@/components/Admin/LetterGrades';
+import SpecialCases from '@/components/Admin/SpecialCases';
 Vue.use(VueRouter)
 
 const routes = [{
@@ -63,6 +64,8 @@ const routes = [{
       { path: 'program/:programCode/:category/:rule', component: GraduationProgramCourses, name: "programRuleCourses"},
       { path: 'special-programs/', component: GraduationSpecialPrograms },
       { path: 'special-programs/:selectedSpecialProgramCode', component: SpecialProgramRules },
+      { path: 'letter-grades/', component: LetterGrades },
+      { path: 'special-cases/', component: SpecialCases },
     ],
     meta: {
       requiresAuth: true

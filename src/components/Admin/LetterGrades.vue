@@ -37,16 +37,19 @@ export default {
           label: 'Letter Grade',
           sortable: true,
           sortDirection: 'desc',
+          class:'w-15'
         },
         {
           key: 'gpaMarkValue',
-          label: 'GPA Mark',
+          label: 'GPA Mark Value',
           sortable: true,
+          class:'w-15'
         },
         {
           key: 'passFlag',
           label: 'Pass Flag',
           sortable: true,
+          class:'w-70'
         }
       ],
     };
