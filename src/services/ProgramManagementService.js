@@ -39,10 +39,10 @@ export default {
         //console.log("TOKEN IN SERVICE getProgramRule: " + token);
         return apiClient.get('/api/v1/programmanagement/specialprograms',{ headers })
     },
-    getSpecialProgramRule(programId, token) {
+    getSpecialProgramRules(programCode, specialProgramCode, token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     //    console.log("programId IN SERVICE getSpecialProgramRule: " + programId);
-        return apiClient.get('/api/v1/programmanagement/specialprogramrules?specialProgramID=' + programId,{ headers })
+        return apiClient.get('/api/v1/programmanagement/specialprograms/' + programCode + "/" + specialProgramCode,{ headers })
     },
     //Program CRUD
     createProgram(program, token){
