@@ -6,14 +6,6 @@
         <b-tabs card>
           <b-tab title="Assessment search" active>
             <b-card-text>
-              <div class="row col-12">
-                <b-button
-                  variant="primary"
-                  class="m-2"
-                  @click="getAllAssessment"
-                  >Search
-                </b-button>
-              </div>
               <DisplayTable
                 title="Assessments"
                 v-bind:items="assessments"
@@ -64,30 +56,32 @@ export default {
           label: "Assessment code",
           sortable: true,
           sortDirection: "desc",
+
         },
         {
           key: "assessmentName",
           label: "Assessment name",
           sortable: true,
-          class: "text-center",
+ 
         },
         {
           key: "language",
           label: "Language",
           sortable: true,
           sortDirection: "desc",
+
         },
         {
           key: "startDate",
           label: "Start date",
           sortable: true,
-          class: "text-center",
+
         },
         {
           key: "endDate",
           label: "End date",
           sortable: true,
-          class: "text-center",
+
         },
       ],
 

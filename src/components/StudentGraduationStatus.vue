@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card no-body class="col-12 px-0 mx-0" v-if="!hasGradStatus">
+    <b-card no-body class="col-12 px-0 mx-0" v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
 
       <b-button block v-b-toggle.accordion-1 variant="primary" class="text-left">
         Graduation
@@ -84,15 +84,15 @@
                       </li>
                       <li>
                         <strong>Student Status:</strong>
-                        {{ studentGradStatus.studentStatus }}
+                        <span v-if="studentGradStatus.studentStatus">{{ studentGradStatus.studentStatus }}</span>
                       </li>
-                      <li v-if="studentGradStatus.studentGrade">
+                      <li>
                         <strong>Student grade:</strong>
-                        {{ studentGradStatus.studentGrade }}
+                        <span v-if="studentGradStatus.studentGrade">{{ studentGradStatus.studentGrade }}</span>
                       </li>
-                      <li v-if="studentGradStatus.schoolOfRecord">
+                      <li>
                           <strong>School of Record: </strong>
-                          <span class="link" href="#" id="popover-button-sync"
+                          <span v-if="studentGradStatus.schoolOfRecord" class="link" href="#" id="popover-button-sync"
                                   variant="primary" @click="getSchoolInfo(studentGradStatus.schoolOfRecord)"> {{studentGradStatus.schoolOfRecord}}
                           </span>
                         
@@ -135,8 +135,8 @@
                             <!-- <b-button class="px-1" @click="popClose">Close</b-button> -->
                           </b-popover> 
                       </li>
-                      <li v-if="studentGradStatus.studentGradData && studentGradStatus.studentGradData.gradStudent.schoolOfRecord">
-                        <strong>School at Graduation: </strong> {{ studentGradStatus.studentGradData.gradStudent.schoolOfRecord}}
+                      <li>
+                        <strong>School at Graduation: </strong> <span v-if="studentGradStatus.studentGradData && studentGradStatus.studentGradData.gradStudent.schoolOfRecord">{{ studentGradStatus.studentGradData.gradStudent.schoolOfRecord}}</span>
                         <!-- <span class="link" href="#" id="popover-button-sync"
                                   variant="primary" @click="getSchoolInfo( studentGradStatus.studentGradData.gradStudent.schoolOfRecord)"> {{ studentGradStatus.studentGradData.gradStudent.schoolOfRecord}}
                         </span> -->
@@ -159,7 +159,7 @@
                         <span v-if="studentGradStatus.honoursStanding"> {{ studentGradStatus.honoursStanding }}</span>
                       </li>
                       <li v-if="!showEdit">
-                        <strong>GPA:</strong> {{ studentGradStatus.gpa }}
+                        <strong>GPA:</strong> <span v-if="studentGradStatus.gpa">{{ studentGradStatus.gpa }}</span>
                       </li>
                        <li v-if="showEdit">
                         <strong>GPA:</strong><b-input size="sm" max="4" pattern="^\d*(\.\d{0,4})?$" type="number" v-model='editedGradStatus.gpa'></b-input>      
