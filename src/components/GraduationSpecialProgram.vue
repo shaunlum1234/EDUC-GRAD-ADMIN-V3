@@ -3,8 +3,10 @@
         <b-spinner v-if="!graduationSpecialPrograms.length" label="Loading"
           >Loading</b-spinner
         >
-        <DisplayTable v-bind:items="graduationSpecialPrograms" title="Special Programs" v-bind:fields="graduationSpecialProgramsFields" id="id"
-            v-bind:role="role" create="createSpecialProgram" delete="deleteSpecialProgram" update="updateSpecialProgram">
+        <DisplayTable v-bind:items="graduationSpecialPrograms" title="Special Programs" v-bind:fields="graduationSpecialProgramsFields" id="id" showFilter="true">
+            <template #cell(programCode)="data">
+              <router-link :to="'/admin-graduation-programs/special-programs/' + data.item.programCode ">{{ data.item.programCode }}</router-link>
+            </template>
         </DisplayTable>
         <!-- <div class="card-body" v-if="!selectedProgramId">
           <v-table

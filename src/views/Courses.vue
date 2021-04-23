@@ -17,7 +17,7 @@
                 create="createCourseRestriction" delete="deleteCourseRestriction" update="updateCourseRestriction">
               </DisplayTable> -->
               <DisplayTable title="Course restriction" v-bind:items="courseRestrictions"
-                v-bind:fields="courseRestrictionFields" id="courseRestrictionId" showFilter="true"
+                v-bind:fields="courseRestrictionFields" id="courseRestrictionId" showFilter="true" pagination="true"
                >
               </DisplayTable>
                    
@@ -104,14 +104,21 @@
         courseRestrictionFields: [
           {
             key: 'mainCourse',
-            label: 'Course',
+            label: 'Course Code Main',
             sortable: true,
             class: 'text-left',
             editable: true
           },
           {
+            key: 'mainCourseLevel',
+            label: 'Course Level Main',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          },          
+          {
             key: 'restrictedCourse',
-            label: 'Restricted course',
+            label: 'Course Code Restricted',
             sortable: true,
             class: 'text-left',
             sortDirection: 'desc',
@@ -119,14 +126,14 @@
           },
           {
             key: 'restrictedCourseLevel',
-            label: 'Course level',
+            label: 'Course Level Restricted',
             sortable: true,
             class: 'text-left',
             editable: true
           },
           {
             key: 'restrictionStartDate',
-            label: 'Start date',
+            label: 'Restriction Start Date',
             sortable: true,
             class: 'text-left',
             sortDirection: 'desc',
@@ -134,7 +141,7 @@
           },
           {
             key: 'restrictionEndDate',
-            label: 'End date',
+            label: 'Restriction End Date',
             sortable: true,
             class: 'text-left',
             editable: true
