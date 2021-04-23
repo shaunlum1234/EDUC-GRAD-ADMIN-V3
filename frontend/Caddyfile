@@ -28,6 +28,7 @@
     proxy /api/v1/course/ {$VUE_APP_COURSE_API_HOST}
     proxy /api/v1/studentcourse/ {$VUE_APP_COURSE_ACHIEVEMENT_API_HOST}
     proxy /api/v1/assessment {$VUE_APP_ASSESSMENT_API_HOST}
+    proxy /api/v1/graduate/ {$VUE_APP_GRADUATION_API_HOST}
 
     errors stdout
 }
