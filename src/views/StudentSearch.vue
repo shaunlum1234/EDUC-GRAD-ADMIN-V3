@@ -96,6 +96,7 @@
                             v-model="advancedSearchInput.birthdateFrom.value"
                             type="date"
                             placeholder="YYYY-MM-DD"
+                            max="9999-12-30"
                             autocomplete="off"
                             tabindex="6"
                             v-on:keyup="keyHandler"
@@ -130,6 +131,8 @@
                             v-model="advancedSearchInput.birthdateTo.value"
                             type="date"
                             placeholder="YYYY-MM-DD"
+                            max="9999-12-30"
+                            :date-format-options="{ year: '4-digit'}"
                             autocomplete="off"
                             tabindex="6"
                             v-on:keyup="keyHandler"
@@ -526,7 +529,7 @@ export default {
           .catch(() => {
             this.searchLoading = false;
             this.searchByPenMessage =
-              "Student cannot be found on the STUDENT (PEN) database";
+              "Student cannot be found on the PEN database";
           });
         //pen input check
       }

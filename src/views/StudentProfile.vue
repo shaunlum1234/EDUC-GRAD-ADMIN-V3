@@ -2,21 +2,42 @@
   <div>
     <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
     <!-- Button trigger modal -->
-    <div class="row p-3 m-0">
-      <div class="col-md-11 col-12">
-          
+     <div class="col-md-1 col-12">
+        <div class="row px-0">
+          <!-- <b-button v-on:click="closeRecord" variant="primary" size="sm" class="col-6 col-md-12 close-record">
+            Close
+          </b-button> -->
+          <b-dropdown variant="outline-primary" id="dropdown-1" class="col-6 col-md-12 px-0 close-record" size="sm"
+            text="Record details">
+            <div v-if="hasGradStatus">
+              <b-dropdown-item disabled class="no-underline">Created by: {{ gradInfo.createdBy }}</b-dropdown-item>
+              <b-dropdown-item disabled>Created: {{ gradInfo.createdTimestamp }}</b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item disabled>Updated by: {{ gradInfo.updatedBy }}</b-dropdown-item>
+              <b-dropdown-item disabled>Updated: {{ gradInfo.updatedTimestamp }}</b-dropdown-item>
+            </div>
+            <div v-if="!hasGradStatus" class="p-3">
+              This student has no graduation record details.
+            </div>
+          </b-dropdown>
+        </div>
+      </div>
+    <div class="row p-3 m-0">    
+      <div class="col-md-11 col-12">      
           <table v-if="!smallScreen" class="profile-name">
             <tr>
               <td class="align-top profile-name-header"><label>PEN</label></td>
               <td class="align-top profile-name-header"><label>Legal surname</label></td>
               <td class="align-top profile-name-header"><label>Legal given</label></td>
               <td class="align-top profile-name-header"><label>Legal middle</label></td>
+              <td class="align-top profile-name-header"><label>Birthdate(yyyy-mm-dd)</label></td>
             </tr>
             <tr>
               <td class="align-top profile-name-data" v-if="studentFullName.pen"><strong><p class="profile-info">{{ studentFullName.pen }}</p></strong></td>
               <td class="align-top profile-name-data" v-if="studentFullName.legalLastName"><p class="profile-info">{{ studentFullName.legalLastName }}</p></td>
               <td class="align-top profile-name-data" v-if="studentFullName.legalFirstName"><p class="profile-info">{{ studentFullName.legalFirstName }}</p></td>
               <td class="align-top profile-name-data" v-if="studentFullName.legalMiddleNames"><p class="profile-info">{{ studentFullName.legalMiddleNames }}</p></td>
+              <td class="align-top profile-name-data" v-if="studentInfo.dob"><p class="profile-info">{{ studentInfo.dob }}</p></td>
             </tr>
           </table>
           <div v-if="smallScreen" class="profile-name">
@@ -37,32 +58,13 @@
               <label>Legal middle</label>
               <h2 class="px-0">{{ studentFullName.legalMiddleNames }}</h2>
             </div>
+            <div v-if="studentInfo.dob" class="p-0 profile-name-data">
+              <label>Birthdate(yyyy-mm-dd)</label>
+              <h2 class="px-0">{{ studentInfo.dob }}</h2>
+            </div>
           </div>
-
-        
-        <StudentInfo />
       </div>
-      <div class="col-md-1 col-12">
-        <div class="row px-0">
-          <b-button v-on:click="closeRecord" variant="primary" size="sm" class="col-6 col-md-12 close-record">
-            Close
-          </b-button>
-          <!-- <b-dropdown variant="outline-primary" id="dropdown-1" class="col-6 col-md-12 px-0 close-record" size="sm"
-            text="Record details">
-            <div v-if="hasGradStatus">
-              <b-dropdown-item disabled class="no-underline">Created by: {{ gradInfo.createdBy }}</b-dropdown-item>
-              <b-dropdown-item disabled>Created: {{ gradInfo.createdTimestamp }}</b-dropdown-item>
-              <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item disabled>Updated by: {{ gradInfo.updatedBy }}</b-dropdown-item>
-              <b-dropdown-item disabled>Updated: {{ gradInfo.updatedTimestamp }}</b-dropdown-item>
-            </div>
-            <div v-if="!hasGradStatus" class="p-3">
-              This student has no graduation record details.
-            </div>
-          </b-dropdown> -->
-        </div>
-
-      </div>
+     
     </div>
     <div class="row col-12 p-3 m-0">
       <div class="col-4" v-if="!smallScreen">
@@ -115,7 +117,6 @@
   import GraduationStatusService from "@/services/GraduationStatusService.js"
   import SiteMessage from "@/components/SiteMessage";
   import StudentCourses from "@/components/StudentCourses";
-  import StudentInfo from "@/components/StudentInfo";
   import StudentAssessments from "@/components/StudentAssessments";
   import StudentGraduationStatus from "@/components/StudentGraduationStatus";
 
@@ -139,7 +140,6 @@
     components: {
       SiteMessage: SiteMessage,
       StudentCourses: StudentCourses,
-      StudentInfo: StudentInfo,
       StudentAssessments: StudentAssessments,
       StudentGraduationStatus: StudentGraduationStatus,
     },
@@ -172,7 +172,8 @@
         gradInfo: "getStudentGraduationCreationAndUpdate",
         hasGradStatus: "studentHasGradStatus",
         studentGradStatus: "getStudentGradStatus",
-        token: "getToken"
+        token: "getToken",
+        studentInfo: "getStudentProfile",
       }),
     },
     
