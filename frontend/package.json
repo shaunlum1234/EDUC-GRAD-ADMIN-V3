@@ -26,8 +26,8 @@
     "vue-router": "^3.5.1",
     "vuejs-logger": "1.5.3",
     "vuejs-smart-table": "0.0.7",
-    "vuex": "^3.6.2",
-    "vuelidate": "^0.7.6"
+    "vuelidate": "^0.7.6",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.12",
