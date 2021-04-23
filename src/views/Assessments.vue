@@ -7,14 +7,6 @@
           <b-tab title="Assessment search" active>
             <b-card-text>
               <div class="row col-12">
-                <label class="float-left w-100"
-                  >Search by assessments code:
-                </label>
-                <b-input
-                  class="col-10 my-2"
-                  v-model="assmtCode"
-                  placeholder=""
-                />
                 <b-button
                   variant="primary"
                   class="m-2"
@@ -28,6 +20,7 @@
                 v-bind:fields="assessmentFields"
                 id="assessmentCode"
                 v-bind:role="role"
+                showFilter="true"
               >
               </DisplayTable>
             </b-card-text>
@@ -39,6 +32,7 @@
                 v-bind:items="assessmentRequirements"
                 v-bind:fields="assessmentRequirementsFields"
                 id="assessmentCode"
+                showFilter="true"
               >
               </DisplayTable>
             </b-card-text>
