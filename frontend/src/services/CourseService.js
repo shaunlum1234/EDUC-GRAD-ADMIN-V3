@@ -1,6 +1,6 @@
 import axios from 'axios'
   const apiClient = axios.create({
-  baseURL: "https://grad-admin-77c02f-tools.apps.silver.devops.gov.bc.ca",
+  baseURL: process.env.VUE_APP_BASE_URL,
   //withCredentials: false,
 
 })
