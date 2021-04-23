@@ -47,7 +47,7 @@
 
     data() {
       return {
-        courses: {},
+        courses: [],
   
         courseRestrictions: [],
         courseFields: [{

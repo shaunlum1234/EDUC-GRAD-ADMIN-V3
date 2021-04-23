@@ -47,8 +47,8 @@ export default {
   },
   data() {
     return {
-      assessments: {},
-      assessmentRequirements: {},
+      assessments: [],
+      assessmentRequirements: [],
       assmtCode: "",
       assessmentFields: [
         {
