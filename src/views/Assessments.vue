@@ -56,32 +56,32 @@ export default {
           label: "Assessment code",
           sortable: true,
           sortDirection: "desc",
-
+          class: "w-15",
         },
         {
           key: "assessmentName",
           label: "Assessment name",
           sortable: true,
- 
+          class: "w-40",
         },
         {
           key: "language",
           label: "Language",
           sortable: true,
           sortDirection: "desc",
-
+          class: "w-5",
         },
         {
           key: "startDate",
           label: "Start date",
           sortable: true,
-
+          class: "w-20",
         },
         {
           key: "endDate",
           label: "End date",
           sortable: true,
-
+          class: "w-20",
         },
       ],
 

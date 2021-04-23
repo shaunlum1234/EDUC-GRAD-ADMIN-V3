@@ -58,14 +58,14 @@ export default {
             sortable: true,
             sortDirection: 'desc',
             editable: true,
-            class: 'w-25',
+            class: 'w-15',
           },
           {
             key: 'programName',
             label: 'Program Name',
             sortable: true,
             editable: true,
-            class: 'w-75',
+            class: 'w-85',
           }
         ],
       selectedProgramCode: "",
