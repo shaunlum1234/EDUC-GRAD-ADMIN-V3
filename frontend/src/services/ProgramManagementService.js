@@ -34,6 +34,10 @@ export default {
         //console.log("TOKEN IN SERVICE getGraduationProgramSets: " + token);
         return apiClient.get('/api/v1/programmanagement/specialprograms/' + gradProgram,{ headers });
     }, 
+    getAllSpecialProgramRules(token) {
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        return apiClient.get('/api/v1/programmanagement/allspecialprogramrules',{ headers })
+    },
     getSpecialProgram(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         //console.log("TOKEN IN SERVICE getProgramRule: " + token);
@@ -41,8 +45,7 @@ export default {
     },
     getSpecialProgramRules(programCode, specialProgramCode, token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-    //    console.log("programId IN SERVICE getSpecialProgramRule: " + programId);
-        return apiClient.get('/api/v1/programmanagement/specialprograms/' + programCode + "/" + specialProgramCode,{ headers })
+        return apiClient.get('​/api​/v1​/programmanagement​/specialprograms/' + programCode + "/" + specialProgramCode,{ headers })
     },
     //Program CRUD
     createProgram(program, token){
