@@ -15,6 +15,7 @@ import GraduationProgramCourses from '../components/GraduationProgramCourses.vue
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
 import GraduationSpecialPrograms from '@/components/GraduationSpecialProgram';
 import SpecialProgramRules from '@/components/GraduationSpecialProgramRules';
+import SpecialProgramCourses from '@/components/GraduationSpecialProgramCourses';
 import LetterGrades from '@/components/Admin/LetterGrades';
 import SpecialCases from '@/components/Admin/SpecialCases';
 Vue.use(VueRouter)
@@ -63,7 +64,8 @@ const routes = [{
       { path: 'program/:programCode', component: GraduationProgramRules },
       { path: 'program/:programCode/:category/:rule', component: GraduationProgramCourses, name: "programRuleCourses"},
       { path: 'special-programs/', component: GraduationSpecialPrograms },
-      { path: 'special-programs/:selectedSpecialProgramCode', component: SpecialProgramRules },
+      { path: 'special-programs/:programCode/:specialProgramCode', component: SpecialProgramRules },
+      { path: 'special-programs/:programCode/:specialProgramCode/:rule', component: SpecialProgramCourses },
       { path: 'letter-grades/', component: LetterGrades },
       { path: 'special-cases/', component: SpecialCases },
     ],

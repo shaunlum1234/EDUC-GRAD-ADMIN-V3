@@ -5,7 +5,7 @@
         >
         <DisplayTable v-bind:items="graduationSpecialPrograms" title="Special Programs" v-bind:fields="graduationSpecialProgramsFields" id="id" showFilter="true">
             <template #cell(programCode)="data">
-              <router-link :to="'/admin-graduation-programs/special-programs/' + data.item.programCode ">{{ data.item.programCode }}</router-link>
+              <router-link :to="'/admin-graduation-programs/special-programs/' + data.item.programCode  + '/' + data.item.specialProgramCode">{{ data.item.programCode }}</router-link>
             </template>
         </DisplayTable>
         <!-- <div class="card-body" v-if="!selectedProgramId">

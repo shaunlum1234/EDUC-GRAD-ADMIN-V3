@@ -1,9 +1,9 @@
 <template>
   <div class="">
-    <b-spinner v-if="!graduationSpecialProgramRules.length" label="Loading"
+    <b-spinner v-if="!graduationSpecialProgramRules && !graduationSpecialProgramRules.length" label="Loading"
       >Loading</b-spinner
     >
-    <div v-if="!graduationSpecialProgramRules.length"><h2>Loading</h2></div>
+    <div v-if="!graduationSpecialProgramRules && !graduationSpecialProgramRules.length"><h2>Loading</h2></div>
    <DisplayTable v-bind:items="graduationSpecialProgramRules" title="Program" id="programCode"
              showFilter=true></DisplayTable>
     
