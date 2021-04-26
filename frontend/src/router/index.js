@@ -13,7 +13,6 @@ import AdminGraduationPrograms from '../views/AdminGraduationPrograms.vue';
 import GraduationPrograms from '../components/GraduationPrograms.vue';
 import GraduationProgramCourses from '../components/GraduationProgramCourses.vue';
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
-import GraduationSpecialPrograms from '@/components/GraduationSpecialProgram';
 import SpecialProgramRules from '@/components/GraduationSpecialProgramRules';
 import SpecialProgramCourses from '@/components/GraduationSpecialProgramCourses';
 import LetterGrades from '@/components/Admin/LetterGrades';
@@ -63,7 +62,7 @@ const routes = [{
       { path: 'programs/', component: GraduationPrograms },
       { path: 'program/:programCode', component: GraduationProgramRules },
       { path: 'program/:programCode/:category/:rule', component: GraduationProgramCourses, name: "programRuleCourses"},
-      { path: 'special-programs/', component: GraduationSpecialPrograms },
+      { path: 'special-programs/', component: SpecialProgramRules },
       { path: 'special-programs/:programCode/:specialProgramCode', component: SpecialProgramRules },
       { path: 'special-programs/:programCode/:specialProgramCode/:rule', component: SpecialProgramCourses },
       { path: 'letter-grades/', component: LetterGrades },

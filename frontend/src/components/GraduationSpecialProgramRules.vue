@@ -4,10 +4,8 @@
       >Loading</b-spinner
     >
     <div v-if="!graduationSpecialProgramRules && !graduationSpecialProgramRules.length"><h2>Loading</h2></div>
-   <DisplayTable v-bind:items="graduationSpecialProgramRules" title="Program" id="programCode"
+   <DisplayTable v-bind:items="graduationSpecialProgramRules" v-bind:fields="graduationSpecialProgramRulesFields" title="Program" id="programCode"
              showFilter=true></DisplayTable>
-    
-    
   </div>
 </template>
 
@@ -25,17 +23,96 @@ export default {
       token: "getToken"
   })},
   components:{
-     DisplayTable: DisplayTable,
+    DisplayTable: DisplayTable,
   },
   data: function () {
     return {
       opened: [],
       graduationSpecialProgramRules:[],
+      graduationSpecialProgramRulesFields: [
+      {
+            key: 'programCode',
+            label: 'Program Code',
+            sortable: true,
+            sortDirection: 'desc',
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'ruleCode',
+            label: 'Rule #',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'ruleCategory',
+            label: 'Rule Category',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'requirementName',
+            label: 'Requirement Name',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'requiredCredits',
+            label: 'Required Credits',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'notMetDesc',
+            label: 'Not Met Description',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'requirementType',
+            label: 'Requirement Type',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'requiredLevel',
+            label: 'Required Level',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'languageOfInstruction',
+            label: 'Language',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'requirementDesc',
+            label: 'Requirement Description',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'isActive',
+            label: 'Active',
+            sortable: true,
+            editable: true,
+            class: '',
+          }
+        ],
     };
   },
   created() {
-
-    ProgramManagementService.getSpecialProgramRules(this.$route.params.programCode,this.$route.params.specialProgramCode, this.token)
+    ProgramManagementService.getAllSpecialProgramRules(this.token)
       .then((response) => {
         this.graduationSpecialProgramRules = response.data;
         //('Graduation Special Program Rules: ' + this.graduationSpecialProgramRules);
@@ -44,6 +121,7 @@ export default {
         // eslint-disable-next-line
         console.log('There was an error:' + error.response);
     });
+
   },
   methods: {
   },
