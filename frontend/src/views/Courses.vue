@@ -4,24 +4,22 @@
     <div>
       <b-card no-body>
         <b-tabs card>
-          <b-tab title="Course search" active>
+          <b-tab title="Course" active>
             <b-card-text>
               <DisplayTable title="Courses" v-bind:items="courses" v-bind:fields="courseFields" id="courseCode" showFilter="true" pagination="true"
                 v-bind:role="role"></DisplayTable>
             </b-card-text>
           </b-tab>
-          <b-tab title="Course restrictons">
+          <b-tab title="Course restrictions">
             <b-card-text>
               <!-- <DisplayTable title="Course restriction" v-bind:items="courseRestrictions"
                 v-bind:fields="courseRestrictionFields" id="courseRestrictionId"
                 create="createCourseRestriction" delete="deleteCourseRestriction" update="updateCourseRestriction">
               </DisplayTable> -->
-              <DisplayTable title="Course restriction" v-bind:items="courseRestrictions"
+              <DisplayTable title="Course restrictions" v-bind:items="courseRestrictions"
                 v-bind:fields="courseRestrictionFields" id="courseRestrictionId" showFilter="true" pagination="true"
                >
               </DisplayTable>
-                   
-
             </b-card-text>
           </b-tab>
         </b-tabs>
@@ -67,7 +65,6 @@
             key: 'courseName',
             label: 'Course name',
             sortable: true,
-            class: 'text-center'
           },
           {
             key: 'language',

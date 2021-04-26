@@ -4,7 +4,7 @@
     <div>
       <b-card no-body>
         <b-tabs card>
-          <b-tab title="Assessment search" active>
+          <b-tab title="Assessment" active>
             <b-card-text v-if="assessments">
               <DisplayTable
                 title="Assessments"
@@ -69,7 +69,7 @@ export default {
           label: "Language",
           sortable: true,
           sortDirection: "desc",
-          class: "w-5",
+          class: "w-5 text-center",
         },
         {
           key: "startDate",
@@ -96,7 +96,6 @@ export default {
           key: "assessmentName",
           label: "Assessment name",
           sortable: true,
-          class: "text-center",
         },
         {
           key: "ruleCode",
@@ -107,7 +106,7 @@ export default {
           key: "requirementName",
           label: "Requirement name",
           sortable: true,
-          class: "text-center",
+
         },
         {
           key: "requirementProgram",
