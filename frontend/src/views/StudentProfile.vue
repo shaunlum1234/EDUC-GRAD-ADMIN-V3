@@ -7,7 +7,7 @@
           <!-- <b-button v-on:click="closeRecord" variant="primary" size="sm" class="col-6 col-md-12 close-record">
             Close
           </b-button> -->
-          <b-dropdown variant="outline-primary" id="dropdown-1" class="col-6 col-md-12 px-0 close-record" size="sm"
+          <b-dropdown variant="outline-primary" id="dropdown-1" class="col-6 col-md-12 translate-middle close-record" size="sm"
             text="Record details">
             <div v-if="hasGradStatus">
               <b-dropdown-item disabled class="no-underline">Created by: {{ gradInfo.createdBy }}</b-dropdown-item>
@@ -30,13 +30,14 @@
               <td class="align-top profile-name-header"><label>Legal surname</label></td>
               <td class="align-top profile-name-header"><label>Legal given</label></td>
               <td class="align-top profile-name-header"><label>Legal middle</label></td>
-              <td class="align-top profile-name-header"><label>Birthdate(yyyy-mm-dd)</label></td>
+              <td class="align-top profile-name-header"><label>Birthdate (yyyy-mm-dd)</label></td>
             </tr>
             <tr>
               <td class="align-top profile-name-data" v-if="studentFullName.pen"><strong><p class="profile-info">{{ studentFullName.pen }}</p></strong></td>
               <td class="align-top profile-name-data" v-if="studentFullName.legalLastName"><p class="profile-info">{{ studentFullName.legalLastName }}</p></td>
               <td class="align-top profile-name-data" v-if="studentFullName.legalFirstName"><p class="profile-info">{{ studentFullName.legalFirstName }}</p></td>
               <td class="align-top profile-name-data" v-if="studentFullName.legalMiddleNames"><p class="profile-info">{{ studentFullName.legalMiddleNames }}</p></td>
+              <td class="align-top profile-name-data" v-if="!studentFullName.legalMiddleNames"><p class="profile-info"> </p></td>
               <td class="align-top profile-name-data" v-if="studentInfo.dob"><p class="profile-info">{{ studentInfo.dob }}</p></td>
             </tr>
           </table>

@@ -9,7 +9,7 @@
       <b-card-body>
         <b-card-text>
           <div v-if="!hasGradStatus">
-            {{studentFullName.legalFirstName }} found on the PEN database <strong>but does not have a GRAD system record to read</strong>
+            {{studentFullName.legalFirstName }} found on the PEN database <strong>but does not have a GRAD system record</strong>
           </div>
         </b-card-text>
       </b-card-body>
