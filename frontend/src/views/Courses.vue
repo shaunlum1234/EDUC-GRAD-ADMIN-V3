@@ -22,6 +22,14 @@
               </DisplayTable>
             </b-card-text>
           </b-tab>
+          <b-tab title="Course requirements">
+            <b-card-text>
+              <DisplayTable title="Course requirements" v-bind:items="courseRequirements"
+                v-bind:fields="courseRequirementFields" id="courseRestrictionId" showFilter="true" pagination="true"
+               >
+              </DisplayTable>
+            </b-card-text>
+          </b-tab>
         </b-tabs>
       </b-card>
     </div>
@@ -46,7 +54,7 @@
     data() {
       return {
         courses: [],
-  
+        courseRequirements: [],
         courseRestrictions: [],
         courseFields: [
           {
@@ -145,6 +153,52 @@
           }
 
         ],
+        courseRequirementFields: [
+          {
+            key: 'courseCode',
+            label: 'Course Code',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          },
+          {
+            key: 'courseLevel',
+            label: 'Course Level',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          },          
+          {
+            key: 'courseName',
+            label: 'Course Name',
+            sortable: true,
+            class: 'text-left',
+            sortDirection: 'desc',
+            editable: true
+          },
+          {
+            key: 'ruleCode',
+            label: 'Rule#',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          },
+          {
+            key: 'requirementName',
+            label: 'Requirement Name',
+            sortable: true,
+            class: 'text-left',
+            sortDirection: 'desc',
+            editable: true
+          },
+          {
+            key: 'requirementProgram',
+            label: 'Requirement Program',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          }
+        ],
         courseCode: "",
         show: false,
         displayMessage: null,
@@ -158,6 +212,7 @@
     },
     created() {
       this.getAllCourses();
+      this.getAllCourseRequirements();
       this.getAllCourseRestrictions();
     },
     methods: {
@@ -185,6 +240,20 @@
             });
           });
       },
+      getAllCourseRequirements() {
+        CourseService.getCourseRequirements(this.token)
+          .then((response) => {
+            this.courseRequirements = response.data;
+          })
+          // eslint-disable-next-line no-unused-vars
+          .catch((error) => {
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+          });
+        });
+      },
       getAllCourseRestrictions() {
         CourseService.getCourseRestrictions(this.token)
           .then((response) => {
@@ -196,8 +265,8 @@
               title: "ERROR" + error.response.status,
               variant: 'danger',
               noAutoHide: true,
-            });
           });
+        });
       },
       getAllCourseRestriction(mainCourseLevel, mainCourseCode) {
         CourseService.getCourseRestriction(mainCourseLevel, mainCourseCode, this.token)
