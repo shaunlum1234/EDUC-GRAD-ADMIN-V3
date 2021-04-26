@@ -592,8 +592,13 @@ export default {
       showAdvancedSearch: function () {
         this.showAdvancedSearchForm = true;
       },
-
+      setStudentId(id) {
+        this.$store.dispatch('setStudentId', id);
+      },
       selectStudent: function (student) {
+        if(student[0].studentID){
+          this.setStudentId(student[0].studentID);
+        }
         this.selectedPen = student[0].pen;
         this.$router.push({
           path: `/student-profile/${this.selectedPen}`

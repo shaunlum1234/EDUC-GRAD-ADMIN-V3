@@ -442,9 +442,9 @@
           console.log('There was an error:' + error.response);
         });
       },
-      projectGraduationStatus(pen) {
+      projectGraduationStatus(id) {
       //  console.log( "PROJECTED" + this.projectedStudentGradStatus);
-        GraduationStatusService.getGraduationStatus(pen, this.token) .then((response) => {
+        GraduationStatusService.getGraduationStatus(id, this.token) .then((response) => {
             this.projectedStudentGradStatus = response.data;
             this.projectedStudentGradStatus.studentGradData = JSON.parse(this.projectedStudentGradStatus.studentGradData); 
             //console.log( "PROJECTED" + this.projectedStudentGradStatus);

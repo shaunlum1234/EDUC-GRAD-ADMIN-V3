@@ -46,6 +46,9 @@
         localStorage.setItem("refresh", payload);
         state.refreshToken = payload;
       },
+      setStudentId(state, payload) {
+        state.student.id = payload;
+      },
       setStudentProfile(state, payload) {
         state.student.profile = payload;
       },
@@ -185,6 +188,11 @@
       setRefreshToken({commit}, payload) {
         commit('setRefreshToken', payload);
       },
+      setStudentId({
+        commit
+      }, payload) {
+        commit('setStudentId', payload);
+      },
       setStudentProfile({
         commit
       }, payload) {
@@ -233,6 +241,9 @@
       },
       getHasGradStatusPendingUpdates(state){
           return state.student.hasGradStatusPendingUpdates;
+      },
+      getStudentId(state) {
+        return state.student.id;
       },
       getStudentProfile(state) {
         return state.student.profile;

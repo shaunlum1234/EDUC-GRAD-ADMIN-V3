@@ -23,7 +23,8 @@
         </div>
       </div>
     <div class="row p-3 m-0">    
-      <div class="col-md-11 col-12">      
+      <div class="col-md-11 col-12">     
+        {{studentInfo.studentID}} 
           <table v-if="!smallScreen" class="profile-name">
             <tr>
               <td class="align-top profile-name-header"><label>PEN</label></td>
@@ -128,6 +129,7 @@
     name: "studentProfile",
     created() {
       const penFromURL = this.$route.params.pen;
+      this.setStudentId(penFromURL);
       this.loadStudent(penFromURL);
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
@@ -174,6 +176,7 @@
         hasGradStatus: "studentHasGradStatus",
         studentGradStatus: "getStudentGradStatus",
         token: "getToken",
+        studentId: "getStudentId",
         studentInfo: "getStudentProfile",
       }),
     },
@@ -182,6 +185,19 @@
       window.removeEventListener('resize', this.handleResize);
     },
     methods: {
+      setStudentId(pen) {
+         StudentService.getStudentByPen(pen, this.token).then((response) => {
+          this.$store.dispatch('setStudentId', response.data[0].studentID);
+        }).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });
+      },
       closeRecord: function () {
         this.$store.commit("unsetStudent");
         this.$router.push({
@@ -236,7 +252,7 @@
         //   }
         // });
 
-        GraduationStatusService.getGraduationStatus(pen, this.token).then(
+        GraduationStatusService.getGraduationStatus(this.studentId, this.token).then(
           (response) => {
             this.$store.dispatch("setStudentGradStatus", response.data);
           }
