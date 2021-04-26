@@ -9,9 +9,10 @@
     <b-card-header header-tag="nav" class="p-3">
       <b-nav card-header tabs >
         <b-nav-item to="/admin-graduation-programs/programs" :active="tab === 1" @click="tab = 1"> Programs</b-nav-item>
-        <b-nav-item to="/admin-graduation-programs/special-programs" :active="tab === 2" @click="tab = 2"> Special programs</b-nav-item>
-        <b-nav-item to="/admin-graduation-programs/letter-grades" :active="tab === 3" @click="tab = 3">Letter grades</b-nav-item>
-        <b-nav-item to="/admin-graduation-programs/special-cases" :active="tab === 4" @click="tab = 4">Special cases</b-nav-item>
+        <b-nav-item to="/admin-graduation-programs/special-programs" :active="tab === 3" @click="tab = 3"> Special program</b-nav-item>
+        <b-nav-item to="/admin-graduation-programs/special-programs-rule" :active="tab === 2" @click="tab = 2"> Special program rules</b-nav-item>
+        <b-nav-item to="/admin-graduation-programs/letter-grades" :active="tab === 4" @click="tab = 4">Letter grades</b-nav-item>
+        <b-nav-item to="/admin-graduation-programs/special-cases" :active="tab === 5" @click="tab = 5">Special cases</b-nav-item>
       </b-nav>
     </b-card-header>
      <b-card-body >

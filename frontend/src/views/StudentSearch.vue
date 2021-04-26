@@ -217,15 +217,16 @@
                   </div>
                   
                 </form>
+
                 <transition name="fade">
-                <div class="table-responsive">  
-                  <DisplayTable v-if="studentSearchResults.length" v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="pen"
+                <div v-if="studentSearchResults" class="table-responsive">  
+                  <DisplayTable  v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="pen"
                     v-bind:showFilter=false>
                       <template  #cell(pen)="data">
                         <router-link :to="'/student-profile/' + data.item.pen ">{{ data.item.pen }}</router-link>
                       </template>
                   </DisplayTable>
-                  <nav v-if="studentSearchResults.length" aria-label="Pagination">          
+                  <nav  aria-label="Pagination">          
                     <ul class="pagination" v-if="selectedPage<10" >
                       <li v-if="selectedPage != 1 && selectedPage >= 5 "><a class="page-link" href="#" v-on:click="findStudentsByAdvancedSearch(1, resultsPerPage)">First</a></li>
                       <li v-for="index in 10" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a v-if="paginationRange(index)" class="page-link" href="#" v-on:click="findStudentsByAdvancedSearch(index, resultsPerPage)">{{ index  }}</a></li>
@@ -239,7 +240,6 @@
                       <li v-if="selectedPage != totalPages && selectedPage+6 < totalPages"><a class="page-link disabled">...</a></li>
                       <li v-if="selectedPage != totalPages && totalPages != 6 && selectedPage+6 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="findStudentsByAdvancedSearch(totalPages, resultsPerPage)">{{totalPages}}</a></li>
                     </ul>
-                    
                   </nav>
                 </div>  
                 </transition>
