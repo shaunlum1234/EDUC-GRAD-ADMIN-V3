@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DisplayTable v-bind:items="letterGrades.gradLetterGradeList" title="Letter Grade" v-bind:fields="letterGradesFields" id="letterGrade"
+    <DisplayTable v-bind:items="letterGrades.gradLetterGradeList" title="Letter Grade" v-bind:fields="letterGradesFields" id="letterGrade" showFilter="true"
         v-bind:role="role">
     </DisplayTable>
   </div>

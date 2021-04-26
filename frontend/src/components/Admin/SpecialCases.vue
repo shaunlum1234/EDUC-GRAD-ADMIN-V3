@@ -1,6 +1,6 @@
 <template>
   <div>
-  <DisplayTable v-bind:items="specialCases" title="Program" v-bind:fields="specialCasesFields" id="specialCase"
+  <DisplayTable v-bind:items="specialCases" title="Program" v-bind:fields="specialCasesFields" id="specialCase" showFilter="true"
         v-bind:role="role">
     </DisplayTable>
   </div>

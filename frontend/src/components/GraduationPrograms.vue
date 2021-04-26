@@ -8,7 +8,7 @@
         
         <div v-if="!selectedProgramCode">
 
-          <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="programCode"
+          <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="programCode" showFilter="true"
             v-bind:role="role">
               <template #cell(programCode)="data">
                 <router-link :to="'/admin-graduation-programs/program/' + data.item.programCode ">{{ data.item.programCode }}</router-link>
