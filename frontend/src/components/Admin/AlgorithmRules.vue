@@ -35,24 +35,32 @@ export default {
       algorithmRules: [],
       algorithmRulesFields: [
         {
-          key: 'specialCase',
-          label: 'Special Case',
+          key: 'programCode',
+          label: 'Program code',
           sortable: true,
           sortDirection: 'desc',
-          class:'w-15'
+          
         },
         {
-          key: 'description',
-          label: 'Description',
+          key: 'ruleName',
+          label: 'Rule name',
           sortable: true,
-          class:'w-15'
         },
         {
-          key: 'passFlag',
-          label: 'Pass Flag',
+          key: 'ruleDescription',
+          label: 'Rule description',
           sortable: true,
-          class:'w-70 text-left'
-        }      
+        },
+        {
+          key: 'sortOrder',
+          label: 'Sort order',
+          sortable: true,
+        },  
+        {
+          key: 'isActive',
+          label: 'Active flag',
+          sortable: true,
+        }        
       ],
     };
   },
