@@ -14,7 +14,7 @@ import GraduationPrograms from '../components/GraduationPrograms.vue';
 import GraduationProgramCourses from '../components/GraduationProgramCourses.vue';
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
 import GraduationSpecialProgramRules from '@/components/GraduationSpecialProgramRules';
-import SpecialProgramCourses from '@/components/GraduationSpecialProgramCourses';
+import GraduationSpecialPrograms from '@/components/GraduationSpecialPrograms';
 import LetterGrades from '@/components/Admin/LetterGrades';
 import SpecialCases from '@/components/Admin/SpecialCases';
 Vue.use(VueRouter)
@@ -53,19 +53,17 @@ const routes = [{
   },
   {
     path: '/admin-graduation-programs',
-    name: 'admin-graduation-programs',
+    name: 'admin-graduation-program',
     component: AdminGraduationPrograms,
     children: [
-      { path: '', 
-        component: GraduationPrograms,
-      },
+      { path: '', component: GraduationPrograms },
       { path: 'programs/', component: GraduationPrograms },
-      { path: 'program/:programCode', component: GraduationProgramRules },
+      { path: 'program-rules/', component: GraduationProgramRules },
       { path: 'program/:programCode/:category/:rule', component: GraduationProgramCourses, name: "programRuleCourses"},
-      { path: 'special-programs/', component: GraduationSpecialProgramRules },
-      { path: 'special-program-rule/', component: GraduationSpecialProgramRules },
+      { path: 'special-programs/', component: GraduationSpecialPrograms },
+      { path: 'special-program-rules/', component: GraduationSpecialProgramRules },
       { path: 'special-programs/:programCode/:specialProgramCode', component: GraduationSpecialProgramRules },
-      { path: 'special-programs/:programCode/:specialProgramCode/:rule', component: SpecialProgramCourses },
+      { path: 'special-programs/:programCode/:category/:rule', component: GraduationProgramCourses, name: "specialProgramRuleCourses" },
       { path: 'letter-grades/', component: LetterGrades },
       { path: 'special-cases/', component: SpecialCases },
     ],

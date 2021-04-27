@@ -1,11 +1,13 @@
 <template>
   <div class="">
-    <b-spinner v-if="!graduationSpecialProgramRules && !graduationSpecialProgramRules.length" label="Loading"
-      >Loading</b-spinner
-    >
-    <div v-if="!graduationSpecialProgramRules && !graduationSpecialProgramRules.length"><h2>Loading</h2></div>
-   <DisplayTable v-bind:items="graduationSpecialProgramRules" v-bind:fields="graduationSpecialProgramRulesFields" title="Program" id="programCode"
-             showFilter=true></DisplayTable>
+      <DisplayTable v-bind:items="graduationSpecialProgramRules" v-bind:fields="graduationSpecialProgramRulesFields" title="Program" id="programCode"
+        showFilter=true>
+          <template #cell(ruleCode)="row">
+            <b-btn variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
+            <router-link :to="{ name: 'programRuleCourses', params: { isSpecialProgram:true, programCode: row.item.programCode, category: row.item.ruleCategory,  rule: row.item.ruleCode, ruleName: row.item.requirementName}}">{{row.item.ruleCode}}</router-link>
+          </b-btn>
+        </template>
+        </DisplayTable>
   </div>
 </template>
 
@@ -30,7 +32,7 @@ export default {
       opened: [],
       graduationSpecialProgramRules:[],
       graduationSpecialProgramRulesFields: [
-      {
+          {
             key: 'programCode',
             label: 'Program Code',
             sortable: true,
@@ -38,6 +40,14 @@ export default {
             editable: true,
             class: '',
           },
+          {
+            key: 'specialProgramCode',
+            label: 'Special Program Code',
+            sortable: true,
+            sortDirection: 'desc',
+            editable: true,
+            class: '',
+          },          
           {
             key: 'ruleCode',
             label: 'Rule #',
@@ -74,7 +84,7 @@ export default {
             class: '',
           },
           {
-            key: 'requirementType',
+            key: 'requirementTypeDesc',
             label: 'Requirement Type',
             sortable: true,
             editable: true,
@@ -95,13 +105,6 @@ export default {
             class: '',
           },
           {
-            key: 'requirementDesc',
-            label: 'Requirement Description',
-            sortable: true,
-            editable: true,
-            class: '',
-          },
-          {
             key: 'isActive',
             label: 'Active',
             sortable: true,
@@ -115,13 +118,11 @@ export default {
     ProgramManagementService.getAllSpecialProgramRules(this.token)
       .then((response) => {
         this.graduationSpecialProgramRules = response.data;
-        //('Graduation Special Program Rules: ' + this.graduationSpecialProgramRules);
       })
       .catch((error) => {
         // eslint-disable-next-line
         console.log('There was an error:' + error.response);
     });
-
   },
   methods: {
   },

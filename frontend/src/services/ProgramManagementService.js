@@ -38,7 +38,7 @@ export default {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         return apiClient.get('/api/v1/programmanagement/allspecialprogramrules',{ headers })
     },
-    getSpecialProgram(token) {
+    getSpecialPrograms(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         //console.log("TOKEN IN SERVICE getProgramRule: " + token);
         return apiClient.get('/api/v1/programmanagement/specialprograms',{ headers })

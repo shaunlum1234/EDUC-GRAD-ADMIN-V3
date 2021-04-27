@@ -7,12 +7,39 @@
 <div>
 <b-card title="Program Management" no-body>
     <b-card-header header-tag="nav" class="p-3">
+
+      
       <b-nav card-header tabs >
-        <b-nav-item to="/admin-graduation-programs/programs" :active="tab === 1" @click="tab = 1"> Programs</b-nav-item>
-        <b-nav-item to="/admin-graduation-programs/special-programs" :active="tab === 3" @click="tab = 3"> Special program</b-nav-item>
-        <b-nav-item to="/admin-graduation-programs/special-programs-rule" :active="tab === 2" @click="tab = 2"> Special program rules</b-nav-item>
-        <b-nav-item to="/admin-graduation-programs/letter-grades" :active="tab === 4" @click="tab = 4">Letter grades</b-nav-item>
-        <b-nav-item to="/admin-graduation-programs/special-cases" :active="tab === 5" @click="tab = 5">Special cases</b-nav-item>
+        
+         <b-nav-item-dropdown
+            id="programs-dropdown"
+            text="Programs"
+            toggle-class="nav-link-programs"
+            left
+            ref="programs-dropdown"
+          >
+            <b-nav-item to="/admin-graduation-programs/programs" :active="tab === 1" @click="tab = 1; closeDropdown('programs-dropdown')">All Programs</b-nav-item>
+            <b-nav-item to="/admin-graduation-programs/program-rules" :active="tab === 1" @click="tab = 1; closeDropdown('programs-dropdown')">Program rules</b-nav-item>
+          </b-nav-item-dropdown>
+
+            <b-nav-item-dropdown
+              id="special-programs-dropdown"
+              text="Special programs"
+              toggle-class="nav-link-special-programs"
+              left
+              ref="special-programs-dropdown"
+              active
+            >
+            <b-nav-item to="/admin-graduation-programs/special-programs" :active="tab === 2" @click="tab = 2; closeDropdown('special-programs-dropdown')">All special programs</b-nav-item>
+            <b-nav-item to="/admin-graduation-programs/special-program-rules" :active="tab === 2" @click="tab = 2; closeDropdown('special-programs-dropdown')">Special program rules</b-nav-item>
+          </b-nav-item-dropdown>
+        
+        
+        
+        <!-- <b-nav-item to="/admin-graduation-programs/special-programs" :active="tab === 3" @click="tab = 3"> Special programs</b-nav-item>
+        <b-nav-item to="/admin-graduation-programs/special-program-rules" :active="tab === 4" @click="tab = 4"> Special program rules</b-nav-item> -->
+        <b-nav-item to="/admin-graduation-programs/letter-grades" :active="tab === 5" @click="tab = 5">Letter grades</b-nav-item>
+        <b-nav-item to="/admin-graduation-programs/special-cases" :active="tab === 6" @click="tab = 6">Special cases</b-nav-item>
       </b-nav>
     </b-card-header>
      <b-card-body >
@@ -70,6 +97,9 @@ export default {
     //Load student Data into studentInfo:
   },
   methods: {
+    closeDropdown(dropdown){
+      this.$refs[dropdown].visible=false
+    }
   
   },
 };

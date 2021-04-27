@@ -2,15 +2,10 @@
   <div>
     <!-- <div v-if="!isHidden"> -->
       
-        <b-spinner v-if="!graduationProgramRules.length" label="Loading"
-          >Loading</b-spinner
-        >
-        <router-link :to="{ path: '/admin-graduation-programs' }">All Graduation Programs</router-link>
-        
         <div v-if="!selectedProgramCode">
 
           <DisplayTable v-bind:items="graduationProgramRules" title="Program" v-bind:fields="graduationProgramsFields" id="programCode"
-            v-bind:role="role" :slots="templates" showFilter=true>
+            v-bind:role="role" :slots="templates" showFilter=true pagination=true>
 
             <template #cell(ruleCode)="row">
                 <b-btn variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
@@ -122,7 +117,7 @@ export default {
             class: '',
           },
           {
-            key: 'requirementType',
+            key: 'requirementTypeDesc',
             label: 'Requirement Type',
             sortable: true,
             editable: true,
@@ -143,13 +138,6 @@ export default {
             class: '',
           },
           {
-            key: 'requirementDesc',
-            label: 'Requirement Description',
-            sortable: true,
-            editable: true,
-            class: '',
-          },
-          {
             key: 'isActive',
             label: 'Active',
             sortable: true,
@@ -163,7 +151,7 @@ export default {
   },
   created() {
     
-    ProgramManagementService.getProgramRule(this.$route.params.programCode, this.token)
+    ProgramManagementService.getProgramRules(this.token)
       .then((response) => {
         this.graduationProgramRules = response.data;
       })

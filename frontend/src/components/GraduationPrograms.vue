@@ -1,18 +1,10 @@
 <template>
   <div>
     <!-- <div v-if="!isHidden"> -->
-        <b-spinner v-if="!graduationPrograms.length" label="Loading"
-          >Loading</b-spinner
-        >
-        
-        
         <div v-if="!selectedProgramCode">
 
           <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="programCode" showFilter="true"
-            v-bind:role="role">
-              <template #cell(programCode)="data">
-                <router-link :to="'/admin-graduation-programs/program/' + data.item.programCode ">{{ data.item.programCode }}</router-link>
-              </template>
+            v-bind:role="role" pagination="true">
           </DisplayTable>
         </div>
       <router-view v-bind:key="$route.fullPath"></router-view>

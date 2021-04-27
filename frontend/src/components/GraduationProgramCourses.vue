@@ -1,15 +1,32 @@
 <template>
-<div>
-  <h1>Rule {{selectedRule}} ({{ruleName}})</h1>
-  Program <router-link :to="'/admin-graduation-programs/program/' + this.$route.params.programCode">{{this.$route.params.programCode}}</router-link>
+  <div>
+    <router-link
+      v-if="isSpecialProgram"
+      :to="'/admin-graduation-programs/special-program-rules'"
+      >All Special Program Rules</router-link
+    >
+    <router-link
+      v-if="!isSpecialProgram"
+      :to="'/admin-graduation-programs/program-rules/'"
+      >All Program Rules</router-link
+    >
+    <h3>Rule {{ selectedRule }} ({{ ruleName }})</h3>
 
-
-          <DisplayTable v-bind:items="graduationProgramRuleCourses" title="Program" v-bind:fields="fields" id="courseName"
-           showFilter=true>
-          </DisplayTable>
-
-
-</div>
+    <div v-if="graduationProgramRuleCourses == 'not applicable'">
+      Not applicable
+    </div>
+    
+    <div v-else>
+      <DisplayTable
+        v-bind:items="graduationProgramRuleCourses"
+        title="Program"
+        v-bind:fields="fields"
+        id="courseName"
+        showFilter="true"
+      >
+      </DisplayTable>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -17,89 +34,97 @@
 import AssessmentService from "@/services/AssessmentService.js";
 import CourseService from "@/services/CourseService.js";
 import DisplayTable from "@/components/DisplayTable";
-import {
-    mapGetters
-} from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "GraduationProgramCourses",
-  props: {   
-  },
+  props: {},
   components: {
-        DisplayTable: DisplayTable,
+    DisplayTable: DisplayTable,
   },
-  computed: {...mapGetters({
-    token: "getToken", 
-  })},
+  computed: {
+    ...mapGetters({
+      token: "getToken",
+    }),
+  },
   data: function () {
     return {
       opened: [],
-      selectedRule:"",
+      selectedRule: "",
       category: "",
-      ruleName:"",
-      graduationProgramRuleCourses:[],
-      fields:[],
+      ruleName: "",
+      isSpecialProgram: "",
+      graduationProgramRuleCourses: [],
+      fields: [],
       courseFields: [
-      {
-            key: 'courseCode',
-            label: 'Course',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'courseLevel',
-            label: 'Course Level',
-            sortable: true,
-            editable: true,
-          },
-          {
-            key: 'courseName',
-            label: 'Course Name',
-            sortable: true,
-            editable: true,
-          }
-        ],
+        {
+          key: "courseCode",
+          label: "Course",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        {
+          key: "courseLevel",
+          label: "Course Level",
+          sortable: true,
+          editable: true,
+        },
+        {
+          key: "courseName",
+          label: "Course Name",
+          sortable: true,
+          editable: true,
+        },
+      ],
       assessmentFields: [
-      {
-            key: 'assessmentCode',
-            label: 'Assessment Code',
-            sortable: true,
-            sortDirection: 'desc',
-          },
-          {
-            key: 'assessmentName',
-            label: 'Assessment Name',
-            sortable: true,
-            editable: true,
-          }
-        ],        
+        {
+          key: "assessmentCode",
+          label: "Assessment Code",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        {
+          key: "assessmentName",
+          label: "Assessment Name",
+          sortable: true,
+          editable: true,
+        },
+      ],
     };
   },
   created() {
     //console.log("RULE" + this.$route.params.rule)
     this.selectedRule = this.$route.params.rule;
-    this.category= this.$route.params.category;
-    this.ruleName= this.$route.params.ruleName;
-    if(this.$route.params.category == "A"){
-      AssessmentService.getRuleCourseRequirements(this.$route.params.rule, this.token)
-        .then((response) => {
-          //console.log(response);
-          this.fields = this.assessmentFields;
-          this.graduationProgramRuleCourses = response.data;
+    this.category = this.$route.params.category;
+    this.ruleName = this.$route.params.ruleName;
+    this.isSpecialProgram = this.$route.params.isSpecialProgram;
+    if (this.$route.params.category == "A") {
+      AssessmentService.getRuleCourseRequirements(
+        this.$route.params.rule,
+        this.token
+      ).then((response) => {
+        this.fields = this.assessmentFields;
+        this.graduationProgramRuleCourses = response.data;
+
+        if (!this.graduationProgramRuleCourses.length) {
+          this.graduationProgramRuleCourses = "not applicable";
+        }
       });
     }
-    if(this.$route.params.category == "C"){
-      CourseService.getRuleCourseRequirements(this.$route.params.rule, this.token)
-        .then((response) => {
-          //console.log(response);
-          this.fields = this.courseFields;
-          this.graduationProgramRuleCourses = response.data;
+    if (this.$route.params.category == "C") {
+      CourseService.getRuleCourseRequirements(
+        this.$route.params.rule,
+        this.token
+      ).then((response) => {
+        this.fields = this.courseFields;
+        this.graduationProgramRuleCourses = response.data;
+  
+        if (!this.graduationProgramRuleCourses.length) {
+          this.graduationProgramRuleCourses = "not applicable";
+        }
       });
-    }  
-    
+    }
   },
-  methods: {
-    
-  },
+  methods: {},
 };
 </script>
 
