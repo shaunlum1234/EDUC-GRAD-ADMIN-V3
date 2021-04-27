@@ -47,6 +47,7 @@ export default {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         return apiClient.get('​/api​/v1​/programmanagement​/specialprograms/' + programCode + "/" + specialProgramCode,{ headers })
     },
+    
     //Program CRUD
     createProgram(program, token){
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
@@ -72,5 +73,7 @@ export default {
     updateSpecialProgram(specialProgram, token){
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         return apiClient.put('/api/v1/programmanagement/specialprograms',specialProgram,{ headers })
-    },   
+    },    
+    //Algorithm Rules CRUD
+
 };
