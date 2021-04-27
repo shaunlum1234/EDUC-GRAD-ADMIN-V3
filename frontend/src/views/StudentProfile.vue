@@ -2,26 +2,26 @@
   <div>
     <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
     <!-- Button trigger modal -->
-     <div class="col-md-1 col-12">
-        <div class="row px-0">
-          <!-- <b-button v-on:click="closeRecord" variant="primary" size="sm" class="col-6 col-md-12 close-record">
-            Close
-          </b-button> -->
-          <b-dropdown variant="outline-primary" id="dropdown-1" class="col-6 col-md-12 translate-middle close-record" size="sm"
-            text="Record details">
-            <div v-if="hasGradStatus">
-              <b-dropdown-item disabled class="no-underline">Created by: {{ gradInfo.createdBy }}</b-dropdown-item>
-              <b-dropdown-item disabled>Created: {{ gradInfo.createdTimestamp }}</b-dropdown-item>
-              <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item disabled>Updated by: {{ gradInfo.updatedBy }}</b-dropdown-item>
-              <b-dropdown-item disabled>Updated: {{ gradInfo.updatedTimestamp }}</b-dropdown-item>
-            </div>
-            <div v-if="!hasGradStatus" class="p-3">
-              This student has no graduation record details.
-            </div>
-          </b-dropdown>
-        </div>
+    <div class="row p-3 m-0 float-right">
+      <div class="row col-md-1 col-12 px-0 ">
+        <!-- <b-button v-on:click="closeRecord" variant="primary" size="sm" class="col-6 col-md-12 close-record">
+          Close
+        </b-button> -->
+        <b-dropdown variant="outline-primary" id="dropdown-1" class="col-6 col-md-12 translate-middle close-record" size="sm"
+          text="Record details">
+          <div v-if="hasGradStatus">
+            <b-dropdown-item disabled class="no-underline">Created by: {{ gradInfo.createdBy }}</b-dropdown-item>
+            <b-dropdown-item disabled>Created: {{ gradInfo.createdTimestamp }}</b-dropdown-item>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item disabled>Updated by: {{ gradInfo.updatedBy }}</b-dropdown-item>
+            <b-dropdown-item disabled>Updated: {{ gradInfo.updatedTimestamp }}</b-dropdown-item>
+          </div>
+          <div v-if="!hasGradStatus" class="p-3">
+            This student has no graduation record details.
+          </div>
+        </b-dropdown>
       </div>
+    </div>
     <div class="row p-3 m-0">    
       <div class="col-md-11 col-12">     
           <table v-if="!smallScreen" class="profile-name">
