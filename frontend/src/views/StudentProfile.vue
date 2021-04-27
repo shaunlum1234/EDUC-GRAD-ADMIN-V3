@@ -24,7 +24,6 @@
       </div>
     <div class="row p-3 m-0">    
       <div class="col-md-11 col-12">     
-        {{studentInfo.studentID}} 
           <table v-if="!smallScreen" class="profile-name">
             <tr>
               <td class="align-top profile-name-header"><label>PEN</label></td>

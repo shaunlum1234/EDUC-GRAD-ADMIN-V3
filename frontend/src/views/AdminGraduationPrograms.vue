@@ -34,12 +34,9 @@
             <b-nav-item to="/admin-graduation-programs/special-program-rules" :active="tab === 2" @click="tab = 2; closeDropdown('special-programs-dropdown')">Special program rules</b-nav-item>
           </b-nav-item-dropdown>
         
-        
-        
-        <!-- <b-nav-item to="/admin-graduation-programs/special-programs" :active="tab === 3" @click="tab = 3"> Special programs</b-nav-item>
-        <b-nav-item to="/admin-graduation-programs/special-program-rules" :active="tab === 4" @click="tab = 4"> Special program rules</b-nav-item> -->
         <b-nav-item to="/admin-graduation-programs/letter-grades" :active="tab === 5" @click="tab = 5">Letter grades</b-nav-item>
         <b-nav-item to="/admin-graduation-programs/special-cases" :active="tab === 6" @click="tab = 6">Special cases</b-nav-item>
+        <b-nav-item to="/admin-graduation-programs/algorithm-rules" :active="tab === 5" @click="tab = 5">Algorithm rules</b-nav-item>
       </b-nav>
     </b-card-header>
      <b-card-body >
