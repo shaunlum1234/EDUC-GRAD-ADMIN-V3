@@ -26,15 +26,56 @@
                     <div class="search-results-message my-4"><strong><span v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
                   </div>
                 </form>
-                <!-- <p class="sample-pens">
+                <div v-if="roles == 'administrator'" class="sample-pens m-3">
                   Samples:
-                  <ul>
-                    <li><a href="#" v-on:click="findStudentByPenSample(126966100)">126966100</a> (All)</li>
-                    <li><a href="#" v-on:click="findStudentByPenSample(140341157)">126966100</a> (Exams and Assessment
-                      No grad
-                      status)</li>
-                  </ul>
-                </p> -->
+                  <div class="row col-12">
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(124304700)">124304700</a> ALANAZI, NEAL</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(124816158)">124816158</a> CHEONG, ALISON</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(125355511)">125355511</a> SEOL, CARYS</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(125943563)">125943563</a> KEMP, LEVKO</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126018258)">126018258</a> JOHANNSON, BETTY</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126057041)">126057041</a> PENN, BALASARAVANAN</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126187343)">126187343</a> LUSH, ROBERT</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126230010)">126230010</a> MAK, GRAYSEN</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126242304)">126242304</a> LEES, MYA</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126259126)">126259126</a> BYRNE, MARY</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126364835)">126364835</a> CALVERT, EMILISE</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126562321)">126562321</a> ZHANG, PAIGE</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126764307)">126764307</a> RABY, ALDEN</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126832971)">126832971</a> KLEIN, MATTHEW</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126885227)">126885227</a> STORY, REGAN</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126885276)">126885276</a> BURKE, AGATHA</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126889930)">126889930</a> KHAN, TAMARA</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126902329)">126902329</a> LIU, ZOE</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126905694)">126905694</a> WEBBER, RENE</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126966100)">126966100</a> JACK, NAVJEEVAN</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126966324)">126966324</a> STABLER, ZHENGDA</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126978485)">126978485</a> LAVICTOIRE, CONNIE</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(127126548)">127126548</a> NGUYEN, CHARLES</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(127370773)">127370773</a> SCOVILLE, ROSS</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(127863157)">127863157</a> CROSBY, MINGWEI</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(127912947)">127912947</a> WARLOW, CHAD</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(127951309)">127951309</a> MORRIS, JAKE</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(127958254)">127958254</a> STIMSON, LORRIE</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(127968980)">127968980</a> COURVILLE, AUBREY</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(127972768)">127972768</a> CRAMPTON, SAMANTHA</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(128036977)">128036977</a> POUND, DANIEL</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(128089950)">128089950</a> VARDY, WESLEY</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(128320223)">128320223</a> SMITH, MARVIN</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(128453248)">128453248</a> REDOTA, JOYCELYN</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(128707734)">128707734</a> HOUGEN, JULIEN</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(129049565)">129049565</a> KIM, DEANNA</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(129434437)">129434437</a> MARTINSON, REBECCA</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(129785051)">129785051</a> ROSS, CARLEE</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(130619877)">130619877</a> MCBRIDE, SEPIDEH</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(130725583)">130725583</a> COTTIN, RANDEEP</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(130829708)">130829708</a> TISCH, ESTHER</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(131263535)">131263535</a> DIEP, HAILEY</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(132341660)">132341660</a> HONG, YU LING</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(136557584)">136557584</a> ISHIKAWA, TIMOTHY</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(138142492)">138142492</a> LITCHFIELD, SHIH CHUAN</div>
+                  </div>
+                  </div>
               </b-card-text>
             </b-tab>
 
@@ -480,6 +521,7 @@ export default {
       exams: "getStudentExams",
       gradStatus: "getStudentGradStatus",
       token: "getToken",
+      roles: "getRoles",
     }),
   },
   methods: {
