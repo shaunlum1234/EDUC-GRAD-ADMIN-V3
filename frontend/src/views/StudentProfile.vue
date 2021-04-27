@@ -3,6 +3,7 @@
     <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
     <!-- Button trigger modal -->
     <div class="row p-3 m-0 float-right">
+      
       <div class="row col-md-1 col-12 px-0 ">
         <!-- <b-button v-on:click="closeRecord" variant="primary" size="sm" class="col-6 col-md-12 close-record">
           Close
