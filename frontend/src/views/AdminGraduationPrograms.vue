@@ -6,7 +6,7 @@
 
 <div>
 <b-card title="Program Management" no-body>
-    <b-card-header header-tag="nav" class="p-3">
+    <b-card-header header-tag="nav" class="px-3">
 
       
       <b-nav card-header tabs >
@@ -18,7 +18,7 @@
             left
             ref="programs-dropdown"
           >
-            <b-nav-item to="/admin-graduation-programs/programs" :active="tab === 1" @click="tab = 1; closeDropdown('programs-dropdown')">All Programs</b-nav-item>
+            <b-nav-item to="/admin-graduation-programs/programs" :active="tab === 1" @click="tab = 1; closeDropdown('programs-dropdown')">All programs</b-nav-item>
             <b-nav-item to="/admin-graduation-programs/program-rules" :active="tab === 1" @click="tab = 1; closeDropdown('programs-dropdown')">Program rules</b-nav-item>
           </b-nav-item-dropdown>
 
