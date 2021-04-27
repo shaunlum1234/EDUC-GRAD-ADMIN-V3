@@ -36,7 +36,7 @@
         
         <b-nav-item to="/admin-graduation-programs/letter-grades" :active="tab === 5" @click="tab = 5">Letter grades</b-nav-item>
         <b-nav-item to="/admin-graduation-programs/special-cases" :active="tab === 6" @click="tab = 6">Special cases</b-nav-item>
-        <b-nav-item to="/admin-graduation-programs/algorithm-rules" :active="tab === 5" @click="tab = 5">Algorithm rules</b-nav-item>
+        <b-nav-item to="/admin-graduation-programs/algorithm-rules" :active="tab === 7" @click="tab = 7">Algorithm rules</b-nav-item>
       </b-nav>
     </b-card-header>
      <b-card-body >
