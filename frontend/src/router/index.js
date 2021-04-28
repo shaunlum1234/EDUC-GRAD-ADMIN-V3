@@ -57,7 +57,7 @@ const routes = [{
     name: 'admin-graduation-program',
     component: AdminGraduationPrograms,
     children: [
-      { path: '', component: GraduationPrograms },
+      { path: '', component: AlgorithmRules },
       { path: 'programs/', component: GraduationPrograms },
       { path: 'program-rules/', component: GraduationProgramRules },
       { path: 'program/:programCode/:category/:rule', component: GraduationProgramCourses, name: "programRuleCourses"},

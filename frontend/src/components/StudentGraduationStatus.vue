@@ -72,22 +72,22 @@
                         <span v-b-tooltip.hover title="Tooltip directive content">{{ studentGradStatus.program }}</span>
                       </li>
                       <li v-if="showEdit">
-                        <strong>Program:</strong><b-input v-model='editedGradStatus.program'></b-input>      
+                        <strong>Program: </strong><b-input v-model='editedGradStatus.program'></b-input>      
                       </li>
                       
                       <li v-if="!showEdit">
-                        <strong>Program completion date:</strong>
+                        <strong>Program completion date: </strong>
                         {{ studentGradStatus.programCompletionDate }}
                       </li>
                       <li v-if="showEdit">
-                        <strong>Program completion date:</strong><b-input type="date" v-model='editedGradStatus.programCompletionDate'></b-input>      
+                        <strong>Program completion date: </strong><b-input type="date" v-model='editedGradStatus.programCompletionDate'></b-input>      
                       </li>
                       <li>
-                        <strong>Student Status:</strong>
+                        <strong>Student Status: </strong>
                         <span v-if="studentGradStatus.studentStatus">{{ studentGradStatus.studentStatus }}</span>
                       </li>
                       <li>
-                        <strong>Student grade:</strong>
+                        <strong>Student grade: </strong>
                         <span v-if="studentGradStatus.studentGrade">{{ studentGradStatus.studentGrade }}</span>
                       </li>
                       <li>
@@ -96,7 +96,7 @@
                                   variant="primary" @click="getSchoolInfo(studentGradStatus.schoolOfRecord)"> {{studentGradStatus.schoolOfRecord}}
                           </span>
                         
-                        <b-popover :show.sync="show"   :boundary-padding="50" target="popover-button-sync"
+                        <b-popover :show.sync="show" :boundary-padding="50" target="popover-button-sync"
                             title="School Information">
  
                             <table>
@@ -122,15 +122,6 @@
                                 <td><strong>Dogwood eligibility:</strong> {{schoolInfo.certificateEligibility}}</td>
                               </tr>
                              
-                              <!-- <tr>                        
-                                <td><strong>Mailer type:</strong> {{schoolInfo.mailerType}}</td>
-                              </tr> -->
-                              <!-- <tr>                        
-                                <td><strong>Address:</strong> {{schoolInfo.address1}}</td>
-                              </tr>
-                              <tr>                        
-                                <td> <strong>Postal:</strong> {{schoolInfo.postal}}</td>
-                              </tr> -->
                             </table>
                             <!-- <b-button class="px-1" @click="popClose">Close</b-button> -->
                           </b-popover> 
