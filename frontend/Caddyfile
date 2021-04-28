@@ -29,6 +29,11 @@
     proxy /api/v1/assessment {$VUE_APP_ASSESSMENT_API_HOST}
     proxy /api/v1/graduate/ {$VUE_APP_GRADUATION_API_HOST}
 
+    rewrite {
+        regexp .*
+        to {path} /
+    }
+    
     errors stdout
 }
     
