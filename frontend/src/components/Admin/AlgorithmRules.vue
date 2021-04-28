@@ -22,7 +22,6 @@ export default {
   created() {
      GraduationCommonService.getAlgorithmRules(this.token)
       .then((response) => {
-        console.log(response);  
         this.algorithmRules = response.data;
       })
       // eslint-disable-next-line no-unused-vars
