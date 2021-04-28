@@ -76,7 +76,7 @@
         <div>
           <b-card no-body class="py-0" v-if="studentHasCourses || studentHasAssessments">
             <b-tabs :pills="smallScreen" card>
-                <b-tab v-if="smallScreen" title="Graduation Status" class="py-3 px-0 m-1 " ref="studentCoursesTab">
+                <b-tab v-if="smallScreen" title="Graduation Status" class="py-3 px-0 m-1">
                   <b-card-text>
                     
                     <StudentGraduationStatus></StudentGraduationStatus>
@@ -100,7 +100,6 @@
               " title="Loading ..." class="tab-loading py-3 px-0 m-1">
                   <b-card-text class="text-center">Loading Student Courses and Assesments</b-card-text>
                 </b-tab>
-        
 
             </b-tabs>
           </b-card>

@@ -1,11 +1,11 @@
 <template>
   <div>
+    {{studentGradStatus}}
     <b-card no-body class="col-12 px-0 mx-0" v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
 
       <b-button block v-b-toggle.accordion-1 variant="primary" class="text-left">
         Graduation
         information</b-button>
-
       <b-card-body>
         <b-card-text>
           <div v-if="!hasGradStatus">
@@ -127,7 +127,7 @@
                           </b-popover> 
                       </li>
                       <li>
-                        <strong>School at Graduation: </strong> <span v-if="studentGradStatus.studentGradData && studentGradStatus.studentGradData.gradStudent.schoolOfRecord">{{ studentGradStatus.studentGradData.gradStudent.schoolOfRecord}}</span>
+                        <strong>School at Graduation: </strong> <span v-if="studentGradStatus.studentGradData && studentGradStatus.studentGradData.gradStudent.schoolOfRecord">{{ studentGradStatus.schoolAtGrad}}</span>
                         <!-- <span class="link" href="#" id="popover-button-sync"
                                   variant="primary" @click="getSchoolInfo( studentGradStatus.studentGradData.gradStudent.schoolOfRecord)"> {{ studentGradStatus.studentGradData.gradStudent.schoolOfRecord}}
                         </span> -->
