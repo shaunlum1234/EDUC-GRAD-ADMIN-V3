@@ -2,7 +2,7 @@
   <div>
     <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
     <!-- Button trigger modal -->
-    <div class="row p-3 m-0 float-right">
+    <div class="row m-0 float-right">
       
       <div class="row col-md-1 col-12 px-0 ">
         <!-- <b-button v-on:click="closeRecord" variant="primary" size="sm" class="col-6 col-md-12 close-record">
@@ -17,14 +17,14 @@
             <b-dropdown-item disabled>Updated by: {{ gradInfo.updatedBy }}</b-dropdown-item>
             <b-dropdown-item disabled>Updated: {{ gradInfo.updatedTimestamp }}</b-dropdown-item>
           </div>
-          <div v-if="!hasGradStatus" class="p-3">
+          <div v-if="!hasGradStatus" class="">
             This student has no graduation record details.
           </div>
         </b-dropdown>
       </div>
     </div>
-    <div class="row p-3 m-0">    
-      <div class="col-md-11 col-12">     
+    <div class="row m-0 py-3">    
+      <div class="col-md-11">     
           <table v-if="!smallScreen" class="profile-name">
             <tr>
               <td class="align-top profile-name-header"><label>PEN</label></td>
@@ -68,14 +68,14 @@
       </div>
      
     </div>
-    <div class="row col-12 p-3 m-0">
+    <div class="row m-0">
       <div class="col-4" v-if="!smallScreen">
         <StudentGraduationStatus />
       </div>
       <div class="col-md-12 col-lg-8 px-0">
         <div>
-          <b-card class="py-0" v-if="studentHasCourses || studentHasAssessments">
-            <b-tabs :pills="smallScreen">
+          <b-card no-body class="py-0" v-if="studentHasCourses || studentHasAssessments">
+            <b-tabs :pills="smallScreen" card>
                 <b-tab v-if="smallScreen" title="Graduation Status" class="py-3 px-0 m-1 " ref="studentCoursesTab">
                   <b-card-text>
                     
