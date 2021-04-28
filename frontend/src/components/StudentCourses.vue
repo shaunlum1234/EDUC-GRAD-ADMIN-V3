@@ -51,6 +51,9 @@
               >
                     <table>
                       <tr>
+                        <td><strong>COREG ID:</strong>  {{ row.item.courseDetails.coRegID }}</td>
+                      </tr>
+                      <tr>
                         <td><strong>Code:</strong>  {{ row.item.courseDetails.courseCode }}</td>
                       </tr>
                       <tr>
