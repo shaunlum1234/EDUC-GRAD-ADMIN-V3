@@ -107,7 +107,7 @@
                                 <td><strong>School name:</strong> <br> {{schoolInfo.schoolName}}</td>
                               </tr> 
                                <tr>                        
-                                <td><strong>Status:</strong> </td>
+                                <td><strong>Status:</strong> {{schoolInfo.openFlag}}</td>
                               </tr>
                                <tr>                        
                                 <td><strong>Independent type:</strong> {{schoolInfo.independentDesignation}}</td>
@@ -127,7 +127,7 @@
                           </b-popover> 
                       </li>
                       <li>
-                        <strong>School at Graduation: </strong> <span v-if="studentGradStatus.studentGradData && studentGradStatus.studentGradData.gradStudent.schoolOfRecord">{{ studentGradStatus.studentGradData.gradStudent.schoolOfRecord}}</span>
+                        <strong>School at Graduation: </strong> <span v-if="studentGradStatus && studentGradStatus.schoolAtGrad ">{{ studentGradStatus.schoolAtGrad }}</span>
                         <!-- <span class="link" href="#" id="popover-button-sync"
                                   variant="primary" @click="getSchoolInfo( studentGradStatus.studentGradData.gradStudent.schoolOfRecord)"> {{ studentGradStatus.studentGradData.gradStudent.schoolOfRecord}}
                         </span> -->
