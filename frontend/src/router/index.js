@@ -45,7 +45,7 @@ const routes = [{
     }
   },
   {
-    path: '/student-profile/:pen',
+    path: '/student-profile/:pen/:studentId',
     name: 'student-profile',
     component: StudentProfile,
     meta: {

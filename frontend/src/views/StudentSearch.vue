@@ -261,10 +261,11 @@
 
                 <transition name="fade">
                 <div v-if="studentSearchResults" class="table-responsive">  
+
                   <DisplayTable  v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="pen"
                     v-bind:showFilter=false>
                       <template  #cell(pen)="data">
-                        <router-link :to="'/student-profile/' + data.item.pen ">{{ data.item.pen }}</router-link>
+                        <router-link :to="'/student-profile/' + data.item.pen + '/' + data.item.studentID">{{ data.item.pen }}</router-link>
                       </template>
                   </DisplayTable>
                   <nav  aria-label="Pagination">          
@@ -441,6 +442,7 @@ export default {
       errorMessage: "",
       penInput: "",
       selectedPen: "",
+      selectedId:"",
       variants: ["success"],
       searchLoading: false,
       advancedSearchLoading: false,
@@ -506,7 +508,9 @@ export default {
     //   },
     // },
   },
-  created() {},
+  created() {
+    this.closeRecord();
+  },
   components: {
     DisplayTable: DisplayTable,
   },
@@ -520,11 +524,15 @@ export default {
       courses: "getStudentCourses",
       exams: "getStudentExams",
       gradStatus: "getStudentGradStatus",
+      hasGradStatus: "studentHasGradStatus",
       token: "getToken",
       roles: "getRoles",
     }),
   },
   methods: {
+    closeRecord: function () {
+        this.$store.commit("unsetStudent");
+    },
     paginationRange(index) {
       // if (this.selectedPage == 1 && index <= 5) {
       //   return true;
@@ -634,16 +642,11 @@ export default {
       showAdvancedSearch: function () {
         this.showAdvancedSearchForm = true;
       },
-      setStudentId(id) {
-        this.$store.dispatch('setStudentId', id);
-      },
       selectStudent: function (student) {
-        if(student[0].studentID){
-          this.setStudentId(student[0].studentID);
-        }
         this.selectedPen = student[0].pen;
+        this.selectedId = student[0].studentID;
         this.$router.push({
-          path: `/student-profile/${this.selectedPen}`
+          path: `/student-profile/${this.selectedPen}/${this.selectedId}`
         });
         //this.$router.push({ name: "student-profile", params: {pen: this.selectedPen}});
       },

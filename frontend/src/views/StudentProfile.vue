@@ -127,10 +127,13 @@
   } from "vuex";
   export default {
     name: "studentProfile",
+    beforeCreate() {
+      //this.closeRecord();
+    },
     created() {
       const penFromURL = this.$route.params.pen;
-      this.setStudentId(penFromURL);
-      this.loadStudent(penFromURL);
+      const studentIdFromURL = this.$route.params.studentId;
+      this.loadStudent(penFromURL, studentIdFromURL);
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
       if (this.window.width < 960) {
@@ -185,24 +188,11 @@
       window.removeEventListener('resize', this.handleResize);
     },
     methods: {
-      setStudentId(pen) {
-         StudentService.getStudentByPen(pen, this.token).then((response) => {
-          this.$store.dispatch('setStudentId', response.data[0].studentID);
-        }).catch((error) => {
-          if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
-          }
-        });
-      },
       closeRecord: function () {
         this.$store.commit("unsetStudent");
-        this.$router.push({
-          name: "student-search"
-        });
+        // this.$router.push({
+        //   name: "student-search"
+        // });
       },
       handleResize() {
 
@@ -215,7 +205,7 @@
           this.smallScreen = false;
         }
       },
-      loadStudent(pen) {
+      loadStudent(pen, studentIdFromURL) {
         StudentService.getStudentByPen(pen, this.token).then((response) => {
           this.$store.dispatch('setStudentProfile', response.data);
         }).catch((error) => {
@@ -252,7 +242,7 @@
         //   }
         // });
 
-        GraduationStatusService.getGraduationStatus(this.studentId, this.token).then(
+        GraduationStatusService.getGraduationStatus(studentIdFromURL, this.token).then(
           (response) => {
             this.$store.dispatch("setStudentGradStatus", response.data);
           }
@@ -280,11 +270,6 @@
           }
         });
       },
-
-
-
-
-
     },
   };
 </script>

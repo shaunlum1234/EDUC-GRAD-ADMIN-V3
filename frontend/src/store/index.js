@@ -9,11 +9,13 @@
       //Initialize the store
     },
     state: {
+
       tokenTimeout: "",
       token:"",
       refreshToken: "",
       roles: "unauthenticated",
       student: {
+        id:"",
         profile: {},
         courses: "not loaded",
         assessments: "not loaded",
@@ -80,6 +82,7 @@
       },
       unsetStudent(state) {
         state.student.profile = {};
+        state.student.id = "not loaded";
         state.student.courses = "not loaded";
         state.student.assessments = "not loaded";
         state.student.exams = "not loaded";
