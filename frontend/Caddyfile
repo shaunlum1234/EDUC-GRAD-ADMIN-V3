@@ -19,8 +19,7 @@
 
     proxy /api/v1/student {$VUE_APP_STUDENTS_API_HOST}
     proxy /api/v1/studentassessment {$VUE_APP_STUDENT_ASSESSMENTS_API_HOST}
-    proxy /api/v1/studentexam {$STUDENT_EXAMS_API_HOST}
-    proxy /api/v1/school {$SCHOOL_API_HOST}
+    proxy /api/v1/school {$VUE_APP_SCHOOL_API_HOST}
     proxy /api/v1/psi {$VUE_APP_PSI_API_HOST}
     proxy /api/v1/programmanagement {$VUE_APP_PROGRAM_MANAGEMENT_API_HOST}
     proxy /api/v1/gradstatus {$VUE_APP_GRADUATION_STATUS_API_HOST}
