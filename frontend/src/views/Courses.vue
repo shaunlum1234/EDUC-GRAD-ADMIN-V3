@@ -58,6 +58,12 @@
         courseRestrictions: [],
         courseFields: [
           {
+            key: 'coRegID',
+            label: 'COREG ID',
+            sortable: true,
+            sortDirection: 'desc'
+          },
+          {
             key: 'courseCode',
             label: 'Course code',
             sortable: true,
