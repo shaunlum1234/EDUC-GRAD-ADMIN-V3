@@ -12,12 +12,16 @@ module.exports = {
   },
   devServer: {
     proxy: {
-      '/api/v1/student': {
-        target: process.env.VUE_APP_STUDENTS_API_HOST,
+      '/api/v1/studentcourse': {
+        target: process.env.VUE_APP_COURSE_ACHIEVEMENT_API_HOST,
         changeOrigin: true,
       },
-      '/api/studentassessment': {
+      '/api/v1/studentassessment': {
         target: process.env.VUE_APP_STUDENT_ASSESSMENTS_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/student': {
+        target: process.env.VUE_APP_STUDENTS_API_HOST,
         changeOrigin: true,
       },
       '/api/v1/school': {
@@ -40,19 +44,16 @@ module.exports = {
         target: process.env.VUE_APP_GRADUATION_COMMON_API_HOST,
         changeOrigin: true,
       },
-      '/api/v1/course': {
-        target: process.env.VUE_APP_COURSE_API_HOST,
-        changeOrigin: true,
-      },
       '/api/v1/studentcourse': {
         target: process.env.VUE_APP_COURSE_ACHIEVEMENT_API_HOST,
         changeOrigin: true,
       },
+      
       '/api/v1/assessment': {
         target: process.env.VUE_APP_ASSESSMENT_API_HOST,
         changeOrigin: true,
       },
-      '/api/v1/graduate/': {
+      '/api/v1/graduate': {
         target: process.env.VUE_APP_GRADUATION_API_HOST,
         changeOrigin: true,
       },

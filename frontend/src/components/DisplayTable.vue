@@ -137,7 +137,7 @@
     >
       <template
         v-for="field in editableFields"
-        v-slot:[`cell(${field.key})`]="{ value, item, field }"
+        v-slot:[`cell(${field.key})`]="{ value, item }"
       >
         <b-input
           v-if="itemRow && itemRow[id] === item[id] && !deleteMode"
