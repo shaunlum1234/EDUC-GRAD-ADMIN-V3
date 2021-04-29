@@ -16,10 +16,6 @@
         level 7
     }
     log stdout
-    rewrite {
-        regexp .*
-        to {path} /
-    }
 
     proxy /api/v1/student {$VUE_APP_STUDENTS_API_HOST}
     proxy /api/v1/studentassessment {$VUE_APP_STUDENT_ASSESSMENTS_API_HOST}
