@@ -28,6 +28,10 @@ module.exports = {
         target: process.env.VUE_APP_SCHOOL_API_HOST,
         changeOrigin: true,
       },
+      '/api/v1/course': {
+        target: process.env.VUE_APP_COURSE_API_HOST,
+        changeOrigin: true,
+      },
       '/api/v1/psi': {
         target: process.env.VUE_APP_PSI_API_HOST,
         changeOrigin: true,
