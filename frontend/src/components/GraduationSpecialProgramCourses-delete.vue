@@ -43,13 +43,13 @@ export default {
           },
           {
             key: 'courseLevel',
-            label: 'Course Level',
+            label: 'Course level',
             sortable: true,
             editable: true,
           },
           {
             key: 'courseName',
-            label: 'Course Name',
+            label: 'Course name',
             sortable: true,
             editable: true,
           }
@@ -57,13 +57,13 @@ export default {
       assessmentFields: [
       {
             key: 'assessmentCode',
-            label: 'Assessment Code',
+            label: 'Assessment code',
             sortable: true,
             sortDirection: 'desc',
           },
           {
             key: 'assessmentName',
-            label: 'Assessment Name',
+            label: 'Assessment name',
             sortable: true,
             editable: true,
           }

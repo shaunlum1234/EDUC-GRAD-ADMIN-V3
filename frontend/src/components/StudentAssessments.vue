@@ -71,7 +71,7 @@
                   <td>Related Levelt: {{ row.item.relatedLevel }}</td>
                 </tr>
                 <tr>
-                  <td>Alternate Course Name: {{ row.item.relatedCourse }}</td>
+                  <td>Alternate Course name: {{ row.item.relatedCourse }}</td>
                 </tr>
                 <tr>
                   <td>Best School Percent: {{ row.item.bestSchoolPercent }}</td>
@@ -123,20 +123,20 @@ export default {
         },
         {
           key: "specialCase",
-          label: "Special Case",
+          label: "Special case",
           sortable: true,
           sortDirection: "desc",
         },
         {
           key: "exceededWriteFlag",
-          label: "Exceeded Writes",
+          label: "Exceeded writes",
           sortable: true,
           sortDirection: "desc",
           class: "text-md-center"
         },
         {
           key: "proficiencyScore",
-          label: "Proficiency Score",
+          label: "Proficiency score",
           sortable: true,
           sortDirection: "desc",
           class: "text-md-center"

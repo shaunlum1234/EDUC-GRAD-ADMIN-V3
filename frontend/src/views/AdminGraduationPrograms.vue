@@ -1,6 +1,6 @@
 <template>
   <div>
-  <h1>Program management</h1>
+  <h1>Programs</h1>
   <p> Manage programs settings (Admin Access Required)</p>
 
 
@@ -14,9 +14,9 @@
          <b-nav-item-dropdown
             id="programs-dropdown"
             text="Programs"
-            toggle-class="nav-link-programs"
-            left
             ref="programs-dropdown"
+            toggle-class="nav-link-programs"
+            left            
           >
             <b-nav-item to="/admin-graduation-programs/programs" :active="tab === 2" @click="tab = 2; closeDropdown('programs-dropdown')">Programs</b-nav-item>
             <b-nav-item to="/admin-graduation-programs/program-rules" :active="tab === 2" @click="tab = 2; closeDropdown('programs-dropdown')">Program rules</b-nav-item>
@@ -111,5 +111,10 @@ export default {
 }
 .profile-name{
   padding-bottom: 10px;
+}
+
+.nav-link-programs
+{
+  color: blue;
 }
 </style>

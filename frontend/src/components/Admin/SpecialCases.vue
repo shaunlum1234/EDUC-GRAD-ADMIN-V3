@@ -33,7 +33,7 @@ export default {
       specialCasesFields: [
         {
           key: 'specialCase',
-          label: 'Special Case',
+          label: 'Special case',
           sortable: true,
           sortDirection: 'desc',
           class:'w-15'
@@ -46,7 +46,7 @@ export default {
         },
         {
           key: 'passFlag',
-          label: 'Pass Flag',
+          label: 'Pass',
           sortable: true,
           class:'w-70 text-left'
         }      

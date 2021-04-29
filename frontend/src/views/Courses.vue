@@ -163,21 +163,21 @@
         courseRequirementFields: [
           {
             key: 'courseCode',
-            label: 'Course Code',
+            label: 'Course code',
             sortable: true,
             class: 'text-left',
             editable: true
           },
           {
             key: 'courseLevel',
-            label: 'Course Level',
+            label: 'Course level',
             sortable: true,
             class: 'text-left',
             editable: true
           },          
           {
             key: 'courseName',
-            label: 'Course Name',
+            label: 'Course name',
             sortable: true,
             class: 'text-left',
             sortDirection: 'desc',
@@ -185,14 +185,14 @@
           },
           {
             key: 'ruleCode',
-            label: 'Rule#',
+            label: 'Rule #',
             sortable: true,
             class: 'text-left',
             editable: true
           },
           {
             key: 'requirementName',
-            label: 'Requirement Name',
+            label: 'Requirement name',
             sortable: true,
             class: 'text-left',
             sortDirection: 'desc',
@@ -200,7 +200,7 @@
           },
           {
             key: 'requirementProgram',
-            label: 'Requirement Program',
+            label: 'Requirement program',
             sortable: true,
             class: 'text-left',
             editable: true
