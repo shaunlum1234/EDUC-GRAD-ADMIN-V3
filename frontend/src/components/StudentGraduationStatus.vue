@@ -91,59 +91,88 @@
                       </li>
                       <li>
                           <strong>School of Record: </strong>
-                          <span v-if="studentGradStatus.schoolOfRecord" class="link" href="#" id="popover-button-sync"
-                                  variant="primary" @click="getSchoolInfo(studentGradStatus.schoolOfRecord)"> {{studentGradStatus.schoolOfRecord}}
-                          </span>
+                          <b-button v-if="studentGradStatus.schoolOfRecord" 
+                            class="p-0"
+                            id="popover-1" 
+                            variant="link" 
+                            @click="getSchoolInfo(studentGradStatus.schoolOfRecord)"> 
+                            {{studentGradStatus.schoolOfRecord}}
+                          </b-button>
+                      </li>
+                      
+                      <li>
+                        <strong>School at Graduation: </strong>
+                        <b-button v-if="studentGradStatus && studentGradStatus.schoolAtGrad" 
+                          class="p-0"
+                          id="popover-2"
+                          variant="link" 
+                          @click="getSchoolInfo(studentGradStatus.schoolAtGrad)"> 
+                          {{studentGradStatus.schoolAtGrad}}
+                        </b-button>
                         
-                        <b-popover :show.sync="show" :boundary-padding="50" target="popover-button-sync"
-                            title="School Information">
- 
+                      </li>            
+                      <b-popover   
+                            :boundary-padding="50" 
+                            delay=800
+                            target="popover-1"  
+                            title="School Information"
+                            triggers="focus">
                             <table>
                               <tr>
-                                <td><strong>District:</strong> {{schoolInfo.districtName}}</td>
+                                <td><strong>District:</strong> {{schoolOfRecord.districtName}}</td>
                               </tr>
                               <tr>
-                                <td><strong>School name:</strong> <br> {{schoolInfo.schoolName}}</td>
+                                <td><strong>School name:</strong> <br> {{schoolOfRecord.schoolName}}</td>
                               </tr> 
                                <tr>                        
-                                <td><strong>Status:</strong> {{schoolInfo.openFlag}}</td>
+                                <td><strong>Status:</strong> {{schoolOfRecord.openFlag}}</td>
                               </tr>
                                <tr>                        
-                                <td><strong>Independent type:</strong> {{schoolInfo.independentDesignation}}</td>
+                                <td><strong>Independent type:</strong> {{schoolOfRecord.independentDesignation}}</td>
                               </tr>
                                <tr>                        
-                                <td><strong>Independent affiliation:</strong> {{schoolInfo.independentAffiliation}}</td>
+                                <td><strong>Independent affiliation:</strong> {{schoolOfRecord.independentAffiliation}}</td>
                               </tr>
                                <tr>                        
-                                <td><strong>Transcript eligible:</strong> {{schoolInfo.transcriptEligibility}}</td>
+                                <td><strong>Transcript eligible:</strong> {{schoolOfRecord.transcriptEligibility}}</td>
                               </tr>
                               <tr>                        
-                                <td><strong>Dogwood eligibility:</strong> {{schoolInfo.certificateEligibility}}</td>
+                                <td><strong>Dogwood eligibility:</strong> {{schoolOfRecord.certificateEligibility}}</td>
                               </tr>
                              
                             </table>
                             <!-- <b-button class="px-1" @click="popClose">Close</b-button> -->
                           </b-popover> 
-                      </li>
-                      <li>
-                        <strong>School at Graduation: </strong> <span v-if="studentGradStatus && studentGradStatus.schoolAtGrad ">{{ studentGradStatus.schoolAtGrad }}</span>
-                        <!-- <span class="link" href="#" id="popover-button-sync"
-                                  variant="primary" @click="getSchoolInfo( studentGradStatus.studentGradData.gradStudent.schoolOfRecord)"> {{ studentGradStatus.studentGradData.gradStudent.schoolOfRecord}}
-                        </span> -->
-                        <!-- <b-popover :show.sync="show" :boundary-padding="50" target="popover-button-sync"
-                            title="School Information">
-                            <p><strong>School name:</strong> {{schoolInfo.schoolName}}</p>
-                            <p><strong>District:</strong> {{schoolInfo.districtName}}</p>
-                            <p><strong>Certificate eligibility:</strong>
-                              {{schoolInfo.certificateEligibility}}</p>
-                            <p><strong>Independent:</strong> {{schoolInfo.independentDesignation}}
-                            </p>
-                            <p><strong>Mailer type:</strong> {{schoolInfo.mailerType}}</p>
-                            <p><strong>Address:</strong> {{schoolInfo.address1}}</p>
-                            <p><strong>Postal:</strong> {{schoolInfo.postal}}</p>
-                            <b-button class="px-1" @click="popClose">Close</b-button>
-                          </b-popover>  -->
-                      </li>
+                          <b-popover 
+                            :boundary-padding="50"
+                            delay=800
+                            target="popover-2"
+                            title="School Information"
+                            triggers="focus">
+                            <table>
+                              <tr>
+                                <td><strong>District:</strong> {{SchoolAtGraduation.districtName}}</td>
+                              </tr>
+                              <tr>
+                                <td><strong>School name:</strong> <br> {{SchoolAtGraduation.schoolName}}</td>
+                              </tr> 
+                               <tr>                        
+                                <td><strong>Status:</strong> {{SchoolAtGraduation.openFlag}}</td>
+                              </tr>
+                               <tr>                        
+                                <td><strong>Independent type:</strong> {{SchoolAtGraduation.independentDesignation}}</td>
+                              </tr>
+                               <tr>                        
+                                <td><strong>Independent affiliation:</strong> {{SchoolAtGraduation.independentAffiliation}}</td>
+                              </tr>
+                               <tr>                        
+                                <td><strong>Transcript eligible:</strong> {{SchoolAtGraduation.transcriptEligibility}}</td>
+                              </tr>
+                              <tr>                        
+                                <td><strong>Dogwood eligibility:</strong> {{SchoolAtGraduation.certificateEligibility}}</td>
+                              </tr>               
+                            </table>
+                          </b-popover> 
                       <li>
                         <strong>Honours:</strong>
                         <span v-if="studentGradStatus.honoursStanding"> {{ studentGradStatus.honoursStanding }}</span>
@@ -353,7 +382,8 @@
         show: false,
         projectedStudentGradStatus: [],
         updateStatus:[],
-        schoolInfo:"",
+        schoolOfRecord:"",
+        SchoolAtGraduation:"",
         programDropdownList: [],
         editedGradStatus: {
             createdBy:"",
@@ -420,11 +450,8 @@
       },
       getSchoolInfo(mincode) {
         SchoolService.getSchoolInfo(mincode, this.token) .then((response) => {
-          this.schoolInfo = response.data;
-          //this.projectedStudentGradStatus.studentGradData = JSON.parse(this.projectedStudentGradStatus.studentGradData); 
-          //console.log( "PROJECTED" + this.projectedStudentGradStatus);
-          // this.$bvModal.show("modal-1");
-          // this.showModal = true;
+          this.schoolOfRecord = response.data;
+          this.SchoolAtGraduation = response.data;
         }).catch((error) => {
           // eslint-disable-next-line
           console.log('There was an error:' + error.response);
