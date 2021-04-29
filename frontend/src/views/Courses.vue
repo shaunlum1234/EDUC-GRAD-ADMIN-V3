@@ -57,12 +57,7 @@
         courseRequirements: [],
         courseRestrictions: [],
         courseFields: [
-          {
-            key: 'coRegID',
-            label: 'COREG ID',
-            sortable: true,
-            sortDirection: 'desc'
-          },
+         
           {
             key: 'courseCode',
             label: 'Course code',
@@ -97,6 +92,12 @@
             label: 'Course End date',
             sortable: true,
             class: 'text-center'
+          },
+          {
+            key: 'coRegID',
+            label: 'COREG ID',
+            sortable: true,
+            sortDirection: 'desc'
           },
           {
             key: 'workExpFlag',
