@@ -44,9 +44,7 @@
             >
           </li>
           <li>
-            <router-link to="/admin-graduation-programs"
-              >Program management</router-link
-            >
+            <router-link to="/admin-graduation-programs">Programs</router-link>
           </li>
           <li><router-link to="/courses">Courses</router-link></li>
           <li><router-link to="/assessments">Assessments</router-link></li>
@@ -77,7 +75,7 @@
           </li>
           <li>
             <router-link to="/admin-graduation-programs"
-              >Program Management</router-link
+              >Programs</router-link
             >
           </li>
           <li><router-link to="/courses">Courses</router-link></li>
