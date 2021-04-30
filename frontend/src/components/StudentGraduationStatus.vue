@@ -93,7 +93,7 @@
                           <strong>School of record: </strong>
                           <b-button v-if="studentGradStatus.schoolOfRecord" 
                             class="p-0"
-                            id="popover-1" 
+                            id="school-of-record-popover" 
                             variant="link" 
                             @click="getSchoolInfo(studentGradStatus.schoolOfRecord)"> 
                             {{studentGradStatus.schoolOfRecord}}
@@ -104,7 +104,7 @@
                         <strong>School at graduation: </strong>
                         <b-button v-if="studentGradStatus && studentGradStatus.schoolAtGrad" 
                           class="p-0"
-                          id="popover-2"
+                          id="school-at-graduation-popover"
                           variant="link" 
                           @click="getSchoolInfo(studentGradStatus.schoolAtGrad)"> 
                           {{studentGradStatus.schoolAtGrad}}
@@ -114,7 +114,7 @@
                       <b-popover   
                             :boundary-padding="50" 
                             delay=800
-                            target="popover-1"  
+                            target="school-of-record-popover"  
                             title="School Information"
                             triggers="focus">
                             <table>
@@ -125,7 +125,7 @@
                                 <td><strong>School name:</strong> <br> {{schoolOfRecord.schoolName}}</td>
                               </tr> 
                                <tr>                        
-                                <td><strong>Statu: </strong> {{schoolOfRecord.openFlag}}</td>
+                                <td><strong>Status: </strong> {{ schoolOfRecord.openFlag == 'Y' ? 'Open': 'Closed' }}</td>
                               </tr>
                                <tr>                        
                                 <td><strong>Independent type:</strong> {{schoolOfRecord.independentDesignation}}</td>
@@ -146,7 +146,7 @@
                           <b-popover 
                             :boundary-padding="50"
                             delay=800
-                            target="popover-2"
+                            target="school-at-graduation-popover"
                             title="School Information"
                             triggers="focus">
                             <table>
@@ -157,7 +157,7 @@
                                 <td><strong>School name:</strong> <br> {{SchoolAtGraduation.schoolName}}</td>
                               </tr> 
                                <tr>                        
-                                <td><strong>Status:</strong> {{SchoolAtGraduation.openFlag}}</td>
+                                <td><strong>Status:</strong> {{SchoolAtGraduation.openFlag == 'Y' ? 'Open': 'Closed'}}</td>
                               </tr>
                                <tr>                        
                                 <td><strong>Independent type:</strong> {{SchoolAtGraduation.independentDesignation}}</td>

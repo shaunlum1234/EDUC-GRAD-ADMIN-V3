@@ -62,13 +62,13 @@
         </template>
         <template #row-details="row">
           <b-card class="px-0">
-            <ul>        
-                <li v-if="row.item.mincodeAssessment">
-                  <strong>Mincode Assessment:</strong> {{ row.item.mincodeAssessment }}
-                </li>
-                <li v-if="row.item.mincodeAssessmentName">
-                  <strong>Mincode Assessment Name:</strong> {{ row.item.mincodeAssessmentName }}
-                </li>                
+            <ul>
+              <li v-if="row.item.mincodeAssessment">
+                <strong>Mincode Assessment:</strong> {{ row.item.mincodeAssessment }}
+              </li>
+              <li v-if="row.item.mincodeAssessmentName">
+                <strong>Mincode Assessment Name:</strong> {{ row.item.mincodeAssessmentName }}
+              </li>                
             </ul>
           </b-card>
         </template>
@@ -93,7 +93,7 @@ export default {
   data: function() {
     return {
       fields: [
-        { key: "more", label: "more" },
+        { key: "more", label: "" },
         {
           key: "assessmentCode",
           label: "Code",
