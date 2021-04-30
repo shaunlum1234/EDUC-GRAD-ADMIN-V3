@@ -64,10 +64,10 @@
           <b-card class="px-0">
             <ul>
               <li v-if="row.item.mincodeAssessment">
-                <strong>Mincode Assessment:</strong> {{ row.item.mincodeAssessment }}
+                <strong>Assessment Centre:</strong> {{ row.item.mincodeAssessment }}
               </li>
               <li v-if="row.item.mincodeAssessmentName">
-                <strong>Mincode Assessment Name:</strong> {{ row.item.mincodeAssessmentName }}
+                <strong>Assessment Centre Name:</strong> {{ row.item.mincodeAssessmentName }}
               </li>                
             </ul>
           </b-card>
