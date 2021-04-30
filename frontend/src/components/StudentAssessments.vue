@@ -51,39 +51,25 @@
         </template>
         <template #cell(more)="row">
           <b-btn
-            v-if="row.item.hasRelatedCourse == 'Y'"
             variant="outline primary"
             style="color: #666"
-            size="xs"
+            size="sm"
             @click="row.toggleDetails"
+            class="more-button"
           >
-            <i class="fas fa-sm fa-caret-down"></i>
+            <i v-if="row.item.mincodeAssessment || row.item.mincodeAssessmentName" class="fas fa-sm fa-caret-down"></i>
           </b-btn>
         </template>
         <template #row-details="row">
           <b-card class="px-0">
-            <table>
-              <tbody>
-                <tr>
-                  <td>Related Course: {{ row.item.relatedCourse }}</td>
-                </tr>
-                <tr>
-                  <td>Related Levelt: {{ row.item.relatedLevel }}</td>
-                </tr>
-                <tr>
-                  <td>Alternate Course Name: {{ row.item.relatedCourse }}</td>
-                </tr>
-                <tr>
-                  <td>Best School Percent: {{ row.item.bestSchoolPercent }}</td>
-                </tr>
-                <tr>
-                  <td>Best Exam Percentt: {{ row.item.bestExamPercent }}</td>
-                </tr>
-                <tr>
-                  <td>Assessment Equivt: {{ row.item.genericCourseType }} </td>
-                </tr>
-              </tbody>
-            </table>
+            <ul>        
+                <li v-if="row.item.mincodeAssessment">
+                  <strong>Mincode Assessment:</strong> {{ row.item.mincodeAssessment }}
+                </li>
+                <li v-if="row.item.mincodeAssessmentName">
+                  <strong>Mincode Assessment Name:</strong> {{ row.item.mincodeAssessmentName }}
+                </li>                
+            </ul>
           </b-card>
         </template>
       </DisplayTable>
@@ -107,7 +93,7 @@ export default {
   data: function() {
     return {
       fields: [
-        { key: "more", label: "" },
+        { key: "more", label: "more" },
         {
           key: "assessmentCode",
           label: "Code",

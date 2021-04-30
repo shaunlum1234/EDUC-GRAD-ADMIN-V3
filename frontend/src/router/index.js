@@ -54,7 +54,6 @@ const routes = [{
   },
   {
     path: '/admin-graduation-programs',
-    name: 'admin-graduation-program',
     component: AdminGraduationPrograms,
     children: [
       { path: '', component: AlgorithmRules },
@@ -72,7 +71,6 @@ const routes = [{
     meta: {
       requiresAuth: true
     },
-    props: true
   },
   {
     path: '/courses',

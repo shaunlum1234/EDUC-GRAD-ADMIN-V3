@@ -5,6 +5,10 @@
         <b-row align-v="stretch" class="row-eq-height">
           <b-col>
             <label class="float-left" for="city">City</label>
+            <b-input class="" v-model="search.schoolCode" placeholder="" id="mincode"/>
+          </b-col>
+          <b-col>
+            <label class="float-left" for="city">City</label>
             <b-input class="" v-model="search.city" placeholder="" id="city"/>
           </b-col>
           <b-col>
@@ -21,6 +25,7 @@
           </b-col>
         </b-row>
       </b-container>
+  
 
 
  
@@ -31,22 +36,24 @@
               <b-input class="float-left col-3 mx-1 my-3" v-model="search.districtName" placeholder="District name"/>
               <b-button variant="primary" class="float-left col-auto mx-1 my-3" type="submit" @click="searchSchools"> Search </b-button>-->
               <!-- <input type="submit" @click="searchCourseByCourseCode"> -->
-              <table v-if="schools" class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Mincode</th>
-                    <th>School name</th>
-                    <th>District name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="school in schools" :key="school.minCode">
-                    <td>{{school.minCode}}</td>
-                    <td>{{school.schoolName}}</td>
-                    <td>{{school.districtName}}</td>
-                  </tr>
-                </tbody>
-              </table>
+              <DisplayTable title="Schools" v-bind:items="schools"
+                v-bind:fields="schoolFields" id="mincode" showFilter="true" pagination="true"
+               >
+                <template #cell(more)="row">
+                    <b-btn
+                      v-if="row.item.hasRelatedCourse == 'Y'"
+                      variant="outline primary"
+                      style="color: #666"
+                      size="sm"
+                      @click="row.toggleDetails"
+                      class="more-button"
+                    >
+                      <i class="fas fa-sm fa-caret-down"></i>
+                    </b-btn>
+                  </template>
+
+              </DisplayTable>
+  
 
 
   </div>
@@ -54,18 +61,106 @@
 
 <script>
   import SchoolService from '@/services/SchoolService.js';
+   import DisplayTable from '@/components/DisplayTable.vue';
     import {
     mapGetters
   } from "vuex";
   export default {
     name: "schools",
     components: {
-
+      DisplayTable: DisplayTable,
     },
     data() {
       return {
         schools: {},
+        schoolFields: [
+          {
+            key: 'more',
+            label: 'more',
+            sortable: true,
+            sortDirection: 'desc'
+          },
+          {
+            key: 'minCode',
+            label: 'Mincode',
+            sortable: true,
+            sortDirection: 'desc'
+          },
+          {
+            key: 'schoolName',
+            label: 'School Name',
+            sortable: true,
+            sortDirection: 'desc'
+          },
+          {
+            key: 'districtName',
+            label: 'District',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: 'openFlag',
+            label: 'Open',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: '',
+            label: 'Schl Org',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: '',
+            label: 'Indep Type',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: 'independentAffiliation',
+            label: 'Indep Affil',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: 'transcriptEligibility',
+            label: 'Tran Elig',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: 'certificateEligibility',
+            label: 'Cert Elig',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: '',
+            label: 'Marks Display',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: '',
+            label: 'Append Trans',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: 'signatureDistrict',
+            label: 'Sig Distno',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: '',
+            label: 'New School Code',
+            sortable: true,
+            class: 'text-center'
+          },
+        ],
         search: {
+          mincode:"",
           city:"",
           schoolName: "",
           districtName: "",
