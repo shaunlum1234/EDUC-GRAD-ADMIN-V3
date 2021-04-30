@@ -60,7 +60,7 @@
                         <td><strong>Course Level:</strong> {{ row.item.courseDetails.courseLevel }}</td>
                       </tr>
                       <tr>                        
-                        <td><strong>Course Name:</strong><br> {{ row.item.courseDetails.courseName }}</td>
+                        <td><strong>Course name:</strong><br> {{ row.item.courseDetails.courseName }}</td>
                       </tr>
                       <tr>                        
                         <td><strong>Language:</strong> {{ row.item.courseDetails.language }}</td>
@@ -104,10 +104,10 @@
                   <strong>Related Course Level:</strong> {{ row.item.relatedLevel }}
                 </li>                
                 <li v-if="row.item.relatedCourseName">
-                  <strong>Related Course Name:</strong> {{ row.item.relatedCourseName }}
+                  <strong>Related Course name:</strong> {{ row.item.relatedCourseName }}
                 </li>                      
                 <li v-if="row.item.alternateCourseName">
-                  <strong>Alternate Course Name:</strong> {{ row.item.alternateCourseName}}
+                  <strong>Alternate Course name:</strong> {{ row.item.alternateCourseName}}
                 </li>
                 <li v-if="row.item.bestSchoolPercent">
                   <strong>Best School Percent:</strong> {{ row.item.bestSchoolPercent }}
@@ -206,7 +206,7 @@ export default {
         },
         {
           key: "courseName",
-          label: "Course Name",
+          label: "Course name",
           sortable: true,
           class: "text-left",
         },

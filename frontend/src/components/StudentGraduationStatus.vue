@@ -82,7 +82,7 @@
                         <strong>Program completion date: </strong><b-input type="date" v-model='editedGradStatus.programCompletionDate'></b-input>      
                       </li>
                       <li>
-                        <strong>Student Status: </strong>
+                        <strong>Student status: </strong>
                         <span v-if="studentGradStatus.studentStatus">{{ studentGradStatus.studentStatus }}</span>
                       </li>
                       <li>
@@ -90,7 +90,7 @@
                         <span v-if="studentGradStatus.studentGrade">{{ studentGradStatus.studentGrade }}</span>
                       </li>
                       <li>
-                          <strong>School of Record: </strong>
+                          <strong>School of record: </strong>
                           <b-button v-if="studentGradStatus.schoolOfRecord" 
                             class="p-0"
                             id="popover-1" 
@@ -101,7 +101,7 @@
                       </li>
                       
                       <li>
-                        <strong>School at Graduation: </strong>
+                        <strong>School at graduation: </strong>
                         <b-button v-if="studentGradStatus && studentGradStatus.schoolAtGrad" 
                           class="p-0"
                           id="popover-2"
@@ -125,7 +125,7 @@
                                 <td><strong>School name:</strong> <br> {{schoolOfRecord.schoolName}}</td>
                               </tr> 
                                <tr>                        
-                                <td><strong>Status:</strong> {{schoolOfRecord.openFlag}}</td>
+                                <td><strong>Statu: </strong> {{schoolOfRecord.openFlag}}</td>
                               </tr>
                                <tr>                        
                                 <td><strong>Independent type:</strong> {{schoolOfRecord.independentDesignation}}</td>

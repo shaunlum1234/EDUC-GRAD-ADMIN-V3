@@ -42,7 +42,7 @@
         >
           <b-input-group>
             <div class="filter-icon p-2 text-secondary">
-              <i class="fas fa-filter"></i>
+              Filter:
             </div>
             <b-form-input
               debounce="500"
@@ -54,8 +54,9 @@
             ></b-form-input>
             <b-input-group-append>
               <b-button
-                class="mr-10 clear-button"
-                size="md"
+                class=""
+                size=""
+                variant="primary"
                 :disabled="!filter"
                 @click="filter = ''"
                 >Clear</b-button

@@ -46,7 +46,7 @@ export default {
       graduationProgramsFields: [
         {
           key: 'programCode',
-          label: 'Program Code',
+          label: 'Program code',
           sortable: true,
           sortDirection: 'desc',
           editable: true,
@@ -54,7 +54,7 @@ export default {
         },
         {
           key: 'programName',
-          label: 'Program Name',
+          label: 'Program name',
           sortable: true,
           editable: true,
           class: 'w-85',

@@ -57,14 +57,14 @@ export default {
           { key: 'actions', label: 'Actions' }
         ],
         fields: [
-          { key: 'courseCode', label: 'Course Code', sortable: true, sortDirection: 'desc' },
-          { key: 'codeLevel', label: 'Code Level', sortable: true, class: 'text-center' },
-          { key: 'sessionDate', label: 'Session Date', sortable: true, sortDirection: 'desc' },
-          { key: 'courseName', label: 'Course Name', sortable: true, class: 'text-center' },
-          { key: 'courseEquivChal', label: 'Course Equivalent Challenge', sortable: true, sortDirection: 'desc' },
+          { key: 'courseCode', label: 'Course code', sortable: true, sortDirection: 'desc' },
+          { key: 'codeLevel', label: 'Code level', sortable: true, class: 'text-center' },
+          { key: 'sessionDate', label: 'Session date', sortable: true, sortDirection: 'desc' },
+          { key: 'courseName', label: 'Course name', sortable: true, class: 'text-center' },
+          { key: 'courseEquivChal', label: 'Course equivalent challenge', sortable: true, sortDirection: 'desc' },
           { key: 'credits', label: 'Credits', sortable: true, class: 'text-center' },
-          { key: 'interimLetterGrade', label: 'Intermediate Letter Grade', sortable: true, sortDirection: 'desc' },
-          { key: 'completedCoursePercentage', label: 'Completed Course Percentage'},
+          { key: 'interimLetterGrade', label: 'Intermediate letter grade', sortable: true, sortDirection: 'desc' },
+          { key: 'completedCoursePercentage', label: 'Completed course percentage'},
           {
             key: 'isActive',
             label: 'Is Active',

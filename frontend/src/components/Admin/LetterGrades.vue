@@ -34,20 +34,20 @@ export default {
       letterGradesFields: [
         {
           key: 'letterGrade',
-          label: 'Letter Grade',
+          label: 'Letter grade',
           sortable: true,
           sortDirection: 'desc',
           class:'w-15'
         },
         {
           key: 'gpaMarkValue',
-          label: 'GPA Mark Value',
+          label: 'GPA mark value',
           sortable: true,
           class:'w-15'
         },
         {
           key: 'passFlag',
-          label: 'Pass Flag',
+          label: 'Pass',
           sortable: true,
           class:'w-70'
         }
