@@ -125,7 +125,7 @@
                                 <td><strong>School name:</strong> <br> {{schoolOfRecord.schoolName}}</td>
                               </tr> 
                                <tr>                        
-                                <td><strong>Statu: </strong> {{schoolOfRecord.openFlag}}</td>
+                                <td><strong>Status: </strong><span v-if="schoolOfRecord.openFlag == 'Y'">Open</span> <span v-if="schoolOfRecord.openFlag == 'N'">Closed</span></td>
                               </tr>
                                <tr>                        
                                 <td><strong>Independent type:</strong> {{schoolOfRecord.independentDesignation}}</td>
@@ -157,7 +157,7 @@
                                 <td><strong>School name:</strong> <br> {{SchoolAtGraduation.schoolName}}</td>
                               </tr> 
                                <tr>                        
-                                <td><strong>Status:</strong> {{SchoolAtGraduation.openFlag}}</td>
+                                <td><strong>Status:</strong> <span v-if="SchoolAtGraduation.openFlag == 'Y'">Open</span> <span v-if="SchoolAtGraduation.openFlag == 'N'">Closed</span></td>
                               </tr>
                                <tr>                        
                                 <td><strong>Independent type:</strong> {{SchoolAtGraduation.independentDesignation}}</td>
