@@ -69,14 +69,11 @@
      
     </div>
     <div class="row m-0">
-      <div class="col-4" v-if="!smallScreen">
-        <StudentGraduationStatus />
-      </div>
-      <div class="col-md-12 col-lg-8 px-0">
+      <div class="col-12 px-0">
         <div>
           <b-card no-body class="py-0" v-if="studentHasCourses || studentHasAssessments">
             <b-tabs :pills="smallScreen" card>
-                <b-tab v-if="smallScreen" title="Graduation Status" class="py-3 px-0 m-1">
+                <b-tab title="Graduation Status" class="py-3 px-0 m-1">
                   <b-card-text>
                     
                     <StudentGraduationStatus></StudentGraduationStatus>

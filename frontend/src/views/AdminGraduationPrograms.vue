@@ -7,8 +7,6 @@
 <div>
 <b-card title="Program Management" no-body>
     <b-card-header header-tag="nav" class="px-3">
-
-      
       <b-nav card-header tabs >
         <b-nav-item to="/admin-graduation-programs/algorithm-rules" :active="tab === 1" @click="tab = 1">Algorithm rules</b-nav-item>
          <b-nav-item-dropdown
@@ -33,10 +31,8 @@
             <b-nav-item to="/admin-graduation-programs/special-programs" :active="tab === 3" @click="tab = 3; closeDropdown('special-programs-dropdown')">Special programs</b-nav-item>
             <b-nav-item to="/admin-graduation-programs/special-program-rules" :active="tab === 3" @click="tab = 3; closeDropdown('special-programs-dropdown')">Special program rules</b-nav-item>
           </b-nav-item-dropdown>
-        
         <b-nav-item to="/admin-graduation-programs/letter-grades" :active="tab === 4" @click="tab = 4">Letter grades</b-nav-item>
         <b-nav-item to="/admin-graduation-programs/special-cases" :active="tab === 5" @click="tab = 5">Special cases</b-nav-item>
-        
       </b-nav>
     </b-card-header>
      <b-card-body >
@@ -47,26 +43,6 @@
     </b-card>
 </div>
 
-<!-- <router-view v-bind:key="$route.fullPath" name="specialProgram"></router-view> -->
-
-    <!-- <b-card no-body>
-      <b-tabs card>
-        <b-tab title="Programs" active>
-          <b-card-text>
-             <router-view v-bind:key="$route.fullPath" name="program"></router-view>
-          </b-card-text>
-        </b-tab>
-        <b-tab title="Special Programs">
-          <b-card-text>
-            <router-view v-bind:key="$route.fullPath" name="specialProgram"></router-view>
-          </b-card-text>
-        </b-tab>
-        <b-tab title="Letter Grades"><b-card-text>
-          <LetterGrades></LetterGrades>
-        </b-card-text></b-tab>
-        <b-tab title="Special Cases"><b-card-text><SpecialCases></SpecialCases></b-card-text></b-tab>
-      </b-tabs>
-    </b-card> -->
   </div>
 
 </template>

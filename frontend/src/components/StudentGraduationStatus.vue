@@ -1,353 +1,363 @@
 <template>
-  <div>
-    <b-card no-body class="col-12 px-0 mx-0" v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
-
-      <b-button block v-b-toggle.accordion-1 variant="primary" class="text-left">
-        Graduation
-        information</b-button>
-      <b-card-body>
-        <b-card-text>
-          <div v-if="!hasGradStatus">
-            {{studentFullName.legalFirstName }} found on the PEN database <strong>but does not have a GRAD system record</strong>
-          </div>
-        </b-card-text>
-      </b-card-body>
-
-    </b-card>
-  
-    <div class="accordion col-12 px-0 mx-0" role="tablist" v-if="hasGradStatus">
-      <b-card no-body class="col-12 px-0 mx-0">
-
-        <b-button block v-b-toggle.accordion-1 variant="info" class="text-left pt-4 gov-btn"> Student GRAD
-          record</b-button>
-
-        <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
-          <b-card-body>
-            <b-card-text>
-              <div class="row">
-                <!-- <div class="col-12 px-0">
-                  <div>
-                    <button @click="projectGraduationStatus(studentPen)" class="w-50 float-left btn-primary btn-sm">
-                      <i class="fas fa-eye"></i> Projected<br> Graduation Status
-                    </button>
-
-                    <b-modal id="modal-1" size="lg" >
-                      <div v-if="showModal" class="row col-12">
-                            PROJECTED GRAD STATUS
-                      </div>
-                    </b-modal>
-                  </div>
-                  <button v-on:click="updateGraduationStatus(studentPen)" class="float-right w-50 btn-primary btn-sm">
-                    <i class="fas fa-sync"></i> Run Graduation<br>Algorithm
-                  </button>
-                </div> -->
-                <div class="graduation-status-content col-12 px-0 mx-0">
-                  <div>
-                    <!-- Student Graduation Status -->
-                    <div class="col-12 header">
-                      <h2>Graduation status</h2>
-                      <b-button-group v-if="this.role =='administrator'" class="gradstatus-actions float-right">
-                        <div v-if="!showEdit">
-                          
-                          <!-- <b-btn class="edit" v-on:click="editGradStatus" size="sm" variant="primary">
-                             Edit 
-                          </b-btn> -->
-                        </div>
-                        <div v-if="showEdit">
-                          <b-btn v-on:click="saveEditedGradStatus(studentPen)" size="sm" variant="primary">
-                             Save 
-                          </b-btn>
-                          <b-btn v-on:click="cancelGradStatus"  size="sm" variant="outline-primary">
-                            Cancel
-                          </b-btn>
-            
-                        </div>
-                      </b-button-group>
-                    </div>
-
-                    <ul>
-                      <li v-if="!showEdit">
-                        <strong>Program: </strong>
-                        <span v-b-tooltip.hover title="Tooltip directive content">{{ studentGradStatus.program }}</span>
-                      </li>
-                      <li v-if="showEdit">
-                        <strong>Program: </strong><b-input v-model='editedGradStatus.program'></b-input>      
-                      </li>
-                      
-                      <li v-if="!showEdit">
-                        <strong>Program completion date: </strong>
-                        {{ studentGradStatus.programCompletionDate }}
-                      </li>
-                      <li v-if="showEdit">
-                        <strong>Program completion date: </strong><b-input type="date" v-model='editedGradStatus.programCompletionDate'></b-input>      
-                      </li>
-                      <li>
-                        <strong>Student status: </strong>
-                        <span v-if="studentGradStatus.studentStatus">{{ studentGradStatus.studentStatus }}</span>
-                      </li>
-                      <li>
-                        <strong>Student grade: </strong>
-                        <span v-if="studentGradStatus.studentGrade">{{ studentGradStatus.studentGrade }}</span>
-                      </li>
-                      <li>
-                          <strong>School of record: </strong>
-                          <b-button v-if="studentGradStatus.schoolOfRecord" 
-                            class="p-0"
-                            id="school-of-record-popover" 
-                            variant="link" 
-                            @click="getSchoolInfo(studentGradStatus.schoolOfRecord)"> 
-                            {{studentGradStatus.schoolOfRecord}}
-                          </b-button>
-                      </li>
-                      
-                      <li>
-                        <strong>School at graduation: </strong>
-                        <b-button v-if="studentGradStatus && studentGradStatus.schoolAtGrad" 
-                          class="p-0"
-                          id="school-at-graduation-popover"
-                          variant="link" 
-                          @click="getSchoolInfo(studentGradStatus.schoolAtGrad)"> 
-                          {{studentGradStatus.schoolAtGrad}}
-                        </b-button>
-                        
-                      </li>            
-                      <b-popover   
-                            :boundary-padding="50" 
-                            delay=800
-                            target="school-of-record-popover"  
-                            title="School Information"
-                            triggers="focus">
-                            <table>
-                              <tr>
-                                <td><strong>District:</strong> {{schoolOfRecord.districtName}}</td>
-                              </tr>
-                              <tr>
-                                <td><strong>School name:</strong> <br> {{schoolOfRecord.schoolName}}</td>
-                              </tr> 
-                               <tr>                        
-                                <td><strong>Status: </strong> {{ schoolOfRecord.openFlag == 'Y' ? 'Open': 'Closed' }}</td>
-                              </tr>
-                               <tr>                        
-                                <td><strong>Independent type:</strong> {{schoolOfRecord.independentDesignation}}</td>
-                              </tr>
-                               <tr>                        
-                                <td><strong>Independent affiliation:</strong> {{schoolOfRecord.independentAffiliation}}</td>
-                              </tr>
-                               <tr>                        
-                                <td><strong>Transcript eligible:</strong> {{schoolOfRecord.transcriptEligibility}}</td>
-                              </tr>
-                              <tr>                        
-                                <td><strong>Dogwood eligibility:</strong> {{schoolOfRecord.certificateEligibility}}</td>
-                              </tr>
-                             
-                            </table>
-                            <!-- <b-button class="px-1" @click="popClose">Close</b-button> -->
-                          </b-popover> 
-                          <b-popover 
-                            :boundary-padding="50"
-                            delay=800
-                            target="school-at-graduation-popover"
-                            title="School Information"
-                            triggers="focus">
-                            <table>
-                              <tr>
-                                <td><strong>District:</strong> {{SchoolAtGraduation.districtName}}</td>
-                              </tr>
-                              <tr>
-                                <td><strong>School name:</strong> <br> {{SchoolAtGraduation.schoolName}}</td>
-                              </tr> 
-                               <tr>                        
-                                <td><strong>Status:</strong> {{SchoolAtGraduation.openFlag == 'Y' ? 'Open': 'Closed'}}</td>
-                              </tr>
-                               <tr>                        
-                                <td><strong>Independent type:</strong> {{SchoolAtGraduation.independentDesignation}}</td>
-                              </tr>
-                               <tr>                        
-                                <td><strong>Independent affiliation:</strong> {{SchoolAtGraduation.independentAffiliation}}</td>
-                              </tr>
-                               <tr>                        
-                                <td><strong>Transcript eligible:</strong> {{SchoolAtGraduation.transcriptEligibility}}</td>
-                              </tr>
-                              <tr>                        
-                                <td><strong>Dogwood eligibility:</strong> {{SchoolAtGraduation.certificateEligibility}}</td>
-                              </tr>               
-                            </table>
-                          </b-popover> 
-                      <li>
-                        <strong>Honours:</strong>
-                        <span v-if="studentGradStatus.honoursStanding"> {{ studentGradStatus.honoursStanding }}</span>
-                      </li>
-                      <li v-if="!showEdit">
-                        <strong>GPA:</strong> <span v-if="studentGradStatus.gpa">{{ studentGradStatus.gpa }}</span>
-                      </li>
-                       <li v-if="showEdit">
-                        <strong>GPA:</strong><b-input size="sm" max="4" pattern="^\d*(\.\d{0,4})?$" type="number" v-model='editedGradStatus.gpa'></b-input>      
-                      </li>
-                    </ul>
-                      <!-- <li>
-                        <strong>Program at graduation:</strong>
-                        {{ studentGradStatus.gradProgramAtGraduation }}
-                      </li> -->
-                       <!-- <li v-if="showEdit">
-                        <strong>Program at graduation:</strong><b-input v-model='editedGradStatus.gradProgramAtGraduation'></b-input>      
-                      </li> -->
-                      <!-- <li v-if="studentGradStatus.graduationDate">
-                        <strong>Graduation Date:</strong>
-                        {{ studentGradStatus.graduationDate }}
-                      </li>
-                      <li>
-                        <strong>Credits used for Graduation:</strong>
-                        {{ studentGradStatus.creditsUsedForGrad }}
-                      </li>
-                      <li v-if="studentGradStatus.sccpGraduationDate">
-                        <strong>School Completion Certificate Program (SCCP)
-                          Graduation Date:</strong>{{ studentGradStatus.sccpGraduationDate }}
-                      </li>                 
-                      <li v-if="studentGradStatus.studentGradeAtGraduation">
-                        <strong>Grade at Graduation:</strong>{{ studentGradStatus.studentGradeAtGraduation }}
-                      </li>
-                     -->
-
-                    <!-- Student Certifications and Diplomas -->
-                    <!-- <div class="col-12 header">
-                      <h2>Certification/Dogwoods</h2>
-                    </div>
-                    <ul>
-                      <li v-if="studentGradStatus.certificateType1">
-                        <strong>Certificate #1:</strong>
-                        {{ studentGradStatus.certificateType1 }}
-                        <br>
-                        <span v-if="studentGradStatus.certificateType1Date">
-                          <strong>Date obtained:</strong>
-                          {{ studentGradStatus.certificateType1Date }}
-                        </span>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li v-if="studentGradStatus.certificateType2">
-                        <strong>Certificate #2:</strong>
-                        {{ studentGradStatus.certificateType2 }}
-                        <br>
-                        <span v-if="studentGradStatus.certificateType2Date">
-                          <strong>Date obtained:</strong>
-                          {{ studentGradStatus.certificateType2Date }}
-                        </span>
-                      </li>
-                    </ul>
-                    <ul>
-
-                      <li v-if="studentGradStatus.dualDogwoodEligibility">
-                        <strong>Dual Dogwood</strong>{{ studentGradStatus.dualDogwoodEligibility }}
-                      </li>
-                      <li v-if="studentGradStatus.transcriptDate">
-                        <strong>Transcript Date:</strong>
-                        {{ studentGradStatus.transcriptDate }}
-                      </li>
-
-                    </ul> -->
-                    <!-- Programs -->
-                    <!-- <div class="col-12 header">
-                      <h2>Special programs</h2>
-
-                    </div>
-                    <ul>
-
-                      <li v-if="studentGradStatus.frenchProgramParticipation">
-                        <strong>Program Cadre:</strong>
-                        {{ studentGradStatus.frenchProgramParticipation }}
-                      </li>
-                      <li v-if="studentGradStatus.advancePlacementParticipation">
-                        <strong>AP:</strong>
-                        {{ studentGradStatus.advancePlacementParticipation }}
-                      </li>
-                      <li v-if="studentGradStatus.careerProgramParticipation">
-                        <strong>Career Program:</strong>
-                        {{ studentGradStatus.careerProgramParticipation }}
-                      </li>
-                      <li v-if="studentGradStatus.recalculateFlag">
-                        <strong>Recalculate Flag</strong>{{ studentGradStatus.recalculateFlag }}
-                      </li>
-                      <li v-if="studentGradStatus.ibParticipationFlag">
-                        <strong>IB:</strong>
-                        {{ studentGradStatus.ibParticipationFlag }}
-                      </li>
-                    </ul>
-                    <div class="col-12 header">
-                      <h2>Graduation reports</h2>
-                    </div>
-                    <div class="col-12">
-
-                      <ul>
-                        <li>
-                          <a v-on:click="getStudentAchievementReportPDF" href="#" class="">Achievement Report (PDF)</a>
-                        </li>
-                        <li>
-                          <a v-on:click="getStudentTranscriptPDF" href="#" class="">Transcript (PDF)</a>
-                        </li>
-                      </ul>
-                    </div> -->
-
-                  </div>
-                </div>
-              </div>
-            </b-card-text>
-          </b-card-body>
-        </b-collapse>
+ 
+  <div class="p-2">
+    <div class="row">
+      <b-card no-body class="px-0 mx-0" v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
+        <b-button block v-b-toggle.accordion-1 variant="primary" class="text-left">
+          Graduation
+          information</b-button>
+        <b-card-body>
+          <b-card-text>
+            <div v-if="!hasGradStatus">
+              {{studentFullName.legalFirstName }} found on the PEN database <strong>but does not have a GRAD system record</strong>
+            </div>
+          </b-card-text>
+        </b-card-body>
       </b-card>
-
-      <!-- GRAD REASONS FIX -->
-      <b-card no-body class="col-12 px-0 mx-0" v-if="studentGradStatus.studentGradData">
-        <b-button block v-b-toggle.accordion-2 variant="info" class="text-left gov-btn" v-if="!studentGradStatus.studentGradData.nonGradReasons"> Requirements not met (0)</b-button>
-        <b-button block v-b-toggle.accordion-2 variant="info" class="text-left gov-btn" v-if="studentGradStatus.studentGradData.nonGradReasons"> Requirements not
-          met ({{studentGradStatus.studentGradData.nonGradReasons.length}}) </b-button>
-        <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel" v-if="!studentGradStatus.studentGradData.nonGradReasons">
-          <b-card-body>
-            <b-card-text>
-              <ul>
-                <li>All graduation requirements have been met</li>
-              </ul>
-            </b-card-text>
-          </b-card-body>
-        </b-collapse>
-
-        <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel" v-if="studentGradStatus.studentGradData.nonGradReasons">
-          <b-card-body>
-            <b-card-text>
-              <ul v-if="studentGradStatus.studentGradData.nonGradReasons && studentGradStatus.studentGradData.nonGradReasons.length" class="non-grad-reasons px-0">
-                <li v-for="requirement in studentGradStatus.studentGradData.nonGradReasons" :key="requirement.rule">
-                  {{ requirement.description }} (Rule
-                  {{ requirement.rule }})
-                </li>
-              </ul>
-            </b-card-text>
-          </b-card-body>
-        </b-collapse>
-      </b-card>
-
-      <b-card no-body class="col-12 px-0 mx-0" v-if="studentGradStatus.studentGradData">
-
-        <b-button block v-b-toggle.accordion-3 variant="info" class="text-left gov-btn" v-if="studentGradStatus.studentGradData.requirementsMet"> Requirements met
-          ({{studentGradStatus.studentGradData.requirementsMet.length}} )</b-button>
-
-        <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
-          <b-card-body>
-            <b-card-text>
-
-
-              <ul class="requirements-met px-0">
-                <li v-for="requirement in studentGradStatus.studentGradData.requirementsMet" :key="requirement.rule">
-                  <i class="fas fa-check-circle text-success"></i> <a href="#"
-                    @click='getCourseCompletedProgramCode(requirement.rule,studentGradStatus.studentGradData.studentCourses.studentCourseList)'>{{ requirement.description }}
-                    (Rule {{ requirement.rule }})</a>
-                </li>
-              </ul>
-            </b-card-text>
-          </b-card-body>
-        </b-collapse>
-      </b-card>
-
-
     </div>
+    <div class="row">
+      <!-- Left col -->
+      <div class="col-12 pr-0 col-md-6 ">
+          <div class="graduation-status">
+          <b-card
+            header="Graduation Status"
+          >
+            <b-card-text>  
+                <b-button-group v-if="this.role =='administrator'" class="gradstatus-actions float-right">
+                  <div v-if="!showEdit">
+                    <a href="#" class="edit" v-on:click="editGradStatus" size="sm" variant="primary">
+                        Edit 
+                    </a>
+                  </div>
+                  <div v-if="showEdit">
+                    <b-btn v-on:click="saveEditedGradStatus(studentPen)" size="sm" variant="primary">
+                        Save 
+                    </b-btn>
+                    <b-btn v-on:click="cancelGradStatus"  size="sm" variant="outline-primary">
+                      Cancel
+                    </b-btn>
+      
+                  </div>
+                </b-button-group>
+                <ul>
+                  
+                  <li v-if="!showEdit">
+                    <strong>Program: </strong>
+                    <span v-b-tooltip.hover title="Tooltip directive content">{{ studentGradStatus.program }}</span>
+                  </li>
+                  <li v-if="showEdit">
+                    <strong>Program: </strong><b-input v-model='editedGradStatus.program'></b-input>      
+                  </li>
+                  
+                  <li v-if="!showEdit">
+                    <strong>Program completion date: </strong>
+                    {{ studentGradStatus.programCompletionDate }}
+                  </li>
+                  <li v-if="showEdit">
+                    <strong>Program completion date: </strong><b-input type="date" v-model='editedGradStatus.programCompletionDate'></b-input>      
+                  </li>
+                  <li>
+                    <strong>Student status: </strong>
+                    <span v-if="studentGradStatus.studentStatus">{{ studentGradStatus.studentStatus }}</span>
+                  </li>
+                  <li>
+                    <strong>Student grade: </strong>
+                    <span v-if="studentGradStatus.studentGrade">{{ studentGradStatus.studentGrade }}</span>
+                  </li>
+                  <li>
+                    <strong>School of record: </strong>
+                    <b-button v-if="studentGradStatus.schoolOfRecord" 
+                      class="p-0"
+                      id="school-of-record-popover" 
+                      variant="link" 
+                      @click="getSchoolInfo(studentGradStatus.schoolOfRecord)"> 
+                      {{studentGradStatus.schoolOfRecord}}
+                    </b-button>
+                    <b-popover   
+                      :boundary-padding="50" 
+                      delay=800
+                      target="school-of-record-popover"  
+                      title="School Information"
+                      triggers="focus">
+                      <table>
+                        <tr>
+                          <td><strong>District:</strong> {{schoolOfRecord.districtName}}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>School name:</strong> <br> {{schoolOfRecord.schoolName}}</td>
+                        </tr> 
+                          <tr>                        
+                          <td><strong>Status: </strong> {{ schoolOfRecord.openFlag == 'Y' ? 'Open': 'Closed' }}</td>
+                        </tr>
+                          <tr>                        
+                          <td><strong>Independent type:</strong> {{schoolOfRecord.independentDesignation}}</td>
+                        </tr>
+                          <tr>                        
+                          <td><strong>Independent affiliation:</strong> {{schoolOfRecord.independentAffiliation}}</td>
+                        </tr>
+                          <tr>                        
+                          <td><strong>Transcript eligible:</strong> {{schoolOfRecord.transcriptEligibility}}</td>
+                        </tr>
+                        <tr>                        
+                          <td><strong>Dogwood eligibility:</strong> {{schoolOfRecord.certificateEligibility}}</td>
+                        </tr>
+                        
+                      </table>
+                      <!-- <b-button class="px-1" @click="popClose">Close</b-button> -->
+                    </b-popover>                       
+                  </li>
+                  
+                  <li>
+                    <strong>School at graduation: </strong>
+                    <b-button v-if="studentGradStatus && studentGradStatus.schoolAtGrad" 
+                      class="p-0"
+                      id="school-at-graduation-popover"
+                      variant="link" 
+                      @click="getSchoolInfo(studentGradStatus.schoolAtGrad)"> 
+                      {{studentGradStatus.schoolAtGrad}}
+                    </b-button>
+                    <b-popover 
+                      :boundary-padding="50"
+                      delay=800
+                      target="school-at-graduation-popover"
+                      title="School Information"
+                      triggers="focus">
+                      <table>
+                        <tr>
+                          <td><strong>District:</strong> {{SchoolAtGraduation.districtName}}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>School name:</strong> <br> {{SchoolAtGraduation.schoolName}}</td>
+                        </tr> 
+                          <tr>                        
+                          <td><strong>Status:</strong> {{SchoolAtGraduation.openFlag == 'Y' ? 'Open': 'Closed'}}</td>
+                        </tr>
+                          <tr>                        
+                          <td><strong>Independent type:</strong> {{SchoolAtGraduation.independentDesignation}}</td>
+                        </tr>
+                          <tr>                        
+                          <td><strong>Independent affiliation:</strong> {{SchoolAtGraduation.independentAffiliation}}</td>
+                        </tr>
+                          <tr>                        
+                          <td><strong>Transcript eligible:</strong> {{SchoolAtGraduation.transcriptEligibility}}</td>
+                        </tr>
+                        <tr>                        
+                          <td><strong>Dogwood eligibility:</strong> {{SchoolAtGraduation.certificateEligibility}}</td>
+                        </tr>               
+                      </table>
+                    </b-popover> 
+                  </li>            
+                    
+                    <li>
+                      <strong>Honours:</strong>
+                      <span v-if="studentGradStatus.honoursStanding"> {{ studentGradStatus.honoursStanding }}</span>
+                    </li>
+                    <li v-if="!showEdit">
+                      <strong>GPA:</strong> <span v-if="studentGradStatus.gpa">{{ studentGradStatus.gpa }}</span>
+                    </li>
+                      <li v-if="showEdit">
+                      <strong>GPA:</strong><b-input size="sm" max="4" pattern="^\d*(\.\d{0,4})?$" type="number" v-model='editedGradStatus.gpa'></b-input>      
+                    </li>
+                    <li>
+                      <strong>Program at graduation:</strong>
+                      {{ studentGradStatus.gradProgramAtGraduation }}
+                    </li>
+                      <li v-if="showEdit">
+                      <strong>Program at graduation:</strong><b-input v-model='editedGradStatus.gradProgramAtGraduation'></b-input>      
+                    </li>
+                    <li v-if="studentGradStatus.graduationDate">
+                      <strong>Graduation Date:</strong>
+                      {{ studentGradStatus.graduationDate }}
+                    </li>
+                    <li>
+                      <strong>Credits used for Graduation:</strong>
+                      {{ studentGradStatus.creditsUsedForGrad }}
+                    </li>
+                    <li v-if="studentGradStatus.sccpGraduationDate">
+                      <strong>School Completion Certificate Program (SCCP)
+                        Graduation Date:</strong>{{ studentGradStatus.sccpGraduationDate }}
+                    </li>                 
+                    <li v-if="studentGradStatus.studentGradeAtGraduation">
+                      <strong>Grade at Graduation:</strong>{{ studentGradStatus.studentGradeAtGraduation }}
+                    </li>
+                  </ul> 
+              </b-card-text>
+            </b-card>
+          </div> 
+
+          <!-- CERTIFICATION DOGWOODS -->           
+          <div class="certification-dogwoods">
+            <b-card
+              header="Certification/Dogwoods"
+              title="Certification/Dogwoods"
+            >
+              <ul>
+                <strong>Certificate #1:</strong>
+                <li v-if="studentGradStatus.certificateType1">
+                  {{ studentGradStatus.certificateType1 }}
+                </li>
+                <li v-if="studentGradStatus.certificateType1Date">
+                  <strong>Date obtained:</strong>
+                  {{ studentGradStatus.certificateType1Date }}
+                  
+                </li>
+              </ul>
+            </b-card> 
+          </div>  
+
+
+          <!-- SPECIAL PROGRAMS --> 
+          <div class="special-programs">
+            <b-card
+              header="Special Programs"
+              title="Special Programs"
+            >
+              <b-card-text>
+                    <ul>
+                      <li >
+                        <strong>Program Cadre:</strong>
+          
+                      </li>
+                      <li>
+                        <strong>AP:</strong>
+    
+                      </li>
+                      <li>
+                        <strong>Career Program:</strong>
+                      </li>
+                      <li>
+                        <strong>Recalculate Flg</strong>
+                      </li>
+                      <li>
+                        <strong>IB:</strong>
+                      </li>
+                    </ul>
+              </b-card-text>
+            </b-card>
+          </div>
+          <!-- GRADUATION PROGRAMS -->
+          <div class="graduation-programs">
+            <b-card
+              header="Graduation Programs"
+              title="Graduation Programs"
+            >
+              <b-card-text>
+                <ul>
+                  <li>
+                    <a v-on:click="getStudentAchievementReportPDF" href="#" class="">Achievement Report (PDF)</a>
+                  </li>
+                  <li>
+                    <a v-on:click="getStudentTranscriptPDF" href="#" class="">Transcript (PDF)</a>
+                  </li>
+                </ul>
+              </b-card-text>
+            </b-card>       
+            
+          </div>
+      </div>
+      <!-- Right Column -->
+      <div class="col-12 pl-3 col-md-6 "> 
+        <div class="requirements-met-and-not-met">
+          <div class="requirements-met">
+            <b-card
+              header="Requirements Met"
+              v-if="studentGradStatus.studentGradData"
+              class="w-100"
+            >
+              <b-card-text>
+                <!-- <ul class="requirements-met px-0">
+                  <li v-for="requirement in studentGradStatus.studentGradData.requirementsMet" :key="requirement.rule">
+                    <i class="fas fa-check-circle text-success"></i> <a href="#"
+                      @click='getCourseCompletedProgramCode(requirement.rule,studentGradStatus.studentGradData.studentCourses.studentCourseList)'>{{ requirement.description }}
+                      (Rule {{ requirement.rule }})</a>
+                  </li>
+                </ul> -->
+
+                <b-table  
+                  :items="studentGradRequirementCourses"
+                  :fields="fields"
+                  small
+                  striped
+                  
+                  filter=null
+                  :filter-function="filterGradReqCourses"
+                  class="requirements-met px-0">  
+                </b-table>
+                 View All Student Courses
+              </b-card-text>
+            </b-card>
+           
+          </div>
+
+
+          <div class="requirements-not-met">
+            <b-card
+              header="Requirements Not Met"
+              v-if="studentGradStatus.studentGradData"
+              class="w-100"
+            >
+              <b-card-text>
+               
+                <div v-if="!studentGradStatus.studentGradData.nonGradReasons">
+                  <ul>
+                    <li>All graduation requirements have been met</li>
+                  </ul>
+                </div>
+              
+                <div v-if="studentGradStatus.studentGradData.nonGradReasons">
+                  <ul v-if="studentGradStatus.studentGradData.nonGradReasons && studentGradStatus.studentGradData.nonGradReasons.length" class="non-grad-reasons px-0">
+                    <li v-for="requirement in studentGradStatus.studentGradData.nonGradReasons" :key="requirement.rule">
+                      {{ requirement.description }} (Rule
+                      {{ requirement.rule }})
+                    </li>
+                  </ul>
+                </div>
+              </b-card-text>
+            </b-card>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="graduation-maintenance">
+        <b-card
+            header="Graduation Maintenance"
+            v-if="studentGradStatus.studentGradData"
+          >
+            <b-card-text>
+            <ul>
+              <li>
+                <a href="#" @click="projectGraduationStatus(studentPen)" class="">
+                  <i class="fas fa-eye"></i> Projected<br> Graduation Status
+                </a>
+                <b-modal id="modal-1" size="lg" >
+                  <div v-if="showModal" class="row col-12">
+                        PROJECTED GRAD STATUS
+                  </div>
+                </b-modal>
+              </li>
+              <li>
+                <a href="#" v-on:click="updateGraduationStatus(studentPen)" class="">
+                  <i class="fas fa-sync"></i> Run Graduation<br>Algorithm
+                </a>
+              </li>
+                
+            </ul>
+                  <div v-if="hasGradStatus">
+           Created by: {{ studentGradStatus.createdBy }}
+           Created: {{ studentGradStatus.createdTimestamp }}
+            
+            Updated by: {{ studentGradStatus.updatedBy }}
+            Updated: {{ studentGradStatus.updatedTimestamp }}
+          </div>
+            </b-card-text>
+          </b-card>
+        </div>     
+    </div>
+
+
+      
+
   </div>
 </template>
 
@@ -359,21 +369,27 @@
   import GraduationService from "@/services/GraduationService.js";
   import GraduationStatusService from "@/services/GraduationStatusService.js";
   import SchoolService from "@/services/SchoolService.js"
+  //import DisplayTable from '@/components/DisplayTable.vue';
   export default {
     name: "StudentGraduationStatus",
-
+    components: {
+      
+    },
     computed: {
       ...mapGetters({
         studentGradStatus: "getStudentGradStatus",
         hasGradStatus: "studentHasGradStatus",
+        studentGradRequirementCourses: "gradStatusCourses",
         studentPen: "getStudentPen",
         studentFullName: "getStudentFullName",
         token: "getToken",
         role: "getRoles",
+        
       }),
     },
     data() {
       return {
+        fields: [{key:'gradReqMetDetail',label: 'Requirement Code'} ,{key: 'courseName', label: "Course Name"} ],
         dismissSecs: 3,
         dismissCountDown: 0,
         showModal: false,
@@ -405,6 +421,14 @@
       this.programDropdownList = this.$store.dispatch("getGraduationPrograms");
     },
     methods: {
+      filterGradReqCourses(row) {
+        console.log(row.gradReqMet.length);
+       if (row.gradReqMet.length >  0) {
+            return true;
+          } else {
+            return false;
+          }
+      },
       makeToast(variant = null, bodyContent) {
         this.$bvToast.toast(bodyContent, {
           title: `Variant ${variant || 'default'}`,
@@ -554,18 +578,13 @@
     border-bottom: 1px solid #ccc;
   }
 
-  .card-header>button {
-    border-radius: 0px !important;
-  }
 
-  .card-header {
-    padding: 0px 0px !important;
-  }
   .card-body{
     border-bottom: 1px solid #ccc;
   }
   .card {
     border-radius: 0px;
+    margin-bottom: 10px;
   }
 
   .accordion>.card .card-header {
@@ -591,7 +610,12 @@
     font-size: 30px !important;
   }
   .gradstatus-actions{
-    margin-top:-35px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  .edit{
+    padding:10px
   }
 </style>
 
