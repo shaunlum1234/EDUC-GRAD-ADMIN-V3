@@ -61,6 +61,10 @@ module.exports = {
         target: process.env.VUE_APP_GRADUATION_API_HOST,
         changeOrigin: true,
       },
+      '/api/v1/code': {
+        target: process.env.VUE_APP_CODE_API_HOST,
+        changeOrigin: true,
+      },
     }
   },
   transpileDependencies: ['vuetify'],
