@@ -1,65 +1,77 @@
 <template>
   <div>
     <h1>Post Secondary Institutions</h1>
-    <b-card v-for="item in psi" :key="item.message"  sub-title="" class="my-2">
-      <b-card-text>
-        <div class="row col-12">
-          <div class="col-12">
-            <h2>{{item.psiName}}</h2>
-          </div>
-          <div class="address col-3">
-            <strong>Address:</strong><br/>
-            <div class="pl-3">
-              {{item.address1}}<br/>
-              {{item.postal}}<br/>
-              {{item.city}},{{item.provinceCode}}<br/>
-              Country Code: {{item.countryCode}}
-            </div>
+    <b-card no-body>
+        <b-tabs card>
+          <b-tab title="Post Secondary Institutions" active>
+            <b-card-text>
+              <DisplayTable :items="psi" :fields="psiFields" :showFilter=true :pagination=true>
+                <template #cell(more)="row">
+                    <b-btn
+                      variant="outline primary"
+                      style="color: #666"
+                      size="sm"
+                      @click="row.toggleDetails"
+                      class="more-button"
+                    >
+                      <i class="fas fa-sm fa-caret-down"></i>
+                    </b-btn>
+                  </template>
+                  <template #row-details="row">
+                    <b-card class="px-0">
 
-            <div><strong>Contact:</strong><br/>
-              <strong>Fax:</strong> {{item.fax}}<br/>
-              <strong>Phone:</strong> {{item.phone1}}<br/>
-            </div>
-          </div>
-  
-          <div>
-            <strong>School Information:</strong>
-            <div class="pl-3">
-              CSL Code: {{item.cslCode}}<br/>
-              Attention Name: {{item.attentionName}}<br/>
-              Open: {{item.openFlag}}<br/>
-              Transmission Mode: {{ item.transmissionMode }}<br/>
-              PSI Grouping: {{item.psiGrouping}}<br/>
-              Code: {{item.psiCode}}<br/>
-              <div v-if="item.psiUrl != ' '">
-                <b-link class="btn btn-primary" v-bind:href="item.psiUrl">Website</b-link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </b-card-text>
+                      <ul>        
+                          <li v-if="row.item.address1">
+                            <strong>Address:</strong> {{ row.item.address1 }}
+                          </li>
+                          <li v-if="row.item.city">
+                            <strong>City:</strong> {{ row.item.city }}
+                          </li>                
+                          <li v-if="row.item.provinceCode">
+                            <strong>Province Code:</strong> {{ row.item.provinceCode }}
+                          </li>                      
+                          <li v-if="row.item.provinceName">
+                            <strong>Province Name:</strong> {{ row.item.provinceName}}
+                          </li>
+                          <li v-if="row.item.countryCode">
+                            <strong>Country Code:</strong> {{ row.item.countryCode }}
+                          </li>
+                          <li v-if="row.item.postal">
+                            <strong>Postal Code:</strong> {{ row.item.postal }}
+                          </li>
+                          <li v-if="row.item.phone1">
+                            <strong>Phone:</strong> {{ row.item.phone }}
+                          </li>
+                          <li v-if="row.item.fax">
+                            <strong>Fax:</strong> {{ row.item.fax }}
+                          </li>
+                          
+                      </ul>
+                    </b-card>
+                  </template>
+              </DisplayTable>
+            </b-card-text>
+          </b-tab>
+        </b-tabs>
     </b-card>
-
-
-
-
   </div>
 </template>
 
 <script>
   import PSIService from '@/services/PSIService.js';
+  import DisplayTable from '@/components/DisplayTable.vue';
   import {
     mapGetters
   } from "vuex";
   export default {
     name: "psi",
     components: {
-
+      DisplayTable: DisplayTable,
     },
     data() {
       return {
         psi: {},
-        psiFields: ["psiName", "address1", "city", "provinceCode", "countryCode", "attentionName", "transmissionMode"]
+        psiFields: [{key:"more", label:""},"psiCode", "psiName", "cslCode", "psisCode", "openFlag", "transmissionMode", "psiGrouping"]
       }
     },
 

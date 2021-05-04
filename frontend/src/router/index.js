@@ -10,6 +10,7 @@ import Schools from '../views/Schools.vue';
 import PSI from '../views/PSI.vue';
 import Test from '../views/Table.vue';
 import AdminGraduationPrograms from '../views/AdminGraduationPrograms.vue';
+import AdminCodes from '../views/Codes.vue';
 import GraduationPrograms from '../components/GraduationPrograms.vue';
 import GraduationProgramCourses from '../components/GraduationProgramCourses.vue';
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
@@ -18,6 +19,7 @@ import GraduationSpecialPrograms from '@/components/GraduationSpecialPrograms';
 import LetterGrades from '@/components/Admin/LetterGrades';
 import SpecialCases from '@/components/Admin/SpecialCases';
 import AlgorithmRules from '@/components/Admin/AlgorithmRules';
+
 Vue.use(VueRouter)
 
 const routes = [{
@@ -72,6 +74,13 @@ const routes = [{
       requiresAuth: true
     },
   },
+  {
+    path: '/codes',
+    component: AdminCodes,
+    meta: {
+      requiresAuth: true
+    },
+  },  
   {
     path: '/courses',
     name: 'courses',

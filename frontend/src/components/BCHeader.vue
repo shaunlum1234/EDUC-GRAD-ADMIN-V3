@@ -50,6 +50,7 @@
           <li><router-link to="/assessments">Assessments</router-link></li>
           <li><router-link to="/schools">Schools</router-link></li>
           <li><router-link to="/psi">PSI</router-link></li>
+          <li><router-link to="/codes">Codes</router-link></li>
           <li class="nav-item">
             <a
               v-bind:href="
@@ -82,6 +83,7 @@
           <li><router-link to="/assessments">Assessments</router-link></li>
           <li><router-link to="/schools">Schools</router-link></li>
           <li><router-link to="/psi">PSI</router-link></li>
+          <li><router-link to="/codes">Codes</router-link></li>
           <li class="nav-item">
             <a
               v-bind:href="

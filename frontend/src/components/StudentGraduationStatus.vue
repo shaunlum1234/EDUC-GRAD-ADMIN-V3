@@ -205,7 +205,7 @@
 
 
           <!-- SPECIAL PROGRAMS --> 
-          <div v-if="specialPrograms.studentSpecialProgramData" class="special-programs">
+          <div class="special-programs">
             
             <b-card
               header="Special Programs"
@@ -266,7 +266,7 @@
     
             >
               <b-card-text class="m-3">
-{{studentGradStatus.studentGradData.requirementsMet}}
+                {{studentGradStatus.studentGradData.requirementsMet}}
                 <b-table  
                   :items="studentGradRequirementCourses"
                   :fields="requirementsMetfields"
@@ -286,7 +286,7 @@
           
           <div class="requirements-not-met">
             <b-card
-              header="Requirements Not Met"
+              header="Non Grad Reasons"
               v-if="studentGradStatus.studentGradData"
               class="w-100"
             >
