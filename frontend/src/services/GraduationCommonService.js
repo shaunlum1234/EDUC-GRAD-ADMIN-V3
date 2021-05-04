@@ -19,5 +19,9 @@ export default {
   getStudentNotes(pen, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token, "responseType": "arraybuffer" }
     return apiClient.get('/api/v1/common/studentnotes/pen/' + pen,{ headers });
+  },
+  addStudentNotes(json, token) {
+    const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token, "responseType": "arraybuffer" }
+    return apiClient.post('/api/v1/common/studentnotes/', json, { headers});
   }
 }
