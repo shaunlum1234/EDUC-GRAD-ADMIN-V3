@@ -44,16 +44,7 @@ export default {
   created() {
 
   },
-  methods: {
-    getAllNotes: function () {
-      GraduationCommonService.getStudentNotes(this.pen, this.token).then((response) => {
-        this.studentNotes =  response.data;
-      }).catch((error) => {
-        this.studentNotesError = error;
-      });
-    }
-  }
-};
+
 </script>
 
 <style scoped>
