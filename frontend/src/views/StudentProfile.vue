@@ -92,7 +92,7 @@
                 </b-tab>
                 <b-tab title="Notes" v-if="studentHasNotes" class="py-3 px-0 m-1">
                   <b-card-text>
-                    Has Notes
+                    <StudentNotes></StudentNotes>
                   </b-card-text>
                 </b-tab>
                 <b-tab v-if="
@@ -122,6 +122,7 @@
   import SiteMessage from "@/components/SiteMessage";
   import StudentCourses from "@/components/StudentCourses";
   import StudentAssessments from "@/components/StudentAssessments";
+  import StudentNotes from "@/components/StudentNotes";
   import StudentGraduationStatus from "@/components/StudentGraduationStatus";
 
 
@@ -150,6 +151,7 @@
       SiteMessage: SiteMessage,
       StudentCourses: StudentCourses,
       StudentAssessments: StudentAssessments,
+      StudentNotes:StudentNotes,
       StudentGraduationStatus: StudentGraduationStatus,
     },
     props: {

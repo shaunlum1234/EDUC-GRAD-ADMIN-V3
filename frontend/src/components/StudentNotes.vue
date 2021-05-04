@@ -1,49 +1,38 @@
 <template>
     <div>
       <div class="student-note">
-          <!-- <div v-for="studentNote in studentNotes" :key="studentNote.id">
+          <div v-for="studentNote in studentNotes" :key="studentNote.id">
             <b-card
-              title="Notes"
+              title=""
               tag="article"
-              style="max-width: 20rem;"
-              class="mb-2"
+              class="col-12"
             >
               <b-card-text>
+                <p><strong>{{studentNote.createdBy}}</strong> added a note - {{studentNote.createdTimestamp}}</p>
                 <p>{{studentNote.note}}</p>
-                <ul>
-                  <li>{{studentNote.createdBy}}</li>
-                  <li>{{studentNote.createdTimestamp}}</li>
-                </ul>
               </b-card-text>
             </b-card>
-          </div> -->
+          </div>
       </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import GraduationCommonService from "@/components/GraduationCommonService.js";
+
 export default {
-  name: "Notes",
+  name: "StudentNotes",
   computed: {
     ...mapGetters({
-      studentInfo: "getStudentProfile",
-      token: "getToken",
+      studentNotes: "getStudentNotes",
     }),
-  },
-  props: {
-    pen: String
   },
   data() {
       return {
-        studentNotes: [],
-        studentNotesError: []
+        
       };
   },
-  created() {
-
-  },
+}
 
 </script>
 
