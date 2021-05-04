@@ -20,6 +20,7 @@
         courses: "not loaded",
         assessments: "not loaded",
         exams: "not loaded",
+        notes: [],
         gradStatus: "not loaded",
         specialPrograms: "not loaded",
         hasExams: false,
@@ -27,6 +28,7 @@
         hasCourses: false,
         hasGradStatus: false,
         hasgradStatusPendingUpdates: false,
+        hasNotes: false,
         
       }
     },
@@ -73,6 +75,12 @@
           state.student.hasCourses = true;
         }
       },
+      setStudentNotes(state, payload) {
+        state.student.notes = payload;
+        if(state.student.notes.length){
+          state.student.hasNotes = true;
+        }
+      },
       setStudentGradStatus(state, payload) {
         state.student.gradStatus = payload;
         //when commiting gradstatus to store, we need to put the json string in to a json object to call it easier
@@ -95,6 +103,7 @@
       },
       unsetStudent(state) {
         state.student.profile = {};
+        state.student.notes = [];
         state.student.id = "not loaded";
         state.student.courses = "not loaded";
         state.student.assessments = "not loaded";
@@ -104,6 +113,7 @@
         state.student.hasExams = false;
         state.student.hasAssessments = false;
         state.student.hasCourses = false;
+        state.student.hasNotes = false;
         state.student.hasGradStatus = false;
         state.student.hasgradStatusPendingUpdates = false;
         
@@ -247,6 +257,13 @@
         console.log(payload);
         commit('setRoles', payload);
 
+      },    
+      setStudentNotes({
+        commit
+      }, payload) {
+        // eslint-disable-next-line
+        console.log('StudentNote in Store: ' + payload);
+        commit('setStudentNotes', payload);
       },      
     },
 
@@ -298,6 +315,9 @@
       getStudentAssessments(state) {
         return  state.student.assessments;
       },
+      getStudentNotes(state) {
+        return state.student.notes;
+      },
       studentHasCourses(state){
         return state.student.hasCourses;
       },
@@ -309,6 +329,9 @@
       },
       studentHasGradStatus(state){
         return state.student.hasGradStatus;
+      },
+      studentHasNotes(state){
+        return state.student.hasNotes;
       },
       gradStatusCourses(state){
         return state.student.gradStatus.studentGradData.studentCourses.studentCourseList;

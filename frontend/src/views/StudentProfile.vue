@@ -90,6 +90,11 @@
                     <StudentAssessments />
                   </b-card-text>
                 </b-tab>
+                <b-tab title="Notes" v-if="studentHasNotes" class="py-3 px-0 m-1">
+                  <b-card-text>
+                    Has Notes
+                  </b-card-text>
+                </b-tab>
                 <b-tab v-if="
                 this.courses == 'not loaded' ||
   
@@ -109,6 +114,7 @@
 </template>
 
 <script>
+  import GraduationCommonService from "@/services/GraduationCommonService.js";
   import CourseAchievementService from "@/services/CourseAchievementService.js";
   import StudentService from "@/services/StudentService.js";
   import StudentAssessmentService from "@/services/StudentAssessmentService.js"
@@ -117,6 +123,7 @@
   import StudentCourses from "@/components/StudentCourses";
   import StudentAssessments from "@/components/StudentAssessments";
   import StudentGraduationStatus from "@/components/StudentGraduationStatus";
+
 
   import {
     mapGetters
@@ -171,6 +178,7 @@
         assessments: "getStudentAssessments",
         studentHasCourses: "studentHasCourses",
         studentHasAssessments: "studentHasAssessments",
+        studentHasNotes: "studentHasNotes",
         gradInfo: "getStudentGraduationCreationAndUpdate",
         hasGradStatus: "studentHasGradStatus",
         studentGradStatus: "getStudentGradStatus",
@@ -258,7 +266,7 @@
             console.log(response.data[0]);
                 
             this.$store.dispatch("setStudentGradStatusSpecialPrograms", response.data);
-          }
+        }
         ).catch((error) => {
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error.response.statusText, {
@@ -283,6 +291,21 @@
             });
           }
         });
+
+        GraduationCommonService.getStudentNotes(pen, this.token).then(
+          (response) => {           
+            this.$store.dispatch("setStudentNotes", response.data);
+          }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });
+
       },
     },
   };
