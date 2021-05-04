@@ -36,7 +36,12 @@
       //  console.log(payload);
         
         state.student.specialPrograms = payload;
-        state.student.specialPrograms.studentSpecialProgramData = JSON.parse(state.student.specialPrograms.studentSpecialProgramData); 
+        let i = 0;
+        for (i = 0; i < state.student.specialPrograms.length; i++) {
+          state.student.specialPrograms[i].studentSpecialProgramData = JSON.parse(state.student.specialPrograms[i].studentSpecialProgramData); 
+        }
+        
+        
       },
       setHasGradStatusPendingUpdates(state, payload) {
       //  console.log(payload);

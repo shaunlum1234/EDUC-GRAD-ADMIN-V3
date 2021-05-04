@@ -205,17 +205,32 @@
 
 
           <!-- SPECIAL PROGRAMS --> 
-          <div v-if="specialPrograms" class="special-programs">
+          <div v-if="specialPrograms.studentSpecialProgramData" class="special-programs">
+            
             <b-card
               header="Special Programs"
               no-body
             >
               <b-card-text class="p-3">
-                <b-table :items="specialPrograms" :fields="specialProgramsfields" small striped
-                    >
+                <b-table :items="specialPrograms" :fields="specialProgramsfields" small striped>
+                </b-table>
+                <h3>Requirements Met</h3>
+                <div v-if="specialPrograms[0].studentSpecialProgramData.specialRequirementsMet === null">No Requirements have been met</div>
+                <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialRequirementsMet">
+                </b-table>
+                
+                <h3>Requirements Not Met</h3>
+                <div v-if="specialPrograms[0].studentSpecialProgramData.specialNonGradReasons === null">All graduation requirements have been met</div>
+                <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialNonGradReasons">
                 </b-table>
               </b-card-text>
+                
+               
             </b-card>
+            
+
+
+          
           </div>
           <!-- GRADUATION REPORTS -->
           <div class="graduation-reports">
@@ -251,7 +266,7 @@
     
             >
               <b-card-text class="m-3">
-
+{{studentGradStatus.studentGradData.requirementsMet}}
                 <b-table  
                   :items="studentGradRequirementCourses"
                   :fields="requirementsMetfields"
@@ -337,6 +352,7 @@
       <b-button v-b-toggle.collapse-1 variant="primary">DEBUG</b-button>
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
+
           <pre>{{ JSON.stringify(studentGradStatus, null, '\t') }}</pre>
         </b-card>
       </b-collapse>
