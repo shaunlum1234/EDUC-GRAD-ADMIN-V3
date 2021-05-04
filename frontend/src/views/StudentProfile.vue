@@ -237,9 +237,10 @@
         //     });
         //   }
         // });
-
+        
         GraduationStatusService.getGraduationStatus(studentIdFromURL, this.token).then(
           (response) => {
+        
             this.$store.dispatch("setStudentGradStatus", response.data);
           }
         ).catch((error) => {
@@ -251,6 +252,23 @@
             });
           }
         });
+        GraduationStatusService.getGraduationStatusSpecialPrograms(studentIdFromURL, this.token).then(
+          (response) => {
+                
+            console.log(response.data[0]);
+                
+            this.$store.dispatch("setStudentGradStatusSpecialPrograms", response.data);
+          }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });
+
         CourseAchievementService.getStudentCourseAchievements(pen, this.token).then(
           (response) => {
             

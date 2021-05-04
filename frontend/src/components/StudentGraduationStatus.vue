@@ -2,18 +2,17 @@
  
   <div class="p-2">
     <div class="row">
-      <b-card no-body class="px-0 mx-0" v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
-        <b-button block v-b-toggle.accordion-1 variant="primary" class="text-left">
-          Graduation
-          information</b-button>
-        <b-card-body>
-          <b-card-text>
-            <div v-if="!hasGradStatus">
-              {{studentFullName.legalFirstName }} found on the PEN database <strong>but does not have a GRAD system record</strong>
-            </div>
-          </b-card-text>
-        </b-card-body>
-      </b-card>
+      <div class="col-12">
+        <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
+          <b-card-body>
+            <b-card-text>
+              <div v-if="!hasGradStatus">
+                {{studentFullName.legalFirstName }} found on the PEN database <strong>but does not have a GRAD system record</strong>
+              </div>
+            </b-card-text>
+          </b-card-body>
+        </b-card>
+      </div>
     </div>
     <div class="row">
       <!-- Left col -->
@@ -189,7 +188,6 @@
           <div class="certification-dogwoods">
             <b-card
               header="Certification/Dogwoods"
-              title="Certification/Dogwoods"
             >
               <ul>
                 <strong>Certificate #1:</strong>
@@ -207,49 +205,33 @@
 
 
           <!-- SPECIAL PROGRAMS --> 
-          <div class="special-programs">
+          <div v-if="specialPrograms" class="special-programs">
             <b-card
               header="Special Programs"
-              title="Special Programs"
+              no-body
             >
-              <b-card-text>
-                    <ul>
-                      <li >
-                        <strong>Program Cadre:</strong>
-          
-                      </li>
-                      <li>
-                        <strong>AP:</strong>
-    
-                      </li>
-                      <li>
-                        <strong>Career Program:</strong>
-                      </li>
-                      <li>
-                        <strong>Recalculate Flg</strong>
-                      </li>
-                      <li>
-                        <strong>IB:</strong>
-                      </li>
-                    </ul>
+              <b-card-text class="p-3">
+                <b-table :items="specialPrograms" :fields="specialProgramsfields" small striped
+                    >
+                </b-table>
               </b-card-text>
             </b-card>
           </div>
-          <!-- GRADUATION PROGRAMS -->
-          <div class="graduation-programs">
+          <!-- GRADUATION REPORTS -->
+          <div class="graduation-reports">
             <b-card
-              header="Graduation Programs"
-              title="Graduation Programs"
+              header="Graduation Reports"
             >
               <b-card-text>
-                <ul>
-                  <li>
-                    <a v-on:click="getStudentAchievementReportPDF" href="#" class="">Achievement Report (PDF)</a>
-                  </li>
-                  <li>
-                    <a v-on:click="getStudentTranscriptPDF" href="#" class="">Transcript (PDF)</a>
-                  </li>
-                </ul>
+                  <div>
+                    <i class="fas fa-file"></i>
+                    <a v-on:click="getStudentAchievementReportPDF" href="#" class="pl-3">Achievement Report (PDF)</a>
+                   </div>
+                  <div>
+                    <i class="fas fa-file"></i>
+                      <a v-on:click="getStudentTranscriptPDF" href="#" class="pl-3">Transcript (PDF)</a>
+                  </div>
+                 
               </b-card-text>
             </b-card>       
             
@@ -257,39 +239,36 @@
       </div>
       <!-- Right Column -->
       <div class="col-12 pl-3 col-md-6 "> 
+
         <div class="requirements-met-and-not-met">
+   
           <div class="requirements-met">
             <b-card
               header="Requirements Met"
               v-if="studentGradStatus.studentGradData"
-              class="w-100"
+              
+              no-body
+    
             >
-              <b-card-text>
-                <!-- <ul class="requirements-met px-0">
-                  <li v-for="requirement in studentGradStatus.studentGradData.requirementsMet" :key="requirement.rule">
-                    <i class="fas fa-check-circle text-success"></i> <a href="#"
-                      @click='getCourseCompletedProgramCode(requirement.rule,studentGradStatus.studentGradData.studentCourses.studentCourseList)'>{{ requirement.description }}
-                      (Rule {{ requirement.rule }})</a>
-                  </li>
-                </ul> -->
+              <b-card-text class="m-3">
 
                 <b-table  
                   :items="studentGradRequirementCourses"
-                  :fields="fields"
+                  :fields="requirementsMetfields"
                   small
                   striped
                   
                   filter=null
                   :filter-function="filterGradReqCourses"
-                  class="requirements-met px-0">  
+                  class="requirements-met">  
                 </b-table>
-                 View All Student Courses
+                
               </b-card-text>
             </b-card>
            
           </div>
 
-
+          
           <div class="requirements-not-met">
             <b-card
               header="Requirements Not Met"
@@ -354,10 +333,14 @@
           </b-card>
         </div>     
     </div>
-
-
-      
-
+    <div v-if="role == 'administrator'">
+      <b-button v-b-toggle.collapse-1 variant="primary">DEBUG</b-button>
+      <b-collapse id="collapse-1" class="mt-2">
+        <b-card>
+          <pre>{{ JSON.stringify(studentGradStatus, null, '\t') }}</pre>
+        </b-card>
+      </b-collapse>
+    </div>
   </div>
 </template>
 
@@ -384,12 +367,15 @@
         studentFullName: "getStudentFullName",
         token: "getToken",
         role: "getRoles",
+        specialPrograms: "getStudentSpecialPrograms",
         
       }),
     },
     data() {
       return {
-        fields: [{key:'gradReqMetDetail',label: 'Requirement Code'} ,{key: 'courseName', label: "Course Name"} ],
+        requirementsMetfields: [{key:'gradReqMetDetail',label: 'Requirement Code'} ,{key: 'courseName', label: "Course Name"} ],
+        requirementsNotMetfields: [{key:'gradReqMetDetail',label: 'Requirement Code'} ,{key: 'courseName', label: "Course Name"} ],
+        specialProgramsfields: [{key:'specialProgramCode', label: 'Code'} ,{key: 'specialProgramName', label: "Special Program"}, {key: 'specialProgramCompletionDate', label: "Date"} ],
         dismissSecs: 3,
         dismissCountDown: 0,
         showModal: false,
@@ -419,6 +405,7 @@
     },
     created() {
       this.programDropdownList = this.$store.dispatch("getGraduationPrograms");
+  
     },
     methods: {
       filterGradReqCourses(row) {
@@ -587,8 +574,11 @@
     margin-bottom: 10px;
   }
 
-  .accordion>.card .card-header {
-    padding: 0px !important;
+  .card-header {
+    font-weight:700;
+    color: #036 !important;
+    font-size: 20px;
+
   }
 
   .btn {

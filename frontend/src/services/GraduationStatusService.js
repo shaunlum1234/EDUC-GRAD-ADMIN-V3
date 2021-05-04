@@ -7,6 +7,11 @@ export default {
   getGraduationStatus(id, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     return apiClient.get('/api/v1/gradstatus/studentid/' + id,{ headers });
+    
+  },
+  getGraduationStatusSpecialPrograms(id, token){
+    const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+    return apiClient.get('/api/v1/gradstatus/specialprogram/studentid/' + id,{ headers });
   },
   editGraduationStatus(pen, token, json) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }

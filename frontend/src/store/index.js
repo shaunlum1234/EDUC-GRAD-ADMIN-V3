@@ -21,6 +21,7 @@
         assessments: "not loaded",
         exams: "not loaded",
         gradStatus: "not loaded",
+        specialPrograms: "not loaded",
         hasExams: false,
         hasAssessments: false,
         hasCourses: false,
@@ -30,6 +31,13 @@
       }
     },
     mutations: {
+
+      setStudentGradStatusSpecialPrograms(state, payload) {
+      //  console.log(payload);
+        
+        state.student.specialPrograms = payload;
+        state.student.specialPrograms.studentSpecialProgramData = JSON.parse(state.student.specialPrograms.studentSpecialProgramData); 
+      },
       setHasGradStatusPendingUpdates(state, payload) {
       //  console.log(payload);
           state.student.hasGradStatusPendingUpdates = payload;
@@ -87,11 +95,13 @@
         state.student.assessments = "not loaded";
         state.student.exams = "not loaded";
         state.student.gradStatus = "not loaded";
+        state.student.specialPrograms = "not loaded";
         state.student.hasExams = false;
         state.student.hasAssessments = false;
         state.student.hasCourses = false;
         state.student.hasGradStatus = false;
         state.student.hasgradStatusPendingUpdates = false;
+        
       },
       setRoles(state, payload){
         state.roles = payload;
@@ -185,6 +195,10 @@
       setHasGradStatusPendingUpdates({commit}, payload) {
         commit('setHasGradStatusPendingUpdates', payload);
       },
+      setStudentGradStatusSpecialPrograms({commit}, payload) {
+        commit('setStudentGradStatusSpecialPrograms', payload);
+      },
+      
       setToken({commit}, payload) {
         commit('setToken', payload);
       },
@@ -266,6 +280,9 @@
       },
       getStudentGradStatus(state) {
         return state.student.gradStatus;
+      },
+      getStudentSpecialPrograms(state) {
+        return state.student.specialPrograms;
       },
       getStudentCourses(state) {
         return state.student.courses;
