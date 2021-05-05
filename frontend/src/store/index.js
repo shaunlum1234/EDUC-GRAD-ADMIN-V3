@@ -14,6 +14,8 @@
       token:"",
       refreshToken: "",
       roles: "unauthenticated",
+      permissions: "",
+      username: "",
       student: {
         id:"",
         profile: {},
@@ -33,7 +35,12 @@
       }
     },
     mutations: {
-
+      setUsername(state, payload){
+        state.username = payload;
+      },
+      setPermissions(state, payload){
+        state.permissions = payload;
+      },
       setStudentGradStatusSpecialPrograms(state, payload) {
       //  console.log(payload);
         
@@ -123,10 +130,14 @@
       }
     },
     actions: {
-      //Courses Restrictions
-
+      setUsername({commit}, payload){
+        commit('setUsername', payload);
+      },
+      setPermissions({commit}, payload){
+        commit('setPermissions', payload);
+      },
       // Programs
-
+      
       createProgram({state}, payload) {
         ProgramManagementService.createProgram(payload, state.token).then(
           (response) => {
@@ -347,6 +358,12 @@
       },
       isAuthenticated(state){
         return (state.roles == "authenticated")
+      },
+      getPermissions(state){
+        return state.permissions;
+      },
+      getUsername(state){
+        return state.username;
       }
     },
     modules: {}

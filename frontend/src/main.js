@@ -63,8 +63,17 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
     }
     store.dispatch("setToken",keycloak.token);
     store.dispatch("setRefreshToken",keycloak.refreshToken);
-    store.dispatch("setRoles","authenticated");
-    //store.dispatch("setRoles","administrator");
+    store.dispatch("setPermissions",keycloak.tokenParsed.scope);
+    store.dispatch("setUsername",keycloak.tokenParsed.preferred_username);
+    console.log(keycloak.tokenParsed);
+
+
+//    fruits.includes("Mango");
+    if(keycloak.tokenParsed.realm_access.roles.includes("GRAD_SYSTEM_COORDINATOR")){
+      store.dispatch("setRoles","administrator");    
+    }else{
+      store.dispatch("setRoles","authenticated");    
+    }
     new Vue({
       router,
       store,
@@ -89,6 +98,8 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
           // console.log("REFRESH TOKEN" + keycloak.refreshToken);
           store.dispatch("setToken",keycloak.token);
           store.dispatch("setRefreshToken",keycloak.refreshToken);
+          store.dispatch("setPermissions",keycloak.refreshToken.scope);
+          store.dispatch("setUsername",keycloak.refreshToken.preferred_username);
           
           
           

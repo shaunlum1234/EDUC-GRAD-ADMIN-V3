@@ -46,7 +46,6 @@
                             >
                               <template #cell(more)="row">
                                   <b-btn
-                                    v-if="row.item.hasRelatedCourse == 'Y'"
                                     variant="outline primary"
                                     style="color: #666"
                                     size="sm"
@@ -56,7 +55,31 @@
                                     <i class="fas fa-sm fa-caret-down"></i>
                                   </b-btn>
                                 </template>
-
+                                <template #row-details="row">
+                                  <b-card class="px-0">
+                                    <ul>        
+                                        <li v-if="row.item.address1">
+                                          <strong>Address:</strong> {{ row.item.address1 }}
+                                        </li>
+                                        <li v-if="row.item.city">
+                                          <strong>City:</strong> {{ row.item.city }}
+                                        </li>                
+                                        <li v-if="row.item.provinceCode">
+                                          <strong>Province Code:</strong> {{ row.item.provCode }}
+                                        </li>                      
+                                        <li v-if="row.item.provinceName">
+                                          <strong>Province Name:</strong> {{ row.item.provinceName}}
+                                        </li>
+                                        <li v-if="row.item.countryCode">
+                                          <strong>Country Code:</strong> {{ row.item.countryCode }}
+                                        </li>
+                                        <li v-if="row.item.postal">
+                                          <strong>Postal Code:</strong> {{ row.item.postal }}
+                                        </li>
+                                        
+                                    </ul>
+                                  </b-card>
+                                </template>
                             </DisplayTable>
                           </b-card-text>
                         </b-tab>
@@ -86,7 +109,7 @@
         schoolFields: [
           {
             key: 'more',
-            label: 'more',
+            label: '',
             sortable: true,
             sortDirection: 'desc'
           },

@@ -211,7 +211,7 @@
               header="Special Programs"
               no-body
             >
-              <b-card-text class="p-3">
+              <b-card-text class="p-3" v-if="specialPrograms[0] && specialPrograms[0].studentSpecialProgramData">
                 <b-table :items="specialPrograms" :fields="specialProgramsfields" small striped>
                 </b-table>
                 <h3>Requirements Met</h3>
@@ -266,7 +266,6 @@
     
             >
               <b-card-text class="m-3">
-                {{studentGradStatus.studentGradData.requirementsMet}}
                 <b-table  
                   :items="studentGradRequirementCourses"
                   :fields="requirementsMetfields"
@@ -287,10 +286,9 @@
           <div class="requirements-not-met">
             <b-card
               header="Non Grad Reasons"
-              v-if="studentGradStatus.studentGradData"
               class="w-100"
             >
-              <b-card-text>
+              <b-card-text v-if="studentGradStatus.studentGradData">
                
                 <div v-if="!studentGradStatus.studentGradData.nonGradReasons">
                   <ul>
@@ -316,9 +314,9 @@
       <div class="graduation-maintenance">
         <b-card
             header="Graduation Maintenance"
-            v-if="studentGradStatus.studentGradData"
+            
           >
-            <b-card-text>
+            <b-card-text v-if="studentGradStatus.studentGradData">
             <ul>
               <li>
                 <a href="#" @click="projectGraduationStatus(studentPen)" class="">
@@ -425,7 +423,6 @@
     },
     methods: {
       filterGradReqCourses(row) {
-        console.log(row.gradReqMet.length);
        if (row.gradReqMet.length >  0) {
             return true;
           } else {

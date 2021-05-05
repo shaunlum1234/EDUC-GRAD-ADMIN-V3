@@ -80,6 +80,17 @@
                   </b-card-text>
                 </b-tab>
       
+         <b-tab title="French-Immersion" v-if="studentHasCourses" class="py-3 px-0 m-1">
+                  <b-card-text v-if="studentHasCourses">
+                      FI	<h2>2018 Graduation Program French Immersion</h2>	2019/06
+
+                      <table data-v-343f71db="" role="table" aria-busy="false" aria-colcount="2" class="table b-table" id="__BVID__155"><!----><!----><thead role="rowgroup" class=""><!----><tr role="row" class=""><th role="columnheader" scope="col" aria-colindex="1" class=""><div>Rule</div></th><th role="columnheader" scope="col" aria-colindex="2" class=""><div>Description</div></th></tr></thead><tbody role="rowgroup"><!----><tr role="row" class=""><td aria-colindex="1" role="cell" class="">200</td><td aria-colindex="2" role="cell" class="">Français langue seconde-immersion 12 - French Immersion </td></tr><tr role="row" class=""><td aria-colindex="1" role="cell" class="">201</td><td aria-colindex="2" role="cell" class="">Français langue seconde-immersion 11 - French Immersion </td></tr><tr role="row" class=""><td aria-colindex="1" role="cell" class="">202</td><td aria-colindex="2" role="cell" class="">Français langue seconde-immersion 10 - French Immersion </td></tr><tr role="row" class=""><td aria-colindex="1" role="cell" class="">204</td><td aria-colindex="2" role="cell" class="">12 Other French credits - French Immersion</td></tr><tr role="row" class=""><td aria-colindex="1" role="cell" class="">205</td><td aria-colindex="2" role="cell" class="">4 Gr 11 or 12 Other French credits - French Immersion</td></tr><!----><!----></tbody><!----></table>
+                  </b-card-text>
+                </b-tab>
+
+
+
+      
                 <b-tab title="Courses" v-if="studentHasCourses" class="py-3 px-0 m-1">
                   <b-card-text v-if="studentHasCourses">
                     <StudentCourses></StudentCourses>

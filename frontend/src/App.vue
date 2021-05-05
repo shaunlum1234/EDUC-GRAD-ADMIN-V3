@@ -1,7 +1,17 @@
 <template>
   <div id="app">
     <!-- <Header></Header> -->
-    <Bcheader class="bcheader" style="margin-bottom: 15px; text-transform: capitalize"><a @click="toggleRole">{{role}}</a> </Bcheader>
+    <Bcheader class="bcheader" style="margin-bottom: 15px; text-transform: capitalize">
+    <a v-b-toggle.sidebar-1>{{username}}</a>
+    <b-sidebar id="sidebar-1" title="Permissions" shadow>
+      <div class="px-3 py-2">
+        <h1>{{username}}</h1>
+        <p>
+          {{permissions}}
+        </p>
+      </div>
+    </b-sidebar>
+       (<a @click="toggleRole">{{role}}</a>) </Bcheader>
     
     <div class="container">
         <transition
@@ -23,7 +33,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      role: "getRoles"
+      role: "getRoles",
+      permissions: "getPermissions",
+      username: "getUsername",
     }),
   },
   methods:{
