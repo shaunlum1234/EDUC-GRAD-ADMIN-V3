@@ -50,12 +50,13 @@
 
 <script>
 import { mapGetters } from "vuex";
-//import GraduationCommonService from "@/services/GraduationCommonService.js";
+import GraduationCommonService from "@/services/GraduationCommonService.js";
 export default {
   name: "StudentNotes",
   computed: {
     ...mapGetters({
       studentNotes: "getStudentNotes",
+      token: "getToken",
     }),
   },
    created() {
@@ -69,7 +70,8 @@ export default {
           note:'',
           studentID:'',
           pen:'',
-        }
+        },
+        stringifiedNote: {}
       };
   },
   methods: {
@@ -82,8 +84,8 @@ export default {
         this.showAddButton = true;
         this.newNote.studentID = this.$route.params.studentId;
         this.newNote.pen = this.$route.params.pen;
-        alert(JSON.stringify(this.newNote))
-        //GraduationCommonService.addStudentNotes()
+        //this.stringifiedNote = JSON.stringify(this.newNote);
+        GraduationCommonService.addStudentNotes(this.newNote, this.token);
       },
       onReset(event) {
         event.preventDefault()

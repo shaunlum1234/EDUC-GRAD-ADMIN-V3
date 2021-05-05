@@ -91,7 +91,7 @@
                     <StudentAssessments />
                   </b-card-text>
                 </b-tab>
-                <b-tab title="Notes" v-if="studentHasNotes" class="py-3 px-0 m-1">
+                <b-tab title="Notes" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentNotes></StudentNotes>
                   </b-card-text>
