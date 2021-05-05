@@ -42,7 +42,7 @@
                   
                   <li v-if="!showEdit">
                     <strong>Program: </strong>
-                    <span v-b-tooltip.hover title="Tooltip directive content">{{ studentGradStatus.program }}</span>
+                    <span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span>
                   </li>
                   <li v-if="showEdit">
                     <strong>Program: </strong><b-input v-model='editedGradStatus.program'></b-input>      
@@ -59,10 +59,25 @@
                     <strong>Student status: </strong>
                     <span v-if="studentGradStatus.studentStatus">{{ studentGradStatus.studentStatus }}</span>
                   </li>
-                  <li>
+                  <li v-if="!showEdit">
                     <strong>Student grade: </strong>
                     <span v-if="studentGradStatus.studentGrade">{{ studentGradStatus.studentGrade }}</span>
                   </li>
+                  <li v-if="showEdit">
+                      <strong>Student grade: </strong>
+                      <b-form-select v-model="studentGradStatus.studentGrade" class="mb-3">
+                        <b-form-select-option value="8">08</b-form-select-option>
+                        <b-form-select-option value="9">09</b-form-select-option>
+                        <b-form-select-option value="10">10</b-form-select-option>
+                        <b-form-select-option value="11">11</b-form-select-option>
+                        <b-form-select-option value="12">12</b-form-select-option>
+                        <b-form-select-option value="GA">GA</b-form-select-option>
+                        <b-form-select-option value="SU">SU</b-form-select-option>
+                        <b-form-select-option value="OT">OT</b-form-select-option>
+                        <b-form-select-option value="AD">AD</b-form-select-option>
+                        <b-form-select-option value="AN">AN</b-form-select-option>
+                      </b-form-select>
+                  </li>                  
                   <li>
                     <strong>School of record: </strong>
                     <b-button v-if="studentGradStatus.schoolOfRecord" 
