@@ -422,7 +422,7 @@
           pen: "",
           studentID:"",
           program: "",
-          programCompletionDate: null,
+          programCompletionDate: "",
           gpa: "",
           honoursStanding: null,
           recalculateGradStatus: null,
@@ -478,11 +478,12 @@
         })
       },
       editGradStatus() {
+        var formatedProgramCompletionDate = new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10)
         this.showEdit = true;
         this.editedGradStatus.pen = this.studentGradStatus.pen;
         this.editedGradStatus.program = this.studentGradStatus.program;  
         this.editedGradStatus.gpa = this.studentGradStatus.gpa;  
-        this.editedGradStatus.programCompletionDate = this.studentGradStatus.programCompletionDate;
+        this.editedGradStatus.programCompletionDate = formatedProgramCompletionDate;
         this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;
         this.editedGradStatus.studentStatusName = this.studentGradStatus.studentStatusName;
         this.editedGradStatus.studentId = this.studentGradStatus.studentId;
