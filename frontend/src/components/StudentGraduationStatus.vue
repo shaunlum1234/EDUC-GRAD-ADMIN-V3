@@ -62,7 +62,7 @@
                   <li v-if="showEdit">
                     <strong>Student status: </strong>
                     <b-form-select 
-                        v-model="editGradStatus.studentStatusName"
+                        v-model="editedGradStatus.studentStatusName"
                         :options="studentStatusOptions"
                       ></b-form-select>
                   </li>
@@ -75,7 +75,7 @@
                   <li v-if="showEdit">
                       <strong>Student grade: </strong>
                       <b-form-select 
-                        v-model="editGradStatus.studentGrade"
+                        v-model="editedGradStatus.studentGrade"
                         :options="gradeOptions"
                       ></b-form-select>
                   </li>                  
