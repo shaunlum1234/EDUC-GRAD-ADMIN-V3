@@ -97,20 +97,26 @@ export default {
         event.preventDefault()
         this.showAddButton = true;
         this.showForm = false
+        var current = new Date().toISOString().slice(0, 10)
         this.newNote.studentID = this.$route.params.studentId;
         this.newNote.pen = this.$route.params.pen;
         this.newNote.createdBy = this.username;
-        GraduationCommonService.addStudentNotes(this.newNote, this.token).then(
-          this.getNotes()   
-        ).catch((error) => {
-          if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
-          }
-        }); 
+        this.newNote.createdTimestamp = current;
+        GraduationCommonService.addStudentNotes(this.newNote, this.token)
+          .then((response) => {
+            if(response.data && response.data.value){
+              this.notes.push(response.data.value)
+            }            
+          })             
+          .catch((error) => {
+            if(error.response.status){
+              this.$bvToast.toast("ERROR " + error.response.statusText, {
+                title: "ERROR" + error.response.status,
+                variant: 'danger',
+                noAutoHide: true,
+              });
+            }
+          }); 
       },
       onReset(event) {
         event.preventDefault()
@@ -123,9 +129,10 @@ export default {
         // })
       },
       onDelete(noteID) {
-        GraduationCommonService.deleteStudentNotes(noteID, this.token)
-        this.getNotes();
-        this.showForm = false;
+        GraduationCommonService.deleteStudentNotes(noteID, this.token)  
+          var removeIndex = this.notes.map(function(item) { return item.id; }).indexOf(noteID); 
+          this.notes.splice(removeIndex, 1);
+          this.showForm = false;
       },
       getNotes(){
         console.log(this.studentProfile)
