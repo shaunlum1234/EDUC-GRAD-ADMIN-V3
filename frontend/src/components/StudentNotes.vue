@@ -14,7 +14,7 @@
         <b-card
             title=""
             tag="article"
-            class="col-12"
+            class="col-12 note-card"
             v-if="showForm"
         >
           <b-form @submit="onSubmit" @reset="onReset" >
@@ -37,10 +37,9 @@
             no-body
             tag="article"
             class="col-12"
-            :header=" studentNote.createdBy + 'added a note -' + studentNote.createdTimestamp"
+            :header=" studentNote.createdBy + ' added a note -' + studentNote.createdTimestamp"
           >
             <b-card-text>
-              <p><strong>{{studentNote.createdBy}}</strong> added a note - {{studentNote.createdTimestamp}}</p>
               <p>{{studentNote.note}}</p>
               <b-button
                 v-if="showAddButton"
@@ -72,7 +71,7 @@ export default {
     }),
   },
   created() {
-    this.notes = this.studentNotes
+    this.notes = this.studentNotes;
     this.studentProfile = this.profile
   },
   data() {
@@ -156,5 +155,10 @@ export default {
 </script>
 
 <style scoped>
-
+.card{
+  padding: 0px;
+}
+.card-text{
+  padding: 19px;
+}
 </style>
