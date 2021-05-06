@@ -23,5 +23,9 @@ export default {
   addStudentNotes(json, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     return apiClient.post('/api/v1/common/studentnotes/', json, { headers});
+  },
+  deleteStudentNotes(noteID, token) {
+    const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+    return apiClient.delete('/api/v1/common/studentnotes/' + noteID, { headers});
   }
 }

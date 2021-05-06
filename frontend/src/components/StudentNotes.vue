@@ -31,15 +31,25 @@
           </b-form>
         </b-card>
 <!-- Notes from the store pull from the database -->
-        <div v-for="studentNote in studentNotes" :key="studentNote.id">
+        <div v-for="studentNote in notes" :key="studentNote.id">
           <b-card
             title=""
+            no-body
             tag="article"
             class="col-12"
+            :header=" studentNote.createdBy + 'added a note -' + studentNote.createdTimestamp"
           >
             <b-card-text>
               <p><strong>{{studentNote.createdBy}}</strong> added a note - {{studentNote.createdTimestamp}}</p>
               <p>{{studentNote.note}}</p>
+              <b-button
+                v-if="showAddButton"
+                variant="danger"
+                size="sm"
+                @click="onDelete(studentNote.id)"
+                class="float-right delete-button"
+                >Delete
+              </b-button>
             </b-card-text>
           </b-card>
         </div>   
@@ -57,21 +67,25 @@ export default {
     ...mapGetters({
       studentNotes: "getStudentNotes",
       token: "getToken",
+      profile: "getStudentProfile",
+      username: "getUsername"
     }),
   },
-   created() {
-
-    },
+  created() {
+    this.notes = this.studentNotes
+    this.studentProfile = this.profile
+  },
   data() {
       return {
         showForm: false,
         showAddButton: true,
+        notes:[],
         newNote: {
           note:'',
           studentID:'',
           pen:'',
         },
-        stringifiedNote: {}
+        studentProfile: {},
       };
   },
   methods: {
@@ -82,10 +96,21 @@ export default {
       onSubmit(event) {
         event.preventDefault()
         this.showAddButton = true;
+        this.showForm = false
         this.newNote.studentID = this.$route.params.studentId;
         this.newNote.pen = this.$route.params.pen;
-        //this.stringifiedNote = JSON.stringify(this.newNote);
-        GraduationCommonService.addStudentNotes(this.newNote, this.token);
+        this.newNote.createdBy = this.username;
+        GraduationCommonService.addStudentNotes(this.newNote, this.token).then(
+          this.getNotes()   
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        }); 
       },
       onReset(event) {
         event.preventDefault()
@@ -96,6 +121,27 @@ export default {
         // this.$nextTick(() => {
         //   this.showForm = true;
         // })
+      },
+      onDelete(noteID) {
+        GraduationCommonService.deleteStudentNotes(noteID, this.token)
+        this.getNotes();
+        this.showForm = false;
+      },
+      getNotes(){
+        console.log(this.studentProfile)
+        GraduationCommonService.getStudentNotes(this.studentProfile.pen, this.token).then(
+          (response) => {           
+            this.notes = response.data
+          }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });
       }
     }
 }
