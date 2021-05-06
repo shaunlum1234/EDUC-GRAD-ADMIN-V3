@@ -46,7 +46,7 @@
                     <span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span>
                   </li>
                   <li v-if="showEdit">
-                    <strong>Program: </strong><b-input v-model='editedGradStatus.program'></b-input>      
+                    <strong>Program: </strong><b-form-select v-model="editedGradStatus.program" :options="programOptions"></b-form-select>      
                   </li>
                   
                   <li v-if="!showEdit">
@@ -56,26 +56,29 @@
                   <li v-if="showEdit">
                     <strong>Program completion date: </strong><b-input type="date" v-model='editedGradStatus.programCompletionDate'></b-input>      
                   </li>
-                  <li>
-                    <strong>Student status: </strong>
-                    <span v-if="studentGradStatus.studentStatus">{{ studentGradStatus.studentStatus }}</span>
-                  </li>
                   <li v-if="!showEdit">
+                    <strong>Student status: </strong>
+                    <span v-if="studentGradStatus.studentStatus">{{ getStudentStatus(studentGradStatus.studentStatus)}}</span>
+                  </li>                     
+                  <li v-if="showEdit">
+                    <strong>Student status: </strong>
+                    <b-form-select 
+                        v-model="editGradStatus.studentStatus"
+                        :options="studentStatusOptions"
+                      ></b-form-select>
+                  </li>
+               
+                  <li v-if="!showEdit">
+                    
                     <strong>Student grade: </strong>
                     <span v-if="studentGradStatus.studentGrade">{{ studentGradStatus.studentGrade }}</span>
                   </li>
                   <li v-if="showEdit">
-                     {{editGradStatus.studentGrade}}
                       <strong>Student grade: </strong>
-                           <b-form-select 
-                              id="checkbox-group-1"
-                              v-model="editGradStatus.studentGrade"
-                              :options="gradeOptions"
-                              :aria-describedby="ariaDescribedby"
-                              name="flavour-1"
-                            ></b-form-select>
-
-                     
+                      <b-form-select 
+                        v-model="editGradStatus.studentGrade"
+                        :options="gradeOptions"
+                      ></b-form-select>
                   </li>                  
                   <li>
                     <strong>School of record: </strong>
@@ -238,13 +241,7 @@
                 <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialNonGradReasons">
                 </b-table>
               </b-card-text>
-                
-               
             </b-card>
-            
-
-
-          
           </div>
           <!-- GRADUATION REPORTS -->
           <div class="graduation-reports">
@@ -396,6 +393,8 @@
         token: "getToken",
         role: "getRoles",
         specialPrograms: "getStudentSpecialPrograms",
+        programOptions: "getProgramOptions",
+        studentStatusOptions: "getStudentStatusOptions"
         
       }),
     },
@@ -448,6 +447,15 @@
   
     },
     methods: {
+      getStudentStatus(code){
+        var i =0;
+        for(i=0; i<=this.studentStatusOptions.length; i++){          
+          if(this.studentStatusOptions[i].value == code){
+            return this.studentStatusOptions[i].text;
+          } 
+        }
+        return "";
+      },
       filterGradReqCourses(row) {
        if (row.gradReqMet.length >  0) {
             return true;
