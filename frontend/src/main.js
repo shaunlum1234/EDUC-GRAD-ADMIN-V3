@@ -65,7 +65,6 @@ keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success
     store.dispatch("setRefreshToken",keycloak.refreshToken);
     store.dispatch("setPermissions",keycloak.tokenParsed.scope);
     store.dispatch("setUsername",keycloak.tokenParsed.preferred_username);
-    console.log(keycloak.tokenParsed);
 
 
 //    fruits.includes("Mango");

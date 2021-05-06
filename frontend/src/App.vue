@@ -26,10 +26,17 @@
 import {
   mapGetters
 } from "vuex";
+
 import Bcheader from "@/components/BCHeader";
 export default {
   components: {
     Bcheader
+  },
+  created() {
+    console.log(this.role);
+    if(this.role == "administrator"){
+      this.$store.dispatch("setApplicationVariables");
+    }
   },
   computed: {
     ...mapGetters({

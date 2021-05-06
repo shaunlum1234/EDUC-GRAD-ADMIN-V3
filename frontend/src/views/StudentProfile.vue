@@ -265,9 +265,6 @@
         });
         GraduationStatusService.getGraduationStatusSpecialPrograms(studentIdFromURL, this.token).then(
           (response) => {
-                
-            console.log(response.data[0]);
-                
             this.$store.dispatch("setStudentGradStatusSpecialPrograms", response.data);
         }
         ).catch((error) => {

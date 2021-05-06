@@ -4,6 +4,7 @@
   Vue.use(Vuex);
   //import CourseService from '@/services/CourseService.js';
   import ProgramManagementService from '@/services/ProgramManagementService.js';
+  import CodeService from '@/services/CodeService.js';
   export default new Vuex.Store({
     init: {
       //Initialize the store
@@ -17,7 +18,6 @@
       permissions: "",
       username: "",
       student: {
-        id:"",
         profile: {},
         courses: "not loaded",
         assessments: "not loaded",
@@ -31,10 +31,28 @@
         hasGradStatus: false,
         hasgradStatusPendingUpdates: false,
         hasNotes: false,
-        
+      },
+      applicationVariables:{
+        programOptions:[],
+        studentStatusOptions:[]
       }
     },
     mutations: {
+      setProgramOptions(state, payload){
+        let programs = payload;
+        let i=0;
+         for(i=0; i < programs.length; i++){
+           state.applicationVariables.programOptions.push({"value": programs[i].programCode, "text":programs[i].programCode});
+         }
+      },
+      setStudentStatusCodesOptions(state, payload){
+        
+        let studentCodes = payload;
+        let i=0;
+         for(i=0; i < studentCodes.length; i++){
+           state.applicationVariables.studentStatusOptions.push({"value": studentCodes[i].description, "text":studentCodes[i].description});
+         }         
+      },
       setUsername(state, payload){
         state.username = payload;
       },
@@ -69,9 +87,6 @@
         
         localStorage.setItem("refresh", payload);
         state.refreshToken = payload;
-      },
-      setStudentId(state, payload) {
-        state.student.id = payload;
       },
       setStudentProfile(state, payload) {
         state.student.profile = payload;
@@ -130,6 +145,24 @@
       }
     },
     actions: {
+      setApplicationVariables({commit,state}) {
+        ProgramManagementService.getGraduationPrograms(state.token).then(
+          (response) => {
+            commit('setProgramOptions', response.data);
+          }
+        ).catch((error) => {
+          // eslint-disable-next-line
+          console.log(error.response.status);
+        });
+        CodeService.getStudentStatusCodes(state.token).then(
+          (response) => {
+            commit('setStudentStatusCodesOptions', response.data);
+          }
+        ).catch((error) => {
+          // eslint-disable-next-line
+          console.log(error.response.status);
+        });
+      }, 
       setUsername({commit}, payload){
         commit('setUsername', payload);
       },
@@ -231,11 +264,6 @@
       setRefreshToken({commit}, payload) {
         commit('setRefreshToken', payload);
       },
-      setStudentId({
-        commit
-      }, payload) {
-        commit('setStudentId', payload);
-      },
       setStudentProfile({
         commit
       }, payload) {
@@ -293,7 +321,7 @@
           return state.student.hasGradStatusPendingUpdates;
       },
       getStudentId(state) {
-        return state.student.id;
+        return state.student.profile.studentID;
       },
       getStudentProfile(state) {
         return state.student.profile;
@@ -364,6 +392,12 @@
       },
       getUsername(state){
         return state.username;
+      },
+      getProgramOptions(state){
+        return state.applicationVariables.programOptions;
+      },
+      getStudentStatusOptions(state){
+        return state.applicationVariables.studentStatusOptions;
       }
     },
     modules: {}

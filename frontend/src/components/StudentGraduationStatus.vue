@@ -1,5 +1,4 @@
 <template>
- 
   <div class="p-2">
     <div class="row">
       <div class="col-12">
@@ -19,9 +18,10 @@
       <div class="col-12 pr-0 col-md-6 ">
           <div class="graduation-status">
           <b-card
-            header="Graduation Status"
+            header="GRAD Status"
           >
-            <b-card-text>  
+            <b-card-text>
+              
                 <b-button-group v-if="this.role =='administrator'" class="gradstatus-actions float-right">
                   <div v-if="!showEdit">
                     <a href="#" class="edit" v-on:click="editGradStatus" size="sm" variant="primary">
@@ -29,7 +29,7 @@
                     </a>
                   </div>
                   <div v-if="showEdit">
-                    <b-btn v-on:click="saveEditedGradStatus(studentPen)" size="sm" variant="primary">
+                    <b-btn v-on:click="editGraduationStatus(studentId)" size="sm" variant="primary">
                         Save 
                     </b-btn>
                     <b-btn v-on:click="cancelGradStatus"  size="sm" variant="outline-primary">
@@ -45,7 +45,7 @@
                     <span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span>
                   </li>
                   <li v-if="showEdit">
-                    <strong>Program: </strong><b-input v-model='editedGradStatus.program'></b-input>      
+                    <strong>Program: </strong><b-form-select v-model="editedGradStatus.program" :options="programOptions"></b-form-select>      
                   </li>
                   
                   <li v-if="!showEdit">
@@ -55,28 +55,29 @@
                   <li v-if="showEdit">
                     <strong>Program completion date: </strong><b-input type="date" v-model='editedGradStatus.programCompletionDate'></b-input>      
                   </li>
-                  <li>
-                    <strong>Student status: </strong>
-                    <span v-if="studentGradStatus.studentStatus">{{ studentGradStatus.studentStatus }}</span>
-                  </li>
                   <li v-if="!showEdit">
+                    <strong>Student status: </strong>
+                    <span v-if="studentGradStatus.studentStatusName">{{ studentGradStatus.studentStatusName}}</span>
+                  </li>                     
+                  <li v-if="showEdit">
+                    <strong>Student status: </strong>
+                    <b-form-select 
+                        v-model="editGradStatus.studentStatusName"
+                        :options="studentStatusOptions"
+                      ></b-form-select>
+                  </li>
+               
+                  <li v-if="!showEdit">
+                    
                     <strong>Student grade: </strong>
                     <span v-if="studentGradStatus.studentGrade">{{ studentGradStatus.studentGrade }}</span>
                   </li>
                   <li v-if="showEdit">
                       <strong>Student grade: </strong>
-                      <b-form-select v-model="studentGradStatus.studentGrade" class="mb-3">
-                        <b-form-select-option value="8">08</b-form-select-option>
-                        <b-form-select-option value="9">09</b-form-select-option>
-                        <b-form-select-option value="10">10</b-form-select-option>
-                        <b-form-select-option value="11">11</b-form-select-option>
-                        <b-form-select-option value="12">12</b-form-select-option>
-                        <b-form-select-option value="GA">GA</b-form-select-option>
-                        <b-form-select-option value="SU">SU</b-form-select-option>
-                        <b-form-select-option value="OT">OT</b-form-select-option>
-                        <b-form-select-option value="AD">AD</b-form-select-option>
-                        <b-form-select-option value="AN">AN</b-form-select-option>
-                      </b-form-select>
+                      <b-form-select 
+                        v-model="editGradStatus.studentGrade"
+                        :options="gradeOptions"
+                      ></b-form-select>
                   </li>                  
                   <li>
                     <strong>School of record: </strong>
@@ -172,11 +173,11 @@
                       <li v-if="showEdit">
                       <strong>GPA:</strong><b-input size="sm" max="4" pattern="^\d*(\.\d{0,4})?$" type="number" v-model='editedGradStatus.gpa'></b-input>      
                     </li>
-                    <li>
+                    <li v-if="!showEdit">
                       <strong>Program at graduation:</strong>
                       {{ studentGradStatus.gradProgramAtGraduation }}
                     </li>
-                      <li v-if="showEdit">
+                    <li v-if="showEdit">
                       <strong>Program at graduation:</strong><b-input v-model='editedGradStatus.gradProgramAtGraduation'></b-input>      
                     </li>
                     <li v-if="studentGradStatus.graduationDate">
@@ -239,13 +240,7 @@
                 <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialNonGradReasons">
                 </b-table>
               </b-card-text>
-                
-               
             </b-card>
-            
-
-
-          
           </div>
           <!-- GRADUATION REPORTS -->
           <div class="graduation-reports">
@@ -397,12 +392,15 @@
         token: "getToken",
         role: "getRoles",
         specialPrograms: "getStudentSpecialPrograms",
+        programOptions: "getProgramOptions",
+        studentStatusOptions: "getStudentStatusOptions",
+        studentId: "getStudentId",
         
       }),
     },
     data() {
       return {
-        requirementsMetfields: [{key:'gradReqMetDetail',label: 'Requirement Code'} ,{key: 'courseName', label: "Course Name"} ],
+        requirementsMetfields: [{key:'gradReqMetDetail',label: 'Requirement Code'} ,{key: 'courseName', label: "Course Name"},{key: 'sessionDate', label: "Session"} ],
         requirementsNotMetfields: [{key:'gradReqMetDetail',label: 'Requirement Code'} ,{key: 'courseName', label: "Course Name"} ],
         specialProgramsfields: [{key:'specialProgramCode', label: 'Code'} ,{key: 'specialProgramName', label: "Special Program"}, {key: 'specialProgramCompletionDate', label: "Date"} ],
         dismissSecs: 3,
@@ -417,19 +415,37 @@
         SchoolAtGraduation:"",
         programDropdownList: [],
         editedGradStatus: {
-            createdBy:"",
-            createdTimestamp: "",
-            updatedBy: "",
-            updatedTimestamp: "",
-            pen: "",
-            program: "TEST",
-            programCompletionDate: null,
-            gpa: "",
-            honoursStanding: null,
-            recalculateGradStatus: null,
-            schoolOfRecord: "",
-            studentGrade: ""
-          }
+          createdBy:"",
+          createdTimestamp: "",
+          updatedBy: "",
+          updatedTimestamp: "",
+          pen: "",
+          studentID:"",
+          program: "",
+          programCompletionDate: null,
+          gpa: "",
+          honoursStanding: null,
+          recalculateGradStatus: null,
+          schoolOfRecord: "",
+          studentGrade: ""
+          
+        },
+
+
+
+
+        gradeOptions: [
+          { text: '08', value: '8' },
+          { text: '09', value: '9' },
+          { text: '10', value: '10' },
+          { text: '11', value: '11' },
+          { text: '12', value: '12' },
+          { text: 'GA', value: 'GA' },
+          { text: 'SU', value: 'SU' },
+          { text: 'OT', value: 'OT' },          
+          { text: 'AD', value: 'AD' },          
+          { text: 'AN', value: 'AN' },          
+        ]
       };
     },
     created() {
@@ -437,6 +453,15 @@
   
     },
     methods: {
+      getStudentStatus(code){
+        var i =0;
+        for(i=0; i<=this.studentStatusOptions.length; i++){          
+          if(this.studentStatusOptions[i].value == code){
+            return this.studentStatusOptions[i].text;
+          } 
+        }
+        return "";
+      },
       filterGradReqCourses(row) {
        if (row.gradReqMet.length >  0) {
             return true;
@@ -444,7 +469,7 @@
             return false;
           }
       },
-      makeToast(variant = null, bodyContent) {
+      showNotification(variant = null, bodyContent) {
         this.$bvToast.toast(bodyContent, {
           title: `Variant ${variant || 'default'}`,
           variant: variant,
@@ -453,33 +478,35 @@
         })
       },
       editGradStatus() {
-
         this.showEdit = true;
-       
         this.editedGradStatus.pen = this.studentGradStatus.pen;
         this.editedGradStatus.program = this.studentGradStatus.program;  
         this.editedGradStatus.gpa = this.studentGradStatus.gpa;  
-        this.editedGradStatus.programCompletionDate = this.studentGradStatus.programCompletionDate
+        this.editedGradStatus.programCompletionDate = this.studentGradStatus.programCompletionDate;
+        this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;
+        this.editedGradStatus.studentStatusName = this.studentGradStatus.studentStatusName;
+        this.editedGradStatus.studentId = this.studentGradStatus.studentId;
       },
       cancelGradStatus(){
         this.showEdit = false;
       },
-      countDownChanged(dismissCountDown) {
-        this.dismissCountDown = dismissCountDown
-      },
-      saveEditedGradStatus(pen) {
-        GraduationStatusService.editGraduationStatus(pen, this.token, this.editedGradStatus)
+      editGraduationStatus(id) {
+        GraduationStatusService.editGraduationStatus(id, this.token, this.editedGradStatus)
           .then((response) => {
             this.updateStatus = response.data;
-            this.studentGradStatus.program = this.editedGradStatus.program;
-            this.studentGradStatus.gpa = this.editedGradStatus.gpa;
+            this.studentGradStatus.pen = this.editedGradStatus.pen ;
+            this.studentGradStatus.program = this.editedGradStatus.program;  
+            this.studentGradStatus.gpa = this.editedGradStatus.gpa;  
+            this.studentGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate;
+            this.studentGradStatus.studentGrade = this.editedGradStatus.studentGrade;
+            this.studentGradStatus.studentStatusName = this.editedGradStatus.studentStatusName;
             this.showTop = !this.showTop
             this.showEdit=false;
             // this.dismissCountDown = this.dismissSecs
-            this.makeToast('success', 'Grad Status Saved')
+            this.showNotification('success', 'Grad Status Saved')
           }).catch((error) => {
           // eslint-disable-next-line
-            this.makeToast('danger', 'There was an error: '+ error.response.data.messages[0].message);
+            this.showNotification('danger', 'There was an error: '+ error.response.data.messages[0].message);
           //console.log('There was an error:' + error.response);
         });
       },
@@ -606,9 +633,7 @@
     font-weight:700;
     color: #036 !important;
     font-size: 20px;
-
   }
-
   .btn {
     border-radius: 0px !important;
   }
