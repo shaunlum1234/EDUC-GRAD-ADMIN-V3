@@ -18,7 +18,6 @@
       permissions: "",
       username: "",
       student: {
-        id:"",
         profile: {},
         courses: "not loaded",
         assessments: "not loaded",
@@ -51,7 +50,7 @@
         let studentCodes = payload;
         let i=0;
          for(i=0; i < studentCodes.length; i++){
-           state.applicationVariables.studentStatusOptions.push({"value": studentCodes[i].code, "text":studentCodes[i].description});
+           state.applicationVariables.studentStatusOptions.push({"value": studentCodes[i].description, "text":studentCodes[i].description});
          }         
       },
       setUsername(state, payload){
@@ -88,9 +87,6 @@
         
         localStorage.setItem("refresh", payload);
         state.refreshToken = payload;
-      },
-      setStudentId(state, payload) {
-        state.student.id = payload;
       },
       setStudentProfile(state, payload) {
         state.student.profile = payload;
@@ -268,11 +264,6 @@
       setRefreshToken({commit}, payload) {
         commit('setRefreshToken', payload);
       },
-      setStudentId({
-        commit
-      }, payload) {
-        commit('setStudentId', payload);
-      },
       setStudentProfile({
         commit
       }, payload) {
@@ -330,7 +321,7 @@
           return state.student.hasGradStatusPendingUpdates;
       },
       getStudentId(state) {
-        return state.student.id;
+        return state.student.profile.studentID;
       },
       getStudentProfile(state) {
         return state.student.profile;

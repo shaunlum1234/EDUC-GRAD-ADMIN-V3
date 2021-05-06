@@ -1,5 +1,4 @@
 <template>
- 
   <div class="p-2">
     <div class="row">
       <div class="col-12">
@@ -30,7 +29,7 @@
                     </a>
                   </div>
                   <div v-if="showEdit">
-                    <b-btn v-on:click="updateGradStatus(studentPen)" size="sm" variant="primary">
+                    <b-btn v-on:click="editGraduationStatus(studentId)" size="sm" variant="primary">
                         Save 
                     </b-btn>
                     <b-btn v-on:click="cancelGradStatus"  size="sm" variant="outline-primary">
@@ -58,12 +57,12 @@
                   </li>
                   <li v-if="!showEdit">
                     <strong>Student status: </strong>
-                    <span v-if="studentGradStatus.studentStatus">{{ getStudentStatus(studentGradStatus.studentStatus)}}</span>
+                    <span v-if="studentGradStatus.studentStatusName">{{ studentGradStatus.studentStatusName}}</span>
                   </li>                     
                   <li v-if="showEdit">
                     <strong>Student status: </strong>
                     <b-form-select 
-                        v-model="editGradStatus.studentStatus"
+                        v-model="editGradStatus.studentStatusName"
                         :options="studentStatusOptions"
                       ></b-form-select>
                   </li>
@@ -394,7 +393,8 @@
         role: "getRoles",
         specialPrograms: "getStudentSpecialPrograms",
         programOptions: "getProgramOptions",
-        studentStatusOptions: "getStudentStatusOptions"
+        studentStatusOptions: "getStudentStatusOptions",
+        studentId: "getStudentId",
         
       }),
     },
@@ -420,6 +420,7 @@
           updatedBy: "",
           updatedTimestamp: "",
           pen: "",
+          studentID:"",
           program: "",
           programCompletionDate: null,
           gpa: "",
@@ -427,7 +428,12 @@
           recalculateGradStatus: null,
           schoolOfRecord: "",
           studentGrade: ""
+          
         },
+
+
+
+
         gradeOptions: [
           { text: '08', value: '8' },
           { text: '09', value: '9' },
@@ -478,12 +484,14 @@
         this.editedGradStatus.gpa = this.studentGradStatus.gpa;  
         this.editedGradStatus.programCompletionDate = this.studentGradStatus.programCompletionDate;
         this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;
+        this.editedGradStatus.studentStatusName = this.studentGradStatus.studentStatusName;
+        this.editedGradStatus.studentId = this.studentGradStatus.studentId;
       },
       cancelGradStatus(){
         this.showEdit = false;
       },
-      updateGradStatus(pen) {
-        GraduationStatusService.editGraduationStatus(pen, this.token, this.editedGradStatus)
+      editGraduationStatus(id) {
+        GraduationStatusService.editGraduationStatus(id, this.token, this.editedGradStatus)
           .then((response) => {
             this.updateStatus = response.data;
             this.studentGradStatus.pen = this.editedGradStatus.pen ;
@@ -491,6 +499,7 @@
             this.studentGradStatus.gpa = this.editedGradStatus.gpa;  
             this.studentGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate;
             this.studentGradStatus.studentGrade = this.editedGradStatus.studentGrade;
+            this.studentGradStatus.studentStatusName = this.editedGradStatus.studentStatusName;
             this.showTop = !this.showTop
             this.showEdit=false;
             // this.dismissCountDown = this.dismissSecs
