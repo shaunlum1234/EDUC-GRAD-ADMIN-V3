@@ -264,7 +264,7 @@
                 <transition name="fade">
                 <div v-if="studentSearchResults" class="table-responsive">  
 
-                  <DisplayTable  v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="pen"
+                  <DisplayTable v-if="studentSearchResults.length"  v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="pen"
                     v-bind:showFilter=false>
                       <template  #cell(pen)="data">
                         <router-link :to="'/student-profile/' + data.item.pen + '/' + data.item.studentID">{{ data.item.pen }}</router-link>
