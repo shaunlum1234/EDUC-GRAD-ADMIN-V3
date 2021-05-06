@@ -91,7 +91,7 @@
                     <StudentAssessments />
                   </b-card-text>
                 </b-tab>
-                <b-tab title="Notes" class="py-3 px-0 m-1">
+                <b-tab :title="'Notes ('  + studentNotes.length + ')'" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentNotes></StudentNotes>
                   </b-card-text>
@@ -188,6 +188,7 @@
         token: "getToken",
         studentId: "getStudentId",
         studentInfo: "getStudentProfile",
+        studentNotes: "getStudentNotes",
       }),
     },
     
@@ -236,18 +237,6 @@
             });
           }
         });
-
-        // StudentExamsService.getStudentExams(pen, this.token).then((response) => {
-        //   this.$store.dispatch('setStudentExams', response.data);
-        // }).catch((error) => {
-        //   if(error.response.status){
-        //     this.$bvToast.toast("ERROR " + error.response.statusText, {
-        //       title: "ERROR" + error.response.status,
-        //       variant: 'danger',
-        //       noAutoHide: true,
-        //     });
-        //   }
-        // });
         
         GraduationStatusService.getGraduationStatus(studentIdFromURL, this.token).then(
           (response) => {
