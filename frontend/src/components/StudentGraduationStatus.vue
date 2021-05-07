@@ -417,15 +417,11 @@
         editedGradStatus: {
           program: "",
           studentID: "",
-          programCompletionDate: "",
-          studentGrade: "",
-          studentStatusName: ""
-          
+          // programCompletionDate: "",
+          // studentGrade: "",
+          // studentStatusName: "",
+          pen:""
         },
-
-
-
-
         gradeOptions: [
           { text: '08', value: '8' },
           { text: '09', value: '9' },
@@ -470,15 +466,16 @@
         })
       },
       editGradStatus() {
-        var formatedProgramCompletionDate = new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10)
+        // var formatedProgramCompletionDate = new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10)
         this.showEdit = true;
         
         this.editedGradStatus.program = this.studentGradStatus.program;  
         this.editedGradStatus.studentID = this.studentGradStatus.studentID;  
         //this.editedGradStatus.gpa = this.studentGradStatus.gpa;  
-        this.editedGradStatus.programCompletionDate = formatedProgramCompletionDate;
-        this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;
-        this.editedGradStatus.studentStatusName = this.studentGradStatus.studentStatusName;
+        // this.editedGradStatus.programCompletionDate = formatedProgramCompletionDate;
+        // this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;
+        // this.editedGradStatus.studentStatusName = this.studentGradStatus.studentStatusName;
+        this.editedGradStatus.pen = this.studentGradStatus.pen;
       },
       cancelGradStatus(){
         this.showEdit = false;
