@@ -2,13 +2,13 @@
     <div>
       <div class="student-note">
 <!-- Button which reloads the Notes -->
-        <b-button
+        <!-- <b-button
           variant="primary"
           size="sm"
           @click="getNotes"
           class="float-left add-button btn btn-primary btn-sm"
           >Refresh
-        </b-button>
+        </b-button> -->
 <!-- Notes from the store pull from the database -->
         <div v-for="studentNote in notes" :key="studentNote.id">
           <b-card
@@ -48,7 +48,7 @@
             v-if="showForm"
         >
           <b-form @submit="onSubmit" @reset="onReset" >
-            <b-form-group id="input-group-1" label="Note:" label-for="comment">
+            <b-form-group id="input-group-1" label="Add note:" label-for="comment">
               <b-form-textarea
                 id="comment"
                 v-model="newNote.note"
@@ -102,7 +102,7 @@ export default {
       onSubmit(event) {
         event.preventDefault()
         this.showAddButton = true;
-        this.showForm = false
+        this.showForm = true;
         var current = new Date().toISOString().slice(0, 10)
         this.newNote.studentID = this.$route.params.studentId;
         this.newNote.pen = this.$route.params.pen;
