@@ -13,6 +13,7 @@
         </b-card>
       </div>
     </div>
+    {{editedGradStatus}}
     <div class="row">
       <!-- Left col -->
       <div class="col-12 pr-0 col-md-6 ">
@@ -45,9 +46,9 @@
                     <span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span>
                   </li>
                   <li v-if="showEdit">
-                    <strong>Program: </strong><b-form-select v-model="editedGradStatus.program" :options="programOptions"></b-form-select>      
+                    <strong>Program: </strong><b-form-select v-model="editedGradStatus.program" @click="checkStudentGrade" :options="programOptions"></b-form-select>      
                   </li>
-                  
+                  <!-- <div class="error" v-if="editedGradStatus.program == '1950-EN' && editedGradStatus.studentGrade == 'AD'|| 'AN'">If Program is 1950-EN then Student grade must be AD or AN</div> -->
                   <li v-if="!showEdit">
                     <strong>Program completion date: </strong>
                     {{ studentGradStatus.programCompletionDate }}
@@ -71,6 +72,7 @@
                     
                     <strong>Student grade: </strong>
                     <span v-if="studentGradStatus.studentGrade">{{ studentGradStatus.studentGrade }}</span>
+                    {{errorTextStudentGrade}}
                   </li>
                   <li v-if="showEdit">
                       <strong>Student grade: </strong>
@@ -376,6 +378,9 @@
   import GraduationService from "@/services/GraduationService.js";
   import GraduationStatusService from "@/services/GraduationStatusService.js";
   import SchoolService from "@/services/SchoolService.js"
+  // import { helpers } from "vuelidate/lib/validators";
+  // const validateProgram = (grade) =>
+  // (value) => !helpers.req(value) || value.indexOf(grade) >= 0
   //import DisplayTable from '@/components/DisplayTable.vue';
   export default {
     name: "StudentGraduationStatus",
@@ -426,7 +431,8 @@
           { text: 'OT', value: 'OT' },          
           { text: 'AD', value: 'AD' },          
           { text: 'AN', value: 'AN' },          
-        ]
+        ],
+        errorTextStudentGrade:""
       };
     },
     created() {
@@ -434,6 +440,11 @@
   
     },
     methods: {
+      checkStudentGrade(){
+        if(this.editedGradStatus.program != "1950-EN" && this.editedGradStatus.studentGrade != 'AD'|| this.editedGradStatus.studentGrade != 'AN'){
+          this.errorTextStudentGrade = "If Program is 1950-EN then Student grade must be AD or AN";
+        }
+      },
       getStudentStatus(code){
         var i =0;
         for(i=0; i<=this.studentStatusOptions.length; i++){          
@@ -586,7 +597,14 @@
             //console.log('There was an error:' + error.response);
           });
       },
-    },
+      // validations() {
+      //   return {
+      //     editedGradStatus: {
+      //       program:validateProgram(this.editedGradStatus.studentGrade)
+      //     }
+      //   }
+      // }
+    }
   };
 </script>
 
