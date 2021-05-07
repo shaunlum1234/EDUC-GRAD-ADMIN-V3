@@ -50,7 +50,7 @@
         let studentCodes = payload;
         let i=0;
          for(i=0; i < studentCodes.length; i++){
-           state.applicationVariables.studentStatusOptions.push({"value": studentCodes[i].description, "text":studentCodes[i].description});
+           state.applicationVariables.studentStatusOptions.push({"value": studentCodes[i].code, "text":studentCodes[i].description});
          }         
       },
       setUsername(state, payload){

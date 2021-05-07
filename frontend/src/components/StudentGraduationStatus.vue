@@ -57,12 +57,12 @@
                   </li>
                   <li v-if="!showEdit">
                     <strong>Student status: </strong>
-                    <span v-if="studentGradStatus.studentStatusName">{{ studentGradStatus.studentStatusName}}</span>
+                    <span v-if="studentGradStatus.studentStatus">{{ studentGradStatus.studentStatusName}}</span>
                   </li>                     
                   <li v-if="showEdit">
                     <strong>Student status: </strong>
                     <b-form-select 
-                        v-model="editedGradStatus.studentStatusName"
+                        v-model="editedGradStatus.studentStatus"
                         :options="studentStatusOptions"
                       ></b-form-select>
                   </li>
@@ -414,14 +414,7 @@
         schoolOfRecord:"",
         SchoolAtGraduation:"",
         programDropdownList: [],
-        editedGradStatus: {
-          program: "",
-          studentID: "",
-          // programCompletionDate: "",
-          // studentGrade: "",
-          // studentStatusName: "",
-          pen:""
-        },
+        editedGradStatus: {},
         gradeOptions: [
           { text: '08', value: '8' },
           { text: '09', value: '9' },
@@ -459,23 +452,27 @@
       },
       showNotification(variant = null, bodyContent) {
         this.$bvToast.toast(bodyContent, {
-          title: `Variant ${variant || 'default'}`,
+          title: `${variant || 'default'}`,
           variant: variant,
           solid: true,
           autoHideDelay: 5000,
         })
       },
       editGradStatus() {
-        // var formatedProgramCompletionDate = new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10)
-        this.showEdit = true;
         
-        this.editedGradStatus.program = this.studentGradStatus.program;  
-        this.editedGradStatus.studentID = this.studentGradStatus.studentID;  
-        //this.editedGradStatus.gpa = this.studentGradStatus.gpa;  
-        // this.editedGradStatus.programCompletionDate = formatedProgramCompletionDate;
-        // this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;
-        // this.editedGradStatus.studentStatusName = this.studentGradStatus.studentStatusName;
+
+        this.showEdit = true;
+      
+        this.editedGradStatus.programCompletionDate = new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10);
         this.editedGradStatus.pen = this.studentGradStatus.pen;
+        this.editedGradStatus.program = this.studentGradStatus.program;  
+        this.editedGradStatus.gpa = this.studentGradStatus.gpa;
+        this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;  
+        this.editedGradStatus.schoolOfRecord = this.studentGradStatus.schoolOfRecord;  
+        this.editedGradStatus.schoolAtGrad = this.studentGradStatus.schoolAtGrad;
+        this.editedGradStatus.studentStatus = this.studentGradStatus.studentStatus;  
+        this.editedGradStatus.studentID = this.studentGradStatus.studentID;  
+        
       },
       cancelGradStatus(){
         this.showEdit = false;
@@ -484,18 +481,28 @@
         console.log(this.editedGradStatus);
         GraduationStatusService.editGraduationStatus(id, this.token, this.editedGradStatus)
           .then((response) => {
+            console.log(response.data);
             this.updateStatus = response.data;
-            this.studentGradStatus.program = this.editedGradStatus.program;  
-            //this.studentGradStatus.gpa = this.editedGradStatus.gpa;  
-            this.studentGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate;
-            this.studentGradStatus.studentGrade = this.editedGradStatus.studentGrade;
+            this.studentGradStatus.pen = response.data.pen;  
+            this.studentGradStatus.program = response.data.program;  
+            this.studentGradStatus.gpa = response.data.gpa;  
+            this.studentGradStatus.studentGrade = response.data.studentGrade;
+            this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;  
+            this.studentGradStatus.studentStatus = response.data.studentStatus;  
+            this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;  
+
+
+
+
             this.showTop = !this.showTop
             this.showEdit=false;
-            // this.dismissCountDown = this.dismissSecs
+            
+
+            
             this.showNotification('success', 'Grad Status Saved')
           }).catch((error) => {
           // eslint-disable-next-line
-            this.showNotification('danger', 'There was an error: '+ error.response.data.messages[0].message);
+            this.showNotification('danger', 'There was an error: '+ error.response.data);
           //console.log('There was an error:' + error.response);
         });
       },
