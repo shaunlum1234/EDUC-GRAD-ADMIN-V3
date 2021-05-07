@@ -81,7 +81,7 @@
                         :options="gradeOptions"
                       ></b-form-select>
                   </li>                  
-                  <li>
+                  <li v-if="!showEdit">
                     <strong>School of record: </strong>
                     <b-button v-if="studentGradStatus.schoolOfRecord" 
                       class="p-0"
@@ -123,7 +123,9 @@
                       <!-- <b-button class="px-1" @click="popClose">Close</b-button> -->
                     </b-popover>                       
                   </li>
-                  
+                  <li v-if="showEdit">
+                      <strong>School of Record:</strong><b-input size="sm" type="number" v-model='editedGradStatus.schoolOfRecord'></b-input>      
+                    </li>     
                   <li>
                     <strong>School at graduation: </strong>
                     <b-button v-if="studentGradStatus && studentGradStatus.schoolAtGrad" 
@@ -173,7 +175,7 @@
                       <strong>GPA:</strong> <span v-if="studentGradStatus.gpa">{{ studentGradStatus.gpa }}</span>
                     </li>
                       <li v-if="showEdit">
-                      //<strong>GPA:</strong><b-input size="sm" max="4" pattern="^\d*(\.\d{0,4})?$" type="number" v-model='editedGradStatus.gpa'></b-input>      
+                      <strong>GPA:</strong><b-input size="sm" max="4" pattern="^\d*(\.\d{0,4})?$" type="number" v-model='editedGradStatus.gpa'></b-input>      
                     </li>
                     <li v-if="!showEdit">
                       <strong>Program at graduation:</strong>
@@ -462,6 +464,7 @@
           }
       },
       showNotification(variant = null, bodyContent) {
+        console.log(bodyContent);
         this.$bvToast.toast(bodyContent, {
           title: `${variant || 'default'}`,
           variant: variant,
@@ -496,10 +499,12 @@
             this.updateStatus = response.data;
             this.studentGradStatus.pen = response.data.pen;  
             this.studentGradStatus.program = response.data.program;  
+            this.studentGradStatus.honoursStanding = response.data.honoursStanding;  
             this.studentGradStatus.gpa = response.data.gpa;  
             this.studentGradStatus.studentGrade = response.data.studentGrade;
             this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;  
             this.studentGradStatus.studentStatus = response.data.studentStatus;  
+            this.studentGradStatus.studentStatusName = this.getStudentStatus(response.data.studentStatus);
             this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;  
 
 
@@ -513,7 +518,9 @@
             this.showNotification('success', 'Grad Status Saved')
           }).catch((error) => {
           // eslint-disable-next-line
-            this.showNotification('danger', 'There was an error: '+ error.response.data);
+            console.log(error.response);
+            this.showNotification('danger', 'There was an error: '+ error.response.data.messages[0].message);
+            
           //console.log('There was an error:' + error.response);
         });
       },
