@@ -53,7 +53,7 @@
                     {{ studentGradStatus.programCompletionDate }}
                   </li>
                   <li v-if="showEdit">
-                    <strong>Program completion date: </strong><b-input type="date" v-model='editedGradStatus.programCompletionDate'></b-input>      
+                    <strong>Program completion date: </strong><b-input type="date" max="9999-12-30" v-model='editedGradStatus.programCompletionDate'></b-input>      
                   </li>
                   <li v-if="!showEdit">
                     <strong>Student status: </strong>
