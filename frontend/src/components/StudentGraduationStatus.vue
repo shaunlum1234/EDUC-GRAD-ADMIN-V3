@@ -171,7 +171,7 @@
                       <strong>GPA:</strong> <span v-if="studentGradStatus.gpa">{{ studentGradStatus.gpa }}</span>
                     </li>
                       <li v-if="showEdit">
-                      <strong>GPA:</strong><b-input size="sm" max="4" pattern="^\d*(\.\d{0,4})?$" type="number" v-model='editedGradStatus.gpa'></b-input>      
+                      //<strong>GPA:</strong><b-input size="sm" max="4" pattern="^\d*(\.\d{0,4})?$" type="number" v-model='editedGradStatus.gpa'></b-input>      
                     </li>
                     <li v-if="!showEdit">
                       <strong>Program at graduation:</strong>
@@ -415,19 +415,11 @@
         SchoolAtGraduation:"",
         programDropdownList: [],
         editedGradStatus: {
-          createdBy:"",
-          createdTimestamp: "",
-          updatedBy: "",
-          updatedTimestamp: "",
-          pen: "",
-          studentID:"",
           program: "",
+          studentID: "",
           programCompletionDate: "",
-          gpa: "",
-          honoursStanding: null,
-          recalculateGradStatus: null,
-          schoolOfRecord: "",
-          studentGrade: ""
+          studentGrade: "",
+          studentStatusName: ""
           
         },
 
@@ -480,27 +472,26 @@
       editGradStatus() {
         var formatedProgramCompletionDate = new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10)
         this.showEdit = true;
-        this.editedGradStatus.pen = this.studentGradStatus.pen;
+        
         this.editedGradStatus.program = this.studentGradStatus.program;  
-        this.editedGradStatus.gpa = this.studentGradStatus.gpa;  
+        this.editedGradStatus.studentID = this.studentGradStatus.studentID;  
+        //this.editedGradStatus.gpa = this.studentGradStatus.gpa;  
         this.editedGradStatus.programCompletionDate = formatedProgramCompletionDate;
         this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;
         this.editedGradStatus.studentStatusName = this.studentGradStatus.studentStatusName;
-        this.editedGradStatus.studentId = this.studentGradStatus.studentId;
       },
       cancelGradStatus(){
         this.showEdit = false;
       },
       editGraduationStatus(id) {
+        console.log(this.editedGradStatus);
         GraduationStatusService.editGraduationStatus(id, this.token, this.editedGradStatus)
           .then((response) => {
             this.updateStatus = response.data;
-            this.studentGradStatus.pen = this.editedGradStatus.pen ;
             this.studentGradStatus.program = this.editedGradStatus.program;  
-            this.studentGradStatus.gpa = this.editedGradStatus.gpa;  
+            //this.studentGradStatus.gpa = this.editedGradStatus.gpa;  
             this.studentGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate;
             this.studentGradStatus.studentGrade = this.editedGradStatus.studentGrade;
-            this.studentGradStatus.studentStatusName = this.editedGradStatus.studentStatusName;
             this.showTop = !this.showTop
             this.showEdit=false;
             // this.dismissCountDown = this.dismissSecs
