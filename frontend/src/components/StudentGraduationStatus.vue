@@ -205,6 +205,18 @@
                     </tr>
                     </tbody>
                   </table> 
+                  <div v-if="showEdit" class="pl-3 pr-1">
+                    <strong>Note:</strong>
+                    <b-form-textarea
+                      id="textarea"
+                      v-model="text"
+                      placeholder="Enter something..."
+                      rows="3"
+                      max-rows="6"
+                      
+                    ></b-form-textarea>
+                  </div>
+                    
               </b-card-text>
             </b-card>
           </div> 
