@@ -13,7 +13,6 @@
         </b-card>
       </div>
     </div>
-    {{editedGradStatus}}
     <div class="row">
       <!-- Left col -->
       <div class="col-12 pr-0 col-md-6 ">
@@ -40,15 +39,16 @@
                   </div>
                 </b-button-group>
                 <ul>
-                  
                   <li v-if="!showEdit">
                     <strong>Program: </strong>
                     <span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span>
                   </li>
                   <li v-if="showEdit">
-                    <strong>Program: </strong><b-form-select v-model="editedGradStatus.program" @click="checkStudentGrade" :options="programOptions"></b-form-select>      
+                    <strong>Program: </strong><b-form-select v-model="editedGradStatus.program" :options="programOptions"></b-form-select>      
                   </li>
-                  <!-- <div class="error" v-if="editedGradStatus.program == '1950-EN' && editedGradStatus.studentGrade == 'AD'|| 'AN'">If Program is 1950-EN then Student grade must be AD or AN</div> -->
+                  <div v-if="editedGradStatus.program == '1950-EN'">
+                    <div class="error" v-if="!(editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN')">If Program is 1950-EN then Student grade must be AD or AN</div>
+                  </div>
                   <li v-if="!showEdit">
                     <strong>Program completion date: </strong>
                     {{ studentGradStatus.programCompletionDate }}
@@ -72,7 +72,6 @@
                     
                     <strong>Student grade: </strong>
                     <span v-if="studentGradStatus.studentGrade">{{ studentGradStatus.studentGrade }}</span>
-                    {{errorTextStudentGrade}}
                   </li>
                   <li v-if="showEdit">
                       <strong>Student grade: </strong>
@@ -379,10 +378,8 @@
   import GraduationCommonService from "@/services/GraduationCommonService.js";
   import GraduationService from "@/services/GraduationService.js";
   import GraduationStatusService from "@/services/GraduationStatusService.js";
-  import SchoolService from "@/services/SchoolService.js"
-  // import { helpers } from "vuelidate/lib/validators";
-  // const validateProgram = (grade) =>
-  // (value) => !helpers.req(value) || value.indexOf(grade) >= 0
+  import SchoolService from "@/services/SchoolService.js";
+  
   //import DisplayTable from '@/components/DisplayTable.vue';
   export default {
     name: "StudentGraduationStatus",
@@ -390,6 +387,14 @@
       
     },
     computed: {
+       validateProgram (program, grade) {
+        if(program == '1950-EN' && (grade.indexOf('AN') || grade.indexOf('AD'))) {
+          return true
+        }else 
+        {
+          return false
+        }
+      },
       ...mapGetters({
         studentGradStatus: "getStudentGradStatus",
         hasGradStatus: "studentHasGradStatus",
@@ -434,7 +439,6 @@
           { text: 'AD', value: 'AD' },          
           { text: 'AN', value: 'AN' },          
         ],
-        errorTextStudentGrade:""
       };
     },
     created() {
@@ -442,11 +446,11 @@
   
     },
     methods: {
-      checkStudentGrade(){
-        if(this.editedGradStatus.program != "1950-EN" && this.editedGradStatus.studentGrade != 'AD'|| this.editedGradStatus.studentGrade != 'AN'){
-          this.errorTextStudentGrade = "If Program is 1950-EN then Student grade must be AD or AN";
-        }
-      },
+      // checkStudentGrade(){
+      //   if(this.editedGradStatus.program != "1950-EN" && this.editedGradStatus.studentGrade != 'AD'|| this.editedGradStatus.studentGrade != 'AN'){
+      //     this.errorTextStudentGrade = "If Program is 1950-EN then Student grade must be AD or AN";
+      //   }
+      // },
       getStudentStatus(code){
         var i =0;
         for(i=0; i<=this.studentStatusOptions.length; i++){          
@@ -473,20 +477,25 @@
         })
       },
       editGradStatus() {
-        
+        this.showEdit = true;    
 
-        this.showEdit = true;
-      
-        this.editedGradStatus.programCompletionDate = new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10);
-        this.editedGradStatus.pen = this.studentGradStatus.pen;
-        this.editedGradStatus.program = this.studentGradStatus.program;  
-        this.editedGradStatus.gpa = this.studentGradStatus.gpa;
-        this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;  
-        this.editedGradStatus.schoolOfRecord = this.studentGradStatus.schoolOfRecord;  
-        this.editedGradStatus.schoolAtGrad = this.studentGradStatus.schoolAtGrad;
-        this.editedGradStatus.studentStatus = this.studentGradStatus.studentStatus;  
-        this.editedGradStatus.studentID = this.studentGradStatus.studentID;  
-        
+        this.$set(this.editedGradStatus, 'programCompletionDate', new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10))
+        //this.editedGradStatus.programCompletionDate = new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10);
+        this.$set(this.editedGradStatus, 'pen', this.studentGradStatus.pen)
+        //this.editedGradStatus.pen = this.studentGradStatus.pen;
+        this.$set(this.editedGradStatus, 'program', this.studentGradStatus.program)
+        this.$set(this.editedGradStatus, 'gpa', this.studentGradStatus.gpa)
+        //this.editedGradStatus.gpa = this.studentGradStatus.gpa;
+        this.$set(this.editedGradStatus, 'studentGrade', this.studentGradStatus.studentGrade)
+        // this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;  
+        this.$set(this.editedGradStatus, 'schoolOfRecord', this.studentGradStatus.schoolOfRecord)
+        //this.editedGradStatus.schoolOfRecord = this.studentGradStatus.schoolOfRecord; 
+        this.$set(this.editedGradStatus, 'schoolAtGrad', this.studentGradStatus.schoolAtGrad) 
+        //this.editedGradStatus.schoolAtGrad = this.studentGradStatus.schoolAtGrad;
+        this.$set(this.editedGradStatus, 'studentStatus', this.studentGradStatus.studentStatus) 
+        //this.editedGradStatus.studentStatus = this.studentGradStatus.studentStatus; 
+        this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID) 
+        //this.editedGradStatus.studentID = this.studentGradStatus.studentID;    
       },
       cancelGradStatus(){
         this.showEdit = false;
@@ -603,14 +612,14 @@
           .catch((error) => {
             //console.log('There was an error:' + error.response);
           });
-      },
-      // validations() {
-      //   return {
-      //     editedGradStatus: {
-      //       program:validateProgram(this.editedGradStatus.studentGrade)
-      //     }
-      //   }
-      // }
+      }, 
+      validations() {
+        return {
+          editedGradStatus: {
+            program:this.validateProgram(this.editedGradStatus.program,this.editedGradStatus.studentGrade)
+          },
+        }
+      }
     }
   };
 </script>
