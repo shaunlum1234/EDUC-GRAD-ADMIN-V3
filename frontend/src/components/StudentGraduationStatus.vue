@@ -1,7 +1,8 @@
 <template>
   <div class="p-2">
 
-    
+    editedGradStatus: {{editedGradStatus}}<br>
+    Disable Button: {{disableButton}}
     <div class="row">
       <div class="col-12">
         <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
@@ -32,7 +33,7 @@
                     </b-link>
                   </div>
                   <div v-if="showEdit">
-                    <b-btn v-on:click="editGraduationStatus(studentId)" size="sm" variant="primary">
+                    <b-btn :disabled="disableButton" v-on:click="editGraduationStatus(studentId)" size="sm" variant="primary">
                         Save 
                     </b-btn>
                     <b-btn v-on:click="cancelGradStatus"  size="sm" variant="outline-primary">
@@ -51,16 +52,24 @@
                     <td><span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span></td>
                   </tr>
                   <tr v-if="showEdit">
-                    <td ><strong>Program: </strong></td>
-                    <td class="p-1"><b-form-select size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>      
+                    <td ><strong>Program: </strong>
+                      <div v-if="editedGradStatus.program == '1950-EN'">
+                        <div class="text-danger" v-if="!(editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN')">Student grade should be one of <strong>AD or AN</strong> if the student program is 1950</div>
+                      </div>   
+                    </td>
+                    <td class="p-1"><b-form-select size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>   
+                    
                   </tr>
                   <tr v-if="!showEdit">
                     <td><strong>Program completion date: </strong></td>
                     <td>{{ studentGradStatus.programCompletionDate }}</td>
                   </tr>
                   <tr v-if="showEdit">
-                    <td><strong>Program completion 
-                      date: </strong></td>
+                    <td><strong>Program completion date: </strong>
+                      <!-- <b-btn v-on:click="resetProgramCompletionDate" size="sm" variant="warning">
+                          Reset 
+                      </b-btn> -->
+                    </td>
                       <td class="p-1"><b-input size="sm" type="date" max="9999-12-30" v-model='editedGradStatus.programCompletionDate'></b-input></td>      
                   </tr>
                   
@@ -83,7 +92,11 @@
                     <td><span v-if="studentGradStatus.studentGrade">{{ studentGradStatus.studentGrade }}</span></td>
                   </tr>
                   <tr v-if="showEdit">
-                      <td><strong>Student grade: </strong></td>
+                      <td><strong>Student grade: </strong>
+                        <div v-if="editedGradStatus.program != '1950-EN'">
+                          <div class="text-danger" v-if="editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN'">Student grade should not be AD or AN for this program</div>
+                        </div> 
+                      </td>
                       <td class="p-1"><b-form-select 
                         size="sm"
                         v-model="editedGradStatus.studentGrade"
@@ -185,13 +198,13 @@
                       <td><strong>Honours:</strong></td>
                       <td><span v-if="studentGradStatus.honoursStanding"> {{ studentGradStatus.honoursStanding }}</span></td>
                     </tr>
-                    <tr v-if="!showEdit">
+                    <tr>
                       <td><strong>GPA:</strong></td><td><span v-if="studentGradStatus.gpa">{{ studentGradStatus.gpa }}</span></td>
                     </tr>
-                      <tr v-if="showEdit">
+                    <!-- <tr v-if="showEdit">
                       <td><strong>GPA:</strong></td>
                       <td class="p-1"><b-input size="sm" max="4" pattern="^\d*(\.\d{0,4})?$" type="number" v-model='editedGradStatus.gpa'></b-input></td>      
-                    </tr>
+                    </tr> -->
                     <tr v-if="!showEdit">
                       <td><strong>Program at graduation:</strong></td>
                       <td>{{ studentGradStatus.gradProgramAtGraduation}}</td>
@@ -395,6 +408,15 @@ import GraduationService from "@/services/GraduationService.js";
 import GraduationStatusService from "@/services/GraduationStatusService.js";
 import SchoolService from "@/services/SchoolService.js";
 //import DisplayTable from '@/components/DisplayTable.vue';
+// const checkGrade = function (program, grade){
+//       if(program == '1950-EN'){
+//         if(!(grade == 'AD' || grade == 'AN')){
+//           return false
+//         }else {
+//           return true
+//         }
+//       }
+// }
 export default {
   name: "StudentGraduationStatus",
   components: {},
@@ -441,6 +463,8 @@ export default {
       SchoolAtGraduation: "",
       programDropdownList: [],
       editedGradStatus: {},
+      disableButton:false,
+      text:"",
       gradeOptions: [
         { text: "08", value: "8" },
         { text: "09", value: "9" },
@@ -458,7 +482,48 @@ export default {
   created() {
     this.programDropdownList = this.$store.dispatch("getGraduationPrograms");
   },
+  // validations() {
+  //   return {
+  //     editedGradStatus : {
+  //       program: checkGrade(this.editedGradStatus.program, this.editedGradStatus.studentGrade)
+  //     }
+  //   }
+  // },
+  updated() {
+    this.$nextTick(function () {
+      // Code that will run only after the
+      // entire view has been re-rendered
+      this.validateForm()
+      // this.checkResetProgramCompletionDate()
+    })
+  },
   methods: {
+    validateForm () {
+      if(this.editedGradStatus.program == '1950-EN'){
+        if(!(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN')){
+          this.disableButton = true;
+        } else {
+          this.disableButton = false;
+        }
+      }
+      if(this.editedGradStatus.program != '1950-EN'){
+        if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
+          this.disableButton = true;
+        } else {
+          this.disableButton = false;
+        }
+      }
+    },
+    resetProgramCompletionDate() {
+      this.editedGradStatus.programCompletionDate = "";
+    },
+    checkResetProgramCompletionDate () {
+      if(this.editedGradStatus.programCompletionDate == ""){
+        this.disableButton = true;
+      } else {
+        this.disableButton = false;
+      }
+    },
     getStudentStatus(code) {
       var i = 0;
       for (i = 0; i <= this.studentStatusOptions.length; i++) {
@@ -485,21 +550,28 @@ export default {
       });
     },
     editGradStatus() {
-      this.showEdit = true;
-
-      this.editedGradStatus.programCompletionDate = new Date(
-        this.studentGradStatus.programCompletionDate
-      )
-        .toISOString()
-        .slice(0, 10);
-      this.editedGradStatus.pen = this.studentGradStatus.pen;
-      this.editedGradStatus.program = this.studentGradStatus.program;
-      this.editedGradStatus.gpa = this.studentGradStatus.gpa;
-      this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;
-      this.editedGradStatus.schoolOfRecord = this.studentGradStatus.schoolOfRecord;
-      this.editedGradStatus.schoolAtGrad = this.studentGradStatus.schoolAtGrad;
-      this.editedGradStatus.studentStatus = this.studentGradStatus.studentStatus;
-      this.editedGradStatus.studentID = this.studentGradStatus.studentID;
+      this.showEdit = true;    
+      // if(this.studentGradStatus.programCompletionDate){
+      this.$set(this.editedGradStatus, 'programCompletionDate', new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10))
+      // }else{
+      //   this.$set(this.editedGradStatus, 'programCompletionDate', "")
+      // }
+      //this.editedGradStatus.programCompletionDate = new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10);
+      this.$set(this.editedGradStatus, 'pen', this.studentGradStatus.pen)
+      //this.editedGradStatus.pen = this.studentGradStatus.pen;
+      this.$set(this.editedGradStatus, 'program', this.studentGradStatus.program)
+      //this.$set(this.editedGradStatus, 'gpa', this.studentGradStatus.gpa)
+      //this.editedGradStatus.gpa = this.studentGradStatus.gpa;
+      this.$set(this.editedGradStatus, 'studentGrade', this.studentGradStatus.studentGrade)
+      // this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;  
+      this.$set(this.editedGradStatus, 'schoolOfRecord', this.studentGradStatus.schoolOfRecord)
+      //this.editedGradStatus.schoolOfRecord = this.studentGradStatus.schoolOfRecord; 
+      this.$set(this.editedGradStatus, 'schoolAtGrad', this.studentGradStatus.schoolAtGrad) 
+      //this.editedGradStatus.schoolAtGrad = this.studentGradStatus.schoolAtGrad;
+      this.$set(this.editedGradStatus, 'studentStatus', this.studentGradStatus.studentStatus) 
+      //this.editedGradStatus.studentStatus = this.studentGradStatus.studentStatus; 
+      this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID) 
+      //this.editedGradStatus.studentID = this.studentGradStatus.studentID;    
     },
     cancelGradStatus() {
       this.showEdit = false;
@@ -618,24 +690,24 @@ export default {
         this.studentGradStatus.pen,
         this.token
       )
-        .then((response) => {
-          //Create a Blob from the PDF Stream
-          const file = new Blob([response.data], {
-            type: "application/pdf",
-          });
-          //Build a URL from the file
-          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-            // IE
-            window.navigator.msSaveOrOpenBlob(file);
-          } else {
-            const fileURL = URL.createObjectURL(file);
-            window.open(fileURL); //Open the URL on new Window
-          }
-        })
-        // eslint-disable-next-line no-unused-vars
-        .catch((error) => {
-          //console.log('There was an error:' + error.response);
+      .then((response) => {
+        //Create a Blob from the PDF Stream
+        const file = new Blob([response.data], {
+          type: "application/pdf",
         });
+        //Build a URL from the file
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+          // IE
+          window.navigator.msSaveOrOpenBlob(file);
+        } else {
+          const fileURL = URL.createObjectURL(file);
+          window.open(fileURL); //Open the URL on new Window
+        }
+      })
+      // eslint-disable-next-line no-unused-vars
+      .catch((error) => {
+        //console.log('There was an error:' + error.response);
+      });
     },
   },
 };
