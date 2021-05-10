@@ -205,12 +205,11 @@
                     </tr>
                     </tbody>
                   </table> 
-                  <div v-if="showEdit" class="pl-3 pr-1">
+                  <div v-if="showEdit" class="pl-3 pr-1 mb-3">
                     <strong>Note:</strong>
                     <b-form-textarea
                       id="textarea"
                       v-model="text"
-                      placeholder="Enter something..."
                       rows="3"
                       max-rows="6"
                       
