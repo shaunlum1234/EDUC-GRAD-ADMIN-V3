@@ -1,5 +1,7 @@
 <template>
   <div class="p-2">
+
+    
     <div class="row">
       <div class="col-12">
         <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
@@ -18,15 +20,16 @@
       <div class="col-12 pr-0 col-md-6 ">
           <div class="graduation-status">
           <b-card
+            no-body
             header="GRAD Status"
           >
             <b-card-text>
               
                 <b-button-group v-if="this.role =='administrator'" class="gradstatus-actions float-right">
                   <div v-if="!showEdit">
-                    <a href="#" class="edit" v-on:click="editGradStatus" size="sm" variant="primary">
+                    <b-link href="#" class="edit" v-on:click="editGradStatus" size="sm" variant="primary">
                         Edit 
-                    </a>
+                    </b-link>
                   </div>
                   <div v-if="showEdit">
                     <b-btn v-on:click="editGraduationStatus(studentId)" size="sm" variant="primary">
@@ -38,51 +41,60 @@
       
                   </div>
                 </b-button-group>
-                <ul>
-                  <li v-if="!showEdit">
-                    <strong>Program: </strong>
-                    <span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span>
-                  </li>
-                  <li v-if="showEdit">
-                    <strong>Program: </strong><b-form-select v-model="editedGradStatus.program" :options="programOptions"></b-form-select>      
-                  </li>
-                  <div v-if="editedGradStatus.program == '1950-EN'">
-                    <div class="error" v-if="!(editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN')">If Program is 1950-EN then Student grade must be AD or AN</div>
-                  </div>
-                  <li v-if="!showEdit">
-                    <strong>Program completion date: </strong>
-                    {{ studentGradStatus.programCompletionDate }}
-                  </li>
-                  <li v-if="showEdit">
-                    <strong>Program completion date: </strong><b-input type="date" max="9999-12-30" v-model='editedGradStatus.programCompletionDate'></b-input>      
-                  </li>
-                  <li v-if="!showEdit">
-                    <strong>Student status: </strong>
-                    <span v-if="studentGradStatus.studentStatus">{{ studentGradStatus.studentStatusName}}</span>
-                  </li>                     
-                  <li v-if="showEdit">
-                    <strong>Student status: </strong>
-                    <b-form-select 
+
+
+                
+                <table class="table table-striped table-bordered table-hover table-sm">
+                  <tbody>
+                  <tr v-if="!showEdit">
+                    <td><strong>Program: </strong></td>
+                    <td><span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span></td>
+                  </tr>
+                  <tr v-if="showEdit">
+                    <td ><strong>Program: </strong></td>
+                    <td class="p-1"><b-form-select size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>      
+                  </tr>
+                  <tr v-if="!showEdit">
+                    <td><strong>Program completion date: </strong></td>
+                    <td>{{ studentGradStatus.programCompletionDate }}</td>
+                  </tr>
+                  <tr v-if="showEdit">
+                    <td><strong>Program completion 
+                      date: </strong></td>
+                      <td class="p-1"><b-input size="sm" type="date" max="9999-12-30" v-model='editedGradStatus.programCompletionDate'></b-input></td>      
+                  </tr>
+                  
+                  <tr v-if="!showEdit">
+                    <td><strong>Student status: </strong></td>
+                    <td><span v-if="studentGradStatus.studentStatus">{{ studentGradStatus.studentStatusName}}</span></td>
+                  </tr>                     
+                  <tr v-if="showEdit">
+                    <td><strong>Student status: </strong></td>
+                    <td class="p-1"><b-form-select 
+                        size="sm"
                         v-model="editedGradStatus.studentStatus"
                         :options="studentStatusOptions"
                       ></b-form-select>
-                  </li>
-               
-                  <li v-if="!showEdit">
-                    
-                    <strong>Student grade: </strong>
-                    <span v-if="studentGradStatus.studentGrade">{{ studentGradStatus.studentGrade }}</span>
-                  </li>
-                  <li v-if="showEdit">
-                      <strong>Student grade: </strong>
-                      <b-form-select 
+                    </td>
+                  </tr>
+              
+                  <tr v-if="!showEdit">
+                    <td><strong>Student grade: </strong></td>
+                    <td><span v-if="studentGradStatus.studentGrade">{{ studentGradStatus.studentGrade }}</span></td>
+                  </tr>
+                  <tr v-if="showEdit">
+                      <td><strong>Student grade: </strong></td>
+                      <td class="p-1"><b-form-select 
+                        size="sm"
                         v-model="editedGradStatus.studentGrade"
                         :options="gradeOptions"
                       ></b-form-select>
-                  </li>                  
-                  <li v-if="!showEdit">
-                    <strong>School of record: </strong>
-                    <b-button v-if="studentGradStatus.schoolOfRecord" 
+                      </td>
+                  </tr>
+                  
+                  <tr v-if="!showEdit">
+                    <td><strong>School of record: </strong></td>
+                    <td><b-button v-if="studentGradStatus.schoolOfRecord" 
                       class="p-0"
                       id="school-of-record-popover" 
                       variant="link" 
@@ -96,6 +108,7 @@
                       title="School Information"
                       triggers="focus">
                       <table>
+                        <tbody>
                         <tr>
                           <td><strong>District:</strong> {{schoolOfRecord.districtName}}</td>
                         </tr>
@@ -117,17 +130,20 @@
                         <tr>                        
                           <td><strong>Dogwood eligibility:</strong> {{schoolOfRecord.certificateEligibility}}</td>
                         </tr>
+                        </tbody>
                         
                       </table>
                       <!-- <b-button class="px-1" @click="popClose">Close</b-button> -->
                     </b-popover>                       
-                  </li>
-                  <li v-if="showEdit">
-                      <strong>School of Record:</strong><b-input size="sm" type="number" v-model='editedGradStatus.schoolOfRecord'></b-input>      
-                    </li>     
-                  <li>
-                    <strong>School at graduation: </strong>
-                    <b-button v-if="studentGradStatus && studentGradStatus.schoolAtGrad" 
+                    </td>
+                  </tr>
+                  <tr v-if="showEdit">
+                      <td><strong>School of record:</strong></td>
+                      <td class="p-1"><b-input size="sm" type="number" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
+                  </tr>
+                  <tr>
+                    <td><strong>School at graduation: </strong></td>
+                    <td><b-button v-if="studentGradStatus && studentGradStatus.schoolAtGrad" 
                       class="p-0"
                       id="school-at-graduation-popover"
                       variant="link" 
@@ -163,42 +179,44 @@
                           <td><strong>Dogwood eligibility:</strong> {{SchoolAtGraduation.certificateEligibility}}</td>
                         </tr>               
                       </table>
-                    </b-popover> 
-                  </li>            
+                    </b-popover> </td>
+                    </tr>            
+                    <tr>
+                      <td><strong>Honours:</strong></td>
+                      <td><span v-if="studentGradStatus.honoursStanding"> {{ studentGradStatus.honoursStanding }}</span></td>
+                    </tr>
+                    <tr v-if="!showEdit">
+                      <td><strong>GPA:</strong></td><td><span v-if="studentGradStatus.gpa">{{ studentGradStatus.gpa }}</span></td>
+                    </tr>
+                      <tr v-if="showEdit">
+                      <td><strong>GPA:</strong></td>
+                      <td class="p-1"><b-input size="sm" max="4" pattern="^\d*(\.\d{0,4})?$" type="number" v-model='editedGradStatus.gpa'></b-input></td>      
+                    </tr>
+                    <tr v-if="!showEdit">
+                      <td><strong>Program at graduation:</strong></td>
+                      <td>{{ studentGradStatus.gradProgramAtGraduation}}</td>
+                    </tr>
+                    <tr v-if="showEdit">
+                      <td><strong>Program at graduation:</strong></td>
+                      <td class="p-1"><b-input size="sm" v-model='editedGradStatus.gradProgramAtGraduation'></b-input></td>      
+                    </tr>      
+                    <tr v-if="studentGradStatus.studentGradeAtGraduation">
+                      <td><strong>Grade at Graduation:</strong></td><td>{{ studentGradStatus.studentGradeAtGraduation }}</td>
+                    </tr>
+                    </tbody>
+                  </table> 
+                  <div v-if="showEdit" class="pl-3 pr-1">
+                    <strong>Note:</strong>
+                    <b-form-textarea
+                      id="textarea"
+                      v-model="text"
+                      placeholder="Enter something..."
+                      rows="3"
+                      max-rows="6"
+                      
+                    ></b-form-textarea>
+                  </div>
                     
-                    <li>
-                      <strong>Honours:</strong>
-                      <span v-if="studentGradStatus.honoursStanding"> {{ studentGradStatus.honoursStanding }}</span>
-                    </li>
-                    <li v-if="!showEdit">
-                      <strong>GPA:</strong> <span v-if="studentGradStatus.gpa">{{ studentGradStatus.gpa }}</span>
-                    </li>
-                      <li v-if="showEdit">
-                      <strong>GPA:</strong><b-input size="sm" max="4" pattern="^\d*(\.\d{0,4})?$" type="number" v-model='editedGradStatus.gpa'></b-input>      
-                    </li>
-                    <li v-if="!showEdit">
-                      <strong>Program at graduation:</strong>
-                      {{ studentGradStatus.gradProgramAtGraduation }}
-                    </li>
-                    <li v-if="showEdit">
-                      <strong>Program at graduation:</strong><b-input v-model='editedGradStatus.gradProgramAtGraduation'></b-input>      
-                    </li>
-                    <li v-if="studentGradStatus.graduationDate">
-                      <strong>Graduation Date:</strong>
-                      {{ studentGradStatus.graduationDate }}
-                    </li>
-                    <li>
-                      <strong>Credits used for Graduation:</strong>
-                      {{ studentGradStatus.creditsUsedForGrad }}
-                    </li>
-                    <li v-if="studentGradStatus.sccpGraduationDate">
-                      <strong>School Completion Certificate Program (SCCP)
-                        Graduation Date:</strong>{{ studentGradStatus.sccpGraduationDate }}
-                    </li>                 
-                    <li v-if="studentGradStatus.studentGradeAtGraduation">
-                      <strong>Grade at Graduation:</strong>{{ studentGradStatus.studentGradeAtGraduation }}
-                    </li>
-                  </ul> 
               </b-card-text>
             </b-card>
           </div> 
@@ -372,323 +390,314 @@
 </template>
 
 <script>
-  import {
-    mapGetters
-  } from "vuex";
-  import GraduationCommonService from "@/services/GraduationCommonService.js";
-  import GraduationService from "@/services/GraduationService.js";
-  import GraduationStatusService from "@/services/GraduationStatusService.js";
-  import SchoolService from "@/services/SchoolService.js";
-  
-  //import DisplayTable from '@/components/DisplayTable.vue';
-  export default {
-    name: "StudentGraduationStatus",
-    components: {
-      
-    },
-    computed: {
-       validateProgram (program, grade) {
-        if(program == '1950-EN' && (grade.indexOf('AN') || grade.indexOf('AD'))) {
-          return true
-        }else 
-        {
-          return false
-        }
-      },
-      ...mapGetters({
-        studentGradStatus: "getStudentGradStatus",
-        hasGradStatus: "studentHasGradStatus",
-        studentGradRequirementCourses: "gradStatusCourses",
-        studentPen: "getStudentPen",
-        studentFullName: "getStudentFullName",
-        token: "getToken",
-        role: "getRoles",
-        specialPrograms: "getStudentSpecialPrograms",
-        programOptions: "getProgramOptions",
-        studentStatusOptions: "getStudentStatusOptions",
-        studentId: "getStudentId",
-        
-      }),
-    },
-    data() {
-      return {
-        requirementsMetfields: [{key:'gradReqMetDetail',label: 'Requirement Code'} ,{key: 'courseName', label: "Course Name"},{key: 'sessionDate', label: "Session"} ],
-        requirementsNotMetfields: [{key:'gradReqMetDetail',label: 'Requirement Code'} ,{key: 'courseName', label: "Course Name"} ],
-        specialProgramsfields: [{key:'specialProgramCode', label: 'Code'} ,{key: 'specialProgramName', label: "Special Program"}, {key: 'specialProgramCompletionDate', label: "Date"} ],
-        dismissSecs: 3,
-        dismissCountDown: 0,
-        showModal: false,
-        showTop: false,
-        showEdit:false,
-        show: false,
-        projectedStudentGradStatus: [],
-        updateStatus:[],
-        schoolOfRecord:"",
-        SchoolAtGraduation:"",
-        programDropdownList: [],
-        editedGradStatus: {},
-        gradeOptions: [
-          { text: '08', value: '8' },
-          { text: '09', value: '9' },
-          { text: '10', value: '10' },
-          { text: '11', value: '11' },
-          { text: '12', value: '12' },
-          { text: 'GA', value: 'GA' },
-          { text: 'SU', value: 'SU' },
-          { text: 'OT', value: 'OT' },          
-          { text: 'AD', value: 'AD' },          
-          { text: 'AN', value: 'AN' },          
-        ],
-      };
-    },
-    created() {
-      this.programDropdownList = this.$store.dispatch("getGraduationPrograms");
-  
-    },
-    methods: {
-      // checkStudentGrade(){
-      //   if(this.editedGradStatus.program != "1950-EN" && this.editedGradStatus.studentGrade != 'AD'|| this.editedGradStatus.studentGrade != 'AN'){
-      //     this.errorTextStudentGrade = "If Program is 1950-EN then Student grade must be AD or AN";
-      //   }
-      // },
-      getStudentStatus(code){
-        var i =0;
-        for(i=0; i<=this.studentStatusOptions.length; i++){          
-          if(this.studentStatusOptions[i].value == code){
-            return this.studentStatusOptions[i].text;
-          } 
-        }
-        return "";
-      },
-      filterGradReqCourses(row) {
-       if (row.gradReqMet.length >  0) {
-            return true;
-          } else {
-            return false;
-          }
-      },
-      showNotification(variant = null, bodyContent) {
-        console.log(bodyContent);
-        this.$bvToast.toast(bodyContent, {
-          title: `${variant || 'default'}`,
-          variant: variant,
-          solid: true,
-          autoHideDelay: 5000,
-        })
-      },
-      editGradStatus() {
-        this.showEdit = true;    
-
-        this.$set(this.editedGradStatus, 'programCompletionDate', new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10))
-        //this.editedGradStatus.programCompletionDate = new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10);
-        this.$set(this.editedGradStatus, 'pen', this.studentGradStatus.pen)
-        //this.editedGradStatus.pen = this.studentGradStatus.pen;
-        this.$set(this.editedGradStatus, 'program', this.studentGradStatus.program)
-        this.$set(this.editedGradStatus, 'gpa', this.studentGradStatus.gpa)
-        //this.editedGradStatus.gpa = this.studentGradStatus.gpa;
-        this.$set(this.editedGradStatus, 'studentGrade', this.studentGradStatus.studentGrade)
-        // this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;  
-        this.$set(this.editedGradStatus, 'schoolOfRecord', this.studentGradStatus.schoolOfRecord)
-        //this.editedGradStatus.schoolOfRecord = this.studentGradStatus.schoolOfRecord; 
-        this.$set(this.editedGradStatus, 'schoolAtGrad', this.studentGradStatus.schoolAtGrad) 
-        //this.editedGradStatus.schoolAtGrad = this.studentGradStatus.schoolAtGrad;
-        this.$set(this.editedGradStatus, 'studentStatus', this.studentGradStatus.studentStatus) 
-        //this.editedGradStatus.studentStatus = this.studentGradStatus.studentStatus; 
-        this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID) 
-        //this.editedGradStatus.studentID = this.studentGradStatus.studentID;    
-      },
-      cancelGradStatus(){
-        this.showEdit = false;
-      },
-      editGraduationStatus(id) {
-        console.log(this.editedGradStatus);
-        GraduationStatusService.editGraduationStatus(id, this.token, this.editedGradStatus)
-          .then((response) => {
-            console.log(response.data);
-            this.updateStatus = response.data;
-            this.studentGradStatus.pen = response.data.pen;  
-            this.studentGradStatus.program = response.data.program;  
-            this.studentGradStatus.honoursStanding = response.data.honoursStanding;  
-            this.studentGradStatus.gpa = response.data.gpa;  
-            this.studentGradStatus.studentGrade = response.data.studentGrade;
-            this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;  
-            this.studentGradStatus.studentStatus = response.data.studentStatus;  
-            this.studentGradStatus.studentStatusName = this.getStudentStatus(response.data.studentStatus);
-            this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;  
-
-
-
-
-            this.showTop = !this.showTop
-            this.showEdit=false;
-            
-
-            
-            this.showNotification('success', 'Grad Status Saved')
-          }).catch((error) => {
-          // eslint-disable-next-line
-            console.log(error.response);
-            this.showNotification('danger', 'There was an error: '+ error.response.data.messages[0].message);
-            
-          //console.log('There was an error:' + error.response);
-        });
-      },
-
-      popClose() {
-        this.show = false;
-      },
-      getSchoolInfo(mincode) {
-        SchoolService.getSchoolInfo(mincode, this.token) .then((response) => {
-          this.schoolOfRecord = response.data;
-          this.SchoolAtGraduation = response.data;
-        }).catch((error) => {
-          // eslint-disable-next-line
-          console.log('There was an error:' + error.response);
-        });
-      },
-      projectGraduationStatus(id) {
-      //  console.log( "PROJECTED" + this.projectedStudentGradStatus);
-        GraduationStatusService.getGraduationStatus(id, this.token) .then((response) => {
-            this.projectedStudentGradStatus = response.data;
-            this.projectedStudentGradStatus.studentGradData = JSON.parse(this.projectedStudentGradStatus.studentGradData); 
-            //console.log( "PROJECTED" + this.projectedStudentGradStatus);
-            this.$bvModal.show("modal-1");
-            this.showModal = true;
-        }).catch((error) => {
-          // eslint-disable-next-line
-          console.log('There was an error:' + error.response);
-        });
-      },
-
-      updateGraduationStatus: function (pen) {
-        // eslint-disable-next-line no-use-before-define
-        GraduationService.graduateStudent(pen, this.token).then((response) => {
-          //console.log(response.data);
-          this.$store.dispatch("setStudentGradStatus", response.data);
-        }).catch((error) => {
-          // eslint-disable-next-line
-          console.log('There was an error:' + error.response);
-        });
-      },
-      getStudentAchievementReportPDF: function () {
-        GraduationCommonService.getAchievementReport(this.studentGradStatus.pen, this.token)
-          .then((response) => {
-            //Create a Blob from the PDF Stream
-            const file = new Blob(
-              [response.data], {
-                type: 'application/pdf'
-              });
-            //Build a URL from the file
-            if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE
-              window.navigator.msSaveOrOpenBlob(file);
-            } else {
-              const fileURL = URL.createObjectURL(file);
-              window.open(fileURL); //Open the URL on new Window
-            }
-          })
-          // eslint-disable-next-line no-unused-vars
-          .catch((error) => {
-            //console.log('There was an error:' + error.response);
-          });
-      },
-      getStudentTranscriptPDF: function () {
-      //  console.log("transcript");
-        GraduationCommonService.getStudentTranscript(this.studentGradStatus.pen, this.token)
-          .then((response) => {
-            //Create a Blob from the PDF Stream
-            const file = new Blob(
-              [response.data], {
-                type: 'application/pdf'
-              });
-            //Build a URL from the file
-            if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE
-              window.navigator.msSaveOrOpenBlob(file);
-            } else {
-              const fileURL = URL.createObjectURL(file);
-              window.open(fileURL); //Open the URL on new Window
-            }
-          })
-          // eslint-disable-next-line no-unused-vars
-          .catch((error) => {
-            //console.log('There was an error:' + error.response);
-          });
-      }, 
-      validations() {
-        return {
-          editedGradStatus: {
-            program:this.validateProgram(this.editedGradStatus.program,this.editedGradStatus.studentGrade)
-          },
+import { mapGetters } from "vuex";
+import GraduationCommonService from "@/services/GraduationCommonService.js";
+import GraduationService from "@/services/GraduationService.js";
+import GraduationStatusService from "@/services/GraduationStatusService.js";
+import SchoolService from "@/services/SchoolService.js";
+//import DisplayTable from '@/components/DisplayTable.vue';
+export default {
+  name: "StudentGraduationStatus",
+  components: {},
+  computed: {
+    ...mapGetters({
+      studentGradStatus: "getStudentGradStatus",
+      hasGradStatus: "studentHasGradStatus",
+      studentGradRequirementCourses: "gradStatusCourses",
+      studentPen: "getStudentPen",
+      studentFullName: "getStudentFullName",
+      token: "getToken",
+      role: "getRoles",
+      specialPrograms: "getStudentSpecialPrograms",
+      programOptions: "getProgramOptions",
+      studentStatusOptions: "getStudentStatusOptions",
+      studentId: "getStudentId",
+    }),
+  },
+  data() {
+    return {
+      requirementsMetfields: [
+        { key: "gradReqMetDetail", label: "Requirement Code" },
+        { key: "courseName", label: "Course Name" },
+        { key: "sessionDate", label: "Session" },
+      ],
+      requirementsNotMetfields: [
+        { key: "gradReqMetDetail", label: "Requirement Code" },
+        { key: "courseName", label: "Course Name" },
+      ],
+      specialProgramsfields: [
+        { key: "specialProgramCode", label: "Code" },
+        { key: "specialProgramName", label: "Special Program" },
+        { key: "specialProgramCompletionDate", label: "Date" },
+      ],
+      dismissSecs: 3,
+      dismissCountDown: 0,
+      showModal: false,
+      showTop: false,
+      showEdit: false,
+      show: false,
+      projectedStudentGradStatus: [],
+      updateStatus: [],
+      schoolOfRecord: "",
+      SchoolAtGraduation: "",
+      programDropdownList: [],
+      editedGradStatus: {},
+      gradeOptions: [
+        { text: "08", value: "8" },
+        { text: "09", value: "9" },
+        { text: "10", value: "10" },
+        { text: "11", value: "11" },
+        { text: "12", value: "12" },
+        { text: "GA", value: "GA" },
+        { text: "SU", value: "SU" },
+        { text: "OT", value: "OT" },
+        { text: "AD", value: "AD" },
+        { text: "AN", value: "AN" },
+      ],
+    };
+  },
+  created() {
+    this.programDropdownList = this.$store.dispatch("getGraduationPrograms");
+  },
+  methods: {
+    getStudentStatus(code) {
+      var i = 0;
+      for (i = 0; i <= this.studentStatusOptions.length; i++) {
+        if (this.studentStatusOptions[i].value == code) {
+          return this.studentStatusOptions[i].text;
         }
       }
-    }
-  };
+      return "";
+    },
+    filterGradReqCourses(row) {
+      if (row.gradReqMet.length > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    showNotification(variant = null, bodyContent) {
+      console.log(bodyContent);
+      this.$bvToast.toast(bodyContent, {
+        title: `${variant || "default"}`,
+        variant: variant,
+        solid: true,
+        autoHideDelay: 5000,
+      });
+    },
+    editGradStatus() {
+      this.showEdit = true;
+
+      this.editedGradStatus.programCompletionDate = new Date(
+        this.studentGradStatus.programCompletionDate
+      )
+        .toISOString()
+        .slice(0, 10);
+      this.editedGradStatus.pen = this.studentGradStatus.pen;
+      this.editedGradStatus.program = this.studentGradStatus.program;
+      this.editedGradStatus.gpa = this.studentGradStatus.gpa;
+      this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;
+      this.editedGradStatus.schoolOfRecord = this.studentGradStatus.schoolOfRecord;
+      this.editedGradStatus.schoolAtGrad = this.studentGradStatus.schoolAtGrad;
+      this.editedGradStatus.studentStatus = this.studentGradStatus.studentStatus;
+      this.editedGradStatus.studentID = this.studentGradStatus.studentID;
+    },
+    cancelGradStatus() {
+      this.showEdit = false;
+    },
+    editGraduationStatus(id) {
+      console.log(this.editedGradStatus);
+      GraduationStatusService.editGraduationStatus(
+        id,
+        this.token,
+        this.editedGradStatus
+      )
+        .then((response) => {
+          console.log(response.data);
+          this.updateStatus = response.data;
+          this.studentGradStatus.pen = response.data.pen;
+          this.studentGradStatus.program = response.data.program;
+          this.studentGradStatus.honoursStanding =
+            response.data.honoursStanding;
+          this.studentGradStatus.gpa = response.data.gpa;
+          this.studentGradStatus.studentGrade = response.data.studentGrade;
+          this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
+          this.studentGradStatus.studentStatus = response.data.studentStatus;
+          this.studentGradStatus.studentStatusName = this.getStudentStatus(
+            response.data.studentStatus
+          );
+          this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
+
+          this.showTop = !this.showTop;
+          this.showEdit = false;
+
+          this.showNotification("success", "Grad Status Saved");
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log(error.response);
+          this.showNotification(
+            "danger",
+            "There was an error: " + error.response.data.messages[0].message
+          );
+
+          //console.log('There was an error:' + error.response);
+        });
+    },
+
+    popClose() {
+      this.show = false;
+    },
+    getSchoolInfo(mincode) {
+      SchoolService.getSchoolInfo(mincode, this.token)
+        .then((response) => {
+          this.schoolOfRecord = response.data;
+          this.SchoolAtGraduation = response.data;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log("There was an error:" + error.response);
+        });
+    },
+    projectGraduationStatus(id) {
+      //  console.log( "PROJECTED" + this.projectedStudentGradStatus);
+      GraduationStatusService.getGraduationStatus(id, this.token)
+        .then((response) => {
+          this.projectedStudentGradStatus = response.data;
+          this.projectedStudentGradStatus.studentGradData = JSON.parse(
+            this.projectedStudentGradStatus.studentGradData
+          );
+          //console.log( "PROJECTED" + this.projectedStudentGradStatus);
+          this.$bvModal.show("modal-1");
+          this.showModal = true;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log("There was an error:" + error.response);
+        });
+    },
+
+    updateGraduationStatus: function (pen) {
+      // eslint-disable-next-line no-use-before-define
+      GraduationService.graduateStudent(pen, this.token)
+        .then((response) => {
+          //console.log(response.data);
+          this.$store.dispatch("setStudentGradStatus", response.data);
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log("There was an error:" + error.response);
+        });
+    },
+    getStudentAchievementReportPDF: function () {
+      GraduationCommonService.getAchievementReport(
+        this.studentGradStatus.pen,
+        this.token
+      )
+        .then((response) => {
+          //Create a Blob from the PDF Stream
+          const file = new Blob([response.data], {
+            type: "application/pdf",
+          });
+          //Build a URL from the file
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            // IE
+            window.navigator.msSaveOrOpenBlob(file);
+          } else {
+            const fileURL = URL.createObjectURL(file);
+            window.open(fileURL); //Open the URL on new Window
+          }
+        })
+        // eslint-disable-next-line no-unused-vars
+        .catch((error) => {
+          //console.log('There was an error:' + error.response);
+        });
+    },
+    getStudentTranscriptPDF: function () {
+      //  console.log("transcript");
+      GraduationCommonService.getStudentTranscript(
+        this.studentGradStatus.pen,
+        this.token
+      )
+        .then((response) => {
+          //Create a Blob from the PDF Stream
+          const file = new Blob([response.data], {
+            type: "application/pdf",
+          });
+          //Build a URL from the file
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            // IE
+            window.navigator.msSaveOrOpenBlob(file);
+          } else {
+            const fileURL = URL.createObjectURL(file);
+            window.open(fileURL); //Open the URL on new Window
+          }
+        })
+        // eslint-disable-next-line no-unused-vars
+        .catch((error) => {
+          //console.log('There was an error:' + error.response);
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
-  .graduation-status-content .header {
-    border-bottom: 1px solid #ccc;
-    font-weight: bold;
-    color: #517195;
-    margin: 10px 0px;
-    background: #f2f2f2 !important;
+.graduation-status table tr td{
+  padding-left:20px;
+  vertical-align:middle;
+  width: 50%;
+  height:40px !important
+}
 
-  }
+ul.requirements-met,
+ul.non-grad-reasons {
+  list-style: none;
+}
 
-  .graduation-status-content .header h2 {
-    font-size: 16px;
-    margin: 0px !important;
-    padding: 10px;
-  }
+ul.requirements-met li,
+ul.non-grad-reasons li {
+  border-bottom: 1px solid #ccc;
+}
 
-  ul.requirements-met,
-  ul.non-grad-reasons {
-    list-style: none;
-  }
+.card-body {
+  border-bottom: 1px solid #ccc;
+}
+.card {
+  border-radius: 0px;
+  margin-bottom: 10px;
+}
 
-  ul.requirements-met li,
-  ul.non-grad-reasons li {
-    border-bottom: 1px solid #ccc;
-  }
+.card-header {
+  font-weight: 700;
+  color: #036 !important;
+  font-size: 20px;
+}
+.btn {
+  border-radius: 0px !important;
+}
 
+span.link {
+  color: #1a5a96;
+  text-decoration: underline;
+  background-color: transparent;
+}
 
-  .card-body{
-    border-bottom: 1px solid #ccc;
-  }
-  .card {
-    border-radius: 0px;
-    margin-bottom: 10px;
-  }
-
-  .card-header {
-    font-weight:700;
-    color: #036 !important;
-    font-size: 20px;
-  }
-  .btn {
-    border-radius: 0px !important;
-  }
-
-  span.link {
-    color: #1a5a96;
-    text-decoration: underline;
-    background-color: transparent;
-  }
-
-  span.link:hover {
-    color: #0000f3;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  h5.modal-title{
-    font-size: 30px !important;
-  }
-  .gradstatus-actions{
-    position: absolute;
-    top: 10px;
-    right: 10px;
-  }
-  .edit{
-    padding:10px
-  }
+span.link:hover {
+  color: #0000f3;
+  text-decoration: underline;
+  cursor: pointer;
+}
+h5.modal-title {
+  font-size: 30px !important;
+}
+.gradstatus-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.edit {
+  padding: 10px;
+}
 </style>
 
