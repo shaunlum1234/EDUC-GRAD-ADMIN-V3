@@ -49,7 +49,7 @@
 
 
                 
-                <table class="table table-striped table-bordered table-hover table-sm m-2" >
+                <table class="table table-striped table-bordered table-hover table-sm m-3" >
                   <tbody>
                   <tr v-if="!showEdit">
                     <td><strong>Program: </strong></td>
