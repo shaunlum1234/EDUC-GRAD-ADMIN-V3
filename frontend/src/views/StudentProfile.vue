@@ -6,6 +6,7 @@
       <div class="px-0">     
           <table v-if="!smallScreen" class="profile-name">
             <tr>
+              <td></td>
               <td class="align-top profile-name-header"><label>PEN</label></td>
               <td class="align-top profile-name-header"><label>Legal surname</label></td>
               <td class="align-top profile-name-header"><label>Legal given</label></td>
@@ -13,7 +14,13 @@
               <td class="align-top profile-name-header"><label>Birthdate (yyyy-mm-dd)</label></td>
             </tr>
             <tr>
-              <td class="align-top profile-name-data px-0" v-if="studentFullName.pen"><strong><p class="profile-info"><b-button v-b-toggle.student-accordion variant="link">{{ studentFullName.pen }}</b-button></p></strong></td>
+              <td>
+                <b-button  v-b-toggle.student-accordion variant="link" v-on:click="moreStudentInfo = !moreStudentInfo">
+                  <i class='fas fa-lg fa-caret-down'></i>
+                </b-button>
+              
+              </td>
+              <td class="align-top profile-name-data px-0" v-if="studentFullName.pen"><strong><p class="profile-info">{{ studentFullName.pen }}</p></strong></td>
               <td class="align-top profile-name-data" v-if="studentFullName.legalLastName"><p class="profile-info">{{ studentFullName.legalLastName }}</p></td>
               <td class="align-top profile-name-data" v-if="studentFullName.legalFirstName"><p class="profile-info">{{ studentFullName.legalFirstName }}</p></td>
               <td class="align-top profile-name-data" v-if="studentFullName.legalMiddleNames"><p class="profile-info">{{ studentFullName.legalMiddleNames }}</p></td>
@@ -53,17 +60,32 @@
                 <table class="table table-striped table-bordered table-sm m-0">
                   <tbody>
                     <tr>
-                      <td><strong>SEX:</strong> {{studentInfo.sexCode}}</td><td><strong>Gender:</strong> {{studentInfo.genderCode}}</td><td><strong>Usual First Name:</strong> {{studentInfo.usualFirstName}}</td>
+                      <td class="w-25"><strong>Usual First Name:</strong></td><td class="">{{studentInfo.usualFirstName}}</td>
+                      <td><strong>Grade Code:</strong></td><td> {{studentInfo.gradeCode}} </td>
+                      <td><strong>Status:</strong></td><td>{{studentInfo.statusCode}} </td>
                     </tr>
                     <tr>
-                      <td><strong>Usual Middle Name:</strong> {{studentInfo.usualMiddleNames}}</td><td><strong>Usual Last Name:</strong> {{studentInfo.usualLastName}}</td><td><strong>Usual First Name:</strong> {{studentInfo.usualFirstName}}</td>
+                      <td><strong>Usual Last Name:</strong></td><td> {{studentInfo.usualLastName}}</td>
+                      <td><strong>Gender:</strong></td><td> {{studentInfo.genderCode}}</td>
+                      <td><strong>Demog Code:</strong></td><td> {{studentInfo.demogCode}} </td>
                     </tr>
                     <tr>
-                      <td><strong>Email:</strong> {{ studentInfo.email}}</td><td><strong>Email verified:</strong> {{studentInfo.emailVerified}}</td><td><strong>Postal Code:</strong> {{studentInfo.postalCode}} </td>
+                      <td><strong>Usual Middle Name:</strong></td><td> {{studentInfo.usualMiddleNames}}</td>
+                      <td><strong>Sex:</strong></td><td> {{studentInfo.sexCode}}</td>
+                      <td><strong>Mincode:</strong></td><td> {{studentInfo.mincode}}</td>
+                      
                     </tr>
                     <tr>
-                      <td><strong>Grade Code:</strong> {{studentInfo.gradeCode}} </td><td><strong>Demo Code:</strong> {{studentInfo.demoCode}} </td><td><strong>Status Code:</strong> {{studentInfo.statusCode}} </td>
+                      <td class="w-25"><strong>Email:</strong></td><td>{{ studentInfo.email}}</td>
+                      
+                      <td><strong>Email verified:</strong></td><td> {{studentInfo.emailVerified}}</td>
+                      <td><strong>Postal Code:</strong></td><td> {{studentInfo.postalCode}} </td>
                     </tr>
+
+                    <tr>
+                      <td colspan="6"><strong>Deceased Date:</strong> {{studentInfo.deceasedDate}}</td>  
+                    </tr>                    
+                                    
                   </tbody>
                 </table>
                   
@@ -166,7 +188,7 @@
       }
     },
     data() {
-      return {
+      return { 
         show: false,
         opened: [],
         displayMessage: null,
@@ -176,6 +198,7 @@
           height: 0
         },
         courseViewMode: "showAllCourses",
+        moreStudentInfo: false,
       };
     },
     computed: {
