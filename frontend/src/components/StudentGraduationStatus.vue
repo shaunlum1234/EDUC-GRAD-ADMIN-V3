@@ -354,39 +354,42 @@
       </div>
     </div>
     <div>
-      <div class="graduation-maintenance">
+      <div class="graduation-actions">
         <b-card
-            header="Graduation Maintenance"
+            header="Graduation Actions"
             
           >
             <b-card-text v-if="studentGradStatus.studentGradData">
-            <ul>
-              <li>
-                <a href="#" @click="projectGraduationStatus(studentPen)" class="">
+            <div v-if="hasGradStatus" class="text-left mb-3">
+              <strong>Created by:</strong> {{ studentGradStatus.createdBy }}
+              <strong>Created:</strong> {{ studentGradStatus.createdTimestamp }}
+              
+              <strong>Updated by:</strong> {{ studentGradStatus.updatedBy }}
+              <strong>Updated:</strong> {{ studentGradStatus.updatedTimestamp }}
+            </div>
+            <div class="row">
+              <div class="col-2">
+                <a href="#" @click="projectGraduationStatus(studentPen)" class="float-left">
                   <i class="fas fa-eye"></i> Projected<br> Graduation Status
                 </a>
-                <b-modal id="modal-1" size="lg" >
+                <b-modal id="modal-1" size="lg" class="float-left">
                   <div v-if="showModal" class="row col-12">
                         PROJECTED GRAD STATUS
                   </div>
                 </b-modal>
-              </li>
-              <li>
+              </div>
+              <div class="col-2">
                 <a href="#" v-on:click="updateGraduationStatus(studentPen)" class="">
                   <i class="fas fa-sync"></i> Run Graduation<br>Algorithm
                 </a>
-              </li>
+              </div>
+            </div>
                 
-            </ul>
-                  <div v-if="hasGradStatus">
-           Created by: {{ studentGradStatus.createdBy }}
-           Created: {{ studentGradStatus.createdTimestamp }}
-            
-            Updated by: {{ studentGradStatus.updatedBy }}
-            Updated: {{ studentGradStatus.updatedTimestamp }}
-          </div>
+    
+
             </b-card-text>
           </b-card>
+
         </div>     
     </div>
     <div v-if="role == 'administrator'">
@@ -471,11 +474,12 @@ export default {
         { text: "10", value: "10" },
         { text: "11", value: "11" },
         { text: "12", value: "12" },
-        { text: "GA", value: "GA" },
-        { text: "SU", value: "SU" },
-        { text: "OT", value: "OT" },
-        { text: "AD", value: "AD" },
-        { text: "AN", value: "AN" },
+        { text: "GA", value: "GA - Graduated Adult" },
+        { text: "SU", value: "SU - Secondary Upgraded" },
+        { text: "OT", value: "OT - Other" },
+        { text: "AD", value: "AD - Adult expected to graduate" },
+        { text: "AN", value: "AN - Adult not expected to graduate" },
+        { text: "HS", value: "HS - Homeschool" },
       ],
     };
   },

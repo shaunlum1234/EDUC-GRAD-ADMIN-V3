@@ -1,46 +1,8 @@
 <template>
     <div>
       <div class="student-note">
-<!-- Button which reloads the Notes -->
-        <!-- <b-button
-          variant="primary"
-          size="sm"
-          @click="getNotes"
-          class="float-left add-button btn btn-primary btn-sm"
-          >Refresh
-        </b-button> -->
-<!-- Notes from the store pull from the database -->
-        <div v-for="studentNote in notes" :key="studentNote.id">
-          <b-card
-            title=""
-            no-body
-            tag="article"
-            class="col-12 mb-2"
-            :header=" studentNote.createdBy + ' added a note -' + studentNote.createdTimestamp"
-          >
-            <b-card-text>
-              <p>{{studentNote.note}}</p>
-              <b-button
-                v-if="showAddButton"
-                variant="danger"
-                size="sm"
-                @click="onDelete(studentNote.id)"
-                class="float-right delete-button"
-                >Delete
-              </b-button>
-            </b-card-text>
-          </b-card>
-        </div>   
-<!-- Button which shows the add new Note form -->
-        <!-- <b-button
-          v-if="showAddButton"
-          variant=""
-          size=""
-          @click="showSubmitForm"
-          class="float-left add-button btn btn-primary btn-sm"
-          >Add
-        </b-button> -->
-<!-- Add new Note form -->
+      
+      <!-- Add new Note form -->
         <b-card
             title=""
             tag="article"
@@ -60,6 +22,28 @@
             <b-button type="reset" variant="outline-secondary" size="sm" class="">Reset</b-button>
           </b-form>
         </b-card>
+        <!-- Notes from the store pull from the database -->
+        <div v-for="studentNote in notes" :key="studentNote.id">
+          <b-card
+            title=""
+            no-body
+            tag="article"
+            class="col-12 mb-2"
+            :header="'Created by ' + studentNote.createdBy + ' at ' + studentNote.createdTimestamp"
+          >
+            <b-card-text>
+              <p>{{studentNote.note}}</p>
+              <b-button
+                v-if="showAddButton"
+                variant="danger"
+                size="sm"
+                @click="onDelete(studentNote.id)"
+                class="float-right delete-button"
+                >Delete
+              </b-button>
+            </b-card-text>
+          </b-card>
+        </div>   
       </div>
   </div>
 </template>
