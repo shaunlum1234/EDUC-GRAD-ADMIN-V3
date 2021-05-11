@@ -15,7 +15,7 @@
             title=""
             no-body
             tag="article"
-            class="col-12"
+            class="col-12 mb-2"
             :header=" studentNote.createdBy + ' added a note -' + studentNote.createdTimestamp"
           >
             <b-card-text>
@@ -48,7 +48,7 @@
             v-if="showForm"
         >
           <b-form @submit="onSubmit" @reset="onReset" >
-            <b-form-group id="input-group-1" label="Add note:" label-for="comment">
+            <b-form-group id="note-form" label="Add note:" label-for="comment">
               <b-form-textarea
                 id="comment"
                 v-model="newNote.note"
@@ -56,8 +56,8 @@
                 required
               ></b-form-textarea>
             </b-form-group>
-            <b-button type="submit" variant="primary" size="sm" class="pr-3">Submit</b-button>
-            <b-button type="reset" variant="outline-secondary" size="sm" class="">Cancel</b-button>
+            <b-button type="submit" variant="primary" size="sm" class="mr-1">Add</b-button>
+            <b-button type="reset" variant="outline-secondary" size="sm" class="">Reset</b-button>
           </b-form>
         </b-card>
       </div>
@@ -112,6 +112,7 @@ export default {
           .then((response) => {
             if(response.data && response.data.value){
               this.notes.push(response.data.value)
+              this.newNote.note = '';
             }            
           })             
           .catch((error) => {
@@ -167,5 +168,10 @@ export default {
 }
 .card-text{
   padding: 19px;
+}
+.delete-button{
+      position: absolute;
+    right: 10px;
+    top: 10px
 }
 </style>
