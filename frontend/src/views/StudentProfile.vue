@@ -100,7 +100,7 @@
         <div>
           <b-card no-body class="py-0" v-if="studentHasCourses || studentHasAssessments">
             <b-tabs :pills="smallScreen" card>
-                <b-tab title="GRAD Status" class="py-3 px-0 m-1">
+                <b-tab title="GRAD status" class="py-3 px-0 m-1">
                   <b-card-text>
                     
                     <StudentGraduationStatus></StudentGraduationStatus>

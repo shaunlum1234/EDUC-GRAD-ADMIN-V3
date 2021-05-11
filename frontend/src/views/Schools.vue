@@ -217,7 +217,7 @@
         }).catch((error) => {
 
           // eslint-disable-next-line
-          console.log('There was an error adding School information to Grad Status:' + error.response);
+          console.log('There was an error adding School information to GRAD Status:' + error.response);
         });  
       },
       searchSchools(){
@@ -226,7 +226,7 @@
           this.schools = res.data;
         }).catch((error) => {
           // eslint-disable-next-line
-          console.log('There was an error adding School information to Grad Status:' + error.response);
+          console.log('There was an error adding School information to GRAD Status:' + error.response);
         });  
       }
     }
