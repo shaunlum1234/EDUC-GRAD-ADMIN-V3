@@ -1,8 +1,5 @@
 <template>
   <div class="p-2">
-
-    editedGradStatus: {{editedGradStatus}}<br>
-    Disable Button: {{disableButton}}
     <div class="row">
       <div class="col-12">
         <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
@@ -24,7 +21,7 @@
             no-body
             header="GRAD status"
           >
-            <b-card-text>
+            <b-card-text class="m-2">
               
                 <b-button-group v-if="this.role =='administrator'" class="gradstatus-actions float-right">
                   <div v-if="!showEdit">
@@ -49,11 +46,11 @@
 
 
                 
-                <table class="table table-striped table-bordered table-hover table-sm m-3" >
+                <table class="table table-striped table-bordered table-hover table-sm w-100" >
                   <tbody>
                   <tr v-if="!showEdit">
-                    <td><strong>Program: </strong></td>
-                    <td><span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span></td>
+                    <td class="w-50"><strong>Program: </strong></td>
+                    <td class="w-50"><span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span></td>
                   </tr>
                   <tr v-if="showEdit">
                     <td ><strong>Program: </strong>
@@ -210,34 +207,8 @@
                     <tr>
                       <td><strong>GPA:</strong></td><td><span v-if="studentGradStatus.gpa">{{ studentGradStatus.gpa }}</span></td>
                     </tr>
-                    <!-- <tr v-if="showEdit">
-                      <td><strong>GPA:</strong></td>
-                      <td class="p-1"><b-input size="sm" max="4" pattern="^\d*(\.\d{0,4})?$" type="number" v-model='editedGradStatus.gpa'></b-input></td>      
-                    </tr> -->
-                    <tr v-if="!showEdit">
-                      <td><strong>Program at graduation:</strong></td>
-                      <td>{{ studentGradStatus.gradProgramAtGraduation}}</td>
-                    </tr>
-                    <tr v-if="showEdit">
-                      <td><strong>Program at graduation:</strong></td>
-                      <td class="p-1"><b-input size="sm" v-model='editedGradStatus.gradProgramAtGraduation'></b-input></td>      
-                    </tr>      
-                    <tr v-if="studentGradStatus.studentGradeAtGraduation">
-                      <td><strong>Grade at Graduation:</strong></td><td>{{ studentGradStatus.studentGradeAtGraduation }}</td>
-                    </tr>
                     </tbody>
                   </table> 
-                  <div v-if="showEdit" class="pl-3 pr-1 mb-3">
-                    <strong>Note:</strong>
-                    <b-form-textarea
-                      id="textarea"
-                      v-model="text"
-                      rows="3"
-                      max-rows="6"
-                      
-                    ></b-form-textarea>
-                  </div>
-                    
               </b-card-text>
             </b-card>
           </div> 
@@ -305,7 +276,7 @@
           </div>
       </div>
       <!-- Right Column -->
-      <div class="col-12 pl-3 col-md-6 "> 
+      <div class="col-12 pl-3 col-md-6"> 
 
         <div class="requirements-met-and-not-met">
    
@@ -313,11 +284,9 @@
             <b-card
               header="Requirements met"
               v-if="studentGradStatus.studentGradData"
-              
               no-body
-    
             >
-              <b-card-text class="m-3">
+              <b-card-text class="m-3 w-100">
                 <b-table  
                   :items="studentGradRequirementCourses"
                   :fields="requirementsMetfields"
@@ -365,7 +334,7 @@
     <div>
       <div class="graduation-actions">
         <b-card
-            header="Graduation Actions"
+            header="GRAD Actions"
           >
             <b-card-text v-if="studentGradStatus.studentGradData">
             <div v-if="hasGradStatus" class="text-left mb-3">
@@ -711,7 +680,6 @@ export default {
 .graduation-status table tr td{
   padding-left:20px;
   vertical-align:top;
-  width: 50%;
   height:40px !important
 }
 
