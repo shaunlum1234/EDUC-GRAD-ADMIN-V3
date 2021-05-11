@@ -765,7 +765,7 @@ export default {
     position: absolute;
     top: 77px;
     font-size: 11px;
-    color:red;
+    color: #d93e45
   }
   .sample-pens {
     float: left;

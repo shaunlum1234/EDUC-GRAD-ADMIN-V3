@@ -4,6 +4,7 @@
           <div><strong>Birthdate:</strong> {{ studentInfo.dob }}</div>
           <!-- <div><strong>Gender:</strong> {{ studentInfo.studSex }}</div> -->
       </div>
+      HELLO WORL
   </div>
 </template>
 

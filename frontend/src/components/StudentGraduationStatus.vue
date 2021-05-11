@@ -54,10 +54,10 @@
                   <tr v-if="showEdit">
                     <td ><strong>Program: </strong>
                       <div v-if="editedGradStatus.program == '1950-EN'">
-                        <div class="text-danger" v-if="!(editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN')">Student grade should be one of <strong>AD or AN</strong> if the student program is 1950</div>
+                        <div class="form-validation-message text-danger" v-if="!(editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN')">Student grade should be one of <strong>AD or AN</strong> if the student program is 1950</div>
                       </div>   
                     </td>
-                    <td class="p-1"><b-form-select size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>   
+                    <td class="p-1 "><b-form-select size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>   
                     
                   </tr>
                   <tr v-if="!showEdit">
@@ -79,7 +79,7 @@
                   </tr>                     
                   <tr v-if="showEdit">
                     <td><strong>Student status: </strong></td>
-                    <td class="p-1"><b-form-select 
+                    <td class="p-1 "><b-form-select 
                         size="sm"
                         v-model="editedGradStatus.studentStatus"
                         :options="studentStatusOptions"
@@ -94,7 +94,7 @@
                   <tr v-if="showEdit">
                       <td><strong>Student grade: </strong>
                         <div v-if="editedGradStatus.program != '1950-EN'">
-                          <div class="text-danger" v-if="editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN'">Student grade should not be AD or AN for this program</div>
+                          <div class="form-validation-message text-danger" v-if="editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN'">Student grade should not be AD or AN for this program</div>
                         </div> 
                       </td>
                       <td class="p-1"><b-form-select 
@@ -716,7 +716,7 @@ export default {
 <style scoped>
 .graduation-status table tr td{
   padding-left:20px;
-  vertical-align:middle;
+  vertical-align:top;
   width: 50%;
   height:40px !important
 }
@@ -769,6 +769,9 @@ h5.modal-title {
 }
 .edit {
   padding: 10px;
+}
+.form-validation-message{
+  font-size: 11px;
 }
 </style>
 

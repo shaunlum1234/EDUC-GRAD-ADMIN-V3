@@ -3,7 +3,7 @@
     <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
     <!-- Button trigger modal -->
     <div class="row m-0 py-3">    
-      <div class="col-md-12">     
+      <div class="px-0">     
           <table v-if="!smallScreen" class="profile-name">
             <tr>
               <td class="align-top profile-name-header"><label>PEN</label></td>
@@ -13,7 +13,7 @@
               <td class="align-top profile-name-header"><label>Birthdate (yyyy-mm-dd)</label></td>
             </tr>
             <tr>
-              <td class="align-top profile-name-data" v-if="studentFullName.pen"><strong><p class="profile-info">{{ studentFullName.pen }}</p></strong></td>
+              <td class="align-top profile-name-data px-0" v-if="studentFullName.pen"><strong><p class="profile-info"><b-button v-b-toggle.student-accordion variant="link">{{ studentFullName.pen }}</b-button></p></strong></td>
               <td class="align-top profile-name-data" v-if="studentFullName.legalLastName"><p class="profile-info">{{ studentFullName.legalLastName }}</p></td>
               <td class="align-top profile-name-data" v-if="studentFullName.legalFirstName"><p class="profile-info">{{ studentFullName.legalFirstName }}</p></td>
               <td class="align-top profile-name-data" v-if="studentFullName.legalMiddleNames"><p class="profile-info">{{ studentFullName.legalMiddleNames }}</p></td>
@@ -45,7 +45,33 @@
             </div>
           </div>
       </div>
-     
+      <div class="col-12 px-0">
+        
+        <b-collapse id="student-accordion" class="">
+          <b-card no-body >
+            <p class="card-text">
+                <table class="table table-striped table-bordered table-sm m-0">
+                  <tbody>
+                    <tr>
+                      <td><strong>SEX:</strong> {{studentInfo.sexCode}}</td><td><strong>Gender:</strong> {{studentInfo.genderCode}}</td><td><strong>Usual First Name:</strong> {{studentInfo.usualFirstName}}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Usual Middle Name:</strong> {{studentInfo.usualMiddleNames}}</td><td><strong>Usual Last Name:</strong> {{studentInfo.usualLastName}}</td><td><strong>Usual First Name:</strong> {{studentInfo.usualFirstName}}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Email:</strong> {{ studentInfo.email}}</td><td><strong>Email verified:</strong> {{studentInfo.emailVerified}}</td><td><strong>Postal Code:</strong> {{studentInfo.postalCode}} </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Grade Code:</strong> {{studentInfo.gradeCode}} </td><td><strong>Demo Code:</strong> {{studentInfo.demoCode}} </td><td><strong>Status Code:</strong> {{studentInfo.statusCode}} </td>
+                    </tr>
+                  </tbody>
+                </table>
+                  
+            </p>
+          </b-card>
+        </b-collapse>
+      </div>
+      
     </div>
     <div class="row m-0">
       <div class="col-12 px-0">
@@ -284,7 +310,16 @@
     font-size: 29px;
 
   }
+  .profile-info button{
+    font-size: 29px;
+    box-shadow: none !important;
+    padding:0px;
+    color: #313132
+  }
+  .profile-info button.btn.btn-link:focus{
+    border: none !important;
   
+  }
   .close-record {
     float: right;
     text-align: center;
