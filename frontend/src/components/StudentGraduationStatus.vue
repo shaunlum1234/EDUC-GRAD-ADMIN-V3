@@ -463,6 +463,8 @@ export default {
       updateStatus: [],
       schoolOfRecord: "",
       SchoolAtGraduation: "",
+      schoolOfRecordStatus:"",
+      schoolAtGraduationStatus:"",
       programDropdownList: [],
       editedGradStatus: {},
       disableButton:false,
@@ -509,6 +511,8 @@ export default {
     checkSchoolOpen() {
       // SchoolService.getSchoolInfo(mincode, this.token)
       // .then((response) => {
+      //   this.schoolOfRecordStatus:"",
+      //   this.schoolAtGraduationStatus:"",
       //   this.schoolOfRecord = response.data;
       //   this.SchoolAtGraduation = response.data;
       // })
@@ -613,7 +617,7 @@ export default {
       SchoolService.getSchoolInfo(mincode, this.token)
         .then((response) => {
           this.schoolOfRecord = response.data;
-          this.SchoolAtGraduation = response.data;
+          this.schoolAtGraduation = response.data;
         })
         .catch((error) => {
           // eslint-disable-next-line
