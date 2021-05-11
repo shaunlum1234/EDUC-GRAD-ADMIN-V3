@@ -22,7 +22,7 @@
           <div class="graduation-status">
           <b-card
             no-body
-            header="GRAD Status"
+            header="GRAD status"
           >
             <b-card-text>
               
@@ -33,19 +33,23 @@
                     </b-link>
                   </div>
                   <div v-if="showEdit">
-                    <b-btn :disabled="disableButton" v-on:click="editGraduationStatus(studentId)" size="sm" variant="primary">
+                    <b-button-group>
+                      <b-button :disabled="disableButton" v-on:click="editGraduationStatus(studentId)" size="sm" variant="primary">Save</b-button>
+                      <b-button v-on:click="cancelGradStatus"  size="sm" variant="outline-primary">Cancel</b-button>
+                    </b-button-group>
+                    <!--b-btn :disabled="disableButton" v-on:click="editGraduationStatus(studentId)" size="sm" variant="primary">
                         Save 
                     </b-btn>
                     <b-btn v-on:click="cancelGradStatus"  size="sm" variant="outline-primary">
                       Cancel
-                    </b-btn>
+                    </b-btn-->
       
                   </div>
                 </b-button-group>
 
 
                 
-                <table class="table table-striped table-bordered table-hover table-sm">
+                <table class="table table-striped table-bordered table-hover table-sm m-3" >
                   <tbody>
                   <tr v-if="!showEdit">
                     <td><strong>Program: </strong></td>
@@ -262,7 +266,7 @@
           <div class="special-programs">
             
             <b-card
-              header="Special Programs"
+              header="Special programs"
               no-body
             >
               <b-card-text class="p-3" v-if="specialPrograms[0] && specialPrograms[0].studentSpecialProgramData">
@@ -283,7 +287,7 @@
           <!-- GRADUATION REPORTS -->
           <div class="graduation-reports">
             <b-card
-              header="Graduation Reports"
+              header="Graduation reports"
             >
               <b-card-text>
                   <div>
@@ -307,7 +311,7 @@
    
           <div class="requirements-met">
             <b-card
-              header="Requirements Met"
+              header="Requirements met"
               v-if="studentGradStatus.studentGradData"
               
               no-body
@@ -333,7 +337,7 @@
           
           <div class="requirements-not-met">
             <b-card
-              header="Non Grad Reasons"
+              header="Non-GRAD reasons"
               class="w-100"
             >
               <b-card-text v-if="studentGradStatus.studentGradData">
@@ -359,39 +363,41 @@
       </div>
     </div>
     <div>
-      <div class="graduation-maintenance">
+      <div class="graduation-actions">
         <b-card
-            header="Graduation Maintenance"
-            
+            header="Graduation Actions"
           >
             <b-card-text v-if="studentGradStatus.studentGradData">
-            <ul>
-              <li>
-                <a href="#" @click="projectGraduationStatus(studentPen)" class="">
+            <div v-if="hasGradStatus" class="text-left mb-3">
+              <strong>Created by:</strong> {{ studentGradStatus.createdBy }}
+              <strong>Created:</strong> {{ studentGradStatus.createdTimestamp }}
+              
+              <strong>Updated by:</strong> {{ studentGradStatus.updatedBy }}
+              <strong>Updated:</strong> {{ studentGradStatus.updatedTimestamp }}
+            </div>
+            <div class="row">
+              <div class="col-2">
+                <a href="#" @click="projectGraduationStatus(studentPen)" class="float-left">
                   <i class="fas fa-eye"></i> Projected<br> Graduation Status
                 </a>
-                <b-modal id="modal-1" size="lg" >
+                <b-modal id="modal-1" size="lg" class="float-left">
                   <div v-if="showModal" class="row col-12">
                         PROJECTED GRAD STATUS
                   </div>
                 </b-modal>
-              </li>
-              <li>
+              </div>
+              <div class="col-2">
                 <a href="#" v-on:click="updateGraduationStatus(studentPen)" class="">
                   <i class="fas fa-sync"></i> Run Graduation<br>Algorithm
                 </a>
-              </li>
+              </div>
+            </div>
                 
-            </ul>
-                  <div v-if="hasGradStatus">
-           Created by: {{ studentGradStatus.createdBy }}
-           Created: {{ studentGradStatus.createdTimestamp }}
-            
-            Updated by: {{ studentGradStatus.updatedBy }}
-            Updated: {{ studentGradStatus.updatedTimestamp }}
-          </div>
+    
+
             </b-card-text>
           </b-card>
+
         </div>     
     </div>
     <div v-if="role == 'administrator'">
@@ -467,11 +473,12 @@ export default {
         { text: "10", value: "10" },
         { text: "11", value: "11" },
         { text: "12", value: "12" },
-        { text: "GA", value: "GA" },
-        { text: "SU", value: "SU" },
-        { text: "OT", value: "OT" },
-        { text: "AD", value: "AD" },
-        { text: "AN", value: "AN" },
+        { text: "GA", value: "GA - Graduated Adult" },
+        { text: "SU", value: "SU - Secondary Upgraded" },
+        { text: "OT", value: "OT - Other" },
+        { text: "AD", value: "AD - Adult expected to graduate" },
+        { text: "AN", value: "AN - Adult not expected to graduate" },
+        { text: "HS", value: "HS - Homeschool" },
       ],
     };
   },
@@ -585,7 +592,7 @@ export default {
           this.showTop = !this.showTop;
           this.showEdit = false;
 
-          this.showNotification("success", "Grad Status Saved");
+          this.showNotification("success", "GRAD Status Saved");
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -718,17 +725,16 @@ ul.non-grad-reasons li {
   border-bottom: 1px solid #ccc;
 }
 .card {
-  border-radius: 0px;
+  
   margin-bottom: 10px;
 }
 
 .card-header {
   font-weight: 700;
-  color: #036 !important;
-  font-size: 20px;
+  
 }
 .btn {
-  border-radius: 0px !important;
+  
 }
 
 span.link {
@@ -756,5 +762,7 @@ h5.modal-title {
 .form-validation-message{
   font-size: 11px;
 }
+
+.table { width:95%;}
 </style>
 

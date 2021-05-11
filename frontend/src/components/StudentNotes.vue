@@ -1,22 +1,35 @@
 <template>
     <div>
       <div class="student-note">
-<!-- Button which reloads the Notes -->
-        <!-- <b-button
-          variant="primary"
-          size="sm"
-          @click="getNotes"
-          class="float-left add-button btn btn-primary btn-sm"
-          >Refresh
-        </b-button> -->
-<!-- Notes from the store pull from the database -->
+      
+      <!-- Add new Note form -->
+        <b-card
+            title=""
+            tag="article"
+            class="col-12 note-card"
+            v-if="showForm"
+        >
+          <b-form @submit="onSubmit" @reset="onReset" >
+            <b-form-group id="note-form" label="Add note:" label-for="comment">
+              <b-form-textarea
+                id="comment"
+                v-model="newNote.note"
+                placeholder=""
+                required
+              ></b-form-textarea>
+            </b-form-group>
+            <b-button type="submit" variant="primary" size="sm" class="mr-1">Add</b-button>
+            <b-button type="reset" variant="outline-secondary" size="sm" class="">Reset</b-button>
+          </b-form>
+        </b-card>
+        <!-- Notes from the store pull from the database -->
         <div v-for="studentNote in notes" :key="studentNote.id">
           <b-card
             title=""
             no-body
             tag="article"
-            class="col-12"
-            :header=" studentNote.createdBy + ' added a note -' + studentNote.createdTimestamp"
+            class="col-12 mb-2"
+            :header="'Created by ' + studentNote.createdBy + ' at ' + studentNote.createdTimestamp"
           >
             <b-card-text>
               <p>{{studentNote.note}}</p>
@@ -31,35 +44,6 @@
             </b-card-text>
           </b-card>
         </div>   
-<!-- Button which shows the add new Note form -->
-        <!-- <b-button
-          v-if="showAddButton"
-          variant=""
-          size=""
-          @click="showSubmitForm"
-          class="float-left add-button btn btn-primary btn-sm"
-          >Add
-        </b-button> -->
-<!-- Add new Note form -->
-        <b-card
-            title=""
-            tag="article"
-            class="col-12 note-card"
-            v-if="showForm"
-        >
-          <b-form @submit="onSubmit" @reset="onReset" >
-            <b-form-group id="input-group-1" label="Add note:" label-for="comment">
-              <b-form-textarea
-                id="comment"
-                v-model="newNote.note"
-                placeholder=""
-                required
-              ></b-form-textarea>
-            </b-form-group>
-            <b-button type="submit" variant="primary" size="sm" class="pr-3">Submit</b-button>
-            <b-button type="reset" variant="outline-secondary" size="sm" class="">Cancel</b-button>
-          </b-form>
-        </b-card>
       </div>
   </div>
 </template>
@@ -112,6 +96,7 @@ export default {
           .then((response) => {
             if(response.data && response.data.value){
               this.notes.push(response.data.value)
+              this.newNote.note = '';
             }            
           })             
           .catch((error) => {
@@ -167,5 +152,10 @@ export default {
 }
 .card-text{
   padding: 19px;
+}
+.delete-button{
+      position: absolute;
+    right: 10px;
+    top: 10px
 }
 </style>
