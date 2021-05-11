@@ -154,8 +154,9 @@
                   <tr v-if="showEdit">
                       <td><strong>School of record:</strong></td>
                       <td class="p-1"><b-input size="sm" type="number" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
+                      
                   </tr>
-                  <tr>
+                  <tr v-if="!showEdit">
                     <td><strong>School at graduation: </strong></td>
                     <td><b-button v-if="studentGradStatus && studentGradStatus.schoolAtGrad" 
                       class="p-0"
@@ -194,7 +195,11 @@
                         </tr>               
                       </table>
                     </b-popover> </td>
-                    </tr>            
+                    </tr>    
+                    <tr v-if="showEdit">
+                      <td><strong>School at graduation:</strong></td>
+                      <td class="p-1"><b-input size="sm" type="number" :disabled="hideSchoolAtGrad" v-model='editedGradStatus.schoolAtGrad'></b-input></td>          
+                    </tr>        
                     <tr>
                       <td><strong>Honours:</strong></td>
                       <td><span v-if="studentGradStatus.honoursStanding"> {{ studentGradStatus.honoursStanding }}</span></td>
@@ -382,16 +387,7 @@ import GraduationCommonService from "@/services/GraduationCommonService.js";
 import GraduationService from "@/services/GraduationService.js";
 import GraduationStatusService from "@/services/GraduationStatusService.js";
 import SchoolService from "@/services/SchoolService.js";
-//import DisplayTable from '@/components/DisplayTable.vue';
-// const checkGrade = function (program, grade){
-//       if(program == '1950-EN'){
-//         if(!(grade == 'AD' || grade == 'AN')){
-//           return false
-//         }else {
-//           return true
-//         }
-//       }
-// }
+
 export default {
   name: "StudentGraduationStatus",
   components: {},
@@ -439,7 +435,7 @@ export default {
       programDropdownList: [],
       editedGradStatus: {},
       disableButton:false,
-      text:"",
+      hideSchoolAtGrad:false,
       gradeOptions: [
         { text: "08", value: "8" },
         { text: "09", value: "9" },
@@ -458,30 +454,14 @@ export default {
   created() {
     this.programDropdownList = this.$store.dispatch("getGraduationPrograms");
   },
-  // validations() {
-  //   return {
-  //     editedGradStatus : {
-  //       program: checkGrade(this.editedGradStatus.program, this.editedGradStatus.studentGrade)
-  //     }
-  //   }
-  // },
   updated() {
     this.$nextTick(function () {
-      // Code that will run only after the
-      // entire view has been re-rendered
       this.validateForm()
-      // this.checkResetProgramCompletionDate()
+
     })
   },
   methods: {
     validateForm () {
-      if(this.editedGradStatus.program == '1950-EN'){
-        if(!(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN')){
-          this.disableButton = true;
-        } else {
-          this.disableButton = false;
-        }
-      }
       if(this.editedGradStatus.program != '1950-EN'){
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = true;
@@ -489,9 +469,22 @@ export default {
           this.disableButton = false;
         }
       }
+      if(this.editedGradStatus.programCompletionDate == ""){
+        this.hideSchoolAtGrad = true;
+      } else {
+        this.hideSchoolAtGrad = false;
+      }
     },
-    resetProgramCompletionDate() {
-      this.editedGradStatus.programCompletionDate = "";
+    checkSchoolOpen() {
+      // SchoolService.getSchoolInfo(mincode, this.token)
+      // .then((response) => {
+      //   this.schoolOfRecord = response.data;
+      //   this.SchoolAtGraduation = response.data;
+      // })
+      // .catch((error) => {
+      //   // eslint-disable-next-line
+      //   console.log("There was an error:" + error.response);
+      // });
     },
     checkResetProgramCompletionDate () {
       if(this.editedGradStatus.programCompletionDate == ""){
@@ -527,33 +520,22 @@ export default {
     },
     editGradStatus() {
       this.showEdit = true;    
-      // if(this.studentGradStatus.programCompletionDate){
       this.$set(this.editedGradStatus, 'programCompletionDate', new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10))
-      // }else{
-      //   this.$set(this.editedGradStatus, 'programCompletionDate', "")
-      // }
-      //this.editedGradStatus.programCompletionDate = new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10);
       this.$set(this.editedGradStatus, 'pen', this.studentGradStatus.pen)
-      //this.editedGradStatus.pen = this.studentGradStatus.pen;
       this.$set(this.editedGradStatus, 'program', this.studentGradStatus.program)
-      //this.$set(this.editedGradStatus, 'gpa', this.studentGradStatus.gpa)
-      //this.editedGradStatus.gpa = this.studentGradStatus.gpa;
       this.$set(this.editedGradStatus, 'studentGrade', this.studentGradStatus.studentGrade)
-      // this.editedGradStatus.studentGrade = this.studentGradStatus.studentGrade;  
       this.$set(this.editedGradStatus, 'schoolOfRecord', this.studentGradStatus.schoolOfRecord)
-      //this.editedGradStatus.schoolOfRecord = this.studentGradStatus.schoolOfRecord; 
       this.$set(this.editedGradStatus, 'schoolAtGrad', this.studentGradStatus.schoolAtGrad) 
-      //this.editedGradStatus.schoolAtGrad = this.studentGradStatus.schoolAtGrad;
       this.$set(this.editedGradStatus, 'studentStatus', this.studentGradStatus.studentStatus) 
-      //this.editedGradStatus.studentStatus = this.studentGradStatus.studentStatus; 
-      this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID) 
-      //this.editedGradStatus.studentID = this.studentGradStatus.studentID;    
+      this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID)   
     },
     cancelGradStatus() {
       this.showEdit = false;
     },
     editGraduationStatus(id) {
-      console.log(this.editedGradStatus);
+      if(this.editedGradStatus.programCompletionDate == ''){
+        this.editedGradStatus.programCompletionDate = null;
+      }
       GraduationStatusService.editGraduationStatus(
         id,
         this.token,
@@ -564,6 +546,7 @@ export default {
           this.updateStatus = response.data;
           this.studentGradStatus.pen = response.data.pen;
           this.studentGradStatus.program = response.data.program;
+          this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
           this.studentGradStatus.honoursStanding =
             response.data.honoursStanding;
           this.studentGradStatus.gpa = response.data.gpa;
