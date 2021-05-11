@@ -95,7 +95,7 @@ export default {
         GraduationCommonService.addStudentNotes(this.newNote, this.token)
           .then((response) => {
             if(response.data && response.data.value){
-              this.notes.push(response.data.value)
+              this.notes.unshift(response.data.value)
               this.newNote.note = '';
             }            
           })             
@@ -112,9 +112,7 @@ export default {
       onReset(event) {
         event.preventDefault()
         // Reset our form values
-        this.showAddButton = true;
         this.newNote.note = '';
-        this.showForm = false;
         // this.$nextTick(() => {
         //   this.showForm = true;
         // })
@@ -123,7 +121,7 @@ export default {
         GraduationCommonService.deleteStudentNotes(noteID, this.token)  
           var removeIndex = this.notes.map(function(item) { return item.id; }).indexOf(noteID); 
           this.notes.splice(removeIndex, 1);
-          this.showForm = false;
+
       },
       getNotes(){
         console.log(this.studentProfile)
