@@ -1,6 +1,5 @@
 <template>
   <div class="p-2">
-{{editedGradStatus}}
     <div class="row">
       <div class="col-12">
         <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
