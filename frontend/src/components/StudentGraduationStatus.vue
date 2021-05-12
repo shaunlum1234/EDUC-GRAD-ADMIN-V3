@@ -21,7 +21,7 @@
             no-body
             header="GRAD status"
           >
-            <b-card-text class="m-2">
+            <b-card-text class="m-2 px-3">
               
                 <b-button-group v-if="this.role =='administrator'" class="gradstatus-actions float-right">
                   <div v-if="!showEdit">
@@ -46,11 +46,11 @@
 
 
                 
-                <table class="table table-striped table-bordered table-hover table-sm w-100" >
+                <table class="table  table-hover table-sm " >
                   <tbody>
                   <tr v-if="!showEdit">
-                    <td class="w-50"><strong>Program: </strong></td>
-                    <td class="w-50"><span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span></td>
+                    <td width="50%"><strong>Program: </strong></td>
+                    <td><span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span></td>
                   </tr>
                   <tr v-if="showEdit">
                     <td ><strong>Program: </strong>
@@ -671,11 +671,11 @@ export default {
 </script>
 
 <style scoped>
-.graduation-status table tr td{
+/*.graduation-status table tr td*//*{
   padding-left:20px;
   vertical-align:top;
   height:40px !important
-}
+}*/
 
 ul.requirements-met,
 ul.non-grad-reasons {
@@ -729,6 +729,6 @@ h5.modal-title {
   font-size: 11px;
 }
 
-.table { width:95%;}
+
 </style>
 
