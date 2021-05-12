@@ -716,9 +716,7 @@ ul.non-grad-reasons li {
   font-weight: 700;
   
 }
-.btn {
-  
-}
+
 
 span.link {
   color: #1a5a96;
