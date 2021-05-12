@@ -1,6 +1,7 @@
 <template>
   <div class="p-2">
     <div class="row">
+      {{editedGradStatus}}
       <div class="col-12">
         <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
@@ -112,7 +113,7 @@
                       class="p-0"
                       id="school-of-record-popover" 
                       variant="link" 
-                      @click="getSchoolInfo(studentGradStatus.schoolOfRecord)"> 
+                      @click="getSchoolInfo(studentGradStatus.schoolOfRecord, 'schoolOfRecord')"> 
                       {{studentGradStatus.schoolOfRecord}}
                     </b-button>
                     <b-popover   
@@ -162,7 +163,7 @@
                       class="p-0"
                       id="school-at-graduation-popover"
                       variant="link" 
-                      @click="getSchoolInfo(studentGradStatus.schoolAtGrad)"> 
+                      @click="getSchoolInfo(studentGradStatus.schoolAtGrad, 'schoolAtGrad')"> 
                       {{studentGradStatus.schoolAtGrad}}
                     </b-button>
                     <b-popover 
@@ -173,32 +174,36 @@
                       triggers="focus">
                       <table>
                         <tr>
-                          <td><strong>District:</strong> {{SchoolAtGraduation.districtName}}</td>
+                          <td><strong>District:</strong> {{schoolAtGraduation.districtName}}</td>
                         </tr>
                         <tr>
-                          <td><strong>School name:</strong> <br> {{SchoolAtGraduation.schoolName}}</td>
+                          <td><strong>School name:</strong> <br> {{schoolAtGraduation.schoolName}}</td>
                         </tr> 
                           <tr>                        
-                          <td><strong>Status:</strong> {{SchoolAtGraduation.openFlag == 'Y' ? 'Open': 'Closed'}}</td>
+                          <td><strong>Status:</strong> {{schoolAtGraduation.openFlag == 'Y' ? 'Open': 'Closed'}}</td>
                         </tr>
                           <tr>                        
-                          <td><strong>Independent type:</strong> {{SchoolAtGraduation.independentDesignation}}</td>
+                          <td><strong>Independent type:</strong> {{schoolAtGraduation.independentDesignation}}</td>
                         </tr>
                           <tr>                        
-                          <td><strong>Independent affiliation:</strong> {{SchoolAtGraduation.independentAffiliation}}</td>
+                          <td><strong>Independent affiliation:</strong> {{schoolAtGraduation.independentAffiliation}}</td>
                         </tr>
                           <tr>                        
-                          <td><strong>Transcript eligible:</strong> {{SchoolAtGraduation.transcriptEligibility}}</td>
+                          <td><strong>Transcript eligible:</strong> {{schoolAtGraduation.transcriptEligibility}}</td>
                         </tr>
                         <tr>                        
-                          <td><strong>Dogwood eligibility:</strong> {{SchoolAtGraduation.certificateEligibility}}</td>
+                          <td><strong>Dogwood eligibility:</strong> {{schoolAtGraduation.certificateEligibility}}</td>
                         </tr>               
                       </table>
                     </b-popover> </td>
                     </tr>    
                     <tr v-if="showEdit">
-                      <td><strong>School at graduation:</strong></td>
-                      <td class="p-1"><b-input size="sm" type="number" :disabled="hideSchoolAtGrad" v-model='editedGradStatus.schoolAtGrad'></b-input></td>          
+                      <td><strong>School at graduation:</strong>
+                        <div v-if="editedGradStatus.schoolAtGrad == ''">
+                          <div v-if="reqSchoolAtGrad" class="form-validation-message text-danger" >Required if program completion date not null or blank</div>
+                        </div>   
+                      </td>
+                      <td class="p-1"><b-input size="sm" type="number" :required="reqSchoolAtGrad" v-model='editedGradStatus.schoolAtGrad'></b-input></td>          
                     </tr>        
                     <tr>
                       <td><strong>Honours:</strong></td>
@@ -431,13 +436,13 @@ export default {
       projectedStudentGradStatus: [],
       updateStatus: [],
       schoolOfRecord: "",
-      SchoolAtGraduation: "",
+      schoolAtGraduation: "",
       schoolOfRecordStatus:"",
       schoolAtGraduationStatus:"",
       programDropdownList: [],
       editedGradStatus: {},
       disableButton:false,
-      hideSchoolAtGrad:false,
+      reqSchoolAtGrad:false,
       gradeOptions: [
         { text: "08", value: "8" },
         { text: "09", value: "9" },
@@ -471,10 +476,12 @@ export default {
           this.disableButton = false;
         }
       }
+
       if(this.editedGradStatus.programCompletionDate == ""){
-        this.hideSchoolAtGrad = true;
+        this.reqSchoolAtGrad = false;
+        this.disableButton = true;
       } else {
-        this.hideSchoolAtGrad = false;
+        this.reqSchoolAtGrad = true;
       }
     },
     checkSchoolOpen() {
@@ -582,11 +589,15 @@ export default {
     popClose() {
       this.show = false;
     },
-    getSchoolInfo(mincode) {
+    getSchoolInfo(mincode, type) {
       SchoolService.getSchoolInfo(mincode, this.token)
         .then((response) => {
-          this.schoolOfRecord = response.data;
-          this.schoolAtGraduation = response.data;
+          if(type == 'schoolOfRecord'){
+            this.schoolOfRecord = response.data;
+          }
+          if(type == 'schoolAtGrad'){
+            this.schoolAtGraduation = response.data;
+          }          
         })
         .catch((error) => {
           // eslint-disable-next-line
