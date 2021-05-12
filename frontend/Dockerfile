@@ -4,6 +4,7 @@ WORKDIR /opt/app-root/src
 
 COPY package*.json ./
 RUN apk --no-cache add git 
+RUN node -v
 RUN npm ci --cache --no-optional .npm  --prefer-offline --no-audit
 # --no-optional --production
 
