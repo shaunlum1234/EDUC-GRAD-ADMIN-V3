@@ -14,7 +14,6 @@ export default {
     return apiClient.get('/api/v1/gradstatus/specialprogram/studentid/' + id,{ headers });
   },
   editGraduationStatus(id, token, json) {
-    console.log(json);
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     return apiClient.post('/api/v1/gradstatus/gradstudent/studentid/' + id, json, { headers });
   }

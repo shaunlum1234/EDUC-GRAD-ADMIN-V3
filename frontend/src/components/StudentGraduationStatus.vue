@@ -521,7 +521,6 @@ export default {
       }
     },
     showNotification(variant = null, bodyContent) {
-      console.log(bodyContent);
       this.$bvToast.toast(bodyContent, {
         title: `${variant || "default"}`,
         variant: variant,
@@ -553,7 +552,6 @@ export default {
         this.editedGradStatus
       )
         .then((response) => {
-          console.log(response.data);
           this.updateStatus = response.data;
           this.studentGradStatus.pen = response.data.pen;
           this.studentGradStatus.program = response.data.program;
