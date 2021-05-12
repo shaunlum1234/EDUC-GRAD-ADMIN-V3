@@ -1,7 +1,6 @@
 <template>
   <div class="p-2">
     <div class="row">
-      {{editedGradStatus}}
       <div class="col-12">
         <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
@@ -47,19 +46,20 @@
 
 
                 
-                <table class="table  table-hover table-sm " >
+                <table class="table  table-hover table-sm" >
                   <tbody>
                   <tr v-if="!showEdit">
-                    <td width="50%"><strong>Program: </strong></td>
-                    <td><span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span></td>
+                    <td width="50%" ><strong>Program: </strong></td>
+                    <td width="50%"><span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span></td>
                   </tr>
+  
                   <tr v-if="showEdit">
-                    <td ><strong>Program: </strong>
+                    <td width="50%"><strong>Program: </strong>
                       <div v-if="editedGradStatus.program == '1950-EN'">
                         <div class="form-validation-message text-danger" v-if="!(editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN')">Student grade should be one of <strong>AD or AN</strong> if the student program is 1950</div>
                       </div>   
                     </td>
-                    <td class="p-1 "><b-form-select size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>   
+                    <td width="50%"><b-form-select size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>   
                     
                   </tr>
                   <tr v-if="!showEdit">
@@ -72,7 +72,7 @@
                           Reset 
                       </b-btn> -->
                     </td>
-                      <td class="p-1"><b-input size="sm" type="date" max="9999-12-30" v-model='editedGradStatus.programCompletionDate'></b-input></td>      
+                      <td><b-input size="sm" type="date" max="9999-12-30" v-model='editedGradStatus.programCompletionDate'></b-input></td>      
                   </tr>
                   
                   <tr v-if="!showEdit">
@@ -99,7 +99,7 @@
                           <div class="form-validation-message text-danger" v-if="editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN'">Student grade should not be AD or AN for this program</div>
                         </div> 
                       </td>
-                      <td class="p-1"><b-form-select 
+                      <td><b-form-select 
                         size="sm"
                         v-model="editedGradStatus.studentGrade"
                         :options="gradeOptions"
@@ -154,7 +154,7 @@
                   </tr>
                   <tr v-if="showEdit">
                       <td><strong>School of record:</strong></td>
-                      <td class="p-1"><b-input size="sm" type="number" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
+                      <td><b-input size="sm" type="number" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
                       
                   </tr>
                   <tr v-if="!showEdit">
@@ -203,7 +203,7 @@
                           <div v-if="reqSchoolAtGrad" class="form-validation-message text-danger" >Required if program completion date not null or blank</div>
                         </div>   
                       </td>
-                      <td class="p-1"><b-input size="sm" type="number" :required="reqSchoolAtGrad" v-model='editedGradStatus.schoolAtGrad'></b-input></td>          
+                      <td><b-input size="sm" type="number" :required="reqSchoolAtGrad" v-model='editedGradStatus.schoolAtGrad'></b-input></td>          
                     </tr>        
                     <tr>
                       <td><strong>Honours:</strong></td>
@@ -290,8 +290,9 @@
               header="Requirements met"
               v-if="studentGradStatus.studentGradData"
               no-body
+              class="w-100"
             >
-              <b-card-text class="m-3 w-100">
+              <b-card-text class=" m-2">
                 <b-table  
                   :items="studentGradRequirementCourses"
                   :fields="requirementsMetfields"
@@ -686,11 +687,10 @@ export default {
 </script>
 
 <style scoped>
-/*.graduation-status table tr td*//*{
-  padding-left:20px;
+.graduation-status table tr td{
   vertical-align:top;
-  height:40px !important
-}*/
+  height:42px !important
+}
 
 ul.requirements-met,
 ul.non-grad-reasons {

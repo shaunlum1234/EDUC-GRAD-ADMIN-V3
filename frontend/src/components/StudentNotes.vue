@@ -6,7 +6,7 @@
         <b-card
             title=""
             tag="article"
-            class="col-12 note-card"
+            class="col-12 note-card mb-3"
             v-if="showForm"
         >
           <b-form @submit="onSubmit" @reset="onReset" >
