@@ -29,7 +29,7 @@
             no-body
             tag="article"
             class="col-12 mb-2"
-            :header="'Created by ' + studentNote.createdBy + ' at ' + studentNote.createdTimestamp"
+            :header="'Created by ' + studentNote.createdBy + ' on ' + studentNote.createdTimestamp"
           >
             <b-card-text>
               <p>{{studentNote.note}}</p>
