@@ -21,7 +21,7 @@
             no-body
             header="GRAD status"
           >
-            <b-card-text class="m-2 px-3">
+            <b-card-text class="p-3">
               
                 <b-button-group v-if="this.role =='administrator'" class="gradstatus-actions float-right">
                   <div v-if="!showEdit">
@@ -222,18 +222,20 @@
           <div class="certification-dogwoods">
             <b-card
               header="Certification/Dogwoods"
+              no-body
+             
             >
-              <ul>
+              <b-card-text class="p-4">
+              
                 <strong>Certificate #1:</strong>
-                <li v-if="studentGradStatus.certificateType1">
+                <div v-if="studentGradStatus.certificateType1">
                   {{ studentGradStatus.certificateType1 }}
-                </li>
-                <li v-if="studentGradStatus.certificateType1Date">
+                </div>
+                <div v-if="studentGradStatus.certificateType1Date">
                   <strong>Date obtained:</strong>
                   {{ studentGradStatus.certificateType1Date }}
-                  
-                </li>
-              </ul>
+                </div>
+              </b-card-text>
             </b-card> 
           </div>  
 
@@ -424,7 +426,7 @@ export default {
         { key: "courseName", label: "Course Name" },
       ],
       specialProgramsfields: [
-        { key: "specialProgramCode", label: "Code" },
+        { key: "specialProgramCode", label: "Code", class: "text-center"},
         { key: "specialProgramName", label: "Special Program" },
         { key: "specialProgramCompletionDate", label: "Date" },
       ],
