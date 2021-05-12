@@ -294,7 +294,7 @@
               no-body
               class="w-100"
             >
-              <b-card-text class=" m-2">
+              <b-card-text class=" m-3">
                 <b-table  
                   :items="studentGradRequirementCourses"
                   :fields="requirementsMetfields"
