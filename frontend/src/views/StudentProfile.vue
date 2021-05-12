@@ -52,12 +52,37 @@
             </div>
           </div>
       </div>
-      <div class="col-12 px-0">
+      <div class="col-12 px-3">
         
         <b-collapse id="student-accordion" class="">
-          <b-card no-body >
-            <p class="card-text">
-                <table class="table table-striped table-bordered table-sm m-0">
+          <b-card no-body class="border-0">
+            
+              <table class="table table-sm table-striped">
+                  <tbody>
+                    <tr>
+                      <td class="px-2"><strong>Usual surname:</strong> {{studentInfo.usualLastName}}</td>
+                      <td class="px-2"><strong>Usual given:</strong> {{studentInfo.usualFirstName}} </td>
+                      <td class="px-2"><strong>Usual middle:</strong> {{studentInfo.usualMiddleNames}} </td>
+                    </tr>
+                    <tr>
+                      <td class="px-2"><strong>Sex:</strong> {{studentInfo.sexCode}}</td>
+                      <td class="px-2"><strong>Gender:</strong> {{studentInfo.genderCode}}</td>
+                      <td class="px-2"><strong>Demographic code:</strong> {{studentInfo.demogCode}} </td>
+                    </tr>
+                    <tr>
+                      <td class="px-2"><strong>Email:</strong> {{ studentInfo.email}}</td>
+                      <td class="px-2"><strong>Email verified:</strong> {{studentInfo.emailVerified}}</td>
+                      <td class="px-2"><strong>Postal code:</strong> {{studentInfo.postalCode}}</td>
+                    </tr>
+                    <tr>
+                      <td class="px-2"><strong>Mincode:</strong> {{studentInfo.mincode}}</td>
+                      <td class="px-2"><strong>Deceased date:</strong> {{studentInfo.deceasedDate}}</td>
+                      <td class="px-2"></td>
+                    </tr>
+                  </tbody>
+              </table>
+
+                 <!--table class="table table-striped table-bordered table-sm m-0">
                   <tbody>
                     <tr>
                       <td class="w-25"><strong>Usual First Name:</strong></td><td class="">{{studentInfo.usualFirstName}}</td>
@@ -71,7 +96,7 @@
                     </tr>
                     <tr>
                       <td><strong>Usual Middle Name:</strong></td><td> {{studentInfo.usualMiddleNames}}</td>
-                      <td><strong>Sex:</strong></td><td> {{studentInfo.sexCode}}</td>
+                      <td><strong>Sex:</strong></td><td> </td>
                       <td><strong>Mincode:</strong></td><td> {{studentInfo.mincode}}</td>
                       
                     </tr>
@@ -87,9 +112,9 @@
                     </tr>                    
                                     
                   </tbody>
-                </table>
+                </table-->
                   
-            </p>
+          
           </b-card>
         </b-collapse>
       </div>

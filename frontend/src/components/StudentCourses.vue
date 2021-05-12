@@ -156,7 +156,7 @@ export default {
         },
         {
           key: "courseLevel",
-          label: "Lvl",
+          label: "Level",
           sortable: true,
           class: "text-left",
         },
@@ -194,7 +194,7 @@ export default {
         },
         {
           key: "credits",
-          label: "Cred",
+          label: "Credits",
           sortable: true,
           class: "text-center",
         },
