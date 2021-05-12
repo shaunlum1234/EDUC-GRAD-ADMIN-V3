@@ -1,5 +1,6 @@
 <template>
   <div class="p-2">
+{{editedGradStatus}}
     <div class="row">
       <div class="col-12">
         <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
@@ -452,12 +453,12 @@ export default {
         { text: "10", value: "10" },
         { text: "11", value: "11" },
         { text: "12", value: "12" },
-        { text: "GA", value: "GA - Graduated Adult" },
-        { text: "SU", value: "SU - Secondary Upgraded" },
-        { text: "OT", value: "OT - Other" },
-        { text: "AD", value: "AD - Adult expected to graduate" },
-        { text: "AN", value: "AN - Adult not expected to graduate" },
-        { text: "HS", value: "HS - Homeschool" },
+        { text: "HS - Homeschool", value: "HS" },
+        { text: "GA - Graduated Adult", value: "GA" },
+        { text: "SU - Secondary Upgraded", value: "SU" },
+        { text: "OT - Other", value: "OT" },
+        { text: "AD - Adult expected to graduate", value: "AD" },
+        { text: "AN - Adult not expected to graduate", value: "AN" },     
       ],
     };
   },
@@ -488,17 +489,35 @@ export default {
       }
     },
     checkSchoolOpen() {
-      // SchoolService.getSchoolInfo(mincode, this.token)
-      // .then((response) => {
-      //   this.schoolOfRecordStatus:"",
-      //   this.schoolAtGraduationStatus:"",
-      //   this.schoolOfRecord = response.data;
-      //   this.SchoolAtGraduation = response.data;
-      // })
-      // .catch((error) => {
-      //   // eslint-disable-next-line
-      //   console.log("There was an error:" + error.response);
-      // });
+
+      if(this.editedGradStatus.schoolOfRecord){
+        SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord, this.token)
+        .then((response) => {
+          this.schoolOfRecordStatus = response.data.openFlag
+          if(this.schoolOfRecordStatus == "N"){
+             this.showNotification("warning", "School of record closed");
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log("There was an error:" + error.response);
+        });
+      }
+     
+      if(this.editedGradStatus.schoolAtGrad){
+        SchoolService.getSchoolInfo(this.editedGradStatus.schoolAtGrad, this.token)
+        .then((response) => {
+          this.schoolAtGraduationStatus = response.data.openFlag
+          if(this.schoolAtGraduationStatus == "N"){
+            this.showNotification("warning", "School at graduation closed");
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log("There was an error:" + error.response);
+        });
+      }
+      
     },
     checkResetProgramCompletionDate () {
       if(this.editedGradStatus.programCompletionDate == ""){
@@ -548,6 +567,9 @@ export default {
     editGraduationStatus(id) {
       if(this.editedGradStatus.programCompletionDate == ''){
         this.editedGradStatus.programCompletionDate = null;
+      }
+      if(this.editedGradStatus.schoolOfRecord || this.editedGradStatus.schoolAtGrad){
+        this.checkSchoolOpen();
       }
       GraduationStatusService.editGraduationStatus(
         id,
