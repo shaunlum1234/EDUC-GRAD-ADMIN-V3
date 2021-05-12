@@ -33,7 +33,6 @@ export default {
     Bcheader
   },
   created() {
-    console.log(this.role);
     if(this.role == "administrator"){
       this.$store.dispatch("setApplicationVariables");
     }

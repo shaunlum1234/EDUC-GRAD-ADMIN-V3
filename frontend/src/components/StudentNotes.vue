@@ -124,7 +124,6 @@ export default {
 
       },
       getNotes(){
-        console.log(this.studentProfile)
         GraduationCommonService.getStudentNotes(this.$route.params.pen, this.token).then(
           (response) => {           
             this.notes = response.data
