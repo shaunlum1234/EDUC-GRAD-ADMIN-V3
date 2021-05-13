@@ -467,11 +467,18 @@ export default {
   updated() {
     this.$nextTick(function () {
       this.validateForm()
-
     })
   },
   methods: {
     validateForm () {
+
+      if(this.editedGradStatus.program == '1950-EN'){
+        if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
+          this.disableButton = false;
+        } else {
+          this.disableButton = true;
+        }
+      }
       if(this.editedGradStatus.program != '1950-EN'){
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = true;
@@ -480,6 +487,11 @@ export default {
         }
       }
 
+      // if(this.editedGradStatus.schoolOfRecord){
+      //   if(this.editedGradStatus.schoolOfRecord.length == 8){
+      //     console.log("Ran function")
+      //   }      
+      // }
       if(this.editedGradStatus.programCompletionDate == ""){
         this.reqSchoolAtGrad = false;
         this.disableButton = true;
