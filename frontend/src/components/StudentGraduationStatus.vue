@@ -123,7 +123,8 @@
                       delay=800
                       target="school-of-record-popover"  
                       title="School Information"
-                      triggers="focus">
+                      triggers="focus"
+                      v-if="studentGradStatus.schoolOfRecord" >
                       <table>
                         <tbody>
                         <tr>
@@ -170,7 +171,8 @@
                       @click="getSchoolInfo(studentGradStatus.schoolAtGrad, 'schoolAtGrad')"> 
                       {{studentGradStatus.schoolAtGrad}}
                     </b-button>
-                    <b-popover 
+                    <b-popover
+                    v-if="studentGradStatus && studentGradStatus.schoolAtGrad" 
                       :boundary-padding="50"
                       delay=800
                       target="school-at-graduation-popover"
