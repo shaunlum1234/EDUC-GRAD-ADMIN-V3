@@ -2,6 +2,7 @@
   <div class="p-2">
     <div class="row">
       editedGradStatus{{editedGradStatus}}<br>
+      <!-- studentGradStatus{{studentGradStatus}}<br> -->
       disableButton {{disableButton}}
       <div class="col-12">
         <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
@@ -74,7 +75,7 @@
                           Reset 
                       </b-btn> -->
                     </td>
-                      <td><b-input size="sm" type="date" max="9999-12-30" v-model='editedGradStatus.programCompletionDate'></b-input></td>      
+                      <td><b-input size="sm" type="month" max="9999-12" pattern="[0-9]{4}-[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input></td>      
                   </tr>
                   
                   <tr v-if="!showEdit">
@@ -100,6 +101,7 @@
                         <div v-if="editedGradStatus.program != '1950-EN'">
                           <div class="form-validation-message text-danger" v-if="editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN'">Student grade should not be AD or AN for this program</div>
                         </div> 
+                         
                       </td>
                       <td><b-form-select 
                         size="sm"
@@ -434,6 +436,7 @@ export default {
       programOptions: "getProgramOptions",
       studentStatusOptions: "getStudentStatusOptions",
       studentId: "getStudentId",
+      username: "getUsername"
     }),
   },
   data() {
@@ -497,7 +500,11 @@ export default {
           this.disableButton = true;
         }
       }else{
-        this.disableButton = false;
+        if(this.editedGradStatus.program != '1950-EN'){
+          this.disableButton = true;
+        }else{
+          this.disableButton = false;
+        }
       }
     },
     programChange:function(){
@@ -520,9 +527,9 @@ export default {
       if(this.editedGradStatus.programCompletionDate == ""){
         this.reqProgramCompletionSchoolAtGrad = false;
         if(this.editedGradStatus.schoolAtGrad == ""){
-          this.disableButton = false
+          //this.disableButton = false
         }else{
-          this.disableButton = true
+          //this.disableButton = true
         }
       }
       if(this.editedGradStatus.programCompletionDate != ""){
@@ -632,15 +639,32 @@ export default {
       this.$set(this.editedGradStatus, 'schoolOfRecord', this.studentGradStatus.schoolOfRecord)
       this.$set(this.editedGradStatus, 'schoolAtGrad', this.studentGradStatus.schoolAtGrad) 
       this.$set(this.editedGradStatus, 'studentStatus', this.studentGradStatus.studentStatus) 
-      this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID)   
+      this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID) 
+      this.$set(this.editedGradStatus, 'gpa', this.studentGradStatus.gpa)  
+      this.$set(this.editedGradStatus, 'honoursStanding', this.studentGradStatus.honoursStanding)  
     },
     cancelGradStatus() {
       this.showEdit = false;
     },
     editGraduationStatus(id) {
+      //add the user info
+      var current = new Date().toISOString().slice(0, 10)
+      this.editedGradStatus.createdBy = this.username;
+      this.editedGradStatus.createdTimestamp = current;
+      this.editedGradStatus.studentID = id;
+      this.editedGradStatus.pen = this.studentPen;
+      this.editedGradStatus.recalculateGradStatus = this.recalculateGradStatus;
+      //process the program completion date
       if(this.editedGradStatus.programCompletionDate == ''){
         this.editedGradStatus.programCompletionDate = null;
       }
+      if(this.editedGradStatus.programCompletionDate != ''){
+        this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.concat("-01");
+      }
+      if(this.editedGradStatus.schoolAtGrad == ''){
+        this.editedGradStatus.schoolAtGrad = null;
+      }
+
       GraduationStatusService.editGraduationStatus(
         id,
         this.token,
@@ -651,8 +675,7 @@ export default {
           this.studentGradStatus.pen = response.data.pen;
           this.studentGradStatus.program = response.data.program;
           this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
-          this.studentGradStatus.honoursStanding =
-            response.data.honoursStanding;
+          this.studentGradStatus.honoursStanding = response.data.honoursStanding;
           this.studentGradStatus.gpa = response.data.gpa;
           this.studentGradStatus.studentGrade = response.data.studentGrade;
           this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
