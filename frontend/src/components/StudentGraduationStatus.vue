@@ -448,7 +448,7 @@ export default {
       programOptions: "getProgramOptions",
       studentStatusOptions: "getStudentStatusOptions",
       studentId: "getStudentId",
-      ungradReasons: "getUngradReasons"
+      ungradReasons: "getUngradReasons",
       username: "getUsername"
     }),
   },
