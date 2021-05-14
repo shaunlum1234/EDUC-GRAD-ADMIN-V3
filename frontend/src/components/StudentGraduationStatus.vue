@@ -2,7 +2,7 @@
   <div class="p-2">
     <div class="row">
       editedGradStatus{{editedGradStatus}}<br>
-      <!-- studentGradStatus{{studentGradStatus}}<br> -->
+      studentGradStatus{{studentGradStatus.programCompletionDate}}<br>
       disableButton {{disableButton}}
       <div class="col-12">
         <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
@@ -74,7 +74,7 @@
                         <div class="form-validation-message text-danger" v-if="!(editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN')">Student grade should be one of <strong>AD or AN</strong> if the student program is 1950</div>
                       </div>   
                     </td>
-                    <td width="50%"><b-form-select size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>   
+                    <td width="50%"><b-form-select :disabled="disableInput" size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>   
                     
                   </tr>
                   <tr v-if="!showEdit">
@@ -87,7 +87,7 @@
                           Reset 
                       </b-btn> -->
                     </td>
-                      <td><b-input size="sm" type="month" max="9999-12" pattern="[0-9]{4}-[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input></td>      
+                      <td><b-input :disabled="disableInput" size="sm" max="9999-12" type="month" pattern="[0-9]{4}-[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input></td>      
                   </tr>
                   
                   <tr v-if="!showEdit">
@@ -100,6 +100,7 @@
                         size="sm"
                         v-model="editedGradStatus.studentStatus"
                         :options="studentStatusOptions"
+                        :disabled="disableStudentStatus"
                       ></b-form-select>
                     </td>
                   </tr>
@@ -119,6 +120,7 @@
                         size="sm"
                         v-model="editedGradStatus.studentGrade"
                         :options="gradeOptions"
+                        :disabled="disableInput"
                       ></b-form-select>
                       </td>
                   </tr>
@@ -173,7 +175,7 @@
                       <td><strong>School of record:</strong><br>
                         <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                       </td>
-                      <td><b-input size="sm" type="number" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
+                      <td><b-input :disabled="disableInput" size="sm" type="number" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
                       
                   </tr>
                   <tr v-if="!showEdit">
@@ -224,7 +226,7 @@
                           <div class="form-validation-message text-danger" >Required if program completion date is provided</div>
                         </div>   
                       </td>
-                      <td><b-input size="sm" type="number" :required="reqProgramCompletionSchoolAtGrad" v-model='editedGradStatus.schoolAtGrad'></b-input></td>          
+                      <td><b-input :disabled="disableInput" size="sm" type="number" :required="reqProgramCompletionSchoolAtGrad" v-model='editedGradStatus.schoolAtGrad'></b-input></td>          
                     </tr>        
                     <tr>
                       <td><strong>Honours:</strong></td>
@@ -488,6 +490,8 @@ export default {
       studentUngradReason: "",
       disableButton:false,
       reqProgramCompletionSchoolAtGrad:true,
+      disableInput:false,
+      disableStudentStatus:false,
       gradeOptions: [
         { text: "08", value: "8" },
         { text: "09", value: "9" },
@@ -511,11 +515,13 @@ export default {
       if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
         if(this.editedGradStatus.program == '1950-EN'){
           this.disableButton = false;
-        }else{
+        }
+        if(this.editedGradStatus.program != '1950-EN'){
           this.disableButton = true;
         }
-      }else{
-        if(this.editedGradStatus.program != '1950-EN'){
+      }
+      if(this.editedGradStatus.studentGrade != 'AD' && this.editedGradStatus.studentGrade != 'AN'){
+        if(this.editedGradStatus.program == '1950-EN'){
           this.disableButton = true;
         }else{
           this.disableButton = false;
@@ -598,29 +604,7 @@ export default {
     }  
   },
   methods: {
-    validateForm () {
-      if(this.editedGradStatus.program == '1950-EN'){
-        if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
-          this.disableButton = false;
-        } else {
-          this.disableButton = true;
-        }
-      }
-      if(this.editedGradStatus.program != '1950-EN'){
-        if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
-          this.disableButton = true;
-        } else {
-          this.disableButton = false;
-        }
-      }
-    },
-    checkResetProgramCompletionDate () {
-      if(this.editedGradStatus.programCompletionDate == ""){
-        this.disableButton = true;
-      } else {
-        this.disableButton = false;
-      }
-    },
+    
     getStudentStatus(code) {
       var i = 0;
       for (i = 0; i <= this.studentStatusOptions.length; i++) {
@@ -639,8 +623,10 @@ export default {
     },
     showNotification(variant = null, bodyContent) {
       let title = variant;
+      let delay = 30000;
       if(title == "success"){
         title ="success";
+        delay = 5000;
       }else if(title == "danger"){
         title ="Error";
       }else if(title == "warning"){
@@ -650,7 +636,7 @@ export default {
         title: title,
         variant: variant,
         solid: true,
-        autoHideDelay: 5000,
+        autoHideDelay: delay,
       });
 
     },
@@ -658,8 +644,47 @@ export default {
       console.log("UNGRADING STUDENT" + this.studentUngradReason);
     },
     editGradStatus() {
+      //If the student has a programCompletionDate disable input fields
+      if(this.studentGradStatus.programCompletionDate != null){
+        this.disableInput = true;
+        this.disableStudentStatus = true;
+      }else{
+        this.disableInput = false;
+        this.disableStudentStatus = false;
+      }
+      if(this.studentGradStatus.studentStatus == 'M'){
+        this.disableInput = true;
+        this.disableStudentStatus = true;
+        this.showNotification(
+          "danger",
+          "Cannot edit students with a status of 'Merged' ."
+        );
+      }
+      if(this.studentGradStatus.studentStatus == 'T'){
+        this.disableInput = true;
+        this.showNotification(
+          "warning",
+          "This student has been 'Terminated'. Re-activate by setting their status to 'Active' if they are currently attending school."
+        );
+      }
+      if(this.studentGradStatus.studentStatus == 'N'){
+        this.disableInput = true;
+        this.showNotification(
+          "warning",
+          "This student is 'Not Active'. Re-activate by setting their status to 'Active' if they are currently attending school"
+        );
+      }
+      if(this.studentGradStatus.studentStatus == 'D'){
+        this.disableInput = true;
+        this.disableStudentStatus = true;
+        this.showNotification(
+          "warning",
+          "This student is showing as 'Deceased'. Student GRAD data cannot be updated for students with a status of 'Deceased'."
+        );
+      }
       this.showEdit = true;    
-      this.$set(this.editedGradStatus, 'programCompletionDate', new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10))
+      //this.$set(this.editedGradStatus, 'programCompletionDate', new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10))
+      this.$set(this.editedGradStatus, 'programCompletionDate', this.studentGradStatus.programCompletionDate)
       this.$set(this.editedGradStatus, 'pen', this.studentGradStatus.pen)
       this.$set(this.editedGradStatus, 'program', this.studentGradStatus.program)
       this.$set(this.editedGradStatus, 'studentGrade', this.studentGradStatus.studentGrade)
@@ -672,8 +697,7 @@ export default {
     },
     cancelGradStatus() {
       this.showEdit = false;
-      this.studentUngradReason = "";
-      
+      this.studentUngradReason = "";   
     },
     editGraduationStatus(id) {
       //add the user info
@@ -687,7 +711,7 @@ export default {
       if(this.editedGradStatus.programCompletionDate == ''){
         this.editedGradStatus.programCompletionDate = null;
       }
-      if(this.editedGradStatus.programCompletionDate != ''){
+      if(this.editedGradStatus.programCompletionDate != null){
         this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.concat("-01");
       }
       if(this.editedGradStatus.schoolAtGrad == ''){
