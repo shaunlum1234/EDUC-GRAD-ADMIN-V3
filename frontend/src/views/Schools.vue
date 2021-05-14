@@ -1,48 +1,43 @@
 <template>
   <div>
-    <h1>School search</h1>
-      <!-- <b-container class="my-4">
+    <h1>Schools</h1>
+     <b-card
+      header="Search for school"
+    >
+      <b-card-text>
+<b-container class="p-3">
         <b-row align-v="stretch" class="row-eq-height">
           <b-col>
-            <label class="float-left" for="city">City</label>
-            <b-input class="" v-model="search.schoolCode" placeholder="" id="mincode"/>
+            <label class="col-6">Mincode</label>
+            <b-input v-model="search.mincode" placeholder="" id="mincode"/>
           </b-col>
-          <b-col>
-            <label class="float-left" for="city">City</label>
-            <b-input class="" v-model="search.city" placeholder="" id="city"/>
-          </b-col>
-          <b-col>
-            <label class="w-100" for="school name">School name</label>
-            <b-input class="" v-model="search.schoolName" id="school name" placeholder=""/>
-          </b-col>
-          <b-col>
-            <label class="w-100" for="district name">District name</label>
-            <b-input class="" v-model="search.districtName" id="district name" placeholder=""/>
+          <b-col class="p-0">
+            <label class="col-6">School name</label>
+            <b-input v-model="search.schoolName" id="schoolname" placeholder=""/>
           </b-col>
           <b-col align-self="baseline">
-            <label class="w-100 h-100">&nbsp;<br /></label>
+            <label class="w-100"></label>
             <b-button variant="primary" class="" type="submit" @click="searchSchools"> Search </b-button>
           </b-col>
         </b-row>
-      </b-container> -->
+      </b-container> 
+        
+      </b-card-text>
+      
+    </b-card>
+
+      
   
 
 
  
 
-              
-              <!--<b-input class="float-left col-3 mx-1 my-3" v-model="search.city" placeholder="City"/>
-              <b-input class="float-left col-3 mx-1 my-3" v-model="search.schoolName" placeholder="School name"/>
-              <b-input class="float-left col-3 mx-1 my-3" v-model="search.districtName" placeholder="District name"/>
-              <b-button variant="primary" class="float-left col-auto mx-1 my-3" type="submit" @click="searchSchools"> Search </b-button>-->
-              <!-- <input type="submit" @click="searchCourseByCourseCode"> -->
-
                     <b-card no-body>
                       <b-tabs card>
-                        <b-tab title="Schools" active>
+                        <b-tab title="Search Results" active>
                           <b-card-text>
-                            <DisplayTable title="Schools" v-bind:items="schools"
-                              v-bind:fields="schoolFields" id="mincode" v-bind:showFilter=true pagination="true"
+                            <DisplayTable title="Results" v-bind:items="schools"
+                              v-bind:fields="schoolFields" sortKey="schoolName" id="mincode" v-bind:showFilter=true pagination="true"
                             >
                               <template #cell(more)="row">
                                   <b-btn
@@ -194,9 +189,7 @@
         ],
         search: {
           mincode:"",
-          city:"",
           schoolName: "",
-          districtName: "",
         },
         show: false,
         displayMessage: null,
@@ -222,11 +215,11 @@
       },
       searchSchools(){
         this.schools = {};
-        SchoolService.searchSchools(this.search, localStorage.getItem('jwt')).then((res) => {
+        SchoolService.searchSchools(this.search, this.token).then((res) => {
           this.schools = res.data;
         }).catch((error) => {
           // eslint-disable-next-line
-          console.log('There was an error adding School information to GRAD Status:' + error.response);
+          console.log('There was an error searching School information to GRAD Status:' + error.response);
         });  
       }
     }
