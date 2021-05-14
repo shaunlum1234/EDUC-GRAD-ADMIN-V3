@@ -24,6 +24,7 @@
             no-body
             header="GRAD status"
           >
+
             <b-card-text class="p-3">
               
                 <b-button-group v-if="this.role =='administrator'" class="gradstatus-actions float-right">
@@ -47,8 +48,19 @@
                   </div>
                 </b-button-group>
 
-
-                
+                <div v-if="studentGradStatus && studentGradStatus.programCompletionDate && showEdit">
+                  <b-alert show variant="success" class="p-3 mb-1">
+                    <h4 class="alert-heading">GRAD RECORD LOCKED</h4>
+                    <p class="locked-message">
+                      This student has graduated and this record cannot be edited unless a ungrad reason is provided.
+                    </p>
+                    <hr>
+                    <p class="mb-0">
+                      <strong>Ungrad Reasons:</strong><b-form-select  size="sm" v-model="studentUngradReason" :options="ungradReasons" text-field="description" value-field="code"></b-form-select>
+                      <b-button :disabled='!studentUngradReason' @click="ungradStudent" variant="primary" size="sm" class="mt-2">Ungrad Student</b-button>
+                    </p>
+                  </b-alert>
+                </div>
                 <table class="table  table-hover table-sm" >
                   <tbody>
                   <tr v-if="!showEdit">
@@ -436,6 +448,7 @@ export default {
       programOptions: "getProgramOptions",
       studentStatusOptions: "getStudentStatusOptions",
       studentId: "getStudentId",
+      ungradReasons: "getUngradReasons"
       username: "getUsername"
     }),
   },
@@ -471,6 +484,7 @@ export default {
       schoolAtGraduationWarning: false,
       programDropdownList: [],
       editedGradStatus: {},
+      studentUngradReason: "",
       disableButton:false,
       reqProgramCompletionSchoolAtGrad:true,
       gradeOptions: [
@@ -527,9 +541,9 @@ export default {
       if(this.editedGradStatus.programCompletionDate == ""){
         this.reqProgramCompletionSchoolAtGrad = false;
         if(this.editedGradStatus.schoolAtGrad == ""){
-          //this.disableButton = false
+          this.disableButton = false
         }else{
-          //this.disableButton = true
+          this.disableButton = true
         }
       }
       if(this.editedGradStatus.programCompletionDate != ""){
@@ -623,12 +637,24 @@ export default {
       }
     },
     showNotification(variant = null, bodyContent) {
+      let title = variant;
+      if(title == "success"){
+        title ="success";
+      }else if(title == "danger"){
+        title ="Error";
+      }else if(title == "warning"){
+        title ="Warning";
+      }
       this.$bvToast.toast(bodyContent, {
-        title: `${variant || "default"}`,
+        title: title,
         variant: variant,
         solid: true,
         autoHideDelay: 5000,
       });
+
+    },
+    ungradStudent(){
+      console.log("UNGRADING STUDENT" + this.studentUngradReason);
     },
     editGradStatus() {
       this.showEdit = true;    
@@ -645,6 +671,8 @@ export default {
     },
     cancelGradStatus() {
       this.showEdit = false;
+      this.studentUngradReason = "";
+      
     },
     editGraduationStatus(id) {
       //add the user info

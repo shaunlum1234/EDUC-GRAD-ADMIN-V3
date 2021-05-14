@@ -34,7 +34,8 @@
       },
       applicationVariables:{
         programOptions:[],
-        studentStatusOptions:[]
+        studentStatusOptions:[],
+        unGradReasons:[]
       }
     },
     mutations: {
@@ -53,6 +54,9 @@
            state.applicationVariables.studentStatusOptions.push({"value": studentCodes[i].code, "text":studentCodes[i].description});
          }         
       },
+      setUngradReasons(state, payload){
+        state.applicationVariables.ungradReasons = payload;
+      },      
       setUsername(state, payload){
         state.username = payload;
       },
@@ -162,6 +166,14 @@
           // eslint-disable-next-line
           console.log(error.response.status);
         });
+        CodeService.getUngradReasons(state.token).then(
+          (response) => {
+            commit('setUngradReasons', response.data);
+          }
+        ).catch((error) => {
+          // eslint-disable-next-line
+          console.log(error.response.status);
+        });        
       }, 
       setUsername({commit}, payload){
         commit('setUsername', payload);
@@ -398,6 +410,9 @@
       },
       getStudentStatusOptions(state){
         return state.applicationVariables.studentStatusOptions;
+      },
+      getUngradReasons(state){
+        return state.applicationVariables.ungradReasons;
       }
     },
     modules: {}
