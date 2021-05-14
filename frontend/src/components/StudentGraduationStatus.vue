@@ -271,14 +271,15 @@
               <b-card-text class="p-3" v-if="specialPrograms[0] && specialPrograms[0].studentSpecialProgramData">
                 <b-table :items="specialPrograms" :fields="specialProgramsfields" small striped>
                 </b-table>
-                <h3>Requirements Met</h3>
+                <h4>Requirements Met</h4>
+                <hr>
                 <div v-if="specialPrograms[0].studentSpecialProgramData.specialRequirementsMet === null">No Requirements have been met</div>
-                <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialRequirementsMet">
+                <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialRequirementsMet" sortBy='gradReqMetDetail'>
                 </b-table>
                 
-                <h3>Requirements Not Met</h3>
+                <h4>Requirements Not Met</h4><hr>
                 <div v-if="specialPrograms[0].studentSpecialProgramData.specialNonGradReasons === null">All graduation requirements have been met</div>
-                <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialNonGradReasons">
+                <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialNonGradReasons" sortBy='gradReqMetDetail'>
                 </b-table>
               </b-card-text>
             </b-card>
@@ -455,7 +456,7 @@ export default {
   data() {
     return {
       requirementsMetfields: [
-        { key: "gradReqMetDetail", label: "Requirement Code" },
+        { key: "gradReqMetDetail", label: "Requirement Code", sortable: true },
         { key: "courseName", label: "Course Name" },
         { key: "sessionDate", label: "Session" },
       ],
