@@ -681,9 +681,9 @@ export default {
           "This student is showing as 'Deceased'. Student GRAD data cannot be updated for students with a status of 'Deceased'."
         );
       }
-      this.showEdit = true;    
-      //this.$set(this.editedGradStatus, 'programCompletionDate', new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10))
-      this.$set(this.editedGradStatus, 'programCompletionDate', this.studentGradStatus.programCompletionDate)
+      this.showEdit = true;  
+
+      this.$set(this.editedGradStatus, 'programCompletionDate', new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 7))
       this.$set(this.editedGradStatus, 'pen', this.studentGradStatus.pen)
       this.$set(this.editedGradStatus, 'program', this.studentGradStatus.program)
       this.$set(this.editedGradStatus, 'studentGrade', this.studentGradStatus.studentGrade)
