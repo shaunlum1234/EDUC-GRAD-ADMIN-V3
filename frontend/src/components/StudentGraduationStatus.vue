@@ -87,7 +87,7 @@
                           Reset 
                       </b-btn> -->
                     </td>
-                      <td><b-input :disabled="disableInput" size="sm" type="text" max="9999-12" pattern="[0-9]{4}/[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input></td>      
+                      <td><b-input :disabled="disableInput" size="sm" max="9999-12" type="month" pattern="[0-9]{4}-[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input></td>      
                   </tr>
                   
                   <tr v-if="!showEdit">
@@ -100,7 +100,7 @@
                         size="sm"
                         v-model="editedGradStatus.studentStatus"
                         :options="studentStatusOptions"
-                        :disabled="disableInput"
+                        :disabled="disableStudentStatus"
                       ></b-form-select>
                     </td>
                   </tr>
@@ -490,6 +490,7 @@ export default {
       disableButton:false,
       reqProgramCompletionSchoolAtGrad:true,
       disableInput:false,
+      disableStudentStatus:false,
       gradeOptions: [
         { text: "08", value: "8" },
         { text: "09", value: "9" },
@@ -513,11 +514,13 @@ export default {
       if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
         if(this.editedGradStatus.program == '1950-EN'){
           this.disableButton = false;
-        }else{
+        }
+        if(this.editedGradStatus.program != '1950-EN'){
           this.disableButton = true;
         }
-      }else{
-        if(this.editedGradStatus.program != '1950-EN'){
+      }
+      if(this.editedGradStatus.studentGrade != 'AD' && this.editedGradStatus.studentGrade != 'AN'){
+        if(this.editedGradStatus.program == '1950-EN'){
           this.disableButton = true;
         }else{
           this.disableButton = false;
@@ -619,8 +622,10 @@ export default {
     },
     showNotification(variant = null, bodyContent) {
       let title = variant;
+      let delay = 30000;
       if(title == "success"){
         title ="success";
+        delay = 5000;
       }else if(title == "danger"){
         title ="Error";
       }else if(title == "warning"){
@@ -630,7 +635,7 @@ export default {
         title: title,
         variant: variant,
         solid: true,
-        autoHideDelay: 5000,
+        autoHideDelay: delay,
       });
 
     },
@@ -641,23 +646,28 @@ export default {
       //If the student has a programCompletionDate disable input fields
       if(this.studentGradStatus.programCompletionDate != null){
         this.disableInput = true;
+        this.disableStudentStatus = true;
       }else{
         this.disableInput = false;
+        this.disableStudentStatus = false;
       }
       if(this.studentGradStatus.studentStatus == 'M'){
         this.disableInput = true;
+        this.disableStudentStatus = true;
         this.showNotification(
           "danger",
           "Cannot edit students with a status of 'Merged' ."
         );
       }
       if(this.studentGradStatus.studentStatus == 'T'){
+        this.disableInput = true;
         this.showNotification(
           "warning",
           "This student has been 'Terminated'. Re-activate by setting their status to 'Active' if they are currently attending school."
         );
       }
       if(this.studentGradStatus.studentStatus == 'N'){
+        this.disableInput = true;
         this.showNotification(
           "warning",
           "This student is 'Not Active'. Re-activate by setting their status to 'Active' if they are currently attending school"
@@ -665,6 +675,7 @@ export default {
       }
       if(this.studentGradStatus.studentStatus == 'D'){
         this.disableInput = true;
+        this.disableStudentStatus = true;
         this.showNotification(
           "warning",
           "This student is showing as 'Deceased'. Student GRAD data cannot be updated for students with a status of 'Deceased'."
@@ -699,7 +710,7 @@ export default {
       if(this.editedGradStatus.programCompletionDate == ''){
         this.editedGradStatus.programCompletionDate = null;
       }
-      if(this.editedGradStatus.programCompletionDate != ''){
+      if(this.editedGradStatus.programCompletionDate != null){
         this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.concat("-01");
       }
       if(this.editedGradStatus.schoolAtGrad == ''){
