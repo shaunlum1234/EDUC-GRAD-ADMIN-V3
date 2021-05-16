@@ -1,9 +1,6 @@
 <template>
   <div class="p-2">
     <div class="row">
-      editedGradStatus{{editedGradStatus}}<br>
-      studentGradStatus{{studentGradStatus.programCompletionDate}}<br>
-      disableButton {{disableButton}}
       <div class="col-12">
         <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
@@ -18,6 +15,7 @@
     </div>
     <div class="row">
       <!-- Left col -->
+      
       <div class="col-12 pr-0 col-md-6 ">
           <div class="graduation-status">
           <b-card
@@ -35,7 +33,8 @@
                   </div>
                   <div v-if="showEdit">
                     <b-button-group>
-                      <b-button :disabled="disableButton" v-on:click="editGraduationStatus(studentId)" size="sm" variant="primary">Save</b-button>
+                      <b-button  :disabled="disableSaveButton" v-on:click="editGraduationStatus(studentId)" size="sm" variant="primary">Save</b-button>
+
                       <b-button v-on:click="cancelGradStatus"  size="sm" variant="outline-primary">Cancel</b-button>
                     </b-button-group>
                     <!--b-btn :disabled="disableButton" v-on:click="editGraduationStatus(studentId)" size="sm" variant="primary">
@@ -56,11 +55,55 @@
                     </p>
                     <hr>
                     <p class="mb-0">
-                      <strong>Ungrad Reasons:</strong><b-form-select  size="sm" v-model="studentUngradReason" :options="ungradReasons" text-field="description" value-field="code"></b-form-select>
+                      <strong>Ungrad Reason:</strong><b-form-select  size="sm" v-model="studentUngradReason" :options="ungradReasons" text-field="description" value-field="code"></b-form-select>
                       <b-button :disabled='!studentUngradReason' @click="ungradStudent" variant="primary" size="sm" class="mt-2">Ungrad Student</b-button>
                     </p>
                   </b-alert>
                 </div>
+
+                <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
+                  <b-alert show variant="success" class="p-3 mb-1">
+                    <h4 class="alert-heading">GRAD record not active</h4>
+                    <p class="locked-message">
+                      This student is 'Not Active'. Re-activate by setting their status to 'Active' if they are currently attending school
+                    </p>
+                    <hr>
+                    <p class="mb-0">
+                      
+                      <b-button @click="reactivateStudentRecord" variant="primary" size="sm" class="mt-2">Re-activate</b-button>
+                    </p>
+                  </b-alert>
+                </div>    
+                <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'T' && showEdit">
+                  <b-alert show variant="success" class="p-3 mb-1">
+                    <h4 class="alert-heading">GRAD record terminated</h4>
+                    <p class="locked-message">
+                      This student is 'Terminated'. Re-activate by setting their status to 'Active' if they are currently attending school
+                    </p>
+                    <hr>
+                    <p class="mb-0">
+                      
+                      <b-button @click="reactivateStudentRecord" variant="primary" size="sm" class="mt-2">Re-activate</b-button>
+                    </p>
+                  </b-alert>
+                </div>    
+                <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'D' && showEdit">
+                  <b-alert show variant="success" class="p-3 mb-1">
+                    <h4 class="alert-heading">GRAD record status: Deceased</h4>
+                    <p class="locked-message">
+                      This student is showing as 'Deceased'. Student GRAD data cannot be updated for students with a status of 'Deceased'.
+                    </p>
+                  </b-alert>
+                </div>          
+                <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'M' && showEdit">
+                  <b-alert show variant="success" class="p-3 mb-1">
+                    <h4 class="alert-heading">GRAD record merged</h4>
+                    <p class="locked-message">
+                      "Cannot edit students with a status of 'Merged'
+                    </p>
+                  </b-alert>
+                </div>                                                    
+
                 <table class="table  table-hover table-sm" >
                   <tbody>
                   <tr v-if="!showEdit">
@@ -425,19 +468,22 @@ export default {
   components: {},
   computed: {
     studentGradeChange(){
-      return this.editedGradStatus.studentGrade
+      return this.editedGradStatus.studentGrade;
     },
     programCompletionDateChange(){
-      return this.editedGradStatus.programCompletionDate
+      return this.editedGradStatus.programCompletionDate;
     },
     schoolOfRecordChange(){
-      return this.editedGradStatus.schoolOfRecord
+      return this.editedGradStatus.schoolOfRecord;
     },
     schoolAtGradChange(){
-      return this.editedGradStatus.schoolAtGrad
+      return this.editedGradStatus.schoolAtGrad;
     },
     programChange(){
-      return this.editedGradStatus.program
+      return this.editedGradStatus.program;
+    },
+    disableSaveButton(){
+      return this.studentGradStatus.studentStatus == "T" || this.studentGradStatus.studentStatus == "D" 
     },
     ...mapGetters({
       studentGradStatus: "getStudentGradStatus",
@@ -509,6 +555,9 @@ export default {
   },
   created() {
     this.programDropdownList = this.$store.dispatch("getGraduationPrograms");
+    this.disableButton = false;
+
+
   },
   watch:{
     studentGradeChange:function(){
@@ -640,11 +689,29 @@ export default {
       });
 
     },
-    ungradStudent(){
-      console.log("UNGRADING STUDENT" + this.studentUngradReason);
-    },
+    reactivateStudentRecord(){
+        this.editedGradStatus.studentStatus = "A";
+        this.editGraduationStatus(this.studentId);
+        this.showNotification(
+               "success",
+               "Student Record re-activated."
+             );
+        },
     editGradStatus() {
       //If the student has a programCompletionDate disable input fields
+
+
+      this.$set(this.editedGradStatus, 'programCompletionDate', this.studentGradStatus.programCompletionDate);
+      this.$set(this.editedGradStatus, 'pen', this.studentGradStatus.pen);
+      this.$set(this.editedGradStatus, 'program', this.studentGradStatus.program);
+      this.$set(this.editedGradStatus, 'studentGrade', this.studentGradStatus.studentGrade);
+      this.$set(this.editedGradStatus, 'schoolOfRecord', this.studentGradStatus.schoolOfRecord);
+      this.$set(this.editedGradStatus, 'schoolAtGrad', this.studentGradStatus.schoolAtGrad);
+      this.$set(this.editedGradStatus, 'studentStatus', this.studentGradStatus.studentStatus); 
+      this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID);
+      this.$set(this.editedGradStatus, 'gpa', this.studentGradStatus.gpa);
+      this.$set(this.editedGradStatus, 'honoursStanding', this.studentGradStatus.honoursStanding);
+
       if(this.studentGradStatus.programCompletionDate != null){
         this.disableInput = true;
         this.disableStudentStatus = true;
@@ -655,49 +722,71 @@ export default {
       if(this.studentGradStatus.studentStatus == 'M'){
         this.disableInput = true;
         this.disableStudentStatus = true;
-        this.showNotification(
-          "danger",
-          "Cannot edit students with a status of 'Merged' ."
-        );
       }
-      if(this.studentGradStatus.studentStatus == 'T'){
-        this.disableInput = true;
-        this.showNotification(
-          "warning",
-          "This student has been 'Terminated'. Re-activate by setting their status to 'Active' if they are currently attending school."
-        );
-      }
-      if(this.studentGradStatus.studentStatus == 'N'){
-        this.disableInput = true;
-        this.showNotification(
-          "warning",
-          "This student is 'Not Active'. Re-activate by setting their status to 'Active' if they are currently attending school"
-        );
-      }
-      if(this.studentGradStatus.studentStatus == 'D'){
+      else if(this.studentGradStatus.studentStatus == 'T'){
         this.disableInput = true;
         this.disableStudentStatus = true;
-        this.showNotification(
-          "warning",
-          "This student is showing as 'Deceased'. Student GRAD data cannot be updated for students with a status of 'Deceased'."
-        );
       }
+      else if(this.studentGradStatus.studentStatus == 'N'){
+        this.disableInput = true;
+        
+      }
+      else if(this.studentGradStatus.studentStatus == 'D'){
+        this.disableInput = true;
+        this.disableStudentStatus = true;
+        
+        
+      }
+
+      console.log(this.disableButton);
+      console.log(this.disableSaveButton);
       this.showEdit = true;    
       //this.$set(this.editedGradStatus, 'programCompletionDate', new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10))
-      this.$set(this.editedGradStatus, 'programCompletionDate', this.studentGradStatus.programCompletionDate)
-      this.$set(this.editedGradStatus, 'pen', this.studentGradStatus.pen)
-      this.$set(this.editedGradStatus, 'program', this.studentGradStatus.program)
-      this.$set(this.editedGradStatus, 'studentGrade', this.studentGradStatus.studentGrade)
-      this.$set(this.editedGradStatus, 'schoolOfRecord', this.studentGradStatus.schoolOfRecord)
-      this.$set(this.editedGradStatus, 'schoolAtGrad', this.studentGradStatus.schoolAtGrad) 
-      this.$set(this.editedGradStatus, 'studentStatus', this.studentGradStatus.studentStatus) 
-      this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID) 
-      this.$set(this.editedGradStatus, 'gpa', this.studentGradStatus.gpa)  
-      this.$set(this.editedGradStatus, 'honoursStanding', this.studentGradStatus.honoursStanding)  
+  
     },
     cancelGradStatus() {
       this.showEdit = false;
       this.studentUngradReason = "";   
+    },
+    ungradStudent(){
+      console.log("ungrad student " + this.studentUngradReason);
+      GraduationStatusService.ungradStudent(
+        this.studentId,
+        this.studentUngradReason,
+        
+        this.token,this.editedGradStatus
+      )
+        .then((response) => {
+          this.updateStatus = response.data;
+          this.studentGradStatus.pen = response.data.pen;
+          this.studentGradStatus.program = response.data.program;
+          this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
+          this.studentGradStatus.honoursStanding = response.data.honoursStanding;
+          this.studentGradStatus.gpa = response.data.gpa;
+          this.studentGradStatus.studentGrade = response.data.studentGrade;
+          this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
+          this.studentGradStatus.studentStatus = response.data.studentStatus;
+          this.studentGradStatus.studentStatusName = this.getStudentStatus(
+            response.data.studentStatus
+          );
+          this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
+
+          this.showTop = !this.showTop;
+          this.showEdit = false;
+
+          this.showNotification("success", "GRAD Status Saved");
+          
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log(error.response);
+          this.showNotification(
+            "danger",
+            "There was an error: " + error.response.data.messages[0].message
+          );
+
+          //console.log('There was an error:' + error.response);
+        });
     },
     editGraduationStatus(id) {
       //add the user info
@@ -790,7 +879,6 @@ export default {
           console.log("There was an error:" + error.response);
         });
     },
-
     updateGraduationStatus: function (pen) {
       // eslint-disable-next-line no-use-before-define
       GraduationService.graduateStudent(pen, this.token)

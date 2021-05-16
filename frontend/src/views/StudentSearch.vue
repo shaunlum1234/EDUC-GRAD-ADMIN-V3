@@ -31,6 +31,8 @@
                   <div class="row col-12">
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(132341660)">132341660</a> SAMPLE</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(136557584)">136557584</a> SAMPLE 2</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(113920326)">113920326 </a> SAMPLE 3 (DECEASED)</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(125219048)">125219048 </a> SAMPLE 4 (MERGED)</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(124304700)">124304700</a> ALANAZI, NEAL</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(124816158)">124816158</a> CHEONG, ALISON</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(125355511)">125355511</a> SEOL, CARYS</div>

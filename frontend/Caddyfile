@@ -15,6 +15,8 @@
     gzip {
         level 7
     }
+    try_files {path} /
+    
     log stdout
 
     proxy /api/v1/student {$VUE_APP_STUDENTS_API_HOST}
