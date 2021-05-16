@@ -737,12 +737,18 @@ export default {
         
         
       }
+      this.showEdit = true;  
 
-      console.log(this.disableButton);
-      console.log(this.disableSaveButton);
-      this.showEdit = true;    
-      //this.$set(this.editedGradStatus, 'programCompletionDate', new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 10))
-  
+      this.$set(this.editedGradStatus, 'programCompletionDate', new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 7))
+      this.$set(this.editedGradStatus, 'pen', this.studentGradStatus.pen)
+      this.$set(this.editedGradStatus, 'program', this.studentGradStatus.program)
+      this.$set(this.editedGradStatus, 'studentGrade', this.studentGradStatus.studentGrade)
+      this.$set(this.editedGradStatus, 'schoolOfRecord', this.studentGradStatus.schoolOfRecord)
+      this.$set(this.editedGradStatus, 'schoolAtGrad', this.studentGradStatus.schoolAtGrad) 
+      this.$set(this.editedGradStatus, 'studentStatus', this.studentGradStatus.studentStatus) 
+      this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID) 
+      this.$set(this.editedGradStatus, 'gpa', this.studentGradStatus.gpa)  
+      this.$set(this.editedGradStatus, 'honoursStanding', this.studentGradStatus.honoursStanding)  
     },
     cancelGradStatus() {
       this.showEdit = false;
