@@ -755,7 +755,6 @@ export default {
       this.studentUngradReason = "";   
     },
     ungradStudent(){
-      console.log("ungrad student " + this.studentUngradReason);
       GraduationStatusService.ungradStudent(
         this.studentId,
         this.studentUngradReason,
