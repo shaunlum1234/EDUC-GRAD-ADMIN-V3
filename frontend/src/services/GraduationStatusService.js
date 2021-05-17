@@ -19,8 +19,6 @@ export default {
   },
   ungradStudent(id,reason, token, json){
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-   console.log(token);
-    console.log('/api/v1/gradstatus/ungradstudent/studentid/' + id + '?ungradReasonCode=' + reason);
     return apiClient.post('/api/v1/gradstatus/ungradstudent/studentid/' + id + '?ungradReasonCode=' + reason,json, { headers });
   }
 }
