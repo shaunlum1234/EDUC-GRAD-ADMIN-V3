@@ -304,16 +304,12 @@
       setRoles({
         commit
       }, payload) {
-        // eslint-disable-next-line
-        console.log(payload);
         commit('setRoles', payload);
 
       },    
       setStudentNotes({
         commit
       }, payload) {
-        // eslint-disable-next-line
-        console.log('StudentNote in Store: ' + payload);
         commit('setStudentNotes', payload);
       },      
     },

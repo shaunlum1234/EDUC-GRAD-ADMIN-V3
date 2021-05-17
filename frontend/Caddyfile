@@ -15,11 +15,6 @@
     gzip {
         level 7
     }
-    rewrite {
-        regexp .*
-        to {path} /
-    }
-
     log stdout
 
     proxy /api/v1/student {$VUE_APP_STUDENTS_API_HOST}
