@@ -76,7 +76,6 @@
                     <p class="locked-message">
                       This student is 'Terminated'. Re-activate by setting their status to 'Active' if they are currently attending school
                     </p>
-                    <hr>
                   </b-alert>
                 </div>    
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'D' && showEdit">
@@ -91,7 +90,7 @@
                   <b-alert show variant="info" class="p-3 mb-1">
                     <h4 class="alert-heading">GRAD record merged</h4>
                     <p class="locked-message">
-                      "Cannot edit students with a status of 'Merged'
+                      Cannot edit students with a status of 'Merged'
                     </p>
                   </b-alert>
                 </div>                                                    
@@ -272,15 +271,8 @@
              
             >
               <b-card-text class="p-4">
-              
-                <strong>Certificate #1:</strong>
-                <div v-if="studentGradStatus.certificateType1">
-                  {{ studentGradStatus.certificateType1 }}
-                </div>
-                <div v-if="studentGradStatus.certificateType1Date">
-                  <strong>Date obtained:</strong>
-                  {{ studentGradStatus.certificateType1Date }}
-                </div>
+          
+
               </b-card-text>
             </b-card> 
           </div>  
@@ -296,14 +288,18 @@
               <b-card-text class="p-3" v-if="specialPrograms[0] && specialPrograms[0].studentSpecialProgramData">
                 <b-table :items="specialPrograms" :fields="specialProgramsfields" small striped>
                 </b-table>
+       
+                <div v-if="specialPrograms[0].studentSpecialProgramData.specialRequirementsMet === null">
                 <h4>Requirements Met</h4>
                 <hr>
-                <div v-if="specialPrograms[0].studentSpecialProgramData.specialRequirementsMet === null">No Requirements have been met</div>
+                  No Requirements have been met</div>
                 <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialRequirementsMet" sortBy='gradReqMetDetail'>
                 </b-table>
                 
-                <h4>Requirements Not Met</h4><hr>
-                <div v-if="specialPrograms[0].studentSpecialProgramData.specialNonGradReasons === null">All graduation requirements have been met</div>
+                
+                <div v-if="specialPrograms[0].studentSpecialProgramData.specialNonGradReasons === null">
+                  <h4>Requirements Not Met</h4><hr>
+                  All graduation requirements have been met</div>
                 <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialNonGradReasons" sortBy='gradReqMetDetail'>
                 </b-table>
               </b-card-text>
