@@ -56,8 +56,8 @@
                     </p>
                     <hr>
                     <p class="mb-0">
-                      <strong>Ungrad Reason:</strong><b-form-select  size="sm" v-model="studentUngradReason" :options="ungradReasons" text-field="description" value-field="code"></b-form-select>
-                      <b-button :disabled='!studentUngradReason' @click="ungradStudent" variant="primary" size="sm" class="mt-2">Ungrad Student</b-button>
+                      <strong>Reason to unlock:</strong><b-form-select  size="sm" v-model="studentUngradReason" :options="ungradReasons" text-field="description" value-field="code"></b-form-select>
+                      <b-button :disabled='!studentUngradReason' @click="ungradStudent" variant="primary" size="sm" class="mt-2">Unlock Student</b-button>
                     </p>
                   </b-alert>
                 </div>
