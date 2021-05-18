@@ -52,7 +52,7 @@
                   <b-alert show variant="warning" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Graduated</h4>
                     <p class="locked-message">
-                      This student's status is set tp 'Graduated', and their data is locked. To edit this student, you must provide a reason as to why you are unlocking their record.
+                      This student's status is set to 'Graduated', and their data is locked. To edit this student, you must provide a reason as to why you are unlocking their record.
                     </p>
                     <hr>
                     <p class="mb-0">
@@ -296,13 +296,13 @@
               <b-card-text class="p-3" v-if="specialPrograms[0] && specialPrograms[0].studentSpecialProgramData">
                 <b-table :items="specialPrograms" :fields="specialProgramsfields" small striped>
                 </b-table>
-                <h4>Requirements Met</h4>
+                <h4>Requirements met</h4>
                 <hr>
                 <div v-if="specialPrograms[0].studentSpecialProgramData.specialRequirementsMet === null">No Requirements have been met</div>
                 <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialRequirementsMet" sortBy='gradReqMetDetail'>
                 </b-table>
                 
-                <h4>Requirements Not Met</h4><hr>
+                <h4>Requirements not met</h4><hr>
                 <div v-if="specialPrograms[0].studentSpecialProgramData.specialNonGradReasons === null">All graduation requirements have been met</div>
                 <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialNonGradReasons" sortBy='gradReqMetDetail'>
                 </b-table>
@@ -361,7 +361,7 @@
           
           <div class="requirements-not-met">
             <b-card
-              header="Non-GRAD reasons"
+              header="Requirements not met"
               class="w-100"
             >
               <b-card-text v-if="studentGradStatus.studentGradData">
@@ -491,17 +491,17 @@ export default {
   data() {
     return {
       requirementsMetfields: [
-        { key: "gradReqMetDetail", label: "Requirement Code", sortable: true },
-        { key: "courseName", label: "Course Name" },
+        { key: "gradReqMetDetail", label: "Requirement code", sortable: true },
+        { key: "courseName", label: "Course name" },
         { key: "sessionDate", label: "Session" },
       ],
       requirementsNotMetfields: [
-        { key: "gradReqMetDetail", label: "Requirement Code" },
-        { key: "courseName", label: "Course Name" },
+        { key: "gradReqMetDetail", label: "Requirement code" },
+        { key: "courseName", label: "Course name" },
       ],
       specialProgramsfields: [
         { key: "specialProgramCode", label: "Code", class: "text-center"},
-        { key: "specialProgramName", label: "Special Program" },
+        { key: "specialProgramName", label: "Special program" },
         { key: "specialProgramCompletionDate", label: "Date" },
       ],
       dismissSecs: 3,
