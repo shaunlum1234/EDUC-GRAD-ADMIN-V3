@@ -481,7 +481,7 @@ export default {
       return this.editedGradStatus.program;
     },
     disableSaveButton(){
-      return this.studentGradStatus.studentStatus == "T" || this.studentGradStatus.studentStatus == "D" || this.studentGradStatus.programCompletionDate
+      return this.studentGradStatus.studentStatus == "D" || this.studentGradStatus.programCompletionDate
     },
     ...mapGetters({
       studentGradStatus: "getStudentGradStatus",
@@ -710,8 +710,8 @@ export default {
         this.disableStudentStatus = true;
       }
       else if(this.studentGradStatus.studentStatus == 'T'){
-        this.disableInput = true;
-        this.disableStudentStatus = true;
+        this.disableInput = false;
+        this.disableStudentStatus = false;
       }
       else if(this.studentGradStatus.studentStatus == 'N'){
         this.disableInput = true;
