@@ -123,7 +123,7 @@
     <div class="row m-0">
       <div class="col-12 px-0">
         <div>
-          <b-card no-body class="py-0" v-if="studentHasCourses || studentHasAssessments">
+          <b-card no-body class="py-0" >
             <b-tabs :pills="smallScreen" card>
                 <b-tab title="GRAD status" class="py-3 px-0 m-1">
                   <b-card-text>
@@ -132,7 +132,7 @@
                   </b-card-text>
                 </b-tab>
 
-      
+
                 <b-tab title="Courses" v-if="studentHasCourses" class="py-3 px-0 m-1">
                   <b-card-text v-if="studentHasCourses">
                     <StudentCourses></StudentCourses>
