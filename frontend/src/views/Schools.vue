@@ -10,11 +10,18 @@
                           <b-container class="p-3">
                             <b-row align-v="stretch" class="row-eq-height">
                               <b-col class="p-0">
-                                <label class="col-6">Mincode</label>
-                                <b-input v-model="mincode" id="schoolmincode" placeholder=""/>
+                                <label class="col-6">Search by Mincode</label>
                               </b-col>
                               <b-col align-self="baseline">
                                 <label class="w-100"></label>
+                              
+                              </b-col>
+                            </b-row>
+                            <b-row align-v="stretch" class="row-eq-height">
+                              <b-col class="p-0">
+                                <b-input v-model="mincode" id="schoolmincode" placeholder=""/>
+                              </b-col>
+                              <b-col align-self="baseline">
                                 <b-button variant="primary" class="" type="submit" @click="searchSchoolByMincode"> Search </b-button>
                               </b-col>
                             </b-row>
@@ -69,10 +76,18 @@
                               <b-row align-v="stretch" class="row-eq-height">
                                 <b-col>
                                   <label class="col-6">Search by School Name</label>
-                                  <b-input v-model="search.schoolName" placeholder="" id="mincode"/>
                                 </b-col>
                                 <b-col align-self="baseline">
                                   <label class="w-100"></label>
+                                </b-col>
+                              </b-row>
+                              <b-row align-v="stretch" class="row-eq-height">
+                                <b-col>
+                                  
+                                  <b-input v-model="search.schoolName" placeholder="" id="mincode"/>
+                                </b-col>
+                                <b-col align-self="baseline">
+                                  
                                   <b-button variant="primary" class="" type="submit" @click="advancedSchoolSearch"> Search </b-button>
                                 </b-col>
                               </b-row>
