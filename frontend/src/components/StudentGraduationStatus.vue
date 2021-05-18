@@ -76,7 +76,6 @@
                     <p class="locked-message">
                       This student's status is 'Terminated'. Re-activate their record by setting their 'Student status' to 'Active' if they are enrolled in a school.
                     </p>
-                    <hr>
                   </b-alert>
                 </div>    
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'D' && showEdit">
@@ -202,6 +201,7 @@
                   <tr v-if="showEdit">
                       <td><strong>School of record:</strong><br>
                         <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                        <div v-if="schoolNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                       </td>
                       <td><b-input :disabled="disableInput" size="sm" type="number" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
                       
@@ -272,15 +272,8 @@
              
             >
               <b-card-text class="p-4">
-              
-                <strong>Certificate #1:</strong>
-                <div v-if="studentGradStatus.certificateType1">
-                  {{ studentGradStatus.certificateType1 }}
-                </div>
-                <div v-if="studentGradStatus.certificateType1Date">
-                  <strong>Date obtained:</strong>
-                  {{ studentGradStatus.certificateType1Date }}
-                </div>
+          
+
               </b-card-text>
             </b-card> 
           </div>  
@@ -298,7 +291,7 @@
                 </b-table>
                 <h4>Requirements met</h4>
                 <hr>
-                <div v-if="specialPrograms[0].studentSpecialProgramData.specialRequirementsMet === null">No Requirements have been met</div>
+                  No Requirements have been met</div>
                 <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialRequirementsMet" sortBy='gradReqMetDetail'>
                 </b-table>
                 
@@ -470,7 +463,7 @@ export default {
       return this.editedGradStatus.program;
     },
     disableSaveButton(){
-      return this.studentGradStatus.studentStatus == "D" || this.studentGradStatus.programCompletionDate
+      return this.studentGradStatus.studentStatus == "D" || this.studentGradStatus.programCompletionDate || this.disableButton
     },
     ...mapGetters({
       studentGradStatus: "getStudentGradStatus",
@@ -515,6 +508,7 @@ export default {
       schoolOfRecord: "",
       schoolOfRecordStatus:"",
       schoolOfRecordWarning: false,
+      schoolNotFoundWarning: false,
       schoolAtGraduation: "",
       schoolAtGraduationStatus:"",
       schoolAtGraduationWarning: false,
@@ -598,13 +592,20 @@ export default {
         if(this.editedGradStatus.schoolOfRecord.length == 8) {
           SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord, this.token)
           .then((response) => {
-            this.schoolOfRecordStatus = response.data.openFlag
-            if(this.schoolOfRecordStatus == "N"){
-              this.schoolOfRecordWarning = true;
-              this.showNotification("warning", "School of record closed");
-            }else{
-              this.schoolOfRecordWarning = false;
-            }
+            this.schoolNotFoundWarning = false;
+            this.schoolOfRecordWarning = false;
+            if(response.statusText == "No Content"){
+              this.schoolNotFoundWarning = true;
+            }else {
+              this.schoolNotFoundWarning = false;
+              this.schoolOfRecordStatus = response.data.openFlag
+              if(this.schoolOfRecordStatus == "N"){
+                this.schoolOfRecordWarning = true;
+              }else{
+                this.schoolOfRecordWarning = false;
+              }
+            }    
+
           })
           .catch((error) => {
             // eslint-disable-next-line
