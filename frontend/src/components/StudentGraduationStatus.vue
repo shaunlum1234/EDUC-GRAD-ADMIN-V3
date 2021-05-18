@@ -49,7 +49,7 @@
                 </b-button-group>
 
                 <div v-if="studentGradStatus && studentGradStatus.programCompletionDate && showEdit">
-                  <b-alert show variant="success" class="p-3 mb-1">
+                  <b-alert show variant="warning" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Graduated</h4>
                     <p class="locked-message">
                       This student's status is set tp 'Graduated', and their data is locked. To edit this student, you must provide a reason as to why you are unlocking their record.
@@ -63,7 +63,7 @@
                 </div>
 
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
-                  <b-alert show variant="success" class="p-3 mb-1">
+                  <b-alert show variant="warning" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Not active</h4>
                     <p class="locked-message">
                       This student's status is set to 'Not active'. Re-activate their record by setting their 'Student status' to 'Active' if they are enrolled in a school.
@@ -71,7 +71,7 @@
                   </b-alert>
                 </div>    
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'T' && showEdit">
-                  <b-alert show variant="success" class="p-3 mb-1">
+                  <b-alert show variant="warning" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Terminated</h4>
                     <p class="locked-message">
                       This student's status is 'Terminated'. Re-activate their record by setting their 'Student status' to 'Active' if they are enrolled in a school.
@@ -80,7 +80,7 @@
                   </b-alert>
                 </div>    
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'D' && showEdit">
-                  <b-alert show variant="success" class="p-3 mb-1">
+                  <b-alert show variant="info" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Deceased</h4>
                     <p class="locked-message">
                       This student's status is set 'Deceased'. Their data cannot be changed.
@@ -88,7 +88,7 @@
                   </b-alert>
                 </div>          
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'M' && showEdit">
-                  <b-alert show variant="success" class="p-3 mb-1">
+                  <b-alert show variant="info" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Merged</h4>
                     <p class="locked-message">
                       This student's status is set 'Merged'. Their data cannot be changed.
