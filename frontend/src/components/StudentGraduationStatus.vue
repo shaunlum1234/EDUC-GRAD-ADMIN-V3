@@ -204,7 +204,7 @@
                         <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                         <div v-if="schoolNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                       </td>
-                      <td><b-input :disabled="disableInput" size="sm" type="number" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
+                      <td><b-input :disabled="disableInput" size="sm" type="number" maxlength="8" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
                       
                   </tr>
                   <tr v-if="!showEdit">
