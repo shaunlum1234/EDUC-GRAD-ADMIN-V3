@@ -49,13 +49,8 @@
                 </b-button-group>
 
                 <div v-if="studentGradStatus && studentGradStatus.programCompletionDate && showEdit">
-<<<<<<< HEAD
                   <b-alert show variant="success" class="p-3 mb-1">
-                    <h4 class="alert-heading">Student tatus: Graduated</h4>
-=======
-                  <b-alert show variant="info" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD RECORD LOCKED</h4>
->>>>>>> 98b223a3b1b431c679aa2255d78ff4a8817c5bb7
+                    <h4 class="alert-heading">Student status: Graduated</h4>
                     <p class="locked-message">
                       This student's status is set tp 'Graduated', and their data is locked. To edit this student, you must provide a reason as to why you are unlocking their record.
                     </p>
@@ -68,26 +63,16 @@
                 </div>
 
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
-<<<<<<< HEAD
                   <b-alert show variant="success" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Not active</h4>
-=======
-                  <b-alert show variant="info" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD record not active</h4>
->>>>>>> 98b223a3b1b431c679aa2255d78ff4a8817c5bb7
                     <p class="locked-message">
                       This student's status is set to 'Not active'. Re-activate their record by setting their 'Student status' to 'Active' if they are enrolled in a school.
                     </p>
                   </b-alert>
                 </div>    
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'T' && showEdit">
-<<<<<<< HEAD
                   <b-alert show variant="success" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Terminated</h4>
-=======
-                  <b-alert show variant="info" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD record terminated</h4>
->>>>>>> 98b223a3b1b431c679aa2255d78ff4a8817c5bb7
                     <p class="locked-message">
                       This student's status is 'Terminated'. Re-activate their record by setting their 'Student status' to 'Active' if they are enrolled in a school.
                     </p>
@@ -95,26 +80,16 @@
                   </b-alert>
                 </div>    
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'D' && showEdit">
-<<<<<<< HEAD
                   <b-alert show variant="success" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Deceased</h4>
-=======
-                  <b-alert show variant="info" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD record status: Deceased</h4>
->>>>>>> 98b223a3b1b431c679aa2255d78ff4a8817c5bb7
                     <p class="locked-message">
                       This student's status is set 'Deceased'. Their data cannot be changed.
                     </p>
                   </b-alert>
                 </div>          
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'M' && showEdit">
-<<<<<<< HEAD
                   <b-alert show variant="success" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Merged</h4>
-=======
-                  <b-alert show variant="info" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD record merged</h4>
->>>>>>> 98b223a3b1b431c679aa2255d78ff4a8817c5bb7
                     <p class="locked-message">
                       This student's status is set 'Merged'. Their data cannot be changed.
                     </p>
