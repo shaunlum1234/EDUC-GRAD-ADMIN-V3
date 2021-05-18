@@ -50,9 +50,9 @@
 
                 <div v-if="studentGradStatus && studentGradStatus.programCompletionDate && showEdit">
                   <b-alert show variant="success" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD RECORD LOCKED</h4>
+                    <h4 class="alert-heading">Student tatus: Graduated</h4>
                     <p class="locked-message">
-                      This student has graduated and this record cannot be edited unless a ungrad reason is provided.
+                      This student's status is set tp 'Graduated', and their data is locked. To edit this student, you must provide a reason as to why you are unlocking their record.
                     </p>
                     <hr>
                     <p class="mb-0">
@@ -64,9 +64,9 @@
 
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
                   <b-alert show variant="success" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD record not active</h4>
+                    <h4 class="alert-heading">Student status: Not active</h4>
                     <p class="locked-message">
-                      This student is 'Not Active'. Re-activate by setting their status to 'Active' if they are currently attending school
+                      This student's status is set to 'Not active'. Re-activate their record by setting their 'Student status' to 'Active' if they are enrolled in a school.
                     </p>
                     <hr>
                     <p class="mb-0">
@@ -77,26 +77,26 @@
                 </div>    
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'T' && showEdit">
                   <b-alert show variant="success" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD record terminated</h4>
+                    <h4 class="alert-heading">Student status: Terminated</h4>
                     <p class="locked-message">
-                      This student is 'Terminated'. Re-activate by setting their status to 'Active' if they are currently attending school
+                      This student's status is 'Terminated'. Re-activate their record by setting their 'Student status' to 'Active' if they are enrolled in a school.
                     </p>
                     <hr>
                   </b-alert>
                 </div>    
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'D' && showEdit">
                   <b-alert show variant="success" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD record status: Deceased</h4>
+                    <h4 class="alert-heading">Student status: Deceased</h4>
                     <p class="locked-message">
-                      This student is showing as 'Deceased'. Student GRAD data cannot be updated for students with a status of 'Deceased'.
+                      This student's status is set 'Deceased'. Their data cannot be changed.
                     </p>
                   </b-alert>
                 </div>          
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'M' && showEdit">
                   <b-alert show variant="success" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD record merged</h4>
+                    <h4 class="alert-heading">Student status: Merged</h4>
                     <p class="locked-message">
-                      "Cannot edit students with a status of 'Merged'
+                      This student's status is set 'Merged'. Their data cannot be changed.
                     </p>
                   </b-alert>
                 </div>                                                    
