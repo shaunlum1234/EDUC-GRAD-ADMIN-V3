@@ -600,6 +600,8 @@ export default {
         if(this.editedGradStatus.schoolOfRecord.length == 8) {
           SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord, this.token)
           .then((response) => {
+            this.schoolNotFoundWarning = false;
+            this.schoolOfRecordWarning = false;
             if(response.statusText == "No Content"){
               this.schoolNotFoundWarning = true;
             }else {
@@ -611,6 +613,7 @@ export default {
                 this.schoolOfRecordWarning = false;
               }
             }    
+
           })
           .catch((error) => {
             // eslint-disable-next-line
