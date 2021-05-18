@@ -1,42 +1,26 @@
 <template>
   <div>
     <h1>Schools</h1>
-     <b-card
-      header="Search for school"
-    >
-      <b-card-text>
-<b-container class="p-3">
-        <b-row align-v="stretch" class="row-eq-height">
-          <b-col>
-            <label class="col-6">Mincode</label>
-            <b-input v-model="search.mincode" placeholder="" id="mincode"/>
-          </b-col>
-          <b-col class="p-0">
-            <label class="col-6">School name</label>
-            <b-input v-model="search.schoolName" id="schoolname" placeholder=""/>
-          </b-col>
-          <b-col align-self="baseline">
-            <label class="w-100"></label>
-            <b-button variant="primary" class="" type="submit" @click="searchSchools"> Search </b-button>
-          </b-col>
-        </b-row>
-      </b-container> 
-        
-      </b-card-text>
-      
-    </b-card>
-
-      
-  
-
-
- 
-
+    
                     <b-card no-body>
                       <b-tabs card>
-                        <b-tab title="Search Results" active>
+                        <b-tab title="Mincode search" active>
                           <b-card-text>
-                            <DisplayTable title="Results" v-bind:items="schools"
+
+                          <b-container class="p-3">
+                            <b-row align-v="stretch" class="row-eq-height">
+                              <b-col class="p-0">
+                                <label class="col-6">Mincode</label>
+                                <b-input v-model="mincode" id="schoolmincode" placeholder=""/>
+                              </b-col>
+                              <b-col align-self="baseline">
+                                <label class="w-100"></label>
+                                <b-button variant="primary" class="" type="submit" @click="searchSchoolByMincode"> Search </b-button>
+                              </b-col>
+                            </b-row>
+                          </b-container> 
+                          
+                            <DisplayTable title="Mincode" v-bind:items="schools"
                               v-bind:fields="schoolFields" sortKey="schoolName" id="mincode" v-bind:showFilter=true pagination="true"
                             >
                               <template #cell(more)="row">
@@ -78,6 +62,64 @@
                             </DisplayTable>
                           </b-card-text>
                         </b-tab>
+                        <b-tab title="Advanced Search" active>
+                          <b-card-text>
+
+                            <b-container class="p-3">
+                              <b-row align-v="stretch" class="row-eq-height">
+                                <b-col>
+                                  <label class="col-6">Search by School Name</label>
+                                  <b-input v-model="search.schoolName" placeholder="" id="mincode"/>
+                                </b-col>
+                                <b-col align-self="baseline">
+                                  <label class="w-100"></label>
+                                  <b-button variant="primary" class="" type="submit" @click="advancedSchoolSearch"> Search </b-button>
+                                </b-col>
+                              </b-row>
+                            </b-container> 
+
+                            <DisplayTable title="Results" v-bind:items="schools"
+                              v-bind:fields="schoolFields" sortKey="schoolName" id="mincode" v-bind:showFilter=true pagination="true"
+                            >advancedSchoolSearch
+                              <template #cell(more)="row">
+                                  <b-btn
+                                    variant="outline primary"
+                                    style="color: #666"
+                                    size="sm"
+                                    @click="row.toggleDetails"
+                                    class="more-button"
+                                  >
+                                    <i class="fas fa-sm fa-caret-down"></i>
+                                  </b-btn>
+                                </template>
+                                <template #row-details="row">
+                                  <b-card class="px-0">
+                                    <ul>        
+                                        <li v-if="row.item.address1">
+                                          <strong>Address:</strong> {{ row.item.address1 }}
+                                        </li>
+                                        <li v-if="row.item.city">
+                                          <strong>City:</strong> {{ row.item.city }}
+                                        </li>                
+                                        <li v-if="row.item.provinceCode">
+                                          <strong>Province Code:</strong> {{ row.item.provCode }}
+                                        </li>                      
+                                        <li v-if="row.item.provinceName">
+                                          <strong>Province Name:</strong> {{ row.item.provinceName}}
+                                        </li>
+                                        <li v-if="row.item.countryCode">
+                                          <strong>Country Code:</strong> {{ row.item.countryCode }}
+                                        </li>
+                                        <li v-if="row.item.postal">
+                                          <strong>Postal Code:</strong> {{ row.item.postal }}
+                                        </li>
+                                        
+                                    </ul>
+                                  </b-card>
+                                </template>
+                            </DisplayTable>
+                          </b-card-text>
+                        </b-tab>                        
                       </b-tabs>
                     </b-card>
               
@@ -188,9 +230,9 @@
           },
         ],
         search: {
-          mincode:"",
           schoolName: "",
         },
+        mincode: "",
         show: false,
         displayMessage: null,
       };
@@ -201,7 +243,13 @@
       }),
     },
     created() {
-      this.getAllSchools();
+      this.schools = {};
+        SchoolService.searchSchoolByMincode("06161064", this.token).then((res) => {
+          this.schools = res.data[0];
+        }).catch((error) => {
+          // eslint-disable-next-line
+          console.log('There was an error searching School information to GRAD Status:' + error.response);
+        });  
     },
     methods: {
       getAllSchools(){
@@ -213,7 +261,17 @@
           console.log('There was an error adding School information to GRAD Status:' + error.response);
         });  
       },
-      searchSchools(){
+
+      searchSchoolByMincode(){
+        this.schools = {};
+        SchoolService.searchSchoolByMincode(this.mincode, this.token).then((res) => {
+          this.schools = res.data;
+        }).catch((error) => {
+          // eslint-disable-next-line
+          console.log('There was an error searching School information to GRAD Status:' + error.response);
+        });  
+      },
+      advancedSchoolSearch(){
         this.schools = {};
         SchoolService.searchSchools(this.search, this.token).then((res) => {
           this.schools = res.data;

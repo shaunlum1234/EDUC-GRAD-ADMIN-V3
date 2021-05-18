@@ -15,6 +15,8 @@ export default {
   },
   editGraduationStatus(id, token, json) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+    console.log("json request");
+    console.log(json);
     return apiClient.post('/api/v1/gradstatus/gradstudent/studentid/' + id, json, { headers });
   },
   ungradStudent(id,reason, token, json){

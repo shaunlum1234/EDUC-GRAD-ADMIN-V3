@@ -13,6 +13,7 @@
         </b-card>
       </div>
     </div>
+
     <div class="row">
       <!-- Left col -->
       
@@ -81,10 +82,6 @@
                       This student is 'Terminated'. Re-activate by setting their status to 'Active' if they are currently attending school
                     </p>
                     <hr>
-                    <p class="mb-0">
-                      
-                      <b-button @click="reactivateStudentRecord" variant="primary" size="sm" class="mt-2">Re-activate</b-button>
-                    </p>
                   </b-alert>
                 </div>    
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'D' && showEdit">
@@ -125,12 +122,9 @@
                     <td>{{ studentGradStatus.programCompletionDate }}</td>
                   </tr>
                   <tr v-if="showEdit">
-                    <td><strong>Program completion date: </strong>
-                      <!-- <b-btn v-on:click="resetProgramCompletionDate" size="sm" variant="warning">
-                          Reset 
-                      </b-btn> -->
-                    </td>
-                      <td><b-input :disabled="disableInput" size="sm" max="9999-12" type="month" pattern="[0-9]{4}-[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input></td>      
+                    <td><strong>Program completion date: </strong></td>
+                    <td v-if="studentGradStatus.programCompletionDate"><b-input :disabled="disableInput" size="sm" max="9999-12" type="month" pattern="[0-9]{4}-[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input></td>      
+                    <td v-else >{{editedGradStatus.programCompletionDate}}</td>
                   </tr>
                   
                   <tr v-if="!showEdit">
@@ -361,7 +355,7 @@
               no-body
               class="w-100"
             >
-              <b-card-text class=" m-2">
+              <b-card-text class=" m-3">
                 <b-table  
                   :items="studentGradRequirementCourses"
                   :fields="requirementsMetfields"
@@ -391,14 +385,15 @@
                     <li>All graduation requirements have been met</li>
                   </ul>
                 </div>
-              
                 <div v-if="studentGradStatus.studentGradData.nonGradReasons">
-                  <ul v-if="studentGradStatus.studentGradData.nonGradReasons && studentGradStatus.studentGradData.nonGradReasons.length" class="non-grad-reasons px-0">
+                  <b-table :items="studentGradStatus.studentGradData.nonGradReasons" :fields="{key:'rule', key:'description'}"  small
+                  striped></b-table> 
+                  <!-- <ul  class="non-grad-reasons px-0">
                     <li v-for="requirement in studentGradStatus.studentGradData.nonGradReasons" :key="requirement.rule">
                       {{ requirement.description }} (Rule
                       {{ requirement.rule }})
                     </li>
-                  </ul>
+                  </ul> -->
                 </div>
               </b-card-text>
             </b-card>
@@ -448,7 +443,10 @@
       <b-button v-b-toggle.collapse-1 variant="primary">DEBUG</b-button>
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
-
+             
+                    <strong>Program completion date: </strong>
+                    <b-input size="sm" type="text" v-model='editedGradStatus.programCompletionDate'></b-input>  
+                  
           <pre>{{ JSON.stringify(studentGradStatus, null, '\t') }}</pre>
         </b-card>
       </b-collapse>
@@ -483,7 +481,7 @@ export default {
       return this.editedGradStatus.program;
     },
     disableSaveButton(){
-      return this.studentGradStatus.studentStatus == "T" || this.studentGradStatus.studentStatus == "D" 
+      return this.studentGradStatus.studentStatus == "T" || this.studentGradStatus.studentStatus == "D" || this.studentGradStatus.programCompletionDate
     },
     ...mapGetters({
       studentGradStatus: "getStudentGradStatus",
@@ -700,18 +698,6 @@ export default {
     editGradStatus() {
       //If the student has a programCompletionDate disable input fields
 
-
-      this.$set(this.editedGradStatus, 'programCompletionDate', this.studentGradStatus.programCompletionDate);
-      this.$set(this.editedGradStatus, 'pen', this.studentGradStatus.pen);
-      this.$set(this.editedGradStatus, 'program', this.studentGradStatus.program);
-      this.$set(this.editedGradStatus, 'studentGrade', this.studentGradStatus.studentGrade);
-      this.$set(this.editedGradStatus, 'schoolOfRecord', this.studentGradStatus.schoolOfRecord);
-      this.$set(this.editedGradStatus, 'schoolAtGrad', this.studentGradStatus.schoolAtGrad);
-      this.$set(this.editedGradStatus, 'studentStatus', this.studentGradStatus.studentStatus); 
-      this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID);
-      this.$set(this.editedGradStatus, 'gpa', this.studentGradStatus.gpa);
-      this.$set(this.editedGradStatus, 'honoursStanding', this.studentGradStatus.honoursStanding);
-
       if(this.studentGradStatus.programCompletionDate != null){
         this.disableInput = true;
         this.disableStudentStatus = true;
@@ -738,17 +724,20 @@ export default {
         
       }
       this.showEdit = true;  
-
-      this.$set(this.editedGradStatus, 'programCompletionDate', new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 7))
-      this.$set(this.editedGradStatus, 'pen', this.studentGradStatus.pen)
-      this.$set(this.editedGradStatus, 'program', this.studentGradStatus.program)
-      this.$set(this.editedGradStatus, 'studentGrade', this.studentGradStatus.studentGrade)
-      this.$set(this.editedGradStatus, 'schoolOfRecord', this.studentGradStatus.schoolOfRecord)
-      this.$set(this.editedGradStatus, 'schoolAtGrad', this.studentGradStatus.schoolAtGrad) 
-      this.$set(this.editedGradStatus, 'studentStatus', this.studentGradStatus.studentStatus) 
-      this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID) 
-      this.$set(this.editedGradStatus, 'gpa', this.studentGradStatus.gpa)  
-      this.$set(this.editedGradStatus, 'honoursStanding', this.studentGradStatus.honoursStanding)  
+      if(this.studentGradStatus.programCompletionDate){
+        this.$set(this.editedGradStatus, 'programCompletionDate', new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 7));
+      }else{
+        this.$set(this.editedGradStatus, 'programCompletionDate', null);
+      }
+      this.$set(this.editedGradStatus, 'pen', this.studentGradStatus.pen);
+      this.$set(this.editedGradStatus, 'program', this.studentGradStatus.program);
+      this.$set(this.editedGradStatus, 'studentGrade', this.studentGradStatus.studentGrade);
+      this.$set(this.editedGradStatus, 'schoolOfRecord', this.studentGradStatus.schoolOfRecord);
+      this.$set(this.editedGradStatus, 'schoolAtGrad', this.studentGradStatus.schoolAtGrad);
+      this.$set(this.editedGradStatus, 'studentStatus', this.studentGradStatus.studentStatus);
+      this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID);
+      this.$set(this.editedGradStatus, 'gpa', this.studentGradStatus.gpa);
+      this.$set(this.editedGradStatus, 'honoursStanding', this.studentGradStatus.honoursStanding);
     },
     cancelGradStatus() {
       this.showEdit = false;
