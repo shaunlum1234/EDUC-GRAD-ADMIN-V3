@@ -49,48 +49,48 @@
                 </b-button-group>
 
                 <div v-if="studentGradStatus && studentGradStatus.programCompletionDate && showEdit">
-                  <b-alert show variant="info" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD RECORD LOCKED</h4>
+                  <b-alert show variant="warning" class="p-3 mb-1">
+                    <h4 class="alert-heading">Student status: Graduated</h4>
                     <p class="locked-message">
-                      This student has graduated and this record cannot be edited unless a ungrad reason is provided.
+                      This student's status is set tp 'Graduated', and their data is locked. To edit this student, you must provide a reason as to why you are unlocking their record.
                     </p>
                     <hr>
                     <p class="mb-0">
-                      <strong>Ungrad Reason:</strong><b-form-select  size="sm" v-model="studentUngradReason" :options="ungradReasons" text-field="description" value-field="code"></b-form-select>
-                      <b-button :disabled='!studentUngradReason' @click="ungradStudent" variant="primary" size="sm" class="mt-2">Ungrad Student</b-button>
+                      <strong>Reason to unlock:</strong><b-form-select  size="sm" v-model="studentUngradReason" :options="ungradReasons" text-field="description" value-field="code"></b-form-select>
+                      <b-button :disabled='!studentUngradReason' @click="ungradStudent" variant="primary" size="sm" class="mt-2">Unlock Student</b-button>
                     </p>
                   </b-alert>
                 </div>
 
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
-                  <b-alert show variant="info" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD record not active</h4>
+                  <b-alert show variant="warning" class="p-3 mb-1">
+                    <h4 class="alert-heading">Student status: Not active</h4>
                     <p class="locked-message">
-                      This student is 'Not Active'. Re-activate by setting their status to 'Active' if they are currently attending school
+                      This student's status is set to 'Not active'. Re-activate their record by setting their 'Student status' to 'Active' if they are enrolled in a school.
                     </p>
                   </b-alert>
                 </div>    
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'T' && showEdit">
-                  <b-alert show variant="info" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD record terminated</h4>
+                  <b-alert show variant="warning" class="p-3 mb-1">
+                    <h4 class="alert-heading">Student status: Terminated</h4>
                     <p class="locked-message">
-                      This student is 'Terminated'. Re-activate by setting their status to 'Active' if they are currently attending school
+                      This student's status is 'Terminated'. Re-activate their record by setting their 'Student status' to 'Active' if they are enrolled in a school.
                     </p>
                   </b-alert>
                 </div>    
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'D' && showEdit">
                   <b-alert show variant="info" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD record status: Deceased</h4>
+                    <h4 class="alert-heading">Student status: Deceased</h4>
                     <p class="locked-message">
-                      This student is showing as 'Deceased'. Student GRAD data cannot be updated for students with a status of 'Deceased'.
+                      This student's status is set 'Deceased'. Their data cannot be changed.
                     </p>
                   </b-alert>
                 </div>          
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'M' && showEdit">
                   <b-alert show variant="info" class="p-3 mb-1">
-                    <h4 class="alert-heading">GRAD record merged</h4>
+                    <h4 class="alert-heading">Student status: Merged</h4>
                     <p class="locked-message">
-                      Cannot edit students with a status of 'Merged'
+                      This student's status is set 'Merged'. Their data cannot be changed.
                     </p>
                   </b-alert>
                 </div>                                                    
@@ -201,6 +201,7 @@
                   <tr v-if="showEdit">
                       <td><strong>School of record:</strong><br>
                         <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                        <div v-if="schoolNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                       </td>
                       <td><b-input :disabled="disableInput" size="sm" type="number" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
                       
@@ -466,7 +467,7 @@ export default {
       return this.editedGradStatus.program;
     },
     disableSaveButton(){
-      return this.studentGradStatus.studentStatus == "D" || this.studentGradStatus.programCompletionDate
+      return this.studentGradStatus.studentStatus == "D" || this.studentGradStatus.programCompletionDate || this.disableButton
     },
     ...mapGetters({
       studentGradStatus: "getStudentGradStatus",
@@ -511,6 +512,7 @@ export default {
       schoolOfRecord: "",
       schoolOfRecordStatus:"",
       schoolOfRecordWarning: false,
+      schoolNotFoundWarning: false,
       schoolAtGraduation: "",
       schoolAtGraduationStatus:"",
       schoolAtGraduationWarning: false,
@@ -594,13 +596,20 @@ export default {
         if(this.editedGradStatus.schoolOfRecord.length == 8) {
           SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord, this.token)
           .then((response) => {
-            this.schoolOfRecordStatus = response.data.openFlag
-            if(this.schoolOfRecordStatus == "N"){
-              this.schoolOfRecordWarning = true;
-              this.showNotification("warning", "School of record closed");
-            }else{
-              this.schoolOfRecordWarning = false;
-            }
+            this.schoolNotFoundWarning = false;
+            this.schoolOfRecordWarning = false;
+            if(response.statusText == "No Content"){
+              this.schoolNotFoundWarning = true;
+            }else {
+              this.schoolNotFoundWarning = false;
+              this.schoolOfRecordStatus = response.data.openFlag
+              if(this.schoolOfRecordStatus == "N"){
+                this.schoolOfRecordWarning = true;
+              }else{
+                this.schoolOfRecordWarning = false;
+              }
+            }    
+
           })
           .catch((error) => {
             // eslint-disable-next-line
