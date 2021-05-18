@@ -1,9 +1,101 @@
 <template>
   <div>
     <h1>Courses</h1>
+    {{advancedSearchInput}}
     <div>
+      <form v-on:submit.prevent>
+        <div class="advanced-search-form">
+          <div class="row my-3">
+            <div class="advanced-search-field col-12 col-md-2">
+              <label >Course code</label>
+              <div href="#"
+                v-on:click="advancedSearchInput.courseCode.contains = !advancedSearchInput.courseCode.contains"
+                v-bind:class="{active: advancedSearchInput.courseCode.contains}"
+                class="wild-card-button"
+                v-b-tooltip.hover title="Course code starts with"
+              >
+                [.*]
+              </div>
+              <b-input class="form__input" v-model="advancedSearchInput.courseCode.value" placeholder=""
+                tabindex="1" />
+            </div>
+            <div class="advanced-search-field col-12 col-md-2">
+              <label >Course level</label>
+              <div href="#"
+                v-on:click="advancedSearchInput.courseLevel.contains = !advancedSearchInput.courseLevel.contains"
+                v-bind:class="{active: advancedSearchInput.courseLevel.contains}"
+                class="wild-card-button"
+                v-b-tooltip.hover title="Course level starts with"
+              >
+                [.*]
+              </div>
+              <b-input class="form__input" v-model="advancedSearchInput.courseLevel.value" placeholder=""
+                tabindex="2" />
+            </div>
+            <div class="advanced-search-field col-12 col-md-2">
+              <label >Course name</label>
+              <div href="#"
+                v-on:click="advancedSearchInput.courseName.contains = !advancedSearchInput.courseName.contains"
+                v-bind:class="{active: advancedSearchInput.courseName.contains}"
+                class="wild-card-button"
+                v-b-tooltip.hover title="Course name starts with"
+              >
+                [.*]
+              </div>
+              <b-input class="form__input" v-model="advancedSearchInput.courseName.value" placeholder=""
+                tabindex="3" />
+            </div>
+            <div class="advanced-search-field col-12 col-md-2">
+              <label >Language</label>
+              <div href="#"
+                v-on:click="advancedSearchInput.language.contains = !advancedSearchInput.language.contains"
+                v-bind:class="{active: advancedSearchInput.language.contains}"
+                class="wild-card-button"
+                v-b-tooltip.hover title="Language starts with"
+              >
+                [.*]
+              </div>
+              <b-input class="form__input" v-model="advancedSearchInput.language.value" placeholder=""
+                tabindex="4" />
+            </div>
+            <div class="advanced-search-field col-12 col-md-3">
+              <label for="datepicker-startDate"
+                >Start date</label
+              >
+              <b-input-group class="mb-3">
+                <b-form-input
+                  id="datepicker-startDate"
+                  v-model="advancedSearchInput.startDate.value"
+                  type="date"
+                  placeholder="YYYY-MM-DD"
+                  max="9999-12-30"
+                  :date-format-options="{ year: '4-digit'}"
+                  autocomplete="off"
+                  tabindex="5"
+                ></b-form-input>
+                <b-input-group-append>
+                  <b-form-datepicker
+                    v-model="advancedSearchInput.startDate.value"
+                    button-only     
+                    right
+                    locale="en-US"
+                    aria-controls="datepicker-startDate"
+                  ></b-form-datepicker>
+                </b-input-group-append>
+              </b-input-group>     
+            </div>
+            <div class="row">                              
+              <div class="advanced-search-button">
+                <button  tabindex="6">Search</button>
+                <button  class="btn btn-success" tabindex="6">Search</button>
+                <button  class="btn btn-outline-primary mx-2">Reset</button>                
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
       <b-card no-body>
-        <b-tabs card>
+        <b-tabs card>     
           <b-tab title="Course" active>
             <b-card-text>
               <DisplayTable title="Courses" v-bind:items="courses" v-bind:fields="courseFields" id="courseCode" showFilter="true" pagination="true"
@@ -56,8 +148,29 @@
         courses: [],
         courseRequirements: [],
         courseRestrictions: [],
-        courseFields: [
-         
+        advancedSearchInput: {
+          courseCode:{
+            value:"",
+            contains:false
+          },
+          courseLevel:{
+            value:"",
+            contains:false
+          },
+          courseName:{
+            value:"",
+            contains:false
+          },
+          language:{
+            value:"",
+            contains:false
+          },
+          startDate:{
+            value:"",
+            contains:false
+          },
+        },
+        courseFields: [     
           {
             key: 'courseCode',
             label: 'Course code',
@@ -223,6 +336,17 @@
       this.getAllCourseRestrictions();
     },
     methods: {
+       keyHandler: function (e) {
+        if (e.keyCode === 13) {
+          //enter key pressed
+          // this.studentSearchResults = [];
+          // if (this.penInput) {
+          //   this.findStudentByPen();
+          // } else if (this.surnameInput) {
+          //   this.findStudentBySurname();
+          // }
+        }
+      },
       searchCourseByCourseCode() {
         CourseService.getCourses(this.courseCode, this.token)
           .then((response) => {
@@ -309,5 +433,30 @@
   }
   .table-filter{
     top: 0px !important
+  }
+  .advanced-search-form {
+    background-color: #fff;
+  }
+  .wild-card-button:hover{
+    cursor: pointer;
+
+  }
+  .wild-card-button {
+    color: #DEE2EB;
+    position: absolute;
+    right: 21px;
+    top: 40px;
+    z-index: 10;
+    text-decoration: none;
+  
+  }
+
+  .wild-card-button:visited {
+    color: #DEE2EB;
+    text-decoration: none;
+  }
+
+  .wild-card-button.active {
+    color: green
   }
 </style>
