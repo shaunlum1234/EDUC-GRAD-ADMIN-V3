@@ -49,7 +49,7 @@
                 </b-button-group>
 
                 <div v-if="studentGradStatus && studentGradStatus.programCompletionDate && showEdit">
-                  <b-alert show variant="success" class="p-3 mb-1">
+                  <b-alert show variant="info" class="p-3 mb-1">
                     <h4 class="alert-heading">GRAD RECORD LOCKED</h4>
                     <p class="locked-message">
                       This student has graduated and this record cannot be edited unless a ungrad reason is provided.
@@ -63,20 +63,15 @@
                 </div>
 
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
-                  <b-alert show variant="success" class="p-3 mb-1">
+                  <b-alert show variant="info" class="p-3 mb-1">
                     <h4 class="alert-heading">GRAD record not active</h4>
                     <p class="locked-message">
                       This student is 'Not Active'. Re-activate by setting their status to 'Active' if they are currently attending school
                     </p>
-                    <hr>
-                    <p class="mb-0">
-                      
-                      <b-button @click="reactivateStudentRecord" variant="primary" size="sm" class="mt-2">Re-activate</b-button>
-                    </p>
                   </b-alert>
                 </div>    
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'T' && showEdit">
-                  <b-alert show variant="success" class="p-3 mb-1">
+                  <b-alert show variant="info" class="p-3 mb-1">
                     <h4 class="alert-heading">GRAD record terminated</h4>
                     <p class="locked-message">
                       This student is 'Terminated'. Re-activate by setting their status to 'Active' if they are currently attending school
@@ -85,7 +80,7 @@
                   </b-alert>
                 </div>    
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'D' && showEdit">
-                  <b-alert show variant="success" class="p-3 mb-1">
+                  <b-alert show variant="info" class="p-3 mb-1">
                     <h4 class="alert-heading">GRAD record status: Deceased</h4>
                     <p class="locked-message">
                       This student is showing as 'Deceased'. Student GRAD data cannot be updated for students with a status of 'Deceased'.
@@ -93,7 +88,7 @@
                   </b-alert>
                 </div>          
                 <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'M' && showEdit">
-                  <b-alert show variant="success" class="p-3 mb-1">
+                  <b-alert show variant="info" class="p-3 mb-1">
                     <h4 class="alert-heading">GRAD record merged</h4>
                     <p class="locked-message">
                       "Cannot edit students with a status of 'Merged'
@@ -117,15 +112,11 @@
                     <td width="50%"><b-form-select :disabled="disableInput" size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>   
                     
                   </tr>
-                  <tr v-if="!showEdit">
+                  <tr>
                     <td><strong>Program completion date: </strong></td>
                     <td>{{ studentGradStatus.programCompletionDate }}</td>
                   </tr>
-                  <tr v-if="showEdit">
-                    <td><strong>Program completion date: </strong></td>
-                    <td v-if="studentGradStatus.programCompletionDate"><b-input :disabled="disableInput" size="sm" max="9999-12" type="month" pattern="[0-9]{4}-[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input></td>      
-                    <td v-else >{{editedGradStatus.programCompletionDate}}</td>
-                  </tr>
+            
                   
                   <tr v-if="!showEdit">
                     <td><strong>Student status: </strong></td>
@@ -257,13 +248,8 @@
                     </b-popover> </td>
                     </tr>    
                     <tr v-if="showEdit">
-                      <td><strong>School at graduation:</strong>
-                        <div v-if="schoolAtGraduationWarning" class="form-validation-message text-warning" >School at graduation entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                        <div v-if="editedGradStatus.schoolAtGrad == '' && editedGradStatus.programCompletionDate != ''">
-                          <div class="form-validation-message text-danger" >Required if program completion date is provided</div>
-                        </div>   
-                      </td>
-                      <td><b-input :disabled="disableInput" size="sm" type="number" :required="reqProgramCompletionSchoolAtGrad" v-model='editedGradStatus.schoolAtGrad'></b-input></td>          
+                      <td><strong>School at graduation:</strong></td>
+                      <td>{{editedGradStatus.schoolAtGrad}}</td>          
                     </tr>        
                     <tr>
                       <td><strong>Honours:</strong></td>
@@ -444,9 +430,12 @@
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
              
-                    <strong>Program completion date: </strong>
-                    <b-input size="sm" type="text" v-model='editedGradStatus.programCompletionDate'></b-input>  
-                  
+                    <strong>Program completion date (June, 2018): </strong>
+                    <b-input :disabled="disableInput" size="sm" max="9999-12" type="month" pattern="[0-9]{4}-[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input>   
+              
+
+                    <strong>School at graduation:</strong>
+                     <b-input :disabled="disableInput" size="sm" type="number" :required="reqProgramCompletionSchoolAtGrad" v-model='editedGradStatus.schoolAtGrad'></b-input>
           <pre>{{ JSON.stringify(studentGradStatus, null, '\t') }}</pre>
         </b-card>
       </b-collapse>
@@ -714,7 +703,8 @@ export default {
         this.disableStudentStatus = false;
       }
       else if(this.studentGradStatus.studentStatus == 'N'){
-        this.disableInput = true;
+        this.disableInput = false;
+        this.disableStudentStatus = false;
         
       }
       else if(this.studentGradStatus.studentStatus == 'D'){
@@ -992,6 +982,10 @@ h5.modal-title {
 }
 .form-validation-message{
   font-size: 11px;
+}
+.form-control:disabled{
+    color: #6c757d;
+    background-color: #e9ecef;
 }
 
 
