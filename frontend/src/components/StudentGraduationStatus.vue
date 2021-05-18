@@ -202,6 +202,7 @@
                   <tr v-if="showEdit">
                       <td><strong>School of record:</strong><br>
                         <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                        <div v-if="schoolNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                       </td>
                       <td><b-input :disabled="disableInput" size="sm" type="number" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
                       
@@ -470,7 +471,7 @@ export default {
       return this.editedGradStatus.program;
     },
     disableSaveButton(){
-      return this.studentGradStatus.studentStatus == "D" || this.studentGradStatus.programCompletionDate
+      return this.studentGradStatus.studentStatus == "D" || this.studentGradStatus.programCompletionDate || this.disableButton
     },
     ...mapGetters({
       studentGradStatus: "getStudentGradStatus",
@@ -515,6 +516,7 @@ export default {
       schoolOfRecord: "",
       schoolOfRecordStatus:"",
       schoolOfRecordWarning: false,
+      schoolNotFoundWarning: false,
       schoolAtGraduation: "",
       schoolAtGraduationStatus:"",
       schoolAtGraduationWarning: false,
@@ -598,13 +600,17 @@ export default {
         if(this.editedGradStatus.schoolOfRecord.length == 8) {
           SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord, this.token)
           .then((response) => {
-            this.schoolOfRecordStatus = response.data.openFlag
-            if(this.schoolOfRecordStatus == "N"){
-              this.schoolOfRecordWarning = true;
-              this.showNotification("warning", "School of record closed");
-            }else{
-              this.schoolOfRecordWarning = false;
-            }
+            if(response.statusText == "No Content"){
+              this.schoolNotFoundWarning = true;
+            }else {
+              this.schoolNotFoundWarning = false;
+              this.schoolOfRecordStatus = response.data.openFlag
+              if(this.schoolOfRecordStatus == "N"){
+                this.schoolOfRecordWarning = true;
+              }else{
+                this.schoolOfRecordWarning = false;
+              }
+            }    
           })
           .catch((error) => {
             // eslint-disable-next-line
