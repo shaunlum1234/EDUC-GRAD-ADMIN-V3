@@ -27,6 +27,7 @@ import '../src/assets/css/global.css';
 //import store from './store';
 import SmartTable from 'vuejs-smart-table';
 //require('../node_modules/@mygovbc-bootstrap-theme/dist/mygovbc-bootstrap-theme.min.css')
+Vue.use(Vuelidate);
 Vue.config.productionTip = false;
 const options = {
   isEnabled: true,
@@ -37,7 +38,7 @@ const options = {
   separator: '|',
   showConsoleColors: true
 };
-Vue.use(Vuelidate);
+
 Vue.use(VueLogger, options);
 Vue.use(SmartTable);
 Vue.use(qs);

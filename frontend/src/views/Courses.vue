@@ -2,101 +2,106 @@
   <div>
     <h1>Courses</h1>
     {{advancedSearchInput}}
+    {{params}}
     <div>
-      <form v-on:submit.prevent>
-        <div class="advanced-search-form">
-          <div class="row my-3">
-            <div class="advanced-search-field col-12 col-md-2">
-              <label >Course code</label>
-              <div href="#"
-                v-on:click="advancedSearchInput.courseCode.contains = !advancedSearchInput.courseCode.contains"
-                v-bind:class="{active: advancedSearchInput.courseCode.contains}"
-                class="wild-card-button"
-                v-b-tooltip.hover title="Course code starts with"
-              >
-                [.*]
-              </div>
-              <b-input class="form__input" v-model="advancedSearchInput.courseCode.value" placeholder=""
-                tabindex="1" />
-            </div>
-            <div class="advanced-search-field col-12 col-md-2">
-              <label >Course level</label>
-              <div href="#"
-                v-on:click="advancedSearchInput.courseLevel.contains = !advancedSearchInput.courseLevel.contains"
-                v-bind:class="{active: advancedSearchInput.courseLevel.contains}"
-                class="wild-card-button"
-                v-b-tooltip.hover title="Course level starts with"
-              >
-                [.*]
-              </div>
-              <b-input class="form__input" v-model="advancedSearchInput.courseLevel.value" placeholder=""
-                tabindex="2" />
-            </div>
-            <div class="advanced-search-field col-12 col-md-2">
-              <label >Course name</label>
-              <div href="#"
-                v-on:click="advancedSearchInput.courseName.contains = !advancedSearchInput.courseName.contains"
-                v-bind:class="{active: advancedSearchInput.courseName.contains}"
-                class="wild-card-button"
-                v-b-tooltip.hover title="Course name starts with"
-              >
-                [.*]
-              </div>
-              <b-input class="form__input" v-model="advancedSearchInput.courseName.value" placeholder=""
-                tabindex="3" />
-            </div>
-            <div class="advanced-search-field col-12 col-md-2">
-              <label >Language</label>
-              <div href="#"
-                v-on:click="advancedSearchInput.language.contains = !advancedSearchInput.language.contains"
-                v-bind:class="{active: advancedSearchInput.language.contains}"
-                class="wild-card-button"
-                v-b-tooltip.hover title="Language starts with"
-              >
-                [.*]
-              </div>
-              <b-input class="form__input" v-model="advancedSearchInput.language.value" placeholder=""
-                tabindex="4" />
-            </div>
-            <div class="advanced-search-field col-12 col-md-3">
-              <label for="datepicker-startDate"
-                >Start date</label
-              >
-              <b-input-group class="mb-3">
-                <b-form-input
-                  id="datepicker-startDate"
-                  v-model="advancedSearchInput.startDate.value"
-                  type="date"
-                  placeholder="YYYY-MM-DD"
-                  max="9999-12-30"
-                  :date-format-options="{ year: '4-digit'}"
-                  autocomplete="off"
-                  tabindex="5"
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-form-datepicker
-                    v-model="advancedSearchInput.startDate.value"
-                    button-only     
-                    right
-                    locale="en-US"
-                    aria-controls="datepicker-startDate"
-                  ></b-form-datepicker>
-                </b-input-group-append>
-              </b-input-group>     
-            </div>
-            <div class="row">                              
-              <div class="advanced-search-button">
-                <button  tabindex="6">Search</button>
-                <button  class="btn btn-success" tabindex="6">Search</button>
-                <button  class="btn btn-outline-primary mx-2">Reset</button>                
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
+
       <b-card no-body>
         <b-tabs card>     
           <b-tab title="Course" active>
+            <form v-on:submit.prevent>
+              <div class="advanced-search-form">
+              <div class="row my-3">
+                <div class="advanced-search-field col-12 col-md-2">
+                  <label >Course code</label>
+                  <div href="#"
+                    v-on:click="advancedSearchInput.courseCode.contains = !advancedSearchInput.courseCode.contains"
+                    v-bind:class="{active: advancedSearchInput.courseCode.contains}"
+                    class="wild-card-button"
+                    v-b-tooltip.hover title="Course code starts with"
+                  >
+                    [.*]
+                  </div>
+                  <b-input class="form__input" v-model="advancedSearchInput.courseCode.value" placeholder=""
+                    tabindex="1" />
+                </div>
+                <div class="advanced-search-field col-12 col-md-2">
+                  <label >Course level</label>
+                  <div href="#"
+                    v-on:click="advancedSearchInput.courseLevel.contains = !advancedSearchInput.courseLevel.contains"
+                    v-bind:class="{active: advancedSearchInput.courseLevel.contains}"
+                    class="wild-card-button"
+                    v-b-tooltip.hover title="Course level starts with"
+                  >
+                    [.*]
+                  </div>
+                  <b-input class="form__input" v-model="advancedSearchInput.courseLevel.value" placeholder=""
+                    tabindex="2" />
+                </div>
+                <div class="advanced-search-field col-12 col-md-2">
+                  <label >Course name</label>
+                  <div href="#"
+                    v-on:click="advancedSearchInput.courseName.contains = !advancedSearchInput.courseName.contains"
+                    v-bind:class="{active: advancedSearchInput.courseName.contains}"
+                    class="wild-card-button"
+                    v-b-tooltip.hover title="Course name starts with"
+                  >
+                    [.*]
+                  </div>
+                  <b-input class="form__input" v-model="advancedSearchInput.courseName.value" placeholder=""
+                    tabindex="3" />
+                </div>
+                <div class="advanced-search-field col-12 col-md-2">
+                  <label >Language</label>
+                  <div href="#"
+                    v-on:click="advancedSearchInput.language.contains = !advancedSearchInput.language.contains"
+                    v-bind:class="{active: advancedSearchInput.language.contains}"
+                    class="wild-card-button"
+                    v-b-tooltip.hover title="Language starts with"
+                  >
+                    [.*]
+                  </div>
+                  <b-input class="form__input" v-model="advancedSearchInput.language.value" placeholder=""
+                    tabindex="4" />
+                </div>
+                <div class="advanced-search-field col-12 col-md-3">
+                  <label for="datepicker-startDate"
+                    >Start date</label
+                  >
+                  <b-input-group class="mb-3">
+                    <b-form-input
+                      id="datepicker-startDate"
+                      v-model="advancedSearchInput.startDate.value"
+                      type="date"
+                      placeholder="YYYY-MM-DD"
+                      max="9999-12-30"
+                      :date-format-options="{ year: '4-digit'}"
+                      autocomplete="off"
+                      tabindex="5"
+                    ></b-form-input>
+                    <b-input-group-append>
+                      <b-form-datepicker
+                        v-model="advancedSearchInput.startDate.value"
+                        button-only     
+                        right
+                        locale="en-US"
+                        aria-controls="datepicker-startDate"
+                      ></b-form-datepicker>
+                    </b-input-group-append>
+                  </b-input-group>     
+                </div>
+              </div>
+              <div class="row">                                
+                <div class="advanced-search-button">
+                  <button v-on:click="advanceCourseSearch" v-if="!advancedSearchLoading" class="btn btn-primary" tabindex="6">Search</button>
+                  <button  class="btn btn-success" v-if="advancedSearchLoading" tabindex="6">Search</button>
+                  <button  @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
+                </div>   
+              </div>
+              <div class="row">
+                <div class="search-results-message my-5 col-12 col-md-8"><strong><span v-if="advancedSearchMessage">{{ advancedSearchMessage }}</span></strong></div>
+              </div>    
+            </div>
+          </form>
             <b-card-text>
               <DisplayTable title="Courses" v-bind:items="courses" v-bind:fields="courseFields" id="courseCode" showFilter="true" pagination="true"
                 v-bind:role="role"></DisplayTable>
@@ -140,11 +145,10 @@
     components: {
       DisplayTable: DisplayTable
     },
-
-
-
     data() {
       return {
+        advancedSearchLoading: false,
+        advancedSearchMessage:"",
         courses: [],
         courseRequirements: [],
         courseRestrictions: [],
@@ -322,16 +326,18 @@
         courseCode: "",
         show: false,
         displayMessage: null,
+        params:""
       };
     },
     computed: {
+      
       ...mapGetters({
         token: "getToken",
         role: "getRoles"
       }),
     },
     created() {
-      this.getAllCourses();
+      //this.getAllCourses();
       this.getAllCourseRequirements();
       this.getAllCourseRestrictions();
     },
@@ -347,6 +353,76 @@
           // }
         }
       },
+      clearInput: function () {
+        this.penInput = "";
+        for (var key in this.advancedSearchInput) {
+          if (this.advancedSearchInput.hasOwnProperty(key)) {
+            this.advancedSearchInput[key].value = "";
+            this.advancedSearchInput[key].contains = false;
+          }
+        }
+      },
+      advanceCourseSearch() {
+        this.advancedSearchMessage = "";
+        // this.$v.$touch();
+        // if(this.$v.$invalid){
+        //   this.advancedSearchMessage += "Form Validation Error: please correct the form input";
+          this.advancedSearchLoading = true;
+          this.params = new URLSearchParams();
+          this.courses = [];
+          let isEmpty = true;
+          for (var key in this.advancedSearchInput) {
+            if (this.advancedSearchInput.hasOwnProperty(key)) {
+              //console.log(obj[key])
+              if (this.advancedSearchInput[key].value != "") {
+                isEmpty = false;   
+              }
+                //add wildcard to mincode if at least 3 digits are included
+            } //mincode
+          }
+          if(isEmpty){
+            this.advancedSearchLoading = false;
+            this.advancedSearchMessage += "Enter at least one field to search."
+          }else if(isEmpty == false){
+            try {
+              if(this.advancedSearchInput){
+                if(this.advancedSearchInput.courseCode.value != ""){
+                  this.params.append('courseCode', this.advancedSearchInput.courseCode.value);
+                }
+                if(this.advancedSearchInput.courseLevel.value != ""){
+                  this.params.append('courseLevel', this.advancedSearchInput.courseLevel.value);
+                }
+                if(this.advancedSearchInput.courseName.value != ""){
+                  this.params.append('courseName', this.advancedSearchInput.courseName.value);
+                }
+                if(this.advancedSearchInput.language.value != ""){
+                  this.params.append('language', this.advancedSearchInput.language.value);
+                }
+                if(this.advancedSearchInput.startDate.value != ""){
+                  this.params.append('startDate', this.advancedSearchInput.startDate.value);
+                }
+              }
+              CourseService.getCoursesByAdvanceSearch(this.params,this.token)
+              .then((response) => {
+                this.advancedSearchLoading = false;
+                this.courses = response.data;
+                if(this.courses.totalElements <= 0){
+                  this.advancedSearchMessage = "No courses found.";      
+                }
+              })   
+              .catch((error) => {
+                this.advancedSearchLoading = false;
+                this.advancedSearchMessage = "Courses not found";
+                this.showNotification("error", error);
+              });
+            } catch (error) {
+              this.advancedSearchLoading = false;
+              this.advancedSearchMessage = "Search Error";
+              this.showNotification("error", error);
+            }   
+          }
+          
+      }, 
       searchCourseByCourseCode() {
         CourseService.getCourses(this.courseCode, this.token)
           .then((response) => {
@@ -413,8 +489,6 @@
             });
           });
       }
-
-
     },
   };
 </script>
@@ -458,5 +532,13 @@
 
   .wild-card-button.active {
     color: green
+  }
+  .search-results-message {
+    float: left;
+    clear: both; 
+  }
+  .advanced-search-button {
+    margin-top: 32px;
+    padding-left: 15px;
   }
 </style>

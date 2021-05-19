@@ -5,7 +5,10 @@ import axios from 'axios'
 
 })
 export default {
-
+  getCoursesByAdvanceSearch(params, token) {
+    const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+    return apiClient.get('/api/v1/course/coursesearch/?'  + params,{ headers });
+  },  
   getCourses(courseCode, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     return apiClient.get('/api/v1/course/' + courseCode,{ headers });
