@@ -779,9 +779,7 @@ export default {
     },
     editGraduationStatus(id) {
       //add the user info
-      var current = new Date().toISOString().slice(0, 10)
-      this.editedGradStatus.createdBy = this.username;
-      this.editedGradStatus.createdTimestamp = current;
+      this.editedGradStatus.updatedBy = this.username;
       this.editedGradStatus.studentID = id;
       this.editedGradStatus.pen = this.studentPen;
       this.editedGradStatus.recalculateGradStatus = this.recalculateGradStatus;
