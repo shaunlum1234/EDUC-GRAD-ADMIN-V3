@@ -34,11 +34,11 @@
                   </div>
                   <div v-if="showEdit">
                     <b-button-group>
-                      <b-button  :disabled="disableSaveButton" v-on:click="editGraduationStatus(studentId)" size="sm" variant="primary">Save</b-button>
+                      <b-button  :disabled="disableSaveButton" v-on:click="saveGraduationStatus(studentId)" size="sm" variant="primary">Save</b-button>
 
                       <b-button v-on:click="cancelGradStatus"  size="sm" variant="outline-primary">Cancel</b-button>
                     </b-button-group>
-                    <!--b-btn :disabled="disableButton" v-on:click="editGraduationStatus(studentId)" size="sm" variant="primary">
+                    <!--b-btn :disabled="disableButton" v-on:click="saveGraduationStatus(studentId)" size="sm" variant="primary">
                         Save 
                     </b-btn>
                     <b-btn v-on:click="cancelGradStatus"  size="sm" variant="outline-primary">
@@ -49,16 +49,12 @@
                 </b-button-group>
 
                 <div v-if="studentGradStatus && studentGradStatus.programCompletionDate && showEdit">
-                  <b-alert show variant="warning" class="p-3 mb-1">
+                  <b-alert show variant="warning" class="p-3">
                     <h4 class="alert-heading">Student status: Graduated</h4>
-                    <p class="locked-message">
-                      This student's status is set to 'Graduated', and their data is locked. To edit this student, you must provide a reason as to why you are unlocking their record.
-                    </p>
-                    <hr>
-                    <p class="mb-0">
+                    <!-- <p class="mb-0">
                       <strong>Reason to unlock:</strong><b-form-select  size="sm" v-model="studentUngradReason" :options="ungradReasons" text-field="description" value-field="code"></b-form-select>
                       <b-button :disabled='!studentUngradReason' @click="ungradStudent" variant="primary" size="sm" class="mt-2">Unlock Student</b-button>
-                    </p>
+                    </p> -->
                   </b-alert>
                 </div>
 
@@ -111,11 +107,16 @@
                     <td width="50%"><b-form-select :disabled="disableInput" size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>   
                     
                   </tr>
-                  <tr>
+
+                  <tr v-if="!showEdit">
                     <td><strong>Program completion date: </strong></td>
                     <td>{{ studentGradStatus.programCompletionDate }}</td>
                   </tr>
             
+                  <tr v-if="showEdit">
+                    <td><strong>Program completion date: </strong></td>
+                    <td><b-input :disabled="disableInput" size="sm" type="text" pattern="[0-9]{4}/[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                  </tr>
                   
                   <tr v-if="!showEdit">
                     <td><strong>Student status: </strong></td>
@@ -248,8 +249,11 @@
                     </b-popover> </td>
                     </tr>    
                     <tr v-if="showEdit">
-                      <td><strong>School at graduation:</strong></td>
-                      <td>{{editedGradStatus.schoolAtGrad}}</td>          
+                      <td><strong>School at graduation:</strong><br>
+                      <div v-if="schoolAtGraduationWarning" class="form-validation-message text-warning" >School at graduation entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                        <div v-if="schoolAtGraduationNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                        </td>
+                      <td><b-input :disabled="disableInput" size="sm" type="number" maxlength="8" v-model='editedGradStatus.schoolAtGrad'></b-input></td>        
                     </tr>        
                     <tr>
                       <td><strong>Honours:</strong></td>
@@ -467,7 +471,7 @@ export default {
       return this.editedGradStatus.program;
     },
     disableSaveButton(){
-      return this.studentGradStatus.studentStatus == "D" || this.studentGradStatus.programCompletionDate || this.disableButton
+      return this.studentGradStatus.studentStatus == "D" || this.disableButton
     },
     ...mapGetters({
       studentGradStatus: "getStudentGradStatus",
@@ -516,6 +520,7 @@ export default {
       schoolAtGraduation: "",
       schoolAtGraduationStatus:"",
       schoolAtGraduationWarning: false,
+      schoolAtGraduationNotFoundWarning:false,
       programDropdownList: [],
       editedGradStatus: {},
       studentUngradReason: "",
@@ -629,11 +634,16 @@ export default {
           SchoolService.getSchoolInfo(this.editedGradStatus.schoolAtGrad, this.token)
           .then((response) => {
             this.schoolAtGraduationStatus = response.data.openFlag
-            if(this.schoolAtGraduationStatus == "N"){
-              this.schoolAtGraduationWarning = true;
-              this.showNotification("warning", "School at graduation closed");
+            if(response.statusText == "No Content"){
+              this.schoolAtGraduationNotFoundWarning = true;
             }else{
-              this.schoolAtGraduationWarning = false;
+              this.schoolAtGraduationNotFoundWarning = false;
+              if(this.schoolAtGraduationStatus == "N"){
+                this.schoolAtGraduationWarning = true;
+                this.showNotification("warning", "School at graduation closed");
+              }else{
+                this.schoolAtGraduationWarning = false;
+              }
             }
           })
           .catch((error) => {
@@ -683,7 +693,7 @@ export default {
     },
     reactivateStudentRecord(){
         this.editedGradStatus.studentStatus = "A";
-        this.editGraduationStatus(this.studentId);
+        this.saveGraduationStatus(this.studentId);
         this.showNotification(
                "success",
                "Student Record re-activated."
@@ -693,8 +703,8 @@ export default {
       //If the student has a programCompletionDate disable input fields
 
       if(this.studentGradStatus.programCompletionDate != null){
-        this.disableInput = true;
-        this.disableStudentStatus = true;
+        this.disableInput = false;
+        this.disableStudentStatus = false;
       }else{
         this.disableInput = false;
         this.disableStudentStatus = false;
@@ -714,13 +724,11 @@ export default {
       }
       else if(this.studentGradStatus.studentStatus == 'D'){
         this.disableInput = true;
-        this.disableStudentStatus = true;
-        
-        
+        this.disableStudentStatus = true;    
       }
       this.showEdit = true;  
       if(this.studentGradStatus.programCompletionDate){
-        this.$set(this.editedGradStatus, 'programCompletionDate', new Date(this.studentGradStatus.programCompletionDate).toISOString().slice(0, 7));
+        this.$set(this.editedGradStatus, 'programCompletionDate', this.studentGradStatus.programCompletionDate);
       }else{
         this.$set(this.editedGradStatus, 'programCompletionDate', null);
       }
@@ -777,7 +785,7 @@ export default {
           //console.log('There was an error:' + error.response);
         });
     },
-    editGraduationStatus(id) {
+    saveGraduationStatus(id) {
       //add the user info
       this.editedGradStatus.updatedBy = this.username;
       this.editedGradStatus.studentID = id;
@@ -787,8 +795,8 @@ export default {
       if(this.editedGradStatus.programCompletionDate == ''){
         this.editedGradStatus.programCompletionDate = null;
       }
-      if(this.editedGradStatus.programCompletionDate != null){
-        this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.concat("-01");
+      if(this.editedGradStatus.programCompletionDate != null){      
+        this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("/", "-").concat("-01");
       }
       if(this.editedGradStatus.schoolAtGrad == ''){
         this.editedGradStatus.schoolAtGrad = null;

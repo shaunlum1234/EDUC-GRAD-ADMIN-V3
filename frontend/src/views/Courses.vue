@@ -1,8 +1,6 @@
 <template>
   <div>
     <h1>Courses</h1>
-    {{advancedSearchInput}}
-    {{params}}
     <div>
 
       <b-card no-body>
