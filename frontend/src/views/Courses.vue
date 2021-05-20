@@ -2,7 +2,6 @@
   <div>
     <h1>Courses</h1>
     <div>
-
       <b-card no-body>
         <b-tabs card>     
           <b-tab title="Course" active>
@@ -100,7 +99,7 @@
               </div>    
             </div>
           </form>
-            <b-card-text>
+            <b-card-text >
               <DisplayTable title="Courses" v-bind:items="courses" v-bind:fields="courseFields" id="courseCode" showFilter="true" pagination="true"
                 v-bind:role="role"></DisplayTable>
             </b-card-text>

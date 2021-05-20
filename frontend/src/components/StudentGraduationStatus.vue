@@ -13,19 +13,15 @@
         </b-card>
       </div>
     </div>
-
     <div class="row">
-      <!-- Left col -->
-      
+      <!-- Left col -->  
       <div class="col-12 pr-0 col-md-6 ">
           <div class="graduation-status">
           <b-card
             no-body
             header="GRAD status"
           >
-
-            <b-card-text class="p-3">
-              
+            <b-card-text class="p-3">         
                 <b-button-group v-if="this.role =='administrator'" class="gradstatus-actions float-right">
                   <div v-if="!showEdit">
                     <b-link href="#" class="edit" v-on:click="editGradStatus" size="sm" variant="primary">
@@ -44,10 +40,8 @@
                     <b-btn v-on:click="cancelGradStatus"  size="sm" variant="outline-primary">
                       Cancel
                     </b-btn-->
-      
                   </div>
                 </b-button-group>
-
                 <div v-if="studentGradStatus && studentGradStatus.programCompletionDate && showEdit">
                   <b-alert show variant="warning" class="p-3">
                     <h4 class="alert-heading">Student status: Graduated</h4>
@@ -156,10 +150,11 @@
                   <tr v-if="!showEdit">
                     <td><strong>School of record: </strong></td>
                     <td><b-button v-if="studentGradStatus.schoolOfRecord" 
-                      class="p-0"
+                      class="p-0 text-left"
                       id="school-of-record-popover" 
                       variant="link" 
                       @click="getSchoolInfo(studentGradStatus.schoolOfRecord, 'schoolOfRecord')"> 
+                      {{studentGradStatus.schoolName}}<br>
                       {{studentGradStatus.schoolOfRecord}}
                     </b-button>
                     <b-popover   
@@ -210,10 +205,11 @@
                   <tr v-if="!showEdit">
                     <td><strong>School at graduation: </strong></td>
                     <td><b-button v-if="studentGradStatus && studentGradStatus.schoolAtGrad" 
-                      class="p-0"
+                      class="p-0 text-left"
                       id="school-at-graduation-popover"
                       variant="link" 
                       @click="getSchoolInfo(studentGradStatus.schoolAtGrad, 'schoolAtGrad')"> 
+                      {{studentGradStatus.schoolAtGradName}}<br>
                       {{studentGradStatus.schoolAtGrad}}
                     </b-button>
                     <b-popover
