@@ -271,6 +271,29 @@
                       <template  #cell(pen)="data">
                         <router-link :to="'/student-profile/' + data.item.pen + '/' + data.item.studentID">{{ data.item.pen }}</router-link>
                       </template>
+                      <template #cell(more)="row">
+                        <b-btn
+                          variant="outline primary"
+                          style="color: #666"
+                          size="sm"
+                          @click="row.toggleDetails"
+                          class="more-button w-100"
+                        >
+                          <i class="fas fa-sm fa-caret-down"></i>
+                        </b-btn>
+
+                              
+                      </template>                  
+                      <template #row-details="row">
+                        <b-card>
+                          <ul>
+                            <li><strong>Mincode:</strong> {{row.item.mincode}}</li>
+                            <li><strong>usualFirstName:</strong> {{row.item.usualFirstName}}</li>
+                            <li><strong>usualMiddleNames:</strong> {{row.item.usualMiddleNames}}</li>
+                            <li><strong>usualLastName:</strong> {{row.item.usualLastName}}</li>
+                          </ul>
+                        </b-card>
+                      </template>                       
                   </DisplayTable>
                   <nav  aria-label="Pagination">          
                     <ul class="pagination" v-if="selectedPage<10" >
@@ -325,6 +348,13 @@ export default {
       studentSearchResults: [],
       studentSearchResultsFields: [
         {
+          key: "more",
+          label: "",
+          sortable: false,
+          editable: false,
+          class: "w-1",
+        },
+        {
           key: "pen",
           label: "PEN",
           sortable: false,
@@ -346,29 +376,8 @@ export default {
           class: "w-1",
         },
         {
-          key: "usualLastName",
-          label: "Usual surname",
-          sortable: false,
-          editable: false,
-          class: "w-1",
-        },
-        {
           key: "legalMiddleNames",
           label: "Legal middle",
-          sortable: false,
-          editable: false,
-          class: "w-1",
-        },
-        {
-          key: "usualFirstName",
-          label: "Usual given",
-          sortable: false,
-          editable: false,
-          class: "w-1",
-        },
-        {
-          key: "usualMiddleNames",
-          label: "Usual middle",
           sortable: false,
           editable: false,
           class: "w-1",
@@ -468,10 +477,6 @@ export default {
           value: "",
           contains: false,
         },
-        // mincode: {
-        //   value: "",
-        //   contains: false,
-        // },
         localId: {
           value: "",
           contains: false,
@@ -854,7 +859,5 @@ export default {
     color: green
   }
 
-  svg {
-    display: none !important;
-  }
+
 </style>
