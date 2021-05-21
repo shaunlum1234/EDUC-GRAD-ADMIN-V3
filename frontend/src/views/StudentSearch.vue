@@ -286,11 +286,11 @@
                       </template>                  
                       <template #row-details="row">
                         <b-card>
-                          <ul>
-                            <li><strong>Mincode:</strong> {{row.item.mincode}}</li>
-                            <li><strong>usualFirstName:</strong> {{row.item.usualFirstName}}</li>
-                            <li><strong>usualMiddleNames:</strong> {{row.item.usualMiddleNames}}</li>
-                            <li><strong>usualLastName:</strong> {{row.item.usualLastName}}</li>
+                          <ul>                         
+                            <li><strong>Usual given:</strong> {{row.item.usualFirstName}}</li>
+                            <li><strong>Usual middle:</strong> {{row.item.usualMiddleNames}}</li>
+                            <li><strong>Usual surname:</strong> {{row.item.usualLastName}}</li>
+                            <li><strong>Mincode (PEN):</strong> {{row.item.mincode}}</li>
                           </ul>
                         </b-card>
                       </template>                       

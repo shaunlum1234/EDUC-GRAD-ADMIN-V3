@@ -13,6 +13,7 @@
         </b-card>
       </div>
     </div>
+    {{editedGradStatus}}
     <div class="row">
       <!-- Left col -->  
       <div class="col-12 pr-0 col-md-6 ">
@@ -580,14 +581,14 @@ export default {
       }
     },
     programCompletionDateChange:function(){
-      if(this.editedGradStatus.programCompletionDate == ""){
-        this.reqProgramCompletionSchoolAtGrad = false;
-        if(this.editedGradStatus.schoolAtGrad == ""){
-          this.disableButton = false
-        }else{
-          this.disableButton = true
-        }
-      }
+      // if(this.editedGradStatus.programCompletionDate == ""){
+      //   this.reqProgramCompletionSchoolAtGrad = false;
+      //   if(this.editedGradStatus.schoolAtGrad == ""){
+      //     this.disableButton = false
+      //   }else{
+      //     this.disableButton = true
+      //   }
+      // }
       if(this.editedGradStatus.programCompletionDate != ""){
         this.reqProgramCompletionSchoolAtGrad = true;
       }
@@ -620,11 +621,11 @@ export default {
       }
     },
     schoolAtGradChange:function(){
-      if(this.editedGradStatus.schoolAtGrad == "" && this.editedGradStatus.programCompletionDate != ""){
-        this.disableButton = true
-      }else{
-        this.disableButton = false
-      }
+      // if(this.editedGradStatus.schoolAtGrad == "" && this.editedGradStatus.programCompletionDate != ""){
+      //   this.disableButton = true
+      // }else{
+      //   this.disableButton = false
+      // }
       if(this.editedGradStatus.schoolAtGrad) {
         if(this.editedGradStatus.schoolAtGrad.length == 8) {
           SchoolService.getSchoolInfo(this.editedGradStatus.schoolAtGrad, this.token)
@@ -793,6 +794,9 @@ export default {
       }
       if(this.editedGradStatus.programCompletionDate != null){      
         this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("/", "-").concat("-01");
+      }
+      if(this.editedGradStatus.schoolOfRecord == ''){
+        this.editedGradStatus.schoolOfRecord = null;
       }
       if(this.editedGradStatus.schoolAtGrad == ''){
         this.editedGradStatus.schoolAtGrad = null;
