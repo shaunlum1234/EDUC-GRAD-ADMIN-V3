@@ -50,7 +50,7 @@ Vue.use(BootstrapVueIcons);
 Vue.use(ToastPlugin);
 
 //keycloak init options
-const keycloakHost = process.env.VUE_APP_KEYCLOAK_AUTH_HOST;
+const keycloakHost = process.env.KEYCLOAK_AUTH_HOST;
 let initOptions = {
   url: keycloakHost, realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
 }
