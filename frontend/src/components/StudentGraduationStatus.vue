@@ -13,7 +13,6 @@
         </b-card>
       </div>
     </div>
-    {{editedGradStatus}}
     <div class="row">
       <!-- Left col -->  
       <div class="col-12 pr-0 col-md-6 ">
