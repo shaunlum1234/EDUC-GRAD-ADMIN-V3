@@ -50,9 +50,9 @@ Vue.use(BootstrapVueIcons);
 Vue.use(ToastPlugin);
 
 //keycloak init options
-// eslint-disable-next-line
+const keycloakHost = process.env.VUE_APP_KEYCLOAK_AUTH_HOST;
 let initOptions = {
-  url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
+  url: keycloakHost, realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
 }
 let keycloak = Keycloak(initOptions);
 keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success((auth) =>{
