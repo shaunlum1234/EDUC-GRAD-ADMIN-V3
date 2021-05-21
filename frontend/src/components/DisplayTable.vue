@@ -111,11 +111,8 @@
         </b-card-text>
       </b-card>
     </b-row>
-
     <!-- Main table element -->
-    <div v-if="!items.length" class="text-center">
-      <b-spinner variant="primary" label="Text Centered"> Loading ... </b-spinner>
-    </div>
+
     <b-table
       v-if="items.length"
       :responsive="responsive"
