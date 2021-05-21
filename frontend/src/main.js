@@ -50,9 +50,17 @@ Vue.use(BootstrapVueIcons);
 Vue.use(ToastPlugin);
 
 //keycloak init options
+
+//keycloak init options
 const keycloakHost = process.env.KEYCLOAK_AUTH_HOST;
+const keycloakHost2 = process.env.VUE_APP_KEYCLOAK_AUTH_HOST;
+Vue.$log.info("keycloakHost2");
+Vue.$log.info(keycloakHost2);
+Vue.$log.info(keycloakHost);
+
+
 let initOptions = {
-  url: keycloakHost, realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
+  url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
 }
 let keycloak = Keycloak(initOptions);
 keycloak.init({ onLoad: initOptions.onLoad ,"checkLoginIframe" : false}).success((auth) =>{
