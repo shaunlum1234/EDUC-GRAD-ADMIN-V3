@@ -53,7 +53,6 @@
           </div>
       </div>
       <div class="col-12 px-3">
-        
         <b-collapse id="student-accordion" class="">
           <b-card no-body class="border-0">
             
@@ -67,17 +66,20 @@
                     <tr>
                       <td class="px-2"><strong>Sex:</strong> {{studentInfo.sexCode}}</td>
                       <td class="px-2"><strong>Gender:</strong> {{studentInfo.genderCode}}</td>
-                      <td class="px-2"><strong>Demographic code:</strong> {{studentInfo.demogCode}} </td>
+                      <td class="px-2"><strong>True student ID:</strong> {{studentInfo.trueStudentID}}</td>
                     </tr>
                     <tr>
+                      <td class="px-2"><strong>Local ID:</strong> {{studentInfo.localID}}</td>
                       <td class="px-2"><strong>Email:</strong> {{ studentInfo.email}}</td>
-                      <td class="px-2"><strong>Email verified:</strong> {{studentInfo.emailVerified}}</td>
                       <td class="px-2"><strong>Postal code:</strong> {{studentInfo.postalCode}}</td>
                     </tr>
                     <tr>
-                      <td class="px-2"><strong>Mincode:</strong> {{studentInfo.mincode}}</td>
+                      <td class="px-2"><strong>PEN Mincode:</strong> {{studentInfo.mincode}}</td>
+                      <td class="px-2"><strong>PEN Status Code:</strong> {{studentInfo.statusCode}}</td>
+                      <td class="px-2"><strong>PEN Grade Code:</strong> {{studentInfo.gradeCode}}</td>
+                    </tr>
+                    <tr>
                       <td class="px-2"><strong>Deceased date:</strong> {{studentInfo.deceasedDate}}</td>
-                      <td class="px-2"></td>
                     </tr>
                   </tbody>
               </table>
