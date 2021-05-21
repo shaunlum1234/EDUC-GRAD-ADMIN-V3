@@ -94,6 +94,9 @@
                   <button  @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
                 </div>   
               </div>
+              <div v-if="totalResults > 0" class="row">
+                <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalResults }}</strong> results returned</div>
+              </div>   
               <div v-if="advancedSearchMessage" class="row">
                 <div class="search-results-message my-5 col-12 col-md-8"><strong>{{ advancedSearchMessage }}</strong></div>
               </div>    
@@ -149,6 +152,7 @@
         courses: [],
         courseRequirements: [],
         courseRestrictions: [],
+        totalResults:"",
         advancedSearchInput: {
           courseCode:{
             value:"",
@@ -339,35 +343,6 @@
       this.getAllCourseRestrictions();
     },
     methods: {
-      showNotification(variant = null, bodyContent) {
-        let title = variant;
-        let delay = 30000;
-        if(title == "success"){
-          title ="success";
-          delay = 5000;
-        }else if(title == "danger"){
-          title ="Error";
-        }else if(title == "warning"){
-          title ="Warning";
-        }
-        this.$bvToast.toast(bodyContent, {
-          title: title,
-          variant: variant,
-          solid: true,
-          autoHideDelay: delay,
-        });
-      },
-      keyHandler: function (e) {
-        if (e.keyCode === 13) {
-          //enter key pressed
-          // this.studentSearchResults = [];
-          // if (this.penInput) {
-          //   this.findStudentByPen();
-          // } else if (this.surnameInput) {
-          //   this.findStudentBySurname();
-          // }
-        }
-      },
       clearInput: function () {
         this.penInput = "";
         for (var key in this.advancedSearchInput) {
@@ -379,81 +354,78 @@
       },
       advanceCourseSearch() {
         this.advancedSearchMessage = "";
-        // this.$v.$touch();
-        // if(this.$v.$invalid){
-        //   this.advancedSearchMessage += "Form Validation Error: please correct the form input";
-          this.advancedSearchLoading = true;
-          this.params = new URLSearchParams();
-          this.courses = [];
-          let isEmpty = true;
-          for (var key in this.advancedSearchInput) {
-            if (this.advancedSearchInput.hasOwnProperty(key)) {
-              //console.log(obj[key])
-              if (this.advancedSearchInput[key].value != "") {
-                isEmpty = false;   
+        this.advancedSearchLoading = true;
+        this.params = new URLSearchParams();
+        this.courses = [];
+        let isEmpty = true;
+        for (var key in this.advancedSearchInput) {
+          if (this.advancedSearchInput.hasOwnProperty(key)) {
+            //console.log(obj[key])
+            if (this.advancedSearchInput[key].value != "") {
+              isEmpty = false;   
+            }
+              //add wildcard to mincode if at least 3 digits are included
+          } //mincode
+        }
+        if(isEmpty){
+          this.totalResults = ""
+          this.advancedSearchLoading = false;
+          this.advancedSearchMessage += "Enter at least one field to search."
+        }else if(isEmpty == false){
+          try {
+            if(this.advancedSearchInput){
+              if(this.advancedSearchInput.courseCode.value != ""){
+                if(this.advancedSearchInput.courseCode.contains && !this.advancedSearchInput.courseCode.value.includes("*")) {            
+                  this.params.append('courseCode', this.advancedSearchInput.courseCode.value + "*");  
+                }else{
+                  this.params.append('courseCode', this.advancedSearchInput.courseCode.value);
+                }                 
               }
-                //add wildcard to mincode if at least 3 digits are included
-            } //mincode
-          }
-          if(isEmpty){
-            this.advancedSearchLoading = false;
-            this.advancedSearchMessage += "Enter at least one field to search."
-          }else if(isEmpty == false){
-            try {
-              if(this.advancedSearchInput){
-                if(this.advancedSearchInput.courseCode.value != ""){
-                  if(this.advancedSearchInput.courseCode.contains && !this.advancedSearchInput.courseCode.value.includes("*")) {            
-                    this.params.append('courseCode', this.advancedSearchInput.courseCode.value + "*");  
-                  }else{
-                    this.params.append('courseCode', this.advancedSearchInput.courseCode.value);
-                  }                 
-                }
-                if(this.advancedSearchInput.courseLevel.value != ""){
-                  if(this.advancedSearchInput.courseLevel.contains && !this.advancedSearchInput.courseLevel.value.includes("*")) {            
-                    this.params.append('courseLevel', this.advancedSearchInput.courseLevel.value + "*");  
-                  }else{
-                    this.params.append('courseLevel', this.advancedSearchInput.courseLevel.value);
-                  }                
-                }
-                if(this.advancedSearchInput.courseName.value != ""){
-                  if(this.advancedSearchInput.courseName.contains && !this.advancedSearchInput.courseName.value.includes("*")) {            
-                    this.params.append('courseName', this.advancedSearchInput.courseName.value + "*");  
-                  }else{
-                    this.params.append('courseName', this.advancedSearchInput.courseName.value);
-                  }   
-                }
-                if(this.advancedSearchInput.language.value != ""){
-                  if(this.advancedSearchInput.language.contains && !this.advancedSearchInput.language.value.includes("*")) {            
-                    this.params.append('language', this.advancedSearchInput.language.value + "*");  
-                  }else{
-                    this.params.append('language', this.advancedSearchInput.language.value);
-                  }   
-                }
-                if(this.advancedSearchInput.startDate.value != ""){
-                  this.params.append('startDate', this.advancedSearchInput.startDate.value);
-                }
+              if(this.advancedSearchInput.courseLevel.value != ""){
+                if(this.advancedSearchInput.courseLevel.contains && !this.advancedSearchInput.courseLevel.value.includes("*")) {            
+                  this.params.append('courseLevel', this.advancedSearchInput.courseLevel.value + "*");  
+                }else{
+                  this.params.append('courseLevel', this.advancedSearchInput.courseLevel.value);
+                }                
               }
-              CourseService.getCoursesByAdvanceSearch(this.params,this.token)
-              .then((response) => {
-                console.log(this.params)
-                this.advancedSearchLoading = false;
-                this.courses = response.data;
-                if(this.courses.totalElements <= 0){
-                  this.advancedSearchMessage = "No courses found.";      
-                }
-              })   
-              .catch((error) => {
-                this.advancedSearchLoading = false;
-                this.advancedSearchMessage = "Courses not found" + error;
-                //this.showNotification("danger", error);
-              });
-            } catch (error) {
+              if(this.advancedSearchInput.courseName.value != ""){
+                if(this.advancedSearchInput.courseName.contains && !this.advancedSearchInput.courseName.value.includes("*")) {            
+                  this.params.append('courseName', this.advancedSearchInput.courseName.value + "*");  
+                }else{
+                  this.params.append('courseName', this.advancedSearchInput.courseName.value);
+                }   
+              }
+              if(this.advancedSearchInput.language.value != ""){
+                if(this.advancedSearchInput.language.contains && !this.advancedSearchInput.language.value.includes("*")) {            
+                  this.params.append('language', this.advancedSearchInput.language.value + "*");  
+                }else{
+                  this.params.append('language', this.advancedSearchInput.language.value);
+                }   
+              }
+              if(this.advancedSearchInput.startDate.value != ""){
+                this.params.append('startDate', this.advancedSearchInput.startDate.value);
+              }
+            }
+            CourseService.getCoursesByAdvanceSearch(this.params,this.token)
+            .then((response) => {
               this.advancedSearchLoading = false;
-              this.advancedSearchMessage = "Search Error" + error;
+              this.courses = response.data;
+              this.totalResults = this.courses.length;
+              if(this.totalResults <= 0){
+                this.advancedSearchMessage = "No courses found.";      
+              }
+            })   
+            .catch((error) => {
+              this.advancedSearchLoading = false;
+              this.advancedSearchMessage = "Courses not found" + error;
               //this.showNotification("danger", error);
-            }   
-          }
-          
+            });
+          } catch (error) {
+            this.advancedSearchLoading = false;
+            this.advancedSearchMessage = "Search Error" + error;
+            //this.showNotification("danger", error);
+          }   
+        }   
       }, 
       searchCourseByCourseCode() {
         CourseService.getCourses(this.courseCode, this.token)
