@@ -95,7 +95,7 @@
                 </div>   
               </div>
               <div v-if="totalResults > 0" class="row">
-                <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalResults }}</strong> results returned</div>
+                <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalResults }}</strong> course records found.</div>
               </div>   
               <div v-if="advancedSearchMessage" class="row">
                 <div class="search-results-message my-5 col-12 col-md-8"><strong>{{ advancedSearchMessage }}</strong></div>
@@ -135,6 +135,7 @@
 </template>
 
 <script>
+  import sharedMethods from '../sharedMethods'
   import {
     mapGetters
   } from "vuex";
@@ -339,6 +340,7 @@
     },
     created() {
       //this.getAllCourses();
+      this.showNotification = sharedMethods.showNotification
       this.getAllCourseRequirements();
       this.getAllCourseRestrictions();
     },
@@ -417,8 +419,10 @@
             })   
             .catch((error) => {
               this.advancedSearchLoading = false;
-              this.advancedSearchMessage = "Courses not found" + error;
-              //this.showNotification("danger", error);
+              this.advancedSearchMessage = "No course record found.";
+              // eslint-disable-next-line
+              console.log('There was an error:' + error);
+              //this.showNotification("danger", error.response.statusText);
             });
           } catch (error) {
             this.advancedSearchLoading = false;
