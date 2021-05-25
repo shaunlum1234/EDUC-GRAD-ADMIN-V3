@@ -74,7 +74,7 @@
                       <td class="px-2"><strong>Postal code:</strong> {{studentInfo.postalCode}}</td>
                     </tr>
                     <tr>
-                      <td class="px-2"><strong>PEN Mincode:</strong> {{studentInfo.mincode}}</td>
+                      <td class="px-2"><strong>Mincode (PEN):</strong> {{studentInfo.mincode}}</td>
                       <td class="px-2"><strong>PEN Status Code:</strong> {{studentInfo.statusCode}}</td>
                       <td class="px-2"><strong>PEN Grade Code:</strong> {{studentInfo.gradeCode}}</td>
                     </tr>

@@ -525,6 +525,7 @@ lg (for laptops and desktops - screens equal to or greater than 1200px
     top: 0px;
   }
 }
+
 @media (max-width: 768px) {
   .col-lg-5.table-filter {
     position: relative;

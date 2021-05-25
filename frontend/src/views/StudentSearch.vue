@@ -396,13 +396,13 @@ export default {
           editable: false,
           class: "w-1",
         },
-        {
-          key: "schoolName",
-          label: "School (SLD)",
-          sortable: true,
-          editable: false,
-          class: "w-1",
-        },
+        // {
+        //   key: "schoolName",
+        //   label: "School (SLD)",
+        //   sortable: true,
+        //   editable: false,
+        //   class: "w-1",
+        // },
         {
           key: "program",
           label: "Program (GRAD)",
