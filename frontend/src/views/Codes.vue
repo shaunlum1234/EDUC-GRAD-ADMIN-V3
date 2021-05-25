@@ -63,19 +63,20 @@
               >
               </DisplayTable>
             </b-card-text>
-          </b-tab>                
+          </b-tab>      
           <b-tab title="Ungrad Reasons" active>
             <b-card-text v-if="ungradReasons">
               <DisplayTable
                 title="Report Types"
                 v-bind:items="ungradReasons"
-                v-bind:fields="ungradReasons"
+                v-bind:fields="ungradReasonsFields"
                 id="code"
                 showFilter="true"
               >
               </DisplayTable>
             </b-card-text>
-          </b-tab>                
+          </b-tab>  
+                        
           <!-- <b-tab title="Assessment requirements">
             <b-card-text v-if="assessmentRequirements">
               <DisplayTable
