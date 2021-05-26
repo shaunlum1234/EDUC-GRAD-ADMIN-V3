@@ -1,15 +1,5 @@
 <template>
   <div>
-    <router-link
-      v-if="isSpecialProgram"
-      :to="'/admin-graduation-programs/special-program-rules'"
-      >All Special Program Rules</router-link
-    >
-    <router-link
-      v-if="!isSpecialProgram"
-      :to="'/admin-graduation-programs/program-rules/'"
-      >All Program Rules</router-link
-    >
     <h3>Rule {{ selectedRule }} ({{ ruleName }})</h3>
 
     <div v-if="graduationProgramRuleCourses == 'not applicable'">

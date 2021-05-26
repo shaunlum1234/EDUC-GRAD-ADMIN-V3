@@ -42,17 +42,17 @@
                     </b-btn-->
                   </div>
                 </b-button-group>
-                <div v-if="studentGradStatus && studentGradStatus.programCompletionDate && showEdit">
+                <!-- <div v-if="studentGradStatus && studentGradStatus.programCompletionDate && showEdit">
                   <b-alert show variant="warning" class="p-3">
                     <h4 class="alert-heading">Student status: Graduated</h4>
-                    <!-- <p class="mb-0">
+                    <p class="mb-0">
                       <strong>Reason to unlock:</strong><b-form-select  size="sm" v-model="studentUngradReason" :options="ungradReasons" text-field="description" value-field="code"></b-form-select>
                       <b-button :disabled='!studentUngradReason' @click="ungradStudent" variant="primary" size="sm" class="mt-2">Unlock Student</b-button>
-                    </p> -->
+                    </p>
                   </b-alert>
-                </div>
+                </div> -->
 
-                <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
+                <div v-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
                   <b-alert show variant="warning" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Not active</h4>
                     <p class="locked-message">
@@ -109,7 +109,7 @@
             
                   <tr v-if="showEdit">
                     <td><strong>Program completion date: </strong></td>
-                    <td><b-input :disabled="disableInput" size="sm" type="text" pattern="[0-9]{4}/[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                    <td><b-input :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" type="text" pattern="[0-9]{4}/[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                   </tr>
                   
                   <tr v-if="!showEdit">
@@ -256,7 +256,7 @@
                       <td><span v-if="studentGradStatus.honoursStanding"> {{ studentGradStatus.honoursStanding }}</span></td>
                     </tr>
                     <tr>
-                      <td><strong>GPA:</strong></td><td><span v-if="studentGradStatus.gpa">{{ studentGradStatus.gpa }}</span></td>
+                      <td><strong>GPA:</strong></td><td><span v-if="studentGradStatus.gpa && studentGradStatus.gpa > 0 ">{{ studentGradStatus.gpa }}</span></td>
                     </tr>
                     </tbody>
                   </table> 
@@ -429,8 +429,6 @@
              
                     <strong>Program completion date (June, 2018): </strong>
                     <b-input :disabled="disableInput" size="sm" max="9999-12" type="month" pattern="[0-9]{4}-[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input>   
-              
-
                     <strong>School at graduation:</strong>
                      <b-input :disabled="disableInput" size="sm" type="number" :required="reqProgramCompletionSchoolAtGrad" v-model='editedGradStatus.schoolAtGrad'></b-input>
           <pre>{{ JSON.stringify(studentGradStatus, null, '\t') }}</pre>
