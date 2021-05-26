@@ -426,11 +426,6 @@
       <b-button v-b-toggle.collapse-1 variant="primary">DEBUG</b-button>
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
-             
-                    <strong>Program completion date (June, 2018): </strong>
-                    <b-input :disabled="disableInput" size="sm" max="9999-12" type="month" pattern="[0-9]{4}-[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input>   
-                    <strong>School at graduation:</strong>
-                     <b-input :disabled="disableInput" size="sm" type="number" :required="reqProgramCompletionSchoolAtGrad" v-model='editedGradStatus.schoolAtGrad'></b-input>
           <pre>{{ JSON.stringify(studentGradStatus, null, '\t') }}</pre>
         </b-card>
       </b-collapse>
@@ -607,6 +602,7 @@ export default {
               }else{
                 this.schoolOfRecordWarning = false;
               }
+              this.editedGradStatus.schoolName = response.data.schoolName;
             }    
 
           })
@@ -729,8 +725,10 @@ export default {
       this.$set(this.editedGradStatus, 'pen', this.studentGradStatus.pen);
       this.$set(this.editedGradStatus, 'program', this.studentGradStatus.program);
       this.$set(this.editedGradStatus, 'studentGrade', this.studentGradStatus.studentGrade);
+      this.$set(this.editedGradStatus, 'schoolName', this.studentGradStatus.schoolName);
       this.$set(this.editedGradStatus, 'schoolOfRecord', this.studentGradStatus.schoolOfRecord);
       this.$set(this.editedGradStatus, 'schoolAtGrad', this.studentGradStatus.schoolAtGrad);
+      this.$set(this.editedGradStatus, 'schoolAtGradName', this.studentGradStatus.schoolAtGradName);
       this.$set(this.editedGradStatus, 'studentStatus', this.studentGradStatus.studentStatus);
       this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID);
       this.$set(this.editedGradStatus, 'gpa', this.studentGradStatus.gpa);
@@ -812,9 +810,9 @@ export default {
           this.studentGradStatus.honoursStanding = response.data.honoursStanding;
           this.studentGradStatus.gpa = response.data.gpa;
           this.studentGradStatus.studentGrade = response.data.studentGrade;
-          this.studentGradStatus.schoolName = response.data.schoolName;
+          this.studentGradStatus.schoolName = this.editedGradStatus.schoolName;
           this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
-          this.studentGradStatus.schoolAtGradName = response.data.schoolAtGradName;
+          this.studentGradStatus.schoolAtGradName = this.editedGradStatus.schoolAtGradName;
           this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
           this.studentGradStatus.studentStatus = response.data.studentStatus;
           this.studentGradStatus.studentStatusName = this.getStudentStatus(
