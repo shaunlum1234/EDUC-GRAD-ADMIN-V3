@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Codes</h1>
-    <div>
+    <div class="codes">
       <b-card no-body>
         <b-tabs card>
           <b-tab title="Career Programs" active>
@@ -324,4 +324,5 @@ export default {
 .profile-name {
   padding-bottom: 10px;
 }
+
 </style>

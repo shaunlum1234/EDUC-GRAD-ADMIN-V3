@@ -103,7 +103,7 @@
             </div>
           </form>
           <b-card-text >
-            <DisplayTable title="Courses" v-bind:items="courses" v-bind:fields="courseFields" id="courseCode" showFilter="true" pagination="true"
+            <DisplayTable title="Courses" v-bind:items="courses" v-bind:fields="courseFields" id="courseCode" :showFilter=false pagination="true"
               v-bind:role="role"></DisplayTable>
           </b-card-text>
           </b-tab>
@@ -114,7 +114,7 @@
                 create="createCourseRestriction" delete="deleteCourseRestriction" update="updateCourseRestriction">
               </DisplayTable> -->
               <DisplayTable title="Course restrictions" v-bind:items="courseRestrictions"
-                v-bind:fields="courseRestrictionFields" id="courseRestrictionId" showFilter="true" pagination="true"
+                v-bind:fields="courseRestrictionFields" id="courseRestrictionId" :showFilter=true pagination="true"
                >
               </DisplayTable>
             </b-card-text>
@@ -122,7 +122,7 @@
           <b-tab title="Course requirements">
             <b-card-text>
               <DisplayTable title="Course requirements" v-bind:items="courseRequirements"
-                v-bind:fields="courseRequirementFields" id="courseRestrictionId" showFilter="true" pagination="true"
+                v-bind:fields="courseRequirementFields" id="courseRestrictionId" :showFilter=true pagination="true"
                >
               </DisplayTable>
             </b-card-text>

@@ -28,11 +28,11 @@
 
     <!--b-btn v-if="isAdmin && updateAllowed" v-bind:class="this.quickEdit?'btn-success':'btn-primary'" class="float-right" @click="toggleQuickEdit">Edit</b-btn-->
     <b-row>
-      <b-col lg="7" class="px-0 float-left">
+      <b-col lg="8" class="px-0 float-left">
         <!--b-button v-if="role=='administrator' && createAllowed" variant="success" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
         </b-button-->
       </b-col>
-      <b-col sm="12" lg="5" class="my-1 table-filter" v-if="this.showFilter">
+      <b-col sm="12" lg="4" class="my-1 table-filter" v-if="this.showFilter">
         <b-form-group
           label-for="filter-input"
           label-cols-sm="3"
@@ -519,7 +519,7 @@ md (for small laptops - screens equal to or greater than 992px wide)
 lg (for laptops and desktops - screens equal to or greater than 1200px
 */
 @media (min-width: 992px) {
-  .col-lg-5.table-filter {
+  .col-lg-4.table-filter {
     position: absolute;
     right: 0;
     top: 0px;
@@ -527,7 +527,7 @@ lg (for laptops and desktops - screens equal to or greater than 1200px
 }
 
 @media (max-width: 768px) {
-  .col-lg-5.table-filter {
+  .col-lg-4.table-filter {
     position: relative;
   }
 }
