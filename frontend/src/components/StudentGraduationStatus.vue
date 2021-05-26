@@ -814,16 +814,16 @@ export default {
           this.studentGradStatus.honoursStanding = response.data.honoursStanding;
           this.studentGradStatus.gpa = response.data.gpa;
           this.studentGradStatus.studentGrade = response.data.studentGrade;
+          this.studentGradStatus.schoolName = response.data.schoolName;
           this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
+          this.studentGradStatus.schoolAtGradName = response.data.schoolAtGradName;
+          this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
           this.studentGradStatus.studentStatus = response.data.studentStatus;
           this.studentGradStatus.studentStatusName = this.getStudentStatus(
             response.data.studentStatus
-          );
-          this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
-
+          );         
           this.showTop = !this.showTop;
           this.showEdit = false;
-
           this.showNotification("success", "GRAD Status Saved");
         })
         .catch((error) => {
