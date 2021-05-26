@@ -108,8 +108,8 @@
                   </tr>
             
                   <tr v-if="showEdit">
-                    <td><strong>Program completion date: </strong></td>
-                    <td><b-input :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" type="text" pattern="[0-9]{4}/[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                    <td><strong>Program completion date: (YYYY/MM)</strong></td>
+                    <td><b-input :disabled="disableInput" size="sm" type="text" @keyup="dateFormat(editedGradStatus.programCompletionDate)" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                   </tr>
                   
                   <tr v-if="!showEdit">
@@ -645,7 +645,10 @@ export default {
     }  
   },
   methods: {
-    
+    dateFormat(){
+      var value = this.editedGradStatus.programCompletionDate;       
+      this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})$/,"$1/$2");        
+    },
     getStudentStatus(code) {
       var i = 0;
       for (i = 0; i <= this.studentStatusOptions.length; i++) {
