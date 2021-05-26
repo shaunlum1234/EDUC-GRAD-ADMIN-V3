@@ -23,14 +23,6 @@
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
                   <label >Course level</label>
-                  <div href="#"
-                    v-on:click="advancedSearchInput.courseLevel.contains = !advancedSearchInput.courseLevel.contains"
-                    v-bind:class="{active: advancedSearchInput.courseLevel.contains}"
-                    class="wild-card-button"
-                    v-b-tooltip.hover title="Course level starts with"
-                  >
-                    [.*]
-                  </div>
                   <b-input class="form__input" v-model="advancedSearchInput.courseLevel.value" placeholder=""
                     tabindex="2" />
                 </div>
@@ -47,20 +39,16 @@
                   <b-input class="form__input" v-model="advancedSearchInput.courseName.value" placeholder=""
                     tabindex="3" />
                 </div>
-                <div class="advanced-search-field col-12 col-md-2">
+                <div class="advanced-search-field col-12 col-md-1">
                   <label >Language</label>
-                  <div href="#"
-                    v-on:click="advancedSearchInput.language.contains = !advancedSearchInput.language.contains"
-                    v-bind:class="{active: advancedSearchInput.language.contains}"
-                    class="wild-card-button"
-                    v-b-tooltip.hover title="Language starts with"
-                  >
-                    [.*]
-                  </div>
-                  <b-input class="form__input" v-model="advancedSearchInput.language.value" placeholder=""
-                    tabindex="4" />
+                    <b-form-select 
+                      
+                      v-model="advancedSearchInput.language.value"
+                      :options=langOptions
+                      :disabled="disableInput"
+                    ></b-form-select>
                 </div>
-                <div class="advanced-search-field col-12 col-md-3">
+                <div class="advanced-search-field col-12 col-md-2">
                   <label for="datepicker-startDate"
                     >Start date</label
                   >
@@ -75,17 +63,25 @@
                       autocomplete="off"
                       tabindex="5"
                     ></b-form-input>
-                    <b-input-group-append>
-                      <b-form-datepicker
-                        v-model="advancedSearchInput.startDate.value"
-                        button-only     
-                        right
-                        locale="en-US"
-                        aria-controls="datepicker-startDate"
-                      ></b-form-datepicker>
-                    </b-input-group-append>
                   </b-input-group>     
                 </div>
+                <div class="advanced-search-field col-12 col-md-2">
+                  <label for="datepicker-endDate"
+                    >End date</label
+                  >
+                  <b-input-group class="mb-3">
+                    <b-form-input
+                      id="datepicker-endDate"
+                      v-model="advancedSearchInput.endDate.value"
+                      type="date"
+                      placeholder="YYYY-MM-DD"
+                      max="9999-12-30"
+                      :date-format-options="{ year: '4-digit'}"
+                      autocomplete="off"
+                      tabindex="5"
+                    ></b-form-input>
+                  </b-input-group>     
+                </div>                
               </div>
               <div class="row">                                
                 <div class="advanced-search-button">
@@ -175,7 +171,12 @@
             value:"",
             contains:false
           },
+          endDate:{
+            value:"",
+            contains:false
+          },          
         },
+        langOptions: [{ text: "EN", value: "E" },{ text: "FR", value: "F" }],
         courseFields: [     
           {
             key: 'courseCode',
@@ -407,6 +408,9 @@
               if(this.advancedSearchInput.startDate.value != ""){
                 this.params.append('startDate', this.advancedSearchInput.startDate.value);
               }
+              if(this.advancedSearchInput.endDate.value != ""){
+                this.params.append('endDate', this.advancedSearchInput.endDate.value);
+              }              
             }
             CourseService.getCoursesByAdvanceSearch(this.params,this.token)
             .then((response) => {
