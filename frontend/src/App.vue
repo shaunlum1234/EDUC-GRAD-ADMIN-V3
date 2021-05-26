@@ -51,7 +51,6 @@ export default {
       }else if(this.role == "authenticated"){
          this.$store.dispatch("setRoles","administrator");
       }
-
     }
   }
 };
