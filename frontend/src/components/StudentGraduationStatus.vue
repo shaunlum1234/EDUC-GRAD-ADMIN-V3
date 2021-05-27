@@ -109,7 +109,7 @@
             
                   <tr v-if="showEdit">
                     <td><strong>Program completion date: (YYYY/MM)</strong></td>
-                    <td><b-input :disabled="disableInput" size="sm" type="text" @keyup="dateFormat(editedGradStatus.programCompletionDate)" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                    <td><b-input :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" type="text" maxLength="7" @keyup="dateFormat(editedGradStatus.programCompletionDate)" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                   </tr>
                   
                   <tr v-if="!showEdit">
