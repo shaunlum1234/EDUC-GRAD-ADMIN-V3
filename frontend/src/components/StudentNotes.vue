@@ -140,7 +140,8 @@ export default {
           this.showNotification('success','Student note saved')
           if(response.data && response.data.value){
             this.studentNotes.splice(studentNoteIndex, 1, response.data.value)
-          }            
+          }    
+          this.showEditForm = false;        
         })             
         .catch((error) => {
           if(error.response.status){
