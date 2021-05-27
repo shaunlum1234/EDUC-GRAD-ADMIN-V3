@@ -79,25 +79,24 @@
                                 <template #row-details="row">
                                   <b-card class="px-0">
                                     <ul>        
-                                        <li v-if="row.item.address1">
-                                          <strong>Address:</strong> {{ row.item.address1 }}
-                                        </li>
-                                        <li v-if="row.item.city">
-                                          <strong>City:</strong> {{ row.item.city }}
-                                        </li>                
-                                        <li v-if="row.item.provinceCode">
-                                          <strong>Province Code:</strong> {{ row.item.provCode }}
-                                        </li>                      
-                                        <li v-if="row.item.provinceName">
-                                          <strong>Province Name:</strong> {{ row.item.provinceName}}
-                                        </li>
-                                        <li v-if="row.item.countryCode">
-                                          <strong>Country Code:</strong> {{ row.item.countryCode }}
-                                        </li>
-                                        <li v-if="row.item.postal">
-                                          <strong>Postal Code:</strong> {{ row.item.postal }}
-                                        </li>
-                                        
+                                      <li v-if="row.item.address1">
+                                        <strong>Address:</strong> {{ row.item.address1 }}
+                                      </li>
+                                      <li v-if="row.item.city">
+                                        <strong>City:</strong> {{ row.item.city }}
+                                      </li>                
+                                      <li v-if="row.item.provinceCode">
+                                        <strong>Province Code:</strong> {{ row.item.provCode }}
+                                      </li>                      
+                                      <li v-if="row.item.provinceName">
+                                        <strong>Province Name:</strong> {{ row.item.provinceName}}
+                                      </li>
+                                      <li v-if="row.item.countryCode">
+                                        <strong>Country Code:</strong> {{ row.item.countryCode }}
+                                      </li>
+                                      <li v-if="row.item.postal">
+                                        <strong>Postal Code:</strong> {{ row.item.postal }}
+                                      </li>
                                     </ul>
                                   </b-card>
                                 </template>
@@ -239,7 +238,6 @@
       advancedSchoolSearch(){
         let isEmpty = true;
         for (var key in this.search) {
-          console.log(key);
           if (this.search.hasOwnProperty(key)) {
             if (this.search[key].value != "") {
               isEmpty = false;   
@@ -258,9 +256,10 @@
             this.searchLoading = false;
             this.totalResults = this.schools.length;
           }).catch((error) => {
-            // eslint-disable-next-line
+            
             this.searchLoading = false;
             this.searchMessage = "No school found.";
+            // eslint-disable-next-line
             console.log('There was an error searching School information to GRAD Status:' + error.response);
           });  
         }
