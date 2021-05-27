@@ -4,93 +4,62 @@
     
                     <b-card no-body>
                       <b-tabs card>
-                        <b-tab title="Mincode search" active>
-                          <b-card-text>
-
-                          <b-container class="p-3">
-                            <b-row align-v="stretch" class="row-eq-height">
-                              <b-col class="p-0">
-                                <label class="col-6">Search by Mincode</label>
-                              </b-col>
-                              <b-col align-self="baseline">
-                                <label class="w-100"></label>
-                              
-                              </b-col>
-                            </b-row>
-                            <b-row align-v="stretch" class="row-eq-height">
-                              <b-col class="p-0">
-                                <b-input v-model="mincode" id="schoolmincode" placeholder=""/>
-                              </b-col>
-                              <b-col align-self="baseline">
-                                <b-button variant="primary" class="" type="submit" @click="searchSchoolByMincode"> Search </b-button>
-                              </b-col>
-                            </b-row>
-                          </b-container> 
-                          
-                            <DisplayTable title="Mincode" v-bind:items="schools"
-                              v-bind:fields="schoolFields" sortKey="schoolName" id="mincode" v-bind:showFilter=true pagination="true"
-                            >
-                              <template #cell(more)="row">
-                                  <b-btn
-                                    variant="outline primary"
-                                    style="color: #666"
-                                    size="sm"
-                                    @click="row.toggleDetails"
-                                    class="more-button"
-                                  >
-                                    <i class="fas fa-sm fa-caret-down"></i>
-                                  </b-btn>
-                                </template>
-                                <template #row-details="row">
-                                  <b-card class="px-0">
-                                    <ul>        
-                                        <li v-if="row.item.address1">
-                                          <strong>Address:</strong> {{ row.item.address1 }}
-                                        </li>
-                                        <li v-if="row.item.city">
-                                          <strong>City:</strong> {{ row.item.city }}
-                                        </li>                
-                                        <li v-if="row.item.provinceCode">
-                                          <strong>Province Code:</strong> {{ row.item.provCode }}
-                                        </li>                      
-                                        <li v-if="row.item.provinceName">
-                                          <strong>Province Name:</strong> {{ row.item.provinceName}}
-                                        </li>
-                                        <li v-if="row.item.countryCode">
-                                          <strong>Country Code:</strong> {{ row.item.countryCode }}
-                                        </li>
-                                        <li v-if="row.item.postal">
-                                          <strong>Postal Code:</strong> {{ row.item.postal }}
-                                        </li>
-                                        
-                                    </ul>
-                                  </b-card>
-                                </template>
-                            </DisplayTable>
-                          </b-card-text>
-                        </b-tab>
-                        <b-tab title="Advanced Search" active>
+                        <b-tab title="Search" active>
                           <b-card-text>
 
                             <b-container class="p-3">
                               <b-row align-v="stretch" class="row-eq-height">
                                 <b-col>
-                                  <label class="col-6">Search by School Name</label>
+                                  <label class="col-6 p-0">Mincode</label>
                                 </b-col>
-                                <b-col align-self="baseline">
-                                  <label class="w-100"></label>
+                                <b-col>
+                                    <label class="col-6 p-0">School name</label>
                                 </b-col>
+                                
                               </b-row>
                               <b-row align-v="stretch" class="row-eq-height">
                                 <b-col>
+                                  <div href="#"
+                                    v-on:click="search.mincode.contains = !search.mincode.contains"
+                                    v-bind:class="{active: search.mincode.contains}"
+                                    class="wild-card-button"
+                                    v-b-tooltip.hover title="Mincode contains"
+                                  >
+                                    [.*]
+                                    </div>
+                                  <b-input v-model="search.mincode.value" placeholder="" id="mincode"/>
                                   
-                                  <b-input v-model="search.schoolName" placeholder="" id="mincode"/>
                                 </b-col>
-                                <b-col align-self="baseline">
-                                  
-                                  <b-button variant="primary" class="" type="submit" @click="advancedSchoolSearch"> Search </b-button>
+                                <b-col>
+                                  <div href="#"
+                                    v-on:click="search.schoolName.contains = !search.schoolName.contains"
+                                    v-bind:class="{active: search.schoolName.contains}"
+                                    class="wild-card-button"
+                                    v-b-tooltip.hover title="School name contains"
+                                  >
+                                    [.*]
+                                  </div>
+                                  <b-input v-model="search.schoolName.value" placeholder="" id="schoolName"/>
+                     
                                 </b-col>
                               </b-row>
+                              <b-row class="p-3">
+                                <b-col align-self="baseline">
+                                  <div class="row">                                
+                                    <div class="advanced-search-button">
+                                      <button v-on:click="advancedSchoolSearch" v-if="!searchLoading" class="btn btn-primary" tabindex="6">Search</button>
+                                      <button  class="btn btn-success" v-if="searchLoading">Search</button>
+                                      <button  @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
+                                    </div>   
+                                  </div>
+                                </b-col>
+                              </b-row>
+                              <div v-if="totalResults > 0" class="row">
+                                <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalResults }}</strong> schools records found.</div>
+                              </div>   
+                              <div v-if="searchMessage" class="row">
+                                    <div class="search-results-message my-2 col-12 col-md-8"><strong>{{ searchMessage }}</strong></div>
+                                  </div>  
                             </b-container> 
 
                             <DisplayTable title="Results" v-bind:items="schools"
@@ -244,13 +213,20 @@
             class: 'text-center'
           },
         ],
+        totalResults: "",
+        searchMessage: "",
+        searchLoading: false,
         search: {
-          schoolName: "",
+          schoolName:{
+            value:"",
+            contains:false
+          },
+          mincode:{
+            value:"",
+            contains:false
+          }
         },
-        mincode: "",
-        show: false,
-        displayMessage: null,
-      };
+      }
     },
     computed: {
       ...mapGetters({
@@ -258,43 +234,44 @@
       }),
     },
     created() {
-      this.schools = {};
-        SchoolService.searchSchoolByMincode("06161064", this.token).then((res) => {
-          this.schools = res.data[0];
-        }).catch((error) => {
-          // eslint-disable-next-line
-          console.log('There was an error searching School information to GRAD Status:' + error.response);
-        });  
     },
     methods: {
-      getAllSchools(){
-        SchoolService.getAllSchools(this.token).then((res) => {
-          this.schools = res.data;
-        }).catch((error) => {
-
-          // eslint-disable-next-line
-          console.log('There was an error adding School information to GRAD Status:' + error.response);
-        });  
-      },
-
-      searchSchoolByMincode(){
-        this.schools = {};
-        SchoolService.searchSchoolByMincode(this.mincode, this.token).then((res) => {
-          this.schools = res.data;
-        }).catch((error) => {
-          // eslint-disable-next-line
-          console.log('There was an error searching School information to GRAD Status:' + error.response);
-        });  
-      },
       advancedSchoolSearch(){
-        this.schools = {};
-        SchoolService.searchSchools(this.search, this.token).then((res) => {
-          this.schools = res.data;
-        }).catch((error) => {
-          // eslint-disable-next-line
-          console.log('There was an error searching School information to GRAD Status:' + error.response);
-        });  
-      }
+        let isEmpty = true;
+        for (var key in this.search) {
+          console.log(key);
+          if (this.search.hasOwnProperty(key)) {
+            if (this.search[key].value != "") {
+              isEmpty = false;   
+            }
+          } //mincode
+        }
+        if(isEmpty){
+          this.totalResults = ""
+          this.searchLoading = false;
+          this.searchMessage += "Enter at least one field to search."
+        }else if(isEmpty == false){
+          this.searchLoading = true;
+          this.schools = {};
+          SchoolService.searchSchools(this.search, this.token).then((res) => {
+            this.schools = res.data;
+            this.searchLoading = false;
+            this.totalResults = this.schools.length;
+          }).catch((error) => {
+            // eslint-disable-next-line
+            this.searchLoading = false;
+            console.log('There was an error searching School information to GRAD Status:' + error.response);
+          });  
+        }
+      },
+      clearInput: function () {
+        for (var key in this.search) {
+          if (this.search.hasOwnProperty(key)) {
+            this.search[key].value = "";
+            this.search[key].contains = false;
+          }
+        }
+      },
     }
   };
 </script>
@@ -310,5 +287,27 @@
 
   .profile-name {
     padding-bottom: 10px;
+  }
+  .wild-card-button:hover{
+    cursor: pointer;
+
+  }
+  .wild-card-button {
+    color: #DEE2EB;
+    position: absolute;
+    right: 21px;
+    top: 10px;
+    z-index: 10;
+    text-decoration: none;
+  
+  }
+
+  .wild-card-button:visited {
+    color: #DEE2EB;
+    text-decoration: none;
+  }
+
+  .wild-card-button.active {
+    color: green
   }
 </style>
