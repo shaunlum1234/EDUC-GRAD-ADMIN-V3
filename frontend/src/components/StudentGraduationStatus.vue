@@ -109,7 +109,7 @@
             
                   <tr v-if="showEdit">
                     <td><strong>Program completion date: </strong></td>
-                    <td><b-input :disabled="disableInput" size="sm" type="text" pattern="[0-9]{4}/[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                    <td><b-input :disabled="disableInput" size="sm" type="tel" pattern="[0-9]{4}/[0-9]{2}" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                   </tr>
                   
                   <tr v-if="!showEdit">
@@ -777,6 +777,7 @@ export default {
           //console.log('There was an error:' + error.response);
         });
     },
+
     saveGraduationStatus(id) {
       //add the user info
       this.editedGradStatus.updatedBy = this.username;
