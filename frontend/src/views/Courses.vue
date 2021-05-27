@@ -41,8 +41,7 @@
                 </div>
                 <div class="advanced-search-field col-12 col-md-1">
                   <label >Language</label>
-                    <b-form-select 
-                      
+                    <b-form-select                      
                       v-model="advancedSearchInput.language.value"
                       :options=langOptions
                       :disabled="disableInput"
@@ -117,6 +116,56 @@
           </b-tab>
           <b-tab title="Course requirements">
             <b-card-text>
+              <form v-on:submit.prevent>
+                  <div class="advanced-search-form">
+                    <div class="row my-3">
+                    <div class="advanced-search-field col-12 col-md-2">
+                      <label >Course code</label>
+                      <div href="#"
+                        v-on:click="requirementsSearchInput.courseCode.contains = !requirementsSearchInput.courseCode.contains"
+                        v-bind:class="{active: requirementsSearchInput.courseCode.contains}"
+                        class="wild-card-button"
+                        v-b-tooltip.hover title="Course code starts with"
+                      >
+                        [.*]
+                      </div>
+                      <b-input class="form__input" v-model="requirementsSearchInput.courseCode.value" placeholder=""
+                        tabindex="1" />
+                    </div>
+                    <div class="advanced-search-field col-12 col-md-2">
+                      <label >Course level</label>
+                      <b-input class="form__input" v-model="requirementsSearchInput.courseLevel.value" placeholder=""
+                        tabindex="2" />
+                    </div>
+                    <div class="advanced-search-field col-12 col-md-2">
+                      <label >Rule#</label>
+                      <div href="#"
+                        v-on:click="requirementsSearchInput.rule.contains = !requirementsSearchInput.rule.contains"
+                        v-bind:class="{active: requirementsSearchInput.rule.contains}"
+                        class="wild-card-button"
+                        v-b-tooltip.hover title="Rule number starts with"
+                      >
+                        [.*]
+                      </div>
+                      <b-input class="form__input" v-model="requirementsSearchInput.rule.value" placeholder=""
+                        tabindex="3" />
+                    </div>               
+                  </div>
+                  <div class="row">                                
+                    <div class="advanced-search-button">
+                      <button v-on:click="advanceCourseSearch" v-if="!advancedSearchLoading" class="btn btn-primary" tabindex="6">Search</button>
+                      <button  class="btn btn-success" v-if="advancedSearchLoading" tabindex="6">Search</button>
+                      <button  @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
+                    </div>   
+                  </div>
+                  <div v-if="totalResults > 0" class="row">
+                    <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalResults }}</strong> course restrictions found.</div>
+                  </div>   
+                  <div v-if="advancedSearchMessage" class="row">
+                    <div class="search-results-message my-5 col-12 col-md-8"><strong>{{ advancedSearchMessage }}</strong></div>
+                  </div>    
+                </div>
+              </form>
               <DisplayTable title="Course requirements" v-bind:items="courseRequirements"
                 v-bind:fields="courseRequirementFields" id="courseRestrictionId" :showFilter=true pagination="true"
                >
@@ -146,6 +195,8 @@
       return {
         advancedSearchLoading: false,
         advancedSearchMessage:"",
+        courseRequirementLoading: false,
+        courseRequirementMessage:"",
         courses: [],
         courseRequirements: [],
         courseRestrictions: [],
@@ -175,6 +226,20 @@
             value:"",
             contains:false
           },          
+        },
+        requirementsSearchInput: {
+          courseCode:{
+            value:"",
+            contains:false
+          },
+          courseLevel:{
+            value:"",
+            contains:false
+          },
+          rule:{
+            value:"",
+            contains:false
+          },
         },
         langOptions: [{ text: "EN", value: "E" },{ text: "FR", value: "F" }],
         courseFields: [     
@@ -434,6 +499,73 @@
             //this.showNotification("danger", error);
           }   
         }   
+      },
+      courseRequirementsSearch() {
+        this.courseRequirementMessage = "";
+        this.courseRequirementLoading = true;
+        this.params = new URLSearchParams();
+        this.courses = [];
+        let isEmpty = true;
+        for (var key in this.requirementsSearchInput) {
+          if (this.requirementsSearchInput.hasOwnProperty(key)) {
+            //console.log(obj[key])
+            if (this.requirementsSearchInput[key].value != "") {
+              isEmpty = false;   
+            }
+              //add wildcard to mincode if at least 3 digits are included
+          } //mincode
+        }
+        if(isEmpty){
+          this.totalResults = ""
+          this.courseRequirementLoading = false;
+          this.courseRequirementMessage += "Enter at least one field to search."
+        }else if(isEmpty == false){
+          try {
+            if(this.requirementsSearchInput){
+              if(this.requirementsSearchInput.courseLevel.value != ""){
+                if(this.requirementsSearchInput.courseLevel.contains && !this.requirementsSearchInput.courseLevel.value.includes("*")) {            
+                  this.params.append('courseLevel', this.requirementsSearchInput.courseLevel.value + "*");  
+                }else{
+                  this.params.append('courseLevel', this.requirementsSearchInput.courseLevel.value);
+                }                
+              }
+              if(this.requirementsSearchInput.courseCode.value != ""){
+                if(this.requirementsSearchInput.courseCode.contains && !this.requirementsSearchInput.courseCode.value.includes("*")) {            
+                  this.params.append('courseCode', this.requirementsSearchInput.courseCode.value + "*");  
+                }else{
+                  this.params.append('courseCode', this.requirementsSearchInput.courseCode.value);
+                }                 
+              }          
+              if(this.requirementsSearchInput.rule.value != ""){
+                if(this.requirementsSearchInput.rule.contains && !this.requirementsSearchInput.rule.value.includes("*")) {            
+                  this.params.append('rule', this.requirementsSearchInput.rule.value + "*");  
+                }else{
+                  this.params.append('rule', this.requirementsSearchInput.rule.value);
+                }   
+              }
+            }
+            CourseService.getCourseRequirements(this.params,this.token)
+            .then((response) => {
+              this.courseRequirementLoading = false;
+              this.courses = response.data;
+              this.totalResults = this.courses.length;
+              if(this.totalResults <= 0){
+                this.courseRequirementMessage = "No course restrictions found.";      
+              }
+            })   
+            .catch((error) => {
+              this.courseRequirementLoading = false;
+              this.courseRequirementMessage = "No course restrictions found.";
+              // eslint-disable-next-line
+              console.log('There was an error:' + error);
+              //this.showNotification("danger", error.response.statusText);
+            });
+          } catch (error) {
+            this.courseRequirementLoading = false;
+            this.courseRequirementMessage = "Search Error" + error;
+            //this.showNotification("danger", error);
+          }   
+        }   
       }, 
       searchCourseByCourseCode() {
         CourseService.getCourses(this.courseCode, this.token)
@@ -460,7 +592,7 @@
           });
       },
       getAllCourseRequirements() {
-        CourseService.getCourseRequirements(this.token)
+        CourseService.getAllCourseRequirements(this.token)
           .then((response) => {
             this.courseRequirements = response.data;
           })

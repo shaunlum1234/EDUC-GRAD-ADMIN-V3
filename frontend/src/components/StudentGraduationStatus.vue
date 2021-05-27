@@ -619,10 +619,15 @@ export default {
       // }else{
       //   this.disableButton = false
       // }
-      if(this.editedGradStatus.schoolAtGrad) {
-        if(this.editedGradStatus.schoolAtGrad.length == 8) {
+      if(this.editedGradStatus.schoolAtGrad == this.studentGradStatus.schoolAtGrad){  
+        this.schoolAtGraduationWarning = false;
+        this.schoolAtGraduationNotFoundWarning = false;
+      }else{
+         if(this.editedGradStatus.schoolAtGrad.length == 8) {
           SchoolService.getSchoolInfo(this.editedGradStatus.schoolAtGrad, this.token)
           .then((response) => {
+            this.schoolAtGraduationNotFoundWarning = false;  
+            this.schoolAtGraduationWarning = false;
             this.schoolAtGraduationStatus = response.data.openFlag
             if(response.statusText == "No Content"){
               this.schoolAtGraduationNotFoundWarning = true;
@@ -630,9 +635,7 @@ export default {
               this.schoolAtGraduationNotFoundWarning = false;
               if(this.schoolAtGraduationStatus == "N"){
                 this.schoolAtGraduationWarning = true;
-                this.showNotification("warning", "School at graduation closed");
-              }else{
-                this.schoolAtGraduationWarning = false;
+                //this.showNotification("warning", "School at graduation closed");
               }
             }
           })
@@ -641,7 +644,7 @@ export default {
             console.log("There was an error:" + error.response);
           });
         } 
-      }
+      } 
     }  
   },
   methods: {
