@@ -239,7 +239,6 @@
       advancedSchoolSearch(){
         let isEmpty = true;
         for (var key in this.search) {
-          console.log(key);
           if (this.search.hasOwnProperty(key)) {
             if (this.search[key].value != "") {
               isEmpty = false;   
@@ -258,8 +257,9 @@
             this.searchLoading = false;
             this.totalResults = this.schools.length;
           }).catch((error) => {
-            // eslint-disable-next-line
+            
             this.searchLoading = false;
+            // eslint-disable-next-line
             console.log('There was an error searching School information to GRAD Status:' + error.response);
           });  
         }

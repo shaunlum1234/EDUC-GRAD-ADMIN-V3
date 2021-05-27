@@ -154,8 +154,8 @@
                   <div class="row">                                
                     <div class="advanced-search-button">
                       <button v-on:click="advanceCourseSearch" v-if="!advancedSearchLoading" class="btn btn-primary" tabindex="6">Search</button>
-                      <button  class="btn btn-success" v-if="advancedSearchLoading" tabindex="6">Search</button>
-                      <button  @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
+                      <button class="btn btn-success" v-if="advancedSearchLoading" tabindex="6">Search</button>
+                      <button @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
                     </div>   
                   </div>
                   <div v-if="totalResults > 0" class="row">
@@ -168,14 +168,13 @@
               </form>
               <DisplayTable title="Course requirements" v-bind:items="courseRequirements"
                 v-bind:fields="courseRequirementFields" id="courseRestrictionId" :showFilter=true pagination="true"
-               >
+              >
               </DisplayTable>
             </b-card-text>
           </b-tab>
         </b-tabs>
       </b-card>
     </div>
-
   </div>
 </template>
 
