@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Rule {{ selectedRule }} ({{ ruleName }})</h3>
+    <h3>{{programCode }} Rule {{ selectedRule }} ({{ ruleName }})</h3>
 
     <div v-if="graduationProgramRuleCourses == 'not applicable'">
       Not applicable
@@ -42,6 +42,7 @@ export default {
       selectedRule: "",
       category: "",
       ruleName: "",
+      programCode:"",
       isSpecialProgram: "",
       graduationProgramRuleCourses: [],
       fields: [],
@@ -86,6 +87,7 @@ export default {
     this.selectedRule = this.$route.params.rule;
     this.category = this.$route.params.category;
     this.ruleName = this.$route.params.ruleName;
+    this.programCode = this.$route.params.programCode;
     this.isSpecialProgram = this.$route.params.isSpecialProgram;
     if (this.$route.params.category == "A") {
       AssessmentService.getRuleCourseRequirements(

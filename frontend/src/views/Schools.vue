@@ -249,7 +249,7 @@
         if(isEmpty){
           this.totalResults = ""
           this.searchLoading = false;
-          this.searchMessage += "Enter at least one field to search."
+          this.searchMessage = "Enter at least one field to search."
         }else if(isEmpty == false){
           this.searchLoading = true;
           this.schools = {};
@@ -260,6 +260,7 @@
           }).catch((error) => {
             // eslint-disable-next-line
             this.searchLoading = false;
+            this.searchMessage = "No school found.";
             console.log('There was an error searching School information to GRAD Status:' + error.response);
           });  
         }
