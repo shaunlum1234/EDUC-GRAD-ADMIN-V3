@@ -114,7 +114,7 @@
     <!-- Main table element -->
 
     <b-table
-      v-if="items.length"
+      v-if="items && items.length"
       :responsive="responsive"
       :items="items"
       :fields="fields"

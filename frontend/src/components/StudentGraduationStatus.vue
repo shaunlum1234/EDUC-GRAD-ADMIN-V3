@@ -369,7 +369,7 @@
                   </ul>
                 </div>
                 <div v-if="studentGradStatus.studentGradData.nonGradReasons">
-                  <b-table :items="studentGradStatus.studentGradData.nonGradReasons" :fields="{key:'rule', key:'description'}"  small
+                  <b-table :items="studentGradStatus.studentGradData.nonGradReasons" :fields="[{key:'rule', key:'description'}]"  small
                   striped></b-table> 
                   <!-- <ul  class="non-grad-reasons px-0">
                     <li v-for="requirement in studentGradStatus.studentGradData.nonGradReasons" :key="requirement.rule">
