@@ -4,6 +4,7 @@
   Vue.use(Vuex);
   //import CourseService from '@/services/CourseService.js';
   import ProgramManagementService from '@/services/ProgramManagementService.js';
+  import SchoolService from '@/services/SchoolService.js';
   import CodeService from '@/services/CodeService.js';
   export default new Vuex.Store({
     init: {
@@ -36,7 +37,8 @@
         programOptions:[],
         studentStatusOptions:[],
         unGradReasons:[]
-      }
+      },
+
     },
     mutations: {
       setProgramOptions(state, payload){
@@ -149,6 +151,7 @@
       }
     },
     actions: {
+      
       setApplicationVariables({commit,state}) {
         ProgramManagementService.getGraduationPrograms(state.token).then(
           (response) => {
@@ -311,7 +314,18 @@
         commit
       }, payload) {
         commit('setStudentNotes', payload);
-      },      
+      },    
+      // SEARCH
+      searchSchools({state},payload) {
+        SchoolService.searchSchools(payload,state.token).then(
+          (response) => {
+            return response.data;
+          }
+        ).catch((error) => {
+          // eslint-disable-next-line
+          console.log(error);
+        });
+      }
     },
 
     
