@@ -98,7 +98,7 @@
                         <div class="form-validation-message text-danger" v-if="!(editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN')">Student grade should be one of <strong>AD or AN</strong> if the student program is 1950</div>
                       </div>   
                     </td>
-                    <td width="50%"><b-form-select :disabled="disableInput" size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>   
+                    <td width="50%"><b-form-select :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>   
                     
                   </tr>
 
@@ -109,7 +109,7 @@
             
                   <tr v-if="showEdit">
                     <td><strong>Program completion date: (YYYY/MM)</strong></td>
-                    <td><b-input :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" type="text" maxLength="7" @keyup="dateFormat(editedGradStatus.programCompletionDate)" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                    <td><b-input :disabled="disableInput" size="sm" type="text" maxLength="7" @keyup="dateFormat(editedGradStatus.programCompletionDate)" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                   </tr>
                   
                   <tr v-if="!showEdit">
@@ -197,7 +197,7 @@
                   <tr v-if="showEdit">
                       <td><strong>School of record:</strong><br>
                         <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                        <div v-if="schoolNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                        <div v-if="schoolNotFoundWarning" class="form-validation-message text-danger" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                       </td>
                       <td><b-input :disabled="disableInput" size="sm" type="number" maxlength="8" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
                       
@@ -247,7 +247,7 @@
                     <tr v-if="showEdit">
                       <td><strong>School at graduation:</strong><br>
                       <div v-if="schoolAtGraduationWarning" class="form-validation-message text-warning" >School at graduation entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                        <div v-if="schoolAtGraduationNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                        <div v-if="schoolAtGraduationNotFoundWarning" class="form-validation-message text-danger" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                         </td>
                       <td><b-input :disabled="disableInput" size="sm" type="number" maxlength="8" v-model='editedGradStatus.schoolAtGrad'></b-input></td>        
                     </tr>        
@@ -794,7 +794,10 @@ export default {
         this.editedGradStatus.programCompletionDate = null;
       }
       if(this.editedGradStatus.programCompletionDate != null){      
-        this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("/", "-").concat("-01");
+        this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("/", "-");
+        var date = new Date(this.editedGradStatus.programCompletionDate);
+        this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
+        
       }
       if(this.editedGradStatus.schoolOfRecord == ''){
         this.editedGradStatus.schoolOfRecord = null;
@@ -829,6 +832,7 @@ export default {
           this.showNotification("success", "GRAD Status Saved");
         })
         .catch((error) => {
+          this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("-", "/").substring(0, 7);
           // eslint-disable-next-line
           console.log(error.response);
           this.showNotification(
