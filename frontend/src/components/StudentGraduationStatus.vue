@@ -586,32 +586,32 @@ export default {
       }
     },
     schoolOfRecordChange:function(){
-      if(this.editedGradStatus.schoolOfRecord) {
-        if(this.editedGradStatus.schoolOfRecord.length == 8) {
+       if(this.editedGradStatus.schoolOfRecord == this.studentGradStatus.schoolOfRecord){  
+        this.schoolOfRecordWarning = false;
+        this.schoolNotFoundWarning = false;
+       } else {
+          if(this.editedGradStatus.schoolOfRecord.length == 8) {
           SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord, this.token)
           .then((response) => {
             this.schoolNotFoundWarning = false;
             this.schoolOfRecordWarning = false;
+            this.schoolOfRecordStatus = response.data.openFlag
             if(response.statusText == "No Content"){
               this.schoolNotFoundWarning = true;
             }else {
-              this.schoolNotFoundWarning = false;
-              this.schoolOfRecordStatus = response.data.openFlag
+              this.schoolNotFoundWarning = false; 
               if(this.schoolOfRecordStatus == "N"){
                 this.schoolOfRecordWarning = true;
-              }else{
-                this.schoolOfRecordWarning = false;
               }
               this.editedGradStatus.schoolName = response.data.schoolName;
             }    
-
           })
           .catch((error) => {
             // eslint-disable-next-line
             console.log("There was an error:" + error.response);
           });
-        }  
-      }
+        }
+       }
     },
     schoolAtGradChange:function(){
       // if(this.editedGradStatus.schoolAtGrad == "" && this.editedGradStatus.programCompletionDate != ""){
@@ -637,6 +637,7 @@ export default {
                 this.schoolAtGraduationWarning = true;
                 //this.showNotification("warning", "School at graduation closed");
               }
+              this.editedGradStatus.schoolAtGradName = response.data.schoolName;
             }
           })
           .catch((error) => {
