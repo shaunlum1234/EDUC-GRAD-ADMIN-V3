@@ -44,7 +44,7 @@
                     <b-form-select                      
                       v-model="advancedSearchInput.language.value"
                       :options=langOptions
-                      :disabled="disableInput"
+                    
                     ></b-form-select>
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
@@ -153,16 +153,16 @@
                   </div>
                   <div class="row">                                
                     <div class="advanced-search-button">
-                      <button v-on:click="advanceCourseSearch" v-if="!advancedSearchLoading" class="btn btn-primary" tabindex="6">Search</button>
-                      <button class="btn btn-success" v-if="advancedSearchLoading" tabindex="6">Search</button>
+                      <button v-on:click="courseRequirementsSearch" v-if="!courseRequirementLoading" class="btn btn-primary" tabindex="6">Search</button>
+                      <button class="btn btn-success" v-if="courseRequirementLoading" tabindex="6">Search</button>
                       <button @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
                     </div>   
                   </div>
-                  <div v-if="totalResults > 0" class="row">
-                    <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalResults }}</strong> course restrictions found.</div>
+                  <div v-if="totalRequirementResults > 0" class="row">
+                    <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalRequirementResults }}</strong> course requirements found.</div>
                   </div>   
-                  <div v-if="advancedSearchMessage" class="row">
-                    <div class="search-results-message my-5 col-12 col-md-8"><strong>{{ advancedSearchMessage }}</strong></div>
+                  <div v-if="courseRequirementMessage" class="row">
+                    <div class="search-results-message my-5 col-12 col-md-8"><strong>{{ courseRequirementMessage }}</strong></div>
                   </div>    
                 </div>
               </form>
@@ -200,6 +200,7 @@
         courseRequirements: [],
         courseRestrictions: [],
         totalResults:"",
+        totalRequirementResults:"",
         advancedSearchInput: {
           courseCode:{
             value:"",
@@ -406,7 +407,7 @@
     created() {
       //this.getAllCourses();
       this.showNotification = sharedMethods.showNotification
-      this.getAllCourseRequirements();
+      // this.getAllCourseRequirements();
       this.getAllCourseRestrictions();
     },
     methods: {
@@ -416,6 +417,12 @@
           if (this.advancedSearchInput.hasOwnProperty(key)) {
             this.advancedSearchInput[key].value = "";
             this.advancedSearchInput[key].contains = false;
+          }
+        }
+        for (var reqKey in this.requirementsSearchInput) {
+          if (this.requirementsSearchInput.hasOwnProperty(reqKey)) {
+            this.requirementsSearchInput[reqKey].value = "";
+            this.requirementsSearchInput[reqKey].contains = false;
           }
         }
       },
@@ -503,19 +510,18 @@
         this.courseRequirementMessage = "";
         this.courseRequirementLoading = true;
         this.params = new URLSearchParams();
-        this.courses = [];
+        this.courseRequirements = [];
         let isEmpty = true;
         for (var key in this.requirementsSearchInput) {
           if (this.requirementsSearchInput.hasOwnProperty(key)) {
             //console.log(obj[key])
             if (this.requirementsSearchInput[key].value != "") {
               isEmpty = false;   
-            }
-              //add wildcard to mincode if at least 3 digits are included
-          } //mincode
+            }       
+          }
         }
         if(isEmpty){
-          this.totalResults = ""
+          this.totalRequirementResults = ""
           this.courseRequirementLoading = false;
           this.courseRequirementMessage += "Enter at least one field to search."
         }else if(isEmpty == false){
@@ -546,22 +552,24 @@
             CourseService.getCourseRequirements(this.params,this.token)
             .then((response) => {
               this.courseRequirementLoading = false;
-              this.courses = response.data;
-              this.totalResults = this.courses.length;
-              if(this.totalResults <= 0){
-                this.courseRequirementMessage = "No course restrictions found.";      
+              this.courseRequirements = response.data;
+              this.totalRequirementResults = this.courseRequirements.length;
+              if(this.totalRequirementResults <= 0){
+                this.courseRequirementMessage = "No course requirements found.";      
               }
             })   
             .catch((error) => {
               this.courseRequirementLoading = false;
-              this.courseRequirementMessage = "No course restrictions found.";
+              this.courseRequirementMessage = "No course requirements found.";
               // eslint-disable-next-line
               console.log('There was an error:' + error);
               //this.showNotification("danger", error.response.statusText);
             });
           } catch (error) {
             this.courseRequirementLoading = false;
-            this.courseRequirementMessage = "Search Error" + error;
+            this.courseRequirementMessage = "Search Error";
+            // eslint-disable-next-line
+            console.log('There was an error:' + error);
             //this.showNotification("danger", error);
           }   
         }   
