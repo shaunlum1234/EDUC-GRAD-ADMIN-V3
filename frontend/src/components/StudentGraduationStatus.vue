@@ -423,7 +423,7 @@
         </div>     
     </div>
     <div v-if="role == 'administrator'">
-      <b-button v-b-toggle.collapse-1 variant="primary">DEBUG</b-button>
+      <!-- <b-button v-b-toggle.collapse-1 variant="primary">DEBUG</b-button> -->
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
           <pre>{{ JSON.stringify(studentGradStatus, null, '\t') }}</pre>
