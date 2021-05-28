@@ -49,6 +49,8 @@ export default {
       if(this.role == "administrator"){
          this.$store.dispatch("setRoles","authenticated");
       }else if(this.role == "authenticated"){
+         this.$store.dispatch("setRoles","debug");
+      }else if(this.role == "debug"){
          this.$store.dispatch("setRoles","administrator");
       }
     }

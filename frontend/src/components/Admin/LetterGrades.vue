@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DisplayTable v-bind:items="letterGrades.gradLetterGradeList" title="Letter Grade" v-bind:fields="letterGradesFields" id="letterGrade" showFilter="true"
+    <DisplayTable v-bind:items="letterGrades" title="Letter Grade" v-bind:fields="letterGradesFields" id="letterGrade" showFilter="true"
         v-bind:role="role">
     </DisplayTable>
   </div>
@@ -20,7 +20,8 @@ export default {
   created() {
      ProgramManagementService.getLetterGrades(this.token)
       .then((response) => {
-        this.letterGrades = response.data;
+        this.letterGrades = response.data.gradLetterGradeList;
+        
       })
       // eslint-disable-next-line no-unused-vars
       .catch((error) => {

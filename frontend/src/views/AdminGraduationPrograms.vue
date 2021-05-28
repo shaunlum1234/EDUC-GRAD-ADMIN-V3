@@ -93,4 +93,7 @@ export default {
 {
   color: blue;
 }
+.nav-item a{
+  border-radius: 0px !important;
+}
 </style>

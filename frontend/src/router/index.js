@@ -8,7 +8,6 @@ import Assessments from '../views/Assessments.vue';
 import Courses from '../views/Courses.vue';
 import Schools from '../views/Schools.vue';
 import PSI from '../views/PSI.vue';
-import Test from '../views/Table.vue';
 import AdminGraduationPrograms from '../views/AdminGraduationPrograms.vue';
 import AdminCodes from '../views/Codes.vue';
 import GraduationPrograms from '../components/GraduationPrograms.vue';
@@ -16,6 +15,7 @@ import GraduationProgramCourses from '../components/GraduationProgramCourses.vue
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
 import GraduationSpecialProgramRules from '@/components/GraduationSpecialProgramRules';
 import GraduationSpecialPrograms from '@/components/GraduationSpecialPrograms';
+import Search from '../views/Search.vue';
 import LetterGrades from '@/components/Admin/LetterGrades';
 import SpecialCases from '@/components/Admin/SpecialCases';
 import AlgorithmRules from '@/components/Admin/AlgorithmRules';
@@ -50,6 +50,14 @@ const routes = [{
     path: '/student-profile/:pen/:studentId',
     name: 'student-profile',
     component: StudentProfile,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: Search,
     meta: {
       requiresAuth: true
     }
@@ -112,15 +120,7 @@ const routes = [{
     meta: {
       requiresAuth: true
     }
-  },
-  {
-    path: '/test',
-    name: 'test',
-    component: Test,
-    meta: {
-      requiresAuth: true
-    }
-  },
+  }
 ]
 
 const router = new VueRouter({

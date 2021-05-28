@@ -26,7 +26,7 @@
                     <div class="search-results-message my-4"><strong><span v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
                   </div>
                 </form>
-                <div v-if="roles == 'administrator'" class="sample-pens m-3">
+                <div v-if="roles == 'debug'" class="sample-pens m-3">
                   Samples:
                   <div class="row col-12">
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(132341660)">132341660</a> SAMPLE</div>

@@ -371,7 +371,7 @@
                   </ul>
                 </div>
                 <div v-if="studentGradStatus.studentGradData.nonGradReasons">
-                  <b-table :items="studentGradStatus.studentGradData.nonGradReasons" :fields="{key:'rule', key:'description'}"  small
+                  <b-table :items="studentGradStatus.studentGradData.nonGradReasons" :fields="[{key:'rule', key:'description'}]"  small
                   striped></b-table> 
                   <!-- <ul  class="non-grad-reasons px-0">
                     <li v-for="requirement in studentGradStatus.studentGradData.nonGradReasons" :key="requirement.rule">
@@ -425,7 +425,7 @@
         </div>     
     </div>
     <div v-if="role == 'administrator'">
-      <b-button v-b-toggle.collapse-1 variant="primary">DEBUG</b-button>
+      <!-- <b-button v-b-toggle.collapse-1 variant="primary">DEBUG</b-button> -->
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
           <pre>{{ JSON.stringify(studentGradStatus, null, '\t') }}</pre>
