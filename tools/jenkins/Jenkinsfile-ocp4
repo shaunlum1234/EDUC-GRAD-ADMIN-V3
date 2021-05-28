@@ -121,7 +121,7 @@ pipeline{
     }
 	stage('Promote to DEV') {
       steps{
-        deployStage('Dev', TOOLS, TOOLS_HOST_ROUTE, 'latest')
+        deployStage('Dev', TOOLS, DEV_HOST_ROUTE, 'latest')
       }
       post{
         success{
