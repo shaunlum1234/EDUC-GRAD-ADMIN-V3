@@ -86,7 +86,7 @@
                 <div class="advanced-search-button">
                   <button v-on:click="advanceCourseSearch" v-if="!advancedSearchLoading" class="btn btn-primary" tabindex="6">Search</button>
                   <button  class="btn btn-success" v-if="advancedSearchLoading" tabindex="6">Search</button>
-                  <button  @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
+                  <button  @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button> <b-spinner v-if="advancedSearchLoading" label="Loading">Loading</b-spinner>               
                 </div>   
               </div>
               <div v-if="totalResults > 0" class="row">
@@ -155,7 +155,7 @@
                     <div class="advanced-search-button">
                       <button v-on:click="courseRequirementsSearch" v-if="!courseRequirementLoading" class="btn btn-primary" tabindex="6">Search</button>
                       <button class="btn btn-success" v-if="courseRequirementLoading" tabindex="6">Search</button>
-                      <button @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
+                      <button @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button> <b-spinner v-if="courseRequirementLoading" label="Loading">Loading</b-spinner>               
                     </div>   
                   </div>
                   <div v-if="totalRequirementResults > 0" class="row">
@@ -497,12 +497,12 @@
               this.advancedSearchMessage = "No course record found.";
               // eslint-disable-next-line
               console.log('There was an error:' + error);
-              //this.showNotification("danger", error.response.statusText);
+              this.showNotification("danger", "There was an error with the web service.");
             });
           } catch (error) {
             this.advancedSearchLoading = false;
             this.advancedSearchMessage = "Search Error" + error;
-            //this.showNotification("danger", error);
+            this.showNotification("danger", "There was an error with the web service.");
           }   
         }   
       },
@@ -563,14 +563,14 @@
               this.courseRequirementMessage = "No course requirements found.";
               // eslint-disable-next-line
               console.log('There was an error:' + error);
-              //this.showNotification("danger", error.response.statusText);
+              this.showNotification("danger", "There was an error with the web service.");
             });
           } catch (error) {
             this.courseRequirementLoading = false;
             this.courseRequirementMessage = "Search Error";
             // eslint-disable-next-line
             console.log('There was an error:' + error);
-            //this.showNotification("danger", error);
+            this.showNotification("danger", "There was an error with the web service.");
           }   
         }   
       }, 
@@ -582,6 +582,7 @@
           .catch((error) => {
             // eslint-disable-next-line
             console.log('There was an error:' + error);
+            this.showNotification("danger", "There was an error with the web service.");
           });
       },
       getAllCourses() {
@@ -591,11 +592,14 @@
           })
           // eslint-disable-next-line
           .catch((error) => {
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification("danger", "There was an error with the web service.");
+            // eslint-disable-next-line
+            console.log('There was an error:' + error);
+            // this.$bvToast.toast("ERROR " + error.response.statusText, {
+            //   title: "ERROR" + error.response.status,
+            //   variant: 'danger',
+            //   noAutoHide: true,
+            // });
           });
       },
       getAllCourseRequirements() {
@@ -605,11 +609,14 @@
           })
           // eslint-disable-next-line no-unused-vars
           .catch((error) => {
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-          });
+            // this.$bvToast.toast("ERROR " + error.response.statusText, {
+            //   title: "ERROR" + error.response.status,
+            //   variant: 'danger',
+            //   noAutoHide: true,
+            // });
+            this.showNotification("danger", "There was an error with the web service.");
+            // eslint-disable-next-line
+            console.log('There was an error:' + error);       
         });
       },
       getAllCourseRestrictions() {
@@ -619,11 +626,14 @@
           })
           // eslint-disable-next-line no-unused-vars
           .catch((error) => {
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-          });
+            this.showNotification("danger", "There was an error with the web service.");
+            // eslint-disable-next-line
+            console.log('There was an error:' + error); 
+          //   this.$bvToast.toast("ERROR " + error.response.statusText, {
+          //     title: "ERROR" + error.response.status,
+          //     variant: 'danger',
+          //     noAutoHide: true,
+          // });
         });
       },
       getAllCourseRestriction(mainCourseLevel, mainCourseCode) {
@@ -633,11 +643,14 @@
           })
           // eslint-disable-next-line no-unused-vars
           .catch((error) => {
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification("danger", "There was an error with the web service.");
+            // eslint-disable-next-line
+            console.log('There was an error:' + error); 
+          //   this.$bvToast.toast("ERROR " + error.response.statusText, {
+          //     title: "ERROR" + error.response.status,
+          //     variant: 'danger',
+          //     noAutoHide: true,
+          //   });
           });
       }
     },

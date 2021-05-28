@@ -1,7 +1,9 @@
 <template>
+
   <div class="p-2">
     <div class="row">
       <div class="col-12">
+        {{editedGradStatus.programCompletionDate}}
         <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
             <b-card-text>
@@ -199,7 +201,7 @@
                         <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                         <div v-if="schoolNotFoundWarning" class="form-validation-message text-danger" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                       </td>
-                      <td><b-input :disabled="disableInput" size="sm" type="number" maxlength="8" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
+                      <td><b-input :disabled="disableInput" size="sm" type="number" maxlength="8" minength="8" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
                       
                   </tr>
                   <tr v-if="!showEdit">
@@ -586,31 +588,38 @@ export default {
       }
     },
     schoolOfRecordChange:function(){
+       if (this.editedGradStatus.schoolOfRecord.length == 0){
+         this.disableButton = true;
+       } else {
+         this.disableButton = false;
+       }
        if(this.editedGradStatus.schoolOfRecord == this.studentGradStatus.schoolOfRecord){  
         this.schoolOfRecordWarning = false;
         this.schoolNotFoundWarning = false;
        } else {
           if(this.editedGradStatus.schoolOfRecord.length == 8) {
-          SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord, this.token)
-          .then((response) => {
-            this.schoolNotFoundWarning = false;
-            this.schoolOfRecordWarning = false;
-            this.schoolOfRecordStatus = response.data.openFlag
-            if(response.statusText == "No Content"){
-              this.schoolNotFoundWarning = true;
-            }else {
-              this.schoolNotFoundWarning = false; 
-              if(this.schoolOfRecordStatus == "N"){
-                this.schoolOfRecordWarning = true;
-              }
-              this.editedGradStatus.schoolName = response.data.schoolName;
-            }    
-          })
-          .catch((error) => {
-            // eslint-disable-next-line
-            console.log("There was an error:" + error.response);
-          });
-        }
+            SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord, this.token)
+            .then((response) => {
+              this.schoolNotFoundWarning = false;
+              this.schoolOfRecordWarning = false;
+              this.schoolOfRecordStatus = response.data.openFlag
+              if(response.statusText == "No Content"){
+                this.schoolNotFoundWarning = true;
+              }else {
+                this.schoolNotFoundWarning = false; 
+                if(this.schoolOfRecordStatus == "N"){
+                  this.schoolOfRecordWarning = true;
+                }
+                this.editedGradStatus.schoolName = response.data.schoolName;
+              }    
+            })
+            .catch((error) => {
+              // eslint-disable-next-line
+              console.log("There was an error:" + error.response);
+            });
+          } else {
+             this.schoolNotFoundWarning = true;
+          }
        }
     },
     schoolAtGradChange:function(){
@@ -619,6 +628,13 @@ export default {
       // }else{
       //   this.disableButton = false
       // }
+      if(this.editedGradStatus.programCompletionDate != "" || this.editedGradStatus.programCompletionDate === null){
+        if(this.editedGradStatus.schoolAtGrad.length == 0){
+          this.disableButton = true;
+        }       
+      } else {
+        this.disableButton = false;
+      }
       if(this.editedGradStatus.schoolAtGrad == this.studentGradStatus.schoolAtGrad){  
         this.schoolAtGraduationWarning = false;
         this.schoolAtGraduationNotFoundWarning = false;
@@ -644,7 +660,9 @@ export default {
             // eslint-disable-next-line
             console.log("There was an error:" + error.response);
           });
-        } 
+        } else {
+          this.schoolAtGraduationNotFoundWarning = true;
+        }
       } 
     }  
   },
@@ -798,7 +816,6 @@ export default {
         this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("/", "-");
         var date = new Date(this.editedGradStatus.programCompletionDate);
         this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
-        
       }
       if(this.editedGradStatus.schoolOfRecord == ''){
         this.editedGradStatus.schoolOfRecord = null;
@@ -833,7 +850,9 @@ export default {
           this.showNotification("success", "GRAD Status Saved");
         })
         .catch((error) => {
-          this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("-", "/").substring(0, 7);
+          if(this.editedGradStatus.programCompletionDate != null){
+            this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("-", "/").substring(0, 7);
+          }         
           // eslint-disable-next-line
           console.log(error.response);
           this.showNotification(
