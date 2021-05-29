@@ -98,15 +98,13 @@ export default {
       searchAction: "searchSchools"
     }),
     clearInput(){
-        console.log("clear");
+     
     },
     // Triggered when `childToParent` event is emitted by the child.
     submit() {
       //go to webservices
       //then
       let searchResults = this.searchAction(this.search);
-      console.log("search results")
-      console.log(searchResults)
       this.$emit('searchResults', searchResults)
     }
   }
