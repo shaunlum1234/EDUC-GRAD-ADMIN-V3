@@ -258,7 +258,6 @@
         // });
       },
       handleResize() {
-
         this.window.width = window.innerWidth;
         this.window.height = window.innerHeight;
         if (this.window.width < 992) {

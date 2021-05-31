@@ -3,7 +3,6 @@
   <div class="p-2">
     <div class="row">
       <div class="col-12">
-        {{editedGradStatus.programCompletionDate}}
         <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
             <b-card-text>
@@ -588,10 +587,10 @@ export default {
       }
     },
     schoolOfRecordChange:function(){
-       if (this.editedGradStatus.schoolOfRecord.length == 0){
-         this.disableButton = true;
-       } else {
-         this.disableButton = false;
+      if (this.editedGradStatus.schoolOfRecord.length < 8){
+          this.schoolOfRecordWarning = false;
+          this.schoolNotFoundWarning = false;
+          return;
        }
        if(this.editedGradStatus.schoolOfRecord == this.studentGradStatus.schoolOfRecord){  
         this.schoolOfRecordWarning = false;
@@ -628,13 +627,18 @@ export default {
       // }else{
       //   this.disableButton = false
       // }
-      if(this.editedGradStatus.programCompletionDate != "" || this.editedGradStatus.programCompletionDate === null){
-        if(this.editedGradStatus.schoolAtGrad.length == 0){
-          this.disableButton = true;
-        }       
-      } else {
-        this.disableButton = false;
-      }
+      // if(this.editedGradStatus.programCompletionDate != "" || this.editedGradStatus.programCompletionDate === null){
+      //   if(this.editedGradStatus.schoolAtGrad.length == 0){
+      //     this.disableButton = true;
+      //   }       
+      // } else {
+      //   this.disableButton = false;
+      // }
+      if(this.editedGradStatus.schoolAtGrad.length < 8){
+        this.schoolAtGraduationWarning = false;
+        this.schoolAtGraduationNotFoundWarning = false;
+        return;
+      }      
       if(this.editedGradStatus.schoolAtGrad == this.studentGradStatus.schoolAtGrad){  
         this.schoolAtGraduationWarning = false;
         this.schoolAtGraduationNotFoundWarning = false;
@@ -668,6 +672,7 @@ export default {
   },
   methods: {
     dateFormat(){
+
       var value = this.editedGradStatus.programCompletionDate;       
       this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})$/,"$1/$2");        
     },
@@ -716,7 +721,8 @@ export default {
         },
     editGradStatus() {
       //If the student has a programCompletionDate disable input fields
-
+      this.schoolOfRecordWarning = false;
+      this.schoolNotFoundWarning = false;
       if(this.studentGradStatus.programCompletionDate != null){
         this.disableInput = false;
         this.disableStudentStatus = false;
@@ -812,10 +818,16 @@ export default {
       if(this.editedGradStatus.programCompletionDate == ''){
         this.editedGradStatus.programCompletionDate = null;
       }
-      if(this.editedGradStatus.programCompletionDate != null){      
+      if(this.editedGradStatus.programCompletionDate != null){
         this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("/", "-");
-        var date = new Date(this.editedGradStatus.programCompletionDate);
-        this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
+        var date;
+        try{
+          date = new Date(this.editedGradStatus.programCompletionDate);
+          this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
+        }catch(error){
+          // eslint-disable-next-line
+          console.log(error);
+        }
       }
       if(this.editedGradStatus.schoolOfRecord == ''){
         this.editedGradStatus.schoolOfRecord = null;
