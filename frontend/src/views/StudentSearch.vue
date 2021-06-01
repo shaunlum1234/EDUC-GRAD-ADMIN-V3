@@ -29,11 +29,16 @@
                 <div v-if="roles == 'debug'" class="sample-pens m-3">
                   Samples:
                   <div class="row col-12">
-                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(132341660)">132341660</a> SAMPLE</div>
-                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(136557584)">136557584</a> SAMPLE 2</div>
-                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(113920326)">113920326 </a> SAMPLE 3 (DECEASED)</div>
-                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(125219048)">125219048 </a> SAMPLE 4 (MERGED)</div>
-                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(124304700)">124304700</a> ALANAZI, NEAL</div>
+
+
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(130829708)">130829708</a> SAMPLE 1</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(131263535)">131263535</a> SAMPLE 2</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(138142492)">138142492</a> SAMPLE 3</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(128320223)">128320223</a> SAMPLE 4</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(129049565)">129049565</a> SAMPLE 5</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(129434437)">129434437</a> SAMPLE 6</div>
+
+                    
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(124816158)">124816158</a> CHEONG, ALISON</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(125355511)">125355511</a> SEOL, CARYS</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(125943563)">125943563</a> KEMP, LEVKO</div>

@@ -110,7 +110,7 @@
             
                   <tr v-if="showEdit">
                     <td><strong>Program completion date: (YYYY/MM)</strong></td>
-                    <td><b-input :disabled="disableInput" size="sm" type="text" maxLength="7" @keyup="dateFormat(editedGradStatus.programCompletionDate)" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                    <td><b-input :disabled="disableInput" size="sm" type="text" maxLength="7" @keyup="dateFormat()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                   </tr>
                   
                   <tr v-if="!showEdit">
@@ -634,7 +634,7 @@ export default {
       // } else {
       //   this.disableButton = false;
       // }
-      if(this.editedGradStatus.schoolAtGrad.length < 8){
+      if(this.editedGradStatus.schoolAtGrad && this.editedGradStatus.schoolAtGrad.length < 8){
         this.schoolAtGraduationWarning = false;
         this.schoolAtGraduationNotFoundWarning = false;
         return;
@@ -672,9 +672,9 @@ export default {
   },
   methods: {
     dateFormat(){
-
-      var value = this.editedGradStatus.programCompletionDate;       
+      var value = this.editedGradStatus.programCompletionDate;    
       this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})$/,"$1/$2");        
+     
     },
     getStudentStatus(code) {
       var i = 0;
