@@ -48,13 +48,14 @@
                                   <div class="row">                                
                                     <div class="advanced-search-button">
                                       <button v-on:click="advancedSchoolSearch" v-if="!searchLoading" class="btn btn-primary" tabindex="6">Search</button>
-                                      <button  class="btn btn-success" v-if="searchLoading">Search</button>
-                                      <button  @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
+                                      <button class="btn btn-success" v-if="searchLoading">Search </button>
+                                      <button @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>    
+                                      <b-spinner v-if="searchLoading" label="Loading">Loading</b-spinner>            
                                     </div>   
                                   </div>
                                 </b-col>
                               </b-row>
-                              <div v-if="totalResults > 0" class="row">
+                              <div v-if="totalResults > 0 && !searchLoading" class="row">
                                 <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalResults }}</strong> schools records found.</div>
                               </div>   
                               <div v-if="searchMessage" class="row">
@@ -275,7 +276,7 @@
           }).catch((error) => {
             
             this.searchLoading = false;
-            this.searchMessage = "No school found.";
+            this.searchMessage = "School cannnot be found.";
             // eslint-disable-next-line
             console.log('There was an error searching School information to GRAD Status:' + error.response);
           });  
