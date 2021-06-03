@@ -79,6 +79,7 @@
                                 </template>
                                 <template #row-details="row">
                                   <b-card class="px-0">
+                                    {{row.item}}
                                     <ul>        
                                       <li v-if="row.item.address1">
                                         <strong>Address:</strong> {{ row.item.address1 }}
@@ -95,8 +96,26 @@
                                       <li v-if="row.item.countryCode">
                                         <strong>Country Code:</strong> {{ row.item.countryCode }}
                                       </li>
+                                       <li v-if="row.item.countryName">
+                                        <strong>Country Name:</strong> {{ row.item.provinceName}}
+                                      </li>
                                       <li v-if="row.item.postal">
                                         <strong>Postal Code:</strong> {{ row.item.postal }}
+                                      </li>
+                                      <li v-if="row.item.schoolEmail">
+                                        <strong>Email:</strong> {{ row.item.schoolEmail }}
+                                      </li>
+                                      <li v-if="row.item.principalName">
+                                        <strong>Principal:</strong> {{ row.item.principalName }}
+                                      </li>
+                                      <li v-if="row.item.ministryContact">
+                                        <strong>Ministry Contact:</strong> {{ row.item.ministryContact }}
+                                      </li>
+                                      <li v-if="row.item.schoolPhone">
+                                        <strong>Phone:</strong> {{ row.item.schoolPhone }}
+                                      </li>
+                                      <li v-if="row.item.schoolFax">
+                                        <strong>Fax:</strong> {{ row.item.schoolFax }}
                                       </li>
                                     </ul>
                                   </b-card>
@@ -130,21 +149,19 @@
         schoolFields: [
           {
             key: 'more',
-            label: '',
-            sortable: true,
-            sortDirection: 'desc'
+            label: ''        
           },
           {
             key: 'minCode',
             label: 'Mincode',
             sortable: true,
-            sortDirection: 'desc'
+            sortDirection: 'asc'
           },
           {
             key: 'schoolName',
             label: 'School Name',
             sortable: true,
-            sortDirection: 'desc'
+            //sortDirection: 'desc'
           },
           {
             key: 'districtName',
