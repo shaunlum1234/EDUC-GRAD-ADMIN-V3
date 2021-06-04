@@ -125,26 +125,41 @@
     <div class="row m-0">
       <div class="col-12 px-0">
         <div>
+          
           <b-card no-body class="py-0" >
             <b-tabs :pills="smallScreen" card>
-                <b-tab title="GRAD status" class="py-3 px-0 m-1">
+                <b-tab title="GRAD status">
+                  
+                    <template #title>
+                    <b-dropdown id="grad" text="GRAD"  variant="transparent">
+                        <b-dropdown-item><a class="gradstatus" v-on:click="gradTab ='gradStatus'">GRAD Status</a></b-dropdown-item>
+                        <b-dropdown-item><a v-on:click="gradTab ='gradCourses'">Requirements Details</a></b-dropdown-item>
+                        <b-dropdown-item><a v-on:click="run">RUN Graduation Algorithm</a></b-dropdown-item>
+                        <b-dropdown-item><a v-on:click="run">Projected Grad Status</a></b-dropdown-item>
+                    </b-dropdown>
+                  </template>
                   <b-card-text>
-                    
-                    <StudentGraduationStatus></StudentGraduationStatus>
+                    <div style=" position: absolute; right: 52px; z-index: 1000; padding: 20px 5px;">
+                      <a v-if="gradTab =='gradStatus'" v-on:click="gradTab ='gradCourses'">Show Course Details <i class="fas fa-expand-arrows-alt"></i></a></div>
+                    <StudentGraduationStatus v-if="gradTab=='gradStatus'"></StudentGraduationStatus>
+                    <GRADRequirementDetails v-if="gradTab=='gradCourses'"></GRADRequirementDetails>
                   </b-card-text>
                 </b-tab>
-
-
-                <b-tab title="Courses" v-if="studentHasCourses" class="py-3 px-0 m-1">
+                <b-tab :title="'Courses ('  + courses.length + ')'" v-if="studentHasCourses" class="py-3 px-0 m-1">
                   <b-card-text v-if="studentHasCourses">
                     <StudentCourses></StudentCourses>
                   </b-card-text>
                 </b-tab>
-                <b-tab title="Assessments" v-if="studentHasAssessments" class="py-3 px-0 m-1">
+                <b-tab :title="'Assessments ('  + assessments.length + ')'" v-if="studentHasAssessments" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentAssessments />
                   </b-card-text>
                 </b-tab>
+               <b-tab title="Requirement Details" class="py-3 px-0 m-1">
+                  <b-card-text>
+                    <GRADRequirementDetails></GRADRequirementDetails>
+                  </b-card-text>
+                </b-tab>       
                 <b-tab :title="'Notes ('  + studentNotes.length + ')'" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentNotes></StudentNotes>
@@ -175,6 +190,7 @@
   import StudentAssessmentService from "@/services/StudentAssessmentService.js"
   import GraduationStatusService from "@/services/GraduationStatusService.js"
   import SiteMessage from "@/components/SiteMessage";
+  import GRADRequirementDetails from "@/components/GRADRequirementDetails";
   import StudentCourses from "@/components/StudentCourses";
   import StudentAssessments from "@/components/StudentAssessments";
   import StudentNotes from "@/components/StudentNotes";
@@ -205,6 +221,7 @@
     components: {
       SiteMessage: SiteMessage,
       StudentCourses: StudentCourses,
+      GRADRequirementDetails: GRADRequirementDetails,
       StudentAssessments: StudentAssessments,
       StudentNotes:StudentNotes,
       StudentGraduationStatus: StudentGraduationStatus,
@@ -216,6 +233,7 @@
     },
     data() {
       return { 
+        gradTab:"gradStatus",
         show: false,
         opened: [],
         displayMessage: null,
@@ -251,6 +269,9 @@
       window.removeEventListener('resize', this.handleResize);
     },
     methods: {
+      run(){
+        console.log("hey");
+      },
       closeRecord: function () {
         this.$store.commit("unsetStudent");
         // this.$router.push({
@@ -421,5 +442,9 @@
     right: 0;
     top: 0;
   }
-
+.nav-tabs li:first-child a.nav-link {
+    padding: 0px !important;
+    margin: -1px !important;
+    color: red;
+}
 </style>

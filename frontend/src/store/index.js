@@ -397,6 +397,9 @@
       gradStatusCourses(state){
         return state.student.gradStatus.studentGradData.studentCourses.studentCourseList;
       },
+      gradStatusAssessments(state){
+        return state.student.gradStatus.studentGradData.studentAssessments.studentAssessmentList;
+      },      
       getToken(state){
         return state.token;
       },

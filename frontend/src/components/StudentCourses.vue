@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-responsive">
-      <DisplayTable :items="courses" :fields="fields" showFilter="true" title="Courses">
+      <DisplayTable :items="courses" :fields="fields" showFilter="true" title="studentCourse">
         <template #thead-top="">
           <b-tr class="table-row-header-group">
             <b-th colspan="1" class="table-header-group text-center"></b-th>
@@ -225,21 +225,7 @@ export default {
           keys: ["courseCode"],
         },
       },
-      pen: "",
-      sessionDate: "",
-      finalPercent: "",
-      interimPercent: "",
-      finalLetterGrade: "",
-      credits: "",
-      courseId: "",
-      courseType: "",
-      interimLetterGrade: "",
-      currentPage: 1,
-      totalPages: 0,
-      displayMessage: null,
-      modalVisible: null,
-      inputPenMissing: false,
-      count: 0,
+
     };
   },
   created() {
