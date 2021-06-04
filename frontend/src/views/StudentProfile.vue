@@ -270,7 +270,6 @@
     },
     methods: {
       run(){
-        console.log("hey");
       },
       closeRecord: function () {
         this.$store.commit("unsetStudent");
