@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="student-profile">
     <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
     <!-- Button trigger modal -->
     <div class="row m-0 py-3">    
@@ -442,9 +442,5 @@
     right: 0;
     top: 0;
   }
-.nav-tabs li:first-child a.nav-link {
-    padding: 0px !important;
-    margin: -1px !important;
-    color: red;
-}
+
 </style>
