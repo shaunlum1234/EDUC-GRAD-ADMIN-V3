@@ -1,0 +1,225 @@
+<template>
+  <div>
+    <div class="table-responsive">
+      <b-card
+            no-body
+            header="Assessment Requirements"
+          >
+        <b-card-text class="p-3">       
+          
+          <DisplayTable v-if="hasGradStatus" :items="gradStatusAssessments" :fields="fields2" showFilter="true" title="RequirementDetailsAssessments">
+            <template #cell(gradReqMet)="row">
+              <div class="d-flex flex-column text-md-left">
+                  <div class="">
+                    
+                      {{row.item.gradReqMet ? row.item.gradReqMet : "" }}
+                      {{row.item.duplicate ? "Duplicate": ""}}
+                      {{row.item.duplicate && !row.item.used ? ", " : ""}}
+                      {{row.item.used ? "" : "Not Used"}}
+                  </div>
+                </div>
+            </template>
+          </DisplayTable>
+        </b-card-text>
+      </b-card>
+      
+      <b-card
+            no-body
+            header="Course Requirements"
+          >
+        <b-card-text class="p-3">   
+         
+          <DisplayTable v-if="hasGradStatus" :items="gradStatusCourses" :fields="fields" showFilter="true" title="RequirementDetailsCourses">
+            <template #cell(gradReqMet)="row">
+              <div class="d-flex flex-column text-md-left">
+                  <div class="">
+                    
+                      {{row.item.gradReqMet ? row.item.gradReqMet : "" }}
+                      {{row.item.duplicate ? "Duplicate": ""}}
+                      {{row.item.duplicate && !row.item.used ? ", " : ""}}
+                      {{row.item.used ? "" : "Not Used"}}
+                    
+
+                  </div>
+                </div>
+            </template>
+            <template #cell(gradReqMetDetail)="row">
+              <div class="d-flex flex-column text-md-left">
+                  <div class="">
+                      {{row.item.gradReqMetDetail ? row.item.gradReqMetDetail : "-" }}
+                  </div>
+                </div>
+            </template>        
+          </DisplayTable>
+        </b-card-text>
+      </b-card>
+
+      
+
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapGetters } from "vuex";
+import DisplayTable from "@/components/DisplayTable.vue";
+export default {
+  name: "GRADRequirementDetails",
+  components: {
+    DisplayTable: DisplayTable,
+  },
+  props: {},
+  computed: {
+    ...mapGetters({
+      courses: "getStudentCourses",
+      gradStatusCourses: "gradStatusCourses",
+      gradStatusAssessments: "gradStatusAssessments",
+      studentRequirementDetailGRADStudentCoursess: "getStudentGradStatus",
+      hasGradStatus: "studentHasGradStatus",
+      hasGradStatusPendingUpdates: "getHasGradStatusPendingUpdates",
+    }),
+  },
+  data: function () {
+    return {
+    fields2: [
+        {
+          key: "assessmentCode",
+          label: "Code",
+          sortable: true,
+          class: "text-left",
+        },
+        {
+          key: "assessmentName",
+          label: "Name",
+          sortable: true,
+          class: "text-left",
+        },        
+        {
+          key: "sessionDate",
+          label: "Session",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        {
+          key: "gradReqMet",
+          label: "Reqts Met",
+          sortable: true,
+          class: "text-left",
+        },
+        {
+          key: "gradReqMetDetail",
+          label: "Reqt Name",
+          sortable: true,
+          class: "text-left",
+        }
+
+        
+      ],
+      fields: [
+        { key: "more", label: "" },
+        {
+          key: "courseCode",
+          label: "Code",
+          sortable: true,
+          class: "text-left",
+        },
+        {
+          key: "courseLevel",
+          label: "Level",
+          sortable: true,
+          class: "text-left",
+        },
+        {
+          key: "sessionDate",
+          label: "Session",
+          sortable: true,
+          sortDirection: "desc",
+        },
+
+        { key: "completedCoursePercentage", label: "%",class: "text-md-right ",
+          sortable: true,
+          sortDirection: "desc", 
+        },
+        { key: "completedCourseLetterGrade", label: "LG",class: "text-md-left",
+          sortable: true,
+          sortDirection: "desc", 
+        },
+        {
+          key: "credits",
+          label: "Credits",
+          sortable: true,
+          class: "text-center",
+        },
+        {
+          key: "gradReqMet",
+          label: "Reqts Met",
+          sortable: true,
+          class: "text-left",
+        },
+        {
+          key: "gradReqMetDetail",
+          label: "Reqt Name",
+          sortable: true,
+          class: "text-left",
+        },
+        {
+          key: "creditsUsedForGrad",
+          label: "Credits Used",
+          sortable: true,
+          class: "text-left",
+        },
+        
+      ],
+      gradStatusPendingUpdates: [],
+      show: false,
+      opened: [],
+      message: "",
+      achievements: [],
+      InputCourse: "",
+      student: [],
+      InputPen: "",
+      filters: {
+        name: {
+          value: "",
+          keys: ["courseCode"],
+        },
+      },
+
+    };
+  },
+  created() {
+  },
+  methods: {
+    toggle(id) {
+      const index = this.opened.indexOf(id);
+      if (index > -1) {
+        this.opened.splice(index, 1);
+      } else {
+        this.opened.push(id);
+      }
+    },
+    createRef(pen, code, level, sessionDate) {
+      return pen.trim() + code.trim() + level.trim() + sessionDate.trim();
+    },
+  },
+};
+</script>
+
+<style scoped>
+.table th,
+.table td {
+  border-top: none !important;
+}
+
+.table th svg {
+  display: none !important;
+}
+
+.highlight {
+  background: aliceblue !important;
+}
+.card-header {
+  font-weight: 700 !important;
+}
+
+</style>
