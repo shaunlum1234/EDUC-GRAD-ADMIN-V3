@@ -107,7 +107,6 @@ export default {
       //go to webservices
       //then
       const res = await this.searchAction(this.search);
-      console.log(res);
       this.searchResults = res;
       this.$emit('searchResults', res);
     }
