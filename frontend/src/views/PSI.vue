@@ -5,7 +5,7 @@
         <b-tabs card>
           <b-tab title="Post Secondary Institutions" active>
             <b-card-text>
-              <DisplayTable :items="psi" :fields="psiFields" :showFilter=true :pagination=true>
+              <DisplayTable :items="psi" :fields="psiFields" :showFilter=true :pagination=true title="PSI">
                 <template #cell(more)="row">
                     <b-btn
                       variant="outline primary"

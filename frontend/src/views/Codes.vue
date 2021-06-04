@@ -114,6 +114,7 @@ export default {
           label: "Code",
           sortable: true,
           sortDirection: "desc",
+          class: "w-15"
         },
         {
           key: "description",
@@ -128,6 +129,7 @@ export default {
           label: "Code",
           sortable: true,
           sortDirection: "desc",
+          class: "w-15"
         },
         {
           key: "description",
@@ -142,6 +144,7 @@ export default {
           label: "Code",
           sortable: true,
           sortDirection: "desc",
+          class: "w-15"
         },
         {
           key: "description",
@@ -156,6 +159,7 @@ export default {
           label: "Code",
           sortable: true,
           sortDirection: "desc",
+          class: "w-15"
         },
         {
           key: "description",
@@ -184,6 +188,7 @@ export default {
           label: "Code",
           sortable: true,
           sortDirection: "desc",
+          class: "w-15"
         },
         {
           key: "description",

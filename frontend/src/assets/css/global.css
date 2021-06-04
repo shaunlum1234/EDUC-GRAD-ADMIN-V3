@@ -47,3 +47,9 @@
 .text-warning{
   color:#FCBA19 !important;
 }
+
+.nav-tabs li:first-child a.nav-link {
+  padding: 0px !important;
+  margin: -1px !important;
+  color: red;
+}

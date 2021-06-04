@@ -16,7 +16,7 @@
     </div>
     <div class="row">
       <!-- Left col -->  
-      <div class="col-12 pr-0 col-md-6 ">
+      <div class="col-12 pr-0 col-md-5 ">
           <div class="graduation-status">
           <b-card
             no-body
@@ -73,7 +73,7 @@
                   <b-alert show variant="info" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Deceased</h4>
                     <p class="locked-message">
-                      This student's status is set 'Deceased'. Their data cannot be changed.
+                      This student's status is set to 'Deceased'. Their data cannot be changed.
                     </p>
                   </b-alert>
                 </div>          
@@ -329,7 +329,7 @@
           </div>
       </div>
       <!-- Right Column -->
-      <div class="col-12 pl-3 col-md-6"> 
+      <div class="col-12 pl-3 col-md-7"> 
 
         <div class="requirements-met-and-not-met">
    
@@ -425,7 +425,7 @@
         </div>     
     </div>
     <div v-if="role == 'administrator'">
-      <!-- <b-button v-b-toggle.collapse-1 variant="primary">DEBUG</b-button> -->
+      <b-button v-b-toggle.collapse-1 variant="primary">DEBUG</b-button>
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
           <pre>{{ JSON.stringify(studentGradStatus, null, '\t') }}</pre>

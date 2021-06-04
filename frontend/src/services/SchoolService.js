@@ -38,7 +38,7 @@ export default {
         }
         queryString = queryString.slice(0, -1); //remove trailing ampersand
     //    console.log('/api/v1/school/search?' + queryString);
-    //    console.log('/api/v1/school/?' + queryString);
+        console.log('/api/v1/school/?' + queryString);
         return apiClient.get('/api/v1/school/search?' + queryString,{ headers });
     }
 };

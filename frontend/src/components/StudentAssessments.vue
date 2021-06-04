@@ -1,6 +1,6 @@
 <template>
   <div >
-    <DisplayTable :items="assessments" :fields="fields" showFilter=true>
+    <DisplayTable :items="assessments" :fields="fields" showFilter=true title="Assessments">
         <template #cell(assessmentName)="row">
           <div class="d-flex flex-column text-md-left">
               <div class="">

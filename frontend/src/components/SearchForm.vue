@@ -4,6 +4,7 @@
 <div>
 {{searchAPI}}
 {{searchAPIFields}}
+{{searchResults}}
                           <b-container class="p-3">
                               <b-row align-v="stretch" class="row-eq-height">
                                 <b-col>
@@ -58,7 +59,7 @@
                                     <div class="search-results-message my-2 col-12 col-md-8"><strong>{{ searchMessage }}</strong></div>
                                   </div>  
                             </b-container> 
-
+                        <slot></slot>
 </div>
    
 </template>
@@ -80,6 +81,7 @@ export default {
         totalResults: "",
         searchMessage: "",
         searchLoading: false,
+        searchResults: [],
         search: {
           schoolName:{
             value:"",
@@ -101,11 +103,13 @@ export default {
      
     },
     // Triggered when `childToParent` event is emitted by the child.
-    submit() {
+    async submit() {
       //go to webservices
       //then
-      let searchResults = this.searchAction(this.search);
-      this.$emit('searchResults', searchResults)
+      const res = await this.searchAction(this.search);
+      console.log(res);
+      this.searchResults = res;
+      this.$emit('searchResults', res);
     }
   }
 

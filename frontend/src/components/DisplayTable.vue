@@ -1,6 +1,7 @@
 <template>
   <b-container fluid class="m-0 p-0">
     <!-- User Interface controls -->
+    
     <b-button-toolbar
       key-nav
       aria-label="Toolbar with button groups"
@@ -46,7 +47,7 @@
             </div>
             <b-form-input
               debounce="500"
-              id="filter-input"
+              :id='"filter-input-" + title.replace(" ","-").toLowerCase()' 
               size="md"
               v-model="filter"
               type="search"

@@ -39,7 +39,8 @@
         <ul class="navbar-nav mr-auto">
           <li>
             <!-- <router-link to="/">Select Student</router-link> -->
-            <a href="#" class="nav-link" @click="selectStudent()"
+
+            <a class="nav-link" @click="selectStudent()"
               >Student search</a
             >
           </li>
@@ -70,7 +71,7 @@
         <ul>
           <li>
             <!-- <router-link to="/">Select Student</router-link> -->
-            <a href="#" class="nav-link" @click="selectStudent()"
+            <a class="nav-link" @click="selectStudent()"
               >Student search</a
             >
           </li>

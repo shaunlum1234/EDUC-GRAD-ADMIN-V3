@@ -2,7 +2,7 @@
   <div>
     <h1>Search Results</h1>
     <SearchForm v-on:searchResults="displaySearchResults" searchAPI="searchSchools" :searchAPIFields="searchAPIFields"></SearchForm>
-    <DisplayTable v-if="searchResults" :items="searchResults" :fields="schoolFields" ></DisplayTable>
+    <DisplayTable v-if="searchResults" :items="searchResults" :fields="schoolFields" title="schoolsearch" ></DisplayTable>
    </div>
 </template>
 
