@@ -254,6 +254,8 @@
     },
     methods: {
       advancedSchoolSearch(){
+        this.totalResults = "";
+        this.searchMessage = "";
         let isEmpty = true;
         for (var key in this.search) {
           if (this.search.hasOwnProperty(key)) {

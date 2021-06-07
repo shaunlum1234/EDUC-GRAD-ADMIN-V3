@@ -334,6 +334,7 @@ import { mapGetters } from "vuex";
 import StudentService from "@/services/StudentService.js";
 import DisplayTable from "@/components/DisplayTable";
 import { maxValue } from "vuelidate/lib/validators";
+import sharedMethods from '../sharedMethods'
 
 export default {
   name: "studentSearch",
@@ -526,6 +527,7 @@ export default {
   },
   created() {
     this.closeRecord();
+    this.showNotification = sharedMethods.showNotification
   },
   components: {
     DisplayTable: DisplayTable,
@@ -646,11 +648,13 @@ export default {
               this.advancedSearchLoading = false;
               this.advancedSearchMessage = "Student not found";
               this.errorMessage = err;
+              this.showNotification("danger", "There was an error with the web service.");
               // console.log(err);
             });
         } catch (error) {
           this.advancedSearchLoading = false;
           this.advancedSearchMessage = "Advanced Search Error";
+          this.showNotification("danger", "There was an error with the web service.");
           //console.log("Error with webservice");
         }
       }

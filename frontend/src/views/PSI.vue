@@ -270,6 +270,7 @@ export default {
       });
     },
     advancePSISearch() {
+      this.totalResults = "";
       this.advancedSearchMessage = "";
       this.advancedSearchLoading = true;
       this.params = new URLSearchParams();

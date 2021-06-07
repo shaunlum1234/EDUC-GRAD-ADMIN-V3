@@ -23,6 +23,14 @@
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
                   <label >Course level</label>
+                   <div href="#"
+                    v-on:click="advancedSearchInput.courseLevel.contains = !advancedSearchInput.courseLevel.contains"
+                    v-bind:class="{active: advancedSearchInput.courseLevel.contains}"
+                    class="wild-card-button"
+                    v-b-tooltip.hover title="Course level starts with"
+                    >
+                    [.*]
+                  </div>
                   <b-input class="form__input" v-model="advancedSearchInput.courseLevel.value" placeholder=""
                     tabindex="2" />
                 </div>
@@ -427,6 +435,7 @@
         }
       },
       advanceCourseSearch() {
+        this.totalResults = ""
         this.advancedSearchMessage = "";
         this.advancedSearchLoading = true;
         this.params = new URLSearchParams();
@@ -507,6 +516,7 @@
         }   
       },
       courseRequirementsSearch() {
+        this.totalRequirementResults = ""
         this.courseRequirementMessage = "";
         this.courseRequirementLoading = true;
         this.params = new URLSearchParams();
