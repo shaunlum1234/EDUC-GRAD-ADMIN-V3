@@ -145,12 +145,12 @@
                     <GRADRequirementDetails v-if="gradTab=='gradCourses'"></GRADRequirementDetails>
                   </b-card-text>
                 </b-tab>
-                <b-tab :title="'Courses ('  + courses.length + ')'" v-if="studentHasCourses" class="py-3 px-0 m-1">
-                  <b-card-text v-if="studentHasCourses">
+                <b-tab :title="'Courses ('  + courses.length + ')'"  class="py-3 px-0 m-1">
+                  <b-card-text>
                     <StudentCourses></StudentCourses>
                   </b-card-text>
                 </b-tab>
-                <b-tab :title="'Assessments ('  + assessments.length + ')'" v-if="studentHasAssessments" class="py-3 px-0 m-1">
+                <b-tab :title="'Assessments ('  + assessments.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentAssessments />
                   </b-card-text>
