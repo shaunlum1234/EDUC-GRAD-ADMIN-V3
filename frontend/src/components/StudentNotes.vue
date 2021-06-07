@@ -82,6 +82,7 @@
 <script>
 import { mapGetters } from "vuex";
 import GraduationCommonService from "@/services/GraduationCommonService.js";
+import sharedMethods from '../sharedMethods'
 export default {
   name: "StudentNotes",
   computed: {
@@ -94,6 +95,7 @@ export default {
   },
   created() {
     this.studentProfile = this.profile
+    this.showNotification = sharedMethods.showNotification
   },
   data() {
       return {
@@ -116,24 +118,6 @@ export default {
       };
   },
   methods: {
-    showNotification(variant = null, bodyContent) {
-      let title = variant;
-      let delay = 30000;
-      if(title == "success"){
-        title ="success";
-        delay = 5000;
-      }else if(title == "danger"){
-        title ="Error";
-      }else if(title == "warning"){
-        title ="Warning";
-      }
-      this.$bvToast.toast(bodyContent, {
-        title: title,
-        variant: variant,
-        solid: true,
-        autoHideDelay: delay,
-      });
-    },
     onSaveEditedNote(studentNoteIndex, editedNote){
       GraduationCommonService.addStudentNotes(editedNote, this.token)
         .then((response) => {
@@ -144,13 +128,9 @@ export default {
           this.showEditForm = false;        
         })             
         .catch((error) => {
-          if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
-          }
+          // eslint-disable-next-line
+          console.log('There was an error:' + error);
+          this.showNotification("danger", "There was an error with the web service.");
         });       
       },
       onEditNote(note){
@@ -184,16 +164,13 @@ export default {
             if(response.data && response.data.value){
               this.studentNotes.unshift(response.data.value)
               this.newNote.note = '';
+              this.showNotification('success','Student note added')
             }            
           })             
           .catch((error) => {
-            if(error.response.status){
-              this.$bvToast.toast("ERROR " + error.response.statusText, {
-                title: "ERROR" + error.response.status,
-                variant: 'danger',
-                noAutoHide: true,
-              });
-            }
+            // eslint-disable-next-line
+            console.log('There was an error:' + error);
+            this.showNotification("danger", "There was an error with the web service.");
           }); 
       },
       onReset(event) {
@@ -208,6 +185,7 @@ export default {
         GraduationCommonService.deleteStudentNotes(noteID, this.token)  
           var removeIndex = this.studentNotes.map(function(item) { return item.id; }).indexOf(noteID); 
           this.studentNotes.splice(removeIndex, 1);
+          this.showNotification('success','Student note deleted')
       },
       getNotes(){
         GraduationCommonService.getStudentNotes(this.$route.params.pen, this.token).then(
@@ -215,13 +193,9 @@ export default {
             this.studentNotes = response.data
           }
         ).catch((error) => {
-          if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
-          }
+          // eslint-disable-next-line
+          console.log('There was an error:' + error);
+          this.showNotification("danger", "There was an error with the web service.");
         });
       }
     }
