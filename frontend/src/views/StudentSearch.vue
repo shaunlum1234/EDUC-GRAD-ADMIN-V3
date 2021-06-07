@@ -19,9 +19,10 @@
                         <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary ml-2 float-left">
                           <i class="fas fa-search"></i> Search
                         </button>
-                        <button v-if="searchLoading" class=" btn btn-primary ml-2 float-left">
-                          <i class="fas fa-search"></i> Search 
-                        </button>      
+                        <button v-if="searchLoading" class=" btn btn-success ml-2 float-left">
+                          <i class="fas fa-search"></i> Search  
+                        </button>  
+                        &nbsp;&nbsp;<b-spinner v-if="searchLoading" label="Loading">Loading</b-spinner>    
                     </div>
                     <div class="search-results-message my-4"><strong><span v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
                   </div>
@@ -253,7 +254,8 @@
                       <div class="advanced-search-button">
                         <button @click="findStudentsByAdvancedSearch(1,resultsPerPage)" v-if="!advancedSearchLoading" :class="!this.$v.$invalid?'btn btn-primary':'btn btn-secondary'" tabindex="12">Search</button>
                         <button @click="findStudentsByAdvancedSearch(1,resultsPerPage)" v-if="advancedSearchLoading" class="btn btn-success" tabindex="12">Search</button>
-                        <button @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
+                        <button @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>   
+                        &nbsp;&nbsp;<b-spinner v-if="advancedSearchLoading" label="Loading">Loading</b-spinner>             
                       </div>
                     </div>
 
