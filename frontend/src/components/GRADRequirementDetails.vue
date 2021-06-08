@@ -10,12 +10,17 @@
           <DisplayTable v-if="hasGradStatus" :items="gradStatusAssessments" :fields="fields2" showFilter="true" title="RequirementDetailsAssessments">
             <template #cell(gradReqMet)="row">
               <div class="d-flex flex-column text-md-left">
-                  <div class="">
-                    
+                  <div class="gradReqsMet">
+                    <span v-if="row.item.used">
                       {{row.item.gradReqMet ? row.item.gradReqMet : "" }}
+                    </span>                            
+                    <span v-if="!row.item.used">Not Used</span>
+                    <span v-if="row.item.notCompleted || row.item.projected || row.item.failed || row.item.duplicate">
+                      {{row.item.notCompleted ? "Not Completed": ""}}
+                      {{row.item.projected ? "Registration": ""}}
+                      {{row.item.failed ? "Failed": ""}}
                       {{row.item.duplicate ? "Duplicate": ""}}
-                      {{row.item.duplicate && !row.item.used ? ", " : ""}}
-                      {{row.item.used ? "" : "Not Used"}}
+                    </span>
                   </div>
                 </div>
             </template>
@@ -32,14 +37,20 @@
           <DisplayTable v-if="hasGradStatus" :items="gradStatusCourses" :fields="fields" showFilter="true" title="RequirementDetailsCourses">
             <template #cell(gradReqMet)="row">
               <div class="d-flex flex-column text-md-left">
-                  <div class="">
-                    
+                <div class="gradReqsMet">
+                    <span v-if="row.item.used">
                       {{row.item.gradReqMet ? row.item.gradReqMet : "" }}
+                    </span>   
+                    <span v-if="!row.item.used">Not Used</span>                         
+                    <span v-if="row.item.notCompleted || row.item.projected || row.item.failed || row.item.duplicate || row.item.careerPrep || row.item.localDeveloped || row.item.restricted">
+                      {{row.item.notCompleted ? "Not Completed": ""}}
+                      {{row.item.projected ? "Registration": ""}}
+                      {{row.item.failed ? "Failed": ""}}
                       {{row.item.duplicate ? "Duplicate": ""}}
-                      {{row.item.duplicate && !row.item.used ? ", " : ""}}
-                      {{row.item.used ? "" : "Not Used"}}
-                    
-
+                      {{row.item.careerPrep ? "CP Course - Ineligible": ""}}
+                      {{row.item.localDeveloped ? "LD Course - Ineligible": ""}}
+                      {{row.item.restricted ? "Restricted Course": ""}}
+                    </span>
                   </div>
                 </div>
             </template>
@@ -220,6 +231,10 @@ export default {
 }
 .card-header {
   font-weight: 700 !important;
+}
+.gradReqsMet span + span::before{
+    content: ", "
+
 }
 
 </style>
