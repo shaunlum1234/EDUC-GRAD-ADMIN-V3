@@ -79,7 +79,6 @@
                                 </template>
                                 <template #row-details="row">
                                   <b-card class="px-0">
-                                    {{row.item}}
                                     <ul>        
                                       <li v-if="row.item.address1">
                                         <strong>Address:</strong> {{ row.item.address1 }}
