@@ -43,6 +43,7 @@
 
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 import DisplayTable from "@/components/DisplayTable";
+import sharedMethods from '../sharedMethods'
 import {
     mapGetters
 } from "vuex";
@@ -93,11 +94,14 @@ export default {
     };
   },
   created() {
-     ProgramManagementService.getSpecialPrograms(this.token)
-      .then((response) => {
-        this.graduationSpecialPrograms = response.data;
-      })
-      .catch(() => {});
+    this.showNotification = sharedMethods.showNotification
+    ProgramManagementService.getSpecialPrograms(this.token)
+    .then((response) => {
+      this.graduationSpecialPrograms = response.data;
+    })
+    .catch(() => {
+      this.showNotification("danger", "There was an error with the web service.");
+    });
   },
   methods: {
     onClickButton (id) {
