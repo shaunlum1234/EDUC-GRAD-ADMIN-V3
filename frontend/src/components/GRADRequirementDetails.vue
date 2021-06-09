@@ -122,7 +122,25 @@ export default {
           label: "Reqt Name",
           sortable: true,
           class: "text-left",
-        }
+        },
+        {
+          key: "spcialCase",
+          label: "Special Case Exceeded",
+          sortable: true,
+          class: "text-left",
+        },
+        {
+          key: "exceededWriteFlag",
+          label: "Exceeded Writes",
+          sortable: true,
+          class: "text-left",
+        },        
+        {
+          key: "proficiencyScore",
+          label: "Proficiency Score",
+          sortable: true,
+          class: "text-left",
+        }                
 
         
       ],
