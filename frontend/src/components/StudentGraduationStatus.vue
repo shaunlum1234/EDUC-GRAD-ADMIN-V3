@@ -2,6 +2,9 @@
 
   <div class="p-2">
     <div class="row">
+
+    </div>
+    <div class="row">
       <div class="col-12">
         <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
@@ -16,7 +19,8 @@
     </div>
     <div class="row">
       <!-- Left col -->  
-      <div class="col-12 pr-0 col-md-5 ">
+      <div class="col-12 pr-0 col-md-7 ">
+
           <div class="graduation-status">
           <b-card
             no-body
@@ -260,10 +264,25 @@
                     <tr>
                       <td><strong>GPA:</strong></td><td><span v-if="studentGradStatus.gpa && studentGradStatus.gpa > 0 ">{{ studentGradStatus.gpa }}</span></td>
                     </tr>
+                    <tr>
+                      <td><strong>Optional Programs</strong></td>
+                      <td >
+                         <!-- OPTIONAL PROGRAMS -->                           
+                          <div v-if="specialPrograms[0] && specialPrograms[0].studentSpecialProgramData" id="optional-programs">
+                            <span v-for="item in specialPrograms" :key="item.specialProgramCode">
+                              {{ item.specialProgramCode }}
+                            </span>
+                          </div>
+                        
+                      </td>
+                    </tr>
+                
                     </tbody>
                   </table> 
               </b-card-text>
             </b-card>
+            
+         
           </div> 
 
           <!-- CERTIFICATION DOGWOODS -->           
@@ -279,35 +298,6 @@
           </div>  
 
 
-          <!-- SPECIAL PROGRAMS --> 
-          <div class="special-programs">
-            
-            <b-card
-              header="Special programs"
-              no-body
-            >
-              <b-card-text class="p-3" v-if="specialPrograms[0] && specialPrograms[0].studentSpecialProgramData">
-                <b-table :items="specialPrograms" :fields="specialProgramsfields" small striped>
-                </b-table>
-              
-                <div v-if="specialPrograms[0].studentSpecialProgramData.specialRequirementsMet === null">
-                  <h4>Requirements met</h4>
-                  <hr>
-                  No Requirements have been met
-                </div>
-                
-                <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialRequirementsMet" sortBy='gradReqMetDetail'>
-                </b-table>
-                
-                
-                <div v-if="specialPrograms[0].studentSpecialProgramData.specialNonGradReasons === null">
-                  <h4>Requirements not met</h4><hr>
-                  All graduation requirements have been met</div>
-                <b-table v-else :items="specialPrograms[0].studentSpecialProgramData.specialNonGradReasons" sortBy='gradReqMetDetail'>
-                </b-table>
-              </b-card-text>
-            </b-card>
-          </div>
           <!-- GRADUATION REPORTS -->
           <div class="graduation-reports">
             <b-card
@@ -329,11 +319,12 @@
           </div>
       </div>
       <!-- Right Column -->
-      <div class="col-12 pl-3 col-md-7"> 
+      <div class="col-12 pl-3 col-md-5"> 
 
         <div class="requirements-met-and-not-met">
-   
+         
           <div class="requirements-met">
+             
             <b-card
               header="Requirements met"
               v-if="studentGradStatus.studentGradData"
@@ -341,16 +332,17 @@
               class="w-100"
             >
               <b-card-text class=" m-3">
-                <b-table  
-                  :items="studentGradRequirementCourses"
-                  :fields="requirementsMetfields"
+               <b-table :items="requirementsMet"  small
+                  striped></b-table> 
+
+                <!-- <b-table
+                  v-if="requirementsMet"  
+                  :items="requirementsMet"
                   small
                   striped
-                  
                   filter=null
-                  :filter-function="filterGradReqCourses"
                   class="requirements-met">  
-                </b-table>
+                </b-table> -->
                 
               </b-card-text>
             </b-card>
@@ -360,25 +352,21 @@
           
           <div class="requirements-not-met">
             <b-card
-              header="Requirements not met"
+              header="Nongrad Reasons"
               class="w-100"
             >
               <b-card-text v-if="studentGradStatus.studentGradData">
-               
-                <div v-if="!studentGradStatus.studentGradData.nonGradReasons">
+
+                <div v-if="!nongradReasons">
                   <ul>
                     <li>All graduation requirements have been met</li>
                   </ul>
                 </div>
-                <div v-if="studentGradStatus.studentGradData.nonGradReasons">
-                  <b-table :items="studentGradStatus.studentGradData.nonGradReasons" :fields="[{key:'rule', key:'description'}]"  small
+                <div v-else>
+                   
+                  <b-table :items="nongradReasons"  small
                   striped></b-table> 
-                  <!-- <ul  class="non-grad-reasons px-0">
-                    <li v-for="requirement in studentGradStatus.studentGradData.nonGradReasons" :key="requirement.rule">
-                      {{ requirement.description }} (Rule
-                      {{ requirement.rule }})
-                    </li>
-                  </ul> -->
+       
                 </div>
               </b-card-text>
             </b-card>
@@ -388,40 +376,11 @@
     </div>
     <div>
       <div class="graduation-actions">
-        <b-card
-            header="GRAD Actions"
-          >
-            <b-card-text v-if="studentGradStatus.studentGradData">
-            <div v-if="hasGradStatus" class="text-left mb-3">
-              <strong>Created by:</strong> {{ studentGradStatus.createdBy }}
+        <strong>Created by:</strong> {{ studentGradStatus.createdBy }}
               <strong>Created:</strong> {{ studentGradStatus.createdTimestamp }}
               
               <strong>Updated by:</strong> {{ studentGradStatus.updatedBy }}
               <strong>Updated:</strong> {{ studentGradStatus.updatedTimestamp }}
-            </div>
-            <div class="row">
-              <div class="col-2">
-                <a href="#" @click="projectGraduationStatus(studentPen)" class="float-left">
-                  <i class="fas fa-eye"></i> Projected<br> Graduation Status
-                </a>
-                <b-modal id="modal-1" size="lg" class="float-left">
-                  <div v-if="showModal" class="row col-12">
-                        PROJECTED GRAD STATUS
-                  </div>
-                </b-modal>
-              </div>
-              <div class="col-2">
-                <a href="#" v-on:click="updateGraduationStatus(studentPen)" class="">
-                  <i class="fas fa-sync"></i> Run Graduation<br>Algorithm
-                </a>
-              </div>
-            </div>
-                
-    
-
-            </b-card-text>
-          </b-card>
-
         </div>     
     </div>
     <div v-if="role == 'administrator'">
@@ -441,6 +400,7 @@ import GraduationCommonService from "@/services/GraduationCommonService.js";
 import GraduationService from "@/services/GraduationService.js";
 import GraduationStatusService from "@/services/GraduationStatusService.js";
 import SchoolService from "@/services/SchoolService.js";
+
 
 export default {
   name: "StudentGraduationStatus",
@@ -468,6 +428,8 @@ export default {
       studentGradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
       studentGradRequirementCourses: "gradStatusCourses",
+      nongradReasons: "getNongradReasons",
+      requirementsMet: "getRequirementsMet",      
       studentPen: "getStudentPen",
       studentFullName: "getStudentFullName",
       token: "getToken",
@@ -483,13 +445,12 @@ export default {
   data() {
     return {
       requirementsMetfields: [
-        { key: "gradReqMetDetail", label: "Requirement code", sortable: true },
-        { key: "courseName", label: "Course name" },
-        { key: "sessionDate", label: "Session" },
+        { key: "rule", label: "Rule", sortable: true },        
+        { key: "description", label: "Requirement Name", sortable: true },
       ],
-      requirementsNotMetfields: [
-        { key: "gradReqMetDetail", label: "Requirement code" },
-        { key: "courseName", label: "Course name" },
+      nongradReasonsfields: [
+        { key: "rule", label: "Rule" },
+        { key: "description", label: "Requirement Name", sortable: true },
       ],
       specialProgramsfields: [
         { key: "specialProgramCode", label: "Code", class: "text-center"},
@@ -1037,6 +998,13 @@ h5.modal-title {
     background-color: #e9ecef;
 }
 
+#actions{
+  position: absolute;
+  z-index: 20;
+  right: 10px;
+  top: -55px;
+  text-decoration: none !important;  
+}
 
 </style>
 

@@ -426,7 +426,13 @@
       },
       getUngradReasons(state){
         return state.applicationVariables.ungradReasons;
-      }
+      },
+      getRequirementsMet(state){
+        return state.student.gradStatus.studentGradData.requirementsMet;
+      },
+      getNongradReasons(state){
+        return state.student.gradStatus.studentGradData.nonGradReasons;
+      }      
     },
     modules: {}
   })

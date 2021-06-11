@@ -18,7 +18,6 @@
                 <b-button  v-b-toggle.student-accordion variant="link" v-on:click="moreStudentInfo = !moreStudentInfo">
                   <i class='fas fa-lg fa-caret-down'></i>
                 </b-button>
-              
               </td>
               <td class="align-top profile-name-data px-0" v-if="studentFullName.pen"><strong><p class="profile-info">{{ studentFullName.pen }}</p></strong></td>
               <td class="align-top profile-name-data" v-if="studentFullName.legalLastName"><p class="profile-info">{{ studentFullName.legalLastName }}</p></td>
@@ -83,66 +82,42 @@
                     </tr>
                   </tbody>
               </table>
-
-                 <!--table class="table table-striped table-bordered table-sm m-0">
-                  <tbody>
-                    <tr>
-                      <td class="w-25"><strong>Usual First Name:</strong></td><td class="">{{studentInfo.usualFirstName}}</td>
-                      <td><strong>Grade Code:</strong></td><td> {{studentInfo.gradeCode}} </td>
-                      <td><strong>Status:</strong></td><td>{{studentInfo.statusCode}} </td>
-                    </tr>
-                    <tr>
-                      <td><strong>Usual Last Name:</strong></td><td> {{studentInfo.usualLastName}}</td>
-                      <td><strong>Gender:</strong></td><td> {{studentInfo.genderCode}}</td>
-                      <td><strong>Demog Code:</strong></td><td> {{studentInfo.demogCode}} </td>
-                    </tr>
-                    <tr>
-                      <td><strong>Usual Middle Name:</strong></td><td> {{studentInfo.usualMiddleNames}}</td>
-                      <td><strong>Sex:</strong></td><td> </td>
-                      <td><strong>Mincode:</strong></td><td> {{studentInfo.mincode}}</td>
-                      
-                    </tr>
-                    <tr>
-                      <td class="w-25"><strong>Email:</strong></td><td>{{ studentInfo.email}}</td>
-                      
-                      <td><strong>Email verified:</strong></td><td> {{studentInfo.emailVerified}}</td>
-                      <td><strong>Postal Code:</strong></td><td> {{studentInfo.postalCode}} </td>
-                    </tr>
-
-                    <tr>
-                      <td colspan="6"><strong>Deceased Date:</strong> {{studentInfo.deceasedDate}}</td>  
-                    </tr>                    
-                                    
-                  </tbody>
-                </table-->
-                  
-          
           </b-card>
         </b-collapse>
+        
+                    <b-dropdown  v-b-tooltip.hover.left :title="'Last Run: ' + studentGradStatus.updatedTimestamp + ' by ' +studentGradStatus.updatedBy" id="actions" size="sm" right text="Run graduation algorithm" class="m-md-2 float-right">
+                      <b-dropdown-item v-on:click="graduateStudent">Graduate Student</b-dropdown-item>
+                      <b-dropdown-item v-on:click="updatedProjectedGradStatus" >Project Graduation</b-dropdown-item>
+                      <b-dropdown-item v-b-modal.projectedGradStatusWithRegistrations>Project Graduation with registrations</b-dropdown-item>
+                      <b-dropdown-divider></b-dropdown-divider>
+                      <b-dropdown-item active>Active action</b-dropdown-item>
+                      <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+                      
+                    </b-dropdown>
       </div>
       
     </div>
     <div class="row m-0">
       <div class="col-12 px-0">
         <div>
-          
-          <b-card no-body class="py-0" >
-            <b-tabs :pills="smallScreen" card>
-                <b-tab title="GRAD status">
-                  
-                    <template #title>
-                    <b-dropdown id="grad" text="GRAD"  variant="transparent">
-                        <b-dropdown-item><a class="gradstatus" v-on:click="gradTab ='gradStatus'">GRAD Status</a></b-dropdown-item>
-                        <b-dropdown-item><a v-on:click="gradTab ='gradCourses'">Requirements Details</a></b-dropdown-item>
-                        <b-dropdown-item><a v-on:click="run">RUN Graduation Algorithm</a></b-dropdown-item>
-                        <b-dropdown-item><a v-on:click="run">Projected Grad Status</a></b-dropdown-item>
-                    </b-dropdown>
-                  </template>
+          <b-card no-body class="p-0" >
+            <b-tabs :pills="smallScreen" v-model="selectedTab" card>
+                <b-tab title="GRAD" class="gradstatus-tabs py-4">
+                    <!-- <a v-on:click="gradTab ='gradStatus'" :class="gradTab == 'gradStatus'? 'link-active':''" href="#">GRAD Status</a> |
+                    <a  :class="gradTab == 'gradCourses'? 'link-active':''" href="#">Requirement Details</a> -->
+                  <div class="mb-2">
+                    <!-- <a href="#" v-on:click="updatedProjectedGradStatus">Update</a> -->
+                    <b-button class="mx-2" v-on:click="gradTab ='gradStatus'" size="sm" :variant="gradTab == 'gradStatus'? 'primary':'outline-secondary'">GRAD Status</b-button>
+                    <b-button class="mr-2" v-on:click="gradTab ='gradCourses'" size="sm" :variant="gradTab == 'gradCourses'? 'primary':'outline-secondary'">Requirement Details</b-button>
+
+                  </div>   
                   <b-card-text>
-                    <div style=" position: absolute; right: 52px; z-index: 1000; padding: 20px 5px;">
-                      <a v-if="gradTab =='gradStatus'" v-on:click="gradTab ='gradCourses'">Show Course Details <i class="fas fa-expand-arrows-alt"></i></a></div>
-                    <StudentGraduationStatus v-if="gradTab=='gradStatus'"></StudentGraduationStatus>
-                    <GRADRequirementDetails v-if="gradTab=='gradCourses'"></GRADRequirementDetails>
+                    <div style=" position: absolute; right: 52px; z-index: 5; padding: 20px 5px;">
+                      <a v-if="gradTab =='gradStatus'" v-on:click="gradTab ='gradCourses'">Requirement Details <i class="fas fa-expand-arrows-alt"></i></a></div>
+                      <b-overlay :show="gradStatusLoading" rounded="sm">
+                        <StudentGraduationStatus v-if="gradTab=='gradStatus'"></StudentGraduationStatus>
+                        <GRADRequirementDetails v-if="gradTab=='gradCourses'"></GRADRequirementDetails>
+                      </b-overlay>
                   </b-card-text>
                 </b-tab>
                 <b-tab :title="'Courses ('  + courses.length + ')'"  class="py-3 px-0 m-1">
@@ -155,11 +130,11 @@
                     <StudentAssessments />
                   </b-card-text>
                 </b-tab>
-               <b-tab title="Requirement Details" class="py-3 px-0 m-1">
+                <b-tab :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
-                    <GRADRequirementDetails></GRADRequirementDetails>
+                    <StudentSpecialPrograms></StudentSpecialPrograms>
                   </b-card-text>
-                </b-tab>       
+                </b-tab>                                   
                 <b-tab :title="'Notes ('  + studentNotes.length + ')'" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentNotes></StudentNotes>
@@ -180,6 +155,37 @@
 
 
     </div>
+    <div>
+      <!-- Projected Grad Status Modal -->
+      <b-modal size="xl" ref="projectedGradStatusWithRegistrations" title="Projected Grad Status with Registrations
+" centered>
+
+        <b-card-group deck>
+            <b-card
+              header="Requirements Met"
+            >
+              <b-card-text><b-table small :items="this.projectedGradStatus.requirementsMet"></b-table></b-card-text>
+            </b-card>
+            <b-card
+              header="Nongrad Requirements"
+            >
+              <b-card-text> <b-table small :items="this.projectedGradStatus.nonGradReasons"></b-table></b-card-text>
+            </b-card>
+
+      
+          </b-card-group>
+
+        
+      </b-modal>
+      <b-modal ref="projectedGradStatus" centered title="Projected Grad Status">
+          
+
+        
+      </b-modal>
+    </div>
+    
+
+
   </div>
 </template>
 
@@ -195,6 +201,8 @@
   import StudentAssessments from "@/components/StudentAssessments";
   import StudentNotes from "@/components/StudentNotes";
   import StudentGraduationStatus from "@/components/StudentGraduationStatus";
+  import StudentSpecialPrograms from "@/components/StudentSpecialPrograms";
+  import GraduationService from "@/services/GraduationService.js"
 
 
   import {
@@ -225,6 +233,7 @@
       StudentAssessments: StudentAssessments,
       StudentNotes:StudentNotes,
       StudentGraduationStatus: StudentGraduationStatus,
+      StudentSpecialPrograms: StudentSpecialPrograms,
     },
     props: {
       pen: {
@@ -233,6 +242,10 @@
     },
     data() {
       return { 
+        selectedTab: 0,
+        projectedGradStatus: [],
+        projectedGradStatusWithRegistrations: [],
+        gradStatusLoading: false,
         gradTab:"gradStatus",
         show: false,
         opened: [],
@@ -262,6 +275,8 @@
         studentId: "getStudentId",
         studentInfo: "getStudentProfile",
         studentNotes: "getStudentNotes",
+        specialPrograms: "getStudentSpecialPrograms",
+      
       }),
     },
     
@@ -270,6 +285,42 @@
     },
     methods: {
       run(){
+      },
+      graduateStudent(){
+        this.selectedTab = 0;
+        this.gradStatusLoading = true; 
+        GraduationService.projectedGradFinalMarks(this.studentId, this.token) .then((response) => {
+            console.log(response.data);
+            this.gradStatusLoading = false; 
+        }).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });
+
+        
+      },
+      updatedProjectedGradStatus(){
+
+        GraduationService.projectedGradFinalMarks(this.studentId, this.token) .then((response) => {
+          
+          this.projectedGradStatus = response.data;
+          this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStatus.studentGradData);
+         console.log(this.projectedGradStatus);
+         this.$refs['projectedGradStatusWithRegistrations'].show();
+        }).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });
       },
       closeRecord: function () {
         this.$store.commit("unsetStudent");
@@ -441,5 +492,8 @@
     right: 0;
     top: 0;
   }
-
+  .link-active{
+    text-decoration: none;
+    border-bottom: 3px solid black;
+  }
 </style>
