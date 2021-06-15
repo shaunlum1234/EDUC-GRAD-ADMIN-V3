@@ -49,8 +49,16 @@ Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 Vue.use(ToastPlugin);
 
-//keycloak init options
 
+//Date time filter
+Vue.filter('formatTime', function(value) {
+  var date = new Date(value);
+  date.toLocaleString('en-US', { timeZone: 'America/New_York' });
+  return date.toString();
+});
+
+
+//keycloak init options
 let initOptions = {
   url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
 }

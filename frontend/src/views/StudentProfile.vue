@@ -84,16 +84,18 @@
               </table>
           </b-card>
         </b-collapse>
-        
-                    <b-dropdown  v-b-tooltip.hover.left :title="'Last Run: ' + studentGradStatus.updatedTimestamp + ' by ' +studentGradStatus.updatedBy" id="actions" size="sm" right text="Run graduation algorithm" class="m-md-2 float-right">
+                  <div class="float-right grad-actions">
+                    <b-spinner v-if="tabLoading" class="px-1 my-2" ></b-spinner>
+                    <b-dropdown :disabled="tabLoading" v-b-tooltip.hover.left :title="'Last Run: ' + studentGradStatus.updatedTimestamp + ' by ' +studentGradStatus.updatedBy" id="actions" right text="Run graduation algorithm" class="m-md-2 float-right">
                       <b-dropdown-item v-on:click="graduateStudent">Graduate Student</b-dropdown-item>
-                      <b-dropdown-item v-on:click="updatedProjectedGradStatus" >Project Graduation</b-dropdown-item>
-                      <b-dropdown-item v-b-modal.projectedGradStatusWithRegistrations>Project Graduation with registrations</b-dropdown-item>
                       <b-dropdown-divider></b-dropdown-divider>
-                      <b-dropdown-item active>Active action</b-dropdown-item>
-                      <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+                      <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks">Projected final marks</b-dropdown-item>
+                      <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg">Projected final marks and registrations</b-dropdown-item>
+           
+           
                       
                     </b-dropdown>
+                  </div>
       </div>
       
     </div>
@@ -103,41 +105,53 @@
           <b-card no-body class="p-0" >
             <b-tabs :pills="smallScreen" v-model="selectedTab" card>
                 <b-tab title="GRAD" class="gradstatus-tabs py-4">
-                    <!-- <a v-on:click="gradTab ='gradStatus'" :class="gradTab == 'gradStatus'? 'link-active':''" href="#">GRAD Status</a> |
-                    <a  :class="gradTab == 'gradCourses'? 'link-active':''" href="#">Requirement Details</a> -->
                   <div class="mb-2">
-                    <!-- <a href="#" v-on:click="updatedProjectedGradStatus">Update</a> -->
                     <b-button class="mx-2" v-on:click="gradTab ='gradStatus'" size="sm" :variant="gradTab == 'gradStatus'? 'primary':'outline-secondary'">GRAD Status</b-button>
                     <b-button class="mr-2" v-on:click="gradTab ='gradCourses'" size="sm" :variant="gradTab == 'gradCourses'? 'primary':'outline-secondary'">Requirement Details</b-button>
-
+                  
+                        
+                            <span class="record-timestamp"><strong>Updated:</strong> {{ studentGradStatus.updatedTimestamp|formatTime }} by {{ studentGradStatus.updatedBy }}</span>
+                          
+                      
                   </div>   
                   <b-card-text>
-                    <div style=" position: absolute; right: 52px; z-index: 5; padding: 20px 5px;">
-                      <a v-if="gradTab =='gradStatus'" v-on:click="gradTab ='gradCourses'">Requirement Details <i class="fas fa-expand-arrows-alt"></i></a></div>
-                      <b-overlay :show="gradStatusLoading" rounded="sm">
+                   
+                    <b-overlay :show="tabLoading" rounded="sm">
+                        <div style=" position: absolute; right: 52px; z-index: 5; padding: 20px 5px;">
+                        <a v-if="gradTab =='gradStatus'" v-on:click="gradTab ='gradCourses'">Requirement Details <i class="fas fa-expand-arrows-alt"></i></a></div>
                         <StudentGraduationStatus v-if="gradTab=='gradStatus'"></StudentGraduationStatus>
-                        <GRADRequirementDetails v-if="gradTab=='gradCourses'"></GRADRequirementDetails>
+                        <GRADRequirementDetails v-if="gradTab=='gradCourses'">
+                          <b-alert variant="info" :show="!studentGradStatus.recalculateGradStatus">{{studentGradStatus.studentGradData.gradMessage}}</b-alert>
+                        </GRADRequirementDetails>
                       </b-overlay>
                   </b-card-text>
                 </b-tab>
                 <b-tab :title="'Courses ('  + courses.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
+                    <b-overlay :show="tabLoading" rounded="sm">
                     <StudentCourses></StudentCourses>
+                    </b-overlay>
                   </b-card-text>
                 </b-tab>
                 <b-tab :title="'Assessments ('  + assessments.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
+                    <b-overlay :show="tabLoading" rounded="sm">
                     <StudentAssessments />
+                    </b-overlay>
                   </b-card-text>
                 </b-tab>
                 <b-tab :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
+                    <b-overlay :show="tabLoading" rounded="sm">
                     <StudentSpecialPrograms></StudentSpecialPrograms>
+                    </b-overlay>
                   </b-card-text>
                 </b-tab>                                   
                 <b-tab :title="'Notes ('  + studentNotes.length + ')'" class="py-3 px-0 m-1">
                   <b-card-text>
+                    <b-overlay :show="tabLoading" rounded="sm">
                     <StudentNotes></StudentNotes>
+                    </b-overlay>
                   </b-card-text>
                 </b-tab>
                 <b-tab v-if="
@@ -156,20 +170,27 @@
 
     </div>
     <div>
+ 
       <!-- Projected Grad Status Modal -->
-      <b-modal size="xl" ref="projectedGradStatusWithRegistrations" title="Projected Grad Status with Registrations
+      <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalMarks" title="Projected Grad Status with Final Marks
 " centered>
-
-        <b-card-group deck>
+            <b-alert variant="info" show>{{projectedGradStatus.gradMessage}}</b-alert>
+            <b-card-group deck v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">
+            
             <b-card
-              header="Requirements Met"
+              header="Requirements met"
             >
               <b-card-text><b-table small :items="this.projectedGradStatus.requirementsMet"></b-table></b-card-text>
             </b-card>
             <b-card
-              header="Nongrad Requirements"
+              header="Nongrad reasons"
             >
-              <b-card-text> <b-table small :items="this.projectedGradStatus.nonGradReasons"></b-table></b-card-text>
+              <div v-if="projectedGradStatus && projectedGradStatus.nonGradReasons">
+                <b-card-text><b-table small :items="this.projectedGradStatus.nonGradReasons"></b-table></b-card-text>
+              </div>
+              <div v-else>
+                <b-card-text>All requirements have been met</b-card-text>
+              </div>
             </b-card>
 
       
@@ -177,7 +198,30 @@
 
         
       </b-modal>
-      <b-modal ref="projectedGradStatus" centered title="Projected Grad Status">
+      <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalAndReg" centered title="Projected Grad Status with Final Marks and Registrations">
+
+            <b-alert variant="info" show>{{projectedGradStatus.gradMessage}}</b-alert>
+
+            <b-card-group deck v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">
+            
+            <b-card
+              header="Requirements met"
+            >
+              <b-card-text><b-table small :items="this.projectedGradStatus.requirementsMet"></b-table></b-card-text>
+            </b-card>
+            <b-card
+              header="Nongrad reasons"
+            >
+              <div v-if="projectedGradStatus && projectedGradStatus.nonGradReasons">
+                <b-card-text><b-table small :items="this.projectedGradStatus.nonGradReasons"></b-table></b-card-text>
+              </div>
+              <div v-else>
+                <b-card-text>All requirements have been met</b-card-text>
+              </div>
+            </b-card>
+
+      
+          </b-card-group>
           
 
         
@@ -245,7 +289,7 @@
         selectedTab: 0,
         projectedGradStatus: [],
         projectedGradStatusWithRegistrations: [],
-        gradStatusLoading: false,
+        tabLoading: false,
         gradTab:"gradStatus",
         show: false,
         opened: [],
@@ -288,11 +332,35 @@
       },
       graduateStudent(){
         this.selectedTab = 0;
-        this.gradStatusLoading = true; 
-        GraduationService.projectedGradFinalMarks(this.studentId, this.token) .then((response) => {
+        this.tabLoading = true; 
+        GraduationService.graduateStudent(this.studentId, this.token).then((response) => {
             console.log(response.data);
-            this.gradStatusLoading = false; 
+            if(response.data.graduationStatus){
+              // use when response is updated
+              //this.$store.dispatch("setStudentGradStatus", response.data.graduationStatus);
+
+                GraduationStatusService.getGraduationStatus(this.studentId, this.token).then(
+                  (response) => {
+                
+                    this.$store.dispatch("setStudentGradStatus", response.data);
+                  }
+                ).catch((error) => {
+                  if(error.response.status){
+                    this.$bvToast.toast("ERROR " + error.response.statusText, {
+                      title: "ERROR" + error.response.status,
+                      variant: 'danger',
+                      noAutoHide: true,
+                    });
+                  }
+                });
+
+
+
+
+            }            
+            this.tabLoading = false; 
         }).catch((error) => {
+          this.tabLoading = false; 
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error.response.statusText, {
               title: "ERROR" + error.response.status,
@@ -301,18 +369,18 @@
             });
           }
         });
-
-        
       },
-      updatedProjectedGradStatus(){
-
+      projectedGradStatusWithFinalMarks(){
+        this.tabLoading = true; 
         GraduationService.projectedGradFinalMarks(this.studentId, this.token) .then((response) => {
           
           this.projectedGradStatus = response.data;
           this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStatus.studentGradData);
          console.log(this.projectedGradStatus);
-         this.$refs['projectedGradStatusWithRegistrations'].show();
+         this.$refs['projectedGradStatusWithFinalMarks'].show();
+         this.tabLoading = false; 
         }).catch((error) => {
+          this.tabLoading = false; 
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error.response.statusText, {
               title: "ERROR" + error.response.status,
@@ -322,6 +390,26 @@
           }
         });
       },
+      projectedGradStatusWithFinalAndReg(){
+      this.tabLoading = true; 
+        GraduationService.projectedGradStatusWithFinalAndReg(this.studentId, this.token) .then((response) => {
+          this.projectedGradStatus = response.data;
+          this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStatus.studentGradData);
+         89
+         this.$refs['projectedGradStatusWithFinalAndReg'].show();
+         this.tabLoading = false; 
+        }).catch((error) => {
+          if(error.response.status){
+            this.tabLoading = false; 
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+            
+          }
+        });
+      },      
       closeRecord: function () {
         this.$store.commit("unsetStudent");
         // this.$router.push({
@@ -426,6 +514,11 @@
 </script>
 
 <style scoped>
+  .grad-actions{
+    position: absolute;
+    right: 0;
+    top: -50px
+  }
   .profile-info{
     font-size: 29px;
 
@@ -495,5 +588,9 @@
   .link-active{
     text-decoration: none;
     border-bottom: 3px solid black;
+  }
+  .record-timestamp{
+    position:absolute;
+    right: 50px;
   }
 </style>

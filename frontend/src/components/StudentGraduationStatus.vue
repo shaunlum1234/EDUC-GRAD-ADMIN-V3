@@ -88,7 +88,15 @@
                       This student's status is set 'Merged'. Their data cannot be changed.
                     </p>
                   </b-alert>
-                </div>                                                    
+                </div>          
+                <div v-else-if="studentGradStatus && recalculateFlag">
+                  <b-alert show variant="info" class="p-3 mb-1">
+                    <h4 class="alert-heading">Grad Status has been updated</h4>
+                    <p class="locked-message">
+                      Run the graduation algorithm (graduate student) to update the GRAD status
+                    </p>
+                  </b-alert>
+                </div>                                                                              
 
                 <table class="table  table-hover table-sm" >
                   <tbody>
@@ -267,13 +275,12 @@
                     <tr>
                       <td><strong>Optional Programs</strong></td>
                       <td >
-                         <!-- OPTIONAL PROGRAMS -->                           
-                          <div v-if="specialPrograms[0] && specialPrograms[0].studentSpecialProgramData" id="optional-programs">
-                            <span v-for="item in specialPrograms" :key="item.specialProgramCode">
-                              {{ item.specialProgramCode }}
-                            </span>
-                          </div>
-                        
+                         <!-- OPTIONAL PROGRAMS -->                      
+                          <ul class="p-0" v-if="specialPrograms[0] && specialPrograms[0].studentSpecialProgramData" id="optional-programs">
+                            <li v-for="item in specialPrograms" :key="item.specialProgramCode">
+                              {{ item.specialProgramName }}
+                            </li>
+                          </ul>
                       </td>
                     </tr>
                 
@@ -284,24 +291,13 @@
             
          
           </div> 
-
-          <!-- CERTIFICATION DOGWOODS -->           
-          <div class="certification-dogwoods">
-            <b-card
-              header="Certification/Dogwoods"
-              no-body
-             
-            >
-              <b-card-text class="p-4">
-              </b-card-text>
-            </b-card> 
-          </div>  
+ 
 
 
           <!-- GRADUATION REPORTS -->
           <div class="graduation-reports">
             <b-card
-              header="Graduation reports"
+              header="Student Reports"
             >
               <b-card-text>
                   <div>
@@ -317,12 +313,44 @@
             </b-card>       
             
           </div>
+
+          <!-- CERTIFICATION DOGWOODS -->           
+          <div class="certification-dogwoods">
+            <b-card
+              header="Student Certificates/Dogwoods"
+              no-body
+             
+            >
+              <b-card-text class="p-4">
+              </b-card-text>
+            </b-card> 
+          </div>           
       </div>
       <!-- Right Column -->
       <div class="col-12 pl-3 col-md-5"> 
 
         <div class="requirements-met-and-not-met">
-         
+          <div class="requirements-not-met">
+            <b-card
+              header="Nongrad Reasons"
+              class="w-100"
+            >
+              <b-card-text v-if="studentGradStatus.studentGradData">
+
+                <div v-if="!nongradReasons">
+                  <ul>
+                    <li>All graduation requirements have been met</li>
+                  </ul>
+                </div>
+                <div v-else>
+                   
+                  <b-table :items="nongradReasons"  small
+                  striped></b-table> 
+       
+                </div>
+              </b-card-text>
+            </b-card>
+          </div>
           <div class="requirements-met">
              
             <b-card
@@ -350,39 +378,11 @@
           </div>
 
           
-          <div class="requirements-not-met">
-            <b-card
-              header="Nongrad Reasons"
-              class="w-100"
-            >
-              <b-card-text v-if="studentGradStatus.studentGradData">
-
-                <div v-if="!nongradReasons">
-                  <ul>
-                    <li>All graduation requirements have been met</li>
-                  </ul>
-                </div>
-                <div v-else>
-                   
-                  <b-table :items="nongradReasons"  small
-                  striped></b-table> 
-       
-                </div>
-              </b-card-text>
-            </b-card>
-          </div>
+     
         </div>
       </div>
     </div>
-    <div>
-      <div class="graduation-actions">
-        <strong>Created by:</strong> {{ studentGradStatus.createdBy }}
-              <strong>Created:</strong> {{ studentGradStatus.createdTimestamp }}
-              
-              <strong>Updated by:</strong> {{ studentGradStatus.updatedBy }}
-              <strong>Updated:</strong> {{ studentGradStatus.updatedTimestamp }}
-        </div>     
-    </div>
+
     <div v-if="role == 'administrator'">
       <b-button v-b-toggle.collapse-1 variant="primary">DEBUG</b-button>
       <b-collapse id="collapse-1" class="mt-2">
@@ -420,6 +420,9 @@ export default {
     },
     programChange(){
       return this.editedGradStatus.program;
+    },
+    recalculateFlag(){
+      return this.studentGradStatus.recalculateGradStatus; 
     },
     disableSaveButton(){
       return this.studentGradStatus.studentStatus == "D" || this.disableButton
@@ -536,14 +539,6 @@ export default {
       }
     },
     programCompletionDateChange:function(){
-      // if(this.editedGradStatus.programCompletionDate == ""){
-      //   this.reqProgramCompletionSchoolAtGrad = false;
-      //   if(this.editedGradStatus.schoolAtGrad == ""){
-      //     this.disableButton = false
-      //   }else{
-      //     this.disableButton = true
-      //   }
-      // }
       if(this.editedGradStatus.programCompletionDate != ""){
         this.reqProgramCompletionSchoolAtGrad = true;
       }
@@ -584,18 +579,6 @@ export default {
        }
     },
     schoolAtGradChange:function(){
-      // if(this.editedGradStatus.schoolAtGrad == "" && this.editedGradStatus.programCompletionDate != ""){
-      //   this.disableButton = true
-      // }else{
-      //   this.disableButton = false
-      // }
-      // if(this.editedGradStatus.programCompletionDate != "" || this.editedGradStatus.programCompletionDate === null){
-      //   if(this.editedGradStatus.schoolAtGrad.length == 0){
-      //     this.disableButton = true;
-      //   }       
-      // } else {
-      //   this.disableButton = false;
-      // }
       if(this.editedGradStatus.schoolAtGrad && this.editedGradStatus.schoolAtGrad.length < 8){
         this.schoolAtGraduationWarning = false;
         this.schoolAtGraduationNotFoundWarning = false;
@@ -646,13 +629,6 @@ export default {
         }
       }
       return "";
-    },
-    filterGradReqCourses(row) {
-      if (row.gradReqMet.length > 0) {
-        return true;
-      } else {
-        return false;
-      }
     },
     showNotification(variant = null, bodyContent) {
       let title = variant;
@@ -775,7 +751,6 @@ export default {
       this.editedGradStatus.updatedBy = this.username;
       this.editedGradStatus.studentID = id;
       this.editedGradStatus.pen = this.studentPen;
-      this.editedGradStatus.recalculateGradStatus = this.recalculateGradStatus;
       //process the program completion date
       if(this.editedGradStatus.programCompletionDate == ''){
         this.editedGradStatus.programCompletionDate = null;
@@ -816,6 +791,8 @@ export default {
           this.studentGradStatus.schoolAtGradName = this.editedGradStatus.schoolAtGradName;
           this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
           this.studentGradStatus.studentStatus = response.data.studentStatus;
+          this.studentGradStatus.recalculateGradStatus = response.data.recalculateGradStatus;
+          this.studentGradStatus.updatedTimestamp = response.data.updatedTimestamp;
           this.studentGradStatus.studentStatusName = this.getStudentStatus(
             response.data.studentStatus
           );         

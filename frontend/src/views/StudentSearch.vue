@@ -38,6 +38,9 @@
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(128320223)">128320223</a> SAMPLE 4</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(129049565)">129049565</a> SAMPLE 5</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(129434437)">129434437</a> SAMPLE 6</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(127951309)">127951309</a> SAMPLE 7</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126966324)">126966324</a> SAMPLE 8</div>
+                    
 
                     
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(124816158)">124816158</a> CHEONG, ALISON</div>
