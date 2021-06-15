@@ -115,43 +115,41 @@
                       
                   </div>   
                   <b-card-text>
-                   
-                    <b-overlay :show="tabLoading" rounded="sm">
-                        <div style=" position: absolute; right: 52px; z-index: 5; padding: 20px 5px;">
-                        <a v-if="gradTab =='gradStatus'" v-on:click="gradTab ='gradCourses'">Requirement Details <i class="fas fa-expand-arrows-alt"></i></a></div>
-                        <StudentGraduationStatus v-if="gradTab=='gradStatus'"></StudentGraduationStatus>
-                        <GRADRequirementDetails v-if="gradTab=='gradCourses'">
-                          <b-alert variant="info" :show="!studentGradStatus.recalculateGradStatus">{{studentGradStatus.studentGradData.gradMessage}}</b-alert>
-                        </GRADRequirementDetails>
-                      </b-overlay>
+                    <div style=" position: absolute; right: 52px; z-index: 5; padding: 20px 5px;">
+                    <a v-if="gradTab =='gradStatus'" v-on:click="gradTab ='gradCourses'">Requirement Details <i class="fas fa-expand-arrows-alt"></i></a></div>
+                    <StudentGraduationStatus v-if="gradTab=='gradStatus'"></StudentGraduationStatus>
+                    <GRADRequirementDetails v-if="gradTab=='gradCourses'">
+                      <b-alert variant="info" :show="!studentGradStatus.recalculateGradStatus">{{studentGradStatus.studentGradData.gradMessage}}</b-alert>
+                    </GRADRequirementDetails>
+                    <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>
                 <b-tab :title="'Courses ('  + courses.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
-                    <b-overlay :show="tabLoading" rounded="sm">
+                    
                     <StudentCourses></StudentCourses>
+                    <b-overlay :show="tabLoading" rounded="sm" no-wrap>
                     </b-overlay>
                   </b-card-text>
                 </b-tab>
                 <b-tab :title="'Assessments ('  + assessments.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
-                    <b-overlay :show="tabLoading" rounded="sm">
+                    
                     <StudentAssessments />
-                    </b-overlay>
+                    <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>
                 <b-tab :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
-                    <b-overlay :show="tabLoading" rounded="sm">
+                    
                     <StudentSpecialPrograms></StudentSpecialPrograms>
-                    </b-overlay>
+                    <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>                                   
                 <b-tab :title="'Notes ('  + studentNotes.length + ')'" class="py-3 px-0 m-1">
                   <b-card-text>
-                    <b-overlay :show="tabLoading" rounded="sm">
                     <StudentNotes></StudentNotes>
-                    </b-overlay>
+                    <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>
                 <b-tab v-if="
@@ -334,7 +332,6 @@
         this.selectedTab = 0;
         this.tabLoading = true; 
         GraduationService.graduateStudent(this.studentId, this.token).then((response) => {
-            console.log(response.data);
             if(response.data.graduationStatus){
               // use when response is updated
               //this.$store.dispatch("setStudentGradStatus", response.data.graduationStatus);
@@ -376,7 +373,6 @@
           
           this.projectedGradStatus = response.data;
           this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStatus.studentGradData);
-         console.log(this.projectedGradStatus);
          this.$refs['projectedGradStatusWithFinalMarks'].show();
          this.tabLoading = false; 
         }).catch((error) => {
