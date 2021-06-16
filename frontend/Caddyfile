@@ -1,5 +1,6 @@
 *:2015 {
     root /var/www/html
+
     header / {
         Access-Control-Allow-Origin *
         X-Frame-Options "SAMEORIGIN"
@@ -14,9 +15,6 @@
     gzip {
         level 7
     }
-    
-    try_files {path}.html {path}
-
     log stdout
 
     proxy /api/v1/student {$VUE_APP_STUDENTS_API_HOST}
@@ -31,7 +29,7 @@
     proxy /api/v1/assessment {$VUE_APP_ASSESSMENT_API_HOST}
     proxy /api/v1/graduate {$VUE_APP_GRADUATION_API_HOST}
     proxy /api/v1/code {$VUE_APP_CODE_API_HOST}
-    
+
     errors stdout
 }
     
