@@ -1,6 +1,6 @@
 *:2015 {
     root /var/www/html
-
+    try_files {path} /
     header / {
         Access-Control-Allow-Origin *
         X-Frame-Options "SAMEORIGIN"
@@ -29,7 +29,7 @@
     proxy /api/v1/assessment {$VUE_APP_ASSESSMENT_API_HOST}
     proxy /api/v1/graduate {$VUE_APP_GRADUATION_API_HOST}
     proxy /api/v1/code {$VUE_APP_CODE_API_HOST}
-
+    
     errors stdout
 }
     
