@@ -3,7 +3,7 @@
     <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
     <!-- Button trigger modal -->
     <div class="row m-0 py-3">    
-      <div class="px-0">     
+      <div class="px-0">   
           <table v-if="!smallScreen" class="profile-name">
             <tr>
               <td></td>
@@ -197,7 +197,8 @@
         
       </b-modal>
       <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalAndReg" centered title="Projected Grad Status with Final Marks and Registrations">
-
+            {{projectedrequirementsMet}}<br>
+            {{nonGradReasons}}
             <b-alert variant="info" show>{{projectedGradStatus.gradMessage}}</b-alert>
 
             <b-card-group deck v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">
@@ -284,6 +285,8 @@
     },
     data() {
       return { 
+        nonGradReasons:"",
+        projectedrequirementsMet:"",
         selectedTab: 0,
         projectedGradStatus: [],
         projectedGradStatusWithRegistrations: [],
@@ -386,12 +389,14 @@
           }
         });
       },
-      projectedGradStatusWithFinalAndReg(){
-      this.tabLoading = true; 
+      projectedGradStatusWithFinalAndReg() {
+        this.nonGradReasons = this.studentGradStatus.studentGradData.nonGradReasons;
+        this.tabLoading = true; 
         GraduationService.projectedGradStatusWithFinalAndReg(this.studentId, this.token) .then((response) => {
           this.projectedGradStatus = response.data;
           this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStatus.studentGradData);
-         89
+          this.projectedrequirementsMet = this.projectedGradStatus.requirementsMet;
+          
          this.$refs['projectedGradStatusWithFinalAndReg'].show();
          this.tabLoading = false; 
         }).catch((error) => {
