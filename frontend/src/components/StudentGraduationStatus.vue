@@ -344,8 +344,10 @@
                 </div>
                 <div v-else>
                    
-                  <b-table :items="nongradReasons"  small
-                  striped></b-table> 
+                  <b-table :items="nongradReasons" :fields="nongradReasonsFields" small
+                  striped>
+
+                  </b-table> 
        
                 </div>
               </b-card-text>
