@@ -84,7 +84,6 @@
               </table>
           </b-card>
         </b-collapse>
-        {{hasGradStatus}}
                   <div class="float-right grad-actions">
                     <b-spinner v-if="tabLoading" class="px-1 my-2" ></b-spinner>
                     <b-dropdown :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left :title="'Last Run: ' + studentGradStatus.updatedTimestamp + ' by ' +studentGradStatus.updatedBy" id="actions" right text="Run graduation algorithm" class="m-md-2 float-right">
@@ -92,9 +91,6 @@
                       <b-dropdown-divider></b-dropdown-divider>
                       <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks">Projected final marks</b-dropdown-item>
                       <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg" >Projected final marks and registrations</b-dropdown-item>
-           
-           
-                      
                     </b-dropdown>
                   </div>
       </div>
