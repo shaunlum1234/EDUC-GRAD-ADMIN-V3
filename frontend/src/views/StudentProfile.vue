@@ -171,11 +171,14 @@
 " centered>
             <b-alert variant="info" show>{{projectedGradStatus.gradMessage}}</b-alert>
             <b-card-group deck v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">
-            
             <b-card
               header="Requirements met"
             >
-              <b-card-text><b-table small :items="this.projectedGradStatus.requirementsMet"></b-table></b-card-text>
+              <b-card-text>
+                <b-table small :items="this.projectedGradStatus.requirementsMet">
+                    
+                </b-table>
+              </b-card-text>
             </b-card>
             <b-card
               header="Nongrad reasons"
@@ -194,8 +197,6 @@
         
       </b-modal>
       <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalAndReg" centered title="Projected Grad Status with Final Marks and Registrations">
-            {{projectedrequirementsMet}}<br>
-            {{nonGradReasons}}
             <b-alert variant="info" show>{{projectedGradStatus.gradMessage}}</b-alert>
 
             <b-card-group deck v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">
@@ -203,7 +204,26 @@
             <b-card
               header="Requirements met"
             >
-              <b-card-text><b-table small :items="this.projectedGradStatus.requirementsMet"></b-table></b-card-text>
+              <b-card-text>
+                <b-table small :items="this.projectedGradStatus.requirementsMet" :fields='[{ key: "rule",label: "Rule",class:"px-0 py-2"},{key: "description",label: "Description",class:"px-0 py-2"}]'>
+                  <template #cell(rule)="row">
+                    <div v-if="row.item.projected" style="background-color:#eaf2fa; width:100% ">
+                      {{row.item.rule}}
+                    </div>
+                    <div v-else>
+                      {{row.item.rule}}
+                    </div>
+                  </template>
+                  <template #cell(description)="row">
+                    <div v-if="row.item.projected" style="background-color:#eaf2fa; width:100% ">
+                      {{row.item.description}} (Projected)
+                    </div>
+                    <div v-else>
+                      {{row.item.description}}
+                    </div>
+                  </template>
+                </b-table>
+              </b-card-text>
             </b-card>
             <b-card
               header="Nongrad reasons"
@@ -317,8 +337,7 @@
         studentId: "getStudentId",
         studentInfo: "getStudentProfile",
         studentNotes: "getStudentNotes",
-        specialPrograms: "getStudentSpecialPrograms",
-      
+        specialPrograms: "getStudentSpecialPrograms",    
       }),
     },
     
@@ -350,10 +369,6 @@
                     });
                   }
                 });
-
-
-
-
             }            
             this.tabLoading = false; 
         }).catch((error) => {
@@ -373,8 +388,8 @@
           
           this.projectedGradStatus = response.data;
           this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStatus.studentGradData);
-         this.$refs['projectedGradStatusWithFinalMarks'].show();
-         this.tabLoading = false; 
+          this.$refs['projectedGradStatusWithFinalMarks'].show();
+          this.tabLoading = false; 
         }).catch((error) => {
           this.tabLoading = false; 
           if(error.response.status){
