@@ -546,39 +546,44 @@ export default {
       }
     },
     schoolOfRecordChange:function(){
+
+      //changed due to GRADT-25
+      if (this.editedGradStatus.schoolOfRecord.length == ""){
+        this.disableButton = true;
+      }
       if (this.editedGradStatus.schoolOfRecord.length < 8){
           this.schoolOfRecordWarning = false;
           this.schoolNotFoundWarning = false;
           return;
-       }
-       if(this.editedGradStatus.schoolOfRecord == this.studentGradStatus.schoolOfRecord){  
-        this.schoolOfRecordWarning = false;
-        this.schoolNotFoundWarning = false;
-       } else {
-          if(this.editedGradStatus.schoolOfRecord.length == 8) {
-            SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord, this.token)
-            .then((response) => {
-              this.schoolNotFoundWarning = false;
-              this.schoolOfRecordWarning = false;
-              this.schoolOfRecordStatus = response.data.openFlag
-              if(response.statusText == "No Content"){
-                this.schoolNotFoundWarning = true;
-              }else {
-                this.schoolNotFoundWarning = false; 
-                if(this.schoolOfRecordStatus == "N"){
-                  this.schoolOfRecordWarning = true;
-                }
-                this.editedGradStatus.schoolName = response.data.schoolName;
-              }    
-            })
-            .catch((error) => {
-              // eslint-disable-next-line
-              console.log("There was an error:" + error.response);
-            });
-          } else {
-             this.schoolNotFoundWarning = true;
-          }
-       }
+      }
+      if(this.editedGradStatus.schoolOfRecord == this.studentGradStatus.schoolOfRecord){  
+      this.schoolOfRecordWarning = false;
+      this.schoolNotFoundWarning = false;
+      } else {
+        if(this.editedGradStatus.schoolOfRecord.length == 8) {
+          SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord, this.token)
+          .then((response) => {
+            this.schoolNotFoundWarning = false;
+            this.schoolOfRecordWarning = false;
+            this.schoolOfRecordStatus = response.data.openFlag
+            if(response.statusText == "No Content"){
+              this.schoolNotFoundWarning = true;
+            }else {
+              this.schoolNotFoundWarning = false; 
+              if(this.schoolOfRecordStatus == "N"){
+                this.schoolOfRecordWarning = true;
+              }
+              this.editedGradStatus.schoolName = response.data.schoolName;
+            }    
+          })
+          .catch((error) => {
+            // eslint-disable-next-line
+            console.log("There was an error:" + error.response);
+          });
+        } else {
+            this.schoolNotFoundWarning = true;
+        }
+      }
     },
     schoolAtGradChange:function(){
       if(this.editedGradStatus.schoolAtGrad && this.editedGradStatus.schoolAtGrad.length < 8){
