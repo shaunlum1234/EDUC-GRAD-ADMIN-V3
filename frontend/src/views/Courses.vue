@@ -94,15 +94,19 @@
                 <div class="advanced-search-button">
                   <button v-on:click="advanceCourseSearch" v-if="!advancedSearchLoading" class="btn btn-primary" tabindex="6">Search</button>
                   <button  class="btn btn-success" v-if="advancedSearchLoading" tabindex="6">Search</button>
-                  <button  @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button> <b-spinner v-if="advancedSearchLoading" label="Loading">Loading</b-spinner>               
+                  <button  @click="clearInput(courses)" class="btn btn-outline-primary mx-2">Reset</button> <b-spinner v-if="advancedSearchLoading" label="Loading">Loading</b-spinner>               
                 </div>   
               </div>
-              <div v-if="totalResults > 0" class="row">
-                <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalResults }}</strong> course records found.</div>
-              </div>   
-              <div v-if="advancedSearchMessage" class="row">
-                <div class="search-results-message my-5 col-12 col-md-8"><strong>{{ advancedSearchMessage }}</strong></div>
-              </div>    
+
+              <div v-if="courses">
+                <div v-if="totalResults > 0" class="row">
+                  <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalResults }}</strong> course records found.</div>
+                </div>   
+                <div v-if="advancedSearchMessage" class="row">
+                  <div class="search-results-message my-5 col-12 col-md-8"><strong>{{ advancedSearchMessage }}</strong></div>
+                </div>    
+              </div>
+             
             </div>
           </form>
           <b-card-text >
@@ -163,15 +167,18 @@
                     <div class="advanced-search-button">
                       <button v-on:click="courseRequirementsSearch" v-if="!courseRequirementLoading" class="btn btn-primary" tabindex="6">Search</button>
                       <button class="btn btn-success" v-if="courseRequirementLoading" tabindex="6">Search</button>
-                      <button @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button> <b-spinner v-if="courseRequirementLoading" label="Loading">Loading</b-spinner>               
+                      <button @click="clearInput(requirements)" class="btn btn-outline-primary mx-2">Reset</button> <b-spinner v-if="courseRequirementLoading" label="Loading">Loading</b-spinner>               
                     </div>   
                   </div>
-                  <div v-if="totalRequirementResults > 0" class="row">
-                    <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalRequirementResults }}</strong> course requirements found.</div>
-                  </div>   
-                  <div v-if="courseRequirementMessage" class="row">
-                    <div class="search-results-message my-5 col-12 col-md-8"><strong>{{ courseRequirementMessage }}</strong></div>
-                  </div>    
+                  <div v-if="courseRequirements">
+                    <div v-if="totalRequirementResults > 0" class="row">
+                      <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalRequirementResults }}</strong> course requirements found.</div>
+                    </div>   
+                    <div v-if="courseRequirementMessage" class="row">
+                      <div class="search-results-message my-5 col-12 col-md-8"><strong>{{ courseRequirementMessage }}</strong></div>
+                    </div> 
+                  </div>
+                     
                 </div>
               </form>
               <DisplayTable title="Course requirements" v-bind:items="courseRequirements"
@@ -419,8 +426,13 @@
       this.getAllCourseRestrictions();
     },
     methods: {
-      clearInput: function () {
+      clearInput: function (type) {
         this.penInput = "";
+        if (type == 'requirements'){
+          this.courseRequirements = "";
+        } else {
+          this.courses = "";
+        }        
         for (var key in this.advancedSearchInput) {
           if (this.advancedSearchInput.hasOwnProperty(key)) {
             this.advancedSearchInput[key].value = "";
