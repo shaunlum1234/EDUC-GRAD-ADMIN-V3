@@ -169,13 +169,14 @@
       <!-- Projected Grad Status Modal -->
       <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalMarks" title="Projected Grad Status with Final Marks
 " centered>
+            
             <b-alert variant="info" show>{{projectedGradStatus.gradMessage}}</b-alert>
             <b-card-group deck v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">
             <b-card
               header="Requirements met"
             >
               <b-card-text>
-                <b-table small :items="this.projectedGradStatus.requirementsMet">
+                <b-table small :items="this.projectedGradStatus.requirementsMet" :fields='[{ key: "rule",label: "Rule",class:"px-0 py-2"},{key: "description",label: "Description",class:"px-0 py-2"}]'>
                     
                 </b-table>
               </b-card-text>
@@ -190,11 +191,48 @@
                 <b-card-text>All requirements have been met</b-card-text>
               </div>
             </b-card>
-
-      
           </b-card-group>
-
-        
+          <!-- Looped Special program -->
+          <!-- <ul id="example-1" v-for="optionalProgram in this.optionalGradStatus" :key="optionalProgram.specialProgramCode">
+              <li>
+                {{ optionalProgram.pen }} {{ optionalProgram.specialProgramName }} {{ optionalProgram.specialProgramCode }} {{ optionalProgram.specialProgramCompletionDate }} <br>
+                Reqirements not met: {{optionalProgram.studentSpecialProgramData.specialNonGradReasons}} <br>
+                Requirements met: {{optionalProgram.studentSpecialProgramData.specialRequirementsMet}}
+              </li>
+          </ul> -->
+          <div v-if="this.optionalGradStatus">
+            <div v-for="optionalProgram in this.optionalGradStatus" :key="optionalProgram.specialProgramCode">
+            <h3 class="specialProgramName">{{ optionalProgram.specialProgramName }}</h3>
+            <b-card-group deck >           
+              <b-card
+                header="Requirements met"
+              >
+                <b-card-text>
+                  <b-table small 
+                          :items="optionalProgram.studentSpecialProgramData.specialRequirementsMet" 
+                          :fields='[{ key: "rule",label: "Rule",class:"px-0 py-2"},{key: "description",label: "Description",class:"px-0 py-2"}]'
+                  >               
+                  </b-table>
+                </b-card-text>
+              </b-card>
+              <b-card
+                header="Requirements not met"
+              >
+                <div v-if="optionalProgram.studentSpecialProgramData.specialNonGradReasons">
+                  <b-card-text>
+                    <b-table small 
+                            :items="optionalProgram.studentSpecialProgramData.specialNonGradReasons"
+                    >
+                    </b-table>
+                  </b-card-text>
+                </div>
+                <div v-else>
+                  <b-card-text>All requirements have been met</b-card-text>
+                </div>
+              </b-card>
+            </b-card-group>
+            </div>
+          </div>
       </b-modal>
       <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalAndReg" centered title="Projected Grad Status with Final Marks and Registrations">
             <b-alert variant="info" show>{{projectedGradStatus.gradMessage}}</b-alert>
@@ -225,6 +263,7 @@
                 </b-table>
               </b-card-text>
             </b-card>
+            <!-- Original -->
             <b-card
               header="Nongrad reasons"
             >
@@ -302,6 +341,7 @@
     },
     data() {
       return { 
+        optionalGradStatus:"",
         nonGradReasons:"",
         projectedrequirementsMet:"",
         selectedTab: 0,
@@ -385,9 +425,12 @@
       projectedGradStatusWithFinalMarks(){
         this.tabLoading = true; 
         GraduationService.projectedGradFinalMarks(this.studentId, this.token) .then((response) => {
+          this.projectedGradStatus = JSON.parse(response.data.graduationStatus.studentGradData);
+          this.optionalGradStatus = response.data.specialGraduationStatus;
+          for (let i = 0; i < this.optionalGradStatus.length; i++) {
+            this.optionalGradStatus[i].studentSpecialProgramData = JSON.parse(this.optionalGradStatus[i].studentSpecialProgramData);
+          } 
           
-          this.projectedGradStatus = response.data;
-          this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStatus.studentGradData);
           this.$refs['projectedGradStatusWithFinalMarks'].show();
           this.tabLoading = false; 
         }).catch((error) => {
@@ -605,5 +648,8 @@
   .record-timestamp{
     position:absolute;
     right: 50px;
+  }
+  .specialProgramName{
+    margin-top: 1rem;
   }
 </style>

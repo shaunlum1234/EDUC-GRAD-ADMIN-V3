@@ -263,7 +263,7 @@
                     </div>
 
                   </div>
-                  <div class="row">
+                  <div v-if="studentSearchResults" class="row">
                     <div class="search-results-message my-4 col-12 col-md-8"><strong><span v-if="advancedSearchMessage">{{ advancedSearchMessage }}</span></strong></div>
                     <div class="results-option-group col-12 col-md-4">
                       <label v-if="totalPages > 1">Results per page</label>
@@ -368,28 +368,28 @@ export default {
         {
           key: "pen",
           label: "PEN",
-          sortable: false,
+          sortable: true,
           editable: false,
           class: "w-1",
         },
         {
           key: "legalLastName",
           label: "Legal surname",
-          sortable: false,
+          sortable: true,
           editable: false,
           class: "w-1",
         },
         {
           key: "legalFirstName",
           label: "Legal given",
-          sortable: false,
+          sortable: true,
           editable: false,
           class: "w-1",
         },
         {
           key: "legalMiddleNames",
           label: "Legal middle",
-          sortable: false,
+          sortable: true,
           editable: false,
           class: "w-1",
         },
@@ -678,6 +678,7 @@ export default {
 
       clearInput: function () {
         this.penInput = "";
+        this.studentSearchResults = "";
         for (var key in this.advancedSearchInput) {
           if (this.advancedSearchInput.hasOwnProperty(key)) {
             this.advancedSearchInput[key].value = "";

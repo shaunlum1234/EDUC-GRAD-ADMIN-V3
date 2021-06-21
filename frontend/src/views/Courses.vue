@@ -503,10 +503,15 @@
             })   
             .catch((error) => {
               this.advancedSearchLoading = false;
-              this.advancedSearchMessage = "No course record found.";
-              // eslint-disable-next-line
-              console.log('There was an error:' + error);
-              this.showNotification("danger", "There was an error with the web service.");
+              if(error.response.status == 422){
+                this.advancedSearchMessage = "No course record found.";
+                this.showNotification("danger", "Please enter the correct search fields.");
+              } else {
+                this.advancedSearchMessage = "No course record found.";
+                // eslint-disable-next-line
+                console.log('There was an error:' + error);
+                this.showNotification("danger", "There was an error with the web service.");
+              }                      
             });
           } catch (error) {
             this.advancedSearchLoading = false;
