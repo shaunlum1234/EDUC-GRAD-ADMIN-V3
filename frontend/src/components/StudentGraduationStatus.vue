@@ -69,7 +69,7 @@
                   <b-alert show variant="warning" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Terminated</h4>
                     <p class="locked-message">
-                      This student's status is 'Terminated'. Re-activate their record by setting their 'Student status' to 'Active' if they are enrolled in a school.
+                      This student's status is set to 'Terminated'. Re-activate their record by setting their 'Student status' to 'Active' if they are enrolled in a school.
                     </p>
                   </b-alert>
                 </div>    
@@ -85,7 +85,7 @@
                   <b-alert show variant="info" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Merged</h4>
                     <p class="locked-message">
-                      This student's status is set 'Merged'. Their data cannot be changed.
+                      This student's status is set to 'Merged'. Their data cannot be changed.
                     </p>
                   </b-alert>
                 </div>          
