@@ -69,17 +69,9 @@
                     </tr>
                     <tr>
                       <td class="px-2"><strong>Local ID:</strong> {{studentInfo.localID}}</td>
-                      <td class="px-2"><strong>Email:</strong> {{ studentInfo.email}}</td>
-                      <td class="px-2"><strong>Postal code:</strong> {{studentInfo.postalCode}}</td>
-                    </tr>
-                    <tr>
-                      <td class="px-2"><strong>Mincode (PEN):</strong> {{studentInfo.mincode}}</td>
                       <td class="px-2"><strong>PEN Status Code:</strong> {{studentInfo.statusCode}}</td>
-                      <td class="px-2"><strong>PEN Grade Code:</strong> {{studentInfo.gradeCode}}</td>
-                    </tr>
-                    <tr>
-                      <td class="px-2"><strong>Deceased date:</strong> {{studentInfo.deceasedDate}}</td>
-                    </tr>
+                      <td class="px-2"><strong>Postal code:</strong> {{studentInfo.postalCode}}</td>
+                    </tr>               
                   </tbody>
               </table>
           </b-card>
