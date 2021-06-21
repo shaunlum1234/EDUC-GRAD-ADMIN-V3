@@ -667,7 +667,8 @@ export default {
         this.disableInput = false;
         this.disableStudentStatus = false;
       }else{
-        this.disableInput = false;
+        // changed state for bug GRADT-19
+        this.disableInput = true;
         this.disableStudentStatus = false;
       }
       if(this.studentGradStatus.studentStatus == 'M'){
