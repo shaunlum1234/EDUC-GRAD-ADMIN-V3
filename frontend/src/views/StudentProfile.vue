@@ -79,12 +79,12 @@
                   <div class="float-right grad-actions">
                     <b-spinner v-if="tabLoading" class="px-1 my-2" ></b-spinner> 
                     <b-dropdown :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left :title="'Last Run: ' + studentGradStatus.updatedTimestamp + ' by ' +studentGradStatus.updatedBy" id="actions" right text="Run graduation algorithm" class="m-md-2 float-right">
-                      <b-dropdown-item v-on:click="graduateStudent" >Graduate Student</b-dropdown-item>
-                      <b-dropdown-item :disabled="!studentGradStatus.programCompletionDate" v-on:click="graduateStudent" >Ungraduate Student</b-dropdown-item>
+                      <b-dropdown-item v-on:click="graduateStudent" :disabled="studentGradStatus.programCompletionDate !== null">Graduate Student</b-dropdown-item>
+                      <b-dropdown-item :disabled="!studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Ungraduate Student</b-dropdown-item>
                       <b-dropdown-divider></b-dropdown-divider>
                       <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks">Projected final marks</b-dropdown-item>
                       <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg" >Projected final marks and registrations</b-dropdown-item>
-                        <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg">Update Student Reports</b-dropdown-item>
+                        <b-dropdown-item v-on:click="updateStudentReports" :disabled="studentGradStatus.programCompletionDate !== null">Update Student Reports</b-dropdown-item>
                     </b-dropdown>
                   </div>
       </div>
@@ -115,7 +115,7 @@
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>
-                <b-tab :title="'Courses ('  + courses.length + ')'"  class="py-3 px-0 m-1">
+                <b-tab v-if="courses != 'not loaded'" :title="'Courses ('  + courses.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
                     
                     <StudentCourses></StudentCourses>
@@ -275,8 +275,25 @@
 
         
       </b-modal>
+      <div>
+        <b-modal id="ungraduate-student-modal" title="Ungraduate Student">
+          <p>Ungraduation Reason</p>
+          <b-form-select v-model="selected" :options="ungradReasons" value-field="code"
+      text-field="description"></b-form-select>
+
+          <template #modal-footer="{ ok, cancel, hide }">
+            <!-- Emulate built in modal footer ok and cancel button actions -->
+            <b-button size="sm" variant="danger" @click="cancel()">
+              Cancel
+            </b-button>
+            <!-- Button with custom close trigger value -->
+            <b-button size="sm" variant="outline-secondary" @click="hide('forget')">
+              Ungraduate Student
+            </b-button>
+          </template>
+        </b-modal>
+      </div>
     </div>
-    
 
 
   </div>
@@ -327,6 +344,7 @@
       StudentNotes:StudentNotes,
       StudentGraduationStatus: StudentGraduationStatus,
       StudentSpecialPrograms: StudentSpecialPrograms,
+
     },
     props: {
       pen: {
@@ -372,6 +390,7 @@
         studentInfo: "getStudentProfile",
         studentNotes: "getStudentNotes",
         specialPrograms: "getStudentSpecialPrograms",    
+        ungradReasons: "getUngradReasons",        
       }),
     },
     
@@ -416,6 +435,39 @@
           }
         });
       },
+      updateStudentReports(){
+        this.selectedTab = 0;
+        this.tabLoading = true; 
+        GraduationService.updateStudentReports(this.studentId, this.token).then((response) => {
+            if(response.data.graduationStatus){
+
+                // GraduationStatusService.getGraduationStatus(this.studentId, this.token).then(
+                //   (response) => {
+                
+                //     this.$store.dispatch("setStudentGradStatus", response.data);
+                //   }
+                // ).catch((error) => {
+                //   if(error.response.status){
+                //     this.$bvToast.toast("ERROR " + error.response.statusText, {
+                //       title: "ERROR" + error.response.status,
+                //       variant: 'danger',
+                //       noAutoHide: true,
+                //     });
+                //   }
+                // });
+            }            
+            this.tabLoading = false; 
+        }).catch((error) => {
+          this.tabLoading = false; 
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error, {
+              title: "ERROR" + error.response.status.response,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });
+      },      
       projectedGradStatusWithFinalMarks(){
         this.tabLoading = true; 
         GraduationService.projectedGradFinalMarks(this.studentId, this.token) .then((response) => {
@@ -459,7 +511,7 @@
             
           }
         });
-      },      
+      },  
       closeRecord: function () {
         this.$store.commit("unsetStudent");
         // this.$router.push({
@@ -557,6 +609,20 @@
             });
           }
         });
+        GraduationCommonService.getStudentCertificates(studentIdFromURL, this.token).then(
+          (response) => {           
+            this.$store.dispatch("setStudentCertificates", response.data);
+          }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });
+
 
       },
     },

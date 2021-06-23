@@ -323,6 +323,8 @@
              
             >
               <b-card-text class="p-4">
+                    {{certificates}}
+
               </b-card-text>
             </b-card> 
           </div>           
@@ -444,7 +446,6 @@ export default {
       programOptions: "getProgramOptions",
       studentStatusOptions: "getStudentStatusOptions",
       studentId: "getStudentId",
-      ungradReasons: "getUngradReasons",
       username: "getUsername"
     }),
   },
@@ -463,6 +464,7 @@ export default {
         { key: "specialProgramName", label: "Special program" },
         { key: "specialProgramCompletionDate", label: "Date" },
       ],
+      certificates:[],
       dismissSecs: 3,
       dismissCountDown: 0,
       showModal: false,
@@ -891,7 +893,7 @@ export default {
     },
     getStudentAchievementReportPDF: function () {
       GraduationCommonService.getAchievementReport(
-        this.studentGradStatus.pen,
+        this.studentId,
         this.token
       )
         .then((response) => {
@@ -916,7 +918,7 @@ export default {
     getStudentTranscriptPDF: function () {
       //  console.log("transcript");
       GraduationCommonService.getStudentTranscript(
-        this.studentGradStatus.pen,
+        this.studentId,
         this.token
       )
       .then((response) => {

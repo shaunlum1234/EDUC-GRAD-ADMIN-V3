@@ -32,6 +32,7 @@
         hasGradStatus: false,
         hasgradStatusPendingUpdates: false,
         hasNotes: false,
+        certificates: "not loaded",
       },
       applicationVariables:{
         programOptions:[],
@@ -41,6 +42,10 @@
 
     },
     mutations: {
+      
+      setStudentCertificates(state, payload){
+        state.certificates = payload         
+      },
       setProgramOptions(state, payload){
         let programs = payload;
         let i=0;
@@ -184,6 +189,7 @@
       setPermissions({commit}, payload){
         commit('setPermissions', payload);
       },
+
       // Programs
       
       createProgram({state}, payload) {
@@ -266,6 +272,10 @@
           console.log(error.response.status);
         });
       },    
+
+      setStudentCertificates({commit}, payload) {
+        commit('setStudentCertificates', payload);
+      },
       setHasGradStatusPendingUpdates({commit}, payload) {
         commit('setHasGradStatusPendingUpdates', payload);
       },
