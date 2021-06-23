@@ -55,12 +55,15 @@
                                   </div>
                                 </b-col>
                               </b-row>
-                              <div v-if="totalResults > 0 && !searchLoading" class="row">
-                                <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalResults }}</strong> schools records found.</div>
-                              </div>   
-                              <div v-if="searchMessage" class="row">
-                                    <div class="search-results-message my-2 col-12 col-md-8"><strong>{{ searchMessage }}</strong></div>
-                                  </div>  
+                              <div v-if="schools">
+                                <div v-if="totalResults > 0 && !searchLoading" class="row">
+                                  <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalResults }}</strong> schools records found.</div>
+                                </div>   
+                                <div v-if="searchMessage" class="row">
+                                  <div class="search-results-message my-2 col-12 col-md-8"><strong>{{ searchMessage }}</strong></div>
+                                </div>  
+                              </div>
+                              
                             </b-container> 
 
                             <DisplayTable title="Results" v-bind:items="schools"
@@ -284,6 +287,7 @@
         }
       },
       clearInput: function () {
+        this.schools = "";
         for (var key in this.search) {
           if (this.search.hasOwnProperty(key)) {
             this.search[key].value = "";

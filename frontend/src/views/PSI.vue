@@ -113,16 +113,20 @@
                   >
                 </div>
               </div>
-              <div v-if="totalResults > 0" class="row">
-                <div class="search-results-message my-3 col-12 col-md-8">
-                  <strong>{{ totalResults }}</strong> PSIs found.
+
+              <div v-if="psiResults">
+                <div v-if="totalResults > 0" class="row">
+                  <div class="search-results-message my-3 col-12 col-md-8">
+                    <strong>{{ totalResults }}</strong> PSIs found.
+                  </div>
+                </div>
+                <div v-if="advancedSearchMessage" class="row">
+                  <div class="search-results-message my-5 col-12 col-md-8">
+                    <strong>{{ advancedSearchMessage }}</strong>
+                  </div>
                 </div>
               </div>
-              <div v-if="advancedSearchMessage" class="row">
-                <div class="search-results-message my-5 col-12 col-md-8">
-                  <strong>{{ advancedSearchMessage }}</strong>
-                </div>
-              </div>
+              
             </div>
           </form>
           <b-card-text>
@@ -244,6 +248,7 @@ export default {
   methods: {
     clearInput: function () {
       this.penInput = "";
+      this.psiResults = "";
       for (var key in this.advancedSearchInput) {
         if (this.advancedSearchInput.hasOwnProperty(key)) {
           this.advancedSearchInput[key].value = "";
