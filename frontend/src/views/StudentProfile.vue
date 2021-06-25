@@ -294,7 +294,7 @@
           </template>
           <div v-if="ungradReasonSelected == 'OTH'" class="mt=3">
             <label>Description</label>
-            <b-form-textarea v-model="ungradReasonOther"></b-form-textarea>
+            <b-form-textarea v-model="ungradReasonDesc"></b-form-textarea>
           </div>
         </b-modal>
         
@@ -341,6 +341,12 @@
       window.addEventListener('resize', this.handleResize);
       this.handleResize();
 
+        this.ungradReasonDesc = this.ungradReasons.filter(function (i,n){
+          console.log(n.code + n.code === 'OTH')
+          return n.code =='OTH';
+        });
+      console.log(this.ungradReasonDesc);
+
     },
     components: {
       SiteMessage: SiteMessage,
@@ -363,7 +369,7 @@
         nonGradReasons:"",
         projectedrequirementsMet:"",
         ungradReasonSelected: "",
-        ungradReasonOther: "",
+        ungradReasonDesc: "",
         selectedTab: 0,
         projectedGradStatus: [],
         projectedGradStatusWithRegistrations: [],
@@ -409,43 +415,52 @@
       run(){
       },
       ungraduateStudent(){
+        this.tabLoading = true;
+        if(this.ungradReasonSelected != "OTH"){
+          this.ungradReasonDesc = this.ungradReasons.filter(function (i,n){
+            return n.code===this.ungradReasonSelected;
+          }).description;
+          console.log(this.ungradReasonDesc);
+        }
+        GraduationStatusService.ungradStudent(
+          this.studentId,
+          this.ungradReasonSelected,
+          this.ungradReasonDesc,
+          this.token,this.editedGradStatus
+        )
+          .then(() => {
+            GraduationStatusService.getGraduationStatus(this.studentId, this.token).then(
+              (response) => {
+                this.$store.dispatch("setStudentGradStatus", response.data);
+                this.tabLoading= false;
+              }
+            ).catch((error) => {
+              
+              if(error.response.status){
+                this.$bvToast.toast("ERROR " + error.response.statusText, {
+                  title: "ERROR" + error.response.status,
+                  variant: 'danger',
+                  noAutoHide: true,
+                });
+              }
+            });
+          })
+          .catch((error) => {
+            this.tabLoading= false;
+            // eslint-disable-next-line
+            console.log(error.response);
+            this.showNotification(
+              "danger",
+              "There was an error: " + error.response.data.messages[0].message
+            );
+            
 
-      GraduationStatusService.ungradStudent(
-        this.studentId,
-        this.ungradReasonSelected,
-        this.token,this.editedGradStatus
-      )
-        .then((response) => {
-          this.updateStatus = response.data;
-          this.studentGradStatus.pen = response.data.pen;
-          this.studentGradStatus.program = response.data.program;
-          this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
-          this.studentGradStatus.honoursStanding = response.data.honoursStanding;
-          this.studentGradStatus.gpa = response.data.gpa;
-          this.studentGradStatus.studentGrade = response.data.studentGrade;
-          this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
-          this.studentGradStatus.studentStatus = response.data.studentStatus;
-          this.studentGradStatus.studentStatusName = this.getStudentStatus(
-            response.data.studentStatus
-          );
-          this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
-          this.showNotification("success", "GRAD Status Saved");
-          
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.log(error.response);
-          this.showNotification(
-            "danger",
-            "There was an error: " + error.response.data.messages[0].message
-          );
-
-          //console.log('There was an error:' + error.response);
-        });
+            //console.log('There was an error:' + error.response);
+          });
       },
       cancelUngraduateStudent(){
         this.ungradReasonSelected = "";
-        this.ungradReasonOther = "";
+        this.ungradReasonDesc = "";
       },
       graduateStudent(){
         this.selectedTab = 0;

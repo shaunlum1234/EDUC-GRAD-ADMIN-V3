@@ -14,8 +14,7 @@ export default {
   },
   getStudentCertificates(id, token){
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-    console.log('/api/v1/common/studentcertificate?studentID=' + id);
-    return apiClient.get('/api/v1/common/studentcertificate?studentID=' + id,{ headers});
+    return apiClient.get('/api/v1/common/studentcertificate/' + id,{ headers});
   },
   getAlgorithmRules(token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token };

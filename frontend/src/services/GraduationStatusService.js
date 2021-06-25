@@ -17,8 +17,8 @@ export default {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     return apiClient.post('/api/v1/gradstatus/gradstudent/studentid/' + id, json, { headers });
   },
-  ungradStudent(id,reason, token, json){
+  ungradStudent(id,reasonCode, reasonDesc, token, json){
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-    return apiClient.post('/api/v1/gradstatus/ungradstudent/studentid/' + id + '?ungradReasonCode=' + reason,json, { headers });
+    return apiClient.post('/api/v1/gradstatus/ungradstudent/studentid/' + id + '?ungradReasonCode=' + reasonCode + '&ungradReasonDesc=' + reasonDesc,json, { headers });
   }
 }
