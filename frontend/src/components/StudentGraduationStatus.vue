@@ -122,7 +122,7 @@
             
                   <tr v-if="showEdit">
                     <td><strong>Program completion date: (YYYY/MM)</strong></td>
-                    <td><b-input :disabled="disableInput" size="sm" type="text" maxLength="7" @keyup="dateFormat()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                    <td><b-input  size="sm" type="text" maxLength="7" @keyup="dateFormat()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                   </tr>
                   
                   <tr v-if="!showEdit">
@@ -1010,6 +1010,7 @@ h5.modal-title {
   right: 10px;
   top: -55px;
   text-decoration: none !important;  
+  color: #666;
 }
 
 </style>

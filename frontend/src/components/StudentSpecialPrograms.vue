@@ -23,7 +23,7 @@
 
           <DisplayTable v-if="specialPrograms" :items="specialPrograms" :fields="specialProgramsfields" showFilter="true" title="Special Programs">
             <template #cell(studentSpecialProgramData.specialNonGradReasons)="row">
-              
+              {{row.item.studentSpecialProgramData}}
                 {{row.item.studentSpecialProgramData.specialNonGradReasons === undefined ? row.item.studentSpecialProgramData.specialNonGradReasons : 'All requirements have been met'}}
             </template>    
             <template #cell(specialProgramName)="row">
@@ -33,18 +33,16 @@
             <template #cell(studentSpecialProgramData.specialRequirementsMet)="row">
               <b-card>
                 <b-text>
-              <b-table :items="row.item.studentSpecialProgramData.specialStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
-            <template #cell(gradReqMetDetail)="row">
-              
-                <strong>{{row.item.gradReqMetDetail}}</strong><br/>
-                ({{row.item.courseName}})
-            </template> 
-            
-
-              </b-table>
+                  {{row.item.studentSpecialProgramData.specialStudentCourses.studentCourseList}}
+                  <b-table :items="row.item.studentSpecialProgramData.specialStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
+                    <template #cell(gradReqMetDetail)="row2">
+                        <strong>{{row2.item.gradReqMetDetail}}</strong><br/>
+                        ({{row2.item.courseName}})
+                    </template>
+                  </b-table>
                 </b-text>
               </b-card>
-                <!-- <ul v-if="row.item.studentSpecialProgramData.specialRequirementsMet">
+                <ul v-if="row.item.studentSpecialProgramData.specialRequirementsMet">
                   <li v-for="requirement in row.item.studentSpecialProgramData.specialRequirementsMet" :key="requirement.rule">
                     
                     {{requirement.rule}} {{requirement.description}}
@@ -52,7 +50,7 @@
                 </ul>
                 <ul v-else>
                     <li>No Requirements have been met</li>
-                </ul> -->
+                </ul>
             </template>                      
           </DisplayTable>
 

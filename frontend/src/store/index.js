@@ -37,7 +37,7 @@
       applicationVariables:{
         programOptions:[],
         studentStatusOptions:[],
-        unGradReasons:[]
+        ungradReasons:[]
       },
 
     },

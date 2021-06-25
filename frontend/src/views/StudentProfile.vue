@@ -78,13 +78,13 @@
         </b-collapse>
                   <div class="float-right grad-actions">
                     <b-spinner v-if="tabLoading" class="px-1 my-2" ></b-spinner> 
-                    <b-dropdown :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left :title="'Last Run: ' + studentGradStatus.updatedTimestamp + ' by ' +studentGradStatus.updatedBy" id="actions" right text="Run graduation algorithm" class="m-md-2 float-right">
-                      <b-dropdown-item v-on:click="graduateStudent" :disabled="studentGradStatus.programCompletionDate !== null">Graduate Student</b-dropdown-item>
-                      <b-dropdown-item :disabled="!studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Ungraduate Student</b-dropdown-item>
+                    <b-dropdown  :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right text="" class="m-md-2 float-right admin-gear">
+                      <b-dropdown-item v-on:click="graduateStudent" v-if="!studentGradStatus.programCompletionDate">Graduate Student</b-dropdown-item>
+                      <b-dropdown-item v-if="studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Ungraduate Student</b-dropdown-item>
                       <b-dropdown-divider></b-dropdown-divider>
                       <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks">Projected final marks</b-dropdown-item>
                       <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg" >Projected final marks and registrations</b-dropdown-item>
-                        <b-dropdown-item v-on:click="updateStudentReports" :disabled="studentGradStatus.programCompletionDate !== null">Update Student Reports</b-dropdown-item>
+                        <b-dropdown-item v-on:click="updateStudentReports" v-if="studentGradStatus.programCompletionDate">Update Student Reports</b-dropdown-item>
                     </b-dropdown>
                   </div>
       </div>
@@ -123,14 +123,14 @@
                     </b-overlay>
                   </b-card-text>
                 </b-tab>
-                <b-tab :title="'Assessments ('  + assessments.length + ')'"  class="py-3 px-0 m-1">
+                <b-tab v-if="assessments != 'not loaded'"  :title="'Assessments ('  + assessments.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
                     
                     <StudentAssessments />
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>
-                <b-tab :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="py-3 px-0 m-1">
+                <b-tab v-if="specialPrograms != 'not loaded'" :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
                     
                     <StudentSpecialPrograms></StudentSpecialPrograms>
@@ -278,20 +278,26 @@
       <div>
         <b-modal id="ungraduate-student-modal" title="Ungraduate Student">
           <p>Ungraduation Reason</p>
-          <b-form-select v-model="selected" :options="ungradReasons" value-field="code"
+          <b-form-select v-model="ungradReasonSelected" :options="ungradReasons" value-field="code"
       text-field="description"></b-form-select>
 
-          <template #modal-footer="{ ok, cancel, hide }">
+          <template #modal-footer="{ok, cancel, hide }">
             <!-- Emulate built in modal footer ok and cancel button actions -->
-            <b-button size="sm" variant="danger" @click="cancel()">
+            <b-button size="sm" variant="danger" @click="cancelUngraduateStudent()">
               Cancel
             </b-button>
             <!-- Button with custom close trigger value -->
-            <b-button size="sm" variant="outline-secondary" @click="hide('forget')">
+
+            <b-button size="sm" variant="outline-secondary" @click="hide('ungraduate-student-modal'); ungraduateStudent()">
               Ungraduate Student
             </b-button>
           </template>
+          <div v-if="ungradReasonSelected == 'OTH'" class="mt=3">
+            <label>Description</label>
+            <b-form-textarea v-model="ungradReasonOther"></b-form-textarea>
+          </div>
         </b-modal>
+        
       </div>
     </div>
 
@@ -356,6 +362,8 @@
         optionalGradStatus:"",
         nonGradReasons:"",
         projectedrequirementsMet:"",
+        ungradReasonSelected: "",
+        ungradReasonOther: "",
         selectedTab: 0,
         projectedGradStatus: [],
         projectedGradStatusWithRegistrations: [],
@@ -399,6 +407,45 @@
     },
     methods: {
       run(){
+      },
+      ungraduateStudent(){
+
+      GraduationStatusService.ungradStudent(
+        this.studentId,
+        this.ungradReasonSelected,
+        this.token,this.editedGradStatus
+      )
+        .then((response) => {
+          this.updateStatus = response.data;
+          this.studentGradStatus.pen = response.data.pen;
+          this.studentGradStatus.program = response.data.program;
+          this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
+          this.studentGradStatus.honoursStanding = response.data.honoursStanding;
+          this.studentGradStatus.gpa = response.data.gpa;
+          this.studentGradStatus.studentGrade = response.data.studentGrade;
+          this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
+          this.studentGradStatus.studentStatus = response.data.studentStatus;
+          this.studentGradStatus.studentStatusName = this.getStudentStatus(
+            response.data.studentStatus
+          );
+          this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
+          this.showNotification("success", "GRAD Status Saved");
+          
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log(error.response);
+          this.showNotification(
+            "danger",
+            "There was an error: " + error.response.data.messages[0].message
+          );
+
+          //console.log('There was an error:' + error.response);
+        });
+      },
+      cancelUngraduateStudent(){
+        this.ungradReasonSelected = "";
+        this.ungradReasonOther = "";
       },
       graduateStudent(){
         this.selectedTab = 0;
@@ -712,4 +759,7 @@
   .specialProgramName{
     margin-top: 1rem;
   }
+
+
+ 
 </style>
