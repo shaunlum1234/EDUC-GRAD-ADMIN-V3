@@ -33,7 +33,7 @@
         hasgradStatusPendingUpdates: false,
         hasNotes: false,
         certificates: "not loaded",
-        ungradReasons: "N/A"
+        ungradReasons: ""
       },
       applicationVariables:{
         programOptions:[],

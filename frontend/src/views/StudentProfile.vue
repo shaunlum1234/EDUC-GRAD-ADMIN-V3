@@ -77,18 +77,18 @@
               </table>
           </b-card>
         </b-collapse>
-                  <div class="float-right grad-actions">
-                    <b-spinner v-if="tabLoading" class="px-1 my-2" ></b-spinner> 
-                    <b-dropdown :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right text="Run Graduation Algorithm" class="m-md-2 float-right admin-gear-w-text">
-                    <!-- <b-dropdown  :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right text="Run Graduation Algorithm" class="m-md-2 float-right admin-gear"> -->
-                      <b-dropdown-item v-on:click="graduateStudent" v-if="!studentGradStatus.programCompletionDate">Graduate Student</b-dropdown-item>
-                      <b-dropdown-item v-if="studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Ungraduate Student</b-dropdown-item>
-                      <b-dropdown-divider></b-dropdown-divider>
-                      <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks">Projected final marks</b-dropdown-item>
-                      <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg" >Projected final marks and registrations</b-dropdown-item>
-                        <b-dropdown-item v-on:click="updateStudentReports">Update Student Reports</b-dropdown-item>
-                    </b-dropdown>
-                  </div>
+          <div class="float-right grad-actions">
+            <b-spinner v-if="tabLoading" class="px-1 my-2" ></b-spinner> 
+            <b-dropdown :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right text="Run Graduation Algorithm" class="m-md-2 float-right admin-gear-w-text">
+            <!-- <b-dropdown  :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right text="Run Graduation Algorithm" class="m-md-2 float-right admin-gear"> -->
+              <b-dropdown-item v-on:click="graduateStudent" v-if="!studentGradStatus.programCompletionDate">Graduate Student</b-dropdown-item>
+              <b-dropdown-item v-if="studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Ungraduate Student</b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks">Projected final marks</b-dropdown-item>
+              <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg" >Projected final marks and registrations</b-dropdown-item>
+                <b-dropdown-item v-on:click="updateStudentReports">Update Student Reports</b-dropdown-item>
+            </b-dropdown>
+          </div>
       </div>
       
     </div>
@@ -286,23 +286,22 @@
       <div>
         <b-modal id="ungraduate-student-modal" title="Ungraduate Student">
           <p>Ungraduation Reason</p>
-          {{ungradReasonSelected}}
           <b-form-select v-model="ungradReasonSelected" :options="ungradReasons" value-field="code"
       text-field="description"></b-form-select>
 
           <template #modal-footer="{ok, cancel, hide }">
             <!-- Emulate built in modal footer ok and cancel button actions -->
-            <b-button size="sm" variant="danger" @click="cancelUngraduateStudent()">
+            <b-button size="sm" variant="outline-secondary" @click="cancel('cancelUngraduateStudent')">
               Cancel
             </b-button>
             <!-- Button with custom close trigger value -->
 
-            <b-button size="sm" variant="outline-secondary" @click="hide('ungraduate-student-modal'); ungraduateStudent()">
+            <b-button size="sm" variant="primary" @click="hide('ungraduate-student-modal'); ungraduateStudent()">
               Ungraduate Student
             </b-button>
           </template>
           <div v-if="ungradReasonSelected == 'OTH'" class="mt=3">
-            <label>Description</label>
+            <label class="pt-3">Description</label>
             <b-form-textarea v-model="ungradReasonDesc"></b-form-textarea>
           </div>
         </b-modal>
@@ -349,10 +348,6 @@
       }
       window.addEventListener('resize', this.handleResize);
       this.handleResize();
-
-        this.ungradReasonDesc = this.ungradReasons.filter(function (i,n){
-          return n.code =='OTH';
-        });
 
     },
     components: {
