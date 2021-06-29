@@ -4,6 +4,7 @@
     <!-- Button trigger modal -->
     <div class="row m-0 py-3">    
       <div class="px-0">   
+        
           <table v-if="!smallScreen" class="profile-name">
             <tr>
               <td></td>
@@ -78,13 +79,14 @@
         </b-collapse>
                   <div class="float-right grad-actions">
                     <b-spinner v-if="tabLoading" class="px-1 my-2" ></b-spinner> 
-                    <b-dropdown  :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right text="" class="m-md-2 float-right admin-gear">
+                    <b-dropdown :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right text="Run Graduation Algorithm" class="m-md-2 float-right admin-gear-w-text">
+                    <!-- <b-dropdown  :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right text="Run Graduation Algorithm" class="m-md-2 float-right admin-gear"> -->
                       <b-dropdown-item v-on:click="graduateStudent" v-if="!studentGradStatus.programCompletionDate">Graduate Student</b-dropdown-item>
                       <b-dropdown-item v-if="studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Ungraduate Student</b-dropdown-item>
                       <b-dropdown-divider></b-dropdown-divider>
                       <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks">Projected final marks</b-dropdown-item>
                       <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg" >Projected final marks and registrations</b-dropdown-item>
-                        <b-dropdown-item v-on:click="updateStudentReports" v-if="studentGradStatus.programCompletionDate">Update Student Reports</b-dropdown-item>
+                        <b-dropdown-item v-on:click="updateStudentReports">Update Student Reports</b-dropdown-item>
                     </b-dropdown>
                   </div>
       </div>
@@ -150,6 +152,12 @@
               " title="Loading ..." class="tab-loading py-3 px-0 m-1">
                   <b-card-text class="text-center">Loading Student Courses and Assesments</b-card-text>
                 </b-tab>
+                 
+                <b-tab v-if="studentUngradReasons.length" :title="'Ungrad Reasons ('  + studentUngradReasons.length + ')'" class="py-3 px-3 m-1">
+                  <b-card-text>
+                    <b-table striped :items="studentUngradReasons" :fields='[{ key: "createdTimestamp",label: "Ungrad Date",class:"px-0 py-2 w-10"},{key: "ungradReasonCode",label: "Code",class:"px-0 py-2 w-10"},{key: "ungradReasonDescription",label: "Reason",class:"px-0 py-2 w-80"}]'></b-table>
+                  </b-card-text>
+                </b-tab>                
 
             </b-tabs>
           </b-card>
@@ -278,6 +286,7 @@
       <div>
         <b-modal id="ungraduate-student-modal" title="Ungraduate Student">
           <p>Ungraduation Reason</p>
+          {{ungradReasonSelected}}
           <b-form-select v-model="ungradReasonSelected" :options="ungradReasons" value-field="code"
       text-field="description"></b-form-select>
 
@@ -342,10 +351,8 @@
       this.handleResize();
 
         this.ungradReasonDesc = this.ungradReasons.filter(function (i,n){
-          console.log(n.code + n.code === 'OTH')
           return n.code =='OTH';
         });
-      console.log(this.ungradReasonDesc);
 
     },
     components: {
@@ -404,7 +411,8 @@
         studentInfo: "getStudentProfile",
         studentNotes: "getStudentNotes",
         specialPrograms: "getStudentSpecialPrograms",    
-        ungradReasons: "getUngradReasons",        
+        ungradReasons: "getUngradReasons",      
+        studentUngradReasons: "getStudentUngradReasons",
       }),
     },
     
@@ -416,26 +424,41 @@
       },
       ungraduateStudent(){
         this.tabLoading = true;
-        if(this.ungradReasonSelected != "OTH"){
-          this.ungradReasonDesc = this.ungradReasons.filter(function (i,n){
-            return n.code===this.ungradReasonSelected;
-          }).description;
-          console.log(this.ungradReasonDesc);
+        let ungradCode = this.ungradReasonSelected;
+        var ungradDesc = this.ungradReasonDesc;
+        if(ungradCode != "OTH"){
+          ungradDesc = this.ungradReasons.filter(function (reason){  
+            return reason.code == ungradCode;
+          });
+          ungradDesc = ungradDesc[0].description;
         }
         GraduationStatusService.ungradStudent(
           this.studentId,
-          this.ungradReasonSelected,
-          this.ungradReasonDesc,
-          this.token,this.editedGradStatus
+          ungradCode,
+          ungradDesc,
+          this.token
         )
           .then(() => {
+            GraduationCommonService.getStudentUngradReasons(this.studentId, this.token).then(
+              (response) => {           
+                this.$store.dispatch("setStudentUngradReasons", response.data);
+              }
+            ).catch((error) => {
+              if(error.response.status){
+                this.$bvToast.toast("ERROR " + error.response.statusText, {
+                  title: "ERROR" + error.response.status,
+                  variant: 'danger',
+                  noAutoHide: true,
+                });
+              }
+            });            
             GraduationStatusService.getGraduationStatus(this.studentId, this.token).then(
               (response) => {
                 this.$store.dispatch("setStudentGradStatus", response.data);
                 this.tabLoading= false;
               }
             ).catch((error) => {
-              
+              this.tabLoading = false;
               if(error.response.status){
                 this.$bvToast.toast("ERROR " + error.response.statusText, {
                   title: "ERROR" + error.response.status,
@@ -503,20 +526,20 @@
         GraduationService.updateStudentReports(this.studentId, this.token).then((response) => {
             if(response.data.graduationStatus){
 
-                // GraduationStatusService.getGraduationStatus(this.studentId, this.token).then(
-                //   (response) => {
+                GraduationStatusService.getGraduationStatus(this.studentId, this.token).then(
+                  (response) => {
                 
-                //     this.$store.dispatch("setStudentGradStatus", response.data);
-                //   }
-                // ).catch((error) => {
-                //   if(error.response.status){
-                //     this.$bvToast.toast("ERROR " + error.response.statusText, {
-                //       title: "ERROR" + error.response.status,
-                //       variant: 'danger',
-                //       noAutoHide: true,
-                //     });
-                //   }
-                // });
+                    this.$store.dispatch("setStudentGradStatus", response.data);
+                  }
+                ).catch((error) => {
+                  if(error.response.status){
+                    this.$bvToast.toast("ERROR " + error.response.statusText, {
+                      title: "ERROR" + error.response.status,
+                      variant: 'danger',
+                      noAutoHide: true,
+                    });
+                  }
+                });
             }            
             this.tabLoading = false; 
         }).catch((error) => {
@@ -674,6 +697,19 @@
         GraduationCommonService.getStudentCertificates(studentIdFromURL, this.token).then(
           (response) => {           
             this.$store.dispatch("setStudentCertificates", response.data);
+          }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });
+        GraduationCommonService.getStudentUngradReasons(studentIdFromURL, this.token).then(
+          (response) => {           
+            this.$store.dispatch("setStudentUngradReasons", response.data);
           }
         ).catch((error) => {
           if(error.response.status){

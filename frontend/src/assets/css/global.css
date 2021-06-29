@@ -55,12 +55,22 @@
     display: inline-block;
     vertical-align: .255em;
     content: "";
-    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f013" !important ;
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f19d" !important ;
     border-top: none;
     font-size: 20px;
     color: #666;
     
   }
+  .admin-gear-w-text .dropdown-toggle::before {
+    display: inline-block;
+    content: "";
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f19d" !important ;
+    border-top: none;
+    font-size: 20px;
+    color: #fff;
+    padding-right: 10px;
+    
+  }  
  .admin-gear .btn{
     background: #fff !important;
     border: none !important;

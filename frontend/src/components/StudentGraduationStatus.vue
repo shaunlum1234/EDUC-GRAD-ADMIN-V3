@@ -122,7 +122,7 @@
             
                   <tr v-if="showEdit">
                     <td><strong>Program completion date: (YYYY/MM)</strong></td>
-                    <td><b-input  size="sm" type="text" maxLength="7" @keyup="dateFormat()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                    <td><b-input  :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="7" @keyup="dateFormat()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                   </tr>
                   
                   <tr v-if="!showEdit">
@@ -322,9 +322,11 @@
               no-body
              
             >
-              <b-card-text class="p-4">
-                    {{certificates}}
-
+            
+              <b-card-text class="py-4">
+                <div>
+                  <a v-for="certificate in certificates" href="#" :key="certificate.gradCertificateTypeDesc" class="float-left container"><i class="fas fa-file"></i> {{certificate.gradCertificateTypeDesc}} (PDF)</a>
+                </div>
               </b-card-text>
             </b-card> 
           </div>           
@@ -450,7 +452,8 @@ export default {
       programOptions: "getProgramOptions",
       studentStatusOptions: "getStudentStatusOptions",
       studentId: "getStudentId",
-      username: "getUsername"
+      username: "getUsername",
+      certificates: "getStudentCertificates",  
     }),
   },
   data() {
@@ -537,6 +540,9 @@ export default {
     programCompletionDateChange:function(){
       if(this.editedGradStatus.programCompletionDate == ""){
         this.disableSchoolAtGrad = true;
+        this.disableButton = true;
+      }else{
+        this.disableButton = false;
       }
     },
     schoolOfRecordChange:function(){
@@ -682,7 +688,7 @@ export default {
         this.disableStudentStatus = false;
       }else{
         // changed state for bug GRADT-19
-        this.disableInput = true;
+        //this.disableInput = true;
         this.disableStudentStatus = false;
         this.disableSchoolAtGrad = true;
       }

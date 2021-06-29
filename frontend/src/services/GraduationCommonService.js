@@ -31,5 +31,10 @@ export default {
   deleteStudentNotes(noteID, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     return apiClient.delete('/api/v1/common/studentnotes/' + noteID, { headers});
-  }
+  },
+  getStudentUngradReasons(id, token) {
+    const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+    return apiClient.get('/api/v1/common/studentungradreason/studentid/' + id,{ headers});
+  }  
+  
 }

@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="table-responsive">
-
+          <div v-if="!specialPrograms" class="container">
+            This student does not have any special programs.
+          </div>
           <DisplayTable v-if="specialPrograms" :items="specialPrograms" :fields="specialProgramsfields" showFilter="true" title="Special Programs">
             <template #cell(studentSpecialProgramData.specialNonGradReasons)="row">
               

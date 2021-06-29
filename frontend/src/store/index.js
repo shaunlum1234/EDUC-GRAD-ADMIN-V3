@@ -33,6 +33,7 @@
         hasgradStatusPendingUpdates: false,
         hasNotes: false,
         certificates: "not loaded",
+        ungradReasons: "N/A"
       },
       applicationVariables:{
         programOptions:[],
@@ -43,8 +44,11 @@
     },
     mutations: {
       
+      setStudentUngradReasons(state, payload){
+        state.student.ungradReasons = payload; 
+      },
       setStudentCertificates(state, payload){
-        state.certificates = payload         
+        state.student.certificates = payload         
       },
       setProgramOptions(state, payload){
         let programs = payload;
@@ -276,6 +280,9 @@
       setStudentCertificates({commit}, payload) {
         commit('setStudentCertificates', payload);
       },
+      setStudentUngradReasons({commit}, payload) {
+        commit('setStudentUngradReasons', payload);
+      },      
       setHasGradStatusPendingUpdates({commit}, payload) {
         commit('setHasGradStatusPendingUpdates', payload);
       },
@@ -341,6 +348,12 @@
     
 
     getters: {
+      getStudentUngradReasons(state){
+        return state.student.ungradReasons;
+      },
+      getStudentCertificates(state){
+          return state.student.certificates;
+      },
       getStudentGraduationCreationAndUpdate(state){
         return {
           "createdBy" : state.student.gradStatus.createdBy,
