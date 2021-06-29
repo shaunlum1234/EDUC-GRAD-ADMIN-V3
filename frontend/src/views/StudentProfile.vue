@@ -179,7 +179,7 @@
               header="Nongrad reasons"
             >
               <div v-if="projectedGradStatus && projectedGradStatus.nonGradReasons">
-                <b-card-text><b-table small :items="this.projectedGradStatus.nonGradReasons"></b-table></b-card-text>
+                <b-card-text><b-table small :items="this.projectedGradStatus.nonGradReasons" ></b-table></b-card-text>
               </div>
               <div v-else>
                 <b-card-text>All requirements have been met</b-card-text>

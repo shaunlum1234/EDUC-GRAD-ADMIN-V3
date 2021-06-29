@@ -50,7 +50,7 @@
 .nav-link{
   cursor: pointer;
 }
-  .dropdown-toggle::after {
+  .admin-gear .dropdown-toggle::after {
 
     display: inline-block;
     vertical-align: .255em;
@@ -61,8 +61,7 @@
     color: #666;
     
   }
-  
-  .admin-gear .btn{
+ .admin-gear .btn{
     background: #fff !important;
     border: none !important;
   }

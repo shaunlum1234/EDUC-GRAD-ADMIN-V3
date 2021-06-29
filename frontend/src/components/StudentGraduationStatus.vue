@@ -347,7 +347,9 @@
                 </div>
                 <div v-else>
                    
-                  <b-table :items="nongradReasons" :fields="nongradReasonsFields" small
+                  <b-table :items="nongradReasons" 
+                  :fields='[{ key: "rule",label: "Rule", sortable: true},{key: "description",label:"Description", sortable: true}]' 
+                  small
                   striped>
 
                   </b-table> 
@@ -365,8 +367,10 @@
               class="w-100"
             >
               <b-card-text class=" m-3">
-               <b-table :items="requirementsMet"  small
-                  striped></b-table> 
+               <b-table :items="requirementsMet"
+                        :fields='[{ key: "rule",label: "Rule", sortable: true},{key: "description",label:"Description", sortable: true}]'   
+                        small
+                        striped></b-table> 
 
                 <!-- <b-table
                   v-if="requirementsMet"  
@@ -451,20 +455,6 @@ export default {
   },
   data() {
     return {
-      requirementsMetfields: [
-        { key: "rule", label: "Rule", sortable: true },        
-        { key: "description", label: "Requirement Name", sortable: true },
-      ],
-      nongradReasonsfields: [
-        { key: "rule", label: "Rule" },
-        { key: "description", label: "Requirement Name", sortable: true },
-      ],
-      specialProgramsfields: [
-        { key: "specialProgramCode", label: "Code", class: "text-center"},
-        { key: "specialProgramName", label: "Special program" },
-        { key: "specialProgramCompletionDate", label: "Date" },
-      ],
-      certificates:[],
       dismissSecs: 3,
       dismissCountDown: 0,
       showModal: false,
