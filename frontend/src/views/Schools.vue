@@ -135,11 +135,12 @@
 </template>
 
 <script>
-  import SchoolService from '@/services/SchoolService.js';
-   import DisplayTable from '@/components/DisplayTable.vue';
-    import {
-    mapGetters
-  } from "vuex";
+import SchoolService from '@/services/SchoolService.js';
+import DisplayTable from '@/components/DisplayTable.vue';
+import sharedMethods from '../sharedMethods';
+import {
+mapGetters
+} from "vuex";
   export default {
     name: "schools",
     components: {
@@ -253,6 +254,7 @@
       }),
     },
     created() {
+      this.showNotification = sharedMethods.showNotification
     },
     methods: {
       advancedSchoolSearch(){
@@ -278,9 +280,9 @@
             this.searchLoading = false;
             this.totalResults = this.schools.length;
           }).catch((error) => {
-            
             this.searchLoading = false;
             this.searchMessage = "School cannnot be found.";
+            this.showNotification("danger", "There was an error with the web service.");
             // eslint-disable-next-line
             console.log('There was an error searching School information to GRAD Status:' + error.response);
           });  

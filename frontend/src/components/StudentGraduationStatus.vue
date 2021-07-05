@@ -550,6 +550,8 @@ export default {
       //changed due to GRADT-25
       if (this.editedGradStatus.schoolOfRecord.length == ""){
         this.disableButton = true;
+      }else {
+        this.disableButton = false;
       }
       if (this.editedGradStatus.schoolOfRecord.length < 8){
           this.schoolOfRecordWarning = false;
