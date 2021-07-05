@@ -6,7 +6,7 @@
           <b-tr class="table-row-header-group">
             <b-th colspan="1" class="table-header-group text-center"></b-th>
             <b-th colspan="3" class="table-header-group text-center">
-              <div>Course</div></b-th
+              <div></div></b-th
             >
             <b-th colspan="2" class="table-header-group text-center">
               <div>Interim</div>
