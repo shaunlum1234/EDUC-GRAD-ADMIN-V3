@@ -40,7 +40,6 @@
         <ul class="navbar-nav mr-auto">
           <li>
             <!-- <router-link to="/">Select Student</router-link> -->
-
             <a class="nav-link" @click="selectStudent()"
               >Student search</a
             >
@@ -64,7 +63,7 @@
             >
           </li>
         </ul>
-        <div class="float:right"><slot></slot></div>
+        <!-- <div class="float:right"><slot></slot></div> -->
       </div>
     </nav>
     <nav class="navigation-main" id="navbar">
@@ -176,6 +175,7 @@ export default {
           }
         })
         .catch((error) => {
+          // eslint-disable-next-line
           console.log('BCHeader: ' + error);
           this.searchLoading = false;
           this.showNotification("danger", "Student cannot be found on the PEN database");

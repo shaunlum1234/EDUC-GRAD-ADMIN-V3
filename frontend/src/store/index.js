@@ -11,7 +11,7 @@
       //Initialize the store
     },
     state: {
-
+      advancedSearchProps:"",
       tokenTimeout: "",
       token:"",
       refreshToken: "",
@@ -43,7 +43,9 @@
 
     },
     mutations: {
-      
+      setAdvancedSearchProps(state, payload){
+        state.advancedSearchProps = payload; 
+      },
       setStudentUngradReasons(state, payload){
         state.student.ungradReasons = payload; 
       },
@@ -280,6 +282,9 @@
       setStudentCertificates({commit}, payload) {
         commit('setStudentCertificates', payload);
       },
+      setAdvancedSearchProps({commit}, payload) {
+        commit('setAdvancedSearchProps', payload);
+      },
       setStudentUngradReasons({commit}, payload) {
         commit('setStudentUngradReasons', payload);
       },      
@@ -348,6 +353,10 @@
     
 
     getters: {
+      
+      getAdvancedSearchProps(state){
+        return state.advancedSearchProps;
+      },
       getStudentUngradReasons(state){
         return state.student.ungradReasons;
       },
