@@ -21,6 +21,7 @@
           </a>
           <h1>Graduation Records and Achievement Data</h1>
         </div>
+         <div class="float-right" style="margin-top: -20px"><slot></slot></div>
       </div>
     </header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary-nav burgernav">
@@ -97,7 +98,25 @@
           </li>
           <li></li>
         </ul>
-        <div class="float-right" style="margin-top: -20px"><slot></slot></div>
+        <div class="float:right w-25 top-search" style="">
+          <form v-on:submit.prevent>
+            <div class="form-group">
+              <!-- Pen Input -->
+              <div class="search w-100">                
+                  <b-form-input id="search-by-pen" type="search" v-model="penInput" placeholder=""
+                    ref="penSearch" v-on:keyup="keyHandler"  class="w-50 float-left">
+                  </b-form-input>
+                  <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary ml-2 float-left">
+                    <i class="fas fa-search"></i>
+                  </button>
+                  <button v-if="searchLoading" class="btn btn-success ml-2 float-left">
+                    <i class="fas fa-search"></i>
+                  </button>  
+                  <!-- &nbsp;&nbsp;<b-spinner v-if="searchLoading" label="Loading">Loading</b-spinner>     -->
+              </div>
+            </div>
+          </form>
+        </div>      
       </div>
     </nav>
   </div>
@@ -105,14 +124,28 @@
 
 <script>
 import LoginService from "@/services/LoginService.js";
+import StudentService from "@/services/StudentService.js";
+import sharedMethods from '../sharedMethods';
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       pen: "",
+      searchLoading:false,
+      penInput: "",
+      studentSearchResults: [],
       host: location.protocol + "//" + location.host,
     };
   },
-  created() {},
+  created() {
+    this.showNotification = sharedMethods.showNotification
+  },
+   computed: {
+    ...mapGetters({
+      token: "getToken",
+      roles: "getRoles",
+    }),
+  },
   methods: {
     logout() {
       LoginService.logout();
@@ -123,8 +156,43 @@ export default {
       this.$store.commit("unsetStudent");
       this.$router.push("/");
     },
-  },
-};
+    loadStudent: function (student) {
+        this.selectedPen = student[0].pen;
+        this.selectedId = student[0].studentID;
+        this.$router.push({
+          path: `/student-profile/${this.selectedPen}/${this.selectedId}`
+        });
+        //this.$router.push({ name: "student-profile", params: {pen: this.selectedPen}});
+    },
+    findStudentByPen: function() {
+      if (this.penInput) {
+        this.searchLoading = true;
+        this.studentSearchResults = [];
+        StudentService.getStudentByPen(this.penInput, this.token)
+        .then((response) => {
+          if (response.data) {
+            this.loadStudent(response.data);
+            this.searchLoading = false;
+          }
+        })
+        .catch((error) => {
+          console.log('BCHeader: ' + error);
+          this.searchLoading = false;
+          this.showNotification("danger", "Student cannot be found on the PEN database");
+        });
+      }
+    },
+    keyHandler: function (e) {
+      if (e.keyCode === 13) {
+        //enter key pressed
+        this.studentSearchResults = [];
+        if (this.penInput) {
+          this.findStudentByPen();
+        }
+      }
+    }
+  }
+}  
 </script>
 <style scoped>
 .navbar,
@@ -246,6 +314,11 @@ header .nav-btn {
   */
 
 @media screen and (min-width: 768px) {
+  .top-search{
+    position: absolute;
+    top: -16px;
+    right: 123px;
+  }
   .navigation-main {
     display: block;
     margin-bottom: 100px;
@@ -273,11 +346,18 @@ header .nav-btn {
     cursor: pointer;
   }
 }
-
+@media screen and (min-width: 768px) and (max-width: 1330px){
+  .top-search{
+    right: -99px;
+  }
+}
 @media screen and (min-width: 768px) and (max-width: 899px) {
   header h1 {
     font-size: calc(7px + 2.2vw);
     visibility: visible;
+  }
+  .top-search{
+    position: inherit;
   }
 }
 
