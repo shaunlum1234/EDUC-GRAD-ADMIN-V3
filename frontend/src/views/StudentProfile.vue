@@ -55,7 +55,7 @@
       <div class="col-12 px-3">
         <b-collapse id="student-accordion" class="">
           <b-card no-body class="border-0">
-            
+            {{studentInfo.deceasedDate}}
               <table class="table table-sm table-striped">
                   <tbody>
                     <tr>
@@ -72,7 +72,10 @@
                       <td class="px-2"><strong>Local ID:</strong> {{studentInfo.localID}}</td>
                       <td class="px-2"><strong>PEN Status Code:</strong> {{studentInfo.statusCode}}</td>
                       <td class="px-2"><strong>Postal code:</strong> {{studentInfo.postalCode}}</td>
-                    </tr>               
+                    </tr>  
+                    <tr v-if="studentInfo.deceasedDate">
+                       <td class="px-2"><strong>Deceased date:</strong> {{studentInfo.deceasedDate}}</td>
+                    </tr>             
                   </tbody>
               </table>
           </b-card>
