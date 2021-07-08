@@ -50,18 +50,19 @@
                 :title="row.item.courseName"
               >
                     <table>
-                      <tr>
+                      <!-- <tr>
                         <td><strong>COREG ID:</strong>  {{ row.item.courseDetails.coRegID }}</td>
-                      </tr>
-                      <tr>
+                      </tr> -->
+                      <!-- <tr>
                         <td><strong>Course Code:</strong>  {{ row.item.courseDetails.courseCode }}</td>
-                      </tr>
-                      <tr>
+                      </tr> -->
+                      <!-- <tr>
                         <td><strong>Course Level:</strong> {{ row.item.courseDetails.courseLevel }}</td>
-                      </tr>
-                      <tr>                        
+                      </tr> -->
+                      <!-- <tr>                        
                         <td><strong>Course name:</strong><br> {{ row.item.courseDetails.courseName }}</td>
-                      </tr>
+                      </tr> -->
+
                       <tr>                        
                         <td><strong>Language:</strong> {{ row.item.courseDetails.language }}</td>
                       </tr>
@@ -206,7 +207,7 @@ export default {
         },
         {
           key: "courseName",
-          label: "Course name",
+          label: "Course title",
           sortable: true,
           class: "text-left",
         },
