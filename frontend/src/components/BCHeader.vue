@@ -85,6 +85,7 @@
           <li><router-link to="/schools">Schools</router-link></li>
           <li><router-link to="/psi">PSI</router-link></li>
           <li><router-link to="/codes">Codes</router-link></li>
+          <li><router-link :to="`/student-profile/${this.profile.pen}/${this.profile.studentID}`">Profile ({{profile.pen? profile.pen : 'Student not loaded'}})</router-link></li>
           <li class="nav-item">
             <a
               v-bind:href="
@@ -95,7 +96,7 @@
               >Logout</a
             >
           </li>
-          <li></li>
+          
         </ul>
         <div class="float:right w-25 top-search" style="">
           <form v-on:submit.prevent>
@@ -118,6 +119,7 @@
         </div>      
       </div>
     </nav>
+    
   </div>
 </template>
 
@@ -138,11 +140,13 @@ export default {
   },
   created() {
     this.showNotification = sharedMethods.showNotification
+    
   },
    computed: {
     ...mapGetters({
       token: "getToken",
       roles: "getRoles",
+      profile: "getStudentProfile"
     }),
   },
   methods: {
