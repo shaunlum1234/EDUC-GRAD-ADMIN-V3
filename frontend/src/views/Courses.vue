@@ -94,7 +94,7 @@
                 <div class="advanced-search-button">
                   <button v-on:click="advanceCourseSearch" v-if="!advancedSearchLoading" class="btn btn-primary" tabindex="6">Search</button>
                   <button  class="btn btn-success" v-if="advancedSearchLoading" tabindex="6">Search</button>
-                  <button  @click="clearInput(courses)" class="btn btn-outline-primary mx-2">Reset</button> <b-spinner v-if="advancedSearchLoading" label="Loading">Loading</b-spinner>               
+                  <button  v-on:click="clearInput('courses')" class="btn btn-outline-primary mx-2">Reset</button> <b-spinner v-if="advancedSearchLoading" label="Loading">Loading</b-spinner>               
                 </div>   
               </div>
 
@@ -167,7 +167,7 @@
                     <div class="advanced-search-button">
                       <button v-on:click="courseRequirementsSearch" v-if="!courseRequirementLoading" class="btn btn-primary" tabindex="6">Search</button>
                       <button class="btn btn-success" v-if="courseRequirementLoading" tabindex="6">Search</button>
-                      <button @click="clearInput(requirements)" class="btn btn-outline-primary mx-2">Reset</button> <b-spinner v-if="courseRequirementLoading" label="Loading">Loading</b-spinner>               
+                      <button v-on:click="clearInput('requirements')" class="btn btn-outline-primary mx-2">Reset</button> <b-spinner v-if="courseRequirementLoading" label="Loading">Loading</b-spinner>               
                     </div>   
                   </div>
                   <div v-if="courseRequirements">
