@@ -529,7 +529,6 @@ export default {
     // },
   },
   created() {
-    this.closeRecord();
     this.showNotification = sharedMethods.showNotification
   },
   components: {

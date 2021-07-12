@@ -16,12 +16,10 @@
                       {{row.item.gradReqMet ? row.item.gradReqMet : "" }}
                     </span>                            
                     <span v-if="!row.item.used">Not Used</span>
-                    <span v-if="row.item.notCompleted || row.item.projected || row.item.failed || row.item.duplicate">
-                      {{row.item.notCompleted ? "Not Completed": ""}}
-                      {{row.item.projected ? "Registration": ""}}
-                      {{row.item.failed ? "Failed": ""}}
-                      {{row.item.duplicate ? "Duplicate": ""}}
-                    </span>
+                    <span v-if="row.item.notCompleted">Not Completed</span>     
+                    <span v-if="row.item.projected">Registration</span>   
+                    <span v-if="row.item.failed">Failed</span>   
+                    <span v-if="row.item.duplicate">Duplicate</span>  
                   </div>
                 </div>
             </template>
@@ -39,19 +37,15 @@
             <template #cell(gradReqMet)="row">
               <div class="d-flex flex-column text-md-left">
                 <div class="gradReqsMet">
-                    <span v-if="row.item.used">
-                      {{row.item.gradReqMet ? row.item.gradReqMet : "" }}
-                    </span>   
-                    <span v-if="!row.item.used">Not Used</span>                         
-                    <span v-if="row.item.notCompleted || row.item.projected || row.item.failed || row.item.duplicate || row.item.careerPrep || row.item.localDeveloped || row.item.restricted">
-                      {{row.item.notCompleted ? "Not Completed": ""}}
-                      {{row.item.projected ? "Registration": ""}}
-                      {{row.item.failed ? "Failed": ""}}
-                      {{row.item.duplicate ? "Duplicate": ""}}
-                      {{row.item.careerPrep ? "CP Course - Ineligible": ""}}
-                      {{row.item.localDeveloped ? "LD Course - Ineligible": ""}}
-                      {{row.item.restricted ? "Restricted Course": ""}}
-                    </span>
+                    <span v-if="row.item.used">{{row.item.gradReqMet ? row.item.gradReqMet : "" }}</span>   
+                    <span v-if="!row.item.used">Not Used</span>     
+                    <span v-if="row.item.notCompleted">Not Completed</span>     
+                    <span v-if="row.item.projected">Registration</span>   
+                    <span v-if="row.item.failed">Failed</span>   
+                    <span v-if="row.item.duplicate">Duplicate</span>   
+                    <span v-if="row.item.careerPrep">CP Course - Ineligible</span>   
+                    <span v-if="row.item.localDeveloped">LD Course - Ineligible</span>   
+                    <span v-if="row.item.restricted">Restricted Course</span>   
                   </div>
                 </div>
             </template>
