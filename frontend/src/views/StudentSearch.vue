@@ -530,7 +530,12 @@ export default {
   },
   created() {
     this.closeRecord();
-    this.showNotification = sharedMethods.showNotification
+    this.showNotification = sharedMethods.showNotification;
+    console.log("Advancesearch: " + this.savedAdvSearchInput);
+    if(this.savedAdvSearchInput != ""){
+      this.advancedSearchInput = this.savedAdvSearchInput;
+      this.findStudentsByAdvancedSearch(1,50);
+    }
   },
   components: {
     DisplayTable: DisplayTable,
@@ -541,6 +546,7 @@ export default {
       return this.advancedSearchInput.birthdateFrom.value ? d : null;
     },
     ...mapGetters({
+      savedAdvSearchInput: "getAdvancedSearchProps",
       profile: "getStudentProfile",
       courses: "getStudentCourses",
       exams: "getStudentExams",
@@ -635,6 +641,7 @@ export default {
               this.studentSearchResults = response.data.gradSearchStudents;
               this.totalElements = this.searchResults.totalElements;
               this.totalPages = this.searchResults.totalPages;
+              this.$store.dispatch("setAdvancedSearchProps", this.advancedSearchInput);
               if (this.searchResults.totalElements > 0) {
                 if (this.searchResults.totalElements == 1) {
                   this.advancedSearchMessage = "1 student record found. ";
