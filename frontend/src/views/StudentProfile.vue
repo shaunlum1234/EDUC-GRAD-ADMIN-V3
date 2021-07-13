@@ -82,7 +82,7 @@
         </b-collapse>
           <div class="float-right grad-actions">
             <b-spinner v-if="tabLoading" class="px-1 my-2" ></b-spinner> 
-            <b-dropdown :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right text="Run Graduation Algorithm" class="m-md-2 float-right admin-gear-w-text">
+            <b-dropdown :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right :text="smallScreen?'':'Run Graduation Algorithm'" class="m-md-2 float-right admin-gear-w-text">
             <!-- <b-dropdown  :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right text="Run Graduation Algorithm" class="m-md-2 float-right admin-gear"> -->
               <b-dropdown-item v-on:click="graduateStudent" v-if="!studentGradStatus.programCompletionDate">Graduate Student</b-dropdown-item>
               <b-dropdown-item v-if="studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Ungraduate Student</b-dropdown-item>
@@ -101,12 +101,12 @@
           <b-card no-body class="p-0" >
             <b-tabs :pills="smallScreen" v-model="selectedTab" card>
                 <b-tab title="GRAD" class="gradstatus-tabs py-4">
-                  <div class="mb-2">
-                    <b-button class="mx-2" v-on:click="gradTab ='gradStatus'" size="sm" :variant="gradTab == 'gradStatus'? 'primary':'outline-secondary'">GRAD Status</b-button>
-                    <b-button class="mr-2" v-on:click="gradTab ='gradCourses'" size="sm" :variant="gradTab == 'gradCourses'? 'primary':'outline-secondary'">Requirement Details</b-button>
-                  
-                        
-                            <span class="record-timestamp"><strong>Updated:</strong> {{ studentGradStatus.updatedTimestamp|formatTime }} by {{ studentGradStatus.updatedBy }}</span>
+                  <div class="mb-2 row">
+                    <div class="col-12 col-md-4">
+                      <b-button class="mx-2" v-on:click="gradTab ='gradStatus'" size="sm" :variant="gradTab == 'gradStatus'? 'primary':'outline-secondary'">GRAD Status</b-button>
+                      <b-button class="mr-2" v-on:click="gradTab ='gradCourses'" size="sm" :variant="gradTab == 'gradCourses'? 'primary':'outline-secondary'">Requirement Details</b-button>
+                    </div>
+                    <div class="col-12 col-md-8 text-right"><strong>Updated:</strong> {{ studentGradStatus.updatedTimestamp|formatTime }} by {{ studentGradStatus.updatedBy }}</div>
                           
                       
                   </div>   

@@ -85,38 +85,30 @@
           <li><router-link to="/schools">Schools</router-link></li>
           <li><router-link to="/psi">PSI</router-link></li>
           <li><router-link to="/codes">Codes</router-link></li>
-          <li><router-link :to="`/student-profile/${this.profile.pen}/${this.profile.studentID}`">Profile ({{profile.pen? profile.pen : 'Student not loaded'}})</router-link></li>
-          <li class="nav-item">
-            <a
-              v-bind:href="
-                'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' +
-                host
-              "
-              class="nav-link"
-              >Logout</a
-            >
-          </li>
-          
-        </ul>
-        <div class="float:right w-25 top-search" style="">
-          <form v-on:submit.prevent>
-            <div class="form-group">
-              <!-- Pen Input -->
-              <div class="search w-100">                
-                  <b-form-input id="search-by-pen" type="search" v-model="penInput" placeholder=""
-                    ref="penSearch" v-on:keyup="keyHandler"  class="w-50 float-left">
-                  </b-form-input>
-                  <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary ml-2 float-left">
-                    <i class="fas fa-search"></i>
-                  </button>
-                  <button v-if="searchLoading" class="btn btn-success ml-2 float-left">
-                    <i class="fas fa-search"></i>
-                  </button>  
-                  <!-- &nbsp;&nbsp;<b-spinner v-if="searchLoading" label="Loading">Loading</b-spinner>     -->
+          <li v-if="!profile.pen" class="disabled"><a class="text-decoration-none text-disabled" :disabled=true>Profile (Student not loaded)</a></li>
+          <li v-else><router-link :to="`/student-profile/${this.profile.pen}/${this.profile.studentID}`">Profile ({{profile.pen? profile.pen : 'Student not loaded'}})</router-link></li>
+
+          <li>
+             <form v-on:submit.prevent>
+              <div class="form-group top-search">
+                <!-- Pen Input -->
+                <div>                
+                    <b-form-input maxlength=9 size="sm" id="search-by-pen" type="search" v-model="penInput" placeholder="PEN"
+                      ref="penSearch" v-on:keyup="keyHandler" class="w-50 float-left m-1">
+                    </b-form-input>
+                    <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary float-left">
+                      <i class="fas fa-search"></i>
+                    </button>
+                    <button v-if="searchLoading" class="btn btn-success ml-2 float-left">
+                      <i class="fas fa-search"></i>
+                    </button>  
+                    
+                </div>
               </div>
-            </div>
-          </form>
-        </div>      
+            </form>
+          </li>
+
+        </ul>     
       </div>
     </nav>
     
@@ -156,7 +148,6 @@ export default {
       this.$router.push("logout");
     },
     selectStudent() {
-      this.$store.commit("unsetStudent");
       this.$router.push("/");
     },
     loadStudent: function (student) {
@@ -328,7 +319,7 @@ header .nav-btn {
 @media screen and (min-width: 768px) {
   .top-search{
     position: absolute;
-    top: -16px;
+    top: 0px;
     right: 123px;
   }
   .navigation-main {

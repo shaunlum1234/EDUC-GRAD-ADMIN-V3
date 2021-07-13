@@ -11,7 +11,14 @@
         </p>
       </div>
     </b-sidebar>
-       (<a @click="toggleRole">{{role}}</a>) </Bcheader>
+        (<a @click="toggleRole">{{role}}</a>) | <a
+          v-bind:href="
+            'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' +
+            host
+          "
+          class="float-right text-white"
+          >Logout</a>
+        </Bcheader>
     
     <div class="container">
         <transition

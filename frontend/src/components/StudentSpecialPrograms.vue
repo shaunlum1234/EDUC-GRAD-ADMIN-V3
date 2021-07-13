@@ -4,28 +4,9 @@
           <div v-if="!specialPrograms" class="container">
             This student does not have any special programs.
           </div>
-          <DisplayTable v-if="specialPrograms" :items="specialPrograms" :fields="specialProgramsfields" showFilter="true" title="Special Programs">
-            <template #cell(studentSpecialProgramData.specialNonGradReasons)="row">
-              
-                {{row.item.studentSpecialProgramData.specialNonGradReasons === undefined ? row.item.studentSpecialProgramData.specialNonGradReasons : 'All requirements have been met'}}
-            </template>    
-            <template #cell(studentSpecialProgramData.specialRequirementsMet)="row">
-            
-                <ul v-if="row.item.studentSpecialProgramData.specialRequirementsMet">
-                  <li v-for="requirement in row.item.studentSpecialProgramData.specialRequirementsMet" :key="requirement.rule">
-                    
-                    {{requirement.rule}} {{requirement.description}}
-                  </li>
-                </ul>
-                <ul v-else>
-                    <li>No Requirements have been met</li>
-                </ul>
-            </template>                      
-          </DisplayTable>
 
-          <DisplayTable v-if="specialPrograms" :items="specialPrograms" :fields="specialProgramsfields" showFilter="true" title="Special Programs">
+          <b-table v-if="specialPrograms" :items="specialPrograms" :fields="specialProgramsfields" showFilter="true" title="Special Programs">
             <template #cell(studentSpecialProgramData.specialNonGradReasons)="row">
-              {{row.item.studentSpecialProgramData}}
                 {{row.item.studentSpecialProgramData.specialNonGradReasons === undefined ? row.item.studentSpecialProgramData.specialNonGradReasons : 'All requirements have been met'}}
             </template>    
             <template #cell(specialProgramName)="row">
@@ -33,18 +14,15 @@
                {{row.item.specialProgramName}} ({{row.item.specialProgramCode}}) <br> {{row.item.specialProgramCompletionDate}}
             </template>   
             <template #cell(studentSpecialProgramData.specialRequirementsMet)="row">
-              <b-card>
-                <b-text>
-                  {{row.item.studentSpecialProgramData.specialStudentCourses.studentCourseList}}
-                  <b-table :items="row.item.studentSpecialProgramData.specialStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
+ 
+                  <b-table :bordered=false small :items="row.item.studentSpecialProgramData.specialStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
                     <template #cell(gradReqMetDetail)="row2">
-                        <strong>{{row2.item.gradReqMetDetail}}</strong><br/>
-                        ({{row2.item.courseName}})
+                       <ul class="m-0 p-0"><li ><strong>{{row2.item.gradReqMetDetail}}</strong><br/>
+                        ({{row2.item.courseName}})</li></ul>
                     </template>
                   </b-table>
-                </b-text>
-              </b-card>
-                <ul v-if="row.item.studentSpecialProgramData.specialRequirementsMet">
+       
+                <!-- <ul v-if="row.item.studentSpecialProgramData.specialRequirementsMet">
                   <li v-for="requirement in row.item.studentSpecialProgramData.specialRequirementsMet" :key="requirement.rule">
                     
                     {{requirement.rule}} {{requirement.description}}
@@ -52,9 +30,9 @@
                 </ul>
                 <ul v-else>
                     <li>No Requirements have been met</li>
-                </ul>
+                </ul> -->
             </template>                      
-          </DisplayTable>
+          </b-table>
 
 
     </div>
@@ -63,11 +41,9 @@
 
 <script>
 import { mapGetters } from "vuex";
-import DisplayTable from "@/components/DisplayTable.vue";
 export default {
   name: "GRADRequirementDetails",
   components: {
-    DisplayTable: DisplayTable,
   },
   props: {},
   computed: {
