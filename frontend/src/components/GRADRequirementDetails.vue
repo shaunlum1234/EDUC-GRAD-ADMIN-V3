@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot></slot>
-    <div class="table-responsive">
+    <div>
       <b-card
             no-body
             header="Assessment Requirements"
@@ -46,6 +46,8 @@
                     <span v-if="row.item.careerPrep">CP Course - Ineligible</span>   
                     <span v-if="row.item.localDeveloped">LD Course - Ineligible</span>   
                     <span v-if="row.item.restricted">Restricted Course</span>   
+                    <span v-if="row.item.boardAuthorityAuthorized">BAA Course</span>   
+                    <span v-if="row.item.independentDirectedStudies">IDS Course</span>   
                   </div>
                 </div>
             </template>

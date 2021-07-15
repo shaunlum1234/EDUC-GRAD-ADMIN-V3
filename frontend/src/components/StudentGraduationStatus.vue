@@ -1,9 +1,6 @@
 <template>
 
-  <div class="p-2">
-    <div class="row">
-
-    </div>
+  <div>
     <div class="row">
       <div class="col-12">
         <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
@@ -19,7 +16,7 @@
     </div>
     <div class="row">
       <!-- Left col -->  
-      <div class="col-12 pr-0 col-md-7 ">
+      <div class="col-12 pl-2 pr-0 col-md-7 ">
 
           <div class="graduation-status">
           <b-card
@@ -332,7 +329,7 @@
           </div>           
       </div>
       <!-- Right Column -->
-      <div class="col-12 pl-3 col-md-5"> 
+      <div class="col-12 px-2 col-md-5"> 
 
         <div class="requirements-met-and-not-met">
           <div class="requirements-not-met">

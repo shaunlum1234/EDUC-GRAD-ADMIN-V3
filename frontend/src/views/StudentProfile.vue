@@ -102,13 +102,12 @@
             <b-tabs :pills="smallScreen" v-model="selectedTab" card>
                 <b-tab title="GRAD" class="gradstatus-tabs py-4">
                   <div class="mb-2 row">
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-4 m-0 p-0">
                       <b-button class="mx-2" v-on:click="gradTab ='gradStatus'" size="sm" :variant="gradTab == 'gradStatus'? 'primary':'outline-secondary'">GRAD Status</b-button>
                       <b-button class="mr-2" v-on:click="gradTab ='gradCourses'" size="sm" :variant="gradTab == 'gradCourses'? 'primary':'outline-secondary'">Requirement Details</b-button>
                     </div>
                     <div class="col-12 col-md-8 text-right"><strong>Updated:</strong> {{ studentGradStatus.updatedTimestamp|formatTime }} by {{ studentGradStatus.updatedBy }}</div>
-                          
-                      
+
                   </div>   
                   <b-card-text>
                     <div style=" position: absolute; right: 52px; z-index: 5; padding: 20px 5px;">
@@ -294,7 +293,7 @@
 
           <template #modal-footer="{ok, cancel, hide }">
             <!-- Emulate built in modal footer ok and cancel button actions -->
-            <b-button size="sm" variant="outline-secondary" @click="cancel('cancelUngraduateStudent')">
+            <b-button size="sm" variant="outline-secondary" @click="cancel('resetUngraduateStudent')">
               Cancel
             </b-button>
             <!-- Button with custom close trigger value -->
@@ -479,7 +478,7 @@
             //console.log('There was an error:' + error.response);
           });
       },
-      cancelUngraduateStudent(){
+      resetUngraduateStudent(){
         this.ungradReasonSelected = "";
         this.ungradReasonDesc = "";
       },
@@ -528,6 +527,7 @@
                   (response) => {
                 
                     this.$store.dispatch("setStudentGradStatus", response.data);
+                    this.cancelUngraduateStudent();
                   }
                 ).catch((error) => {
                   if(error.response.status){
@@ -537,10 +537,12 @@
                       noAutoHide: true,
                     });
                   }
+                  this.cancelUngraduateStudent();
                 });
             }            
             this.tabLoading = false; 
         }).catch((error) => {
+          this.cancelUngraduateStudent();
           this.tabLoading = false; 
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error, {
