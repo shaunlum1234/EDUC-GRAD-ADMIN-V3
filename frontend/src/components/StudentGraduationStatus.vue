@@ -94,7 +94,7 @@
                     </p>
                   </b-alert>
                 </div>                                                                              
-
+                <!-- {{editedGradStatus}} -->
                 <table class="table  table-hover table-sm" >
                   <tbody>
                   <tr v-if="!showEdit">
@@ -206,6 +206,7 @@
                   </tr>
                   <tr v-if="showEdit">
                       <td><strong>School of record:</strong><br>
+                        <div v-if="schoolOfRecordMissing" class="form-validation-message text-warning" >School of record is empty&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                         <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                         <div v-if="schoolNotFoundWarning" class="form-validation-message text-danger" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                         
@@ -465,6 +466,7 @@ export default {
       updateStatus: [],
       schoolOfRecord: "",
       schoolOfRecordStatus:"",
+      schoolOfRecordMissing: false,
       schoolOfRecordWarning: false,
       schoolNotFoundWarning: false,
       schoolAtGradProgramCompletionDateMessage: false,
@@ -504,16 +506,36 @@ export default {
     studentGradeChange:function(){
       if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
         if(this.editedGradStatus.program == '1950-EN'){
-          this.disableButton = false;
+          if (this.editedGradStatus.schoolOfRecord == ""){
+            this.schoolOfRecordMissing = true;
+            this.disableButton = true;
+          } else {
+            this.schoolOfRecordMissing = false;
+            this.disableButton = false;
+          }      
         }
         if(this.editedGradStatus.program != '1950-EN'){
           this.disableButton = true;
         }
       }
       if(this.editedGradStatus.studentGrade != 'AD' && this.editedGradStatus.studentGrade != 'AN'){
+
         if(this.editedGradStatus.program == '1950-EN'){
           this.disableButton = true;
-        }else{
+        } else {
+          if(this.editedGradStatus.schoolOfRecord == "") {
+            this.schoolOfRecordMissing = true;
+            this.disableButton = true;
+          } else {
+            this.schoolOfRecordMissing = false;
+            this.disableButton = false;
+          }        
+        }
+        if(this.editedGradStatus.schoolOfRecord == ""){
+          this.schoolOfRecordMissing = true;
+          this.disableButton = true;
+        } else {
+          this.schoolOfRecordMissing = false;
           this.disableButton = false;
         }
       }
@@ -548,6 +570,7 @@ export default {
       if (this.editedGradStatus.schoolOfRecord.length == ""){
         this.disableButton = true;
       }else {
+        this.schoolOfRecordMissing = false;
         this.disableButton = false;
       }
       if (this.editedGradStatus.schoolOfRecord.length < 8){
