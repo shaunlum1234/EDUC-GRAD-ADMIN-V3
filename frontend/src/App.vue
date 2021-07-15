@@ -44,6 +44,11 @@ export default {
       this.$store.dispatch("setApplicationVariables");
     }
   },
+  data() {
+      return { 
+        host: location.protocol + "//" + location.host,
+      }
+  },
   computed: {
     ...mapGetters({
       role: "getRoles",
