@@ -104,7 +104,7 @@
   
                   <tr v-if="showEdit">
                     <td width="50%"><strong>Program: </strong>
-                      <div v-if="editedGradStatus.program == '1950-EN'">
+                      <div v-if="editedGradStatus.program == '1950'">
                         <div class="form-validation-message text-danger" v-if="!(editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN')">Student grade should be one of <strong>AD or AN</strong> if the student program is 1950</div>
                       </div>   
                     </td>
@@ -143,7 +143,7 @@
                   </tr>
                   <tr v-if="showEdit">
                       <td><strong>Student grade: </strong>
-                        <div v-if="editedGradStatus.program != '1950-EN'">
+                        <div v-if="editedGradStatus.program != '1950'">
                           <div class="form-validation-message text-danger" v-if="editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN'">Student grade should not be AD or AN for this program</div>
                         </div> 
                          
@@ -505,7 +505,7 @@ export default {
   watch:{
     studentGradeChange:function(){
       if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
-        if(this.editedGradStatus.program == '1950-EN'){
+        if(this.editedGradStatus.program == '1950'){
           if (this.editedGradStatus.schoolOfRecord == ""){
             this.schoolOfRecordMissing = true;
             this.disableButton = true;
@@ -514,13 +514,13 @@ export default {
             this.disableButton = false;
           }      
         }
-        if(this.editedGradStatus.program != '1950-EN'){
+        if(this.editedGradStatus.program != '1950'){
           this.disableButton = true;
         }
       }
       if(this.editedGradStatus.studentGrade != 'AD' && this.editedGradStatus.studentGrade != 'AN'){
 
-        if(this.editedGradStatus.program == '1950-EN'){
+        if(this.editedGradStatus.program == '1950'){
           this.disableButton = true;
         } else {
           if(this.editedGradStatus.schoolOfRecord == "") {
@@ -541,14 +541,14 @@ export default {
       }
     },
     programChange:function(){
-       if(this.editedGradStatus.program == '1950-EN'){
+       if(this.editedGradStatus.program == '1950'){
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = false;
         }else{
           this.disableButton = true;
         }
       }
-      if(this.editedGradStatus.program != '1950-EN'){
+      if(this.editedGradStatus.program != '1950'){
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = true;
         }else{
