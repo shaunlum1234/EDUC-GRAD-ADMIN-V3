@@ -64,18 +64,15 @@
                       <td class="px-2"><strong>Usual middle:</strong> {{studentInfo.usualMiddleNames}} </td>
                     </tr>
                     <tr>
-                      <td class="px-2"><strong>Sex:</strong> {{studentInfo.sexCode}}</td>
                       <td class="px-2"><strong>Gender:</strong> {{studentInfo.genderCode}}</td>
                       <td class="px-2"><strong>True student ID:</strong> {{studentInfo.trueStudentID}}</td>
-                    </tr>
-                    <tr>
                       <td class="px-2"><strong>Local ID:</strong> {{studentInfo.localID}}</td>
+                    </tr>
+                    <tr>     
                       <td class="px-2"><strong>PEN Status Code:</strong> {{studentInfo.statusCode}}</td>
                       <td class="px-2"><strong>Postal code:</strong> {{studentInfo.postalCode}}</td>
-                    </tr>  
-                    <tr v-if="studentInfo.studentStatus == 'D'">
-                       <td class="px-2"><strong>Deceased date:</strong> {{studentInfo.deceasedDate}}</td>
-                    </tr>             
+                      <td class="px-2" v-if="studentInfo.studentStatus == 'D'"><strong>Deceased date:</strong> {{studentInfo.deceasedDate}}</td>
+                    </tr>              
                   </tbody>
               </table>
           </b-card>
