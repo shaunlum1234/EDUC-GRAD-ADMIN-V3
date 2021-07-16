@@ -24,7 +24,13 @@
                   <b-table :bordered=false small :items="row.item.studentSpecialProgramData.specialStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
                     <template #cell(gradReqMetDetail)="row2">
                        <ul class="m-0 p-0"><li ><strong>{{row2.item.gradReqMetDetail}}</strong><br/>
-                        ({{row2.item.courseName}})</li></ul>
+                        {{row2.item.courseCode}} {{row2.item.courseLevel}} - {{row2.item.sessionDate}} ({{row2.item.courseName}} )</li></ul>
+                    </template>
+                  </b-table>
+                  <b-table :bordered=false small :items="row.item.studentSpecialProgramData.specialStudentAssessments.studentAssessmentList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
+                    <template #cell(gradReqMetDetail)="row2">
+                       <ul class="m-0 p-0"><li ><strong>{{row2.item.gradReqMetDetail}}</strong><br/>
+                        {{row2.item.assessmentCode}} - {{row2.item.sessionDate}} ({{row2.item.assessmentName}})</li></ul>
                     </template>
                   </b-table>
        
@@ -74,6 +80,7 @@ export default {
   },
   methods: {
     filterGradReqCourses(row) {
+      console.log()
       if (row.gradReqMet.length > 0) {
         return true;
       } else {
