@@ -7,7 +7,13 @@
 
           <b-table v-if="specialPrograms" :items="specialPrograms" :fields="specialProgramsfields" showFilter="true" title="Special Programs">
             <template #cell(studentSpecialProgramData.specialNonGradReasons)="row">
-                {{row.item.studentSpecialProgramData.specialNonGradReasons === undefined ? row.item.studentSpecialProgramData.specialNonGradReasons : 'All requirements have been met'}}
+              <!-- {{row.item.studentSpecialProgramData}} -->
+                  <ul v-if="row.item.studentSpecialProgramData.specialNonGradReasons !== undefined" id="specialNonGradReasons">
+                    <li v-for="specialNonGradReasons in row.item.studentSpecialProgramData.specialNonGradReasons" :key="specialNonGradReasons.rule">
+                      <strong>{{ specialNonGradReasons.rule }} - {{ specialNonGradReasons.description }}</strong>
+                    </li>
+                  </ul>
+                  <span v-if="row.item.studentSpecialProgramData.specialNonGradReasons === undefined">All requirements have been met</span>
             </template>    
             <template #cell(specialProgramName)="row">
               
