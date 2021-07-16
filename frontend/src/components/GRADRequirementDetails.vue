@@ -110,16 +110,16 @@ export default {
         },     
         {
           key: "spcialCase",
-          label: "Special Case Exceeded",
+          label: "Special Case",
           sortable: true,
           class: "text-left",
         },
-        // {
-        //   key: "exceededWriteFlag",
-        //   label: "Exceeded Writes",
-        //   sortable: true,
-        //   class: "text-left",
-        // },        
+        {
+          key: "exceededWriteFlag",
+          label: "Exceeded Writes",
+          sortable: true,
+          class: "text-left",
+        },        
         {
           key: "proficiencyScore",
           label: "Proficiency Score",
