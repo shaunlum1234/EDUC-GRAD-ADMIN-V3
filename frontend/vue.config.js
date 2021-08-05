@@ -12,12 +12,20 @@ module.exports = {
   },
   devServer: {
     proxy: {
+      '/api/v1/graduationreports': {
+        target: process.env.VUE_APP_GRADUATION_REPORT_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/ungrad/': {
+        target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
+        changeOrigin: true,
+      },
       '/api/v1/studentcourse': {
-        target: process.env.VUE_APP_COURSE_ACHIEVEMENT_API_HOST,
+        target: process.env.VUE_APP_COURSE_API_HOST,
         changeOrigin: true,
       },
       '/api/v1/studentassessment': {
-        target: process.env.VUE_APP_STUDENT_ASSESSMENTS_API_HOST,
+        target: process.env.VUE_APP_ASSESSMENT_API_HOST,
         changeOrigin: true,
       },
       '/api/v1/student': {
@@ -25,7 +33,7 @@ module.exports = {
         changeOrigin: true,
       },
       '/api/v1/school': {
-        target: process.env.VUE_APP_SCHOOL_API_HOST,
+        target: process.env.VUE_APP_TRAX_API_HOST,
         changeOrigin: true,
       },
       '/api/v1/course': {
@@ -33,11 +41,11 @@ module.exports = {
         changeOrigin: true,
       },
       '/api/v1/psi': {
-        target: process.env.VUE_APP_PSI_API_HOST,
+        target: process.env.VUE_APP_TRAX_API_HOST,
         changeOrigin: true,
       },
-      '/api/v1/programmanagement': {
-        target: process.env.VUE_APP_PROGRAM_MANAGEMENT_API_HOST,
+      '/api/v1/program': {
+        target: process.env.VUE_APP_PROGRAM_API_HOST,
         changeOrigin: true,
       },
       '/api/v1/gradstatus': {
@@ -49,7 +57,7 @@ module.exports = {
         changeOrigin: true,
       },
       '/api/v1/studentcourse': {
-        target: process.env.VUE_APP_COURSE_ACHIEVEMENT_API_HOST,
+        target: process.env.VUE_APP_COURSE_API_HOST,
         changeOrigin: true,
       },
       

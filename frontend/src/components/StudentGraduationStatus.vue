@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <div class="row">
       <div class="col-12">
@@ -53,7 +52,6 @@
                     </p>
                   </b-alert>
                 </div> -->
-
                 <div v-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
                   <b-alert show variant="warning" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Not active</h4>
@@ -101,22 +99,18 @@
                     <td width="50%" ><strong>Program: </strong></td>
                     <td width="50%"><span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span></td>
                   </tr>
-  
                   <tr v-if="showEdit">
                     <td width="50%"><strong>Program: </strong>
                       <div v-if="editedGradStatus.program == '1950'">
                         <div class="form-validation-message text-danger" v-if="!(editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN')">Student grade should be one of <strong>AD or AN</strong> if the student program is 1950</div>
                       </div>   
                     </td>
-                    <td width="50%"><b-form-select :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>   
-                    
+                    <td width="50%"><b-form-select :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>                   
                   </tr>
-
                   <tr v-if="!showEdit">
                     <td><strong>Program completion date: </strong></td>
                     <td>{{ studentGradStatus.programCompletionDate }}</td>
-                  </tr>
-            
+                  </tr>          
                   <tr v-if="showEdit">
                     <td><strong>Program completion date: (YYYY/MM)</strong></td>
                     <td><b-input  :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="7" @keyup="dateFormat()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
@@ -135,8 +129,7 @@
                         :disabled="disableStudentStatus"
                       ></b-form-select>
                     </td>
-                  </tr>
-              
+                  </tr>        
                   <tr v-if="!showEdit">
                     <td><strong>Student grade: </strong></td>
                     <td><span v-if="studentGradStatus.studentGrade">{{ studentGradStatus.studentGrade }}</span></td>
@@ -155,8 +148,7 @@
                         :disabled="disableInput"
                       ></b-form-select>
                       </td>
-                  </tr>
-                  
+                  </tr>            
                   <tr v-if="!showEdit">
                     <td><strong>School of record: </strong></td>
                     <td><b-button v-if="studentGradStatus.schoolOfRecord" 
@@ -208,11 +200,9 @@
                       <td><strong>School of record:</strong><br>
                         <div v-if="schoolOfRecordMissing" class="form-validation-message text-warning" >School of record is empty&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                         <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                        <div v-if="schoolNotFoundWarning" class="form-validation-message text-danger" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                        
+                        <div v-if="schoolNotFoundWarning" class="form-validation-message text-danger" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>                      
                       </td>
-                      <td><b-input :disabled="disableInput" size="sm" type="number" maxlength="8" minength="8" v-model='editedGradStatus.schoolOfRecord'></b-input></td>
-                      
+                      <td><b-input :disabled="disableInput" size="sm" type="number" maxlength="8" minength="8" v-model='editedGradStatus.schoolOfRecord'></b-input></td>                  
                   </tr>
                   <tr v-if="!showEdit">
                     <td><strong>School at graduation: </strong></td>
@@ -281,18 +271,12 @@
                             </li>
                           </ul>
                       </td>
-                    </tr>
-                
+                    </tr>               
                     </tbody>
                   </table> 
               </b-card-text>
-            </b-card>
-            
-         
+            </b-card>       
           </div> 
- 
-
-
           <!-- GRADUATION REPORTS -->
           <div class="graduation-reports">
             <b-card
@@ -698,8 +682,8 @@ export default {
         this.showNotification(
                "success",
                "Student Record re-activated."
-             );
-        },
+        );
+    },
     editGradStatus() {
       //If the student has a programCompletionDate disable input fields
       this.schoolOfRecordWarning = false;
@@ -761,37 +745,35 @@ export default {
         
         this.token,this.editedGradStatus
       )
-        .then((response) => {
-          this.updateStatus = response.data;
-          this.studentGradStatus.pen = response.data.pen;
-          this.studentGradStatus.program = response.data.program;
-          this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
-          this.studentGradStatus.honoursStanding = response.data.honoursStanding;
-          this.studentGradStatus.gpa = response.data.gpa;
-          this.studentGradStatus.studentGrade = response.data.studentGrade;
-          this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
-          this.studentGradStatus.studentStatus = response.data.studentStatus;
-          this.studentGradStatus.studentStatusName = this.getStudentStatus(
-            response.data.studentStatus
-          );
-          this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
+      .then((response) => {
+        this.updateStatus = response.data;
+        this.studentGradStatus.pen = response.data.pen;
+        this.studentGradStatus.program = response.data.program;
+        this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
+        this.studentGradStatus.honoursStanding = response.data.honoursStanding;
+        this.studentGradStatus.gpa = response.data.gpa;
+        this.studentGradStatus.studentGrade = response.data.studentGrade;
+        this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
+        this.studentGradStatus.studentStatus = response.data.studentStatus;
+        this.studentGradStatus.studentStatusName = this.getStudentStatus(
+          response.data.studentStatus
+        );
+        this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
 
-          this.showTop = !this.showTop;
-          this.showEdit = false;
+        this.showTop = !this.showTop;
+        this.showEdit = false;
 
-          this.showNotification("success", "GRAD Status Saved");
-          
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.log(error.response);
-          this.showNotification(
-            "danger",
-            "There was an error: " + error.response.data.messages[0].message
-          );
-
-          //console.log('There was an error:' + error.response);
-        });
+        this.showNotification("success", "GRAD Status Saved");      
+      })
+      .catch((error) => {
+        // eslint-disable-next-line
+        console.log(error.response);
+        this.showNotification(
+          "danger",
+          "There was an error: " + error.response.data.messages[0].message
+        );
+        //console.log('There was an error:' + error.response);
+      });
     },
     saveGraduationStatus(id) {
       //add the user info
@@ -825,113 +807,112 @@ export default {
         this.token,
         this.editedGradStatus
       )
-        .then((response) => {
-          this.updateStatus = response.data;
-          this.studentGradStatus.pen = response.data.pen;
-          this.studentGradStatus.program = response.data.program;
-          this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
-          this.studentGradStatus.honoursStanding = response.data.honoursStanding;
-          this.studentGradStatus.gpa = response.data.gpa;
-          this.studentGradStatus.studentGrade = response.data.studentGrade;
-          this.studentGradStatus.schoolName = this.editedGradStatus.schoolName;
-          this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
-          this.studentGradStatus.schoolAtGradName = this.editedGradStatus.schoolAtGradName;
-          this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
-          this.studentGradStatus.studentStatus = response.data.studentStatus;
-          this.studentGradStatus.recalculateGradStatus = response.data.recalculateGradStatus;
-          this.studentGradStatus.updatedTimestamp = response.data.updatedTimestamp;
-          this.studentGradStatus.studentStatusName = this.getStudentStatus(
-            response.data.studentStatus
-          );         
-          this.showTop = !this.showTop;
-          this.showEdit = false;
-          this.showNotification("success", "GRAD Status Saved");
-        })
-        .catch((error) => {
-          if(this.editedGradStatus.programCompletionDate != null){
-            this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("-", "/").substring(0, 7);
-          }         
-          // eslint-disable-next-line
-          console.log(error.response);
-          this.showNotification(
-            "danger",
-            "There was an error: " + error.response.data.messages[0].message
-          );
+      .then((response) => {
+        this.updateStatus = response.data;
+        this.studentGradStatus.pen = response.data.pen;
+        this.studentGradStatus.program = response.data.program;
+        this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
+        this.studentGradStatus.honoursStanding = response.data.honoursStanding;
+        this.studentGradStatus.gpa = response.data.gpa;
+        this.studentGradStatus.studentGrade = response.data.studentGrade;
+        this.studentGradStatus.schoolName = this.editedGradStatus.schoolName;
+        this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
+        this.studentGradStatus.schoolAtGradName = this.editedGradStatus.schoolAtGradName;
+        this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
+        this.studentGradStatus.studentStatus = response.data.studentStatus;
+        this.studentGradStatus.recalculateGradStatus = response.data.recalculateGradStatus;
+        this.studentGradStatus.updatedTimestamp = response.data.updatedTimestamp;
+        this.studentGradStatus.studentStatusName = this.getStudentStatus(
+          response.data.studentStatus
+        );         
+        this.showTop = !this.showTop;
+        this.showEdit = false;
+        this.showNotification("success", "GRAD Status Saved");
+      })
+      .catch((error) => {
+        if(this.editedGradStatus.programCompletionDate != null){
+          this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("-", "/").substring(0, 7);
+        }         
+        // eslint-disable-next-line
+        console.log(error.response);
+        this.showNotification(
+          "danger",
+          "There was an error: " + error.response.data.messages[0].message
+        );
 
-          //console.log('There was an error:' + error.response);
-        });
+        //console.log('There was an error:' + error.response);
+      });
     },
-
     popClose() {
       this.show = false;
     },
     getSchoolInfo(mincode, type) {
       SchoolService.getSchoolInfo(mincode, this.token)
-        .then((response) => {
-          if(type == 'schoolOfRecord'){
-            this.schoolOfRecord = response.data;
-          }
-          if(type == 'schoolAtGrad'){
-            this.schoolAtGraduation = response.data;
-          }          
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.log("There was an error:" + error.response);
-        });
+      .then((response) => {
+        if(type == 'schoolOfRecord'){
+          this.schoolOfRecord = response.data;
+        }
+        if(type == 'schoolAtGrad'){
+          this.schoolAtGraduation = response.data;
+        }          
+      })
+      .catch((error) => {
+        // eslint-disable-next-line
+        console.log("There was an error:" + error.response);
+      });
     },
     projectGraduationStatus(id) {
       //  console.log( "PROJECTED" + this.projectedStudentGradStatus);
       GraduationStatusService.getGraduationStatus(id, this.token)
-        .then((response) => {
-          this.projectedStudentGradStatus = response.data;
-          this.projectedStudentGradStatus.studentGradData = JSON.parse(
-            this.projectedStudentGradStatus.studentGradData
-          );
-          //console.log( "PROJECTED" + this.projectedStudentGradStatus);
-          this.$bvModal.show("modal-1");
-          this.showModal = true;
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.log("There was an error:" + error.response);
-        });
+      .then((response) => {
+        this.projectedStudentGradStatus = response.data;
+        this.projectedStudentGradStatus.studentGradData = JSON.parse(
+          this.projectedStudentGradStatus.studentGradData
+        );
+        //console.log( "PROJECTED" + this.projectedStudentGradStatus);
+        this.$bvModal.show("modal-1");
+        this.showModal = true;
+      })
+      .catch((error) => {
+        // eslint-disable-next-line
+        console.log("There was an error:" + error.response);
+      });
     },
     updateGraduationStatus: function (pen) {
       // eslint-disable-next-line no-use-before-define
       GraduationService.graduateStudent(pen, this.token)
-        .then((response) => {
-          //console.log(response.data);
-          this.$store.dispatch("setStudentGradStatus", response.data);
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.log("There was an error:" + error.response);
-        });
+      .then((response) => {
+        //console.log(response.data);
+        this.$store.dispatch("setStudentGradStatus", response.data);
+      })
+      .catch((error) => {
+        // eslint-disable-next-line
+        console.log("There was an error:" + error.response);
+      });
     },
     getStudentAchievementReportPDF: function () {
       GraduationCommonService.getAchievementReport(
         this.studentId,
         this.token
       )
-        .then((response) => {
-          //Create a Blob from the PDF Stream
-          const file = new Blob([response.data], {
-            type: "application/pdf",
-          });
-          //Build a URL from the file
-          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-            // IE
-            window.navigator.msSaveOrOpenBlob(file);
-          } else {
-            const fileURL = URL.createObjectURL(file);
-            window.open(fileURL); //Open the URL on new Window
-          }
-        })
-        // eslint-disable-next-line no-unused-vars
-        .catch((error) => {
-          //console.log('There was an error:' + error.response);
+      .then((response) => {
+        //Create a Blob from the PDF Stream
+        const file = new Blob([response.data], {
+          type: "application/pdf",
         });
+        //Build a URL from the file
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+          // IE
+          window.navigator.msSaveOrOpenBlob(file);
+        } else {
+          const fileURL = URL.createObjectURL(file);
+          window.open(fileURL); //Open the URL on new Window
+        }
+      })
+      // eslint-disable-next-line no-unused-vars
+      .catch((error) => {
+        //console.log('There was an error:' + error.response);
+      });
     },
     getStudentTranscriptPDF: function () {
       //  console.log("transcript");
@@ -955,7 +936,7 @@ export default {
       })
       // eslint-disable-next-line no-unused-vars
       .catch((error) => {
-        //console.log('There was an error:' + error.response);
+      //console.log('There was an error:' + error.response);
       });
     },
   },
@@ -982,13 +963,11 @@ ul.non-grad-reasons li {
   border-bottom: 1px solid #ccc;
 }
 .card {
-  
   margin-bottom: 10px;
 }
 
 .card-header {
   font-weight: 700;
-  
 }
 
 

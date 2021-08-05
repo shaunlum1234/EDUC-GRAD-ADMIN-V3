@@ -8,19 +8,15 @@ export default {
     getCareerPrograms(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         //console.log("TOKEN IN SERVICE getGraduationPrograms: " + token);
-        return apiClient.get('/api/v1/code/careerprogram',{ headers });
+        return apiClient.get('/api/v1/program/careerprogram',{ headers });
     },
     getCertificateTypes(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/code/certificatetype',{ headers });
+        return apiClient.get('/api/v1/graduationreports/certificatetype',{ headers });
     },
-    getGraduationMessages(token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/code/gradmessages',{ headers });
-    },   
     getReportTypes(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/code/reporttype',{ headers });
+        return apiClient.get('/api/v1/graduationreports/reporttype',{ headers });
     },   
     getRequirementTypes(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
@@ -28,10 +24,10 @@ export default {
     },        
     getStudentStatusCodes(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/code/studentstatus',{ headers });
+        return apiClient.get('/api/v1/student/studentstatus',{ headers });
     },
     getUngradReasons(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/code/ungradreason',{ headers });
+        return apiClient.get('/api/v1/ungrad/ungradreason',{ headers });
     },
 };
