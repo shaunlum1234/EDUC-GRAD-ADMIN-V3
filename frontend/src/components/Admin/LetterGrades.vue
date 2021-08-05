@@ -20,7 +20,7 @@ export default {
   created() {
      ProgramManagementService.getLetterGrades(this.token)
       .then((response) => {
-        this.letterGrades = response.data.gradLetterGradeList;
+        this.letterGrades = response.data;
         
       })
       // eslint-disable-next-line no-unused-vars
@@ -34,7 +34,7 @@ export default {
       letterGrades: [],
       letterGradesFields: [
         {
-          key: 'letterGrade',
+          key: 'grade',
           label: 'Letter grade',
           sortable: true,
           sortDirection: 'desc',

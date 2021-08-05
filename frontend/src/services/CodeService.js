@@ -20,7 +20,7 @@ export default {
     },   
     getRequirementTypes(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/code/gradrequirementtype',{ headers });
+        return apiClient.get('/api/v1/program/gradrequirementtype',{ headers });
     },        
     getStudentStatusCodes(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }

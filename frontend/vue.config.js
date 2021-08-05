@@ -12,6 +12,14 @@ module.exports = {
   },
   devServer: {
     proxy: {
+      '/api/v1/algo': {
+        target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/lgSc': {
+        target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
+        changeOrigin: true,
+      },
       '/api/v1/graduationreports': {
         target: process.env.VUE_APP_GRADUATION_REPORT_API_HOST,
         changeOrigin: true,

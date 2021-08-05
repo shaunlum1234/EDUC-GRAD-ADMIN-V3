@@ -2,6 +2,15 @@
   <div>
   <DisplayTable v-bind:items="algorithmRules" title="Program" v-bind:fields="algorithmRulesFields" id="specialCase" showFilter="true"
         v-bind:role="role">
+        <template #cell(ruleName)="row">
+          {{row.item.algorithmRuleCode.label}}
+        </template>
+        <template #cell(ruleDescription)="row">
+          {{row.item.algorithmRuleCode.description}}
+        </template>
+        <template #cell(isActive)="row">
+          {{row.item.algorithmRuleCode.isActiveRule}}
+        </template>
     </DisplayTable>
   </div>
 </template>
@@ -34,7 +43,7 @@ export default {
       algorithmRules: [],
       algorithmRulesFields: [
         {
-          key: 'programCode',
+          key: 'graduationProgramCode',
           label: 'Program code',
           sortable: true,
           sortDirection: 'desc',

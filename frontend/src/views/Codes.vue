@@ -140,7 +140,7 @@ export default {
       requirementTypes: [],
       requirementTypesFields: [
         {
-          key: "code",
+          key: "reqTypeCode",
           label: "Code",
           sortable: true,
           sortDirection: "desc",
@@ -176,7 +176,7 @@ export default {
           sortDirection: "desc",
         },
         {
-          key: "description",
+          key: "label",
           label: "Program",
           sortable: true,
         },

@@ -32,7 +32,7 @@ export default {
       specialCases: [],
       specialCasesFields: [
         {
-          key: 'specialCase',
+          key: 'spCase',
           label: 'Special case',
           sortable: true,
           sortDirection: 'desc',

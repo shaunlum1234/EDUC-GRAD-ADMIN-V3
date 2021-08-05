@@ -7,11 +7,11 @@ const apiClient = axios.create({
 export default {
     getLetterGrades(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/program/lettergrade',{ headers });
+        return apiClient.get('/api/v1/lgSc/lettergrade',{ headers });
     },
     getSpecialCases(token){
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/program/specialcase',{ headers });
+        return apiClient.get('/api/v1/lgSc/specialcase',{ headers });
     },
     getGraduationPrograms(token) { 
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }

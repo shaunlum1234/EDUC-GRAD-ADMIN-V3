@@ -31,6 +31,8 @@
     proxy /api/v1/code {$VUE_APP_CODE_API_HOST}
     proxy /api/v1/graduationreports {$VUE_APP_GRADUATION_REPORT_API_HOST}
     proxy /api/v1/ungrad {$VUE_APP_STUDENT_GRADUATION_API_HOST}
+    proxy /api/v1/lgSc {$VUE_APP_STUDENT_GRADUATION_API_HOST}
+    proxy /api/v1/algo {$VUE_APP_STUDENT_GRADUATION_API_HOST}
     errors stdout
 }
     
