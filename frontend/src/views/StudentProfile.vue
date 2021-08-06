@@ -131,6 +131,26 @@
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>
+<b-tab v-if="specialPrograms != 'not loaded'" :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="p-0 m-0">
+    <template #title>
+      
+        <b-dropdown id="optional-programs-dd" :text="'Optional Programs ('  + specialPrograms.length + ')'" class="ml-auto" variant="transparent">
+            
+            <b-dropdown-item v-for="program in specialPrograms" :key="program.specialProgramName" @click="optionalProgramTab=program.specialProgramName">{{program.specialProgramName}}</b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item @click="optionalProgramTab='All'">All Optional Programs</b-dropdown-item>
+            <b-dropdown-item @click="optionalProgramTab='Add Optional Program'"><i class="fas fa-plus"></i> Add Optional Program</b-dropdown-item>
+        </b-dropdown>
+        
+        
+      </template>
+        <b-card-text>
+          
+          <StudentSpecialPrograms :showOptionalProgramTab="optionalProgramTab"></StudentSpecialPrograms>
+          <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
+        </b-card-text>
+  </b-tab>
+
                 <b-tab v-if="specialPrograms != 'not loaded'" :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
                     
@@ -194,15 +214,15 @@
             </b-card>
           </b-card-group>
           <!-- Looped Special program -->
-          <!-- <ul id="example-1" v-for="optionalProgram in this.optionalGradStatus" :key="optionalProgram.specialProgramCode">
+          <!-- <ul id="example-1" v-for="optionalProgram in this.projectedOptionalGradStatus" :key="optionalProgram.specialProgramCode">
               <li>
                 {{ optionalProgram.pen }} {{ optionalProgram.specialProgramName }} {{ optionalProgram.specialProgramCode }} {{ optionalProgram.specialProgramCompletionDate }} <br>
                 Reqirements not met: {{optionalProgram.studentSpecialProgramData.specialNonGradReasons}} <br>
                 Requirements met: {{optionalProgram.studentSpecialProgramData.specialRequirementsMet}}
               </li>
           </ul> -->
-          <div v-if="this.optionalGradStatus">
-            <div v-for="optionalProgram in this.optionalGradStatus" :key="optionalProgram.specialProgramCode">
+          <div v-if="this.projectedOptionalGradStatus">
+            <div v-for="optionalProgram in this.projectedOptionalGradStatus" :key="optionalProgram.specialProgramCode">
             <h3 class="specialProgramName">{{ optionalProgram.specialProgramName }}</h3>
             <b-card-group deck >           
               <b-card
@@ -366,7 +386,8 @@
     },
     data() {
       return { 
-        optionalGradStatus:"",
+        optionalProgramTab: "",
+        projectedOptionalGradStatus:"",
         nonGradReasons:"",
         projectedrequirementsMet:"",
         ungradReasonSelected: "",
@@ -554,9 +575,9 @@
         this.tabLoading = true; 
         GraduationService.projectedGradFinalMarks(this.studentId, this.token) .then((response) => {
           this.projectedGradStatus = JSON.parse(response.data.graduationStatus.studentGradData);
-          this.optionalGradStatus = response.data.specialGraduationStatus;
-          for (let i = 0; i < this.optionalGradStatus.length; i++) {
-            this.optionalGradStatus[i].studentSpecialProgramData = JSON.parse(this.optionalGradStatus[i].studentSpecialProgramData);
+          this.projectedOptionalGradStatus = response.data.specialGraduationStatus;
+          for (let i = 0; i < this.projectedOptionalGradStatus.length; i++) {
+            this.projectedOptionalGradStatus[i].studentSpecialProgramData = JSON.parse(this.projectedOptionalGradStatus[i].studentSpecialProgramData);
           } 
           
           this.$refs['projectedGradStatusWithFinalMarks'].show();

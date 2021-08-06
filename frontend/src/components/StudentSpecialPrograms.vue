@@ -1,11 +1,20 @@
 <template>
   <div>
     <div class="table-responsive">
+
+      {{ showOptionalProgramTab }}
           <div v-if="!specialPrograms" class="container">
             This student does not have any special programs.
           </div>
-
-          <b-table v-if="specialPrograms" :items="specialPrograms" :fields="specialProgramsfields" showFilter="true" title="Special Programs">
+          <div v-if="showOptionalProgramTab=='Add Optional Program'" class="add-optional-program-form">
+            Program Name<b-input></b-input>
+            Add Course <b-input></b-input>
+            <b-input></b-input>
+            <input type="submit">
+            
+            
+          </div>
+          <b-table v-if="specialPrograms && showOptionalProgramTab != 'Add Optional Program'" :items="specialPrograms" :fields="specialProgramsfields" showFilter="true" filter=null :filter-function="filterOptionalProgram" title="Special Programs">
             <template #cell(studentSpecialProgramData.specialNonGradReasons)="row">
               <!-- {{row.item.studentSpecialProgramData}} -->
                   <ul v-if="row.item.studentSpecialProgramData.specialNonGradReasons !== undefined" id="specialNonGradReasons">
@@ -46,6 +55,12 @@
             </template>                      
           </b-table>
 
+          <div v-if="showOptionalProgramTab == '2018 Graduation Program Career Program'">
+            AE<br>
+            XE<br>
+            Add a Program
+          </div>
+
 
     </div>
   </div>
@@ -57,7 +72,9 @@ export default {
   name: "GRADRequirementDetails",
   components: {
   },
-  props: {},
+  props: {
+    showOptionalProgramTab: String
+  },
   computed: {
     ...mapGetters({
       specialPrograms: "getStudentSpecialPrograms",
@@ -79,6 +96,13 @@ export default {
   created() {
   },
   methods: {
+    filterOptionalProgram(row){
+      if(row.specialProgramName == this.showOptionalProgramTab || this.showOptionalProgramTab == "All"){
+        return true;
+      }else{
+        return false;
+      }
+    },
     filterGradReqCourses(row) {
       console.log()
       if (row.gradReqMet.length > 0) {

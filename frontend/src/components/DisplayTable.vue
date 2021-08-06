@@ -423,7 +423,7 @@ export default {
       this.$bvToast.toast("Record was Added", {
         title: "Success",
         variant: "success",
-      });
+      }); 
       this.$store.dispatch(this.create, this.itemToAdd);
     },
     cancelAddItem() {
