@@ -153,7 +153,7 @@ export default {
           key: "courseCode",
           label: "Code",
           sortable: true,
-          sortDirection: "desc",
+          sortDirection: "desc"
         },
         {
           key: "courseLevel",
