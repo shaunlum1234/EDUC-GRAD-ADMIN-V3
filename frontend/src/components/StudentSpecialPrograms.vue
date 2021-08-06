@@ -80,7 +80,6 @@ export default {
   },
   methods: {
     filterGradReqCourses(row) {
-      console.log()
       if (row.gradReqMet.length > 0) {
         return true;
       } else {
