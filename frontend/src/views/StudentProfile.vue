@@ -131,25 +131,23 @@
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>
-<b-tab v-if="specialPrograms != 'not loaded'" :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="p-0 m-0">
-    <template #title>
-      
-        <b-dropdown id="optional-programs-dd" :text="'Optional Programs ('  + specialPrograms.length + ')'" class="ml-auto" variant="transparent">
-            
-            <b-dropdown-item v-for="program in specialPrograms" :key="program.specialProgramName" @click="optionalProgramTab=program.specialProgramName">{{program.specialProgramName}}</b-dropdown-item>
-              <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item @click="optionalProgramTab='All'">All Optional Programs</b-dropdown-item>
-            <b-dropdown-item @click="optionalProgramTab='Add Optional Program'"><i class="fas fa-plus"></i> Add Optional Program</b-dropdown-item>
-        </b-dropdown>
-        
-        
-      </template>
-        <b-card-text>
-          
-          <StudentSpecialPrograms :showOptionalProgramTab="optionalProgramTab"></StudentSpecialPrograms>
-          <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
-        </b-card-text>
-  </b-tab>
+                <b-tab v-if="specialPrograms != 'not loaded'" :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="p-0 m-0">
+                    <template #title>
+                        <b-dropdown id="optional-programs-dd" :text="'Optional Programs ('  + specialPrograms.length + ')'" class="ml-auto" variant="transparent">
+                            <b-dropdown-item v-for="program in specialPrograms" :key="program.specialProgramName" @click="optionalProgramTab=program.specialProgramName">{{program.specialProgramName}}</b-dropdown-item>
+                              <b-dropdown-divider></b-dropdown-divider>
+                            <b-dropdown-item @click="optionalProgramTab='All'">All Optional Programs</b-dropdown-item>
+                            <b-dropdown-item @click="optionalProgramTab='Add Optional Program'"><i class="fas fa-plus"></i> Add Optional Program</b-dropdown-item>
+                        </b-dropdown>
+                        
+                        
+                      </template>
+                      <b-card-text>
+                        
+                        <StudentSpecialPrograms :showOptionalProgramTab="optionalProgramTab"></StudentSpecialPrograms>
+                        <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
+                      </b-card-text>
+                  </b-tab>
 
                 <b-tab v-if="specialPrograms != 'not loaded'" :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
@@ -295,12 +293,7 @@
                 <b-card-text>All requirements have been met</b-card-text>
               </div>
             </b-card>
-
-      
           </b-card-group>
-          
-
-        
       </b-modal>
       <div>
         <b-modal id="ungraduate-student-modal" title="Ungraduate Student">
@@ -308,7 +301,7 @@
           <b-form-select v-model="ungradReasonSelected" :options="ungradReasons" value-field="code"
       text-field="description"></b-form-select>
 
-          <template #modal-footer="{ok, cancel, hide }">
+          <template #modal-footer="{ok, cancel, hide}">
             <!-- Emulate built in modal footer ok and cancel button actions -->
             <b-button size="sm" variant="outline-secondary" @click="cancel('resetUngraduateStudent')">
               Cancel
