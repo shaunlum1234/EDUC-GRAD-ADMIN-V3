@@ -172,7 +172,7 @@
                  
                 <b-tab v-if="studentUngradReasons.length" :title="'Ungrad Reasons ('  + studentUngradReasons.length + ')'" class="py-3 px-3 m-1">
                   <b-card-text>
-                    <b-table striped :items="studentUngradReasons" :fields='[{ key: "createdTimestamp",label: "Ungrad Date",class:"px-0 py-2 w-10"},{key: "ungradReasonCode",label: "Code",class:"px-0 py-2 w-10"},{key: "ungradReasonDescription",label: "Reason",class:"px-0 py-2 w-80"}]'></b-table>
+                    <b-table striped :items="studentUngradReasons" :fields='[{ key: "createdTimestamp",label: "Ungrad Date",class:"px-0 py-2 w-10"},{key: "Code",label: "Code",class:"px-0 py-2 w-10"},{key: "label",label: "Reason",class:"px-0 py-2 w-80"}]'></b-table>
                   </b-card-text>
                 </b-tab>                
 
@@ -298,8 +298,7 @@
       <div>
         <b-modal id="ungraduate-student-modal" title="Ungraduate Student">
           <p>Ungraduation Reason</p>
-          <b-form-select v-model="ungradReasonSelected" :options="ungradReasons" value-field="code"
-      text-field="description"></b-form-select>
+          <b-form-select v-model="ungradReasonSelected" :options="ungradReasons" value-field="code" text-field="label"></b-form-select>
 
           <template #modal-footer="{ok, cancel, hide}">
             <!-- Emulate built in modal footer ok and cancel button actions -->

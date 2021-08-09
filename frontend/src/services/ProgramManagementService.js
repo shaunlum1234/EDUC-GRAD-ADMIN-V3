@@ -36,18 +36,13 @@ export default {
     }, 
     getAllSpecialProgramRules(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/program/allspecialprogramrules',{ headers })
+        return apiClient.get('/api/v1/program/alloptionalprogramrules',{ headers })
     },
     getSpecialPrograms(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         //console.log("TOKEN IN SERVICE getProgramRule: " + token);
-        return apiClient.get('/api/v1/program/specialprograms',{ headers })
+        return apiClient.get('/api/v1/program/optionalprograms',{ headers })
     },
-    getSpecialProgramRules(programCode, specialProgramCode, token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('​/api​/v1​/programmanagement​/specialprograms/' + programCode + "/" + specialProgramCode,{ headers })
-    },
-    
     //Program CRUD
     createProgram(program, token){
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
