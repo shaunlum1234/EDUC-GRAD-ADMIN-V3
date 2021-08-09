@@ -21,15 +21,15 @@
           </b-nav-item-dropdown>
 
             <b-nav-item-dropdown
-              id="special-programs-dropdown"
+              id="optional-programs-dropdown"
               text="Special programs"
               toggle-class="nav-link-special-programs"
               left
-              ref="special-programs-dropdown"
+              ref="optional-programs-dropdown"
               active
             >
-            <b-nav-item to="/admin-graduation-programs/special-programs" :active="tab === 3" @click="tab = 3; closeDropdown('special-programs-dropdown')">Special programs</b-nav-item>
-            <b-nav-item to="/admin-graduation-programs/special-program-rules" :active="tab === 3" @click="tab = 3; closeDropdown('special-programs-dropdown')">Special program rules</b-nav-item>
+            <b-nav-item to="/admin-graduation-programs/optional-programs" :active="tab === 3" @click="tab = 3; closeDropdown('optional-programs-dropdown')">Optional programs</b-nav-item>
+            <b-nav-item to="/admin-graduation-programs/optional-program-rules" :active="tab === 3" @click="tab = 3; closeDropdown('optional-programs-dropdown')">Optional program rules</b-nav-item>
           </b-nav-item-dropdown>
         <b-nav-item to="/admin-graduation-programs/letter-grades" :active="tab === 4" @click="tab = 4">Letter grades</b-nav-item>
         <b-nav-item to="/admin-graduation-programs/special-cases" :active="tab === 5" @click="tab = 5">Special cases</b-nav-item>

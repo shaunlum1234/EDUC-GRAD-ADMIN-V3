@@ -1,43 +1,19 @@
 <template>
   <div>
     <!-- <div v-if="!isHidden"> -->
-      
         <div v-if="!selectedProgramCode">
-
           <DisplayTable v-bind:items="graduationProgramRules" title="Program" v-bind:fields="graduationProgramsFields" id="programCode"
             v-bind:role="role" :slots="templates" showFilter=true pagination=true>
 
             <template #cell(ruleCode)="row">
                 <b-btn variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
-
-                <router-link :to="{ name: 'programRuleCourses', params: { programCode: row.item.programCode, category: row.item.ruleCategory,  rule: row.item.ruleCode, ruleName: row.item.requirementName  }}">{{row.item.ruleCode}}</router-link>
-                 
+                <router-link :to="{ name: 'programRuleCourses', params: { programCode: row.item.programRequirementCode.proReqCode, category: row.item.programRequirementCode.requirementCategory,  rule: row.item.programRequirementCode.proReqCode, ruleName: row.item.programRequirementCode.label  }}">{{row.item.programRequirementCode.proReqCode}}</router-link>
                 </b-btn>
               </template>
-              <!-- <template #cell(ruleCode)="row">
-                <b-btn variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
-                  <a >{{row.item.ruleCode}}</a>
-                </b-btn>
-              </template>
-
-              <template #row-details="row">
-                <b-card>
-                    <table>
-                        <tr><td>CODE LVL</td></tr>
-                        <tr><td>CODE LVL</td></tr>
-                        <tr><td>CODE LVL</td></tr>
-                        <tr><td>CODE LVL</td></tr>
-                        <tr><td>CODE LVL</td></tr>
-                    </table>
-                </b-card>
-              </template> -->
-
-
           </DisplayTable>
         </div>
       
       <router-view v-bind:key="$route.fullPath"></router-view>
-      
       </div>
       
 
@@ -74,7 +50,7 @@ export default {
       ],
       graduationProgramsFields: [
       {
-            key: 'programCode',
+            key: 'graduationProgramCode',
             label: 'Program code',
             sortable: true,
             sortDirection: 'desc',
@@ -89,56 +65,56 @@ export default {
             class: '',
           },
           {
-            key: 'ruleCategory',
+            key: 'programRequirementCode.requirementCategory',
             label: 'Rule category',
             sortable: true,
             editable: true,
             class: '',
           },
           {
-            key: 'requirementName',
+            key: 'programRequirementCode.label',
             label: 'Requirement name',
             sortable: true,
             editable: true,
             class: '',
           },
           {
-            key: 'requiredCredits',
+            key: 'programRequirementCode.requiredCredits',
             label: 'Required credits',
             sortable: true,
             editable: true,
             class: '',
           },
           {
-            key: 'notMetDesc',
+            key: 'programRequirementCode.notMetDesc',
             label: 'Not met description',
             sortable: true,
             editable: true,
             class: '',
           },
           {
-            key: 'requirementTypeDesc',
+            key: 'programRequirementCode.description',
             label: 'Requirement type',
             sortable: true,
             editable: true,
             class: '',
           },
           {
-            key: 'requiredLevel',
+            key: 'programRequirementCode.requiredLevel',
             label: 'Required level',
             sortable: true,
             editable: true,
             class: '',
           },
           {
-            key: 'languageOfInstruction',
+            key: 'programRequirementCode.languageOfInstruction',
             label: 'Language',
             sortable: true,
             editable: true,
             class: '',
           },
           {
-            key: 'isActive',
+            key: 'programRequirementCode.activeRequirement',
             label: 'Active',
             sortable: true,
             editable: true,

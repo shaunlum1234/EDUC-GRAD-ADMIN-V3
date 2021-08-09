@@ -4,7 +4,7 @@
         showFilter=true>
           <template #cell(ruleCode)="row">
             <b-btn variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
-            <router-link :to="{ name: 'programRuleCourses', params: { isSpecialProgram:true, programCode: row.item.programCode, category: row.item.ruleCategory,  rule: row.item.ruleCode, ruleName: row.item.requirementName}}">{{row.item.ruleCode}}</router-link>
+            <router-link :to="{ name: 'programRuleCourses', params: { isSpecialProgram:true, programCode: row.item.optionalProgramID, category: row.item.optionalProgramRequirementCode.requirementCategory,  rule: row.item.optionalProgramRequirementCode.optProReqCode, ruleName: row.item.optionalProgramRequirementCode.label}}">{{row.item.optionalProgramRequirementCode.optProReqCode}}</router-link>
           </b-btn>
         </template>
         </DisplayTable>
@@ -33,7 +33,7 @@ export default {
       graduationSpecialProgramRules:[],
       graduationSpecialProgramRulesFields: [
           {
-            key: 'programCode',
+            key: 'optionalProgramID',
             label: 'Program code',
             sortable: true,
             sortDirection: 'desc',
@@ -41,8 +41,8 @@ export default {
             class: '',
           },
           {
-            key: 'specialProgramCode',
-            label: 'Special program code',
+            key: 'optionalProgramRequirementID',
+            label: 'Optional program code',
             sortable: true,
             sortDirection: 'desc',
             editable: true,
@@ -56,56 +56,56 @@ export default {
             class: '',
           },
           {
-            key: 'ruleCategory',
+            key: 'optionalProgramRequirementCode.requirementCategory',
             label: 'Rule category',
             sortable: true,
             editable: true,
             class: '',
           },
           {
-            key: 'requirementName',
+            key: 'optionalProgramRequirementCode.label',
             label: 'Requirement name',
             sortable: true,
             editable: true,
             class: '',
           },
           {
-            key: 'requiredCredits',
+            key: 'optionalProgramRequirementCode.requiredCredits',
             label: 'Required credits',
             sortable: true,
             editable: true,
             class: '',
           },
           {
-            key: 'notMetDesc',
+            key: 'optionalProgramRequirementCode.notMetDesc',
             label: 'Not met description',
             sortable: true,
             editable: true,
             class: '',
           },
           {
-            key: 'requirementTypeDesc',
+            key: 'optionalProgramRequirementCode.requirementTypeCode.description',
             label: 'Requirement type',
             sortable: true,
             editable: true,
             class: '',
           },
           {
-            key: 'requiredLevel',
+            key: 'optionalProgramRequirementCode.requiredLevel',
             label: 'Required level',
             sortable: true,
             editable: true,
             class: '',
           },
           {
-            key: 'languageOfInstruction',
+            key: 'optionalProgramRequirementCode.languageOfInstruction',
             label: 'Language',
             sortable: true,
             editable: true,
             class: '',
           },
           {
-            key: 'isActive',
+            key: 'optionalProgramRequirementCode.activeRequirement',
             label: 'Active',
             sortable: true,
             editable: true,
