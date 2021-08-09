@@ -1,8 +1,6 @@
 <template>
   <div>
     <div class="table-responsive">
-
-      {{ showOptionalProgramTab }}
           <div v-if="!specialPrograms" class="container">
             This student does not have any special programs.
           </div>
@@ -15,51 +13,36 @@
             
           </div>
           <b-table v-if="specialPrograms && showOptionalProgramTab != 'Add Optional Program'" :items="specialPrograms" :fields="specialProgramsfields" showFilter="true" filter=null :filter-function="filterOptionalProgram" title="Special Programs">
-            <template #cell(studentSpecialProgramData.specialNonGradReasons)="row">
+            <template #cell(optionalNonGradReasons)="row">
               <!-- {{row.item.studentSpecialProgramData}} -->
-                  <ul v-if="row.item.studentSpecialProgramData.specialNonGradReasons !== undefined" id="specialNonGradReasons">
-                    <li v-for="specialNonGradReasons in row.item.studentSpecialProgramData.specialNonGradReasons" :key="specialNonGradReasons.rule">
-                      <strong>{{ specialNonGradReasons.rule }} - {{ specialNonGradReasons.description }}</strong>
+                  <ul v-if="row.item.studentSpecialProgramData.optionalNonGradReasons !== undefined" id="specialNonGradReasons">
+                    <li v-for="optionalNonGradReasons in row.item.studentSpecialProgramData.optionalNonGradReasons" :key="optionalNonGradReasons.rule">
+                      <strong>{{ optionalNonGradReasons.rule }} - {{ optionalNonGradReasons.description }}</strong>
                     </li>
                   </ul>
-                  <span v-if="row.item.studentSpecialProgramData.specialNonGradReasons === undefined">All requirements have been met</span>
+                  <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons === undefined">All requirements have been met</span>
             </template>    
             <template #cell(specialProgramName)="row">
-              
                {{row.item.specialProgramName}} ({{row.item.specialProgramCode}}) <br> {{row.item.specialProgramCompletionDate}}
             </template>   
-            <template #cell(studentSpecialProgramData.specialRequirementsMet)="row">
- 
-                  <b-table :bordered=false small :items="row.item.studentSpecialProgramData.specialStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
+            <template #cell(optionalReqMet)="row">              
+                   <b-table :bordered=false small :items="row.item.studentSpecialProgramData.optionalStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
                     <template #cell(gradReqMetDetail)="row2">
+              
                        <ul class="m-0 p-0"><li ><strong>{{row2.item.gradReqMetDetail}}</strong><br/>
                         {{row2.item.courseCode}} {{row2.item.courseLevel}} - {{row2.item.sessionDate}} ({{row2.item.courseName}} )</li></ul>
                     </template>
                   </b-table>
-                  <b-table :bordered=false small :items="row.item.studentSpecialProgramData.specialStudentAssessments.studentAssessmentList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
+                  <!-- <b-table :bordered=false small :items="row.item.studentSpecialProgramData.specialStudentAssessments.studentAssessmentList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
                     <template #cell(gradReqMetDetail)="row2">
                        <ul class="m-0 p-0"><li ><strong>{{row2.item.gradReqMetDetail}}</strong><br/>
                         {{row2.item.assessmentCode}} - {{row2.item.sessionDate}} ({{row2.item.assessmentName}})</li></ul>
                     </template>
-                  </b-table>
-       
-                <!-- <ul v-if="row.item.studentSpecialProgramData.specialRequirementsMet">
-                  <li v-for="requirement in row.item.studentSpecialProgramData.specialRequirementsMet" :key="requirement.rule">
-                    
-                    {{requirement.rule}} {{requirement.description}}
-                  </li>
-                </ul>
-                <ul v-else>
-                    <li>No Requirements have been met</li>
-                </ul> -->
+                  </b-table> -->
+        
+               
             </template>                      
           </b-table>
-
-          <div v-if="showOptionalProgramTab == '2018 Graduation Program Career Program'">
-            AE<br>
-            XE<br>
-            Add a Program
-          </div>
 
 
     </div>
@@ -87,8 +70,8 @@ export default {
       ],
       specialProgramsfields: [
         { key: "specialProgramName", label: "Special program" },
-        { key: "studentSpecialProgramData.specialRequirementsMet", label: "Requirements Met" },
-        { key: "studentSpecialProgramData.specialNonGradReasons", label: "Requirements Not Met" },
+        { key: "optionalReqMet", label: "Requirements Met" },
+        { key: "optionalNonGradReasons", label: "Requirements Not Met" },
       ],
       
     };

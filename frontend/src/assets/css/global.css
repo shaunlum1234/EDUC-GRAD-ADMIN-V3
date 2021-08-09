@@ -75,3 +75,6 @@
     background: #fff !important;
     border: none !important;
   }
+  #optional-programs-dd button{
+    padding: 0px !important;
+  }
