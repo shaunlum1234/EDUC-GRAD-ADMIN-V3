@@ -170,7 +170,7 @@
                  
                 <b-tab v-if="studentUngradReasons.length" :title="'Ungrad Reasons ('  + studentUngradReasons.length + ')'" class="py-3 px-3 m-1">
                   <b-card-text>
-                    <b-table striped :items="studentUngradReasons" :fields='[{ key: "createdTimestamp",label: "Ungrad Date",class:"px-0 py-2 w-10"},{key: "Code",label: "Code",class:"px-0 py-2 w-10"},{key: "label",label: "Reason",class:"px-0 py-2 w-80"}]'></b-table>
+                    <b-table striped :items="studentUngradReasons" :fields='[{ key: "createDate",label: "Ungrad Date",class:"px-0 py-2 w-10"},{key: "ungradReasonCode",label: "Code",class:"px-0 py-2 w-10"},{key: "ungradReasonDescription",label: "Reason",class:"px-0 py-2 w-80"},{key: "createUser",label: "User",class:"px-0 py-2 w-80"}]'></b-table>
                   </b-card-text>
                 </b-tab>                
 
