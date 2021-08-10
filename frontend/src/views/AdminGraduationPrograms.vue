@@ -22,7 +22,7 @@
 
             <b-nav-item-dropdown
               id="optional-programs-dropdown"
-              text="Special programs"
+              text="Optional Programs"
               toggle-class="nav-link-special-programs"
               left
               ref="optional-programs-dropdown"
