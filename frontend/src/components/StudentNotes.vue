@@ -28,7 +28,7 @@
             no-body
             tag="article"
             class="col-12 mb-2"
-            :header="'Created by ' + studentNote.createdBy + ' on ' + studentNote.createdTimestamp"
+            :header="'Created by ' + studentNote.createUser + ' on ' + studentNote.createDate"
           >
             <b-card-text>
               <p v-if="showEditForm != studentNote.id">{{studentNote.note}}</p>
