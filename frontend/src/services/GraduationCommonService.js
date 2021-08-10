@@ -20,17 +20,17 @@ export default {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token };
     return apiClient.get('/api/v1/algo/algorithm-rules',{ headers});
   },
-  getStudentNotes(pen, token) {
+  getStudentNotes(id, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token, "responseType": "arraybuffer" }
-    return apiClient.get('/api/v1/common/studentnotes/pen/' + pen,{ headers });
+    return apiClient.get('/api/v1/student/studentnotes/studentid/' + id,{ headers });
   },
   addStudentNotes(json, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-    return apiClient.post('/api/v1/common/studentnotes/', json, { headers});
+    return apiClient.post('/api/v1/student/studentnotes/', json, { headers});
   },
   deleteStudentNotes(noteID, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-    return apiClient.delete('/api/v1/common/studentnotes/' + noteID, { headers});
+    return apiClient.delete('/api/v1/student/studentnotes/' + noteID, { headers});
   },
   getStudentUngradReasons(id, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }

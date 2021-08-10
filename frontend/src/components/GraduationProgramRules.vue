@@ -93,7 +93,7 @@ export default {
             class: '',
           },
           {
-            key: 'programRequirementCode.description',
+            key: 'programRequirementCode.requirementTypeCode.label',
             label: 'Requirement type',
             sortable: true,
             editable: true,

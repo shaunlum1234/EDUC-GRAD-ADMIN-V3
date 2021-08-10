@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <DisplayTable v-bind:items="graduationOptionalPrograms" title="Optional Programs" v-bind:fields="graduationOptionalProgramsFields" id="id" showFilter="true" isSpecialProgram="true"></DisplayTable>
   </div>
 </template>

@@ -78,4 +78,12 @@
   #optional-programs-dd button{
     padding: 0px !important;
     line-height: 1em;
+    color: #1a5a96;
+  }
+  #optional-programs-dd button:hover{
+    color: #0000f3
+  }
+  #optional-programs-dd button:focus{
+    box-shadow: none;
+    color: #495057;
   }

@@ -33,7 +33,7 @@ export default {
       graduationSpecialProgramRules:[],
       graduationSpecialProgramRulesFields: [
           {
-            key: 'optionalProgramID',
+            key: 'optionalProgramID.graduationProgramCode',
             label: 'Program code',
             sortable: true,
             sortDirection: 'desc',
@@ -41,7 +41,7 @@ export default {
             class: '',
           },
           {
-            key: 'optionalProgramRequirementID',
+            key: 'optionalProgramID.optProgramCode',
             label: 'Optional program code',
             sortable: true,
             sortDirection: 'desc',
@@ -84,7 +84,7 @@ export default {
             class: '',
           },
           {
-            key: 'optionalProgramRequirementCode.requirementTypeCode.description',
+            key: 'optionalProgramRequirementCode.requirementTypeCode.label',
             label: 'Requirement type',
             sortable: true,
             editable: true,

@@ -681,7 +681,7 @@
           }
         });
 
-        GraduationCommonService.getStudentNotes(pen, this.token).then(
+        GraduationCommonService.getStudentNotes(studentIdFromURL, this.token).then(
           (response) => {           
             this.$store.dispatch("setStudentNotes", response.data);
           }

@@ -105,14 +105,12 @@ export default {
         showEditForm: '',
         newNote: {
           note:'',
-          studentID:'',
-          pen:'',
+          studentID:''
         },
         editedNote:{
           id:'',
           note:'',
-          studentID:'',
-          pen:'',
+          studentID:''
         },
         studentProfile: {},
       };
@@ -139,7 +137,6 @@ export default {
         this.editedNote.note = note.note;
         this.editedNote.id = note.id;
         this.editedNote.studentID = note.studentID;
-        this.editedNote.pen = note.pen;
       },
       cancelEdit(){
         this.showSave = false;
@@ -156,7 +153,6 @@ export default {
         this.showForm = true;
         var current = new Date().toISOString().slice(0, 10)
         this.newNote.studentID = this.$route.params.studentId;
-        this.newNote.pen = this.$route.params.pen;
         this.newNote.createdBy = this.username;
         this.newNote.createdTimestamp = current;
         GraduationCommonService.addStudentNotes(this.newNote, this.token)
@@ -188,7 +184,7 @@ export default {
           this.showNotification('success','Student note deleted')
       },
       getNotes(){
-        GraduationCommonService.getStudentNotes(this.$route.params.pen, this.token).then(
+        GraduationCommonService.getStudentNotes(this.$route.params.studentid, this.token).then(
           (response) => {           
             this.studentNotes = response.data
           }
