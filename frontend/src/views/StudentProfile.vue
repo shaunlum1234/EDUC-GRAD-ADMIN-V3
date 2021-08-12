@@ -506,7 +506,6 @@
             }            
             this.tabLoading = false; 
         }).catch((error) => {
-          console.log("hey")
           this.tabLoading = false; 
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error.response.statusText, {
