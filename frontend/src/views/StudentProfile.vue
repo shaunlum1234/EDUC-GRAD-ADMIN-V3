@@ -486,10 +486,9 @@
         this.selectedTab = 0;
         this.tabLoading = true; 
         GraduationService.graduateStudent(this.studentId, this.token).then((response) => {
-            if(response.data.graduationStatus){
+            if(response.data.graduationStudentRecord){
               // use when response is updated
               //this.$store.dispatch("setStudentGradStatus", response.data.graduationStatus);
-
                 GraduationStatusService.getGraduationStatus(this.studentId, this.token).then(
                   (response) => {
                 
@@ -507,6 +506,7 @@
             }            
             this.tabLoading = false; 
         }).catch((error) => {
+          console.log("hey")
           this.tabLoading = false; 
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error.response.statusText, {
@@ -527,7 +527,7 @@
                   (response) => {
                 
                     this.$store.dispatch("setStudentGradStatus", response.data);
-                    this.cancelUngraduateStudent();
+                    
                   }
                 ).catch((error) => {
                   if(error.response.status){
@@ -537,12 +537,10 @@
                       noAutoHide: true,
                     });
                   }
-                  this.cancelUngraduateStudent();
                 });
             }            
             this.tabLoading = false; 
         }).catch((error) => {
-          this.cancelUngraduateStudent();
           this.tabLoading = false; 
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error, {
@@ -556,8 +554,8 @@
       projectedGradStatusWithFinalMarks(){
         this.tabLoading = true; 
         GraduationService.projectedGradFinalMarks(this.studentId, this.token) .then((response) => {
-          this.projectedGradStatus = JSON.parse(response.data.graduationStatus.studentGradData);
-          this.projectedOptionalGradStatus = response.data.specialGraduationStatus;
+          this.projectedGradStatus = JSON.parse(response.data.graduationStudentRecord.studentGradData);
+          this.projectedOptionalGradStatus = response.data.studentOptionalProgram;
           for (let i = 0; i < this.projectedOptionalGradStatus.length; i++) {
             this.projectedOptionalGradStatus[i].studentSpecialProgramData = JSON.parse(this.projectedOptionalGradStatus[i].studentSpecialProgramData);
           } 
@@ -580,7 +578,7 @@
         this.tabLoading = true; 
         GraduationService.projectedGradStatusWithFinalAndReg(this.studentId, this.token) .then((response) => {
           this.projectedGradStatus = response.data;
-          this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStatus.studentGradData);
+          this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStudentRecord.studentGradData);
           this.projectedrequirementsMet = this.projectedGradStatus.requirementsMet;
           
          this.$refs['projectedGradStatusWithFinalAndReg'].show();
