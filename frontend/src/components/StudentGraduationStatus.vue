@@ -1,4 +1,5 @@
 <template>
+
   <div>
     <div class="row">
       <div class="col-12 m-0 p-2">
@@ -282,7 +283,7 @@
             <b-card
               header="Student Reports"
             >
-              <b-card-text>
+              <b-card-text v-if="hasGradStatus">
                   <div>
                     <i class="fas fa-file"></i>
                     <a v-on:click="getStudentAchievementReportPDF" href="#" class="pl-3">Achievement Report (PDF)</a>

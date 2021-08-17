@@ -124,7 +124,7 @@
         state.student.gradStatus = payload;
         //when commiting gradstatus to store, we need to put the json string in to a json object to call it easier
         state.student.gradStatus.studentGradData = JSON.parse(state.student.gradStatus.studentGradData); 
-        if(state.student.gradStatus != "not loaded"){
+        if(state.student.gradStatus != "not loaded" || state.student.gradStatus == ""){
           state.student.hasGradStatus = true;
         }
       },

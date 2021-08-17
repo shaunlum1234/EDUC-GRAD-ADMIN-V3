@@ -155,7 +155,7 @@
                             tabindex="6"
                             v-on:keyup="keyHandler"
                           ></b-form-input>
-                          <b-input-group-append>
+                          <!-- <b-input-group-append>
                             <b-form-datepicker
                               v-model="advancedSearchInput.birthdateFrom.value"
                               button-only
@@ -163,7 +163,7 @@
                               locale="en-US"
                               aria-controls="datepicker-birthdate-to"
                             ></b-form-datepicker>
-                          </b-input-group-append>
+                          </b-input-group-append> -->
                         </b-input-group>
                          <div
                         class="error"
@@ -191,7 +191,7 @@
                             tabindex="6"
                             v-on:keyup="keyHandler"
                           ></b-form-input>
-                          <b-input-group-append>
+                          <!-- <b-input-group-append>
                             <b-form-datepicker
                               v-model="advancedSearchInput.birthdateTo.value"
                               button-only     
@@ -200,7 +200,7 @@
                               aria-controls="datepicker-birthdate-to"
 
                             ></b-form-datepicker>
-                          </b-input-group-append>
+                          </b-input-group-append> -->
                         </b-input-group>     
                       </div>
                     </div>
