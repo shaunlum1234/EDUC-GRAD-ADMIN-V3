@@ -98,6 +98,10 @@
         <template #row-details="row">
           <b-card class="px-0">
             <ul>        
+                
+                <li v-if="row.item.customizedCourseName">
+                  <strong>Customized Course Title:</strong> {{ row.item.customizedCourseName }}
+                </li>
                 <li v-if="row.item.relatedCourse">
                   <strong>Related Course:</strong> {{ row.item.relatedCourse }}
                 </li>

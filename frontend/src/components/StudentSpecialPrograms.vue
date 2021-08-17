@@ -69,7 +69,7 @@ export default {
         { key: "gradReqMetDetail", label: "Grad Requirement Met", class: "text-left"}
       ],
       specialProgramsfields: [
-        { key: "specialProgramName", label: "Special program" },
+        { key: "specialProgramName", label: "Optional Program" },
         { key: "optionalReqMet", label: "Requirements Met" },
         { key: "optionalNonGradReasons", label: "Requirements Not Met" },
       ],

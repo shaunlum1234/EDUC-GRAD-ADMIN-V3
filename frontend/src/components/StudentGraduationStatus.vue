@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-12">
-        <b-card  header="Graduation Information" class="col-12" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
+      <div class="col-12 m-0 p-2">
+        <b-card  header="Graduation Information" class="col-12 p-0" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
             <b-card-text>
               <div v-if="!hasGradStatus">

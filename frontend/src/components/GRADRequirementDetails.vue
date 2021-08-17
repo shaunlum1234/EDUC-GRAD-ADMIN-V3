@@ -109,7 +109,7 @@ export default {
           sortDirection: "desc",
         },     
         {
-          key: "spcialCase",
+          key: "specialCase",
           label: "Special Case",
           sortable: true,
           class: "text-left",
