@@ -131,7 +131,7 @@
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>
-                <b-tab v-if="specialPrograms != 'not loaded'" :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="optprog">
+                <!-- <b-tab v-if="specialPrograms != 'not loaded'" :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="optprog">
                   <template #title>
                       <b-dropdown id="optional-programs-dd" :text="'Optional Programs ('  + specialPrograms.length + ')'" class="p-0 m-0" variant="transparent">
                           <b-dropdown-item v-for="program in specialPrograms" :key="program.specialProgramName" @click="optionalProgramTab=program.specialProgramName">{{program.specialProgramName}}</b-dropdown-item>
@@ -145,15 +145,15 @@
                       <StudentSpecialPrograms :showOptionalProgramTab="optionalProgramTab"></StudentSpecialPrograms>
                       <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                     </b-card-text>
-                </b-tab>
+                </b-tab> -->
 
-                <!-- <b-tab v-if="specialPrograms != 'not loaded'" :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="py-3 px-0 m-1">
+                <b-tab v-if="specialPrograms != 'not loaded'" :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
                     
                     <StudentSpecialPrograms></StudentSpecialPrograms>
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
-                </b-tab>                                    -->
+                </b-tab>                                   
                 <b-tab :title="'Notes ('  + studentNotes.length + ')'" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentNotes></StudentNotes>
@@ -662,6 +662,19 @@
             });
           }
         });
+        GraduationStatusService.getStudentCareerPrograms(studentIdFromURL, this.token).then(
+          (response) => {
+            this.$store.dispatch("setStudentCareerPrograms", response.data);
+        }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });        
 
         CourseAchievementService.getStudentCourseAchievements(pen, this.token).then(
           (response) => {

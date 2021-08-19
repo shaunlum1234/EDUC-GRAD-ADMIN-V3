@@ -23,5 +23,9 @@ export default {
   ungradStudent(id,reasonCode, reasonDesc, token, json){
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     return apiClient.post('/api/v1/student/ungradstudent/studentid/' + id + '?ungradReasonCode=' + reasonCode + '&ungradReasonDesc=' + reasonDesc,json, { headers });
-  }
+  },
+  getStudentCareerPrograms(id, token){
+    const headers = { Accept: 'application/json','Content-Type': 'application/json','Access-Control-Allow-Origin': '*','Authorization': 'Bearer '+ token }
+    return apiClient.get('/api/v1/student/studentcareerprogram/studentid/' + id,{ headers });
+  }  
 }

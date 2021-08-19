@@ -4,15 +4,7 @@
           <div v-if="!specialPrograms" class="container">
             This student does not have any special programs.
           </div>
-          <div v-if="showOptionalProgramTab=='Add Optional Program'" class="add-optional-program-form">
-            Program Name<b-input></b-input>
-            Add Course <b-input></b-input>
-            <b-input></b-input>
-            <input type="submit">
-            
-            
-          </div>
-          <b-table v-if="specialPrograms && showOptionalProgramTab != 'Add Optional Program'" :items="specialPrograms" :fields="specialProgramsfields" showFilter="true" filter=null :filter-function="filterOptionalProgram" title="Special Programs">
+          <DisplayTable v-if="specialPrograms" :items="specialPrograms" :fields="specialProgramsfields" showFilter="true" title="Optional Programs">
             <template #cell(optionalNonGradReasons)="row">
               <!-- {{row.item.studentSpecialProgramData}} -->
                   <ul v-if="row.item.studentSpecialProgramData.optionalNonGradReasons !== undefined" id="specialNonGradReasons">
@@ -33,16 +25,40 @@
                         {{row2.item.courseCode}} {{row2.item.courseLevel}} - {{row2.item.sessionDate}} ({{row2.item.courseName}} )</li></ul>
                     </template>
                   </b-table>
-                  <!-- <b-table :bordered=false small :items="row.item.studentSpecialProgramData.specialStudentAssessments.studentAssessmentList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
+                  <b-table :bordered=false small :items="row.item.studentSpecialProgramData.optionalStudentAssessments.studentAssessmentList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
                     <template #cell(gradReqMetDetail)="row2">
                        <ul class="m-0 p-0"><li ><strong>{{row2.item.gradReqMetDetail}}</strong><br/>
                         {{row2.item.assessmentCode}} - {{row2.item.sessionDate}} ({{row2.item.assessmentName}})</li></ul>
                     </template>
-                  </b-table> -->
+                  </b-table>
         
                
-            </template>                      
-          </b-table>
+            </template> 
+            <template #cell(more)="row">
+              
+              <b-btn
+                v-if="row.item.specialProgramName == '2018 Graduation Program Career Program'"
+                variant="outline primary"
+                style="color: #666"
+                size="sm"
+                @click="row.toggleDetails"
+                class="more-button"
+              >
+                <i class="fas fa-sm fa-caret-down"></i>
+              </b-btn>
+            </template>
+            <template #row-details="row">
+                
+              <b-card class="px-0">
+                <strong>Career Programs</strong><hr/>
+                <ul id="student-career-programs">
+                  <li v-for="item in careerPrograms" :key="item.careerProgramName">
+                    {{ item.careerProgramName }} ({{ item.careerProgramCode }})
+                  </li>
+                </ul>
+              </b-card>
+            </template>                                 
+          </DisplayTable>
 
 
     </div>
@@ -51,16 +67,17 @@
 
 <script>
 import { mapGetters } from "vuex";
+import DisplayTable from "@/components/DisplayTable.vue";
 export default {
   name: "GRADRequirementDetails",
   components: {
+    DisplayTable: DisplayTable,
   },
-  props: {
-    showOptionalProgramTab: String
-  },
+
   computed: {
     ...mapGetters({
       specialPrograms: "getStudentSpecialPrograms",
+      careerPrograms: "getStudentCareerPrograms"
     }),
   },
   data: function () {
@@ -69,23 +86,21 @@ export default {
         { key: "gradReqMetDetail", label: "Grad Requirement Met", class: "text-left"}
       ],
       specialProgramsfields: [
+        { key: "more", label: "" },
         { key: "specialProgramName", label: "Optional Program" },
         { key: "optionalReqMet", label: "Requirements Met" },
         { key: "optionalNonGradReasons", label: "Requirements Not Met" },
       ],
+      careerProgramsFields: [
+        { key: "careerProgramCode", label: "" },
+        { key: "careerProgramName", label: "" },
+      ],      
       
     };
   },
   created() {
   },
   methods: {
-    filterOptionalProgram(row){
-      if(row.specialProgramName == this.showOptionalProgramTab || this.showOptionalProgramTab == "All"){
-        return true;
-      }else{
-        return false;
-      }
-    },
     filterGradReqCourses(row) {
       if (row.gradReqMet.length > 0) {
         return true;

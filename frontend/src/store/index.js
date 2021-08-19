@@ -10,6 +10,7 @@
     init: {
       //Initialize the store
     },
+    
     state: {
       advancedSearchProps:"",
       tokenTimeout: "",
@@ -33,7 +34,8 @@
         hasgradStatusPendingUpdates: false,
         hasNotes: false,
         certificates: "not loaded",
-        ungradReasons: ""
+        ungradReasons: "",
+        careerPrograms: [],
       },
       applicationVariables:{
         programOptions:[],
@@ -43,6 +45,9 @@
 
     },
     mutations: {
+      setStudentCareerPrograms(state, payload){
+        state.student.careerPrograms = payload; 
+      },
       setAdvancedSearchProps(state, payload){
         state.advancedSearchProps = payload; 
       },
@@ -155,7 +160,9 @@
         state.student.hasNotes = false;
         state.student.hasGradStatus = false;
         state.student.hasgradStatusPendingUpdates = false;
-        
+        state.student.certificates = "not loaded",
+        state.student.ungradReasons = "";
+        state.student.careerPrograms = [];
       },
       setRoles(state, payload){
         state.roles = payload;
@@ -278,7 +285,9 @@
           console.log(error.response.status);
         });
       },    
-
+      setStudentCareerPrograms({commit}, payload){
+        commit('setStudentCareerPrograms', payload);
+      },
       setStudentCertificates({commit}, payload) {
         commit('setStudentCertificates', payload);
       },
@@ -464,7 +473,11 @@
       },
       getNongradReasons(state){
         return state.student.gradStatus.studentGradData.nonGradReasons;
-      }      
+      },
+      getStudentCareerPrograms(state){
+        return state.student.careerPrograms;
+      }    
+        
     },
     modules: {}
   })
