@@ -325,7 +325,7 @@
             >
               <b-card-text v-if="studentGradStatus.studentGradData">
 
-                <div v-if="!nongradReasons">
+                <div v-if="!nongradReasons || !nongradReasons.length">
                   <ul>
                     <li>All graduation requirements have been met</li>
                   </ul>
