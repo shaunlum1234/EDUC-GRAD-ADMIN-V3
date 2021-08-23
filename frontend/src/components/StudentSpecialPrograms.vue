@@ -4,7 +4,7 @@
           <div v-if="!specialPrograms" class="container">
             This student does not have any special programs.
           </div>
-          <DisplayTable v-if="specialPrograms" :items="specialPrograms" :fields="specialProgramsfields" showFilter="true" title="Optional Programs">
+          <DisplayTable v-if="specialPrograms" :items="specialPrograms" :striped=false :fields="specialProgramsfields" showFilter="true" title="Optional Programs">
             <template #cell(optionalNonGradReasons)="row">
               <!-- {{row.item.studentSpecialProgramData}} -->
                   <ul v-if="row.item.studentSpecialProgramData.optionalNonGradReasons !== undefined" id="specialNonGradReasons">

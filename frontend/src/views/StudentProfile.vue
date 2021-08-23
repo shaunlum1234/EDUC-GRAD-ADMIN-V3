@@ -717,6 +717,19 @@
             });
           }
         });
+        GraduationCommonService.getStudentReports(studentIdFromURL, this.token).then(
+          (response) => {           
+            this.$store.dispatch("setStudentReports", response.data);
+          }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });        
         GraduationCommonService.getStudentUngradReasons(studentIdFromURL, this.token).then(
           (response) => {           
             this.$store.dispatch("setStudentUngradReasons", response.data);

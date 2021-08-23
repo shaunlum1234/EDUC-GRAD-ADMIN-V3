@@ -282,19 +282,15 @@
           <div class="graduation-reports">
             <b-card
               header="Student Reports"
+              no-body
             >
-              <b-card-text v-if="hasGradStatus">
-                  <div>
-                    <i class="fas fa-file"></i>
-                    <a v-on:click="getStudentAchievementReportPDF" href="#" class="pl-3">Achievement Report (PDF)</a>
-                   </div>
-                  <div>
-                    <i class="fas fa-file"></i>
-                      <a v-on:click="getStudentTranscriptPDF" href="#" class="pl-3">Transcript (PDF)</a>
-                  </div>
-                 
-              </b-card-text>
-            </b-card>       
+      
+                <b-card-text class="py-4">
+                    <div>
+                      <a v-for="report in reports" @click="downloadPDF(report.report,'application/pdf')" href="#" :key="report.gradReportTypeCode" class="pdf-link float-left container">{{report.gradReportTypeLabel}} (PDF)</a>
+                    </div>
+                </b-card-text>
+            </b-card> 
             
           </div>
 
@@ -305,10 +301,9 @@
               no-body
              
             >
-            
               <b-card-text class="py-4">
                 <div>
-                  <a v-for="certificate in certificates" href="#" :key="certificate.gradCertificateTypeDesc" class="float-left container"><i class="fas fa-file"></i> {{certificate.gradCertificateTypeDesc}} (PDF)</a>
+                  <a  v-for="certificate in certificates" @click="downloadPDF(certificate.certificate,'application/pdf')" href="#" :key="certificate.gradCertificateTypeCode" class="pdf-link float-left container">{{certificate.gradCertificateTypeLabel}} (PDF)</a>
                 </div>
               </b-card-text>
             </b-card> 
@@ -437,6 +432,7 @@ export default {
       studentId: "getStudentId",
       username: "getUsername",
       certificates: "getStudentCertificates",  
+      reports: "getStudentReports"
     }),
   },
   data() {
@@ -484,8 +480,8 @@ export default {
   created() {
     this.programDropdownList = this.$store.dispatch("getGraduationPrograms");
     this.disableButton = false;
-
-
+  },
+  mounted(){
   },
   watch:{
     studentGradeChange:function(){
@@ -891,6 +887,19 @@ export default {
         console.log("There was an error:" + error.response);
       });
     },
+    downloadPDF (data, mimeType) {
+        var byteCharacters = atob(data);
+        var byteNumbers = new Array(byteCharacters.length);
+        for (var i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        var byteArray = new Uint8Array(byteNumbers);
+        var file = new Blob([byteArray], { type: mimeType + ';base64' });
+        var fileURL = URL.createObjectURL(file);
+        window.open(fileURL);
+    },
+    
+    
     getStudentAchievementReportPDF: function () {
       GraduationCommonService.getAchievementReport(
         this.studentId,
@@ -945,6 +954,10 @@ export default {
 </script>
 
 <style scoped>
+.pdf-link::before{
+   font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f15b";
+   padding-right:10px
+}
 .graduation-status table tr td{
   vertical-align:top;
   height:42px !important
