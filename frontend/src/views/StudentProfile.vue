@@ -199,13 +199,13 @@
               </b-card-text>
             </b-card>
             <b-card
-              header="Nongrad reasons"
+              header="Noncompletion reasons"
             >
               <div v-if="projectedGradStatus && projectedGradStatus.nonGradReasons">
                 <b-card-text><b-table small :items="this.projectedGradStatus.nonGradReasons" ></b-table></b-card-text>
               </div>
               <div v-else>
-                <b-card-text>All requirements have been met</b-card-text>
+                <b-card-text>All program requirements have been met</b-card-text>
               </div>
             </b-card>
           </b-card-group>
@@ -280,7 +280,7 @@
                 <b-card-text><b-table small :items="this.projectedGradStatus.nonGradReasons"></b-table></b-card-text>
               </div>
               <div v-else>
-                <b-card-text>All requirements have been met</b-card-text>
+                <b-card-text>All program requirements have been met</b-card-text>
               </div>
             </b-card>
           </b-card-group>
@@ -464,6 +464,7 @@
                 });
               }
             });
+            this.getStudentReportsAndCertificates(this.studentId);   
           })
           .catch((error) => {
             this.tabLoading= false;
@@ -481,6 +482,34 @@
       resetUngraduateStudent(){
         this.ungradReasonSelected = "";
         this.ungradReasonDesc = "";
+      },
+      getStudentReportsAndCertificates(id){
+        GraduationCommonService.getStudentCertificates(id, this.token).then(
+          (response) => {           
+            this.$store.dispatch("setStudentCertificates", response.data);
+          }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });
+        GraduationCommonService.getStudentReports(id, this.token).then(
+          (response) => {           
+            this.$store.dispatch("setStudentReports", response.data);
+          }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });        
       },
       graduateStudent(){
         this.selectedTab = 0;
@@ -503,6 +532,7 @@
                     });
                   }
                 });
+                this.getStudentReportsAndCertificates(this.studentId);                                 
             }            
             this.tabLoading = false; 
         }).catch((error) => {
@@ -537,6 +567,7 @@
                     });
                   }
                 });
+                this.getStudentReportsAndCertificates(this.studentId);   
             }            
             this.tabLoading = false; 
         }).catch((error) => {
@@ -704,32 +735,9 @@
             });
           }
         });
-        GraduationCommonService.getStudentCertificates(studentIdFromURL, this.token).then(
-          (response) => {           
-            this.$store.dispatch("setStudentCertificates", response.data);
-          }
-        ).catch((error) => {
-          if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
-          }
-        });
-        GraduationCommonService.getStudentReports(studentIdFromURL, this.token).then(
-          (response) => {           
-            this.$store.dispatch("setStudentReports", response.data);
-          }
-        ).catch((error) => {
-          if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
-          }
-        });        
+
+        this.getStudentReportsAndCertificates(studentIdFromURL);
+
         GraduationCommonService.getStudentUngradReasons(studentIdFromURL, this.token).then(
           (response) => {           
             this.$store.dispatch("setStudentUngradReasons", response.data);

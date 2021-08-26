@@ -286,8 +286,8 @@
             >
       
                 <b-card-text class="py-4">
-                    <div>
-                      <a v-for="report in reports" @click="downloadPDF(report.report,'application/pdf')" href="#" :key="report.gradReportTypeCode" class="pdf-link float-left container">{{report.gradReportTypeLabel}} (PDF)</a>
+                    <div v-for="report in reports" :key="report.gradReportTypeCode" class="px-3 w-100 float-left">
+                      <a  @click="downloadPDF(report.report,'application/pdf')" href="#"  class="pdf-link float-left ">{{report.gradReportTypeLabel}} (PDF)</a> <span class="float-right pr-3"><strong>Created:</strong> {{report.createdTimestamp}}</span>
                     </div>
                 </b-card-text>
             </b-card> 
@@ -302,8 +302,10 @@
              
             >
               <b-card-text class="py-4">
-                <div>
-                  <a  v-for="certificate in certificates" @click="downloadPDF(certificate.certificate,'application/pdf')" href="#" :key="certificate.gradCertificateTypeCode" class="pdf-link float-left container">{{certificate.gradCertificateTypeLabel}} (PDF)</a>
+                <div v-for="certificate in certificates" :key="certificate.gradCertificateTypeCode" class="px-3 w-100 float-left">
+                  
+                  <a @click="downloadPDF(certificate.certificate,'application/pdf')" href="#"  class="pdf-link float-left ">{{certificate.gradCertificateTypeLabel}} (PDF)</a> <span class="float-right pr-3"><strong>Created:</strong> {{certificate.createdTimestamp}}</span>
+                
                 </div>
               </b-card-text>
             </b-card> 
@@ -315,14 +317,14 @@
         <div class="requirements-met-and-not-met">
           <div class="requirements-not-met">
             <b-card
-              header="Nongrad Reasons"
+              header="Noncompletion Reasons"
               class="w-100"
             >
               <b-card-text v-if="studentGradStatus.studentGradData">
 
                 <div v-if="!nongradReasons || !nongradReasons.length">
                   <ul>
-                    <li>All graduation requirements have been met</li>
+                    <li>All program requirements have been met</li>
                   </ul>
                 </div>
                 <div v-else>

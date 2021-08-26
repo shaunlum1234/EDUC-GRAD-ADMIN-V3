@@ -68,7 +68,7 @@ export default {
           key: 'isActive',
           label: 'Active flag',
           sortable: true,
-        }        
+        }            
       ],
     };
   },

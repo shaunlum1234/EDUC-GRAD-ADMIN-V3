@@ -5,6 +5,12 @@
 
           <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="programCode" showFilter="true"
             v-bind:role="role" pagination="true">
+            <template #cell(effectiveDate)="row">
+                {{ row.item.effectiveDate | formatSimpleDate }}
+            </template>
+            <template #cell(expiryDate)="row">
+                {{ row.item.effectiveDate | formatSimpleDate }}
+            </template>
           </DisplayTable>
         </div>
       <router-view v-bind:key="$route.fullPath"></router-view>
@@ -50,15 +56,28 @@ export default {
           sortable: true,
           sortDirection: 'desc',
           editable: true,
-          class: 'w-15',
         },
         {
           key: 'programName',
           label: 'Program name',
           sortable: true,
           editable: true,
-          class: 'w-85',
-        }
+        },
+        {
+          key: "description",
+          label: "Description",
+          sortable: true,
+        },
+        {
+          key: "effectiveDate",
+          label: "Effective Date",
+          sortable: true,
+        },
+        {
+          key: "expiryDate",
+          label: "Expiry Date",
+          sortable: true,
+        }        
       ],
       selectedProgramCode: "",
       selectedProgramId: "",

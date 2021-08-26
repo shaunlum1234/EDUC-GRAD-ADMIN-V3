@@ -7,7 +7,7 @@
 
             <template #cell(ruleCode)="row">
                 <b-btn variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
-                <router-link :to="{ name: 'programRuleCourses', params: { programCode: row.item.programRequirementCode.proReqCode, category: row.item.programRequirementCode.requirementCategory,  rule: row.item.programRequirementCode.proReqCode, ruleName: row.item.programRequirementCode.label  }}">{{row.item.programRequirementCode.proReqCode}}</router-link>
+                <router-link :to="{ name: 'programRuleCourses', params: { programCode: row.item.programRequirementCode.programReqCode, category: row.item.programRequirementCode.requirementCategory,  rule: row.item.programRequirementCode.proReqCode, ruleName: row.item.programRequirementCode.label  }}">{{row.item.programRequirementCode.proReqCode}}</router-link>
                 </b-btn>
               </template>
           </DisplayTable>

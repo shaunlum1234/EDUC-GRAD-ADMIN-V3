@@ -56,6 +56,11 @@ Vue.filter('formatTime', function(value) {
   date.toLocaleString('en-US', { timeZone: 'America/New_York' });
   return date.toString();
 });
+//Format simple Date
+Vue.filter('formatSimpleDate', function(value) {
+  var date = new Date(value);
+  return date.toISOString().split('T')[0];
+});
 
 
 //keycloak init options

@@ -1,7 +1,14 @@
 <template>
   <div>
     
-    <DisplayTable v-bind:items="graduationOptionalPrograms" title="Optional Programs" v-bind:fields="graduationOptionalProgramsFields" id="id" showFilter="true" isSpecialProgram="true"></DisplayTable>
+    <DisplayTable v-bind:items="graduationOptionalPrograms" title="Optional Programs" v-bind:fields="graduationOptionalProgramsFields" id="id" showFilter="true" isSpecialProgram="true">
+      <template #cell(effectiveDate)="row">
+        {{ row.item.effectiveDate | formatSimpleDate }}
+      </template>
+      <template #cell(expiryDate)="row">
+        {{ row.item.effectiveDate | formatSimpleDate }}
+      </template>
+    </DisplayTable>
   </div>
 </template>
 
@@ -55,7 +62,25 @@ export default {
             label: 'Optional program name',
             sortable: true,
             editable: true
-          }
+          },
+          {
+            key: 'description',
+            label: 'Description',
+            sortable: true,
+            sortDirection: 'desc',
+            editable: true,
+            class: 'w-1',
+          },          
+          {
+            key: "effectiveDate",
+            label: "Effective Date",
+            sortable: true,
+          },
+          {
+            key: "expiryDate",
+            label: "Expiry Date",
+            sortable: true,
+          },          
       ]
     };
   },

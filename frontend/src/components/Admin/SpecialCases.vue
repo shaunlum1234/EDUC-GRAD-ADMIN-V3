@@ -36,20 +36,32 @@ export default {
           label: 'Special case',
           sortable: true,
           sortDirection: 'desc',
-          class:'w-15'
         },
         {
           key: 'description',
           label: 'Description',
           sortable: true,
-          class:'w-15'
         },
         {
           key: 'passFlag',
           label: 'Pass',
           sortable: true,
-          class:'w-70 text-left'
-        }      
+        },
+        {
+          key: "description",
+          label: "Description",
+          sortable: true,
+        },
+        {
+          key: "effectiveDate",
+          label: "Effective Date",
+          sortable: true,
+        },
+        {
+          key: "expiryDate",
+          label: "Expiry Date",
+          sortable: true,
+        }                
       ],
     };
   },

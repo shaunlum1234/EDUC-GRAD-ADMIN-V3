@@ -13,6 +13,12 @@
                 id="code"
                 showFilter="true"
               >
+                <template #cell(effectiveDate)="row">
+                  {{ row.item.effectiveDate | formatSimpleDate }}
+                </template>
+                <template #cell(expiryDate)="row">
+                  {{ row.item.effectiveDate | formatSimpleDate }}
+                </template>
               </DisplayTable>
             </b-card-text>
           </b-tab>
@@ -25,6 +31,12 @@
                 id="code"
                 showFilter="true"
               >
+                <template #cell(effectiveDate)="row">
+                  {{ row.item.effectiveDate | formatSimpleDate }}
+                </template>
+                <template #cell(expiryDate)="row">
+                  {{ row.item.effectiveDate | formatSimpleDate }}
+                </template>
               </DisplayTable>
             </b-card-text>
           </b-tab>   
@@ -37,6 +49,12 @@
                 id="code"
                 showFilter="true"
               >
+                <template #cell(effectiveDate)="row">
+                  {{ row.item.effectiveDate | formatSimpleDate }}
+                </template>
+                <template #cell(expiryDate)="row">
+                  {{ row.item.effectiveDate | formatSimpleDate }}
+                </template>
               </DisplayTable>
             </b-card-text>
           </b-tab>          
@@ -49,6 +67,12 @@
                 id="code"
                 showFilter="true"
               >
+                <template #cell(effectiveDate)="row">
+                  {{ row.item.effectiveDate | formatSimpleDate }}
+                </template>
+                <template #cell(expiryDate)="row">
+                  {{ row.item.effectiveDate | formatSimpleDate }}
+                </template>
               </DisplayTable>
             </b-card-text>
           </b-tab>                        
@@ -61,6 +85,12 @@
                 id="code"
                 showFilter="true"
               >
+                <template #cell(effectiveDate)="row">
+                  {{ row.item.effectiveDate | formatSimpleDate }}
+                </template>
+                <template #cell(expiryDate)="row">
+                  {{ row.item.effectiveDate | formatSimpleDate }}
+                </template>
               </DisplayTable>
             </b-card-text>
           </b-tab>      
@@ -73,6 +103,12 @@
                 id="code"
                 showFilter="true"
               >
+                <template #cell(effectiveDate)="row">
+                  {{ row.item.effectiveDate | formatSimpleDate }}
+                </template>
+                <template #cell(expiryDate)="row">
+                  {{ row.item.effectiveDate | formatSimpleDate }}
+                </template>              
               </DisplayTable>
             </b-card-text>
           </b-tab>  
@@ -117,14 +153,29 @@ export default {
           class: "w-15"
         },
         {
-          key: "description",
-          label: "Program",
+          key: "label",
+          label: "Label",
           sortable: true,
         },
+        {
+          key: "description",
+          label: "Description",
+          sortable: true,
+        },
+        {
+          key: "effectiveDate",
+          label: "Effective Date",
+          sortable: true,
+        },
+        {
+          key: "expiryDate",
+          label: "Expiry Date",
+          sortable: true,
+        }
       ],  
       reportTypes: [],
       reportTypesFields: [
-        {
+         {
           key: "code",
           label: "Code",
           sortable: true,
@@ -132,10 +183,25 @@ export default {
           class: "w-15"
         },
         {
-          key: "description",
-          label: "Program",
+          key: "label",
+          label: "Label",
           sortable: true,
         },
+        {
+          key: "description",
+          label: "Description",
+          sortable: true,
+        },
+        {
+          key: "effectiveDate",
+          label: "Effective Date",
+          sortable: true,
+        },
+        {
+          key: "expiryDate",
+          label: "Expiry Date",
+          sortable: true,
+        }
       ],  
       requirementTypes: [],
       requirementTypesFields: [
@@ -147,10 +213,25 @@ export default {
           class: "w-15"
         },
         {
-          key: "description",
-          label: "Program",
+          key: "label",
+          label: "Label",
           sortable: true,
         },
+        {
+          key: "description",
+          label: "Description",
+          sortable: true,
+        },
+        {
+          key: "effectiveDate",
+          label: "Effective Date",
+          sortable: true,
+        },
+        {
+          key: "expiryDate",
+          label: "Expiry Date",
+          sortable: true,
+        }
       ],
       studentStatusCodes: [],
       studentStatusCodesFields: [
@@ -161,11 +242,26 @@ export default {
           sortDirection: "desc",
           class: "w-15"
         },
-        {
-          key: "description",
-          label: "Program",
+{
+          key: "label",
+          label: "Label",
           sortable: true,
         },
+        {
+          key: "description",
+          label: "Description",
+          sortable: true,
+        },
+        {
+          key: "effectiveDate",
+          label: "Effective Date",
+          sortable: true,
+        },
+        {
+          key: "expiryDate",
+          label: "Expiry Date",
+          sortable: true,
+        }
       ],    
       ungradReasons: [],
       ungradReasonsFields: [
