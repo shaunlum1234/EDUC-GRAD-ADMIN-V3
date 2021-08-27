@@ -6,7 +6,7 @@
         {{ row.item.effectiveDate | formatSimpleDate }}
       </template>
       <template #cell(expiryDate)="row">
-        {{ row.item.effectiveDate | formatSimpleDate }}
+        {{ row.item.expiryDate | formatSimpleDate }}
       </template>
     </DisplayTable>
   </div>
