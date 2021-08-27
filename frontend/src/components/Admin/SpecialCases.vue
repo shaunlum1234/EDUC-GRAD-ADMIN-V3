@@ -38,6 +38,11 @@ export default {
           sortDirection: 'desc',
         },
         {
+          key: 'label',
+          label: 'Label',
+          sortable: true,
+        },
+        {
           key: 'description',
           label: 'Description',
           sortable: true,
