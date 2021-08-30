@@ -1,66 +1,68 @@
 <template>
   <div>
     <div class="table-responsive">
-          <div v-if="!specialPrograms" class="container">
-            This student does not have any special programs.
-          </div>
-          <DisplayTable v-if="specialPrograms" :items="specialPrograms" :striped=false :fields="specialProgramsfields" showFilter="true" title="Optional Programs">
-            <template #cell(optionalNonGradReasons)="row">
-              <!-- {{row.item.studentSpecialProgramData}} -->
-                  <ul v-if="row.item.studentSpecialProgramData.optionalNonGradReasons !== undefined" id="specialNonGradReasons">
-                    <li v-for="optionalNonGradReasons in row.item.studentSpecialProgramData.optionalNonGradReasons" :key="optionalNonGradReasons.rule">
-                      <strong>{{ optionalNonGradReasons.rule }} - {{ optionalNonGradReasons.description }}</strong>
-                    </li>
-                  </ul>
-                  <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons === undefined">All requirements have been met</span>
-            </template>    
-            <template #cell(specialProgramName)="row">
-               {{row.item.specialProgramName}} ({{row.item.specialProgramCode}}) <br> {{row.item.specialProgramCompletionDate}}
-            </template>   
-            <template #cell(optionalReqMet)="row">              
-                   <b-table :bordered=false small :items="row.item.studentSpecialProgramData.optionalStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
-                    <template #cell(gradReqMetDetail)="row2">
-              
-                       <ul class="m-0 p-0"><li ><strong>{{row2.item.gradReqMetDetail}}</strong><br/>
-                        {{row2.item.courseCode}} {{row2.item.courseLevel}} - {{row2.item.sessionDate}} ({{row2.item.courseName}} )</li></ul>
-                    </template>
-                  </b-table>
-                  <b-table :bordered=false small :items="row.item.studentSpecialProgramData.optionalStudentAssessments.studentAssessmentList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
-                    <template #cell(gradReqMetDetail)="row2">
-                       <ul class="m-0 p-0"><li ><strong>{{row2.item.gradReqMetDetail}}</strong><br/>
-                        {{row2.item.assessmentCode}} - {{row2.item.sessionDate}} ({{row2.item.assessmentName}})</li></ul>
-                    </template>
-                  </b-table>
-        
-               
-            </template> 
-            <template #cell(more)="row">
-              
-              <b-btn
-                v-if="row.item.specialProgramName == '2018 Graduation Program Career Program'"
-                variant="outline primary"
-                style="color: #666"
-                size="sm"
-                @click="row.toggleDetails"
-                class="more-button"
-              >
-                <i class="fas fa-sm fa-caret-down"></i>
-              </b-btn>
-            </template>
-            <template #row-details="row">
-                
-              <b-card class="px-0">
-                <strong>Career Programs</strong><hr/>
-                <ul id="student-career-programs">
-                  <li v-for="item in careerPrograms" :key="item.careerProgramName">
-                    {{ item.careerProgramName }} ({{ item.careerProgramCode }})
+      <div v-if="!specialPrograms" class="container">
+        This student does not have any special programs.
+      </div>
+      <DisplayTable v-if="specialPrograms" :items="specialPrograms" :striped=false :fields="specialProgramsfields" showFilter="true" title="Optional Programs">
+        <template #cell(optionalNonGradReasons)="row">
+          <!-- {{row.item.studentSpecialProgramData}} -->
+          <ul v-if="row.item.studentSpecialProgramData.optionalNonGradReasons !== undefined" id="specialNonGradReasons">
+            <li v-for="optionalNonGradReasons in row.item.studentSpecialProgramData.optionalNonGradReasons" :key="optionalNonGradReasons.rule">
+              <strong>{{ optionalNonGradReasons.rule }} - {{ optionalNonGradReasons.description }}</strong>
+            </li>
+          </ul>
+          <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons === undefined">All requirements have been met</span>
+        </template>    
+        <template #cell(specialProgramName)="row">
+            {{row.item.specialProgramName}} ({{row.item.specialProgramCode}}) <br> {{row.item.specialProgramCompletionDate}}
+        </template>   
+        <template #cell(optionalReqMet)="row">  
+          <div v-if="row.item.studentSpecialProgramData.optionalNonGradReasons.length == 0 && 
+                    row.item.studentSpecialProgramData.optionalRequirementsMet.length == 0 &&
+                    row.item.studentSpecialProgramData.specialGraduated === true">n/a</div>            
+          <b-table :bordered=false small :items="row.item.studentSpecialProgramData.optionalStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
+            <template #cell(gradReqMetDetail)="row2">
+                <ul class="m-0 p-0">
+                  <li ><strong>{{row2.item.gradReqMetDetail}}</strong><br/>
+                    {{row2.item.courseCode}} {{row2.item.courseLevel}} - {{row2.item.sessionDate}} ({{row2.item.courseName}} )
                   </li>
                 </ul>
-              </b-card>
-            </template>                                 
-          </DisplayTable>
-
-
+            </template>
+          </b-table>
+          <b-table :bordered=false small :items="row.item.studentSpecialProgramData.optionalStudentAssessments.studentAssessmentList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
+            <template #cell(gradReqMetDetail)="row2">
+                <ul class="m-0 p-0">
+                  <li ><strong>{{row2.item.gradReqMetDetail}}</strong><br/>
+                    {{row2.item.assessmentCode}} - {{row2.item.sessionDate}} ({{row2.item.assessmentName}})
+                  </li>
+                </ul>
+            </template>
+          </b-table>          
+        </template> 
+        <template #cell(more)="row">            
+          <b-btn
+            v-if="row.item.specialProgramName == '2018 Graduation Program Career Program'"
+            variant="outline primary"
+            style="color: #666"
+            size="sm"
+            @click="row.toggleDetails"
+            class="more-button"
+          >
+            <i class="fas fa-sm fa-caret-down"></i>
+          </b-btn>
+        </template>
+        <template #row-details="row">   
+          <b-card class="px-0">
+            <strong>Career Programs</strong><hr/>
+            <ul id="student-career-programs">
+              <li v-for="item in careerPrograms" :key="item.careerProgramName">
+                {{ item.careerProgramName }} ({{ item.careerProgramCode }})
+              </li>
+            </ul>
+          </b-card>
+        </template>                                 
+      </DisplayTable>
     </div>
   </div>
 </template>
