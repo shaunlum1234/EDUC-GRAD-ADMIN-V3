@@ -273,7 +273,22 @@ export default {
         },
         {
           key: "label",
-          label: "Program",
+          label: "Label",
+          sortable: true,
+        },
+        {
+          key: "description",
+          label: "Description",
+          sortable: true,
+        },
+        {
+          key: "effectiveDate",
+          label: "Effective date",
+          sortable: true,
+        },
+        {
+          key: "expiryDate",
+          label: "Expiry date",
           sortable: true,
         },
       ],                
