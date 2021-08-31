@@ -107,8 +107,7 @@
 
                   </div>   
                   <b-card-text>
-                    <div style=" position: absolute; right: 52px; z-index: 5; padding: 20px 5px;">
-                    <a v-if="gradTab =='gradStatus'" v-on:click="gradTab ='gradCourses'">Requirement Details <i class="fas fa-expand-arrows-alt"></i></a></div>
+                    
                     <StudentGraduationStatus v-if="gradTab=='gradStatus'"></StudentGraduationStatus>
                     <GRADRequirementDetails v-if="gradTab=='gradCourses'">
                       <b-alert variant="info" :show="!studentGradStatus.recalculateGradStatus">{{studentGradStatus.studentGradData.gradMessage}}</b-alert>
@@ -210,6 +209,7 @@
             </b-card>
           </b-card-group>
           <div v-if="this.projectedOptionalGradStatus">
+            {{this.projectedOptionalGradStatus}}
             <div v-for="optionalProgram in this.projectedOptionalGradStatus" :key="optionalProgram.specialProgramCode">
             <h3 class="specialProgramName">{{ optionalProgram.specialProgramName }}</h3>
             <b-card-group deck >           
@@ -218,7 +218,7 @@
               >
                 <b-card-text>
                   <b-table small 
-                          :items="optionalProgram.studentSpecialProgramData.specialRequirementsMet" 
+                          :items="optionalProgram.studentSpecialProgramData.optionalRequirementsMet" 
                           :fields='[{ key: "rule",label: "Rule",class:"px-0 py-2"},{key: "description",label: "Description",class:"px-0 py-2"}]'
                   >               
                   </b-table>

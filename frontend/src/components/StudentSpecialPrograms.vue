@@ -7,12 +7,12 @@
       <DisplayTable v-if="specialPrograms" :items="specialPrograms" :striped=false :fields="specialProgramsfields" showFilter="true" title="Optional Programs">
         <template #cell(optionalNonGradReasons)="row">
           <!-- {{row.item.studentSpecialProgramData}} -->
-          <ul v-if="row.item.studentSpecialProgramData.optionalNonGradReasons !== undefined" id="specialNonGradReasons">
+          <ul v-if="row.item.studentSpecialProgramData.optionalNonGradReasons !== null" id="specialNonGradReasons">
             <li v-for="optionalNonGradReasons in row.item.studentSpecialProgramData.optionalNonGradReasons" :key="optionalNonGradReasons.rule">
               <strong>{{ optionalNonGradReasons.rule }} - {{ optionalNonGradReasons.description }}</strong>
             </li>
           </ul>
-          <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons === undefined">All requirements have been met</span>
+          <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons === null">All requirements have been met</span>
         </template>    
         <template #cell(specialProgramName)="row">
             {{row.item.specialProgramName}} ({{row.item.specialProgramCode}}) <br> {{row.item.specialProgramCompletionDate}}
