@@ -18,7 +18,11 @@
             {{row.item.specialProgramName}} ({{row.item.specialProgramCode}}) <br> {{row.item.specialProgramCompletionDate}}
         </template>   
         <template #cell(optionalReqMet)="row">  
-          <div v-if="row.item.studentSpecialProgramData.optionalNonGradReasons.length == 0 && 
+          <div v-if="
+                    row.item.studentSpecialProgramData &&
+                    row.item.studentSpecialProgramData.optionalNonGradReasons &&
+                    row.item.studentSpecialProgramData.optionalRequirementsMet &&
+                    row.item.studentSpecialProgramData.optionalNonGradReasons.length == 0 && 
                     row.item.studentSpecialProgramData.optionalRequirementsMet.length == 0 &&
                     row.item.studentSpecialProgramData.specialGraduated === true">n/a</div>            
           <b-table :bordered=false small :items="row.item.studentSpecialProgramData.optionalStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >

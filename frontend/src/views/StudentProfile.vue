@@ -274,7 +274,7 @@
             </b-card>
             <!-- Original -->
             <b-card
-              header="Nongrad reasons"
+              header="Noncompletion reasons"
             >
               <div v-if="projectedGradStatus && projectedGradStatus.nonGradReasons">
                 <b-card-text><b-table small :items="this.projectedGradStatus.nonGradReasons"></b-table></b-card-text>

@@ -280,14 +280,20 @@
           </div> 
           <!-- GRADUATION REPORTS -->
           <div class="graduation-reports">
+      
             <b-card
               header="Student Reports"
               no-body
             >
       
                 <b-card-text class="py-4">
+                  
                     <div v-for="report in reports" :key="report.gradReportTypeCode" class="px-3 w-100 float-left">
-                      <a  @click="downloadPDF(report.report,'application/pdf')" href="#"  class="pdf-link float-left ">{{report.gradReportTypeLabel}} (PDF)</a> <span class="float-right pr-3"><strong>Created:</strong> {{report.createdTimestamp}}</span>
+                      <a  @click="downloadPDF(report.report,'application/pdf')" href="#"  class="pdf-link float-left ">{{report.gradReportTypeLabel}} (PDF)</a> 
+                      <span class="float-right pr-3">
+                          <strong>Created:</strong> {{report.createdTimestamp}}
+                          <!-- <strong>Distributed:</strong> {{report.distributionDate}} -->
+                      </span>
                     </div>
                 </b-card-text>
             </b-card> 
