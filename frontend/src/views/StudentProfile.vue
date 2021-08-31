@@ -209,7 +209,6 @@
             </b-card>
           </b-card-group>
           <div v-if="this.projectedOptionalGradStatus">
-            {{this.projectedOptionalGradStatus}}
             <div v-for="optionalProgram in this.projectedOptionalGradStatus" :key="optionalProgram.specialProgramCode">
             <h3 class="specialProgramName">{{ optionalProgram.specialProgramName }}</h3>
             <b-card-group deck >           
@@ -284,6 +283,39 @@
               </div>
             </b-card>
           </b-card-group>
+          <div v-if="this.projectedOptionalGradStatus">
+            <div v-for="optionalProgram in this.projectedOptionalGradStatus" :key="optionalProgram.specialProgramCode">
+            <h3 class="specialProgramName">{{ optionalProgram.specialProgramName }}</h3>
+            <b-card-group deck >           
+              <b-card
+                header="Requirements met"
+              >
+                <b-card-text>
+                  <b-table small 
+                          :items="optionalProgram.studentSpecialProgramData.optionalRequirementsMet" 
+                          :fields='[{ key: "rule",label: "Rule",class:"px-0 py-2"},{key: "description",label: "Description",class:"px-0 py-2"}]'
+                  >               
+                  </b-table>
+                </b-card-text>
+              </b-card>
+              <b-card
+                header="Requirements not met"
+              >
+                <div v-if="optionalProgram.studentSpecialProgramData.specialNonGradReasons">
+                  <b-card-text>
+                    <b-table small 
+                            :items="optionalProgram.studentSpecialProgramData.specialNonGradReasons"
+                    >
+                    </b-table>
+                  </b-card-text>
+                </div>
+                <div v-else>
+                  <b-card-text>All requirements have been met</b-card-text>
+                </div>
+              </b-card>
+            </b-card-group>
+            </div>
+          </div>    
       </b-modal>
       <div>
         <b-modal id="ungraduate-student-modal" title="Ungraduate Student">
@@ -589,7 +621,6 @@
           for (let i = 0; i < this.projectedOptionalGradStatus.length; i++) {
             this.projectedOptionalGradStatus[i].studentSpecialProgramData = JSON.parse(this.projectedOptionalGradStatus[i].studentSpecialProgramData);
           } 
-          
           this.$refs['projectedGradStatusWithFinalMarks'].show();
           this.tabLoading = false; 
         }).catch((error) => {
@@ -609,10 +640,13 @@
         GraduationService.projectedGradStatusWithFinalAndReg(this.studentId, this.token) .then((response) => {
           this.projectedGradStatus = response.data;
           this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStudentRecord.studentGradData);
+          this.projectedOptionalGradStatus = response.data.studentOptionalProgram;
+          for (let i = 0; i < this.projectedOptionalGradStatus.length; i++) {
+            this.projectedOptionalGradStatus[i].studentSpecialProgramData = JSON.parse(this.projectedOptionalGradStatus[i].studentSpecialProgramData);
+          } 
           this.projectedrequirementsMet = this.projectedGradStatus.requirementsMet;
-          
-         this.$refs['projectedGradStatusWithFinalAndReg'].show();
-         this.tabLoading = false; 
+          this.$refs['projectedGradStatusWithFinalAndReg'].show();
+          this.tabLoading = false; 
         }).catch((error) => {
           if(error.response.status){
             this.tabLoading = false; 
@@ -621,7 +655,6 @@
               variant: 'danger',
               noAutoHide: true,
             });
-            
           }
         });
       },  
