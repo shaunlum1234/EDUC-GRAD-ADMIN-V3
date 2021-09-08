@@ -113,8 +113,10 @@
                     <td>{{ studentGradStatus.programCompletionDate }}</td>
                   </tr>          
                   <tr v-if="showEdit">
-                    <td><strong>Program completion date: (YYYY/MM)</strong></td>
-                    <td><b-input  :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="7" @keyup="dateFormat()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                    <td v-if="editedGradStatus.program != 'SCCP'"><strong>Program completion date: (YYYY/MM)</strong></td>
+                    <td v-if="editedGradStatus.program == 'SCCP'"><strong>Program completion date: (YYYY/MM/DD)</strong></td>
+                    <td v-if="editedGradStatus.program != 'SCCP'"><b-input :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="7" @keyup="dateFormatYYYYMM()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                    <td v-if="editedGradStatus.program == 'SCCP'"><b-input :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="10" @keyup="dateFormatYYYYMMDD()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                   </tr>
                   
                   <tr v-if="!showEdit">
@@ -652,10 +654,13 @@ export default {
     }  
   },
   methods: {
-    dateFormat(){
+    dateFormatYYYYMM(){
       var value = this.editedGradStatus.programCompletionDate;    
       this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})$/,"$1/$2");        
-     
+    },
+    dateFormatYYYYMMDD(){
+      var value = this.editedGradStatus.programCompletionDate;    
+      this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})([\d]{2})$/,"$1/$2/$3");     
     },
     getStudentStatus(code) {
       var i = 0;
@@ -702,8 +707,6 @@ export default {
         this.disableSchoolAtGrad = false;
         this.disableStudentStatus = false;
       }else{
-        // changed state for bug GRADT-19
-        //this.disableInput = true;
         this.disableStudentStatus = false;
         this.disableSchoolAtGrad = true;
       }
@@ -798,6 +801,7 @@ export default {
         var date;
         try{
           date = new Date(this.editedGradStatus.programCompletionDate);
+          console.log('DATE: ' + date.toISOString().split('T')[0])
           this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
         }catch(error){
           // eslint-disable-next-line
