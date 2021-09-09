@@ -24,7 +24,8 @@
                         </button>  
                         &nbsp;&nbsp;<b-spinner v-if="searchLoading" label="Loading">Loading</b-spinner>    
                     </div>
-                    <div class="search-results-message my-4"><strong><span v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
+                    <div class="search-results-message my-4 float-left"><strong><span v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
+                    <div class="my-4 pl-2 float-left"><a v-if="studentHasProgram == false" href="#" >Search PEN Student Inquiry.</a></div> 
                   </div>
                 </form>
                 <div v-if="roles == 'debug'" class="sample-pens m-3">
@@ -264,7 +265,7 @@
 
                   </div>
                   <div v-if="studentSearchResults" class="row">
-                    <div class="search-results-message my-4 col-12 col-md-8"><strong><span v-if="advancedSearchMessage">{{ advancedSearchMessage }}</span></strong></div>
+                    <div class="search-results-message my-4 col-12 col-md-8"><strong><span v-if="advancedSearchMessage">{{ advancedSearchMessage }} {{advancedSearchAPIMessage}}</span></strong></div>
                     <div class="results-option-group col-12 col-md-4">
                       <label v-if="totalPages > 1">Results per page</label>
                       <b-form-select class="results-option" v-if="totalPages > 1" @change="findStudentsByAdvancedSearch(1,resultsPerPage)" v-model="resultsPerPage" :options="resultsPerPageOptions" :value="resultsPerPage"></b-form-select>
@@ -343,6 +344,9 @@ export default {
   name: "studentSearch",
   data() {
     return {
+      penSystemMessage:"",
+      advancedSearchAPIMessage:"",
+      studentHasProgram:true,
       resultsPerPageOptions: [
         { value: 10, text: "10" },
         { value: 25, text: "25" },
@@ -589,7 +593,6 @@ export default {
       this.penInput = pen;
       this.findStudentByPen();
     },
-
     findStudentByPen: function () {
       if (this.penInput) {
         this.searchByPenMessage = "";
@@ -598,7 +601,15 @@ export default {
         StudentService.getStudentByPen(this.penInput, this.token)
           .then((response) => {
             if (response.data) {
-              this.selectStudent(response.data);
+              var studentLastName = response.data[0].legalLastName;
+              if(response.data[0].program == null || ""){
+                this.studentHasProgram = false;
+                this.searchByPenMessage = "Student " + studentLastName + " has a PEN but does not have a GRAD system record."
+                this.searchLoading = false
+              } else {
+                this.studentHasProgram = true;
+                this.selectStudent(response.data);
+              }        
             }
           })
           .catch(() => {
@@ -609,12 +620,14 @@ export default {
         //pen input check
       }
     },
-
     findStudentsByAdvancedSearch: function (pageNumber=1 ,pageSize=25) {
       this.selectedPage = pageNumber;
       if(pageNumber != 0){
         pageNumber = pageNumber - 1;
       }
+      var ps = pageSize;
+
+      console.log(ps);
       
       this.advancedSearchMessage = "";
       this.message = "";
@@ -632,12 +645,13 @@ export default {
           this.advancedSearchInput.birthdateTo.value = this.advancedSearchInput.birthdateFrom.value;
         }
         try {
-          StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput,this.token,pageNumber,pageSize)
+          StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput,this.token)
             .then((response) => {
               this.advancedSearchLoading = false;
               this.searchResults = response.data;
-              this.studentSearchResults = response.data.gradSearchStudents;
-              this.totalElements = this.searchResults.totalElements;
+              this.advancedSearchAPIMessage = response.data.searchMessage;
+              this.studentSearchResults = this.searchResults.gradSearchStudents;
+              this.totalElements = this.studentSearchResults.length;
               this.totalPages = this.searchResults.totalPages;
               this.$store.dispatch("setAdvancedSearchProps", this.advancedSearchInput);
               if (this.searchResults.totalElements > 0) {
@@ -645,11 +659,11 @@ export default {
                   this.advancedSearchMessage = "1 student record found. ";
                 } else {
                   this.advancedSearchMessage =
-                    this.searchResults.totalElements +
+                    this.totalElements +
                     " student records found. ";
                 }
               } else {
-                this.advancedSearchMessage = "No student record found.";
+                this.advancedSearchMessage = "No student record found in GRAD.";
               }
             })
             .catch((err) => {
