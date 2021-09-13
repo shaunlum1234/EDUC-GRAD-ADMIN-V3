@@ -31,8 +31,6 @@
                 <div v-if="roles == 'debug'" class="sample-pens m-3">
                   Samples:
                   <div class="row col-12">
-
-
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(130829708)">130829708</a> SAMPLE 1</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(131263535)">131263535</a> SAMPLE 2</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(138142492)">138142492</a> SAMPLE 3</div>
@@ -41,9 +39,7 @@
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(129434437)">129434437</a> SAMPLE 6</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(127951309)">127951309</a> SAMPLE 7</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(126966324)">126966324</a> SAMPLE 8</div>
-                    
-
-                    
+              
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(124816158)">124816158</a> CHEONG, ALISON</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(125355511)">125355511</a> SEOL, CARYS</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(125943563)">125943563</a> KEMP, LEVKO</div>
@@ -174,8 +170,7 @@
                       >
                         Birthdate from must not be greater than today.
                       </div>
-                      </div>
-                     
+                      </div>  
                       <div class="advanced-search-field col-12 col-md-2">
                         <label for="datepicker-birthdate-to"
                           >Birthdate to</label
@@ -205,7 +200,6 @@
                         </b-input-group>     
                       </div>
                     </div>
-
                     <div class="row">
                        <div class="advanced-search-field col-12 col-md-2">
                         <label>Usual surname</label>
@@ -229,7 +223,6 @@
                         <b-input v-model="advancedSearchInput.usualFirstName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="8" />
                       </div>
-
                       <div class="advanced-search-field col-12 col-md-2">
                         <label>Usual middle</label>
                         <div href="#"
@@ -246,8 +239,7 @@
                           <b-input class="form__input" v-model="advancedSearchInput.mincode.value" placeholder=""
                             v-on:keyup="keyHandler" tabindex="11" />
                           <div class="error" v-if="!$v.advancedSearchInput.mincode.value.numeric">Field is not numeric.</div>  
-                      </div>    -->
-                          
+                      </div>    -->                        
                       <div class="advanced-search-field col-12 col-md-2">
                         <label>Local ID</label>
                         <b-input v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
@@ -256,29 +248,25 @@
                     </div>
                     <div class="row">                              
                       <div class="advanced-search-button">
-                        <button @click="findStudentsByAdvancedSearch(1,resultsPerPage)" v-if="!advancedSearchLoading" :class="!this.$v.$invalid?'btn btn-primary':'btn btn-secondary'" tabindex="12">Search</button>
-                        <button @click="findStudentsByAdvancedSearch(1,resultsPerPage)" v-if="advancedSearchLoading" class="btn btn-success" tabindex="12">Search</button>
+                        <button @click="findStudentsByAdvancedSearch()" v-if="!advancedSearchLoading" :class="!this.$v.$invalid?'btn btn-primary':'btn btn-secondary'" tabindex="12">Search</button>
+                        <button @click="findStudentsByAdvancedSearch()" v-if="advancedSearchLoading" class="btn btn-success" tabindex="12">Search</button>
                         <button @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>   
                         &nbsp;&nbsp;<b-spinner v-if="advancedSearchLoading" label="Loading">Loading</b-spinner>             
                       </div>
                     </div>
-
                   </div>
                   <div v-if="studentSearchResults" class="row">
                     <div class="search-results-message my-4 col-12 col-md-8"><strong><span v-if="advancedSearchMessage">{{ advancedSearchMessage }} {{advancedSearchAPIMessage}}</span></strong></div>
                     <div class="results-option-group col-12 col-md-4">
                       <label v-if="totalPages > 1">Results per page</label>
-                      <b-form-select class="results-option" v-if="totalPages > 1" @change="findStudentsByAdvancedSearch(1,resultsPerPage)" v-model="resultsPerPage" :options="resultsPerPageOptions" :value="resultsPerPage"></b-form-select>
+                      <b-form-select class="results-option" v-if="totalPages > 1" @change="findStudentsByAdvancedSearch()" v-model="resultsPerPage" :options="resultsPerPageOptions" :value="resultsPerPage"></b-form-select>
                     </div>
-                  </div>
-                  
+                  </div>              
                 </form>
-
                 <transition name="fade">
                 <div v-if="studentSearchResults" class="table-responsive">  
-
                   <DisplayTable v-if="studentSearchResults.length"  v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="pen"
-                    v-bind:showFilter=false>
+                    v-bind:showFilter=false  v-bind:pagination=true>
                       <template  #cell(pen)="data">
                         <router-link :to="'/student-profile/' + data.item.pen + '/' + data.item.studentID">{{ data.item.pen }}</router-link>
                       </template>
@@ -291,9 +279,7 @@
                           class="more-button w-100"
                         >
                           <i class="fas fa-sm fa-caret-down"></i>
-                        </b-btn>
-
-                              
+                        </b-btn>            
                       </template>                  
                       <template #row-details="row">
                         <b-card>
@@ -304,26 +290,10 @@
                             <li><strong>Mincode (PEN):</strong> {{row.item.mincode}}</li>
                           </ul>
                         </b-card>
-                      </template>                       
+                      </template>                               
                   </DisplayTable>
-                  <nav  aria-label="Pagination">          
-                    <ul class="pagination" v-if="selectedPage<10" >
-                      <li v-if="selectedPage != 1 && selectedPage >= 5 "><a class="page-link" href="#" v-on:click="findStudentsByAdvancedSearch(1, resultsPerPage)">First</a></li>
-                      <li v-for="index in 10" :key="index" v-bind:class="{'page-item':true, active:index == selectedPage}"><a v-if="paginationRange(index)" class="page-link" href="#" v-on:click="findStudentsByAdvancedSearch(index, resultsPerPage)">{{ index  }}</a></li>
-                      <li v-if="selectedPage != totalPages && totalPages != 10 && selectedPage+5 <= totalPages"><a class="page-link disabled">...</a></li>
-                      <li v-if="selectedPage != totalPages && totalPages != 10 && selectedPage+5 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="findStudentsByAdvancedSearch(totalPages, resultsPerPage)">{{totalPages}}</a></li>
-                    </ul>
-                    <ul class="pagination"  v-if="selectedPage>=10" >
-                      <li><a class="page-link" href="#" v-on:click="findStudentsByAdvancedSearch(1, resultsPerPage)">First</a></li>
-                      <li><a class="page-link disabled">...</a></li>
-                       <li v-for="index in 10" :key="index" v-bind:class="{'page-item':true, active:selectedPage-5+index == selectedPage}"><a v-if="paginationRange(selectedPage-5+index)" class="page-link" href="#" v-on:click="findStudentsByAdvancedSearch(selectedPage-5+index, resultsPerPage)">{{ selectedPage-5+index  }}</a></li>
-                      <li v-if="selectedPage != totalPages && selectedPage+6 < totalPages"><a class="page-link disabled">...</a></li>
-                      <li v-if="selectedPage != totalPages && totalPages != 6 && selectedPage+6 <= totalPages"><a class="page-link" href="#" v-bind:class="{'page-item':true, active:index == selectedPage}"  v-on:click="findStudentsByAdvancedSearch(totalPages, resultsPerPage)">{{totalPages}}</a></li>
-                    </ul>
-                  </nav>
                 </div>  
-                </transition>
-               
+                </transition>    
               </b-card-text>
             </b-tab>
           </b-tabs>
@@ -524,19 +494,12 @@ export default {
     dateObject: {
       maxValue: maxValue(new Date()),
     },
-    // advancedSearchInput: {
-    //   mincode: {
-    //     value: {
-    //       numeric: numeric,
-    //     },
-    //   },
-    // },
   },
   created() {
     this.showNotification = sharedMethods.showNotification;
     if(this.savedAdvSearchInput != ""){
       this.advancedSearchInput = this.savedAdvSearchInput;
-      this.findStudentsByAdvancedSearch(1,50);
+      this.findStudentsByAdvancedSearch();
     }
   },
   components: {
@@ -561,22 +524,6 @@ export default {
   methods: {
     closeRecord: function () {
         this.$store.commit("unsetStudent");
-    },
-    paginationRange(index) {
-      // if (this.selectedPage == 1 && index <= 5) {
-      //   return true;
-      // } else if (this.selectedPage <= 5 && index <= this.selectedPage + 5) {
-      //   return true;
-      // } else if (
-      //   index > this.selectedPage - 5 &&
-      //   index < this.selectedPage + 5
-      // ) {
-      //   return true;
-      // } else return false;
-      if(index > this.totalPages){
-        return false;
-      }
-      return true;
     },
     keyHandler: function (e) {
       if (e.keyCode === 13) {
@@ -620,15 +567,7 @@ export default {
         //pen input check
       }
     },
-    findStudentsByAdvancedSearch: function (pageNumber=1 ,pageSize=25) {
-      this.selectedPage = pageNumber;
-      if(pageNumber != 0){
-        pageNumber = pageNumber - 1;
-      }
-      var ps = pageSize;
-
-      console.log(ps);
-      
+    findStudentsByAdvancedSearch: function () {
       this.advancedSearchMessage = "";
       this.message = "";
       this.errorMessage = "";
@@ -654,7 +593,7 @@ export default {
               this.totalElements = this.studentSearchResults.length;
               this.totalPages = this.searchResults.totalPages;
               this.$store.dispatch("setAdvancedSearchProps", this.advancedSearchInput);
-              if (this.searchResults.totalElements > 0) {
+              if (this.totalElements > 0) {
                 if (this.searchResults.totalElements == 1) {
                   this.advancedSearchMessage = "1 student record found. ";
                 } else {

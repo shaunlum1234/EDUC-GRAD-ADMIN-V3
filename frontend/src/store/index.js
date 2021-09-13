@@ -56,17 +56,18 @@
         state.student.ungradReasons = payload; 
       },
       setStudentCertificates(state, payload){
-        state.student.certificates = payload         
+        state.student.certificates = payload;        
       },
       setStudentReports(state, payload){
-        state.student.reports = payload         
+        state.student.reports = payload;         
       },
       setProgramOptions(state, payload){
-        let programs = payload;
-        let i=0;
-         for(i=0; i < programs.length; i++){
-           state.applicationVariables.programOptions.push({"value": programs[i].programCode, "text":programs[i].programCode});
-         }
+        // let programs = payload;
+        // let i=0;
+        //  for(i=0; i < programs.length; i++){
+        //    state.applicationVariables.programOptions.push({"value": programs[i].programCode, "text":programs[i].programCode});
+        //  }
+        state.applicationVariables.programOptions = payload;
       },
       setStudentStatusCodesOptions(state, payload){
         

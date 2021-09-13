@@ -2,6 +2,7 @@
 
   <div>
     <div class="row">
+      <!-- {{programOptions}} -->
       <div class="col-12 m-0 p-2">
         <b-card  header="Graduation Information" class="col-12 p-0" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
@@ -106,7 +107,7 @@
                         <div class="form-validation-message text-danger" v-if="!(editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN')">Student grade should be one of <strong>AD or AN</strong> if the student program is 1950</div>
                       </div>   
                     </td>
-                    <td width="50%"><b-form-select :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>                   
+                    <td width="50%"><b-form-select :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" v-model="editedGradStatus.program" :options="programOptions" value-field="programCode" text-field="programCode"></b-form-select></td>                   
                   </tr>
                   <tr v-if="!showEdit">
                     <td><strong>Program completion date: </strong></td>
@@ -552,6 +553,17 @@ export default {
       }
     },
     programCompletionDateChange:function(){
+
+      // this.editedGradStatus.program['1950'].effectifdate
+
+      // {
+      //   "1950":{
+      //     effectivedate: 12354
+      //     expirydate : 12121
+      //   }
+      // }
+      // this.programEffectiveDate =
+      // this.programExpiryDate = 
       if(this.editedGradStatus.programCompletionDate == ""){
         this.disableSchoolAtGrad = true;
         this.disableButton = true;
@@ -801,7 +813,7 @@ export default {
         var date;
         try{
           date = new Date(this.editedGradStatus.programCompletionDate);
-          console.log('DATE: ' + date.toISOString().split('T')[0])
+//          console.log('DATE: ' + date.toISOString().split('T')[0])
           this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
         }catch(error){
           // eslint-disable-next-line
