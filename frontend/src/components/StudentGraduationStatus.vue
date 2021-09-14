@@ -411,9 +411,8 @@
 import { mapGetters } from "vuex";
 import GraduationCommonService from "@/services/GraduationCommonService.js";
 import GraduationService from "@/services/GraduationService.js";
-import GraduationStatusService from "@/services/GraduationStatusService.js";
 import SchoolService from "@/services/SchoolService.js";
-
+import StudentService from "@/services/StudentService.js"
 
 export default {
   name: "StudentGraduationStatus",
@@ -783,7 +782,7 @@ export default {
       this.studentUngradReason = "";   
     },
     ungradStudent(){
-      GraduationStatusService.ungradStudent(
+      StudentService.ungradStudent(
         this.studentId,
         this.studentUngradReason,
         
@@ -847,7 +846,7 @@ export default {
         this.editedGradStatus.schoolAtGrad = null;
       }
 
-      GraduationStatusService.editGraduationStatus(
+      StudentService.editGraduationStatus(
         id,
         this.token,
         this.editedGradStatus
@@ -908,7 +907,7 @@ export default {
     },
     projectGraduationStatus(id) {
       //  console.log( "PROJECTED" + this.projectedStudentGradStatus);
-      GraduationStatusService.getGraduationStatus(id, this.token)
+      StudentService.getGraduationStatus(id, this.token)
       .then((response) => {
         this.projectedStudentGradStatus = response.data;
         this.projectedStudentGradStatus.studentGradData = JSON.parse(

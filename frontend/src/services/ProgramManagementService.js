@@ -68,6 +68,12 @@ export default {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         return apiClient.put('/api/v1/program/specialprograms',specialProgram,{ headers })
     },    
-    //Algorithm Rules CRUD
-
+    getCareerPrograms(token) {
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        return apiClient.get('/api/v1/program/careerprogram',{ headers });
+    },
+    getRequirementTypes(token) {
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        return apiClient.get('/api/v1/program/gradrequirementtype',{ headers });
+    },      
 };

@@ -347,11 +347,10 @@
 </template>
 
 <script>
+  import AssessmentService from "@/services/AssessmentService.js"
   import GraduationCommonService from "@/services/GraduationCommonService.js";
-  import CourseAchievementService from "@/services/CourseAchievementService.js";
+  import CourseService from "@/services/CourseService.js";
   import StudentService from "@/services/StudentService.js";
-  import StudentAssessmentService from "@/services/StudentAssessmentService.js"
-  import GraduationStatusService from "@/services/GraduationStatusService.js"
   import SiteMessage from "@/components/SiteMessage";
   import GRADRequirementDetails from "@/components/GRADRequirementDetails";
   import StudentCourses from "@/components/StudentCourses";
@@ -461,7 +460,7 @@
           });
           ungradDesc = ungradDesc[0].description;
         }
-        GraduationStatusService.ungradStudent(
+        StudentService.ungradStudent(
           this.studentId,
           ungradCode,
           ungradDesc,
@@ -481,7 +480,7 @@
                 });
               }
             });            
-            GraduationStatusService.getGraduationStatus(this.studentId, this.token).then(
+            StudentService.getGraduationStatus(this.studentId, this.token).then(
               (response) => {
                 this.$store.dispatch("setStudentGradStatus", response.data);
                 this.tabLoading= false;
@@ -550,7 +549,7 @@
             if(response.data.graduationStudentRecord){
               // use when response is updated
               //this.$store.dispatch("setStudentGradStatus", response.data.graduationStatus);
-                GraduationStatusService.getGraduationStatus(this.studentId, this.token).then(
+                StudentService.getGraduationStatus(this.studentId, this.token).then(
                   (response) => {
                 
                     this.$store.dispatch("setStudentGradStatus", response.data);
@@ -584,7 +583,7 @@
         GraduationService.updateStudentReports(this.studentId, this.token).then((response) => {
             if(response.data.graduationStatus){
 
-                GraduationStatusService.getGraduationStatus(this.studentId, this.token).then(
+                StudentService.getGraduationStatus(this.studentId, this.token).then(
                   (response) => {
                 
                     this.$store.dispatch("setStudentGradStatus", response.data);
@@ -687,7 +686,7 @@
           }
         });
 
-        StudentAssessmentService.getStudentAssessment(pen, this.token).then((response) => {
+        AssessmentService.getStudentAssessment(pen, this.token).then((response) => {
           this.$store.dispatch('setStudentAssessments', response.data);
         }).catch((error) => {
           if(error.response.status){
@@ -699,7 +698,7 @@
           }
         });
         
-        GraduationStatusService.getGraduationStatus(studentIdFromURL, this.token).then(
+        StudentService.getGraduationStatus(studentIdFromURL, this.token).then(
           (response) => {
         
             this.$store.dispatch("setStudentGradStatus", response.data);
@@ -713,7 +712,7 @@
             });
           }
         });
-        GraduationStatusService.getGraduationStatusSpecialPrograms(studentIdFromURL, this.token).then(
+        StudentService.getGraduationStatusSpecialPrograms(studentIdFromURL, this.token).then(
           (response) => {
             this.$store.dispatch("setStudentGradStatusSpecialPrograms", response.data);
         }
@@ -726,7 +725,7 @@
             });
           }
         });
-        GraduationStatusService.getStudentCareerPrograms(studentIdFromURL, this.token).then(
+        StudentService.getStudentCareerPrograms(studentIdFromURL, this.token).then(
           (response) => {
             this.$store.dispatch("setStudentCareerPrograms", response.data);
         }
@@ -740,7 +739,7 @@
           }
         });        
 
-        CourseAchievementService.getStudentCourseAchievements(pen, this.token).then(
+        CourseService.getStudentCourseAchievements(pen, this.token).then(
           (response) => {
             
             this.$store.dispatch("setStudentCourses", response.data);

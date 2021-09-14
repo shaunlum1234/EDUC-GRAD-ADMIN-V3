@@ -23,7 +23,6 @@
     proxy /api/v1/psi {$VUE_APP_TRAX_API_HOST}
     proxy /api/v1/program {$VUE_APP_PROGRAM_API_HOST}
     proxy /api/v1/gradstatus {$VUE_APP_GRADUATION_STATUS_API_HOST}
-    proxy /api/v1/common {$VUE_APP_GRADUATION_COMMON_API_HOST}
     proxy /api/v1/course {$VUE_APP_COURSE_API_HOST}
     proxy /api/v1/studentcourse {$VUE_APP_COURSE_API_HOST}
     proxy /api/v1/assessment {$VUE_APP_ASSESSMENT_API_HOST}
