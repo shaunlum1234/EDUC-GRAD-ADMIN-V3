@@ -25,7 +25,7 @@
                         &nbsp;&nbsp;<b-spinner v-if="searchLoading" label="Loading">Loading</b-spinner>    
                     </div>
                     <div class="search-results-message my-4 float-left"><strong><span v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
-                    <div class="my-4 pl-2 float-left"><a v-if="studentHasProgram == false" href="#" >Search PEN Student Inquiry.</a></div> 
+                    <div class="my-4 pl-2 float-left"><a v-if="studentHasProgram == false" href="#" > PEN Student Inquiry.</a></div> 
                   </div>
                 </form>
                 <div v-if="roles == 'debug'" class="sample-pens m-3">

@@ -2,7 +2,10 @@
 
   <div>
     <div class="row">
-      <!-- {{programOptions}} -->
+      <!-- {{programCompletionEffectiveDateList}}<br>
+      effective:{{programEffectiveDate}}<br>
+      expire:{{programExpiryDate}}<br> -->
+      
       <div class="col-12 m-0 p-2">
         <b-card  header="Graduation Information" class="col-12 p-0" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
@@ -114,8 +117,14 @@
                     <td>{{ studentGradStatus.programCompletionDate }}</td>
                   </tr>          
                   <tr v-if="showEdit">
-                    <td v-if="editedGradStatus.program != 'SCCP'"><strong>Program completion date: (YYYY/MM)</strong></td>
-                    <td v-if="editedGradStatus.program == 'SCCP'"><strong>Program completion date: (YYYY/MM/DD)</strong></td>
+                    <td v-if="editedGradStatus.program != 'SCCP'">
+                      <strong>Program completion date: (YYYY/MM)</strong><br>
+                      <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                    </td>
+                    <td v-if="editedGradStatus.program == 'SCCP'">
+                      <strong>Program completion date: (YYYY/MM/DD)</strong><br>
+                      <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                    </td>
                     <td v-if="editedGradStatus.program != 'SCCP'"><b-input :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="7" @keyup="dateFormatYYYYMM()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                     <td v-if="editedGradStatus.program == 'SCCP'"><b-input :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="10" @keyup="dateFormatYYYYMMDD()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                   </tr>
@@ -452,6 +461,10 @@ export default {
   },
   data() {
     return {
+      programCompletionEffectiveDateList:[],
+      programCompletionDateRangeError:false,
+      programEffectiveDate: "",
+      programExpiryDate: "", 
       dismissSecs: 3,
       dismissCountDown: 0,
       showModal: false,
@@ -553,22 +566,29 @@ export default {
       }
     },
     programCompletionDateChange:function(){
+      var programNameSearch = this.editedGradStatus.program;
+      for (var i=0 ; i < this.programOptions.length ; i++)
+      {
+          if (this.programOptions[i].programCode == programNameSearch) {
+              this.programCompletionEffectiveDateList.push(this.programOptions[i]);
+          }
+          
+      }
+      this.programEffectiveDate = this.programCompletionEffectiveDateList[0].effectiveDate
+      this.programExpiryDate = this.programCompletionEffectiveDateList[0].expiryDate
 
-      // this.editedGradStatus.program['1950'].effectifdate
-
-      // {
-      //   "1950":{
-      //     effectivedate: 12354
-      //     expirydate : 12121
-      //   }
-      // }
-      // this.programEffectiveDate =
-      // this.programExpiryDate = 
       if(this.editedGradStatus.programCompletionDate == ""){
         this.disableSchoolAtGrad = true;
         this.disableButton = true;
-      }else{
-        this.disableButton = false;
+      } else {
+        if(this.editedGradStatus.programCompletionDate > this.programExpiryDate || this.editedGradStatus.programCompletionDate < this.programEffectiveDate)
+        {
+          this.disableButton = true;
+          this.programCompletionDateRangeError = true;
+        } else {
+          this.programCompletionDateRangeError = false;
+          this.disableButton = false;
+        }
       }
     },
     schoolOfRecordChange:function(){
