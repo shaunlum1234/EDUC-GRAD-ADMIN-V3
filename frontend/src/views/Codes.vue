@@ -135,7 +135,10 @@
 import { mapGetters } from "vuex";
 
 import CodeService from "@/services/CodeService.js";
+import StudentService from "@/services/StudentService.js";
+import ProgramManagementService from "@/services/ProgramManagementService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
+
 export default {
   name: "codes",
   components: {
@@ -337,7 +340,7 @@ export default {
   },
   methods: {
     getCareerPrograms() {
-      CodeService.getCareerPrograms(this.token)
+      ProgramManagementService.getCareerPrograms(this.token)
         .then((response) => {
           this.careerPrograms = response.data;
         })
@@ -380,7 +383,7 @@ export default {
         });
     },
     getRequirementTypes() {
-      CodeService.getRequirementTypes(this.token)
+      ProgramManagementService.getRequirementTypes(this.token)
         .then((response) => {
         
           this.requirementTypes = response.data;
@@ -395,7 +398,7 @@ export default {
         });
     },    
     getStudentStatusCodes() {
-      CodeService.getStudentStatusCodes(this.token)
+      StudentService.getStudentStatusCodes(this.token)
         .then((response) => {
         
           this.studentStatusCodes = response.data;

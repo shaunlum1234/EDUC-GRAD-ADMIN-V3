@@ -181,7 +181,7 @@ export default {
           // eslint-disable-next-line
           console.log('BCHeader: ' + error);
           this.searchLoading = false;
-          this.showNotification("danger", "Student cannot be found on the PEN database");
+          this.showNotification("danger", "There was an error with the web service: " + error);
         });
       }
     },

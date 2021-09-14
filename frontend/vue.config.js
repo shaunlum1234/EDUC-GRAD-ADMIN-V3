@@ -12,24 +12,8 @@ module.exports = {
   },
   devServer: {
     proxy: {
-      '/api/v1/graduationreports': {
-        target: process.env.VUE_APP_GRADUATION_REPORT_API_HOST,
-        changeOrigin: true,
-      },
-      '/api/v1/algo': {
-        target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
-        changeOrigin: true,
-      },
-      '/api/v1/lgSc': {
-        target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
-        changeOrigin: true,
-      },
-      '/api/v1/graduationreports': {
-        target: process.env.VUE_APP_GRADUATION_REPORT_API_HOST,
-        changeOrigin: true,
-      },
-      '/api/v1/ungrad/': {
-        target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
+      '/api/v1/course': {
+        target: process.env.VUE_APP_COURSE_API_HOST,
         changeOrigin: true,
       },
       '/api/v1/studentcourse': {
@@ -40,38 +24,6 @@ module.exports = {
         target: process.env.VUE_APP_ASSESSMENT_API_HOST,
         changeOrigin: true,
       },
-      '/api/v1/student': {
-        target: process.env.VUE_APP_STUDENTS_API_HOST,
-        changeOrigin: true,
-      },
-      '/api/v1/school': {
-        target: process.env.VUE_APP_TRAX_API_HOST,
-        changeOrigin: true,
-      },
-      '/api/v1/course': {
-        target: process.env.VUE_APP_COURSE_API_HOST,
-        changeOrigin: true,
-      },
-      '/api/v1/psi': {
-        target: process.env.VUE_APP_TRAX_API_HOST,
-        changeOrigin: true,
-      },
-      '/api/v1/program': {
-        target: process.env.VUE_APP_PROGRAM_API_HOST,
-        changeOrigin: true,
-      },
-      '/api/v1/gradstatus': {
-        target: process.env.VUE_APP_GRADUATION_STATUS_API_HOST,
-        changeOrigin: true,
-      },
-      '/api/v1/common': {
-        target: process.env.VUE_APP_GRADUATION_COMMON_API_HOST,
-        changeOrigin: true,
-      },
-      '/api/v1/studentcourse': {
-        target: process.env.VUE_APP_COURSE_API_HOST,
-        changeOrigin: true,
-      },
       '/api/v1/assessment': {
         target: process.env.VUE_APP_ASSESSMENT_API_HOST,
         changeOrigin: true,
@@ -80,10 +32,38 @@ module.exports = {
         target: process.env.VUE_APP_GRADUATION_API_HOST,
         changeOrigin: true,
       },
-      '/api/v1/code': {
-        target: process.env.VUE_APP_CODE_API_HOST,
+      '/api/v1/student': {
+        target: process.env.VUE_APP_STUDENTS_API_HOST,
         changeOrigin: true,
       },
+      '/api/v1/algo': {
+        target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/lgSc': {
+        target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/ungrad/': {
+        target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/graduationreports': {
+        target: process.env.VUE_APP_GRADUATION_REPORT_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/program': {
+        target: process.env.VUE_APP_PROGRAM_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/school': {
+        target: process.env.VUE_APP_TRAX_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/psi': {
+        target: process.env.VUE_APP_TRAX_API_HOST,
+        changeOrigin: true,
+      },    
     }
   },
   transpileDependencies: ['vuetify'],

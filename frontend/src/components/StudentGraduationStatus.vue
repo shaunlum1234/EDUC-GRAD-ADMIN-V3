@@ -2,6 +2,10 @@
 
   <div>
     <div class="row">
+      <!-- {{programCompletionEffectiveDateList}}<br>
+      effective:{{programEffectiveDate}}<br>
+      expire:{{programExpiryDate}}<br> -->
+      
       <div class="col-12 m-0 p-2">
         <b-card  header="Graduation Information" class="col-12 p-0" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
@@ -106,15 +110,23 @@
                         <div class="form-validation-message text-danger" v-if="!(editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN')">Student grade should be one of <strong>AD or AN</strong> if the student program is 1950</div>
                       </div>   
                     </td>
-                    <td width="50%"><b-form-select :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" v-model="editedGradStatus.program" :options="programOptions"></b-form-select></td>                   
+                    <td width="50%"><b-form-select :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" v-model="editedGradStatus.program" :options="programOptions" value-field="programCode" text-field="programCode"></b-form-select></td>                   
                   </tr>
                   <tr v-if="!showEdit">
                     <td><strong>Program completion date: </strong></td>
                     <td>{{ studentGradStatus.programCompletionDate }}</td>
                   </tr>          
                   <tr v-if="showEdit">
-                    <td><strong>Program completion date: (YYYY/MM)</strong></td>
-                    <td><b-input  :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="7" @keyup="dateFormat()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                    <td v-if="editedGradStatus.program != 'SCCP'">
+                      <strong>Program completion date: (YYYY/MM)</strong><br>
+                      <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                    </td>
+                    <td v-if="editedGradStatus.program == 'SCCP'">
+                      <strong>Program completion date: (YYYY/MM/DD)</strong><br>
+                      <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                    </td>
+                    <td v-if="editedGradStatus.program != 'SCCP'"><b-input :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="7" @keyup="dateFormatYYYYMM()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                    <td v-if="editedGradStatus.program == 'SCCP'"><b-input :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="10" @keyup="dateFormatYYYYMMDD()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                   </tr>
                   
                   <tr v-if="!showEdit">
@@ -398,9 +410,8 @@
 import { mapGetters } from "vuex";
 import GraduationCommonService from "@/services/GraduationCommonService.js";
 import GraduationService from "@/services/GraduationService.js";
-import GraduationStatusService from "@/services/GraduationStatusService.js";
 import SchoolService from "@/services/SchoolService.js";
-
+import StudentService from "@/services/StudentService.js"
 
 export default {
   name: "StudentGraduationStatus",
@@ -448,6 +459,10 @@ export default {
   },
   data() {
     return {
+      programCompletionEffectiveDateList:[],
+      programCompletionDateRangeError:false,
+      programEffectiveDate: "",
+      programExpiryDate: "", 
       dismissSecs: 3,
       dismissCountDown: 0,
       showModal: false,
@@ -549,11 +564,29 @@ export default {
       }
     },
     programCompletionDateChange:function(){
+      var programNameSearch = this.editedGradStatus.program;
+      for (var i=0 ; i < this.programOptions.length ; i++)
+      {
+          if (this.programOptions[i].programCode == programNameSearch) {
+              this.programCompletionEffectiveDateList.push(this.programOptions[i]);
+          }
+          
+      }
+      this.programEffectiveDate = this.programCompletionEffectiveDateList[0].effectiveDate
+      this.programExpiryDate = this.programCompletionEffectiveDateList[0].expiryDate
+
       if(this.editedGradStatus.programCompletionDate == ""){
         this.disableSchoolAtGrad = true;
         this.disableButton = true;
-      }else{
-        this.disableButton = false;
+      } else {
+        if(this.editedGradStatus.programCompletionDate > this.programExpiryDate || this.editedGradStatus.programCompletionDate < this.programEffectiveDate)
+        {
+          this.disableButton = true;
+          this.programCompletionDateRangeError = true;
+        } else {
+          this.programCompletionDateRangeError = false;
+          this.disableButton = false;
+        }
       }
     },
     schoolOfRecordChange:function(){
@@ -651,10 +684,13 @@ export default {
     }  
   },
   methods: {
-    dateFormat(){
+    dateFormatYYYYMM(){
       var value = this.editedGradStatus.programCompletionDate;    
       this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})$/,"$1/$2");        
-     
+    },
+    dateFormatYYYYMMDD(){
+      var value = this.editedGradStatus.programCompletionDate;    
+      this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})([\d]{2})$/,"$1/$2/$3");     
     },
     getStudentStatus(code) {
       var i = 0;
@@ -701,8 +737,6 @@ export default {
         this.disableSchoolAtGrad = false;
         this.disableStudentStatus = false;
       }else{
-        // changed state for bug GRADT-19
-        //this.disableInput = true;
         this.disableStudentStatus = false;
         this.disableSchoolAtGrad = true;
       }
@@ -747,7 +781,7 @@ export default {
       this.studentUngradReason = "";   
     },
     ungradStudent(){
-      GraduationStatusService.ungradStudent(
+      StudentService.ungradStudent(
         this.studentId,
         this.studentUngradReason,
         
@@ -797,6 +831,7 @@ export default {
         var date;
         try{
           date = new Date(this.editedGradStatus.programCompletionDate);
+//          console.log('DATE: ' + date.toISOString().split('T')[0])
           this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
         }catch(error){
           // eslint-disable-next-line
@@ -810,7 +845,7 @@ export default {
         this.editedGradStatus.schoolAtGrad = null;
       }
 
-      GraduationStatusService.editGraduationStatus(
+      StudentService.editGraduationStatus(
         id,
         this.token,
         this.editedGradStatus
@@ -871,7 +906,7 @@ export default {
     },
     projectGraduationStatus(id) {
       //  console.log( "PROJECTED" + this.projectedStudentGradStatus);
-      GraduationStatusService.getGraduationStatus(id, this.token)
+      StudentService.getGraduationStatus(id, this.token)
       .then((response) => {
         this.projectedStudentGradStatus = response.data;
         this.projectedStudentGradStatus.studentGradData = JSON.parse(
