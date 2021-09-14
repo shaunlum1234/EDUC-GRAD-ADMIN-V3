@@ -400,7 +400,6 @@ export default {
     getStudentStatusCodes() {
       StudentService.getStudentStatusCodes(this.token)
         .then((response) => {
-        
           this.studentStatusCodes = response.data;
         })
         // eslint-disable-next-line

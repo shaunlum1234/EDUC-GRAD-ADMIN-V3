@@ -2,7 +2,6 @@
   import Vuex from "vuex";
 
   Vue.use(Vuex);
-  //import CourseService from '@/services/CourseService.js';
   import ProgramManagementService from '@/services/ProgramManagementService.js';
   import SchoolService from '@/services/SchoolService.js';
   import StudentService from '@/services/StudentService.js';

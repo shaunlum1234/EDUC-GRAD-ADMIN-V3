@@ -547,7 +547,7 @@ export default {
         this.studentSearchResults = [];
         StudentService.getStudentByPen(this.penInput, this.token)
           .then((response) => {
-            if (response.data) {
+            if (response.data.length != 0) {
               var studentLastName = response.data[0].legalLastName;
               if(response.data[0].program == null || ""){
                 this.studentHasProgram = false;
@@ -557,12 +557,15 @@ export default {
                 this.studentHasProgram = true;
                 this.selectStudent(response.data);
               }        
+            } else {
+              this.searchByPenMessage = "Student cannot be found on the GRAD or PEN database"
+              this.searchLoading = false;
             }
           })
           .catch(() => {
             this.searchLoading = false;
             this.searchByPenMessage =
-              "Student cannot be found on the PEN database";
+              "Student cannot be found on the GRAD or PEN database";
           });
         //pen input check
       }
