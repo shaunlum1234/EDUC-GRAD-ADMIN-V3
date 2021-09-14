@@ -97,7 +97,7 @@
         <div>
           <b-card no-body class="p-0" >
             <b-tabs :pills="smallScreen" v-model="selectedTab" card>
-                <b-tab title="GRAD" class="gradstatus-tabs py-4">
+                <b-tab title="GRAD" class="grad-tab gradstatus-tabs py-4">
                   <div class="mb-2 row">
                     <div class="col-12 col-md-4 m-0 p-0">
                       <b-button class="mx-2" v-on:click="gradTab ='gradStatus'" size="sm" :variant="gradTab == 'gradStatus'? 'primary':'outline-secondary'">GRAD Status</b-button>
@@ -874,8 +874,5 @@
   .specialProgramName{
     margin-top: 1rem;
   }
-
-
-
- 
+  
 </style>
