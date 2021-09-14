@@ -56,4 +56,27 @@ export default {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         return apiClient.get('/api/v1/student/studentstatus',{ headers });
     },
+
+
+    getStudentNotes(id, token) {
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token, "responseType": "arraybuffer" }
+        return apiClient.get('/api/v1/student/studentnotes/studentid/' + id,{ headers });
+    },
+    addStudentNotes(json, token) {
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        return apiClient.post('/api/v1/student/studentnotes/', json, { headers});
+    },
+    deleteStudentNotes(noteID, token) {
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        return apiClient.delete('/api/v1/student/studentnotes/' + noteID, { headers});
+    },
+    getStudentUngradReasons(id, token) {
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        return apiClient.get('/api/v1/ungrad/studentungradreason/studentid/' + id,{ headers});
+    },  
+
+    getUngradReasons(token) {
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        return apiClient.get('/api/v1/ungrad/ungradreason',{ headers });
+    },
 }

@@ -5,7 +5,7 @@
   //import CourseService from '@/services/CourseService.js';
   import ProgramManagementService from '@/services/ProgramManagementService.js';
   import SchoolService from '@/services/SchoolService.js';
-  import CodeService from '@/services/CodeService.js';
+  import StudentService from '@/services/StudentService.js';
   export default new Vuex.Store({
     init: {
       //Initialize the store
@@ -185,7 +185,7 @@
           // eslint-disable-next-line
           console.log(error.response.status);
         });
-        CodeService.getStudentStatusCodes(state.token).then(
+        StudentService.getStudentStatusCodes(state.token).then(
           (response) => {
             commit('setStudentStatusCodesOptions', response.data);
           }
@@ -193,7 +193,7 @@
           // eslint-disable-next-line
           console.log(error.response.status);
         });
-        CodeService.getUngradReasons(state.token).then(
+        StudentService.getUngradReasons(state.token).then(
           (response) => {
             commit('setUngradReasons', response.data);
           }

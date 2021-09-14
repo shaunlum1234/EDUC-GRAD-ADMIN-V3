@@ -81,7 +81,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import GraduationCommonService from "@/services/GraduationCommonService.js";
+import StudentService from "@/services/StudentService.js";
 import sharedMethods from '../sharedMethods'
 export default {
   name: "StudentNotes",
@@ -117,7 +117,7 @@ export default {
   },
   methods: {
     onSaveEditedNote(studentNoteIndex, editedNote){
-      GraduationCommonService.addStudentNotes(editedNote, this.token)
+      StudentService.addStudentNotes(editedNote, this.token)
         .then((response) => {
           this.showNotification('success','Student note saved')
           if(response.data && response.data.value){
@@ -155,7 +155,7 @@ export default {
         this.newNote.studentID = this.$route.params.studentId;
         this.newNote.createdBy = this.username;
         this.newNote.createdTimestamp = current;
-        GraduationCommonService.addStudentNotes(this.newNote, this.token)
+        StudentService.addStudentNotes(this.newNote, this.token)
           .then((response) => {
             if(response.data && response.data.value){
               this.studentNotes.unshift(response.data.value)
@@ -178,13 +178,13 @@ export default {
         // })
       },
       onDelete(noteID) {
-        GraduationCommonService.deleteStudentNotes(noteID, this.token)  
+        StudentService.deleteStudentNotes(noteID, this.token)  
           var removeIndex = this.studentNotes.map(function(item) { return item.id; }).indexOf(noteID); 
           this.studentNotes.splice(removeIndex, 1);
           this.showNotification('success','Student note deleted')
       },
       getNotes(){
-        GraduationCommonService.getStudentNotes(this.$route.params.studentid, this.token).then(
+        StudentService.getStudentNotes(this.$route.params.studentid, this.token).then(
           (response) => {           
             this.studentNotes = response.data
           }

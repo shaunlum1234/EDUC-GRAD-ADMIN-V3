@@ -413,7 +413,7 @@ export default {
         });
     },    
     getUngradReasons() {
-      CodeService.getUngradReasons(this.token)
+      StudentService.getUngradReasons(this.token)
         .then((response) => {
         
           this.ungradReasons = response.data;

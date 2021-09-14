@@ -467,7 +467,7 @@
           this.token
         )
           .then(() => {
-            GraduationCommonService.getStudentUngradReasons(this.studentId, this.token).then(
+            StudentService.getStudentUngradReasons(this.studentId, this.token).then(
               (response) => {           
                 this.$store.dispatch("setStudentUngradReasons", response.data);
               }
@@ -754,7 +754,7 @@
           }
         });
 
-        GraduationCommonService.getStudentNotes(studentIdFromURL, this.token).then(
+        StudentService.getStudentNotes(studentIdFromURL, this.token).then(
           (response) => {           
             this.$store.dispatch("setStudentNotes", response.data);
           }
@@ -770,7 +770,7 @@
 
         this.getStudentReportsAndCertificates(studentIdFromURL);
 
-        GraduationCommonService.getStudentUngradReasons(studentIdFromURL, this.token).then(
+        StudentService.getStudentUngradReasons(studentIdFromURL, this.token).then(
           (response) => {           
             this.$store.dispatch("setStudentUngradReasons", response.data);
           }
