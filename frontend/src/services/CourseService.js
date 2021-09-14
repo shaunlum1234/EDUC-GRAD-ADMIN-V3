@@ -40,6 +40,10 @@ export default {
   getStudentCourseAchievements(pen, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     return apiClient.get('/api/v1/studentcourse/pen/' + pen + '?sortForUI=true',{ headers })
+  },
+  getStudentExamDetails(pen, token) {
+    const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+    return apiClient.get('/api/v1/studentexam/pen/' + pen + '?sortForUI=true',{ headers })
   }
 }
 

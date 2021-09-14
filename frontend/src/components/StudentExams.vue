@@ -1,53 +1,14 @@
 <template>
-  <div class="table-responsive">
-    <b-spinner v-if="!exams.length" label="Loading">Loading</b-spinner>
-    <v-table
-      :data="exams"
-      :filters="filters"
-      class="table table-sm table-hover table-striped align-middle"
-    >
-      <thead slot="head" class="">
-        <v-th sortKey="courseCode">Code</v-th>
-        <v-th sortKey="courseLevel">Level</v-th>
-        <v-th sortKey="sessionDate">Session</v-th>
-        <v-th sortKey="courseName">Name</v-th>
-        <v-th sortKey="courseEquivChal">Equiv, Chal</v-th>
-        <v-th sortKey="credits">Credits</v-th>
-        <v-th sortKey="completedCourseSchoolPercentage">School %</v-th>
-        <v-th sortKey="wroteFlag">Wrote exam</v-th>
-        <v-th sortKey="specialCase">Special case</v-th>
-        <v-th sortKey="completedCourseExamPercentage">Exam %</v-th>
-        <v-th sortKey="completedCourseFinalPercentage">Final %</v-th>
-        <v-th sortKey="completedCourseLetterGrade">Final LG</v-th>
-      </thead>
-      <tbody slot="body" slot-scope="{ displayData }">
-        <template v-for="row in displayData">
-          <tr
-            :key="row.courseAchievementId"
-            @click="toggle(row.courseCode + row.courseLevel)"
-            :class="{ opened: opened.includes(row.courseCode) }"
-          >
-            <td>{{ row.courseCode }}</td>
-            <td>{{ row.courseLevel }}</td>
-            <td>{{ row.sessionDate }}</td>
-            <td>{{ row.courseName }}</td>
-            <td>{{ row.courseEquivChal }}</td>
-            <td>{{ row.credits }}</td>
-            <td>{{ row.completedCourseSchoolPercentage }} %</td>
-            <td>{{ row.wroteFlag }}</td>
-            <td>{{ row.specialCase }}</td>
-            <td>{{ row.completedCourseExamPercentage }}</td>
-            <td>{{ row.completedCourseFinalPercentage }}</td>
-            <td>{{ row.completedCourseLetterGrade }}</td>
-          </tr>
-        </template>
-      </tbody>
-    </v-table>
-  </div>
+<div>
+ <DisplayTable :items="exams" :fields="fields" showFilter=true title="Assessments">
+ </DisplayTable>
+
+</div>  
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import DisplayTable from "@/components/DisplayTable.vue";
 export default {
   name: "StudentExams",
   props: {},
@@ -56,62 +17,150 @@ export default {
       exams: "getStudentExams",
     }),
   },
+  components: {
+    DisplayTable: DisplayTable
+  },
   data: function() {
     return {
-      show: false,
-      opened: [],
-      student: [],
-      examsList: [],
-      filters: {
-        name: { value: "", keys: ["courseCode"] },
-      },
-      pen: "",
-      courseCode: "",
-      courseName: "",
-      courseLevel: "",
-      sessionDate: "",
-      gradReqMet: "",
-      courseType: "",
-      completedCourseSchoolPercentage: null,
-      completedCourseExamPercentage: null,
-      completedCourseFinalPercentage: null,
-      completedCourseLetterGrade: "",
-      interimPercent: null,
-      interimLetterGrade: "",
-      credits: null,
-      creditsUsedForGrad: null,
-      reqMetLiteracyNumeracy: "",
-      wroteFlag: "",
-      specialCase: " ",
-      currentPage: 1,
-      totalPages: 0,
-      displayMessage: null,
-      modalVisible: null,
-      inputPenMissing: false,
+      // show: false,
+      // opened: [],
+      // student: [],
+      // examsList: [],
+      // filters: {
+      //   name: { value: "", keys: ["courseCode"] },
+      // },
+      // pen: "",
+      // courseCode: "",
+      // courseName: "",
+      // courseLevel: "",
+      // sessionDate: "",
+      // gradReqMet: "",
+      // courseType: "",
+      // completedCourseSchoolPercentage: null,
+      // completedCourseExamPercentage: null,
+      // completedCourseFinalPercentage: null,
+      // completedCourseLetterGrade: "",
+      // interimPercent: null,
+      // interimLetterGrade: "",
+      // credits: null,
+      // creditsUsedForGrad: null,
+      // reqMetLiteracyNumeracy: "",
+      // wroteFlag: "",
+      // specialCase: " ",
+      // currentPage: 1,
+      // totalPages: 0,
+      // displayMessage: null,
+      // modalVisible: null,
+      // inputPenMissing: false,
+       fields: [
+        { key: "more", label: "" },
+        {
+          key: "courseCode",
+          label: "Code",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-md-center",
+        },
+        {
+          key: "courseLevel",
+          label: "Level",
+          sortable: true,
+          class: "text-md-center",
+        },
+        {
+          key: "sessionDate",
+          label: "Session",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        {
+          key: "completedSchoolPercentage",
+          label: "School %",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-md-center"
+        },
+        {
+          key: "bestSchoolPercentage",
+          label: "Best school %",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-md-center"
+        },        
+        {
+          key: "optIn",
+          label: "opt in",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-md-center"
+        },
+        {
+          key: "specialCase",
+          label: "Special case",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-md-center"
+        }, 
+        {
+          key: "wroteFlag",
+          label: "Wrote exam",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-md-center"
+        }, 
+        {
+          key: "completedCourseExamPercentage",
+          label: "Exam %",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-md-center"
+        }, 
+        {
+          key: "bestExamPercentage",
+          label: "Best exam %",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-md-center"
+        }, 
+        {
+          key: "completedCourseFinalPercentage",
+          label: "Final %",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-md-center"
+        }, 
+        {
+          key: "completedCourseLetterGrade",
+          label: "Final LG",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-md-center"
+        }, 
+      ]
     };
   },
   methods: {
-    toggle(id) {
-      const index = this.opened.indexOf(id);
-      if (index > -1) {
-        this.opened.splice(index, 1);
-      } else {
-        this.opened.push(id);
-      }
-    },
-    showMsgBoxOne(message) {
-      this.$bvModal.msgBoxOk(message);
-    },
-    getCourseName: function(cid) {
-      let result = "";
-      this.courses.filter(function(n) {
-        if (n.id === cid) {
-          result = n.name;
-          return result;
-        }
-      });
-      return result;
-    },
+    // toggle(id) {
+    //   const index = this.opened.indexOf(id);
+    //   if (index > -1) {
+    //     this.opened.splice(index, 1);
+    //   } else {
+    //     this.opened.push(id);
+    //   }
+    // },
+    // showMsgBoxOne(message) {
+    //   this.$bvModal.msgBoxOk(message);
+    // },
+    // getCourseName: function(cid) {
+    //   let result = "";
+    //   this.courses.filter(function(n) {
+    //     if (n.id === cid) {
+    //       result = n.name;
+    //       return result;
+    //     }
+    //   });
+    //   return result;
+    // },
   },
 };
 </script>
