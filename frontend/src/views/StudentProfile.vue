@@ -124,12 +124,20 @@
                   </b-card-text>
                 </b-tab>
                 <b-tab v-if="assessments != 'not loaded'"  :title="'Assessments ('  + assessments.length + ')'"  class="py-3 px-0 m-1">
-                  <b-card-text>
-                    
+                  <b-card-text>             
                     <StudentAssessments />
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>
+
+                <!-- Exams Details tab v-if="exams != 'not loaded'"-->
+                <b-tab   :title="'Exams details ('  + exams.length + ')'"  class="py-3 px-0 m-1">
+                  <b-card-text>               
+                    <StudentExams />
+                    <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
+                  </b-card-text>
+                </b-tab>
+
                 <!-- <b-tab v-if="specialPrograms != 'not loaded'" :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="optprog">
                   <template #title>
                       <b-dropdown id="optional-programs-dd" :text="'Optional Programs ('  + specialPrograms.length + ')'" class="p-0 m-0" variant="transparent">
@@ -355,6 +363,7 @@
   import GRADRequirementDetails from "@/components/GRADRequirementDetails";
   import StudentCourses from "@/components/StudentCourses";
   import StudentAssessments from "@/components/StudentAssessments";
+  import StudentExams from "@/components/StudentExams";
   import StudentNotes from "@/components/StudentNotes";
   import StudentGraduationStatus from "@/components/StudentGraduationStatus";
   import StudentSpecialPrograms from "@/components/StudentSpecialPrograms";
@@ -387,6 +396,7 @@
       StudentCourses: StudentCourses,
       GRADRequirementDetails: GRADRequirementDetails,
       StudentAssessments: StudentAssessments,
+      StudentExams: StudentExams,
       StudentNotes:StudentNotes,
       StudentGraduationStatus: StudentGraduationStatus,
       StudentSpecialPrograms: StudentSpecialPrograms,
@@ -428,6 +438,7 @@
         courses: "getStudentCourses",
         studentFullName: "getStudentFullName",
         assessments: "getStudentAssessments",
+        exams: "getStudentExams",
         studentHasCourses: "studentHasCourses",
         studentHasAssessments: "studentHasAssessments",
         studentHasNotes: "studentHasNotes",
@@ -753,7 +764,19 @@
             });
           }
         });
-
+        CourseService.getStudentExamDetails(pen, this.token).then(
+          (response) => {           
+            this.$store.dispatch("setStudentExams", response.data);
+          }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });
         StudentService.getStudentNotes(studentIdFromURL, this.token).then(
           (response) => {           
             this.$store.dispatch("setStudentNotes", response.data);
