@@ -1,8 +1,10 @@
 <template>
 <div>
- <DisplayTable :items="exams" :fields="fields" showFilter=true title="Assessments">
- </DisplayTable>
-
+  <div v-if="!exams" class="container">
+    This student does not have any exams.
+  </div> 
+  <DisplayTable :items="exams" :fields="fields" showFilter=true title="Assessments">
+  </DisplayTable>
 </div>  
 </template>
 

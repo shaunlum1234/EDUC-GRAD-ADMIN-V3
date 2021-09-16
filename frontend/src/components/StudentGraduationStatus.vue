@@ -280,7 +280,7 @@
                          <!-- OPTIONAL PROGRAMS -->                      
                           <ul class="p-0" v-if="specialPrograms[0] && specialPrograms[0].studentSpecialProgramData" id="optional-programs">
                             <li v-for="item in specialPrograms" :key="item.specialProgramCode">
-                              {{ item.specialProgramName }}
+                              {{ item.specialProgramName }} <br><strong> {{item.studentSpecialProgramData.optionalNonGradReasons==null?'Completed':"Not Completed"}}</strong>
                             </li>
                           </ul>
                       </td>

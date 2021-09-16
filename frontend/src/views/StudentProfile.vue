@@ -157,7 +157,7 @@
                 <b-tab v-if="specialPrograms != 'not loaded'" :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
                     
-                    <StudentSpecialPrograms></StudentSpecialPrograms>
+                    <StudentOptionalPrograms></StudentOptionalPrograms>
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>                                   
@@ -366,7 +366,7 @@
   import StudentExams from "@/components/StudentExams";
   import StudentNotes from "@/components/StudentNotes";
   import StudentGraduationStatus from "@/components/StudentGraduationStatus";
-  import StudentSpecialPrograms from "@/components/StudentSpecialPrograms";
+  import StudentOptionalPrograms from "@/components/StudentOptionalPrograms";
   import GraduationService from "@/services/GraduationService.js"
 
 
@@ -399,7 +399,7 @@
       StudentExams: StudentExams,
       StudentNotes:StudentNotes,
       StudentGraduationStatus: StudentGraduationStatus,
-      StudentSpecialPrograms: StudentSpecialPrograms,
+      StudentOptionalPrograms: StudentOptionalPrograms,
 
     },
     props: {
