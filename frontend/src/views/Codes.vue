@@ -134,7 +134,7 @@
 <script>
 import { mapGetters } from "vuex";
 
-import CodeService from "@/services/CodeService.js";
+import GraduationCommonService from "@/services/GraduationCommonService.js";
 import StudentService from "@/services/StudentService.js";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
@@ -354,7 +354,7 @@ export default {
         });
     },
      getCertificateTypes() {
-      CodeService.getCertificateTypes(this.token)
+      GraduationCommonService.getCertificateTypes(this.token)
         .then((response) => {
         
           this.certificateTypes = response.data;
@@ -369,7 +369,7 @@ export default {
         });
     },
     getReportTypes() {
-      CodeService.getReportTypes(this.token)
+      GraduationCommonService.getReportTypes(this.token)
         .then((response) => {
           this.reportTypes = response.data;
         })
