@@ -20,7 +20,7 @@ import {
   mapGetters
 } from "vuex";
 import DisplayTable from "@/components/DisplayTable";
-import GraduationCommonService from "@/services/GraduationCommonService.js";
+import ProgramManagementService from "@/services/ProgramManagementService.js";
 
 
 export default {
@@ -29,7 +29,7 @@ export default {
     DisplayTable: DisplayTable,
   },
   created() {
-     GraduationCommonService.getAlgorithmRules(this.token)
+     ProgramManagementService.getAlgorithmRules(this.token)
       .then((response) => {
         this.algorithmRules = response.data;
       })

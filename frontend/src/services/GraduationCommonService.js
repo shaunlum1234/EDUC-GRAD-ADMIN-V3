@@ -1,3 +1,4 @@
+//Rename this service to GraduationReportService
 import axios from 'axios'
 
 const apiClient = axios.create({
@@ -21,25 +22,12 @@ export default {
     return apiClient.get('/api/v1/graduationreports/studentcertificate/' + id,{ headers});
   },
 
-  
-  getAlgorithmRules(token) {
-    const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token };
-    return apiClient.get('/api/v1/algo/algorithm-rules',{ headers});
+  getCertificateTypes(token) {
+      const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+      return apiClient.get('/api/v1/graduationreports/certificatetype',{ headers });
   },
-  getStudentNotes(id, token) {
-    const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token, "responseType": "arraybuffer" }
-    return apiClient.get('/api/v1/student/studentnotes/studentid/' + id,{ headers });
-  },
-  addStudentNotes(json, token) {
-    const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-    return apiClient.post('/api/v1/student/studentnotes/', json, { headers});
-  },
-  deleteStudentNotes(noteID, token) {
-    const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-    return apiClient.delete('/api/v1/student/studentnotes/' + noteID, { headers});
-  },
-  getStudentUngradReasons(id, token) {
-    const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-    return apiClient.get('/api/v1/ungrad/studentungradreason/studentid/' + id,{ headers});
-  }  
+  getReportTypes(token) {
+      const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+      return apiClient.get('/api/v1/graduationreports/reporttype',{ headers });
+  }
 }

@@ -57,7 +57,7 @@
                               </b-row>
                               <div v-if="schools">
                                 <div v-if="totalResults > 0 && !searchLoading" class="row">
-                                  <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalResults }}</strong> schools records found.</div>
+                                  <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalResults }}</strong> school record(s) found.</div>
                                 </div>   
                                 <div v-if="searchMessage" class="row">
                                   <div class="search-results-message my-2 col-12 col-md-8"><strong>{{ searchMessage }}</strong></div>
@@ -81,45 +81,79 @@
                                   </b-btn>
                                 </template>
                                 <template #row-details="row">
-                                  <b-card class="px-0">
-                                    <ul>        
-                                      <li v-if="row.item.address1">
-                                        <strong>Address:</strong> {{ row.item.address1 }}
-                                      </li>
-                                      <li v-if="row.item.city">
-                                        <strong>City:</strong> {{ row.item.city }}
-                                      </li>                
-                                      <li v-if="row.item.provinceCode">
-                                        <strong>Province Code:</strong> {{ row.item.provCode }}
-                                      </li>                      
-                                      <li v-if="row.item.provinceName">
-                                        <strong>Province Name:</strong> {{ row.item.provinceName}}
-                                      </li>
-                                      <li v-if="row.item.countryCode">
-                                        <strong>Country Code:</strong> {{ row.item.countryCode }}
-                                      </li>
-                                       <li v-if="row.item.countryName">
-                                        <strong>Country Name:</strong> {{ row.item.provinceName}}
-                                      </li>
-                                      <li v-if="row.item.postal">
-                                        <strong>Postal Code:</strong> {{ row.item.postal }}
-                                      </li>
-                                      <li v-if="row.item.schoolEmail">
-                                        <strong>Email:</strong> {{ row.item.schoolEmail }}
-                                      </li>
-                                      <li v-if="row.item.principalName">
-                                        <strong>Principal:</strong> {{ row.item.principalName }}
-                                      </li>
-                                      <li v-if="row.item.ministryContact">
-                                        <strong>Ministry Contact:</strong> {{ row.item.ministryContact }}
-                                      </li>
-                                      <li v-if="row.item.schoolPhone">
-                                        <strong>Phone:</strong> {{ row.item.schoolPhone }}
-                                      </li>
-                                      <li v-if="row.item.schoolFax">
-                                        <strong>Fax:</strong> {{ row.item.schoolFax }}
-                                      </li>
-                                    </ul>
+                                  <b-card class="px-0 w-100">
+                                    <div class="w-40 float-left">
+                                      <b-card header="School Details" class="overflow-hidden">
+                                        <b-card-text>
+                                          <ul class="float-left">        
+                                            <li v-if="row.item.address1">
+                                              <strong>Address:</strong> {{ row.item.address1 }}
+                                            </li>
+                                            <li v-if="row.item.city">
+                                              <strong>City:</strong> {{ row.item.city }}
+                                            </li>                
+                                            <li v-if="row.item.provinceCode">
+                                              <strong>Province Code:</strong> {{ row.item.provCode }}
+                                            </li>                      
+                                            <li v-if="row.item.provinceName">
+                                              <strong>Province Name:</strong> {{ row.item.provinceName}}
+                                            </li>
+                                            <li v-if="row.item.countryCode">
+                                              <strong>Country Code:</strong> {{ row.item.countryCode }}
+                                            </li>
+                                            <li v-if="row.item.countryName">
+                                              <strong>Country Name:</strong> {{ row.item.provinceName}}
+                                            </li>
+                                            <li v-if="row.item.postal">
+                                              <strong>Postal Code:</strong> {{ row.item.postal }}
+                                            </li>
+                                            <li v-if="row.item.schoolEmail">
+                                              <strong>Email:</strong> {{ row.item.schoolEmail }}
+                                            </li>
+                                            
+                                            <li v-if="row.item.ministryContact">
+                                              <strong>Ministry Contact:</strong> {{ row.item.ministryContact }}
+                                            </li>
+                                            <li v-if="row.item.schoolPhone">
+                                              <strong>Phone:</strong> {{ row.item.schoolPhone }}
+                                            </li>
+                                            <li v-if="row.item.schoolFax">
+                                              <strong>Fax:</strong> {{ row.item.schoolFax }}
+                                            </li>
+                                          </ul>
+                                        </b-card-text>
+                                      </b-card>
+                                    </div>
+                                    <div class="w-60 float-left pl-3">
+                       
+                                      <div v-if="row.item.principalName">
+                                         {{ row.item.signature }}        
+                                          <b-card :header="'Principal: ' + row.item.principalName" class="overflow-hidden">
+                                            <b-row no-gutters>
+                                              <b-col md="6">
+                                                <b-card-img v-if="!url" src="http://localhost:8080/img/bcid-logo-rev-en.fc4c71cf.svg"></b-card-img>
+                                                <b-card-img v-if="url" :src="url"  alt="Principal Signature" class="rounded-0"></b-card-img>
+                                                <div class="mt-3">Selected file: {{ file ? file.name : '' }}</div>
+                                                <div class="updateImage" v-if="url" @click="updateSignature"> 
+                                                  <button class="btn btn-success" v-if="searchLoading">Update</button>
+                                                  <button @click="clearInput" class="btn btn-outline-primary mx-2">Cancel</button>
+                                                </div>
+                                              </b-col>
+                                              <b-col md="6">
+                                                <b-card-body title="Update/Change Signature">
+                                                  <b-card-text>
+                                                    <b-form-file @change="onFileChange"  v-model="file" class="mt-3" plain></b-form-file>
+                                                  </b-card-text>
+                                                </b-card-body>
+                                              </b-col>
+                                            </b-row>
+                                          </b-card>
+                                            
+                                          
+                                 
+                                      
+                                      </div>
+                                      </div>
                                   </b-card>
                                 </template>
                             </DisplayTable>
@@ -127,10 +161,6 @@
                         </b-tab>                        
                       </b-tabs>
                     </b-card>
-              
-  
-
-
   </div>
 </template>
 
@@ -148,6 +178,9 @@ mapGetters
     },
     data() {
       return {
+        
+        url: null,
+        file: [],
         schools: {},
         schoolFields: [
           {
@@ -257,6 +290,14 @@ mapGetters
       this.showNotification = sharedMethods.showNotification
     },
     methods: {
+      updateSignature(){
+
+
+      },
+      onFileChange(e) {
+        const file = e.target.files[0];
+        this.url = URL.createObjectURL(file);
+      },
       advancedSchoolSearch(){
         this.totalResults = "";
         this.searchMessage = "";

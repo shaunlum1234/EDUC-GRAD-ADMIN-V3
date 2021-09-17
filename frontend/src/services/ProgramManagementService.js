@@ -5,6 +5,10 @@ const apiClient = axios.create({
 });
 
 export default {
+    getAlgorithmRules(token) {
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token };
+        return apiClient.get('/api/v1/algo/algorithm-rules',{ headers});
+    },
     getLetterGrades(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         return apiClient.get('/api/v1/lgSc/lettergrade',{ headers });
@@ -42,6 +46,7 @@ export default {
         //console.log("TOKEN IN SERVICE getProgramRule: " + token);
         return apiClient.get('/api/v1/program/optionalprograms',{ headers })
     },
+    
     //Program CRUD
     createProgram(program, token){
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
