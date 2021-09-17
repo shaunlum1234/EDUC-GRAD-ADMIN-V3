@@ -131,7 +131,7 @@
                 </b-tab>
 
                 <!-- Exams Details tab v-if="exams != 'not loaded'"-->
-                <b-tab   :title="'Exams details ('  + exams.length + ')'"  class="py-3 px-0 m-1">
+                <b-tab v-if="exams != 'not loaded'"  :title="'Exams details ('  + exams.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>               
                     <StudentExams />
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
