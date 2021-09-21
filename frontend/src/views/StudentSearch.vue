@@ -560,6 +560,8 @@ export default {
             } else {
               this.searchByPenMessage = "Student cannot be found on the GRAD or PEN database"
               this.searchLoading = false;
+              //hides the Pen inqury message
+              this.studentHasProgram = true;
             }
           })
           .catch(() => {
