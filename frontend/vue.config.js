@@ -56,6 +56,10 @@ module.exports = {
         target: process.env.VUE_APP_GRADUATION_REPORT_API_HOST,
         changeOrigin: true,
       },
+      '/api/v1/signatures': {
+        target: process.env.VUE_APP_GRAD_REPORT_API_HOST,
+        changeOrigin: true,
+      },      
       '/api/v1/program': {
         target: process.env.VUE_APP_PROGRAM_API_HOST,
         changeOrigin: true,

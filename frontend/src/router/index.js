@@ -15,7 +15,7 @@ import GraduationProgramCourses from '../components/GraduationProgramCourses.vue
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
 import GraduationSpecialProgramRules from '@/components/GraduationSpecialProgramRules';
 import GraduationSpecialPrograms from '@/components/GraduationSpecialPrograms';
-import Search from '../views/Search.vue';
+import Admin from '../views/Admin.vue';
 import LetterGrades from '@/components/Admin/LetterGrades';
 import SpecialCases from '@/components/Admin/SpecialCases';
 import AlgorithmRules from '@/components/Admin/AlgorithmRules';
@@ -55,9 +55,9 @@ const routes = [{
     }
   },
   {
-    path: '/search',
-    name: 'search',
-    component: Search,
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
     meta: {
       requiresAuth: true
     }

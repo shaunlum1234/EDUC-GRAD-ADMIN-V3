@@ -100,7 +100,7 @@
                 title="Report Types"
                 v-bind:items="ungradReasons"
                 v-bind:fields="ungradReasonsFields"
-                id="code"
+                id=""
                 showFilter="true"
               >
                 <template #cell(effectiveDate)="row">
@@ -112,22 +112,46 @@
               </DisplayTable>
             </b-card-text>
           </b-tab>  
-                        
-          <!-- <b-tab title="Assessment requirements">
-            <b-card-text v-if="assessmentRequirements">
+          <b-tab title="Signatures" active>
+            <b-card-text v-if="reportSignatures">
               <DisplayTable
-                title="Assessment requirements"
-                v-bind:items="assessmentRequirements"
-                v-bind:fields="assessmentRequirementsFields"
-                id="assessmentCode"
+                title="Report Types"
+                v-bind:items="reportSignatures"
+                v-bind:fields="reportSignaturesFields"
                 showFilter="true"
-              >
+                id="signatureId"
+              >         
+              <template #cell(signatureContent)="row">
+                      <b-card header="School District 0XX: MR/MRS/MS SMITH" class="overflow-hidden">
+                            <b-row no-gutters>
+                              <b-col md="6">
+                                <b-card-img v-if="!url" :src="'data:image/png;base64, ' + row.item.signatureContent"></b-card-img>
+                                <b-card-img v-if="url" :src="url"  alt="Principal Signature" class="rounded-0"></b-card-img>
+             
+                              </b-col>
+                              <b-col md="6">
+                                <b-card-body title="Update/Change Signature">
+                                  <b-card-text>
+                                    <b-form-file @change="onFileChange"  v-model="file" class="mt-3" plain></b-form-file>
+                                      <div class="updateImage mt-3" v-if="url" @click="updateSignature"> 
+                                        <button class="btn btn-success" v-if="updateSignature">Update</button>
+                                        <button @click="clearInput" class="btn btn-outline-primary mx-2">Cancel</button>
+                                      </div>
+                                  </b-card-text>
+                                </b-card-body>
+                              </b-col>
+                            </b-row>
+                          </b-card>
+
+                </template>
               </DisplayTable>
             </b-card-text>
-          </b-tab> -->
+          </b-tab>            
+           
         </b-tabs>
       </b-card>
     </div>
+    
   </div>
 </template>
 
@@ -146,7 +170,27 @@ export default {
   },
   data() {
     return {
+      url: null,
+      file: [],
+      reportSignatures: [],
       certificateTypes: [],
+      reportSignaturesFields: [
+        {
+          key: "signatureContent",
+          label: "Signture",
+          sortable: true,
+        },
+        {
+          key: "updatedTimestamp",
+          label: "Last Updated",
+          sortable: true,
+        },        
+        {
+          key: "gradReportSignatureCode",
+          label: "Filename",
+          sortable: true,
+        }        
+      ],      
       certificateTypesFields: [
         {
           key: "code",
@@ -336,9 +380,16 @@ export default {
     this.getReportTypes();
     this.getStudentStatusCodes();
     this.getUngradReasons();
+    this.getReportSignatures();
     
   },
   methods: {
+    updateSignature(){
+    },
+    onFileChange(e) {
+      const file = e.target.files[0];
+      this.url = URL.createObjectURL(file);
+    },    
     getCareerPrograms() {
       ProgramManagementService.getCareerPrograms(this.token)
         .then((response) => {
@@ -425,7 +476,23 @@ export default {
             noAutoHide: true,
           });
         });
-    },        
+    },   
+    getReportSignatures(){
+
+       GraduationCommonService.getReportSignatures(this.token)
+        .then((response) => {
+          this.reportSignatures = response.data;
+        })
+        // eslint-disable-next-line
+        .catch((error) => {
+          this.$bvToast.toast("ERROR " + error.response.statusText, {
+            title: "ERROR" + error.response.status,
+            variant: "danger",
+            noAutoHide: true,
+          });
+        });
+
+    }     
   },
 };
 </script>

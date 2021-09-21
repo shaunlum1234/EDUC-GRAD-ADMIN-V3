@@ -11,7 +11,12 @@
         </p>
       </div>
     </b-sidebar>
-        (<a @click="toggleRole">{{role}}</a>) | <a
+        (<a @click="toggleRole">{{role}}</a>) | 
+        <router-link
+      to="/admin"
+      class="text-white"
+    >Dashboard</router-link> | 
+        <a
           v-bind:href="
             'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' +
             host
