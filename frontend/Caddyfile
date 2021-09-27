@@ -35,6 +35,7 @@
     proxy /api/v1/graduationreports {$VUE_APP_GRADUATION_REPORT_API_HOST}
     proxy /api/v1/graduationreports {$VUE_APP_GRADUATION_REPORT_API_HOST}
     proxy /api/v1/signatures {$VUE_APP_GRAD_REPORT_API_HOST}
+    proxy /api/v1/batch/dashboard {$VUE_APP_BATCH_GRADUATION_API_HOST}
     errors stdout
 }
     

@@ -72,6 +72,10 @@ module.exports = {
         target: process.env.VUE_APP_TRAX_API_HOST,
         changeOrigin: true,
       },    
+      '/api/v1/batch/dashboard': {
+        target: process.env.VUE_APP_BATCH_GRADUATION_API_HOST,
+        changeOrigin: true,
+      }   
     }
   },
   transpileDependencies: ['vuetify'],

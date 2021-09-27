@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <h2>Admin Dashboard</h2>
-
-
+<SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
+Dashboard data: {{dashboardData}}
 <div>
       <b-card-group deck>
       <b-card class="text-left m-1">
@@ -256,153 +256,176 @@
 // @ is an alias to /src
 //import SearchForm from "@/components/SearchForm.vue"
 //import { store } from "@/store.js";
-  import {
-    mapGetters
-  } from "vuex";
+import DashboardService from "@/services/DashboardService.js";
+import SiteMessage from "@/components/SiteMessage";
+
+import {
+  mapGetters
+} from "vuex";
 export default {
   name: "test",
+  components: {
+      SiteMessage: SiteMessage,
+  },
   data() {
     return {
-        processed: "200/232",
-        processedLastRun: "Yesterday September 14, 2021 at 6:00pm",
-        errors: "32",
-        expected: "56",
-        processingTime: "1 Hr 12 Min",
-        timespan: "6:00pm to 7:12pm",
-        timePerRecord: "18s",
-        fields: ['date','program', 'success', 'view'],
-        jobFields: ['date','user', 'success', 'status'],
-        items: [
-          { id: "1", date: 'Sept 16, 2021', program: "1950", success: "10/20", total: 20, status: 'fail' },
-          { id: "2", date: 'Sept 16, 2021', program: "2018-EN", success: "10/10", total: 20, status: 'success' },
-          { id: "3", date: 'Sept 16, 2021', program: "2018-PF", success: "10/10", total: 20, status: 'success' },          
-          { id: "4", date: 'Sept 16, 2021', program: "SCCP", success: "10/20", total: 20, status: 'fail' },
-          { id: "5", date: 'Sept 16, 2021', program: "1996", success: "10/10", total: 20, status: 'success' },
-          { id: "6", date: 'Sept 16, 2021', program: "1986", success: "10/10", total: 20, status: 'success' },          
-          { id: "7", date: 'Sept 16, 2021', program: "NOPROG", success: "10/20", total: 20, status: 'fail' },
-          { id: "8", date: 'Sept 16, 2021', program: "2004-EN", success: "10/10", total: 20, status: 'success' },
-          { id: "9", date: 'Sept 16, 2021', program: "2004-PF", success: "10/10", total: 20, status: 'success' },          
-        ],
-        jobs: [
-          { id: "1", date: '9/21/2021 6:00', user: "GRAD BATCH", success: "N/A", status: 'Queued' },
-          { id: "1", date: '9/20/2021 6:00', user: "GRAD BATCH", success: "N/A", status: 'Completed' },
-          { id: "1", date: '9/19/2021 6:00', user: "GRAD BATCH", success: "200/200", status: 'Completed' },
-          { id: "2", date: '9/18/2021 6:12', user: "JANE DOE", success: "2/2", status: 'Completed' },
-          { id: "1", date: '9/17/2021 6:00', user: "GRAD BATCH", success: "200/200", status: 'Completed' },
-          { id: "2", date: '9/16/2021 6:12', user: "JANE DOE", success: "2/2", status: 'Completed' },
-          { id: "9", date: '9/16/2021 6:00', user: "GRAD BATCH", success: "100/198", status: 'Failed' },
-          { id: "9", date: '9/16/2021 6:00', user: "GRAD BATCH", success: "100/198", status: 'Cancelled' },
-          { id: "3", date: '9/15/2021 6:00', user: "GRAD BATCH", success: "23/23", status: 'Completed' },
-          { id: "4", date: '9/15/2021 6:00', user: "GRAD BATCH", success: "200/200", status: 'Completed' },
-          { id: "5", date: '9/14/2021 6:34', user: "JOHN SMITH", success: "23/23", status: 'Completed' },
-          { id: "6", date: '9/14/2021 6:00', user: "GRAD BATCH", success: "277/300", status: 'Failed' },
-          { id: "7", date: '9/13/2021 6:00', user: "GRAD BATCH", success: "100/100", status: 'Completed' },         
-        ],   
-        selectedTab: 0,     
-        searchResults: [],
-        searchAPIFields: {
-          schoolName:{
-            value:"",
-            contains:false
-          },
-          mincode:{
-            value:"",
-            contains:false
-          }
+      displayMessage: null,
+      dashboardData:"",
+      processed: "200/232",
+      processedLastRun: "Yesterday September 14, 2021 at 6:00pm",
+      errors: "32",
+      expected: "56",
+      processingTime: "1 Hr 12 Min",
+      timespan: "6:00pm to 7:12pm",
+      timePerRecord: "18s",
+      fields: ['date','program', 'success', 'view'],
+      jobFields: ['date','user', 'success', 'status'],
+      items: [
+        { id: "1", date: 'Sept 16, 2021', program: "1950", success: "10/20", total: 20, status: 'fail' },
+        { id: "2", date: 'Sept 16, 2021', program: "2018-EN", success: "10/10", total: 20, status: 'success' },
+        { id: "3", date: 'Sept 16, 2021', program: "2018-PF", success: "10/10", total: 20, status: 'success' },          
+        { id: "4", date: 'Sept 16, 2021', program: "SCCP", success: "10/20", total: 20, status: 'fail' },
+        { id: "5", date: 'Sept 16, 2021', program: "1996", success: "10/10", total: 20, status: 'success' },
+        { id: "6", date: 'Sept 16, 2021', program: "1986", success: "10/10", total: 20, status: 'success' },          
+        { id: "7", date: 'Sept 16, 2021', program: "NOPROG", success: "10/20", total: 20, status: 'fail' },
+        { id: "8", date: 'Sept 16, 2021', program: "2004-EN", success: "10/10", total: 20, status: 'success' },
+        { id: "9", date: 'Sept 16, 2021', program: "2004-PF", success: "10/10", total: 20, status: 'success' },          
+      ],
+      jobs: [
+        { id: "1", date: '9/21/2021 6:00', user: "GRAD BATCH", success: "N/A", status: 'Queued' },
+        { id: "1", date: '9/20/2021 6:00', user: "GRAD BATCH", success: "N/A", status: 'Completed' },
+        { id: "1", date: '9/19/2021 6:00', user: "GRAD BATCH", success: "200/200", status: 'Completed' },
+        { id: "2", date: '9/18/2021 6:12', user: "JANE DOE", success: "2/2", status: 'Completed' },
+        { id: "1", date: '9/17/2021 6:00', user: "GRAD BATCH", success: "200/200", status: 'Completed' },
+        { id: "2", date: '9/16/2021 6:12', user: "JANE DOE", success: "2/2", status: 'Completed' },
+        { id: "9", date: '9/16/2021 6:00', user: "GRAD BATCH", success: "100/198", status: 'Failed' },
+        { id: "9", date: '9/16/2021 6:00', user: "GRAD BATCH", success: "100/198", status: 'Cancelled' },
+        { id: "3", date: '9/15/2021 6:00', user: "GRAD BATCH", success: "23/23", status: 'Completed' },
+        { id: "4", date: '9/15/2021 6:00', user: "GRAD BATCH", success: "200/200", status: 'Completed' },
+        { id: "5", date: '9/14/2021 6:34', user: "JOHN SMITH", success: "23/23", status: 'Completed' },
+        { id: "6", date: '9/14/2021 6:00', user: "GRAD BATCH", success: "277/300", status: 'Failed' },
+        { id: "7", date: '9/13/2021 6:00', user: "GRAD BATCH", success: "100/100", status: 'Completed' },         
+      ],   
+      selectedTab: 0,     
+      searchResults: [],
+      searchAPIFields: {
+        schoolName:{
+          value:"",
+          contains:false
         },
-        schoolFields: [
-          {
-            key: 'more',
-            label: '',
-            sortable: true,
-            sortDirection: 'desc'
-          },
-          {
-            key: 'minCode',
-            label: 'Mincode',
-            sortable: true,
-            sortDirection: 'desc'
-          },
-          {
-            key: 'schoolName',
-            label: 'School Name',
-            sortable: true,
-            sortDirection: 'desc'
-          },
-          {
-            key: 'districtName',
-            label: 'District',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'openFlag',
-            label: 'Open',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: '',
-            label: 'Schl Org',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: '',
-            label: 'Indep Type',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'independentAffiliation',
-            label: 'Indep Affil',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'transcriptEligibility',
-            label: 'Tran Elig',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'certificateEligibility',
-            label: 'Cert Elig',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: '',
-            label: 'Marks Display',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: '',
-            label: 'Append Trans',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'signatureDistrict',
-            label: 'Sig Distno',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: '',
-            label: 'New School Code',
-            sortable: true,
-            class: 'text-center'
-          },
-        ],        
+        mincode:{
+          value:"",
+          contains:false
+        }
+      },
+      schoolFields: [
+        {
+          key: 'more',
+          label: '',
+          sortable: true,
+          sortDirection: 'desc'
+        },
+        {
+          key: 'minCode',
+          label: 'Mincode',
+          sortable: true,
+          sortDirection: 'desc'
+        },
+        {
+          key: 'schoolName',
+          label: 'School Name',
+          sortable: true,
+          sortDirection: 'desc'
+        },
+        {
+          key: 'districtName',
+          label: 'District',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: 'openFlag',
+          label: 'Open',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: '',
+          label: 'Schl Org',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: '',
+          label: 'Indep Type',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: 'independentAffiliation',
+          label: 'Indep Affil',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: 'transcriptEligibility',
+          label: 'Tran Elig',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: 'certificateEligibility',
+          label: 'Cert Elig',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: '',
+          label: 'Marks Display',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: '',
+          label: 'Append Trans',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: 'signatureDistrict',
+          label: 'Sig Distno',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: '',
+          label: 'New School Code',
+          sortable: true,
+          class: 'text-center'
+        },
+      ],        
     };
     
   },
   created() {
-  
+    this.getAdminDashboardData()
   },
   methods: {
+    getAdminDashboardData(){
+      DashboardService.getDashboardInfo(this.token).then(
+        (response) => {
+            this.dashboardData = response.data
+          }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+      });
+    },
     runbatch(){
       let d = new Date();
       var today =  (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear() + " " +
@@ -417,11 +440,9 @@ export default {
       setTimeout(() => this.processingTime="8s", 10000);
       setTimeout(() => this.timespan="6:00pm to 6:01pm", 10000);
       setTimeout(() => this.errors=3, 10000);
-      setTimeout(() => this.processedLastRun="Just now", 10000);
-      
+      setTimeout(() => this.processedLastRun="Just now", 10000);    
     },
-    displaySearchResults(value){
-      
+    displaySearchResults(value){ 
       this.searchResults = value
     }
   },
@@ -430,15 +451,13 @@ export default {
       return this.searchResults;
     },
     ...mapGetters({
+      token: "getToken",
       courses: "getStudentCourses",
       gradStatusCourses: "gradStatusCourses",
       studentGradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
       gradStatusPendingUpdates: "getHasGradStatusPendingUpdates"
     }),
-  },
-  components: {
-   
   },
 };
 </script>
