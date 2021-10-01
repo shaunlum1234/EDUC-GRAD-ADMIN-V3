@@ -2,7 +2,7 @@
   <div class="container">
     <h2>Admin Dashboard</h2>
 <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
-Dashboard data: {{dashboardData}}
+<!-- Dashboard data: {{dashboardData}} -->
 <div>
       <b-card-group deck>
       <b-card class="text-left m-1">
@@ -11,9 +11,10 @@ Dashboard data: {{dashboardData}}
           <div class="row">
             <div class="col-12">
               <strong> Processed:</strong>
-              <h2><i class="fas fa-times-circle text-danger"></i> {{processed}}</h2>
+              <h2><i class="fas fa-info-circle text-info"></i> {{processed}} / {{lastExpectedStudentsProcessed}}</h2>
               <hr>
-              <strong>Last Run:</strong> {{ processedLastRun }}
+              <strong>Last run:</strong> {{ processedLastRun }}<br>
+              <strong>Last run status: {{lastRunStatus}}</strong>
             </div>
           </div>
           </b-card-text>   
@@ -23,9 +24,9 @@ Dashboard data: {{dashboardData}}
           <div class="row">
             <div class="col-12">
               <strong> Errors:</strong>
-              <h2><i class="fas fa-times-circle text-danger"></i> {{errors}} Records</h2> 
+              <h2><i class="fas fa-times-circle text-danger"></i>  {{errors}} Records</h2> 
               <hr>
-              <a href="#">View Errors</a>
+              <!-- <a href="#">View Errors</a> -->
             </div>
           </div>
           </b-card-text>   
@@ -35,10 +36,10 @@ Dashboard data: {{dashboardData}}
           <div class="row">
             <div class="col-12">
               <strong> Processing Time: </strong>
-                <h2><i class="fas fa-info-circle text-info"></i> {{processingTime}}</h2>          
+                <h2><i class="fas fa-info-circle text-info"></i> {{processingTime}} hours</h2>          
                 <hr>
-                <strong>Timespan:</strong> {{timespan}}<br/>
-                <strong>Time Per Record:</strong> {{timePerRecord}}              
+                <strong>Timespan:</strong><br/>{{processedLastJobstartTime}} <strong>to</strong> <br/> {{processedLastJobendTime}} <br/>
+                <!-- <strong>Time Per Record:</strong> {{timePerRecord}}               -->
             </div>
           </div>
           </b-card-text>   
@@ -68,13 +69,16 @@ Dashboard data: {{dashboardData}}
         <b-tabs v-model="selectedTab" active card >
           <b-tab title="Job/Runs">
             <b-card-text>
-                <b-table small striped :items="jobs" :fields="jobFields" :tbody-tr-class="rowClass">
+              <DisplayTable title="Job/Runs" v-bind:items="batchInfoListData"
+                v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
+               >
+              </DisplayTable>
+                <!-- <b-table small striped :items="jobs" :fields="jobFields" :tbody-tr-class="rowClass">
                  <template #cell(view)="data">
                   <div>
-                    <!-- Using modifiers -->
+                    
                     <b-button v-b-modal="'modal-' + data.item.id">View</b-button>
-
-                    <!-- The modal -->
+                    
                     <b-modal :id="'modal-' + data.item.id">
                       <table>
                         <tr><td>1234561</td><td>Success</td><td></td></tr>
@@ -96,7 +100,7 @@ Dashboard data: {{dashboardData}}
                 <template #cell(status)="data">
                    {{data.item.status}} <b-spinner small v-if="data.item.status=='Running'"></b-spinner>
                 </template>                                
-              </b-table>
+              </b-table> -->
 
             </b-card-text>
           </b-tab>
@@ -258,7 +262,7 @@ Dashboard data: {{dashboardData}}
 //import { store } from "@/store.js";
 import DashboardService from "@/services/DashboardService.js";
 import SiteMessage from "@/components/SiteMessage";
-
+import DisplayTable from '@/components/DisplayTable.vue';
 import {
   mapGetters
 } from "vuex";
@@ -266,18 +270,73 @@ export default {
   name: "test",
   components: {
       SiteMessage: SiteMessage,
+      DisplayTable: DisplayTable
   },
   data() {
     return {
+      errorOn: false,
       displayMessage: null,
       dashboardData:"",
-      processed: "200/232",
-      processedLastRun: "Yesterday September 14, 2021 at 6:00pm",
+      processed: "",
+      lastRunStatus:"",
+      lastExpectedStudentsProcessed:"",
+      processedLastRun: "",
       errors: "32",
       expected: "56",
-      processingTime: "1 Hr 12 Min",
+      processingTime: "",
+      lastJobstartTime:"",
+      lastJobendTime:"",
+      processedLastJobstartTime:"",
+      processedLastJobendTime:"",
       timespan: "6:00pm to 7:12pm",
       timePerRecord: "18s",
+      batchInfoListData:[],
+      jobRunFields: [
+          {
+            key: 'updateDate',
+            label: 'Update date',
+            sortable: true,
+            class: 'text-left',
+            editable: true,
+            sortDirection: 'desc'
+          },
+          {
+            key: 'updateUser',
+            label: 'Update user',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          },          
+          {
+            key: 'status',
+            label: 'Status',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          },
+          {
+            key: 'expectedStudentsProcessed',
+            label: 'Expected',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          },
+          {
+            key: 'actualStudentsProcessed',
+            label: 'Actual',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          },
+          {
+            key: 'failedStudentsProcessed',
+            label: 'Error',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          }
+
+      ],
       fields: ['date','program', 'success', 'view'],
       jobFields: ['date','user', 'success', 'status'],
       items: [
@@ -414,7 +473,29 @@ export default {
     getAdminDashboardData(){
       DashboardService.getDashboardInfo(this.token).then(
         (response) => {
-            this.dashboardData = response.data
+            this.dashboardData = response.data;
+            this.batchInfoListData = response.data.batchInfoList;
+            //Processed
+            this.processed = this.dashboardData.lastActualStudentsProcessed;
+            this.lastExpectedStudentsProcessed = this.dashboardData.lastExpectedStudentsProcessed;
+            this.lastRunStatus = this.dashboardData.lastStatus
+            //Errors
+            this.errors = this.dashboardData.lastFailedStudentsProcessed
+            if(this.errors > 0){
+              this.errorOn = true;
+            }else{
+              this.errorOn = false;
+            }
+            //Processing time bucket
+            this.lastJobendTime = new Date(this.dashboardData.lastJobendTime);
+            this.lastJobstartTime = new Date(this.dashboardData.lastJobstartTime)
+            var lastJobProcessTimeInMilli = this.lastJobendTime.getTime() - this.lastJobstartTime.getTime();
+            this.processingTime = (lastJobProcessTimeInMilli / (1000 * 60 * 60)).toFixed(1);
+            this.processedLastJobstartTime = this.lastJobstartTime.toLocaleString('en-CA', { timeZone: 'PST' })
+            this.processedLastJobendTime = this.lastJobendTime.toLocaleString('en-CA', { timeZone: 'PST' })
+            this.processedLastRun = this.lastJobendTime.toLocaleString('en-CA', { timeZone: 'PST' })
+            //Expected
+            this.expected = this.dashboardData.lastExpectedStudentsProcessed
           }
         ).catch((error) => {
           if(error.response.status){
@@ -437,10 +518,10 @@ export default {
       setTimeout(() => this.timespan=0, 10000);
       setTimeout(() => this.processed="53/56", 10000);
       setTimeout(() => this.timePerRecord="1s", 10000);
-      setTimeout(() => this.processingTime="8s", 10000);
+      // setTimeout(() => this.processingTime="8s", 10000);
       setTimeout(() => this.timespan="6:00pm to 6:01pm", 10000);
       setTimeout(() => this.errors=3, 10000);
-      setTimeout(() => this.processedLastRun="Just now", 10000);    
+      // setTimeout(() => this.processedLastRun="Just now", 10000);    
     },
     displaySearchResults(value){ 
       this.searchResults = value

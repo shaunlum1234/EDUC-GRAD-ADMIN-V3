@@ -302,6 +302,7 @@
                     <div v-for="report in reports" :key="report.gradReportTypeCode" class="px-3 w-100 float-left">
                       <a  @click="downloadPDF(report.report,'application/pdf')" href="#"  class="pdf-link float-left ">{{report.gradReportTypeLabel}} (PDF)</a> 
                       <span class="float-right pr-3">
+                          <strong>Status:</strong> {{report.documentStatusLabel}} 
                           <strong>Last Updated:</strong> {{report.updatedTimestamp}} 
                           <strong>Distributed:</strong> {{report.distributionDate}}
                       </span>
@@ -323,6 +324,7 @@
                   
                   <a @click="downloadPDF(certificate.certificate,'application/pdf')" href="#"  class="pdf-link float-left ">{{certificate.gradCertificateTypeLabel}} (PDF)</a> 
                   <span class="float-right pr-3">
+                    <strong>Status:</strong> {{certificate.documentStatusLabel}} 
                     <strong>Last Updated:</strong> {{certificate.createdTimestamp}}
                     <strong>Distributed:</strong> {{certificate.distributionDate}}
                   </span>

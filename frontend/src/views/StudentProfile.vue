@@ -527,7 +527,7 @@
       },
       getStudentReportsAndCertificates(id){
         GraduationCommonService.getStudentCertificates(id, this.token).then(
-          (response) => {           
+          (response) => {          
             this.$store.dispatch("setStudentCertificates", response.data);
           }
         ).catch((error) => {
@@ -540,7 +540,7 @@
           }
         });
         GraduationCommonService.getStudentReports(id, this.token).then(
-          (response) => {           
+          (response) => {            
             this.$store.dispatch("setStudentReports", response.data);
           }
         ).catch((error) => {
