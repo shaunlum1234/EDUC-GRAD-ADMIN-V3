@@ -112,7 +112,7 @@
               </DisplayTable>
             </b-card-text>
           </b-tab>  
-          <b-tab title="Signatures" active>
+          <b-tab title="Signatures">
             <b-card-text v-if="reportSignatures">
               <DisplayTable
                 title="Report Types"
