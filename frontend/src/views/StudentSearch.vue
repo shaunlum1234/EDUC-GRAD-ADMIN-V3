@@ -84,7 +84,7 @@
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(132341660)">132341660</a> HONG, YU LING</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(136557584)">136557584</a> ISHIKAWA, TIMOTHY</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(138142492)">138142492</a> LITCHFIELD, SHIH CHUAN</div>
-                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(138142492)">128008364</a> LITCHFIELD , TEST</div>
+                    <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(138142492)">128008364</a> LITCHFIELD , M</div>
                   </div>
                   </div>
               </b-card-text>
