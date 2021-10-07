@@ -215,7 +215,7 @@
                         <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                         <div v-if="schoolNotFoundWarning" class="form-validation-message text-danger" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>                      
                       </td>
-                      <td><b-input :disabled="disableInput" size="sm" type="number" maxlength="8" minength="8" v-model='editedGradStatus.schoolOfRecord'></b-input></td>                  
+                      <td><b-input :disabled="disableInput" size="sm" type="text" maxlength="8" minength="8" v-model='editedGradStatus.schoolOfRecord'></b-input></td>                  
                   </tr>
                   <tr v-if="!showEdit">
                     <td><strong>School at graduation: </strong></td>
@@ -265,7 +265,7 @@
                       <div v-if="schoolAtGradProgramCompletionDateMessage" class="form-validation-message text-danger" >If program completion date is not blank, school at graduation cannot be blank&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                         <div v-if="schoolAtGraduationNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                         </td>
-                      <td><b-input :disabled="disableSchoolAtGrad" size="sm" type="number" maxlength="8" v-model='editedGradStatus.schoolAtGrad'></b-input></td>        
+                      <td><b-input :disabled="disableSchoolAtGrad" size="sm" type="text" maxlength="8" v-model='editedGradStatus.schoolAtGrad'></b-input></td>        
                     </tr>        
                     <tr>
                       <td><strong>Honours:</strong></td>
