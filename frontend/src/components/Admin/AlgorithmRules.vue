@@ -1,6 +1,6 @@
 <template>
   <div>
-  <DisplayTable v-bind:items="algorithmRules" title="Program" v-bind:fields="algorithmRulesFields" id="specialCase" showFilter="true"
+  <DisplayTable v-bind:items="algorithmRules" title="Program" v-bind:filterOn="toFilterItem" v-bind:fields="algorithmRulesFields" id="specialCase" showFilter="true"
         v-bind:role="role">
         <template #cell(ruleName)="row">
           {{row.item.algorithmRuleCode.label}}
@@ -41,6 +41,7 @@ export default {
   data: function() {
     return {
       algorithmRules: [],
+      toFilterItem:['graduationProgramCode','isActive'],
       algorithmRulesFields: [
         {
           key: 'graduationProgramCode',

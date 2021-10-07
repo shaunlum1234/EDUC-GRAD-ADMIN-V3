@@ -1,6 +1,7 @@
 <template>
+
   <div>
-    <DisplayTable v-bind:items="letterGrades" title="Letter Grade" v-bind:fields="letterGradesFields" id="letterGrade" showFilter="true"
+    <DisplayTable v-bind:items="letterGrades" title="Letter Grade" v-bind:filterOn="toFilterItem"  v-bind:fields="letterGradesFields" id="letterGrade" showFilter="true"
         v-bind:role="role">
     </DisplayTable>
   </div>
@@ -32,6 +33,7 @@ export default {
 
     return {
       letterGrades: [],
+      toFilterItem:['grade','gpaMarkValue','passFlag','description'],
       letterGradesFields: [
         {
           key: 'grade',
@@ -54,7 +56,7 @@ export default {
           label: "Description",
           sortable: true,
         }     
-      ],
+      ]
     };
   },
   computed: {

@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="m-0 p-0">
     <!-- User Interface controls -->
-    
+    {{filterOn}}
     <b-button-toolbar
       key-nav
       aria-label="Toolbar with button groups"
@@ -113,7 +113,7 @@
       </b-card>
     </b-row>
     <!-- Main table element -->
-
+     
     <b-table
       v-if="items && items.length"
       :responsive="responsive"
@@ -264,6 +264,7 @@ export default {
     "slots",
     "showFilter",
     "pagination",
+    "filterOn"
   ],
   data() {
     return {
@@ -297,7 +298,6 @@ export default {
       sortDesc: false,
       sortDirection: "asc",
       filter: null,
-      filterOn: [],
       totalRows: 0,
       infoModal: {
         id: "info-modal",

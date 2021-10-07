@@ -1,6 +1,6 @@
 <template>
   <div>
-  <DisplayTable v-bind:items="specialCases" title="Program" v-bind:fields="specialCasesFields" id="specialCase" showFilter="true"
+  <DisplayTable v-bind:items="specialCases" title="Program" v-bind:filterOn="toFilterItem" v-bind:fields="specialCasesFields" id="specialCase" showFilter="true"
         v-bind:role="role">
     </DisplayTable>
   </div>
@@ -30,6 +30,14 @@ export default {
   data: function() {
     return {
       specialCases: [],
+      toFilterItem:[
+        'spCase',
+        'label',
+        'description',
+        'passFlag',
+        "effectiveDate",
+        "expiryDate"
+      ],
       specialCasesFields: [
         {
           key: 'spCase',
@@ -50,11 +58,6 @@ export default {
         {
           key: 'passFlag',
           label: 'Pass',
-          sortable: true,
-        },
-        {
-          key: "description",
-          label: "Description",
           sortable: true,
         },
         {
