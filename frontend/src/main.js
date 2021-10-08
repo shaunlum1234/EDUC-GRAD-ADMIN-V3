@@ -64,8 +64,8 @@ Vue.filter('formatSimpleDate', function(value) {
 
 
 //keycloak init options
-const token = localStorage.getItem('kc_token');
-const refreshToken = localStorage.getItem('kc_refreshToken');
+const token = localStorage.getItem('jwt');
+const refreshToken = localStorage.getItem('refresh');
 
 let initOptions = {
   url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'

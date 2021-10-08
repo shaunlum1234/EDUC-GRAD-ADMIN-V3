@@ -565,10 +565,10 @@ export default {
               this.studentHasProgram = true;
             }
           })
-          .catch(() => {
+          .catch((err) => {
             this.searchLoading = false;
             this.searchByPenMessage =
-              "Student cannot be found on the GRAD or PEN database";
+              err;
           });
         //pen input check
       }
