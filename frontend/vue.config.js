@@ -40,6 +40,14 @@ module.exports = {
         target: process.env.VUE_APP_STUDENTS_API_HOST,
         changeOrigin: true,
       },
+      '/api/v1/student/studentHistory/': {
+        target: process.env.VUE_APP_STUDENTS_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/student/studentOptionalProgramHistory/': {
+        target: process.env.VUE_APP_STUDENTS_API_HOST,
+        changeOrigin: true,
+      },
       '/api/v1/algo': {
         target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
         changeOrigin: true,
