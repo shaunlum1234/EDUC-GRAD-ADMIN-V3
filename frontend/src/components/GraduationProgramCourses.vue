@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>{{programCode }} Rule {{ selectedRule }} ({{ ruleName }})</h3>
+    <!-- <h3>{{programCode }} Rule {{ selectedRule }} ({{ ruleName }})</h3> -->
 
     <div v-if="graduationProgramRuleCourses == 'not applicable'">
       Not applicable
