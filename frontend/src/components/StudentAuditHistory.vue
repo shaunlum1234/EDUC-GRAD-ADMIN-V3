@@ -1,15 +1,25 @@
 <template>
   <div>
-     <!-- <b-table :items="changeHistory"  title="auditHistory" :fields="fields">
+     <b-table bordered :items="changeHistory"  title="auditHistory" :fields="fields">
          <template #cell(studentGrade)="row">
+             
              <div v-for="(value, name ) in row.item" :key="name.historyID">
-                <div v-if="name !== 'createDate' && name !== 'updateDate' && name !== 'historyID'">{{name}}: {{value}}</div>
+                 {{value.path}}
+                 <br>
+                <div v-if="value.path !== 'createDate' && value['path'] !== 'updateDate'">
+                
+                  CHANGE  {{value['lhs']? value['lhs'] :"______" }} -> {{value['rhs']}}
+                </div>
+                
+                <hr>
+    
+                <br/>
              </div>       
          </template>
-     </b-table> -->
-     <div v-for="(value, name) in changeHistory" :key="name.historyID">
+     </b-table>
+     <!-- <div v-for="(value, name) in changeHistory" :key="name.historyID">
         {{ name }}: {{ value }}
-     </div>
+     </div> -->
      <!-- <div>{{changeHistory}}</div> -->
   </div>
 </template>
@@ -81,8 +91,11 @@ export default {
                 for (let i = 0; i < this.studentHistoryChangeCount - 1; i++) {
                     // this.changeHistory.splice(i,1,this.diff(this.studentHistory[i], this.studentHistory[i + 1]))  
                     // this.changeHistory = DeepDiff(this.studentHistory[i], this.studentHistory[i + 1]); 
-                    this.changeHistory.splice(i,1,DeepDiff(this.studentHistory[i], this.studentHistory[i + 1]))
-                    this.changeHistory.push(this.studentHistory[i].createUser)   
+                    var x = DeepDiff(this.studentHistory[i], this.studentHistory[i + 1]);
+                    x.push({"user" : this.studentHistory[i].createUser});
+                    console.log(x);
+                    this.changeHistory.splice(i,1,x)
+                    
                 }
                 // console.log(this.changeHistory)
 
