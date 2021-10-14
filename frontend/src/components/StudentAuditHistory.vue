@@ -84,7 +84,7 @@ export default {
                     this.changeHistory.splice(i,1,DeepDiff(this.studentHistory[i], this.studentHistory[i + 1]))
                     this.changeHistory.push(this.studentHistory[i].createUser)   
                 }
-                console.log(this.changeHistory)
+                // console.log(this.changeHistory)
 
             }
             
@@ -105,7 +105,7 @@ export default {
             //     variant: 'danger',
             //     noAutoHide: true,
             // });
-                console.error(error.response);
+                // console.error(error.response);
             }
         });
     },
