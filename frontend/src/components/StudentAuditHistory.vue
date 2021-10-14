@@ -1,11 +1,22 @@
 <template>
   <div>
-    {{changeHistory}}
+     <!-- <b-table :items="changeHistory"  title="auditHistory" :fields="fields">
+         <template #cell(studentGrade)="row">
+             <div v-for="(value, name ) in row.item" :key="name.historyID">
+                <div v-if="name !== 'createDate' && name !== 'updateDate' && name !== 'historyID'">{{name}}: {{value}}</div>
+             </div>       
+         </template>
+     </b-table> -->
+     <div v-for="(value, name) in changeHistory" :key="name.historyID">
+        {{ name }}: {{ value }}
+     </div>
+     <!-- <div>{{changeHistory}}</div> -->
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import { DeepDiff } from 'deep-diff';
 // import _ from 'lodash';
 import StudentAuditHistoryService from "@/services/StudentAuditHistoryService.js";
 // import DisplayTable from "@/components/DisplayTable.vue";
@@ -26,13 +37,40 @@ export default {
         studentHistory: "",
         studentHistoryChangeCount:"",
         OptionalProgramHistory:"",
-        changeHistory:[]
+        changeHistory:[],
+        testHistory:[],
+         fields: [
+            {
+            key: "activityCode",
+            label: "Activity",
+            sortable: true,
+            sortDirection: "desc"
+            },
+            {
+            key: "updateDate",
+            label: "Update Date",
+            sortable: true,
+            sortDirection: "desc"
+            },
+            {
+            key: "createUser",
+            label: "User",
+            sortable: true,
+            sortDirection: "desc"
+            },
+            {
+            key: "studentGrade",
+            label: "Changes",
+            sortable: true,
+            sortDirection: "desc"
+            },
+        ]
     };
   },
   created() {
       const studentIdFromURL = this.$route.params.studentId;
       this.loadStudentHistory(studentIdFromURL);
-      this.loadStudentOptionalProgramHistory(studentIdFromURL);
+    //   this.loadStudentOptionalProgramHistory(studentIdFromURL);
   },
   methods: {
     loadStudentHistory(studentIdFromURL){
@@ -40,11 +78,14 @@ export default {
             (response) => {
                 this.studentHistory = response.data;
                 this.studentHistoryChangeCount = this.studentHistory.length
-                for (let i = 0; i < this.studentHistoryChangeCount; i++) {
-                    this.changeHistory += this.diff(this.studentHistory[i], this.studentHistory[i + 1])
-                    
-                }    
-                console.log("Change history: "+ this.changeHistory)
+                for (let i = 0; i < this.studentHistoryChangeCount - 1; i++) {
+                    // this.changeHistory.splice(i,1,this.diff(this.studentHistory[i], this.studentHistory[i + 1]))  
+                    // this.changeHistory = DeepDiff(this.studentHistory[i], this.studentHistory[i + 1]); 
+                    this.changeHistory.splice(i,1,DeepDiff(this.studentHistory[i], this.studentHistory[i + 1]))
+                    this.changeHistory.push(this.studentHistory[i].createUser)   
+                }
+                console.log(this.changeHistory)
+
             }
             
         ).catch((error) => {
@@ -82,7 +123,7 @@ export default {
     // return diff;
     // }, 
     diff(obj1, obj2) {
-    const result = {};
+    const result = {}; 
     if (Object.is(obj1, obj2)) {
         return undefined;
     }

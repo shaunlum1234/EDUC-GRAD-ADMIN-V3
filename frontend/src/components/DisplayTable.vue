@@ -1,7 +1,6 @@
 <template>
   <b-container fluid class="m-0 p-0">
     <!-- User Interface controls -->
-    {{filterOn}}
     <b-button-toolbar
       key-nav
       aria-label="Toolbar with button groups"
