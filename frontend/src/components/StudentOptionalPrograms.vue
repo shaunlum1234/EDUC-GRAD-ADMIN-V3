@@ -46,7 +46,7 @@
         </template> 
         <template #cell(more)="row">            
           <b-btn
-            v-if="row.item.specialProgramName == '2018 Graduation Program Career Program'"
+            v-if="row.item.specialProgramName == '2018 Graduation Program Career Program' || row.item.specialProgramName == 'Adult Career Program'"
             variant="outline primary"
             style="color: #666"
             size="sm"
