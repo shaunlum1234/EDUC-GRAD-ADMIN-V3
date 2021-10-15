@@ -6,25 +6,27 @@
       </div>
       <DisplayTable v-if="specialPrograms" :items="specialPrograms" :striped=false :fields="specialProgramsfields" showFilter="true" title="Optional Programs">
         <template #cell(optionalNonGradReasons)="row">
-          <!-- {{row.item.studentSpecialProgramData}} -->
+          {{row.item.studentSpecialProgramData}}       
           <ul v-if="row.item.studentSpecialProgramData.optionalNonGradReasons !== null" id="specialNonGradReasons">
             <li v-for="optionalNonGradReasons in row.item.studentSpecialProgramData.optionalNonGradReasons" :key="optionalNonGradReasons.rule">
               <strong>{{ optionalNonGradReasons.rule }} - {{ optionalNonGradReasons.description }}</strong>
             </li>
           </ul>
           <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons === null">All requirements have been met</span>
+          
         </template>    
         <template #cell(specialProgramName)="row">
             {{row.item.specialProgramName}} ({{row.item.specialProgramCode}}) <br> {{row.item.specialProgramCompletionDate}}
         </template>   
         <template #cell(optionalReqMet)="row">  
+           <!-- {{row.item.studentSpecialProgramData}} -->
           <div v-if="
                     row.item.studentSpecialProgramData &&
-                    row.item.studentSpecialProgramData.optionalNonGradReasons &&
-                    row.item.studentSpecialProgramData.optionalRequirementsMet &&
-                    row.item.studentSpecialProgramData.optionalNonGradReasons.length == 0 && 
-                    row.item.studentSpecialProgramData.optionalRequirementsMet.length == 0 &&
-                    row.item.studentSpecialProgramData.specialGraduated === true">n/a</div>            
+                    (row.item.studentSpecialProgramData.optionalNonGradReasons == null && 
+                    row.item.studentSpecialProgramData.optionalRequirementsMet == null) ||
+                    (row.item.studentSpecialProgramData.optionalNonGradReasons.length == 0 && 
+                    row.item.studentSpecialProgramData.optionalRequirementsMet.length == 0)
+                    ">n/a</div>            
           <b-table :bordered=false small :items="row.item.studentSpecialProgramData.optionalStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
             <template #cell(gradReqMetDetail)="row2">
                 <ul class="m-0 p-0">
