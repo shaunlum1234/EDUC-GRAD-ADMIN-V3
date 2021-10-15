@@ -1,39 +1,33 @@
 <template>
   <div>
   <div v-for="(value, index) in changeHistory" :key="value.historyID">
-
-        <b-table :items="value"  title="auditHistory" :fields="fields">
-         {{index}}
-         <template #cell(change)="row">
-            <div v-if="row.item.path !='historyID' && row.item.path !='createDate' && row.item.path !='updateUser' && row.item.path !='updateDate' ">
-                <strong>{{row.item.path}}</strong> {{row.item.lhs}} -> {{row.item.rhs}}
-           </div>
-         </template>
-     </b-table>
+        <b-card  :header="studentHistory[index+1].historyID">
+            <!-- {{studentHistory[index+1]}} -->
+            <!-- <li>{{v.user}}</li> -->
+            <b-card-text>
+            <ul v-for="v in value" :key="v.historyID">
+               
+            <li v-if="v.pathTo != 'updateDate' 
+                && v.pathTo != 'createDate' 
+                && v.pathTo != 'historyID'">{{v.pathTo | formatSetenceCase}}: {{v.lhs}} -> {{v.rhs}}
+            </li>  
+            <li v-if="v.pathTo == 'createDate'">{{v.pathTo | formatSetenceCase}}: {{v.rhs | formatSimpleDate}}</li>  
+            </ul> 
+            </b-card-text>        
+        </b-card>
   </div>
-     <!-- <b-table bordered :items="getStudentHistory[0]"  title="auditHistory">
-         <template #cell(change)="row">
-             {{row}}
-             
-         </template>
-     </b-table> -->
-     <!-- <div v-for="(value, name) in changeHistory" :key="name.historyID">
-        {{ name }}: {{ value }}
-     </div> -->
-     <!-- <div>{{changeHistory}}</div> -->
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { DeepDiff } from 'deep-diff';
-// import _ from 'lodash';
 import StudentAuditHistoryService from "@/services/StudentAuditHistoryService.js";
-// import DisplayTable from "@/components/DisplayTable.vue";
+
 export default {
   name: "StudentAuditHistory",
   components: {
-    // DisplayTable: DisplayTable,
+
   },
   props: {},
   computed: {
@@ -41,19 +35,6 @@ export default {
         studentId: "getStudentId",
         token: "getToken",
     }),
-    getStudentHistory(){
-        console.log("start");
-        let updateChangeHistory =  this.changeHistory;
-        for(let i = 0; i < this.changeHistory.length;i++){
-            for(let j = 0; j < this.changeHistory[i].length;j++){
-                if(this.changeHistory[i][j].path == "historyID"){
-                    console.log(this.changeHistory[i][j].path)
-                }
-            }
-        }
-
-        return updateChangeHistory;
-    }
   },
   data: function () {
     return {
@@ -65,7 +46,13 @@ export default {
          fields: [
             {
             key: "change",
-            label: "change",
+            label: "Change",
+            sortable: true,
+            sortDirection: "desc"
+            },
+            {
+            key: "createDate",
+            label: "Create date",
             sortable: true,
             sortDirection: "desc"
             },
@@ -88,9 +75,21 @@ export default {
                     // this.changeHistory.splice(i,1,this.diff(this.studentHistory[i], this.studentHistory[i + 1]))  
                     // this.changeHistory = DeepDiff(this.studentHistory[i], this.studentHistory[i + 1]); 
                     var x = DeepDiff(this.studentHistory[i], this.studentHistory[i + 1]);
-                    x.push({"user" : this.studentHistory[i].createUser});
-                    console.log(x);
-                    this.changeHistory.splice(i,1,x)
+                    // x.push({"user" : this.studentHistory[i].createUser});
+                    // x.push({"createDate" : this.studentHistory[i].createDate});
+                    // x.push({"path" : x[i].path[0]});
+                    // console.log("Test")
+                    // console.log(x[i].path[0]);
+                    this.changeHistory.splice(i,1,x)     
+                }
+                for (let j = 0; j < this.changeHistory.length ; j++) {  
+                    for (let k = 0; k < this.changeHistory[j].length; k++) { 
+                        console.log('j') 
+                        console.log(j) 
+                        console.log('k') 
+                        console.log(k)  
+                        this.changeHistory[j][k].pathTo = this.changeHistory[j][k].path[0]
+                    }
                     
                 }
                 // console.log(this.changeHistory)

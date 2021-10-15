@@ -62,7 +62,12 @@ Vue.filter('formatSimpleDate', function(value) {
   return date.toISOString().split('T')[0];
 });
 
-
+Vue.filter('formatSetenceCase', function(value) {
+  
+  const result = value.replace(/([A-Z])/g, " $1");
+  const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+  return finalResult;
+});
 //keycloak init options
 const token = localStorage.getItem('jwt');
 const refreshToken = localStorage.getItem('refresh');
