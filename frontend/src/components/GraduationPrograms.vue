@@ -16,8 +16,6 @@
       <router-view v-bind:key="$route.fullPath"></router-view>
       
       </div>
-      
-
 </template>
 
 <script>

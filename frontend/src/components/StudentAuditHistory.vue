@@ -1,14 +1,13 @@
 <template>
   <div>
-     <b-table bordered :items="changeHistory"  title="auditHistory" :fields="fields">
+     <b-table bordered :items="getStudentHistory"  title="auditHistory" :fields="fields">
          <template #cell(studentGrade)="row">
-             
              <div v-for="(value, name ) in row.item" :key="name.historyID">
-                 {{value.path}}
-                 <br>
-                <div v-if="value.path !== 'createDate' && value['path'] !== 'updateDate'">
-                
-                  CHANGE  {{value['lhs']? value['lhs'] :"______" }} -> {{value['rhs']}}
+                  <div v-for="val in value.path" :key="val.path">
+                    <div>CHANGE {{value['lhs']? value['lhs'] :"______" }} -> {{value['rhs']}} </div>
+                </div>
+                <div>
+                  
                 </div>
                 
                 <hr>
@@ -41,6 +40,22 @@ export default {
         studentId: "getStudentId",
         token: "getToken",
     }),
+    getStudentHistory(){
+        console.log("start");
+        let updateChangeHistory =  this.changeHistory;
+        for(let i = 0; i < this.changeHistory.length;i++){
+            for(let j = 0; j < this.changeHistory[i].length;j++){
+                    if(this.changeHistory[i][j].path == "historyID")
+                    console.log(this.changeHistory[i][j])
+                    
+
+            }
+
+        }
+        console.log("End");
+
+        return updateChangeHistory
+    }
   },
   data: function () {
     return {
@@ -50,24 +65,6 @@ export default {
         changeHistory:[],
         testHistory:[],
          fields: [
-            {
-            key: "activityCode",
-            label: "Activity",
-            sortable: true,
-            sortDirection: "desc"
-            },
-            {
-            key: "updateDate",
-            label: "Update Date",
-            sortable: true,
-            sortDirection: "desc"
-            },
-            {
-            key: "createUser",
-            label: "User",
-            sortable: true,
-            sortDirection: "desc"
-            },
             {
             key: "studentGrade",
             label: "Changes",
