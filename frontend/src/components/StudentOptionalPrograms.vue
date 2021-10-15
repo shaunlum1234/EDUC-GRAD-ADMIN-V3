@@ -12,7 +12,8 @@
               <strong>{{ optionalNonGradReasons.rule }} - {{ optionalNonGradReasons.description }}</strong>
             </li>
           </ul>
-          <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons === null">All requirements have been met</span>
+          <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons === null || 
+          row.item.studentSpecialProgramData.optionalNonGradReasons.length == 0 ">All requirements have been met</span>
           
         </template>    
         <template #cell(specialProgramName)="row">
