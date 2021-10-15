@@ -1,8 +1,12 @@
 <template>
 
   <div>
+
     <DisplayTable v-bind:items="letterGrades" title="Letter Grade" v-bind:filterOn="toFilterItem"  v-bind:fields="letterGradesFields" id="letterGrade" showFilter="true"
         v-bind:role="role">
+           <template #cell(expiryDate)="row">
+          {{row.item.expiryDate|formatSimpleDate}}
+        </template>
     </DisplayTable>
   </div>
 </template>
@@ -40,22 +44,48 @@ export default {
           label: 'Letter grade',
           sortable: true,
           sortDirection: 'desc',
+          class: 'text-center'
         },
         {
           key: 'gpaMarkValue',
           label: 'GPA mark value',
           sortable: true,
+          class: 'text-center'
         },
         {
           key: 'passFlag',
           label: 'Pass',
           sortable: true,
+          class: 'text-center'
         },
         {
           key: "description",
           label: "Description",
           sortable: true,
-        }     
+        },    
+        {
+          key: "percentRangeLow",
+          label: "Percentage Range Low",
+          sortable: true,
+          class: 'text-center'
+        },    
+        {
+          key: "percentRangeHigh",
+          label: "Percentage Range High",
+          sortable: true,
+          class: 'text-center'
+        },    
+
+        {
+          key: "expiryDate",
+          label: "Expiry Date",
+          sortable: true,
+        }, 
+        {
+          key: "label",
+          label: "Note",
+          sortable: true,
+        }                               
       ]
     };
   },

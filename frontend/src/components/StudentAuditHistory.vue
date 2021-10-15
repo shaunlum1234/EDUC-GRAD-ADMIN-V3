@@ -1,21 +1,22 @@
 <template>
   <div>
-     <b-table bordered :items="getStudentHistory"  title="auditHistory" :fields="fields">
-         <template #cell(studentGrade)="row">
-             <div v-for="(value, name ) in row.item" :key="name.historyID">
-                  <div v-for="val in value.path" :key="val.path">
-                    <div>CHANGE {{value['lhs']? value['lhs'] :"______" }} -> {{value['rhs']}} </div>
-                </div>
-                <div>
-                  
-                </div>
-                
-                <hr>
-    
-                <br/>
-             </div>       
+  <div v-for="(value, index) in changeHistory" :key="value.historyID">
+
+        <b-table :items="value"  title="auditHistory" :fields="fields">
+         {{index}}
+         <template #cell(change)="row">
+            <div v-if="row.item.path !='historyID' && row.item.path !='createDate' && row.item.path !='updateUser' && row.item.path !='updateDate' ">
+                <strong>{{row.item.path}}</strong> {{row.item.lhs}} -> {{row.item.rhs}}
+           </div>
          </template>
      </b-table>
+  </div>
+     <!-- <b-table bordered :items="getStudentHistory[0]"  title="auditHistory">
+         <template #cell(change)="row">
+             {{row}}
+             
+         </template>
+     </b-table> -->
      <!-- <div v-for="(value, name) in changeHistory" :key="name.historyID">
         {{ name }}: {{ value }}
      </div> -->
@@ -45,16 +46,13 @@ export default {
         let updateChangeHistory =  this.changeHistory;
         for(let i = 0; i < this.changeHistory.length;i++){
             for(let j = 0; j < this.changeHistory[i].length;j++){
-                    if(this.changeHistory[i][j].path == "historyID")
-                    console.log(this.changeHistory[i][j])
-                    
-
+                if(this.changeHistory[i][j].path == "historyID"){
+                    console.log(this.changeHistory[i][j].path)
+                }
             }
-
         }
-        console.log("End");
 
-        return updateChangeHistory
+        return updateChangeHistory;
     }
   },
   data: function () {
@@ -66,11 +64,12 @@ export default {
         testHistory:[],
          fields: [
             {
-            key: "studentGrade",
-            label: "Changes",
+            key: "change",
+            label: "change",
             sortable: true,
             sortDirection: "desc"
             },
+
         ]
     };
   },
