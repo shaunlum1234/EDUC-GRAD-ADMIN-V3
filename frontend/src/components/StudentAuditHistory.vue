@@ -1,21 +1,32 @@
 <template>
-  <div>
-  <div v-for="(value, index) in changeHistory" :key="value.historyID">
-        <b-card  :header="studentHistory[index+1].historyID">
-            <!-- {{studentHistory[index+1]}} -->
-            <!-- <li>{{v.user}}</li> -->
-            <b-card-text>
-            <ul v-for="v in value" :key="v.historyID">
+  <div class="container">
+    <div class="col-12" v-for="(value, index) in changeHistory.slice().reverse()" :key="value.historyID">
+          <div class="row col-12 py-2" :header="studentHistory[index+1].historyID">
+              <!-- {{studentHistory[index+1]}} -->
+              <!-- <li>{{v.user}}</li> -->
+              <div class="col-4 border-bottom">
+                Edited by {{studentHistory[index+1].activityCode}} on
+                {{studentHistory[index+1].createDate || formatTime}}
+              </div>
+              <div class="float-left col-8 border-bottom">
+                <div v-for="v in value" :key="v.historyID" class="">
+                    
+                  <div class="" v-if="v.pathTo != 'updateDate' 
+                      && v.pathTo != 'createDate' 
+                      && v.pathTo != 'historyID'
+                      && v.pathTo != 'studentGradData'
+                      && v.pathTo != 'activityCode'
+                      && v.pathTo != 'recalculateGradStatus'
+                      ">
+                      <div class="w-50 float-left"> <strong>{{v.pathTo | formatSetenceCase}}</strong>:</div>
+                      <div class="w-50 float-left"> {{v.lhs==null?"_____":v.lhs}} <i class="fas fa-arrow-right"></i> {{v.rhs == null?"_____":v.rhs}}</div>
+                  </div>  
+                </div>
+              </div>
                
-            <li v-if="v.pathTo != 'updateDate' 
-                && v.pathTo != 'createDate' 
-                && v.pathTo != 'historyID'">{{v.pathTo | formatSetenceCase}}: {{v.lhs}} -> {{v.rhs}}
-            </li>  
-            <li v-if="v.pathTo == 'createDate'">{{v.pathTo | formatSetenceCase}}: {{v.rhs | formatSimpleDate}}</li>  
-            </ul> 
-            </b-card-text>        
-        </b-card>
-  </div>
+              
+          </div>
+    </div>
   </div>
 </template>
 
