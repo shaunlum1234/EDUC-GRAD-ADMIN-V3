@@ -6,13 +6,16 @@
       </div>
       <DisplayTable v-if="specialPrograms" :items="specialPrograms" :striped=false :fields="specialProgramsfields" showFilter="true" title="Optional Programs">
         <template #cell(optionalNonGradReasons)="row">
-          {{row.item.studentSpecialProgramData}}
+          <!-- {{row.item.studentSpecialProgramData}} -->
           <ul v-if="!row.item.studentSpecialProgramData.optionalNonGradReasons" id="specialNonGradReasons">
             <li v-for="optionalNonGradReasons in row.item.studentSpecialProgramData.optionalNonGradReasons" :key="optionalNonGradReasons.rule">
               <strong>{{ optionalNonGradReasons.rule }} - {{ optionalNonGradReasons.description }}</strong>
             </li>
           </ul>
-          <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons">All requirements have been met</span>
+          <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons && !row.item.studentSpecialProgramData.optionalRequirementsMet">All requirements have been met</span>
+           <span v-if="row.item.studentSpecialProgramData &&
+                    (row.item.studentSpecialProgramData.optionalNonGradReasons && row.item.studentSpecialProgramData.optionalNonGradReasons.length == 0 && 
+                    row.item.studentSpecialProgramData.optionalRequirementsMet && row.item.studentSpecialProgramData.optionalRequirementsMet.length == 0)">n/a</span>
           
         </template>    
         <template #cell(specialProgramName)="row">
