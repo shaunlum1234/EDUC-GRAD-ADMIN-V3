@@ -5,7 +5,7 @@
               <!-- {{studentHistory[index+1]}} -->
               <!-- <li>{{v.user}}</li> -->
               <div class="col-4 border-bottom">
-                Edited by {{studentHistory[index+1].activityCode}} on
+                Edited by <strong>{{studentHistory[index+1].activityCode}}</strong> on<br/>
                 {{studentHistory[index+1].createDate || formatTime}}
               </div>
               <div class="float-left col-8 border-bottom">

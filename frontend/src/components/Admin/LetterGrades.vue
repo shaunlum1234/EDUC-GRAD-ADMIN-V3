@@ -45,47 +45,46 @@ export default {
           sortable: true,
           sortDirection: 'desc',
           class: 'text-center'
-        },
-        {
-          key: 'gpaMarkValue',
-          label: 'GPA mark value',
-          sortable: true,
-          class: 'text-center'
-        },
-        {
-          key: 'passFlag',
-          label: 'Pass',
-          sortable: true,
-          class: 'text-center'
-        },
-        {
-          key: "description",
-          label: "Description",
-          sortable: true,
-        },    
-        {
-          key: "percentRangeLow",
-          label: "Percentage Range Low",
-          sortable: true,
-          class: 'text-center'
         },    
         {
           key: "percentRangeHigh",
           label: "Percentage Range High",
           sortable: true,
           class: 'text-center'
-        },    
-
+        }, 
+        {
+          key: "percentRangeLow",
+          label: "Percentage Range Low",
+          sortable: true,
+          class: 'text-center'
+        },       
+        {
+          key: 'passFlag',
+          label: 'Pass',
+          sortable: true,
+          class: 'text-center'
+        },
+{
+          key: 'gpaMarkValue',
+          label: 'GPA mark value',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: "label",
+          label: "Label",
+          sortable: true,
+        },        
+        {
+          key: "description",
+          label: "Description",
+          sortable: true,
+        },     
         {
           key: "expiryDate",
           label: "Expiry Date",
           sortable: true,
-        }, 
-        {
-          key: "label",
-          label: "Note",
-          sortable: true,
-        }                               
+        }                              
       ]
     };
   },
