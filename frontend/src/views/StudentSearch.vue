@@ -567,8 +567,8 @@ export default {
           })
           .catch((err) => {
             this.searchLoading = false;
-            this.searchByPenMessage =
-              err;
+            this.searchByPenMessage = "";
+            this.showNotification("danger", err);
           });
         //pen input check
       }
