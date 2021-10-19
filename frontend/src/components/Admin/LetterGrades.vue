@@ -1,11 +1,11 @@
 <template>
-
   <div>
-
     <DisplayTable v-bind:items="letterGrades" title="Letter Grade" v-bind:filterOn="toFilterItem"  v-bind:fields="letterGradesFields" id="letterGrade" showFilter="true"
         v-bind:role="role">
            <template #cell(expiryDate)="row">
+          <div v-if="row.item.expiryDate">
           {{row.item.expiryDate|formatSimpleDate}}
+          </div>
         </template>
     </DisplayTable>
   </div>
