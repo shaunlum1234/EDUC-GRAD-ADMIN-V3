@@ -4,10 +4,9 @@
       <div v-if="!specialPrograms" class="container">
         This student does not have any special programs.
       </div>
-      {{specialPrograms}}
       <DisplayTable v-if="specialPrograms" :items="specialPrograms" :striped=false :fields="specialProgramsfields" showFilter="true" title="Optional Programs">
         <template #cell(optionalNonGradReasons)="row">
-          {{row.item.studentSpecialProgramData}}       
+          {{row.item.studentSpecialProgramData}}
           <ul v-if="!row.item.studentSpecialProgramData.optionalNonGradReasons" id="specialNonGradReasons">
             <li v-for="optionalNonGradReasons in row.item.studentSpecialProgramData.optionalNonGradReasons" :key="optionalNonGradReasons.rule">
               <strong>{{ optionalNonGradReasons.rule }} - {{ optionalNonGradReasons.description }}</strong>
@@ -20,13 +19,10 @@
             {{row.item.specialProgramName}} ({{row.item.specialProgramCode}}) <br> {{row.item.specialProgramCompletionDate}}
         </template>   
         <template #cell(optionalReqMet)="row">  
-           <!-- {{row.item.studentSpecialProgramData}} -->
           <div v-if="
                     row.item.studentSpecialProgramData &&
-                    (row.item.studentSpecialProgramData.optionalNonGradReasons && 
-                    row.item.studentSpecialProgramData.optionalRequirementsMet) ||
-                    (row.item.studentSpecialProgramData.optionalNonGradReasons.length == 0 && 
-                    row.item.studentSpecialProgramData.optionalRequirementsMet.length == 0)
+                    (row.item.studentSpecialProgramData.optionalNonGradReasons && row.item.studentSpecialProgramData.optionalNonGradReasons.length == 0 && 
+                    row.item.studentSpecialProgramData.optionalRequirementsMet && row.item.studentSpecialProgramData.optionalRequirementsMet.length == 0)
                     ">n/a</div>            
           <b-table :bordered=false small :items="row.item.studentSpecialProgramData.optionalStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
             <template #cell(gradReqMetDetail)="row2">

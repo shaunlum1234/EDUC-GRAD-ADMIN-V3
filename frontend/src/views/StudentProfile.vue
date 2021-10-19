@@ -181,12 +181,12 @@
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>
-                <b-tab :title="'Audit history'" class="py-3 px-0 m-1">
+                <!-- <b-tab :title="'Audit history'" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentAuditHistory></StudentAuditHistory>
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
-                </b-tab>
+                </b-tab> -->
             </b-tabs>
           </b-card>
         </div>
@@ -372,7 +372,7 @@
   import StudentNotes from "@/components/StudentNotes";
   import StudentGraduationStatus from "@/components/StudentGraduationStatus";
   import StudentOptionalPrograms from "@/components/StudentOptionalPrograms";
-  import StudentAuditHistory from "@/components/StudentAuditHistory";
+  // import StudentAuditHistory from "@/components/StudentAuditHistory";
   
 
 
@@ -406,7 +406,7 @@
       StudentNotes:StudentNotes,
       StudentGraduationStatus: StudentGraduationStatus,
       StudentOptionalPrograms: StudentOptionalPrograms,
-      StudentAuditHistory: StudentAuditHistory
+      // StudentAuditHistory: StudentAuditHistory
 
     },
     props: {
