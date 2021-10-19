@@ -6,14 +6,19 @@
       </div>
       <DisplayTable v-if="specialPrograms" :items="specialPrograms" :striped=false :fields="specialProgramsfields" showFilter="true" title="Optional Programs">
         <template #cell(optionalNonGradReasons)="row">
-          <!-- {{row.item.studentSpecialProgramData}} -->
-          <ul v-if="!row.item.studentSpecialProgramData.optionalNonGradReasons" id="specialNonGradReasons">
+          <ul v-if="row.item.studentSpecialProgramData && row.item.studentSpecialProgramData.optionalNonGradReasons != null" id="specialNonGradReasons">
             <li v-for="optionalNonGradReasons in row.item.studentSpecialProgramData.optionalNonGradReasons" :key="optionalNonGradReasons.rule">
               <strong>{{ optionalNonGradReasons.rule }} - {{ optionalNonGradReasons.description }}</strong>
             </li>
           </ul>
-          <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons && !row.item.studentSpecialProgramData.optionalRequirementsMet">All requirements have been met</span>
-           <span v-if="row.item.studentSpecialProgramData &&
+          <!-- <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons == null && !row.item.studentSpecialProgramData.optionalRequirementsMet">All requirements have been met</span> -->
+          <div v-if="row.item.studentSpecialProgramData.optionalNonGradReasons == null && row.item.studentSpecialProgramData.optionalRequirementsMet != null">
+            <span v-if="row.item.studentSpecialProgramData.optionalRequirementsMet.length != 0">All requirements have been met</span>
+          </div>
+          <div v-else>
+            <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons.length == 0 && row.item.studentSpecialProgramData.optionalRequirementsMet.length > 0">All requirements have been met</span>
+          </div>
+          <span v-if="row.item.studentSpecialProgramData &&
                     (row.item.studentSpecialProgramData.optionalNonGradReasons && row.item.studentSpecialProgramData.optionalNonGradReasons.length == 0 && 
                     row.item.studentSpecialProgramData.optionalRequirementsMet && row.item.studentSpecialProgramData.optionalRequirementsMet.length == 0)">n/a</span>
           
