@@ -2,15 +2,19 @@
   <div class="container">
     <div class="col-12" v-for="(value, index) in changeHistory.slice().reverse()" :key="value.historyID">
           <div class="row col-12 py-2" :header="studentHistory[index+1].historyID">
-              <!-- {{studentHistory[index+1]}} -->
+   
+      
               <!-- <li>{{v.user}}</li> -->
               <div class="col-4 border-bottom">
                 Edited by <strong>{{studentHistory[index+1].activityCode}}</strong> on<br/>
                 {{studentHistory[index+1].createDate || formatTime}}
               </div>
               <div class="float-left col-8 border-bottom">
+                      <div class="float-right w-25">
+                        <b-button v-b-toggle="'collapse-'+ studentHistory[index+1].historyID" variant="primary">View</b-button>
+                      </div>
                 <div v-for="v in value" :key="v.historyID" class="">
-                    
+                 
                   <div class="" v-if="v.pathTo != 'updateDate' 
                       && v.pathTo != 'createDate' 
                       && v.pathTo != 'historyID'
@@ -18,13 +22,23 @@
                       && v.pathTo != 'activityCode'
                       && v.pathTo != 'recalculateGradStatus'
                       ">
-                      <div class="w-50 float-left"> <strong>{{v.pathTo | formatSetenceCase}}</strong>:</div>
+                      <div class="w-25 float-left"> <strong>{{v.pathTo | formatSetenceCase}}</strong>:</div>
                       <div class="w-50 float-left"> {{v.lhs==null?"_____":v.lhs}} <i class="fas fa-arrow-right"></i> {{v.rhs == null?"_____":v.rhs}}</div>
+                
+                      <div class="w-100 float-left">
+                        <b-collapse :id="'collapse-' + studentHistory[index+1].historyID" class="mt-2">
+                          <pre>{{JSON.stringify(studentHistory[index+1], null, '\t')}}</pre>
+                        </b-collapse>
+                      </div>
                   </div>  
+           
                 </div>
+                  
+                
+                
               </div>
                
-              
+  
           </div>
     </div>
   </div>
