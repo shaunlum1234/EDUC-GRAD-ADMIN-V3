@@ -97,10 +97,6 @@ export default {
               }
               for (let j = 0; j < this.changeHistory.length ; j++) {  
                   for (let k = 0; k < this.changeHistory[j].length; k++) { 
-                      console.log('j') 
-                      console.log(j) 
-                      console.log('k') 
-                      console.log(k)  
                       this.changeHistory[j][k].pathTo = this.changeHistory[j][k].path[0]
                   }                 
               }

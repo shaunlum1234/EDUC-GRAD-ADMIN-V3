@@ -55,7 +55,7 @@ export default {
   },
   method:{
     update(value){
-      console.log("Child");
+      // console.log("Child");
       this.test = value;
     }
   },
