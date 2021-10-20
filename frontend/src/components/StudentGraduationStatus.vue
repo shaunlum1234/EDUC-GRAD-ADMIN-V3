@@ -108,6 +108,9 @@
                     <td width="50%"><strong>Program: </strong>
                       <div v-if="editedGradStatus.program == '1950'">
                         <div class="form-validation-message text-danger" v-if="!(editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN')">Student grade should be one of <strong>AD or AN</strong> if the student program is 1950</div>
+                      </div> 
+                      <div v-if="editedGradStatus.program != studentGradStatus.program">
+                        <div v-if="programChangeWarning" class="form-validation-message text-danger">Warning, any optional programs associated with the original program will be <strong>deleted</strong>. You must add back in any pertinent optional programs once you have saved the changes to Program.</div>
                       </div>   
                     </td>
                     <td width="50%"><b-form-select :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" v-model="editedGradStatus.program" :options="programOptions" value-field="programCode" text-field="programCode"></b-form-select></td>                   
@@ -463,6 +466,7 @@ export default {
     return {
       programCompletionEffectiveDateList:[],
       programCompletionDateRangeError:false,
+      programChangeWarning:false,
       programEffectiveDate: "",
       programExpiryDate: "", 
       dismissSecs: 3,
@@ -557,6 +561,7 @@ export default {
           this.disableButton = true;
         }
       }
+  
       if(this.editedGradStatus.program != '1950'){
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = true;
@@ -564,6 +569,7 @@ export default {
           this.disableButton = false;
         }
       }
+      this.programChangeWarning = true;
     },
     programCompletionDateChange:function(){
       var programNameSearch = this.editedGradStatus.program;
