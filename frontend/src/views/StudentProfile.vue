@@ -831,6 +831,8 @@
         });
         StudentAuditHistoryService.getStudentOptionalProgramHistory(studentIdFromURL, this.token).then(
           (response) => {
+            console.log("opt");
+            console.log(response.data);
             this.$store.dispatch("setStudentOptionalProgramsAuditHistory", response.data);
         }).catch((error) => {
           if(error.response.status){

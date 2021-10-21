@@ -53,7 +53,7 @@
         state.student.auditHistory = payload; 
       },
       setStudentOptionalProgramsAuditHistory(state, payload){
-        state.student.auditHistoryOptionalprograms = payload; 
+        state.student.auditHistoryOptionalPrograms = payload;
       },      
       setStudentCareerPrograms(state, payload){
         state.student.careerPrograms = payload; 
