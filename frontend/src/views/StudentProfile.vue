@@ -154,7 +154,7 @@
                     </b-card-text>
                 </b-tab> -->
 
-                <b-tab v-if="specialPrograms != 'not loaded'" :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="py-3 px-0 m-1">
+                <b-tab v-if="optionalPrograms != 'not loaded'" :title="'Optional Programs ('  + optionalPrograms.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
                     
                     <StudentOptionalPrograms></StudentOptionalPrograms>
@@ -364,7 +364,6 @@
   import CourseService from "@/services/CourseService.js";
   import StudentService from "@/services/StudentService.js";
   import GraduationService from "@/services/GraduationService.js"
-  import StudentAuditHistoryService from "@/services/StudentAuditHistoryService.js";
   import SiteMessage from "@/components/SiteMessage";
   import GRADRequirementDetails from "@/components/GRADRequirementDetails";
   import StudentCourses from "@/components/StudentCourses";
@@ -458,7 +457,7 @@
         studentId: "getStudentId",
         studentInfo: "getStudentProfile",
         studentNotes: "getStudentNotes",
-        specialPrograms: "getStudentSpecialPrograms",    
+        optionalPrograms: "getStudentSpecialPrograms",    
         ungradReasons: "getUngradReasons",      
         studentUngradReasons: "getStudentUngradReasons",
       }),
@@ -816,7 +815,7 @@
           }
         });
 
-        StudentAuditHistoryService.getStudentHistory(studentIdFromURL, this.token).then(
+        StudentService.getStudentHistory(studentIdFromURL, this.token).then(
             (response) => {
               this.$store.dispatch("setStudentAuditHistory", response.data);
             }
@@ -829,10 +828,9 @@
             });
           }
         });
-        StudentAuditHistoryService.getStudentOptionalProgramHistory(studentIdFromURL, this.token).then(
+        StudentService.getStudentOptionalProgramHistory(studentIdFromURL, this.token).then(
           (response) => {
-            console.log("opt");
-            console.log(response.data);
+  
             this.$store.dispatch("setStudentOptionalProgramsAuditHistory", response.data);
         }).catch((error) => {
           if(error.response.status){

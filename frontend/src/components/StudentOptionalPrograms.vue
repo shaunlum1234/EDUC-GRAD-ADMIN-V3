@@ -2,7 +2,7 @@
   <div>
     <div class="table-responsive">
       <div v-if="!specialPrograms" class="container">
-        This student does not have any special programs.
+        This student does not have any optional programs.
       </div>
       <DisplayTable v-if="specialPrograms" :items="specialPrograms" :striped=false :fields="specialProgramsfields" showFilter="true" title="Optional Programs">
         <template #cell(optionalNonGradReasons)="row">

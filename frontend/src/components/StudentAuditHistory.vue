@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-  {{auditOptionalProgramsHistory}}
-  <h3>Student change history</h3>
     <div class="col-12" v-for="(value, index) in changeHistory.slice().reverse()" :key="value.historyID">
       <div class="row col-12 py-2" :header="studentHistory[index+1].historyID">
         <div class="col-4 border-bottom">
@@ -74,7 +72,7 @@
 import { mapGetters } from "vuex";
 import { DeepDiff } from 'deep-diff';
 import sharedMethods from '../sharedMethods';
-import StudentAuditHistoryService from "@/services/StudentAuditHistoryService.js";
+import StudentService from "@/services/StudentService.js";
 
 export default {
   name: "StudentAuditHistory",
@@ -118,11 +116,14 @@ export default {
         ]
     };
   },
-  created() {
-    const studentIdFromURL = this.$route.params.studentId;
+  mounted() {
     this.showNotification = sharedMethods.showNotification
-    this.loadStudentHistory();
-    this.loadStudentOptionalProgramHistory(studentIdFromURL);
+  },
+  watch: {
+    studentHistory: function () {
+      console.log("CHANGED");
+      this.loadStudentHistory();
+    }
   },
   methods: {
     loadStudentHistory(){  
@@ -136,9 +137,11 @@ export default {
               this.changeHistory[j][k].pathTo = this.changeHistory[j][k].path[0]
           }                 
       }
+
+      
     },
     loadStudentOptionalProgramHistory(studentIdFromURL){
-      StudentAuditHistoryService.getStudentOptionalProgramHistory(studentIdFromURL, this.token).then(
+      StudentService.getStudentOptionalProgramHistory(studentIdFromURL, this.token).then(
         (response) => {
             this.optionalProgramHistory = response.data;  
             this.optionalProgramHistoryChangeCount = this.optionalProgramHistory.length; 
