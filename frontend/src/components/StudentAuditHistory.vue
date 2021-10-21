@@ -87,7 +87,7 @@ export default {
         studentId: "getStudentId",
         token: "getToken",
         studentHistory: 'getStudentAuditHistory',
-        studentOptionalProgramsHistory: 'getStudentOptionalProgramAuditHistory'
+        optionalProgramHistory: 'getStudentOptionalProgramAuditHistory'
     }),
   },
   data: function () {
@@ -124,8 +124,8 @@ export default {
     studentHistory: function () {
       this.loadStudentHistory();
     },
-    studentOptionalProgramsHistory: function () {
-      this.loadStudentHistory();
+    optionalProgramHistory: function () {
+      this.loadStudentOptionalProgramHistory();
     }    
   },
   methods: {
