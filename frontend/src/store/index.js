@@ -300,6 +300,32 @@
           console.log(error.response.status);
         });
       },    
+      updateStudentAuditHistory({commit,state}){
+        StudentService.getStudentHistory(state.student.profile.studentID, state.token).then(
+            (response) => {
+              console.log("updating history")
+              commit('setStudentAuditHistory', response.data);
+            }
+        ).catch((error) => {
+          if(error.response.status){
+              // eslint-disable-next-line
+            console.log(error.response.status);
+          }
+        });
+      },
+      updateStudentOptionalProgramsAuditHistory({commit,state}){
+        StudentService.getStudentHistory(state.student.profile.studentID, state.token).then(
+            (response) => {
+              commit('setStudentAuditHistory', response.data);
+            }
+        ).catch((error) => {
+          if(error.response.status){
+              // eslint-disable-next-line
+            console.log(error.response.status);
+          }
+        });
+      },      
+      
       setStudentAuditHistory({commit}, payload){
         commit('setStudentAuditHistory', payload);
       },

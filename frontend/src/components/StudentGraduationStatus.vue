@@ -281,8 +281,8 @@
                       <td><strong>Optional Programs</strong></td>
                       <td >
                          <!-- OPTIONAL PROGRAMS -->                      
-                          <ul class="p-0" v-if="specialPrograms[0] && specialPrograms[0].studentSpecialProgramData" id="optional-programs">
-                            <li v-for="item in specialPrograms" :key="item.specialProgramCode">
+                          <ul class="p-0" v-if="optionalPrograms[0] && optionalPrograms[0].studentSpecialProgramData" id="optional-programs">
+                            <li v-for="item in optionalPrograms" :key="item.specialProgramCode">
                               {{ item.specialProgramName }} <br><strong> {{item.studentSpecialProgramData.optionalNonGradReasons==null?'Completed':"Not Completed"}}</strong>
                             </li>
                           </ul>
@@ -453,7 +453,7 @@ export default {
       studentFullName: "getStudentFullName",
       token: "getToken",
       role: "getRoles",
-      specialPrograms: "getStudentSpecialPrograms",
+      optionalPrograms: "getStudentSpecialPrograms",
       programOptions: "getProgramOptions",
       studentStatusOptions: "getStudentStatusOptions",
       studentId: "getStudentId",
@@ -878,6 +878,9 @@ export default {
         );         
         this.showTop = !this.showTop;
         this.showEdit = false;
+        //Update the student audit history
+        console.log("save");
+        this.$store.dispatch("updateStudentAuditHistory");
         this.showNotification("success", "GRAD Status Saved");
       })
       .catch((error) => {
