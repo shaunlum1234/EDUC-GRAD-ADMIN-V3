@@ -52,13 +52,12 @@ export default {
     ...mapGetters({
         studentId: "getStudentId",
         token: "getToken",
-        auditHistory: 'getStudentAuditHistory',
+        studentHistory: 'getStudentAuditHistory',
         auditOptionalProgramsHistory: 'getStudentOptionalProgramAuditHistory'
     }),
   },
   data: function () {
     return {
-        studentHistory: "",
         studentHistoryChangeCount:"",
         optionalProgramHistory:"",
         optionalProgramHistoryChangeCount:"",
@@ -88,28 +87,21 @@ export default {
   created() {
     const studentIdFromURL = this.$route.params.studentId;
     this.showNotification = sharedMethods.showNotification
-    this.loadStudentHistory(studentIdFromURL);
+    this.loadStudentHistory();
     this.loadStudentOptionalProgramHistory(studentIdFromURL);
   },
   methods: {
-    loadStudentHistory(studentIdFromURL){
-        StudentAuditHistoryService.getStudentHistory(studentIdFromURL, this.token).then(
-            (response) => {
-              this.studentHistory = response.data;
-              this.studentHistoryChangeCount = this.studentHistory.length
-              for (let i = 0; i < this.studentHistoryChangeCount - 1; i++) {
-                  var x = DeepDiff(this.studentHistory[i], this.studentHistory[i + 1]);
-                  this.changeHistory.splice(i,1,x)     
-              }
-              for (let j = 0; j < this.changeHistory.length ; j++) {  
-                  for (let k = 0; k < this.changeHistory[j].length; k++) { 
-                      this.changeHistory[j][k].pathTo = this.changeHistory[j][k].path[0]
-                  }                 
-              }
-            }    
-        ).catch((error) => {
-          this.showNotification("danger", "There was an error with the web service: " + error);
-        });
+    loadStudentHistory(){  
+      this.studentHistoryChangeCount = this.studentHistory.length
+      for (let i = 0; i < this.studentHistoryChangeCount - 1; i++) {
+          var x = DeepDiff(this.studentHistory[i], this.studentHistory[i + 1]);
+          this.changeHistory.splice(i,1,x)     
+      }
+      for (let j = 0; j < this.changeHistory.length ; j++) {  
+          for (let k = 0; k < this.changeHistory[j].length; k++) { 
+              this.changeHistory[j][k].pathTo = this.changeHistory[j][k].path[0]
+          }                 
+      }
     },
     loadStudentOptionalProgramHistory(studentIdFromURL){
       StudentAuditHistoryService.getStudentOptionalProgramHistory(studentIdFromURL, this.token).then(
@@ -120,7 +112,8 @@ export default {
                   var x = DeepDiff(this.optionalProgramHistory[i], this.optionalProgramHistory[i + 1]);
                   this.optionalProgramChangeHistory.splice(i,1,x)     
             } 
-            console.log(this.optionalProgramChangeHistory)      
+            console.log(this.optionalProgramChangeHistory)   
+               
         }
       ).catch((error) => {
         this.showNotification("danger", "There was an error with the web service: " + error);
