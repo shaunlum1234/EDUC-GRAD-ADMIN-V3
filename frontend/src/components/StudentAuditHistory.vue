@@ -56,11 +56,13 @@ export default {
     return {
         studentHistory: "",
         studentHistoryChangeCount:"",
-        OptionalProgramHistory:"",
+        optionalProgramHistory:"",
+        optionalProgramHistoryChangeCount:"",
         isEdit:false,
         isDelete:false,
         isAdd:false,
         changeHistory:[],
+        optionalProgramChangeHistory:[],
         testHistory:[],
          fields: [
             {
@@ -108,7 +110,13 @@ export default {
     loadStudentOptionalProgramHistory(studentIdFromURL){
       StudentAuditHistoryService.getStudentOptionalProgramHistory(studentIdFromURL, this.token).then(
         (response) => {
-            this.OptionalProgramHistory = response.data;              
+            this.optionalProgramHistory = response.data;  
+            this.optionalProgramHistoryChangeCount = this.optionalProgramHistory.length; 
+            for (let i = 0; i < this.optionalProgramHistoryChangeCount - 1; i++) {
+                  var x = DeepDiff(this.optionalProgramHistory[i], this.optionalProgramHistory[i + 1]);
+                  this.optionalProgramChangeHistory.splice(i,1,x)     
+            } 
+            console.log(this.optionalProgramChangeHistory)      
         }
       ).catch((error) => {
         this.showNotification("danger", "There was an error with the web service: " + error);
