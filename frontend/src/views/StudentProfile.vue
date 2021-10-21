@@ -364,6 +364,7 @@
   import CourseService from "@/services/CourseService.js";
   import StudentService from "@/services/StudentService.js";
   import GraduationService from "@/services/GraduationService.js"
+  import StudentAuditHistoryService from "@/services/StudentAuditHistoryService.js";
   import SiteMessage from "@/components/SiteMessage";
   import GRADRequirementDetails from "@/components/GRADRequirementDetails";
   import StudentCourses from "@/components/StudentCourses";
@@ -373,6 +374,7 @@
   import StudentGraduationStatus from "@/components/StudentGraduationStatus";
   import StudentOptionalPrograms from "@/components/StudentOptionalPrograms";
   import StudentAuditHistory from "@/components/StudentAuditHistory";
+  
   
 
 
@@ -814,6 +816,31 @@
           }
         });
 
+        StudentAuditHistoryService.getStudentHistory(studentIdFromURL, this.token).then(
+            (response) => {
+              this.$store.dispatch("setStudentAuditHistory", response.data);
+            }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });
+        StudentAuditHistoryService.getStudentOptionalProgramHistory(studentIdFromURL, this.token).then(
+          (response) => {
+            this.$store.dispatch("setStudentOptionalProgramsAuditHistory", response.data);
+        }).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });
 
       },
     },
