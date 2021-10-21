@@ -36,6 +36,10 @@
         reports: "not loaded",
         ungradReasons: "",
         careerPrograms: [],
+        auditHistory:[],
+        auditHistoryOptionalPrograms:[],
+        
+        
       },
       applicationVariables:{
         programOptions:[],
@@ -45,6 +49,12 @@
 
     },
     mutations: {
+      setStudentAuditHistory(state, payload){
+        state.student.auditHistory = payload; 
+      },
+      setStudentOptionalProgramsAuditHistory(state, payload){
+        state.student.auditHistoryOptionalprograms = payload; 
+      },      
       setStudentCareerPrograms(state, payload){
         state.student.careerPrograms = payload; 
       },
@@ -290,6 +300,12 @@
           console.log(error.response.status);
         });
       },    
+      setStudentAuditHistory({commit}, payload){
+        commit('setStudentAuditHistory', payload);
+      },
+      setStudentOptionalProgramsAuditHistory({commit}, payload){
+        commit('setStudentOptionalProgramsAuditHistory', payload);
+      },      
       setStudentCareerPrograms({commit}, payload){
         commit('setStudentCareerPrograms', payload);
       },
@@ -370,7 +386,12 @@
     
 
     getters: {
-      
+      getStudentAuditHistory(state){
+        return state.student.auditHistory;
+      },
+      getStudentOptionalProgramAuditHistory(state){
+        return state.student.auditHistoryOptionalPrograms;
+      },      
       getAdvancedSearchProps(state){
         return state.advancedSearchProps;
       },

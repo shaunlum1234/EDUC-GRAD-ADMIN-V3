@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+  {{auditOptionalProgramsHistory}}
     <div class="col-12" v-for="(value, index) in changeHistory.slice().reverse()" :key="value.historyID">
       <div class="row col-12 py-2" :header="studentHistory[index+1].historyID">
         <div class="col-4 border-bottom">
@@ -34,6 +35,7 @@
   </div>
 </template>
 
+
 <script>
 import { mapGetters } from "vuex";
 import { DeepDiff } from 'deep-diff';
@@ -50,6 +52,8 @@ export default {
     ...mapGetters({
         studentId: "getStudentId",
         token: "getToken",
+        auditHistory: 'getStudentAuditHistory',
+        auditOptionalProgramsHistory: 'getStudentOptionalProgramAuditHistory'
     }),
   },
   data: function () {
