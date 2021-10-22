@@ -531,7 +531,6 @@ export default {
   created() {
     this.closeRecord();
     this.showNotification = sharedMethods.showNotification
-    console.log("Advancesearch: " + this.savedAdvSearchInput)
     if(this.savedAdvSearchInput != ""){
       this.advancedSearchInput = this.savedAdvSearchInput;
       //this.findStudentsByAdvancedSearch(1,50);

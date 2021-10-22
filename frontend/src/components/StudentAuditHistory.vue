@@ -152,7 +152,6 @@ export default {
             this.optionalProgramChangeHistory[j][k].pathTo = this.optionalProgramChangeHistory[j][k].path[0]
         }                 
       }
-      console.log(this.optionalProgramChangeHistory) 
     },   
   },
 };
