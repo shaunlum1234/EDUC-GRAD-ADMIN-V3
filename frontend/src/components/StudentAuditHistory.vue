@@ -5,7 +5,7 @@
       <div class="row col-12 py-2" :header="studentHistory[index+1].historyID">
         <div class="col-4 border-bottom">
           Edited by <strong>{{studentHistory[index+1].activityCode}}</strong> on<br/>
-          {{studentHistory[index+1].createDate || formatTime}}
+          {{studentHistory[index+1].createDate | formatTime}}
         </div>
         <div class="float-left col-8 border-bottom">
                 <div class="float-right w-25">
@@ -38,7 +38,7 @@
       <div class="row col-12 py-2" :header="optionalProgramHistory[index+1].historyID">
         <div class="col-4 border-bottom">
           Edited by <strong>{{optionalProgramHistory[index+1].activityCode}}</strong> on<br/>
-          {{optionalProgramHistory[index+1].createDate || formatTime}}
+          {{optionalProgramHistory[index+1].createDate | formatTime}}
         </div>
         <div class="float-left col-8 border-bottom">
                 <div class="float-right w-25">
