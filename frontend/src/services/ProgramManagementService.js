@@ -32,16 +32,11 @@ export default {
         //console.log("TOKEN IN SERVICE getProgramRule: " + token);
         return apiClient.get('/api/v1/program/programrules?programCode=' + programCode,{ headers })
     },
-    getGraduationProgramSets(gradProgram, token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        //console.log("TOKEN IN SERVICE getGraduationProgramSets: " + token);
-        return apiClient.get('/api/v1/program/specialprograms/' + gradProgram,{ headers });
-    }, 
     getAllSpecialProgramRules(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         return apiClient.get('/api/v1/program/alloptionalprogramrules',{ headers })
     },
-    getSpecialPrograms(token) {
+    getOptionalPrograms(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         //console.log("TOKEN IN SERVICE getProgramRule: " + token);
         return apiClient.get('/api/v1/program/optionalprograms',{ headers })
@@ -60,18 +55,18 @@ export default {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         return apiClient.put('/api/v1/program/programs',program,{ headers })
     },   
-    //Special Programs CRUD
-    createSpecialProgram(specialProgram, token){
+    //Optional Programs CRUD
+    createOptionalProgram(optionalProgram, token){
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.post('/api/v1/program/specialprograms',specialProgram,{ headers })
+        return apiClient.post('/api/v1/program/optionalprograms',optionalProgram,{ headers })
     },
-    deleteSpecialProgram(id, token){
+    deleteOptionalProgram(id, token){
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.delete('/api/v1/program/specialprograms/' + id, { headers })
+        return apiClient.delete('/api/v1/program/optionalprograms/' + id, { headers })
     },
-    updateSpecialProgram(specialProgram, token){
+    updateSpecialProgram(optionalProgram, token){
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.put('/api/v1/program/specialprograms',specialProgram,{ headers })
+        return apiClient.put('/api/v1/program/optionalprograms',optionalProgram,{ headers })
     },    
     getCareerPrograms(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }

@@ -13,8 +13,8 @@ import AdminCodes from '../views/Codes.vue';
 import GraduationPrograms from '../components/GraduationPrograms.vue';
 import GraduationProgramCourses from '../components/GraduationProgramCourses.vue';
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
-import GraduationSpecialProgramRules from '@/components/GraduationSpecialProgramRules';
-import GraduationSpecialPrograms from '@/components/GraduationSpecialPrograms';
+import GraduationOptionalProgramRules from '@/components/GraduationOptionalProgramRules';
+import GraduationOptionalPrograms from '@/components/GraduationOptionalPrograms';
 import Admin from '../views/Admin.vue';
 import LetterGrades from '@/components/Admin/LetterGrades';
 import SpecialCases from '@/components/Admin/SpecialCases';
@@ -70,10 +70,10 @@ const routes = [{
       { path: 'programs/', component: GraduationPrograms },
       { path: 'program-rules/', component: GraduationProgramRules },
       { path: 'program/:programCode/:category/:rule', component: GraduationProgramCourses, name: "programRuleCourses"},
-      { path: 'optional-programs/', component: GraduationSpecialPrograms },
-      { path: 'optional-program-rules/', component: GraduationSpecialProgramRules },
-      { path: 'optional-programs/:programCode/:specialProgramCode', component: GraduationSpecialProgramRules },
-      { path: 'optional-programs/:programCode/:category/:rule', component: GraduationProgramCourses, name: "specialProgramRuleCourses" },
+      { path: 'optional-programs/', component: GraduationOptionalPrograms },
+      { path: 'optional-program-rules/', component: GraduationOptionalProgramRules },
+      { path: 'optional-programs/:programCode/:optionalProgramCode', component: GraduationOptionalProgramRules },
+      { path: 'optional-programs/:programCode/:category/:rule', component: GraduationProgramCourses, name: "optionalProgramRuleCourses" },
       { path: 'letter-grades/', component: LetterGrades },
       { path: 'special-cases/', component: SpecialCases },
       { path: 'algorithm-rules/', component: AlgorithmRules },

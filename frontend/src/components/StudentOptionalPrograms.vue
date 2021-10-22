@@ -1,39 +1,39 @@
 <template>
   <div>
     <div class="table-responsive">
-      <div v-if="!specialPrograms" class="container">
+      <div v-if="!optionalPrograms" class="container">
         This student does not have any optional programs.
       </div>
-      <DisplayTable v-if="specialPrograms" :items="specialPrograms" :striped=false :fields="specialProgramsfields" showFilter="true" title="Optional Programs">
+      <DisplayTable v-if="optionalPrograms" :items="optionalPrograms" :striped=false :fields="optionalProgramsfields" showFilter="true" title="Optional Programs">
         <template #cell(optionalNonGradReasons)="row">
-          <div v-if="row.item.studentSpecialProgramData">
-            <ul v-if="row.item.studentSpecialProgramData.optionalNonGradReasons != null" id="specialNonGradReasons">
-              <li v-for="optionalNonGradReasons in row.item.studentSpecialProgramData.optionalNonGradReasons" :key="optionalNonGradReasons.rule">
+          <div v-if="row.item.studentOptionalProgramData">
+            <ul v-if="row.item.studentOptionalProgramData.optionalNonGradReasons != null" id="optionalNonGradReasons">
+              <li v-for="optionalNonGradReasons in row.item.studentOptionalProgramData.optionalNonGradReasons" :key="optionalNonGradReasons.rule">
                 <strong>{{ optionalNonGradReasons.rule }} - {{ optionalNonGradReasons.description }}</strong>
               </li>
             </ul>
-            <!-- <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons == null && !row.item.studentSpecialProgramData.optionalRequirementsMet">All requirements have been met</span> -->
-            <div v-if="row.item.studentSpecialProgramData.optionalNonGradReasons == null && row.item.studentSpecialProgramData.optionalRequirementsMet != null">
-              <span v-if="row.item.studentSpecialProgramData.optionalRequirementsMet.length != 0">All requirements have been met</span>
+            <!-- <span v-if="row.item.studentOptionalProgramData.optionalNonGradReasons == null && !row.item.studentOptionalProgramData.optionalRequirementsMet">All requirements have been met</span> -->
+            <div v-if="row.item.studentOptionalProgramData.optionalNonGradReasons == null && row.item.studentOptionalProgramData.optionalRequirementsMet != null">
+              <span v-if="row.item.studentOptionalProgramData.optionalRequirementsMet.length != 0">All requirements have been met</span>
             </div>
             <div v-else>
-              <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons.length == 0 && row.item.studentSpecialProgramData.optionalRequirementsMet.length > 0">All requirements have been met</span>
+              <span v-if="row.item.studentOptionalProgramData.optionalNonGradReasons.length == 0 && row.item.studentOptionalProgramData.optionalRequirementsMet.length > 0">All requirements have been met</span>
             </div>
-            <span v-if="row.item.studentSpecialProgramData.optionalNonGradReasons && row.item.studentSpecialProgramData.optionalNonGradReasons.length == 0 && 
-                        row.item.studentSpecialProgramData.optionalRequirementsMet && row.item.studentSpecialProgramData.optionalRequirementsMet.length == 0">n/a</span>
+            <span v-if="row.item.studentOptionalProgramData.optionalNonGradReasons && row.item.studentOptionalProgramData.optionalNonGradReasons.length == 0 && 
+                        row.item.studentOptionalProgramData.optionalRequirementsMet && row.item.studentOptionalProgramData.optionalRequirementsMet.length == 0">n/a</span>
           </div> 
           <div v-else>n/a</div>
         </template>   
          
-        <template #cell(specialProgramName)="row">
-            {{row.item.specialProgramName}} ({{row.item.specialProgramCode}}) <br> {{row.item.specialProgramCompletionDate}}
+        <template #cell(optionalProgramName)="row">
+            {{row.item.optionalProgramName}} ({{row.item.optionalProgramCode}}) <br> {{row.item.OptionalProgramCompletionDate}}
         </template>   
         <template #cell(optionalReqMet)="row">  
-          <div v-if="row.item.studentSpecialProgramData">
-            <div v-if="row.item.studentSpecialProgramData.optionalNonGradReasons && row.item.studentSpecialProgramData.optionalNonGradReasons.length == 0 && 
-                      row.item.studentSpecialProgramData.optionalRequirementsMet && row.item.studentSpecialProgramData.optionalRequirementsMet.length == 0
+          <div v-if="row.item.studentOptionalProgramData">
+            <div v-if="row.item.studentOptionalProgramData.optionalNonGradReasons && row.item.studentOptionalProgramData.optionalNonGradReasons.length == 0 && 
+                      row.item.studentOptionalProgramData.optionalRequirementsMet && row.item.studentOptionalProgramData.optionalRequirementsMet.length == 0
                       ">n/a</div>            
-            <b-table :bordered=false small :items="row.item.studentSpecialProgramData.optionalStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
+            <b-table :bordered=false small :items="row.item.studentOptionalProgramData.optionalStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
               <template #cell(gradReqMetDetail)="row2">
                   <ul class="m-0 p-0">
                     <li ><strong>{{row2.item.gradReqMetDetail}}</strong><br/>
@@ -42,7 +42,7 @@
                   </ul>
               </template>
             </b-table>
-            <b-table :bordered=false small :items="row.item.studentSpecialProgramData.optionalStudentAssessments.studentAssessmentList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
+            <b-table :bordered=false small :items="row.item.studentOptionalProgramData.optionalStudentAssessments.studentAssessmentList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
               <template #cell(gradReqMetDetail)="row2">
                   <ul class="m-0 p-0">
                     <li ><strong>{{row2.item.gradReqMetDetail}}</strong><br/>
@@ -58,7 +58,7 @@
         </template> 
         <template #cell(more)="row">            
           <b-btn
-            v-if="row.item.specialProgramName == '2018 Graduation Program Career Program' || row.item.specialProgramName == 'Adult Career Program'"
+            v-if="row.item.optionalProgramName == '2018 Graduation Program Career Program' || row.item.optionalProgramName == 'Adult Career Program'"
             variant="outline primary"
             style="color: #666"
             size="sm"
@@ -94,7 +94,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      specialPrograms: "getStudentSpecialPrograms",
+      optionalPrograms: "getStudentOptionalPrograms",
       careerPrograms: "getStudentCareerPrograms"
     }),
   },
@@ -103,9 +103,9 @@ export default {
       fields: [
         { key: "gradReqMetDetail", label: "Grad Requirement Met", class: "text-left"}
       ],
-      specialProgramsfields: [
+      optionalProgramsfields: [
         { key: "more", label: "" },
-        { key: "specialProgramName", label: "Optional Program" },
+        { key: "optionalProgramName", label: "Optional Program" },
         { key: "optionalReqMet", label: "Requirements Met" },
         { key: "optionalNonGradReasons", label: "Requirements Not Met" },
       ],

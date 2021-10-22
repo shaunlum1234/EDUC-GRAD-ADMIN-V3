@@ -25,7 +25,7 @@
         exams: "not loaded",
         notes: [],
         gradStatus: "not loaded",
-        specialPrograms: "not loaded",
+        optionaPrograms: "not loaded",
         hasExams: false,
         hasAssessments: false,
         hasCourses: false,
@@ -95,16 +95,13 @@
       setPermissions(state, payload){
         state.permissions = payload;
       },
-      setStudentGradStatusSpecialPrograms(state, payload) {
+      setStudentGradStatusOptionalPrograms(state, payload) {
       //  console.log(payload);
-        
-        state.student.specialPrograms = payload;
+        state.student.optionaPrograms = payload;
         let i = 0;
-        for (i = 0; i < state.student.specialPrograms.length; i++) {
-          state.student.specialPrograms[i].studentSpecialProgramData = JSON.parse(state.student.specialPrograms[i].studentSpecialProgramData); 
+        for (i = 0; i < state.student.optionaPrograms.length; i++) {
+          state.student.optionaPrograms[i].studentOptionalProgramData = JSON.parse(state.student.optionaPrograms[i].studentOptionalProgramData); 
         }
-        
-        
       },
       setHasGradStatusPendingUpdates(state, payload) {
       //  console.log(payload);
@@ -167,7 +164,7 @@
         state.student.assessments = "not loaded";
         state.student.exams = "not loaded";
         state.student.gradStatus = "not loaded";
-        state.student.specialPrograms = "not loaded";
+        state.student.optionaPrograms = "not loaded";
         state.student.hasExams = false;
         state.student.hasAssessments = false;
         state.student.hasCourses = false;
@@ -255,8 +252,8 @@
         });
       },   
        // Special Programs
-       createSpecialProgram({state}, payload) {
-        ProgramManagementService.createSpecialProgram(payload, state.token).then(
+       createOptionalProgram({state}, payload) {
+        ProgramManagementService.createOptionalProgram(payload, state.token).then(
           (response) => {
             return "STORE REspsonse to display table" + response;
           }
@@ -265,9 +262,9 @@
           console.log(error.response.status);
         });
       },   
-      deleteSpecialProgram({state}, payload) {
+      deleteOptionalProgram({state}, payload) {
         
-        ProgramManagementService.deleteSpecialProgram(payload, state.token).then(
+        ProgramManagementService.deleteOptionalProgram(payload, state.token).then(
           (response) => {
             // eslint-disable-next-line
             console.log(response);
@@ -349,8 +346,8 @@
       setHasGradStatusPendingUpdates({commit}, payload) {
         commit('setHasGradStatusPendingUpdates', payload);
       },
-      setStudentGradStatusSpecialPrograms({commit}, payload) {
-        commit('setStudentGradStatusSpecialPrograms', payload);
+      setStudentGradStatusOptionalPrograms({commit}, payload) {
+        commit('setStudentGradStatusOptionalPrograms', payload);
       },
       
       setToken({commit}, payload) {
@@ -462,8 +459,8 @@
       getStudentGradStatus(state) {
         return state.student.gradStatus;
       },
-      getStudentSpecialPrograms(state) {
-        return state.student.specialPrograms;
+      getStudentOptionalPrograms(state) {
+        return state.student.optionaPrograms;
       },
       getStudentCourses(state) {
         return state.student.courses;

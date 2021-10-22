@@ -281,9 +281,9 @@
                       <td><strong>Optional Programs</strong></td>
                       <td >
                          <!-- OPTIONAL PROGRAMS -->                      
-                          <ul class="p-0" v-if="optionalPrograms[0] && optionalPrograms[0].studentSpecialProgramData" id="optional-programs">
-                            <li v-for="item in optionalPrograms" :key="item.specialProgramCode">
-                              {{ item.specialProgramName }} <br><strong> {{item.studentSpecialProgramData.optionalNonGradReasons==null?'Completed':"Not Completed"}}</strong>
+                          <ul class="p-0" v-if="optionalPrograms[0] && optionalPrograms[0].studentOptionalProgramData" id="optional-programs">
+                            <li v-for="item in optionalPrograms" :key="item.optionalProgramCode">
+                              {{ item.optionalProgramName }} <br><strong> {{item.studentOptionalProgramData.optionalNonGradReasons==null?'Completed':"Not Completed"}}</strong>
                             </li>
                           </ul>
                       </td>
@@ -453,7 +453,7 @@ export default {
       studentFullName: "getStudentFullName",
       token: "getToken",
       role: "getRoles",
-      optionalPrograms: "getStudentSpecialPrograms",
+      optionalPrograms: "getStudentOptionalPrograms",
       programOptions: "getProgramOptions",
       studentStatusOptions: "getStudentStatusOptions",
       studentId: "getStudentId",

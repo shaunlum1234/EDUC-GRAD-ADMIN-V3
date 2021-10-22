@@ -137,23 +137,6 @@
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>
-
-                <!-- <b-tab v-if="specialPrograms != 'not loaded'" :title="'Optional Programs ('  + specialPrograms.length + ')'"  class="optprog">
-                  <template #title>
-                      <b-dropdown id="optional-programs-dd" :text="'Optional Programs ('  + specialPrograms.length + ')'" class="p-0 m-0" variant="transparent">
-                          <b-dropdown-item v-for="program in specialPrograms" :key="program.specialProgramName" @click="optionalProgramTab=program.specialProgramName">{{program.specialProgramName}}</b-dropdown-item>
-                            <b-dropdown-divider></b-dropdown-divider>
-                          <b-dropdown-item @click="optionalProgramTab='All'">All Optional Programs</b-dropdown-item>
-                          <b-dropdown-item @click="optionalProgramTab='Add Optional Program'"><i class="fas fa-plus"></i> Add Optional Program</b-dropdown-item>
-                      </b-dropdown>
-                    </template>
-                    <b-card-text>
-                      
-                      <StudentSpecialPrograms :showOptionalProgramTab="optionalProgramTab"></StudentSpecialPrograms>
-                      <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
-                    </b-card-text>
-                </b-tab> -->
-
                 <b-tab v-if="optionalPrograms != 'not loaded'" :title="'Optional Programs ('  + optionalPrograms.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
                     
@@ -221,15 +204,15 @@
             </b-card>
           </b-card-group>
           <div v-if="this.projectedOptionalGradStatus">
-            <div v-for="optionalProgram in this.projectedOptionalGradStatus" :key="optionalProgram.specialProgramCode">
-            <h3 class="specialProgramName">{{ optionalProgram.specialProgramName }}</h3>
+            <div v-for="optionalProgram in this.projectedOptionalGradStatus" :key="optionalProgram.optionalProgramCode">
+            <h3 class="optionalProgramName">{{ optionalProgram.optionalProgramName }}</h3>
             <b-card-group deck >           
               <b-card
                 header="Requirements met"
               >
                 <b-card-text>
                   <b-table small 
-                          :items="optionalProgram.studentSpecialProgramData.optionalRequirementsMet" 
+                          :items="optionalProgram.studentOptionalProgramData.optionalRequirementsMet" 
                           :fields='[{ key: "rule",label: "Rule",class:"px-0 py-2"},{key: "description",label: "Description",class:"px-0 py-2"}]'
                   >               
                   </b-table>
@@ -238,10 +221,10 @@
               <b-card
                 header="Requirements not met"
               >
-                <div v-if="optionalProgram.studentSpecialProgramData.specialNonGradReasons">
+                <div v-if="optionalProgram.studentOptionalProgramData.optionalNonGradReasons">
                   <b-card-text>
                     <b-table small 
-                            :items="optionalProgram.studentSpecialProgramData.specialNonGradReasons"
+                            :items="optionalProgram.studentOptionalProgramData.optionalNonGradReasons"
                     >
                     </b-table>
                   </b-card-text>
@@ -296,15 +279,15 @@
             </b-card>
           </b-card-group>
           <div v-if="this.projectedOptionalGradStatus">
-            <div v-for="optionalProgram in this.projectedOptionalGradStatus" :key="optionalProgram.specialProgramCode">
-            <h3 class="specialProgramName">{{ optionalProgram.specialProgramName }}</h3>
+            <div v-for="optionalProgram in this.projectedOptionalGradStatus" :key="optionalProgram.optionalProgramCode">
+            <h3 class="optionalProgramName">{{ optionalProgram.optionalProgramName }}</h3>
             <b-card-group deck >           
               <b-card
                 header="Requirements met"
               >
                 <b-card-text>
                   <b-table small 
-                          :items="optionalProgram.studentSpecialProgramData.optionalRequirementsMet" 
+                          :items="optionalProgram.studentOptionalProgramData.optionalRequirementsMet" 
                           :fields='[{ key: "rule",label: "Rule",class:"px-0 py-2"},{key: "description",label: "Description",class:"px-0 py-2"}]'
                   >               
                   </b-table>
@@ -313,10 +296,10 @@
               <b-card
                 header="Requirements not met"
               >
-                <div v-if="optionalProgram.studentSpecialProgramData.specialNonGradReasons">
+                <div v-if="optionalProgram.studentOptionalProgramData.optionalNonGradReasons">
                   <b-card-text>
                     <b-table small 
-                            :items="optionalProgram.studentSpecialProgramData.specialNonGradReasons"
+                            :items="optionalProgram.studentOptionalProgramData.optionalNonGradReasons"
                     >
                     </b-table>
                   </b-card-text>
@@ -457,7 +440,7 @@
         studentId: "getStudentId",
         studentInfo: "getStudentProfile",
         studentNotes: "getStudentNotes",
-        optionalPrograms: "getStudentSpecialPrograms",    
+        optionalPrograms: "getStudentOptionalPrograms",    
         ungradReasons: "getUngradReasons",      
         studentUngradReasons: "getStudentUngradReasons",
       }),
@@ -637,7 +620,7 @@
           this.projectedGradStatus = JSON.parse(response.data.graduationStudentRecord.studentGradData);
           this.projectedOptionalGradStatus = response.data.studentOptionalProgram;
           for (let i = 0; i < this.projectedOptionalGradStatus.length; i++) {
-            this.projectedOptionalGradStatus[i].studentSpecialProgramData = JSON.parse(this.projectedOptionalGradStatus[i].studentSpecialProgramData);
+            this.projectedOptionalGradStatus[i].studentOptionalProgramData = JSON.parse(this.projectedOptionalGradStatus[i].studentOptionalProgramData);
           } 
           this.$refs['projectedGradStatusWithFinalMarks'].show();
           this.tabLoading = false; 
@@ -660,7 +643,7 @@
           this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStudentRecord.studentGradData);
           this.projectedOptionalGradStatus = response.data.studentOptionalProgram;
           for (let i = 0; i < this.projectedOptionalGradStatus.length; i++) {
-            this.projectedOptionalGradStatus[i].studentSpecialProgramData = JSON.parse(this.projectedOptionalGradStatus[i].studentSpecialProgramData);
+            this.projectedOptionalGradStatus[i].studentOptionalProgramData = JSON.parse(this.projectedOptionalGradStatus[i].studentOptionalProgramData);
           } 
           this.projectedrequirementsMet = this.projectedGradStatus.requirementsMet;
           this.$refs['projectedGradStatusWithFinalAndReg'].show();
@@ -731,9 +714,9 @@
             });
           }
         });
-        StudentService.getGraduationStatusSpecialPrograms(studentIdFromURL, this.token).then(
+        StudentService.getGraduationStatusOptionalPrograms(studentIdFromURL, this.token).then(
           (response) => {
-            this.$store.dispatch("setStudentGradStatusSpecialPrograms", response.data);
+            this.$store.dispatch("setStudentGradStatusOptionalPrograms", response.data);
         }
         ).catch((error) => {
           if(error.response.status){
@@ -927,7 +910,7 @@
     position:absolute;
     right: 50px;
   }
-  .specialProgramName{
+  .optionalProgramName{
     margin-top: 1rem;
   }
   

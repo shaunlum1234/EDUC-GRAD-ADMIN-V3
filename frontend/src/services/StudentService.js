@@ -32,9 +32,9 @@ export default {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         return apiClient.get('/api/v1/student/studentid/' + id,{ headers });
     },
-    getGraduationStatusSpecialPrograms(id, token){
+    getGraduationStatusOptionalPrograms(id, token){
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/student/specialprogram/studentid/' + id,{ headers });
+        return apiClient.get('/api/v1/student/optionalprogram/studentid/' + id,{ headers });
     },
     editGraduationStatus(id, token, json) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
