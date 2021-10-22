@@ -32,6 +32,8 @@
         </div>
       </div>
     </div>
+
+    <hr>
     <h3>Optional program change history</h3>
     <!-- Optional Program history -->
     <div class="col-12" v-for="(value, index) in optionalProgramChangeHistory.slice().reverse()" :key="value.historyID">

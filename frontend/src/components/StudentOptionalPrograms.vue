@@ -68,7 +68,7 @@
             <i class="fas fa-sm fa-caret-down"></i>
           </b-btn>
         </template>
-        <template #row-details="row">   
+        <template #row-details="">   
           <b-card class="px-0">
             <strong>Career Programs</strong><hr/>
             <ul id="student-career-programs">
