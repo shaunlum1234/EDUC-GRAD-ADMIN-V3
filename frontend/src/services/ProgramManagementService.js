@@ -32,7 +32,7 @@ export default {
         //console.log("TOKEN IN SERVICE getProgramRule: " + token);
         return apiClient.get('/api/v1/program/programrules?programCode=' + programCode,{ headers })
     },
-    getAllSpecialProgramRules(token) {
+    getAllOptionalProgramRules(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         return apiClient.get('/api/v1/program/alloptionalprogramrules',{ headers })
     },

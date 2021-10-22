@@ -50,7 +50,7 @@
               && v.pathTo != 'historyId'
               && v.pathTo != 'studentOptionalProgramId'
               && v.pathTo != 'optionalProgramID'
-              && v.pathTo != 'studentSpecialProgramData'
+              && v.pathTo != 'studentOptionalProgramData'
               && v.pathTo != 'activityCode'
               && v.pathTo != 'recalculateGradStatus'
               ">

@@ -251,7 +251,7 @@
           console.log(error.response.status);
         });
       },   
-       // Special Programs
+       // Optional Programs
        createOptionalProgram({state}, payload) {
         ProgramManagementService.createOptionalProgram(payload, state.token).then(
           (response) => {
@@ -274,9 +274,9 @@
           console.log(error.response.status);
         });
       },   
-      updateSpecialProgram({state}, payload) {
+      updateOptionalProgram({state}, payload) {
         
-        ProgramManagementService.updateSpecialProgram(payload, state.token).then(
+        ProgramManagementService.updateOptionalProgram(payload, state.token).then(
           (response) => {
             // eslint-disable-next-line
             console.log(response);

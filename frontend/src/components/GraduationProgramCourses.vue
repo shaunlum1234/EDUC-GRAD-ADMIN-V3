@@ -43,7 +43,7 @@ export default {
       category: "",
       ruleName: "",
       programCode:"",
-      isSpecialProgram: "",
+      isOptionalProgram: "",
       graduationProgramRuleCourses: [],
       fields: [],
       courseFields: [
@@ -88,7 +88,7 @@ export default {
     this.category = this.$route.params.category;
     this.ruleName = this.$route.params.ruleName;
     this.programCode = this.$route.params.programCode;
-    this.isSpecialProgram = this.$route.params.isSpecialProgram;
+    this.isOptionalProgram = this.$route.params.isOptionalProgram;
     if (this.$route.params.category == "A") {
       AssessmentService.getRuleCourseRequirements(
         this.$route.params.rule,
