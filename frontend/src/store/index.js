@@ -303,7 +303,6 @@
       updateStudentAuditHistory({commit,state}){
         StudentService.getStudentHistory(state.student.profile.studentID, state.token).then(
             (response) => {
-              console.log("updating history")
               commit('setStudentAuditHistory', response.data);
             }
         ).catch((error) => {
