@@ -37,7 +37,7 @@ export default {
 
     return {
       letterGrades: [],
-      toFilterItem:['grade','gpaMarkValue','passFlag','description'],
+      toFilterItem:['grade','percentRangeHigh','percentRangeLow','gpaMarkValue','passFlag','description'],
       letterGradesFields: [
         {
           key: 'grade',

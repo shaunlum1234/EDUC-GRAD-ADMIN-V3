@@ -26,7 +26,7 @@
                   >
                     [.*]
                     </div>
-                  <b-input v-model="search.mincode.value" placeholder="" id="mincode"/>
+                  <b-input v-model="search.mincode.value" v-on:keyup="keyHandler" placeholder="" id="mincode"/>
                   
                 </b-col>
                 <b-col>
@@ -38,7 +38,7 @@
                   >
                     [.*]
                   </div>
-                  <b-input v-model="search.schoolName.value" placeholder="" id="schoolName"/>
+                  <b-input v-model="search.schoolName.value" v-on:keyup="keyHandler" placeholder="" id="schoolName"/>
                 </b-col>
               </b-row>
               <b-row class="p-3">
@@ -284,9 +284,13 @@ mapGetters
       this.showNotification = sharedMethods.showNotification
     },
     methods: {
+      keyHandler: function (e) {
+      if (e.keyCode === 13) {
+        //enter key pressed
+        this.advancedSchoolSearch();
+      }
+    },
       updateSignature(){
-
-
       },
       onFileChange(e) {
         const file = e.target.files[0];
