@@ -1,7 +1,7 @@
 <template>
   <div>
   <h1>Programs</h1>
-  <p> Manage programs settings (Admin Access Required)</p>
+  <p> Manage programs settings</p>
 
 
 <div>
