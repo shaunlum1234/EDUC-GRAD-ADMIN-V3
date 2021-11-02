@@ -52,14 +52,23 @@ Vue.use(ToastPlugin);
 
 //Date time filter
 Vue.filter('formatTime', function(value) {
-  var date = new Date(value);
-  date.toLocaleString('en-US', { timeZone: 'America/New_York' });
-  return date.toString();
+  if(value){
+    var date = new Date(value);
+    date.toLocaleString('en-US', { timeZone: 'America/New_York' });
+    return date.toString();  
+  }else{
+    return "";
+  }
+  
 });
 //Format simple Date
 Vue.filter('formatSimpleDate', function(value) {
-  var date = new Date(value);
-  return date.toISOString().split('T')[0];
+  if(value){
+    var date = new Date(value);
+    return date.toISOString().split('T')[0];
+  }else{
+    return "";
+  }
 });
 
 Vue.filter('formatSetenceCase', function(value) {
