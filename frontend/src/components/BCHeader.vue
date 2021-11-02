@@ -39,10 +39,10 @@
       <div class="navbar-collapse collapse" id="navbarColor01" style="">
         <ul class="navbar-nav mr-auto">
           <li>
-            <!-- <router-link to="/">Select Student</router-link> -->
-            <a class="nav-link" @click="selectStudent()"
+            <router-link to="/">Select Student</router-link>
+            <!-- <a class="nav-link" @click="selectStudent()"
               >Student search</a
-            >
+            > -->
           </li>
           <li>
             <router-link to="/admin-graduation-programs">Programs</router-link>
@@ -70,10 +70,10 @@
       <div class="container">
         <ul>
           <li>
-            <!-- <router-link to="/">Select Student</router-link> -->
-            <a class="nav-link" @click="selectStudent()"
+            <router-link to="/">Select Student</router-link>
+            <!-- <a class="nav-link" @click="selectStudent()"
               >Student search</a
-            >
+            > -->
           </li>
           <li>
             <router-link to="/admin-graduation-programs"
