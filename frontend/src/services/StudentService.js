@@ -26,7 +26,7 @@ export default {
                 }
             }
         }
-        return apiClient.get('/api/v1/student/gradstudentsearch?' + queryString,{ headers }); 
+        return apiClient.get('/api/v1/student/gradstudentsearch?' + queryString,{ headers },{timeout:600}); 
     },  
     getGraduationStatus(id, token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
