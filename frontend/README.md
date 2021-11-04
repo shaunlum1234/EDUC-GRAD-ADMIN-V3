@@ -3,8 +3,9 @@ Admin UI for Graduation Records and Assessment Data (GRAD)
 
 [![img](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
 Requirements
-npm v12.22.1
-node v7.12.1
+
+npm v7.12.1
+node v12.22.1 
 
 INSTALL
 add .env file
