@@ -324,9 +324,7 @@ mapGetters
           }).catch((error) => {
             this.searchLoading = false;
             this.searchMessage = "School cannnot be found.";
-            this.showNotification("danger", "There was an error with the web service.");
-            // eslint-disable-next-line
-            console.log('There was an error searching School information to GRAD Status:' + error.response);
+            this.showNotification("danger", "There was an error with the web service." + error.response);
           });  
         }
       },
