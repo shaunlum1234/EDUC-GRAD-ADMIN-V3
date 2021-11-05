@@ -318,6 +318,9 @@ mapGetters
             this.schools = res.data;
             this.searchLoading = false;
             this.totalResults = this.schools.length;
+            if(this.schools.length == 0){
+              this.searchMessage = "School cannnot be found.";
+            }
           }).catch((error) => {
             this.searchLoading = false;
             this.searchMessage = "School cannnot be found.";
