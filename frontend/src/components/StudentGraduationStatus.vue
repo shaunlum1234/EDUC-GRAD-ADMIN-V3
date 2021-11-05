@@ -216,7 +216,9 @@
                       <td><strong>School of record:</strong><br>
                         <div v-if="schoolOfRecordMissing" class="form-validation-message text-warning" >School of record is empty&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                         <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                        <div v-if="schoolNotFoundWarning" class="form-validation-message text-danger" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>                      
+                        <div v-if="schoolNotFoundWarning" class="form-validation-message text-danger" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                        <div v-if="schoolOfRecordInputWarning" class="form-validation-message text-danger" >Please enter at least 8 digits&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                        <div v-if="schoolFound" class="form-validation-message text-success" >{{editedGradStatus.schoolName}} found.</div>                      
                       </td>
                       <td><b-input :disabled="disableInput" size="sm" type="text" maxlength="8" minength="8" v-model='editedGradStatus.schoolOfRecord'></b-input></td>                  
                   </tr>
@@ -266,7 +268,9 @@
                       <td><strong>School at graduation:</strong><br>
                       <div v-if="schoolAtGraduationWarning" class="form-validation-message text-warning" >School at graduation entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                       <div v-if="schoolAtGradProgramCompletionDateMessage" class="form-validation-message text-danger" >If program completion date is not blank, school at graduation cannot be blank&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                        <div v-if="schoolAtGraduationNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                      <div v-if="schoolAtGraduationNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                      <div v-if="schoolAtGraduationInputWarning" class="form-validation-message text-danger" >Please enter at least 8 digits&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                      <div v-if="schoolAtGraduationFound" class="form-validation-message text-success" >{{editedGradStatus.schoolAtGradName}} found.</div> 
                         </td>
                       <td><b-input :disabled="disableSchoolAtGrad" size="sm" type="text" maxlength="8" v-model='editedGradStatus.schoolAtGrad'></b-input></td>        
                     </tr>        
@@ -482,11 +486,15 @@ export default {
       schoolOfRecordMissing: false,
       schoolOfRecordWarning: false,
       schoolNotFoundWarning: false,
+      schoolOfRecordInputWarning: false,
+      schoolFound: false,
       schoolAtGradProgramCompletionDateMessage: false,
       schoolAtGraduation: "",
       schoolAtGraduationStatus:"",
       schoolAtGraduationWarning: false,
       schoolAtGraduationNotFoundWarning:false,
+      schoolAtGraduationInputWarning:false,
+      schoolAtGraduationFound: false,
       programDropdownList: [],
       editedGradStatus: {},
       studentUngradReason: "",
@@ -598,8 +606,8 @@ export default {
       }
     },
     schoolOfRecordChange:function(){
-
       //changed due to GRADT-25
+
       if (this.editedGradStatus.schoolOfRecord.length == ""){
         this.disableButton = true;
       }else {
@@ -609,17 +617,22 @@ export default {
       if (this.editedGradStatus.schoolOfRecord.length < 8){
           this.schoolOfRecordWarning = false;
           this.schoolNotFoundWarning = false;
+          this.schoolOfRecordInputWarning = true;
           return;
       }
       if(this.editedGradStatus.schoolOfRecord == this.studentGradStatus.schoolOfRecord){  
       this.schoolOfRecordWarning = false;
       this.schoolNotFoundWarning = false;
+      this.schoolOfRecordInputWarning = false;
+      this.schoolFound = false;
       } else {
         if(this.editedGradStatus.schoolOfRecord.length == 8) {
+          this.schoolNotFoundWarning = false;
+          this.schoolOfRecordWarning = false;
+          this.schoolOfRecordInputWarning = false;
+          this.schoolFound = false;
           SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord, this.token)
           .then((response) => {
-            this.schoolNotFoundWarning = false;
-            this.schoolOfRecordWarning = false;
             this.schoolOfRecordStatus = response.data.openFlag
             if(response.statusText == "No Content"){
               this.schoolNotFoundWarning = true;
@@ -628,6 +641,7 @@ export default {
               if(this.schoolOfRecordStatus == "N"){
                 this.schoolOfRecordWarning = true;
               }
+              this.schoolFound = true;
               this.editedGradStatus.schoolName = response.data.schoolName;
             }    
           })
@@ -658,17 +672,25 @@ export default {
       if(this.editedGradStatus.schoolAtGrad && this.editedGradStatus.schoolAtGrad.length < 8){
         this.schoolAtGraduationWarning = false;
         this.schoolAtGraduationNotFoundWarning = false;
+        this.schoolAtGraduationInputWarning = true;
+        this.schoolAtGraduationFound= false;
         return;
+      }else{
+        this.schoolAtGraduationInputWarning = false;
       }      
       if(this.editedGradStatus.schoolAtGrad == this.studentGradStatus.schoolAtGrad){  
         this.schoolAtGraduationWarning = false;
         this.schoolAtGraduationNotFoundWarning = false;
+        this.schoolAtGraduationInputWarning = false;
+        this.schoolAtGraduationFound= false;
       }else{
          if(this.editedGradStatus.schoolAtGrad.length == 8) {
+          this.schoolAtGraduationNotFoundWarning = false;  
+          this.schoolAtGraduationWarning = false;
+          this.schoolAtGraduationInputWarning = false;
+          this.schoolAtGraduationFound= false;
           SchoolService.getSchoolInfo(this.editedGradStatus.schoolAtGrad, this.token)
-          .then((response) => {
-            this.schoolAtGraduationNotFoundWarning = false;  
-            this.schoolAtGraduationWarning = false;
+          .then((response) => {         
             this.schoolAtGraduationStatus = response.data.openFlag
             if(response.statusText == "No Content"){
               this.schoolAtGraduationNotFoundWarning = true;
@@ -678,6 +700,7 @@ export default {
                 this.schoolAtGraduationWarning = true;
                 //this.showNotification("warning", "School at graduation closed");
               }
+              this.schoolAtGraduationFound= true;
               this.editedGradStatus.schoolAtGradName = response.data.schoolName;
             }
           })
@@ -686,7 +709,7 @@ export default {
             console.log("There was an error:" + error.response);
           });
         } else {
-          this.schoolAtGraduationNotFoundWarning = true;
+          this.schoolAtGraduationInputWarning = true;
         }
       } 
     }  
