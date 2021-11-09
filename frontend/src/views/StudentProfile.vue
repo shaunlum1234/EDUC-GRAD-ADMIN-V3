@@ -101,7 +101,7 @@
                   <div class="mb-2 row">
                     <div class="col-12 col-md-4 m-0 p-0">
                       <b-button class="mx-2" v-on:click="gradTab ='gradStatus'" size="sm" :variant="gradTab == 'gradStatus'? 'primary':'outline-secondary'">GRAD Status</b-button>
-                      <b-button class="mr-2" v-on:click="gradTab ='gradCourses'" size="sm" :variant="gradTab == 'gradCourses'? 'primary':'outline-secondary'">Requirement Details</b-button>
+                      <b-button class="mr-2" :disabled="!gradCourses" v-on:click="gradTab ='gradCourses'" size="sm" :variant="gradTab == 'gradCourses'? 'primary':'outline-secondary'">Requirement Details</b-button>
                     </div>
                     <div class="col-12 col-md-8 text-right"><strong>Updated:</strong> {{ studentGradStatus.updateDate|formatTime }} by {{ studentGradStatus.updateUser }}</div>
 
