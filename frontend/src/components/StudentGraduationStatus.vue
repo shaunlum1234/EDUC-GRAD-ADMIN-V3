@@ -2,7 +2,9 @@
 
   <div>
     <div class="row">
-{{editedGradStatus.program}}
+      <!-- {{programCompletionEffectiveDateList}}<br>
+      effective:{{programEffectiveDate}}<br>
+      expire:{{programExpiryDate}}<br> -->
       <div class="col-12 m-0 p-2">
         <b-card  header="Graduation Information" class="col-12 p-0" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
