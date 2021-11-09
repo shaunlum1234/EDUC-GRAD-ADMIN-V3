@@ -80,11 +80,8 @@
       },
       setStudentStatusCodesOptions(state, payload){
         
-        let studentCodes = payload;
-        let i=0;
-         for(i=0; i < studentCodes.length; i++){
-           state.applicationVariables.studentStatusOptions.push({"value": studentCodes[i].code, "text":studentCodes[i].description});
-         }         
+        state.applicationVariables.studentStatusOptions = payload;
+     
       },
       setUngradReasons(state, payload){
         state.applicationVariables.ungradReasons = payload;

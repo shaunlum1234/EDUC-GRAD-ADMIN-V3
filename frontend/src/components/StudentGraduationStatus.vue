@@ -5,7 +5,7 @@
       <!-- {{programCompletionEffectiveDateList}}<br>
       effective:{{programEffectiveDate}}<br>
       expire:{{programExpiryDate}}<br> -->
-      
+      {{studentStatusOptions}}
       <div class="col-12 m-0 p-2">
         <b-card  header="Graduation Information" class="col-12 p-0" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
@@ -142,6 +142,8 @@
                         size="sm"
                         v-model="editedGradStatus.studentStatus"
                         :options="studentStatusOptions"
+                        value-field="code"
+                        text-field="label"
                         :disabled="disableStudentStatus"
                       ></b-form-select>
                     </td>
