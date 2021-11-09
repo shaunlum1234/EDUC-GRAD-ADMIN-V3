@@ -2,10 +2,7 @@
 
   <div>
     <div class="row">
-      <!-- {{programCompletionEffectiveDateList}}<br>
-      effective:{{programEffectiveDate}}<br>
-      expire:{{programExpiryDate}}<br> -->
-      {{studentStatusOptions}}
+{{editedGradStatus.program}}
       <div class="col-12 m-0 p-2">
         <b-card  header="Graduation Information" class="col-12 p-0" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
@@ -129,7 +126,7 @@
                       <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
                     </td>
                     <td v-if="editedGradStatus.program != 'SCCP'"><b-input :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="7" @keyup="dateFormatYYYYMM()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
-                    <td v-if="editedGradStatus.program == 'SCCP'"><b-input :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="10" @keyup="dateFormatYYYYMMDD()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                    <td v-if="editedGradStatus.program == 'SCCP'"><b-input  size="sm" type="text" maxLength="10" @keyup="dateFormatYYYYMMDD()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                   </tr>
                   
                   <tr v-if="!showEdit">
