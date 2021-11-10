@@ -421,7 +421,8 @@ import { mapGetters } from "vuex";
 import GraduationCommonService from "@/services/GraduationCommonService.js";
 import GraduationService from "@/services/GraduationService.js";
 import SchoolService from "@/services/SchoolService.js";
-import StudentService from "@/services/StudentService.js"
+import StudentService from "@/services/StudentService.js";
+import sharedMethods from '../sharedMethods';
 
 export default {
   name: "StudentGraduationStatus",
@@ -521,6 +522,7 @@ export default {
   created() {
     this.programDropdownList = this.$store.dispatch("getGraduationPrograms");
     this.disableButton = false;
+    this.showNotification = sharedMethods.showNotification;
   },
   mounted(){
   },
@@ -647,8 +649,7 @@ export default {
             }    
           })
           .catch((error) => {
-            // eslint-disable-next-line
-            console.log("There was an error:" + error.response);
+            this.showNotification("danger", error.response);
           });
         } else {
             this.schoolNotFoundWarning = true;
@@ -706,8 +707,7 @@ export default {
             }
           })
           .catch((error) => {
-            // eslint-disable-next-line
-            console.log("There was an error:" + error.response);
+            this.showNotification("danger", error.response);        
           });
         } else {
           this.schoolAtGraduationInputWarning = true;
@@ -727,38 +727,35 @@ export default {
     getStudentStatus(code) {
       var i = 0;
       for (i = 0; i <= this.studentStatusOptions.length; i++) {
-        if (this.studentStatusOptions[i].value == code) {
-          return this.studentStatusOptions[i].text;
+        if (this.studentStatusOptions[i].code == code) {
+          return this.studentStatusOptions[i].label;
         }
       }
       return "";
     },
-    showNotification(variant = null, bodyContent) {
-      let title = variant;
-      let delay = 30000;
-      if(title == "success"){
-        title ="success";
-        delay = 5000;
-      }else if(title == "danger"){
-        title ="Error";
-      }else if(title == "warning"){
-        title ="Warning";
-      }
-      this.$bvToast.toast(bodyContent, {
-        title: title,
-        variant: variant,
-        solid: true,
-        autoHideDelay: delay,
-      });
+    // showNotification(variant = null, bodyContent) {
+    //   let title = variant;
+    //   let delay = 30000;
+    //   if(title == "success"){
+    //     title ="success";
+    //     delay = 5000;
+    //   }else if(title == "danger"){
+    //     title ="Error";
+    //   }else if(title == "warning"){
+    //     title ="Warning";
+    //   }
+    //   this.$bvToast.toast(bodyContent, {
+    //     title: title,
+    //     variant: variant,
+    //     solid: true,
+    //     autoHideDelay: delay,
+    //   });
 
-    },
+    // },
     reactivateStudentRecord(){
         this.editedGradStatus.studentStatus = "A";
         this.saveGraduationStatus(this.studentId);
-        this.showNotification(
-               "success",
-               "Student Record re-activated."
-        );
+        this.showNotification("success", "Student Record re-activated.");
     },
     editGradStatus() {
       //If the student has a programCompletionDate disable input fields
@@ -840,13 +837,10 @@ export default {
         this.showNotification("success", "GRAD Status Saved");      
       })
       .catch((error) => {
-        // eslint-disable-next-line
-        console.log(error.response);
         this.showNotification(
           "danger",
           "There was an error: " + error.response.data.messages[0].message
         );
-        //console.log('There was an error:' + error.response);
       });
     },
     saveGraduationStatus(id) {
@@ -911,10 +905,10 @@ export default {
           this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("-", "/").substring(0, 7);
         }         
         // eslint-disable-next-line
-        console.log(error.response);
+        console.log(error);
         this.showNotification(
           "danger",
-          "There was an error: " + error.response.data.messages[0].message
+          "There was an error: " + error
         );
 
         //console.log('There was an error:' + error.response);
