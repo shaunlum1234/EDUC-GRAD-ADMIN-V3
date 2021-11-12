@@ -6,7 +6,7 @@
       <div>
         <b-card no-body class="p-0">
           <b-tabs card>
-            <b-tab title="PEN search" active>
+            <b-tab id="search-tab" title="PEN search" active>
               <b-card-text>        
                 <form v-on:submit.prevent>
                   <div class="form-group">
@@ -16,15 +16,15 @@
                         <b-form-input id="search-by-pen" type="search" maxlength=9 minlength=9 v-model="penInput" placeholder=""
                          ref="penSearch" v-on:keyup="keyHandler" tabindex="1" class="w-50 float-left">
                         </b-form-input>
-                        <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary ml-2 float-left">
+                        <button id="search-submit" v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary ml-2 float-left">
                           <i class="fas fa-search"></i> Search
                         </button>
-                        <button v-if="searchLoading" class=" btn btn-success ml-2 float-left">
+                        <button id="search-submit"  v-if="searchLoading" class=" btn btn-success ml-2 float-left">
                           <i class="fas fa-search"></i> Search  
                         </button>  
                         &nbsp;&nbsp;<b-spinner v-if="searchLoading" label="Loading">Loading</b-spinner>    
                     </div>
-                    <div class="search-results-message my-4 float-left"><strong><span v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
+                    <div class="search-results-message my-4 float-left"><strong><span id="search-results-message" v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
                     <div class="my-4 pl-2 float-left"><a v-if="studentHasProgram == false" href="#" > PEN Student Inquiry.</a></div> 
                   </div>
                 </form>
@@ -64,7 +64,7 @@
               </b-card-text>
             </b-tab>
 
-            <b-tab title="Advanced search">
+            <b-tab id="advanced-search-tab" title="Advanced search">
               <b-card-text>
                 <form v-on:submit.prevent>
                   <!-- advanced Search -->
@@ -78,7 +78,7 @@
                           v-b-tooltip.hover title="Legal surname starts with">
                           [.*]
                         </div>
-                        <b-input class="form__input" v-model="advancedSearchInput.legalLastName.value" placeholder=""
+                        <b-input id="legal-surname-input" class="form__input" v-model="advancedSearchInput.legalLastName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="1" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-2">
@@ -89,7 +89,7 @@
                           v-b-tooltip.hover title="Legal given starts with">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.legalFirstName.value" placeholder=""
+                        <b-input id="legal-given-input" v-model="advancedSearchInput.legalFirstName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="2" />
                       </div>
                       
@@ -101,12 +101,12 @@
                           class="wild-card-button" v-b-tooltip.hover title="Legal middle starts with">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.legalMiddleNames.value" placeholder=""
+                        <b-input id="legal-middle-input" v-model="advancedSearchInput.legalMiddleNames.value" placeholder=""
                           v-on:keyup=" keyHandler" tabindex="3" />
                       </div>
                       <div class="advanced-search-field  col-12 col-md-2">
                         <label>Gender</label>
-                         <b-form-select v-model="advancedSearchInput.gender.value" :options="genderOptions" tabindex="4"></b-form-select>  
+                         <b-form-select id="gender-select" v-model="advancedSearchInput.gender.value" :options="genderOptions" tabindex="4"></b-form-select>  
                       </div>
                       <div
                         class="form-group advanced-search-field col-12 col-md-2"
@@ -184,7 +184,7 @@
                           v-b-tooltip.hover title="Usual surname starts with">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.usualLastName.value" placeholder=""
+                        <b-input id="usual-surname-input" v-model="advancedSearchInput.usualLastName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="7" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-2">
@@ -195,7 +195,7 @@
                           v-b-tooltip.hover title="Usual given starts with">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.usualFirstName.value" placeholder=""
+                        <b-input id="usual-given-input" v-model="advancedSearchInput.usualFirstName.value" placeholder=""
                           v-on:keyup="keyHandler" tabindex="8" />
                       </div>
                       <div class="advanced-search-field col-12 col-md-2">
@@ -206,7 +206,7 @@
                           class="wild-card-button" v-b-tooltip.hover title="Usual middle starts with">
                           [.*]
                         </div>
-                        <b-input v-model="advancedSearchInput.usualMiddleNames.value" placeholder=""
+                        <b-input id="usual-middle-input" v-model="advancedSearchInput.usualMiddleNames.value" placeholder=""
                           v-on:keyup=" keyHandler" tabindex="9" />
                       </div> 
                       <!-- <div class="advanced-search-field form-group col-12 col-md-2" :class="{ 'form-group--error': $v.advancedSearchInput.mincode.value.$error }">
@@ -217,21 +217,21 @@
                       </div>    -->                        
                       <div class="advanced-search-field col-12 col-md-2">
                         <label>Local ID</label>
-                        <b-input v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
+                        <b-input id="local-id-input" v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
                           tabindex="10" />
                       </div>
                     </div>
                     <div class="row">                              
                       <div class="advanced-search-button">
-                        <button @click="findStudentsByAdvancedSearch()" v-if="!advancedSearchLoading" :class="!this.$v.$invalid?'btn btn-primary':'btn btn-secondary'" tabindex="12">Search</button>
-                        <button @click="findStudentsByAdvancedSearch()" v-if="advancedSearchLoading" class="btn btn-success" tabindex="12">Search</button>
-                        <button @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>   
+                        <button id="adv-search-submit" @click="findStudentsByAdvancedSearch()" v-if="!advancedSearchLoading" :class="!this.$v.$invalid?'btn btn-primary':'btn btn-secondary'" tabindex="12">Search</button>
+                        <button id="adv-search-submit" @click="findStudentsByAdvancedSearch()" v-if="advancedSearchLoading" class="btn btn-success" tabindex="12">Search</button>
+                        <button id="adv-search-reset-button" @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>   
                         &nbsp;&nbsp;<b-spinner v-if="advancedSearchLoading" label="Loading">Loading</b-spinner>             
                       </div>
                     </div>
                   </div>
                   <div v-if="studentSearchResults" class="row">
-                    <div class="search-results-message my-4 col-12 col-md-8"><strong><span v-if="advancedSearchMessage">{{ advancedSearchMessage }} {{advancedSearchAPIMessage}}</span></strong></div>
+                    <div class="search-results-message my-4 col-12 col-md-8"><strong><span id="adv-search-results-message" v-if="advancedSearchMessage">{{ advancedSearchMessage }} {{advancedSearchAPIMessage}}</span></strong></div>
                     <div class="results-option-group col-12 col-md-4">
                       <label v-if="totalPages > 1">Results per page</label>
                       <b-form-select class="results-option" v-if="totalPages > 1" @change="findStudentsByAdvancedSearch()" v-model="resultsPerPage" :options="resultsPerPageOptions" :value="resultsPerPage"></b-form-select>
