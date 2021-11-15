@@ -38,8 +38,6 @@
         careerPrograms: [],
         auditHistory:[],
         auditHistoryOptionalPrograms:[],
-        
-        
       },
       applicationVariables:{
         programOptions:[],

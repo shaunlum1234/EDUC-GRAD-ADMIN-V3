@@ -61,7 +61,8 @@
               class="nav-link"
               >Logout</a
             >
-          </li>
+            </li>
+
         </ul>
         <!-- <div class="float:right"><slot></slot></div> -->
       </div>
@@ -107,7 +108,9 @@
               </div>
             </form>
           </li>
-
+          <li class="nav-item">
+            <a href="#" @click="logout" class="nav-link">Logout2</a>            
+          </li>
         </ul>     
       </div>
     </nav>
@@ -116,7 +119,7 @@
 </template>
 
 <script>
-import LoginService from "@/services/LoginService.js";
+
 import StudentService from "@/services/StudentService.js";
 import sharedMethods from '../sharedMethods';
 import { mapGetters } from "vuex";
@@ -143,7 +146,13 @@ export default {
   },
   methods: {
     logout() {
-      LoginService.logout();
+      //LoginService.logout();
+
+        if (localStorage.getItem('jwt') != null){
+
+            localStorage.removeItem('jwt');
+            localStorage.removeItem('refresh');
+        }         
       this.$store.commit("unsetStudent");
       this.$router.push("logout");
     },

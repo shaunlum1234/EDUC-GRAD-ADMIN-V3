@@ -33,6 +33,7 @@ export default {
     // },
     logout() {
         if (localStorage.getItem('jwt') != null){
+
             localStorage.removeItem('jwt');
             localStorage.removeItem('refresh');
         }         
