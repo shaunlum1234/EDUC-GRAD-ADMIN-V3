@@ -1,6 +1,6 @@
 import axios from "axios";
 const apiClient = axios.create({
-  baseURL: process.env.VUE_APP_BASE_URL,
+  baseURL: 'https://educ-grad-batch-graduation-api-77c02f-dev.apps.silver.devops.gov.bc.ca',
 });
 
 export default {
