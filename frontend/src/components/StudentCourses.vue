@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="table-responsive">
-      <DisplayTable :items="courses" v-bind:filterOn="toFilterItem" :fields="fields"  showFilter="true" title="studentCourse">
+      <div v-if="!courses" class="container">
+        This student does not have any courses.
+      </div> 
+      <DisplayTable v-if="courses" :items="courses" v-bind:filterOn="toFilterItem" :fields="fields"  showFilter="true" title="studentCourse">
         <template #thead-top="">
           <b-tr class="table-row-header-group">
             <b-th colspan="1" class="table-header-group text-center"></b-th>
