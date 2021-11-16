@@ -443,6 +443,7 @@
         optionalPrograms: "getStudentOptionalPrograms",    
         ungradReasons: "getUngradReasons",      
         studentUngradReasons: "getStudentUngradReasons",
+        gradCourses: "gradStatusCourses",
       }),
     },
     
