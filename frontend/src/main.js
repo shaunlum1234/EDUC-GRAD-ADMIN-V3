@@ -78,17 +78,16 @@ Vue.filter('formatSetenceCase', function(value) {
   return finalResult;
 });
 //keycloak init options
-const token = localStorage.getItem('jwt');
-const refreshToken = localStorage.getItem('refresh');
-console.log(token);
-console.log(refreshToken);
+let token = localStorage.getItem('jwt');
+let refreshToken = localStorage.getItem('refresh');
+
 
 let initOptions = {
-  url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', idpHint:'IDIR'
+  url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', idpHint:'IDIR', onLoad:'check-sso'
 }
 let keycloak = Keycloak(initOptions);
 
-keycloak.init({ token, refreshToken ,"checkLoginIframe" : false}).success((auth) =>{
+keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIframe" : false,  idpHint:'IDIR'}).success((auth) =>{
     
     if(auth) {
       store.dispatch("setToken",keycloak.token);
@@ -141,7 +140,7 @@ keycloak.init({ token, refreshToken ,"checkLoginIframe" : false}).success((auth)
             Vue.$log.error('Failed to refresh token');
             
         });
-      }, 60000)      
+      }, 10000)      
         
     } else {
       keycloak.login({idpHint:'IDIR'});

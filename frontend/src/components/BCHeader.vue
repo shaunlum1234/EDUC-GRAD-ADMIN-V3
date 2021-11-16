@@ -108,9 +108,6 @@
               </div>
             </form>
           </li>
-          <li class="nav-item">
-            <a href="#" @click="logout" class="nav-link">Logout2</a>            
-          </li>
         </ul>     
       </div>
     </nav>
@@ -154,7 +151,8 @@ export default {
             localStorage.removeItem('refresh');
         }         
       this.$store.commit("unsetStudent");
-      this.$router.push("logout");
+      this.$store.commit("logout");
+      this.$router.push("/logout");
     },
     selectStudent() {
       this.$router.push("/");
