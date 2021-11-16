@@ -44,7 +44,6 @@
         studentStatusOptions:[],
         ungradReasons:[]
       },
-
     },
     mutations: {
       setStudentAuditHistory(state, payload){
@@ -173,7 +172,11 @@
       },
       setRoles(state, payload){
         state.roles = payload;
-      }
+      },
+      logout(state){
+        state.token ="";
+        state.refreshToke ="";
+      }      
     },
     actions: {
       
@@ -493,6 +496,9 @@
       getToken(state){
         return state.token;
       },
+      getRefreshToken(state){
+        return state.refreshToken;
+      },      
       getRoles(state){
         return state.roles;
       },

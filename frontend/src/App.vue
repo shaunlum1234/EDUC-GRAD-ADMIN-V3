@@ -19,7 +19,7 @@
         <a
           v-bind:href="
             'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' +
-            host
+            host + '?client_id=educ-grad-school-api-service'
           "
           class="float-right text-white"
           >Logout</a>
