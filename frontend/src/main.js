@@ -74,7 +74,7 @@ const refreshToken = localStorage.getItem('refresh');
 
 let initOptions;
 //THIS should be replaced with configmap env variables from each Openshift environment.
-if(window.location.host == 'localhost:8080' || window.location == 'dev.grad.gov.bc.ca' ){
+if(window.location.host == 'localhost:8080' || window.location.host == 'dev.grad.gov.bc.ca' ){
   //dev.grad.gov.bc.ca keycloak
   initOptions = {
     url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
