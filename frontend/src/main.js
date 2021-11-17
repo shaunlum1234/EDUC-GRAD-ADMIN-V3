@@ -79,13 +79,11 @@ if(window.location.host == 'localhost:8080' || window.location == 'dev.grad.gov.
   initOptions = {
     url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
   }
-  console.log(initOptions.url)
 }else if( window.location.host == 'test.grad.gov.bc.ca' ){
   //test.grad.gov.bc.ca keycloak
   initOptions = {
     url: 'https://soam-dev.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
   }
-  console.log(initOptions.url)
 }
 let keycloak = Keycloak(initOptions);
 keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIframe" : false}).success((auth) =>{
