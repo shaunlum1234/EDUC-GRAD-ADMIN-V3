@@ -52,14 +52,23 @@ Vue.use(ToastPlugin);
 
 //Date time filter
 Vue.filter('formatTime', function(value) {
-  var date = new Date(value);
-  date.toLocaleString('en-US', { timeZone: 'America/New_York' });
-  return date.toString();
+  if(value){
+    var date = new Date(value);
+    date.toLocaleString('en-US', { timeZone: 'America/New_York' });
+    return date.toString();  
+  }else{
+    return "";
+  }
+  
 });
 //Format simple Date
 Vue.filter('formatSimpleDate', function(value) {
-  var date = new Date(value);
-  return date.toISOString().split('T')[0];
+  if(value){
+    var date = new Date(value);
+    return date.toISOString().split('T')[0];
+  }else{
+    return "";
+  }
 });
 
 Vue.filter('formatSetenceCase', function(value) {
@@ -69,83 +78,90 @@ Vue.filter('formatSetenceCase', function(value) {
   return finalResult;
 });
 //keycloak init options
-const token = localStorage.getItem('jwt');
-const refreshToken = localStorage.getItem('refresh');
+let token = localStorage.getItem('jwt');
+let refreshToken = localStorage.getItem('refresh');
+
 
 let initOptions;
 //THIS should be replaced with configmap env variables from each Openshift environment.
+
 if(window.location.host == 'localhost:8080' || window.location.host == 'dev.grad.gov.bc.ca' ){
   //dev.grad.gov.bc.ca keycloak
   initOptions = {
-    url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
+    url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', idpHint:'IDIR', onLoad:'check-sso'
   }
 }else if( window.location.host == 'test.grad.gov.bc.ca' ){
   //test.grad.gov.bc.ca keycloak
   initOptions = {
-    url: 'https://soam-dev.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
+    url: 'https://soam-dev.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-test-service', onLoad:'login-required'
   }
 }
 let keycloak = Keycloak(initOptions);
-keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIframe" : false}).success((auth) =>{
+
+keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIframe" : false,  idpHint:'IDIR'}).success((auth) =>{
     
-    if(!auth) {
-      window.location.reload();
+    if(auth) {
+      store.dispatch("setToken",keycloak.token);
+      store.dispatch("setRefreshToken",keycloak.refreshToken);
+      store.dispatch("setPermissions",keycloak.tokenParsed.scope);
+      store.dispatch("setUsername",keycloak.tokenParsed.preferred_username);
+  
+  
+  //    fruits.includes("Mango");
+      if(keycloak.tokenParsed.realm_access.roles.includes("GRAD_SYSTEM_COORDINATOR")){
+        store.dispatch("setRoles","administrator");    
+      }else{
+        store.dispatch("setRoles","authenticated");    
+      }
+      new Vue({
+        router,
+        store,
+        render: h => h(App)
+      }).$mount('#app');
+  
+  
+      // TODO: Maybe dont store the token in the localstore, rather use it direct from the keycloak.token object
+      //localStorage.setItem("jwt", keycloak.token);
+      //localStorage.setItem("refresh", keycloak.refreshToken);
+  
+      //console.log(localStorage.getItem("jwt"));
+  //    console.log(keycloak.token);
+      setInterval(() =>{
+        keycloak.updateToken(70).success((refreshed)=>{
+          if (refreshed) {
+            Vue.$log.debug('Token refreshed');
+            // console.log(refreshed);
+            // console.log(refreshed.token);
+            // console.log(refreshed.refreshToken);
+            // console.log("NEW TOKEN" + keycloak.token);
+            // console.log("REFRESH TOKEN" + keycloak.refreshToken);
+            store.dispatch("setToken",keycloak.token);
+            store.dispatch("setRefreshToken",keycloak.refreshToken);
+            store.dispatch("setPermissions",keycloak.refreshToken.scope);
+            store.dispatch("setUsername",keycloak.refreshToken.preferred_username);
+            
+            
+            
+          } else {
+            Vue.$log.warn('Token not refreshed, valid for '
+            + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
+            
+          }
+        }).error(()=>{
+            Vue.$log.error('Failed to refresh token');
+            
+        });
+      }, 10000)      
+        
     } else {
-      Vue.$log.info("Authenticated");
+      if(window.location.host == 'localhost:8080' || window.location.host == 'dev.grad.gov.bc.ca' ){
+        keycloak.login({idpHint:'IDIR'});
+      }else if( window.location.host == 'test.grad.gov.bc.ca' ){
+        keycloak.login();
+      }      
+      
     }
-    store.dispatch("setToken",keycloak.token);
-    store.dispatch("setRefreshToken",keycloak.refreshToken);
-    store.dispatch("setPermissions",keycloak.tokenParsed.scope);
-    store.dispatch("setUsername",keycloak.tokenParsed.preferred_username);
-
-
-//    fruits.includes("Mango");
-    if(keycloak.tokenParsed.realm_access.roles.includes("GRAD_SYSTEM_COORDINATOR")){
-      store.dispatch("setRoles","administrator");    
-    }else{
-      store.dispatch("setRoles","authenticated");    
-    }
-    new Vue({
-      router,
-      store,
-      render: h => h(App)
-    }).$mount('#app');
-
-
-    // TODO: Maybe dont store the token in the localstore, rather use it direct from the keycloak.token object
-    //localStorage.setItem("jwt", keycloak.token);
-    //localStorage.setItem("refresh", keycloak.refreshToken);
-
-    //console.log(localStorage.getItem("jwt"));
-//    console.log(keycloak.token);
-    setInterval(() =>{
-      keycloak.updateToken(70).success((refreshed)=>{
-        if (refreshed) {
-          Vue.$log.debug('Token refreshed');
-          // console.log(refreshed);
-          // console.log(refreshed.token);
-          // console.log(refreshed.refreshToken);
-          // console.log("NEW TOKEN" + keycloak.token);
-          // console.log("REFRESH TOKEN" + keycloak.refreshToken);
-          store.dispatch("setToken",keycloak.token);
-          store.dispatch("setRefreshToken",keycloak.refreshToken);
-          store.dispatch("setPermissions",keycloak.refreshToken.scope);
-          store.dispatch("setUsername",keycloak.refreshToken.preferred_username);
-          
-          
-          
-        } else {
-          Vue.$log.warn('Token not refreshed, valid for '
-          + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
-          
-        }
-      }).error(()=>{
-          Vue.$log.error('Failed to refresh token');
-          
-      });
-
-
-    }, 60000)
+   
 
 }).error(() =>{
   Vue.$log.error("Authenticated Failed");
