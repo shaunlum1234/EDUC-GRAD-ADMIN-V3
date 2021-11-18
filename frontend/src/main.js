@@ -151,7 +151,7 @@ keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIfra
             Vue.$log.error('Failed to refresh token');
             
         });
-      }, 10000)      
+      }, 60000)      
         
     } else {
       if(window.location.host == 'localhost:8080' || window.location.host == 'dev.grad.gov.bc.ca' ){
