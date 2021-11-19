@@ -36,7 +36,7 @@
         header_upstream Host dev.grad.gov.bc.ca
     }
     proxy /api/v1/program {$VUE_APP_PROGRAM_API_HOST} {
-        header_upstream Host {$VUE_APP_PROGRAM_API_HOST}
+        header_upstream Host {host}
     }
     proxy /api/v1/gradstatus {$VUE_APP_GRADUATION_STATUS_API_HOST} {
         header_upstream Host dev.grad.gov.bc.ca
@@ -57,7 +57,7 @@
         header_upstream Host dev.grad.gov.bc.ca
     }
     proxy /api/v1/code {$VUE_APP_CODE_API_HOST} {
-        header_upstream Host {$VUE_APP_CODE_API_HOST}
+        header_upstream Host {host}
     }
     proxy /api/v1/ungrad {$VUE_APP_STUDENT_GRADUATION_API_HOST} {
         header_upstream Host dev.grad.gov.bc.ca
