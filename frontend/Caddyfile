@@ -18,16 +18,16 @@
     log stdout
 
     proxy /api/v1/student {$VUE_APP_STUDENTS_API_HOST} {
-        header_upstream Host dev.grad.gov.bc.ca
+        header_upstream Host https://educ-grad-student-api-77c02f-dev.apps.silver.devops.gov.bc.ca
     }
     proxy /api/v1/student/studentHistory/ {$VUE_APP_STUDENTS_API_HOST} {
-        header_upstream Host dev.grad.gov.bc.ca
+        header_upstream Host https://educ-grad-student-api-77c02f-dev.apps.silver.devops.gov.bc.ca
     }
     proxy /api/v1/student/studentOptionalProgramHistory/ {$VUE_APP_STUDENTS_API_HOST} {
-        header_upstream Host dev.grad.gov.bc.ca
+        header_upstream Host https://educ-grad-student-api-77c02f-dev.apps.silver.devops.gov.bc.ca
     }
     proxy /api/v1/studentassessment {$VUE_APP_ASSESSMENT_API_HOST} {
-        header_upstream Host dev.grad.gov.bc.ca
+        header_upstream Host https://educ-grad-assessment-api-77c02f-dev.apps.silver.devops.gov.bc.ca
     }
     proxy /api/v1/school {$VUE_APP_TRAX_API_HOST} {
         header_upstream Host dev.grad.gov.bc.ca
@@ -36,7 +36,7 @@
         header_upstream Host dev.grad.gov.bc.ca
     }
     proxy /api/v1/program {$VUE_APP_PROGRAM_API_HOST} {
-        header_upstream Host {host}
+        header_upstream Host educ-grad-program-api-77c02f-dev.apps.silver.devops.gov.bc.ca
     }
     proxy /api/v1/gradstatus {$VUE_APP_GRADUATION_STATUS_API_HOST} {
         header_upstream Host dev.grad.gov.bc.ca
@@ -57,7 +57,7 @@
         header_upstream Host dev.grad.gov.bc.ca
     }
     proxy /api/v1/code {$VUE_APP_CODE_API_HOST} {
-        header_upstream Host {host}
+        header_upstream Host educ-grad-program-api-77c02f-dev.apps.silver.devops.gov.bc.ca
     }
     proxy /api/v1/ungrad {$VUE_APP_STUDENT_GRADUATION_API_HOST} {
         header_upstream Host dev.grad.gov.bc.ca
