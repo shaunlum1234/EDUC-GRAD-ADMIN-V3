@@ -121,20 +121,10 @@ keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIfra
   
   
       // TODO: Maybe dont store the token in the localstore, rather use it direct from the keycloak.token object
-      //localStorage.setItem("jwt", keycloak.token);
-      //localStorage.setItem("refresh", keycloak.refreshToken);
-  
-      //console.log(localStorage.getItem("jwt"));
-  //    console.log(keycloak.token);
       setInterval(() =>{
         keycloak.updateToken(70).success((refreshed)=>{
           if (refreshed) {
             Vue.$log.debug('Token refreshed');
-            // console.log(refreshed);
-            // console.log(refreshed.token);
-            // console.log(refreshed.refreshToken);
-            // console.log("NEW TOKEN" + keycloak.token);
-            // console.log("REFRESH TOKEN" + keycloak.refreshToken);
             store.dispatch("setToken",keycloak.token);
             store.dispatch("setRefreshToken",keycloak.refreshToken);
             store.dispatch("setPermissions",keycloak.refreshToken.scope);
