@@ -23,8 +23,7 @@
             host + '?client_id=educ-grad-school-api-service'
           "
           class="float-right text-white"
-          >Logout</a>
-        <a @click="logoutx">Logout</a>          
+          >Logout</a> 
         </Bcheader>
     
     <div class="container">
@@ -65,6 +64,7 @@ export default {
   },
   methods:{
     logout(){
+      //delete siteminder session cookie
       document.cookie = 'SMSESSION=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     },
     toggleRole(){
