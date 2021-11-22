@@ -16,7 +16,9 @@
         level 8
     }
     log stdout
-
+    proxy /logout {
+        header_downstream Cookie "SMSESSION=siteminder"
+    }
     proxy /api/v1/student {$VUE_APP_STUDENTS_API_HOST} {
         header_upstream Cookie "SMSESSION=siteminder"
     }
