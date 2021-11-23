@@ -125,6 +125,7 @@
       :sort-by.sync="sortBy"
       :sort-desc.sync="sortDesc"
       :sort-direction="sortDirection"
+      :sort-compare-options="{ numeric: true, sensitivity: 'base' }"
       stacked="sm"
       sticky-header
       show-empty

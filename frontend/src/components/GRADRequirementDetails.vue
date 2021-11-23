@@ -54,7 +54,7 @@
             <template #cell(gradReqMetDetail)="row">
               <div class="d-flex flex-column text-md-left">
                   <div class="">
-                      {{row.item.gradReqMetDetail ? row.item.gradReqMetDetail : "-" }}
+                      {{row.item.gradReqMetDetail ? row.item.gradReqMetDetail : " " }}
                   </div>
                 </div>
             </template>        
