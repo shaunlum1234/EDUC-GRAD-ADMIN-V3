@@ -52,16 +52,26 @@
           <li><router-link to="/schools">Schools</router-link></li>
           <li><router-link to="/psi">PSI</router-link></li>
           <li><router-link to="/codes">Codes</router-link></li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="isDev">
             <a
               v-bind:href="
                 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' +
                 host
               "
               class="nav-link"
-              >Logout</a
+              >Logout DEV</a
             >
             </li>
+          <li class="nav-item" v-else>
+            <a
+              v-bind:href="
+                'https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' +
+                host
+              "
+              class="nav-link"
+              >Logout TEST</a
+            >
+          </li>            
 
         </ul>
         <!-- <div class="float:right"><slot></slot></div> -->
@@ -135,6 +145,13 @@ export default {
     
   },
    computed: {
+     isDev(){
+       if(window.location == "dev.grad.gov.bc.ca" || window.location == "localhost:8080"){
+          return true;
+       }else{
+         return false;
+       }
+     },
     ...mapGetters({
       token: "getToken",
       roles: "getRoles",

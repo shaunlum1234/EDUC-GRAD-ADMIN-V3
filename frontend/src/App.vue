@@ -19,7 +19,9 @@
         <a
         @click="logout"
           v-bind:href="
+          isDev?
             'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' +
+            host + '?client_id=educ-grad-school-api-service':'https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' +
             host + '?client_id=educ-grad-school-api-service'
           "
           class="float-right text-white"
@@ -56,6 +58,13 @@ export default {
       }
   },
   computed: {
+    isDev(){
+       if(window.location.host == "dev.grad.gov.bc.ca" || window.location.host == "localhost:8080"){
+          return true;
+       }else{
+         return false;
+       }
+     },
     ...mapGetters({
       role: "getRoles",
       permissions: "getPermissions",

@@ -124,7 +124,7 @@
                     </div>
                     <div class="col-12 col-md-7 float-left pl-3 pr-0">
         
-                      <div v-if="row.item.principalName">
+                      <!-- <div v-if="row.item.principalName">
                           {{ row.item.signature }}        
                           <b-card :header="'Principal: ' + row.item.principalName" class="overflow-hidden">
                             <b-row no-gutters>
@@ -146,8 +146,8 @@
                               </b-col>
                             </b-row>
                           </b-card>
-                      </div>
-                      </div>
+                      </div> -->
+                    </div>
                   </b-card>
                 </template>
             </DisplayTable>

@@ -85,15 +85,16 @@ let refreshToken = localStorage.getItem('refresh');
 let initOptions;
 //THIS should be replaced with configmap env variables from each Openshift environment.
 
-if(window.location.host == 'localhost:8080' || window.location.host == 'dev.grad.gov.bc.ca' ){
+
+if(window.location.search == "?login=noidir"){
   //dev.grad.gov.bc.ca keycloak
   initOptions = {
-    url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', idpHint:'IDIR', onLoad:'check-sso'
+    url: 'https://soam-dev.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-test-service', onLoad:'login-required'
   }
-}else if( window.location.host == 'test.grad.gov.bc.ca' ){
+}else{
   //test.grad.gov.bc.ca keycloak
   initOptions = {
-    url: 'https://soam-dev.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-test-service', onLoad:'login-required'
+    url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', idpHint:'IDIR', onLoad:'check-sso'
   }
 }
 let keycloak = Keycloak(initOptions);
@@ -104,10 +105,9 @@ keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIfra
       store.dispatch("setToken",keycloak.token);
       store.dispatch("setRefreshToken",keycloak.refreshToken);
       store.dispatch("setPermissions",keycloak.tokenParsed.scope);
-      store.dispatch("setUsername",keycloak.tokenParsed.preferred_username);
+      store.dispatch("setUsername",keycloak.tokenParsed.name);
   
   
-  //    fruits.includes("Mango");
       if(keycloak.tokenParsed.realm_access.roles.includes("GRAD_SYSTEM_COORDINATOR")){
         store.dispatch("setRoles","administrator");    
       }else{
@@ -144,11 +144,11 @@ keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIfra
       }, 60000)      
         
     } else {
-      if(window.location.host == 'localhost:8080' || window.location.host == 'dev.grad.gov.bc.ca' ){
-        keycloak.login({idpHint:'IDIR'});
-      }else if( window.location.host == 'test.grad.gov.bc.ca' ){
+      if(window.location.search == "?login=noidir"){
         keycloak.login();
-      }      
+      }else{
+        keycloak.login({idpHint:'IDIR'});
+      }   
       
     }
    
