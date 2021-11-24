@@ -18,15 +18,15 @@
 
     rewrite /courses {
         regexp .*
-        to {path} /courses
+        to {path} /courses/
     }
     rewrite /admin-graduation-programs {
         regexp .*
-        to {path} /admin-graduation-programs
+        to {path} /admin-graduation-programs/
     }    
     rewrite /codes {
         regexp .*
-        to {path} /codes
+        to {path} /codes/
     }        
     
 
