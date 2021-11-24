@@ -85,18 +85,23 @@ let refreshToken = localStorage.getItem('refresh');
 let initOptions;
 //THIS should be replaced with configmap env variables from each Openshift environment.
 
-
-if(window.location.search == "?login=noidir"){
-  //dev.grad.gov.bc.ca keycloak
-  initOptions = {
-    url: 'https://soam-dev.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-test-service', onLoad:'login-required'
+if(window.location.host == 'dev.grad.gov.bc.ca' || window.location.host == 'http://localhost:8080'){
+  if(window.location.search == "?login=noidir"){
+    initOptions = {
+      url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-test-service', onLoad:'login-required'
+    }
+  }else{
+    //test.grad.gov.bc.ca keycloak
+    initOptions = {
+      url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', idpHint:'IDIR', onLoad:'check-sso'
+    }
   }
 }else{
-  //test.grad.gov.bc.ca keycloak
   initOptions = {
-    url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', idpHint:'IDIR', onLoad:'check-sso'
+    url: 'https://soam-dev.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', idpHint:'IDIR', onLoad:'check-sso'
   }
 }
+
 let keycloak = Keycloak(initOptions);
 
 keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIframe" : false,  idpHint:'IDIR'}).success((auth) =>{
