@@ -21,8 +21,8 @@
           v-bind:href="
           isDev?
             'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' +
-            host + '?client_id=educ-grad-school-api-service':'https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' +
-            host + '?client_id=educ-grad-school-api-service'
+            host :'https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' +
+            host
           "
           class="float-right text-white"
           >Logout</a> 
