@@ -16,10 +16,19 @@
         level 8
     }
 
-    rewrite {
+    rewrite /courses {
         regexp .*
-        to {path} /
+        to {path} /courses
     }
+    rewrite /admin-graduation-programs {
+        regexp .*
+        to {path} /admin-graduation-programs
+    }    
+    rewrite /codes {
+        regexp .*
+        to {path} /codes
+    }        
+    
 
     log stdout
 
