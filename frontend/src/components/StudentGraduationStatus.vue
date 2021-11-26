@@ -20,7 +20,6 @@
     <div class="row">
       <!-- Left col -->  
       <div class="col-12 pl-2 pr-0 col-md-7 ">
-
           <div class="graduation-status">
           <b-card
             no-body
@@ -195,7 +194,6 @@
                         </tbody>
                         
                       </table>
-                      <!-- <b-button class="px-1" @click="popClose">Close</b-button> -->
                     </b-popover>                       
                     </td>
                   </tr>
