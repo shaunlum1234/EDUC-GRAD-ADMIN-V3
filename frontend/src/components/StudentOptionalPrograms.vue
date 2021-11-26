@@ -12,7 +12,6 @@
                 <strong>{{ optionalNonGradReasons.rule }} - {{ optionalNonGradReasons.description }}</strong>
               </li>
             </ul>
-            <!-- <span v-if="row.item.studentOptionalProgramData.optionalNonGradReasons == null && !row.item.studentOptionalProgramData.optionalRequirementsMet">All requirements have been met</span> -->
             <div v-if="row.item.studentOptionalProgramData.optionalNonGradReasons == null && row.item.studentOptionalProgramData.optionalRequirementsMet != null">
               <span v-if="row.item.studentOptionalProgramData.optionalRequirementsMet.length != 0">All requirements have been met</span>
             </div>

@@ -16,7 +16,7 @@
       to="/admin"
       class="text-white"
     >Dashboard</router-link> | 
-        <a
+        <!-- <a
         @click="logout"
           v-bind:href="
           isDev?
@@ -25,7 +25,13 @@
             host
           "
           class="float-right text-white"
-          >Logout</a> 
+          >Logout</a>  -->
+
+
+        <router-link
+      to="/logout"
+      class="text-white"
+    >Logout</router-link> | 
         </Bcheader>
     
     <div class="container">

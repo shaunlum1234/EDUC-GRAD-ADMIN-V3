@@ -25,7 +25,7 @@
         exams: "not loaded",
         notes: [],
         gradStatus: "not loaded",
-        optionaPrograms: "not loaded",
+        optionalPrograms: "not loaded",
         hasExams: false,
         hasAssessments: false,
         hasCourses: false,
@@ -91,10 +91,10 @@
       },
       setStudentGradStatusOptionalPrograms(state, payload) {
       //  console.log(payload);
-        state.student.optionaPrograms = payload;
+        state.student.optionalPrograms = payload;
         let i = 0;
-        for (i = 0; i < state.student.optionaPrograms.length; i++) {
-          state.student.optionaPrograms[i].studentOptionalProgramData = JSON.parse(state.student.optionaPrograms[i].studentOptionalProgramData); 
+        for (i = 0; i < state.student.optionalPrograms.length; i++) {
+          state.student.optionalPrograms[i].studentOptionalProgramData = JSON.parse(state.student.optionalPrograms[i].studentOptionalProgramData); 
         }
       },
       setHasGradStatusPendingUpdates(state, payload) {
@@ -158,7 +158,7 @@
         state.student.assessments = "not loaded";
         state.student.exams = "not loaded";
         state.student.gradStatus = "not loaded";
-        state.student.optionaPrograms = "not loaded";
+        state.student.optionalPrograms = "not loaded";
         state.student.hasExams = false;
         state.student.hasAssessments = false;
         state.student.hasCourses = false;
@@ -458,7 +458,7 @@
         return state.student.gradStatus;
       },
       getStudentOptionalPrograms(state) {
-        return state.student.optionaPrograms;
+        return state.student.optionalPrograms;
       },
       getStudentCourses(state) {
         return state.student.courses;

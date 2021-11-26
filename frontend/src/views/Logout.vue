@@ -5,11 +5,7 @@
         <h1>Logout Successful</h1>
         <p>Please login using the Login Portal if you require access</p>
                      <a
-              v-bind:href="
-                'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/auth?client_id=educ-grad-school-api-service&redirect_uri=' +
-                host + '&kc_idp_hint=IDIR'
-              "
-              class="nav-link"
+     
               >Login</a
             >
       </div>  
@@ -25,7 +21,6 @@ export default {
     return {
       host: location.protocol + "//" + location.host
     }
-
   },
   created() {},
   computed: {},

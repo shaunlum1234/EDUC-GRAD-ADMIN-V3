@@ -84,23 +84,24 @@ let refreshToken = localStorage.getItem('refresh');
 
 let initOptions;
 //THIS should be replaced with configmap env variables from each Openshift environment.
-
+// window.location.host + /keycloak/auth
+//need to have clientID same in all environments
 if(window.location.host == 'dev.grad.gov.bc.ca' || window.location.host == 'localhost:8080'){
   //localhost and dev.grad.gov.bc.ca keycloak
   if(window.location.search == "?login=noidir"){
     initOptions = {
-      url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
+      url: process.env.VUE_APP_KEYCLOAK_AUTH_HOST + "/auth", realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
     }
   }else{
     
     initOptions = {
-      url: 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-school-api-service', idpHint:'IDIR', onLoad:'check-sso'
+      url: process.env.VUE_APP_KEYCLOAK_AUTH_HOST+ "/auth", realm: 'master', clientId: 'educ-grad-school-api-service', idpHint:'IDIR', onLoad:'check-sso'
     }
   }
 }else{
   //test.grad.gov.bc.ca keycloak
   initOptions = {
-    url: 'https://soam-dev.apps.silver.devops.gov.bc.ca/auth', realm: 'master', clientId: 'educ-grad-test-service', idpHint:'IDIR', onLoad:'check-sso'
+    url: process.env.VUE_APP_KEYCLOAK_AUTH_HOST+ "/auth", realm: 'master', clientId: 'educ-grad-test-service', idpHint:'IDIR', onLoad:'check-sso'
   }
 }
 
@@ -134,8 +135,8 @@ keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIfra
             Vue.$log.debug('Token refreshed');
             store.dispatch("setToken",keycloak.token);
             store.dispatch("setRefreshToken",keycloak.refreshToken);
-            store.dispatch("setPermissions",keycloak.refreshToken.scope);
-            store.dispatch("setUsername",keycloak.refreshToken.preferred_username);
+            store.dispatch("setPermissions",keycloak.tokenParsed.scope);
+            store.dispatch("setUsername",keycloak.tokenParsed.name);
             
             
             

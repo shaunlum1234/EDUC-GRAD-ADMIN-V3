@@ -12,6 +12,10 @@ module.exports = {
   },
   devServer: {
     proxy: {
+      '/auth': {
+        target: process.env.VUE_APP_KEYCLOAK_AUTH_HOST,
+        changeOrigin: true,
+      },
       '/api/v1/course': {
         target: process.env.VUE_APP_COURSE_API_HOST,
         changeOrigin: true,

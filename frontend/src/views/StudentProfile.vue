@@ -80,7 +80,6 @@
           <div class="float-right grad-actions">
             <b-spinner v-if="tabLoading" class="px-1 my-2" ></b-spinner> 
             <b-dropdown :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right :text="smallScreen?'':'Run Graduation Algorithm'" class="m-md-2 float-right admin-gear-w-text">
-            <!-- <b-dropdown  :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right text="Run Graduation Algorithm" class="m-md-2 float-right admin-gear"> -->
               <b-dropdown-item v-on:click="graduateStudent" v-if="!studentGradStatus.programCompletionDate">Graduate Student</b-dropdown-item>
               <b-dropdown-item v-if="studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Ungraduate Student</b-dropdown-item>
               <b-dropdown-divider></b-dropdown-divider>
@@ -130,7 +129,6 @@
                   </b-card-text>
                 </b-tab>
 
-                <!-- Exams Details tab v-if="exams != 'not loaded'"-->
                 <b-tab v-if="exams != 'not loaded'"  :title="'Exams details ('  + exams.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>               
                     <StudentExams />
@@ -365,9 +363,6 @@
   } from "vuex";
   export default {
     name: "studentProfile",
-    beforeCreate() {
-      //this.closeRecord();
-    },
     created() {
       const penFromURL = this.$route.params.pen;
       const studentIdFromURL = this.$route.params.studentId;
@@ -508,9 +503,6 @@
               "danger",
               "There was an error: " + error.response.data.messages[0].message
             );
-            
-
-            //console.log('There was an error:' + error.response);
           });
       },
       resetUngraduateStudent(){
@@ -553,14 +545,14 @@
               // use when response is updated
               //this.$store.dispatch("setStudentGradStatus", response.data.graduationStatus);
                 StudentService.getGraduationStatus(this.studentId, this.token).then(
-                  (response) => {
+                  (res) => {
                 
-                    this.$store.dispatch("setStudentGradStatus", response.data);
+                    this.$store.dispatch("setStudentGradStatus", res.data);
                   }
                 ).catch((error) => {
-                  if(error.response.status){
-                    this.$bvToast.toast("ERROR " + error.response.statusText, {
-                      title: "ERROR" + error.response.status,
+                  if(error.res.status){
+                    this.$bvToast.toast("ERROR " + error.res.statusText, {
+                      title: "ERROR" + error.res.status,
                       variant: 'danger',
                       noAutoHide: true,
                     });
@@ -587,15 +579,15 @@
             if(response.data.graduationStatus){
 
                 StudentService.getGraduationStatus(this.studentId, this.token).then(
-                  (response) => {
+                  (res) => {
                 
-                    this.$store.dispatch("setStudentGradStatus", response.data);
+                    this.$store.dispatch("setStudentGradStatus", res.data);
                     
                   }
                 ).catch((error) => {
-                  if(error.response.status){
-                    this.$bvToast.toast("ERROR " + error.response.statusText, {
-                      title: "ERROR" + error.response.status,
+                  if(error.res.status){
+                    this.$bvToast.toast("ERROR " + error.res.statusText, {
+                      title: "ERROR" + error.res.status,
                       variant: 'danger',
                       noAutoHide: true,
                     });
@@ -662,9 +654,6 @@
       },  
       closeRecord: function () {
         this.$store.commit("unsetStudent");
-        // this.$router.push({
-        //   name: "student-search"
-        // });
       },
       handleResize() {
         this.window.width = window.innerWidth;
@@ -703,7 +692,6 @@
         
         StudentService.getGraduationStatus(studentIdFromURL, this.token).then(
           (response) => {
-        
             this.$store.dispatch("setStudentGradStatus", response.data);
           }
         ).catch((error) => {
@@ -718,8 +706,7 @@
         StudentService.getGraduationStatusOptionalPrograms(studentIdFromURL, this.token).then(
           (response) => {
             this.$store.dispatch("setStudentGradStatusOptionalPrograms", response.data);
-        }
-        ).catch((error) => {
+        }).catch((error) => {
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error.response.statusText, {
               title: "ERROR" + error.response.status,

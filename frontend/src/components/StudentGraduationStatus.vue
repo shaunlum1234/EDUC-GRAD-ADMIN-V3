@@ -39,23 +39,9 @@
 
                       <b-button v-on:click="cancelGradStatus"  size="sm" variant="outline-primary">Cancel</b-button>
                     </b-button-group>
-                    <!--b-btn :disabled="disableButton" v-on:click="saveGraduationStatus(studentId)" size="sm" variant="primary">
-                        Save 
-                    </b-btn>
-                    <b-btn v-on:click="cancelGradStatus"  size="sm" variant="outline-primary">
-                      Cancel
-                    </b-btn-->
+          
                   </div>
                 </b-button-group>
-                <!-- <div v-if="studentGradStatus && studentGradStatus.programCompletionDate && showEdit">
-                  <b-alert show variant="warning" class="p-3">
-                    <h4 class="alert-heading">Student status: Graduated</h4>
-                    <p class="mb-0">
-                      <strong>Reason to unlock:</strong><b-form-select  size="sm" v-model="studentUngradReason" :options="ungradReasons" text-field="description" value-field="code"></b-form-select>
-                      <b-button :disabled='!studentUngradReason' @click="ungradStudent" variant="primary" size="sm" class="mt-2">Unlock Student</b-button>
-                    </p>
-                  </b-alert>
-                </div> -->
                 <div v-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
                   <b-alert show variant="warning" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Not active</h4>
@@ -100,11 +86,11 @@
                 <table class="table  table-hover table-sm" >
                   <tbody>
                   <tr v-if="!showEdit">
-                    <td width="50%" ><strong>Program: </strong></td>
-                    <td width="50%"><span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span></td>
+                    <td class="w-50"><strong>Program: </strong></td>
+                    <td class="w-50"><span v-b-tooltip.hover title="Program">{{ studentGradStatus.program }}</span></td>
                   </tr>
                   <tr v-if="showEdit">
-                    <td width="50%"><strong>Program: </strong>
+                    <td class="w-50"><strong>Program: </strong>
                       <div v-if="editedGradStatus.program == '1950'">
                         <div class="form-validation-message text-danger" v-if="!(editedGradStatus.studentGrade == 'AD' || editedGradStatus.studentGrade == 'AN')">Student grade should be one of <strong>AD or AN</strong> if the student program is 1950</div>
                       </div> 
@@ -112,7 +98,7 @@
                         <div v-if="programChangeWarning" class="form-validation-message text-danger">Warning, any optional programs associated with the original program will be <strong>deleted</strong>. You must add back in any pertinent optional programs once you have saved the changes to Program.</div>
                       </div>   
                     </td>
-                    <td width="50%"><b-form-select :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" v-model="editedGradStatus.program" :options="programOptions" value-field="programCode" text-field="programCode"></b-form-select></td>                   
+                    <td class="w-50"><b-form-select :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" v-model="editedGradStatus.program" :options="programOptions" value-field="programCode" text-field="programCode"></b-form-select></td>                   
                   </tr>
                   <tr v-if="!showEdit">
                     <td><strong>Program completion date: </strong></td>
@@ -288,7 +274,7 @@
                          <!-- OPTIONAL PROGRAMS -->                      
                           <ul class="p-0" v-if="optionalPrograms[0] && optionalPrograms[0].studentOptionalProgramData" id="optional-programs">
                             <li v-for="item in optionalPrograms" :key="item.optionalProgramCode">
-                              {{ item.optionalProgramName }} <br><strong> {{item.studentOptionalProgramData.optionalNonGradReasons==null?'Completed':"Not Completed"}}</strong>
+                              {{ item.optionalProgramName }} <br><strong> {{item.studentOptionalProgramData.optionalNonGradReasons==null?'Not Completed':"Completed"}}</strong>
                             </li>
                           </ul>
                       </td>
@@ -700,7 +686,6 @@ export default {
               this.schoolAtGraduationNotFoundWarning = false;
               if(this.schoolAtGraduationStatus == "N"){
                 this.schoolAtGraduationWarning = true;
-                //this.showNotification("warning", "School at graduation closed");
               }
               this.schoolAtGraduationFound= true;
               this.editedGradStatus.schoolAtGradName = response.data.schoolName;
@@ -725,33 +710,13 @@ export default {
       this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})([\d]{2})$/,"$1/$2/$3");     
     },
     getStudentStatus(code) {
-      var i = 0;
-      for (i = 0; i <= this.studentStatusOptions.length; i++) {
+      for (var i = 0; i <= this.studentStatusOptions.length; i++) {
         if (this.studentStatusOptions[i].code == code) {
           return this.studentStatusOptions[i].label;
         }
       }
       return "";
     },
-    // showNotification(variant = null, bodyContent) {
-    //   let title = variant;
-    //   let delay = 30000;
-    //   if(title == "success"){
-    //     title ="success";
-    //     delay = 5000;
-    //   }else if(title == "danger"){
-    //     title ="Error";
-    //   }else if(title == "warning"){
-    //     title ="Warning";
-    //   }
-    //   this.$bvToast.toast(bodyContent, {
-    //     title: title,
-    //     variant: variant,
-    //     solid: true,
-    //     autoHideDelay: delay,
-    //   });
-
-    // },
     reactivateStudentRecord(){
         this.editedGradStatus.studentStatus = "A";
         this.saveGraduationStatus(this.studentId);
@@ -770,22 +735,13 @@ export default {
         this.disableSchoolAtGrad = true;
       }
 
-      if(this.studentGradStatus.studentStatus == 'M'){
+      if(this.studentGradStatus.studentStatus == 'M' || this.studentGradStatus.studentStatus == 'D'){
         this.disableInput = true;
         this.disableStudentStatus = true;
       }
-      else if(this.studentGradStatus.studentStatus == 'T'){
+      else if(this.studentGradStatus.studentStatus == 'T' || this.studentGradStatus.studentStatus == 'N'){
         this.disableInput = false;
         this.disableStudentStatus = false;
-      }
-      else if(this.studentGradStatus.studentStatus == 'N'){
-        this.disableInput = false;
-        this.disableStudentStatus = false;
-        
-      }
-      else if(this.studentGradStatus.studentStatus == 'D'){
-        this.disableInput = true;
-        this.disableStudentStatus = true;    
       }
       this.showEdit = true;  
       if(this.studentGradStatus.programCompletionDate){
@@ -910,8 +866,6 @@ export default {
           "danger",
           "There was an error: " + error
         );
-
-        //console.log('There was an error:' + error.response);
       });
     },
     popClose() {
@@ -933,14 +887,12 @@ export default {
       });
     },
     projectGraduationStatus(id) {
-      //  console.log( "PROJECTED" + this.projectedStudentGradStatus);
       StudentService.getGraduationStatus(id, this.token)
       .then((response) => {
         this.projectedStudentGradStatus = response.data;
         this.projectedStudentGradStatus.studentGradData = JSON.parse(
           this.projectedStudentGradStatus.studentGradData
         );
-        //console.log( "PROJECTED" + this.projectedStudentGradStatus);
         this.$bvModal.show("modal-1");
         this.showModal = true;
       })
@@ -999,7 +951,6 @@ export default {
       });
     },
     getStudentTranscriptPDF: function () {
-      //  console.log("transcript");
       GraduationCommonService.getStudentTranscript(
         this.studentId,
         this.token

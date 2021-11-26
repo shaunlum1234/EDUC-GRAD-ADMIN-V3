@@ -116,10 +116,6 @@
           </b-tab>
           <b-tab title="Course restrictions">
             <b-card-text>
-              <!-- <DisplayTable title="Course restriction" v-bind:items="courseRestrictions"
-                v-bind:fields="courseRestrictionFields" id="courseRestrictionId"
-                create="createCourseRestriction" delete="deleteCourseRestriction" update="updateCourseRestriction">
-              </DisplayTable> -->
               <DisplayTable title="Course restrictions" v-bind:items="courseRestrictions"
                 v-bind:fields="courseRestrictionFields" id="courseRestrictionId" :showFilter=true pagination="true"
                >
@@ -420,9 +416,7 @@
       }),
     },
     created() {
-      //this.getAllCourses();
       this.showNotification = sharedMethods.showNotification
-      // this.getAllCourseRequirements();
       this.getAllCourseRestrictions();
     },
     methods: {
@@ -455,12 +449,10 @@
         let isEmpty = true;
         for (var key in this.advancedSearchInput) {
           if (this.advancedSearchInput.hasOwnProperty(key)) {
-            //console.log(obj[key])
             if (this.advancedSearchInput[key].value != "") {
               isEmpty = false;   
             }
-              //add wildcard to mincode if at least 3 digits are included
-          } //mincode
+          } 
         }
         if(isEmpty){
           this.totalResults = ""
@@ -541,7 +533,6 @@
         let isEmpty = true;
         for (var key in this.requirementsSearchInput) {
           if (this.requirementsSearchInput.hasOwnProperty(key)) {
-            //console.log(obj[key])
             if (this.requirementsSearchInput[key].value != "") {
               isEmpty = false;   
             }       
@@ -622,11 +613,6 @@
             this.showNotification("danger", "There was an error with the web service.");
             // eslint-disable-next-line
             console.log('There was an error:' + error);
-            // this.$bvToast.toast("ERROR " + error.response.statusText, {
-            //   title: "ERROR" + error.response.status,
-            //   variant: 'danger',
-            //   noAutoHide: true,
-            // });
           });
       },
       getAllCourseRequirements() {
@@ -636,11 +622,6 @@
           })
           // eslint-disable-next-line no-unused-vars
           .catch((error) => {
-            // this.$bvToast.toast("ERROR " + error.response.statusText, {
-            //   title: "ERROR" + error.response.status,
-            //   variant: 'danger',
-            //   noAutoHide: true,
-            // });
             this.showNotification("danger", "There was an error with the web service.");
             // eslint-disable-next-line
             console.log('There was an error:' + error);       
@@ -656,11 +637,6 @@
             this.showNotification("danger", "There was an error with the web service.");
             // eslint-disable-next-line
             console.log('There was an error:' + error); 
-          //   this.$bvToast.toast("ERROR " + error.response.statusText, {
-          //     title: "ERROR" + error.response.status,
-          //     variant: 'danger',
-          //     noAutoHide: true,
-          // });
         });
       },
       getAllCourseRestriction(mainCourseLevel, mainCourseCode) {
@@ -673,11 +649,6 @@
             this.showNotification("danger", "There was an error with the web service.");
             // eslint-disable-next-line
             console.log('There was an error:' + error); 
-          //   this.$bvToast.toast("ERROR " + error.response.statusText, {
-          //     title: "ERROR" + error.response.status,
-          //     variant: 'danger',
-          //     noAutoHide: true,
-          //   });
           });
       }
     },
@@ -688,11 +659,9 @@
   .close-record {
     float: right;
   }
-
   .tab-loading {
     color: green !important;
   }
-
   .profile-name {
     padding-bottom: 10px;
   }
@@ -704,7 +673,6 @@
   }
   .wild-card-button:hover{
     cursor: pointer;
-
   }
   .wild-card-button {
     color: #DEE2EB;
@@ -713,14 +681,11 @@
     top: 40px;
     z-index: 10;
     text-decoration: none;
-  
   }
-
   .wild-card-button:visited {
     color: #DEE2EB;
     text-decoration: none;
   }
-
   .wild-card-button.active {
     color: green
   }
@@ -729,7 +694,6 @@
     clear: both; 
   }
   .advanced-search-button {
-    
     padding-left: 15px;
   }
 </style>

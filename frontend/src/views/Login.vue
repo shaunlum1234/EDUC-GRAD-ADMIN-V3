@@ -36,9 +36,6 @@ export default {
       password : ""
     }
   },
-  created() {
-      // this.token = LoginService.login();
-  },
   computed: {
   ...mapGetters({
       getToken: "getToken"
@@ -51,8 +48,6 @@ export default {
         LoginService.handleSubmit(this.id, this.password).then((response) => {
             this.$store.dispatch('setToken', response.data.access_token);
         });
-        
-       // console.log("HELLO WORLD" + this.getToken);
       }
     }
   }

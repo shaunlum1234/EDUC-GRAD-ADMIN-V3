@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Login from '../views/Login.vue';
-import Logout from '../views/Logout.vue';
+//import Logout from '../views/Logout.vue';
 import StudentSearch from '../views/StudentSearch.vue';
 import StudentProfile from '../views/StudentProfile.vue';
 import Assessments from '../views/Assessments.vue';
@@ -29,15 +29,20 @@ const routes = [{
     meta: {
       guest: true
     }
-  },
+  },  
   {
     path: '/logout',
-    name: 'logout',
-    component: Logout,
-    meta: {
-      guest: true
-    }
+    beforeEnter() {document.cookie = 'SMSESSION=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'; 
+    location.href = process.env.VUE_APP_KEYCLOAK_AUTH_HOST + '/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + location.protocol + '//' + location.host} 
   },
+  // {
+  //   path: '/logout',
+  //   name: 'logout',
+  //   component: Logout,
+  //   meta: {
+  //     guest: true
+  //   }
+  // },
   {
     path: '/',
     name: 'student-search',

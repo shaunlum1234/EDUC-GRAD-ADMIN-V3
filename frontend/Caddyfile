@@ -16,22 +16,10 @@
         level 8
     }
 
-    rewrite /courses {
-        regexp .*
-        to {path} /courses/
-    }
-    rewrite /admin-graduation-programs {
-        regexp .*
-        to {path} /admin-graduation-programs/
-    }    
-    rewrite /codes {
-        regexp .*
-        to {path} /codes/
-    }        
-    
-
     log stdout
-
+    proxy /auth {$VUE_APP_KEYCLOAK_AUTH_HOST} {
+        header_upstream Cookie "SMSESSION=siteminder"
+    }
     proxy /api/v1/student {$VUE_APP_STUDENTS_API_HOST} {
         header_upstream Cookie "SMSESSION=siteminder"
     }

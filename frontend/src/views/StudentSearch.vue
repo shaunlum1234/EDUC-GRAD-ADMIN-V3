@@ -12,17 +12,17 @@
                   <div class="form-group">
                     <!-- Pen Input -->
                     <div class="search w-100">
-                        <label for="search-by-pen" class="float-left w-100">Search by PEN:</label>                   
-                        <b-form-input id="search-by-pen" type="search" maxlength=9 minlength=9 v-model="penInput" placeholder=""
-                         ref="penSearch" v-on:keyup="keyHandler" tabindex="1" class="w-50 float-left">
-                        </b-form-input>
-                        <button id="search-submit" v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary ml-2 float-left">
-                          <i class="fas fa-search"></i> Search
-                        </button>
-                        <button id="search-submit"  v-if="searchLoading" class=" btn btn-success ml-2 float-left">
-                          <i class="fas fa-search"></i> Search  
-                        </button>  
-                        &nbsp;&nbsp;<b-spinner v-if="searchLoading" label="Loading">Loading</b-spinner>    
+                      <label for="search-by-pen" class="float-left w-100">Search by PEN:</label>                   
+                      <b-form-input id="search-by-pen" type="search" maxlength=9 minlength=9 v-model="penInput" placeholder=""
+                        ref="penSearch" v-on:keyup="keyHandler" tabindex="1" class="w-50 float-left">
+                      </b-form-input>
+                      <button id="search-submit" v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary ml-2 float-left">
+                        <i class="fas fa-search"></i> Search
+                      </button>
+                      <button id="search-submit"  v-if="searchLoading" class=" btn btn-success ml-2 float-left">
+                        <i class="fas fa-search"></i> Search  
+                      </button>  
+                      &nbsp;&nbsp;<b-spinner v-if="searchLoading" label="Loading">Loading</b-spinner>    
                     </div>
                     <div class="search-results-message my-4 float-left"><strong><span id="search-results-message" v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
                     <div class="my-4 pl-2 float-left"><a v-if="studentHasProgram == false" href="#" > PEN Student Inquiry.</a></div> 
@@ -60,7 +60,7 @@
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(128025632)">128025632</a> SCCP AD NOT COMPLETED</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(128041027)">128041027</a> SCCP AD NOT COMPLETED</div>
                   </div>
-                  </div>
+                </div>
               </b-card-text>
             </b-tab>
 
@@ -552,7 +552,6 @@ export default {
       this.message = "";
       this.errorMessage = "";
       this.$v.$touch();
-      // console.log(this.advancedSearchValidate(this.advancedSearchInput));
 
       if(this.$v.$invalid){
         this.advancedSearchMessage += "Form Validation Error: please correct the form input";
@@ -590,13 +589,11 @@ export default {
               this.advancedSearchMessage = "Student not found";
               this.errorMessage = err;
               this.showNotification("danger", "There was an error with the web service.");
-              // console.log(err);
             });
         } catch (error) {
           this.advancedSearchLoading = false;
           this.advancedSearchMessage = "Advanced Search Error";
           this.showNotification("danger", "There was an error with the web service.");
-          //console.log("Error with webservice");
         }
       }
     },
@@ -609,7 +606,6 @@ export default {
         this.$router.push({
           path: `/student-profile/${this.selectedPen}/${this.selectedId}`
         });
-        //this.$router.push({ name: "student-profile", params: {pen: this.selectedPen}});
       },
 
       clearStudent: function () {},
