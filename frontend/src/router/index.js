@@ -33,7 +33,12 @@ const routes = [{
   {
     path: '/logout',
     beforeEnter() {document.cookie = 'SMSESSION=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'; 
-    location.href = process.env.VUE_APP_KEYCLOAK_AUTH_HOST + '/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + location.protocol + '//' + location.host} 
+      if(window.location.host == "dev.grad.gov.bc.ca" || window.location.host == "localhost:8080"){
+        location.href = 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + location.protocol + '//' + location.host;
+      }else{
+        location.href = 'https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + location.protocol + '//' + location.host;
+      }
+    }
   },
   // {
   //   path: '/logout',
