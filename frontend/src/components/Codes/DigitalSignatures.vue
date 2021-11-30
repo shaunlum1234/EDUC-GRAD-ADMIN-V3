@@ -67,7 +67,7 @@ export default {
       digitalSignaturesFields: [
         {
           key: "signatureContent",
-          label: "Signture",
+          label: "Signature",
           sortable: true,
         },
         {
@@ -77,7 +77,7 @@ export default {
         },        
         {
           key: "gradReportSignatureCode",
-          label: "Filename",
+          label: "District",
           sortable: true,
         }        
       ],     

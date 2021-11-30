@@ -7,32 +7,23 @@
       <b-nav card-header tabs >
         <b-nav-item to="/codes/career-programs" :active="tab === 1" @click="tab = 1">Career Programs</b-nav-item>
          <b-nav-item-dropdown
-            id="certificates-dropdown"
-            text="Certificates"
-            ref="certificates-dropdown"
-            toggle-class="nav-link-certificates"
+            id="credentials-dropdown"
+            text="Credentials"
+            ref="credentials-dropdown"
+            toggle-class="nav-link-credentials"
             left            
           >
-            <b-nav-item to="/codes/certificates-types" :active="tab === 2" @click="tab = 2; closeDropdown('certificates-dropdown')">Certificate Type Code</b-nav-item>
-            <b-nav-item to="/codes/digital-signatures" :active="tab === 2" @click="tab = 2; closeDropdown('certificates-dropdown')">Digital Signature</b-nav-item>
-            <b-nav-item to="/codes/signature-blocks" :active="tab === 2" @click="tab = 2; closeDropdown('certificates-dropdown')">Signature Block Type</b-nav-item>
-          </b-nav-item-dropdown>
-
-            <b-nav-item-dropdown
-              id="transcripts-dropdown"
-              text="Transcripts"
-              toggle-class="nav-link-optional-programs"
-              left
-              ref="transcripts-dropdown"
-              active
-            >
-            <b-nav-item to="/codes/transcript-types" :active="tab === 3" @click="tab = 3; closeDropdown('transcripts-dropdown')">Transcript Type Code</b-nav-item>
-            <b-nav-item to="/codes/program-certificate-transcript" :active="tab === 3" @click="tab = 3; closeDropdown('transcripts-dropdown')">Program Certificate Transcript</b-nav-item>
-          </b-nav-item-dropdown>
-        <b-nav-item to="/codes/report-types" :active="tab === 4" @click="tab = 4">Reports</b-nav-item>
-        <b-nav-item to="/codes/requirement-types" :active="tab === 5" @click="tab = 5">Requirements</b-nav-item>
-        <b-nav-item to="/codes/student-status-codes" :active="tab === 6" @click="tab = 6">Student Status Codes</b-nav-item>
-        <b-nav-item to="/codes/ungrad-reasons" :active="tab === 7" @click="tab = 7">Ungrad Reasons</b-nav-item>
+            <b-nav-item to="/codes/certificates-types" :active="tab === 2" @click="tab = 2; closeDropdown('credentials-dropdown')">Certificate Types</b-nav-item>
+            <b-nav-item to="/codes/transcript-types" :active="tab === 2" @click="tab = 2; closeDropdown('credentials-dropdown')">Transcript Types</b-nav-item>
+            <b-nav-item to="/codes/program-certificate-transcript" :active="tab === 2" @click="tab = 3; closeDropdown('credentials-dropdown')">Program Certificate Transcript</b-nav-item>
+            <b-nav-item to="/codes/digital-signatures" :active="tab === 2" @click="tab = 2; closeDropdown('credentials-dropdown')">Digital Signature</b-nav-item>
+            <b-nav-item to="/codes/signature-blocks" :active="tab === 2" @click="tab = 2; closeDropdown('credentials-dropdown')">Signature Block</b-nav-item>
+            
+        </b-nav-item-dropdown>
+        <b-nav-item to="/codes/report-types" :active="tab === 3" @click="tab = 3">Reports</b-nav-item>
+        <b-nav-item to="/codes/requirement-types" :active="tab === 4" @click="tab = 4">Requirements</b-nav-item>
+        <b-nav-item to="/codes/student-status-codes" :active="tab === 5" @click="tab = 5">Student Status Codes</b-nav-item>
+        <b-nav-item to="/codes/ungrad-reasons" :active="tab === 6" @click="tab = 6">Ungrad Reasons</b-nav-item>
       </b-nav>
     </b-card-header>
      <b-card-body >
