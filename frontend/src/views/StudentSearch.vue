@@ -29,7 +29,7 @@
                   </div>
                 </form>
                 <div v-if="roles == 'debug'" class="sample-pens m-3">
-                  Samples: V0.1.1
+                  Samples: V0.1.2
                   <div class="row col-12">
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(102262375)">102262375</a> 1950 NOT COMPLETED</div>
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByPenSample(106900004)">106900004</a> 1950 NOT COMPLETED</div>
