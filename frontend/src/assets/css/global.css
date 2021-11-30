@@ -87,11 +87,6 @@
     box-shadow: none;
     color: #495057;
   }
-  /* .nav-link::before {
-    float: left;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 400;
-    content: "\f1ea";
-    width: 100%;
-    font-size: 29px;
-  } */
+  .nav-item a{
+    border-radius: 0px !important;
+  }

@@ -50,14 +50,6 @@ const routes = [{
       }
     }
   },
-  // {
-  //   path: '/logout',
-  //   name: 'logout',
-  //   component: Logout,
-  //   meta: {
-  //     guest: true
-  //   }
-  // },
   {
     path: '/',
     name: 'student-search',
@@ -171,8 +163,6 @@ router.beforeEach((to, from, next) => {
           })
       }
       else {
-          //let user = JSON.parse(localStorage.getItem('user'))   
-            //next({ name: 'student-search'})  
             next()
       }
   } 

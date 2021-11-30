@@ -31,7 +31,7 @@
         <router-link
       to="/logout"
       class="text-white"
-    >Logout</router-link> | 
+    >Logout</router-link>
         </Bcheader>
     
     <div class="container">
