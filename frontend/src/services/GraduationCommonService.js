@@ -26,14 +26,26 @@ export default {
       const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
       return apiClient.get('/api/v1/graduationreports/certificatetype',{ headers });
   },
+  getTranscriptsTypes(token) {
+    const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+    return apiClient.get('/api/v1/graduationreports/transcripttype',{ headers });
+  },  
+  getProgramCertificateTranscripts(token){
+    const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+    return apiClient.get('/api/v1/graduationreports/allprogramcertificates',{ headers });
+  },
   getReportTypes(token) {
       const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
       return apiClient.get('/api/v1/graduationreports/reporttype',{ headers });
   },
-  getReportSignatures(token) {
+  getDigitalSignatures(token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     return apiClient.get('/api/v1/signatures/get/all',{ headers });
     
-  }  
+  },
+  getDigitalSignaturesBlockTypes(token) {
+    const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+    return apiClient.get('/api/v1/signatures/getSignatureBlockTypeCodes',{ headers });
+  } 
  
 }

@@ -2,7 +2,47 @@
   <div>
     <h1>Codes</h1>
     <div class="codes">
-      <b-card no-body>
+<b-card title="Program Management" no-body>
+    <b-card-header header-tag="nav" class="px-3">
+      <b-nav card-header tabs >
+        <b-nav-item to="/codes/career-programs" :active="tab === 1" @click="tab = 1">Career Programs</b-nav-item>
+         <b-nav-item-dropdown
+            id="certificates-dropdown"
+            text="Certificates"
+            ref="certificates-dropdown"
+            toggle-class="nav-link-certificates"
+            left            
+          >
+            <b-nav-item to="/codes/certificates-types" :active="tab === 2" @click="tab = 2; closeDropdown('certificates-dropdown')">Certificate Type Code</b-nav-item>
+            <b-nav-item to="/codes/digital-signatures" :active="tab === 2" @click="tab = 2; closeDropdown('certificates-dropdown')">Digital Signature</b-nav-item>
+            <b-nav-item to="/codes/signature-blocks" :active="tab === 2" @click="tab = 2; closeDropdown('certificates-dropdown')">Signature Block Type</b-nav-item>
+          </b-nav-item-dropdown>
+
+            <b-nav-item-dropdown
+              id="transcripts-dropdown"
+              text="Transcripts"
+              toggle-class="nav-link-optional-programs"
+              left
+              ref="transcripts-dropdown"
+              active
+            >
+            <b-nav-item to="/codes/transcript-types" :active="tab === 3" @click="tab = 3; closeDropdown('transcripts-dropdown')">Transcript Type Code</b-nav-item>
+            <b-nav-item to="/codes/program-certificate-transcript" :active="tab === 3" @click="tab = 3; closeDropdown('transcripts-dropdown')">Program Certificate Transcript</b-nav-item>
+          </b-nav-item-dropdown>
+        <b-nav-item to="/codes/report-types" :active="tab === 4" @click="tab = 4">Reports</b-nav-item>
+        <b-nav-item to="/codes/requirement-types" :active="tab === 5" @click="tab = 5">Requirements</b-nav-item>
+        <b-nav-item to="/codes/student-status-codes" :active="tab === 6" @click="tab = 6">Student Status Codes</b-nav-item>
+        <b-nav-item to="/codes/ungrad-reasons" :active="tab === 7" @click="tab = 7">Ungrad Reasons</b-nav-item>
+      </b-nav>
+    </b-card-header>
+     <b-card-body >
+      <b-card-text>
+        <router-view v-bind:key="$route.fullPath"></router-view>
+      </b-card-text>
+    </b-card-body>
+    </b-card>    
+
+      <!-- <b-card no-body>
         <b-tabs card>
           <b-tab title="Career Programs" active>
             <b-card-text v-if="careerPrograms">
@@ -40,6 +80,7 @@
               </DisplayTable>
             </b-card-text>
           </b-tab>   
+          
           <b-tab title="Report Types" active>
             <b-card-text v-if="reportTypes">
               <DisplayTable
@@ -112,7 +153,7 @@
               </DisplayTable>
             </b-card-text>
           </b-tab>  
-          <!-- <b-tab title="Signatures">
+          <<b-tab title="Signatures">
             <b-card-text v-if="reportSignatures">
               <DisplayTable
                 title="Report Types"
@@ -146,10 +187,10 @@
                 </template>
               </DisplayTable>
             </b-card-text>
-          </b-tab>             -->
+          </b-tab>          
            
         </b-tabs>
-      </b-card>
+      </b-card> -->
     </div>
     
   </div>
@@ -161,19 +202,19 @@ import { mapGetters } from "vuex";
 import GraduationCommonService from "@/services/GraduationCommonService.js";
 import StudentService from "@/services/StudentService.js";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
-import DisplayTable from "@/components/DisplayTable.vue";
 
 export default {
   name: "codes",
   components: {
-    DisplayTable: DisplayTable,
   },
   data() {
     return {
       url: null,
       file: [],
-      reportSignatures: [],
+      tab: 1,
+      
       certificateTypes: [],
+      reportSignatures: [],
       reportSignaturesFields: [
         {
           key: "signatureContent",
@@ -339,32 +380,6 @@ export default {
           sortable: true,
         },
       ],                
-      careerPrograms: [],
-      careerProgramFields: [
-        {
-          key: "code",
-          label: "Code",
-          sortable: true,
-          sortDirection: "desc",
-          class: "w-15"
-        },
-        {
-          key: "description",
-          label: "Program",
-          sortable: true,
-        },
-        {
-          key: "startDate",
-          label: "Start Date",
-          sortable: true,
-        },
-        {
-          key: "endDate",
-          label: "End Date",
-          sortable: true,
-        },
-      ],
-
     };
   },
   computed: {
@@ -380,10 +395,12 @@ export default {
     this.getReportTypes();
     this.getStudentStatusCodes();
     this.getUngradReasons();
-    this.getReportSignatures();
     
   },
   methods: {
+    closeDropdown(dropdown){
+      this.$refs[dropdown].visible=false
+    },
     updateSignature(){
     },
     onFileChange(e) {
