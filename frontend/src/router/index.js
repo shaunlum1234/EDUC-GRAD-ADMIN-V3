@@ -10,15 +10,25 @@ import Schools from '../views/Schools.vue';
 import PSI from '../views/PSI.vue';
 import AdminGraduationPrograms from '../views/AdminGraduationPrograms.vue';
 import AdminCodes from '../views/Codes.vue';
+import CareerPrograms from '../components/Codes/CareerPrograms.vue';
+import ReportTypes from '../components/Codes/ReportTypes.vue';
+import RequirementTypes from '../components/Codes/RequirementTypes.vue';
+import UngradReasons from '../components/Codes/UngradReasons.vue';
+import StatusCodes from '../components/Codes/StatusCodes.vue';
+import TranscriptTypes from '../components/Codes/TranscriptTypes.vue';
+import CertificateTypes from '../components/Codes/CertificateTypes.vue';
+import ProgramCertificateTranscripts from '../components/Codes/ProgramCertificateTranscripts.vue';
+import DigitialSignatures from '../components/Codes/DigitalSignatures.vue';
+import SignatureBlockType from '../components/Codes/SignatureBlockType.vue';
 import GraduationPrograms from '../components/GraduationPrograms.vue';
 import GraduationProgramCourses from '../components/GraduationProgramCourses.vue';
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
 import GraduationOptionalProgramRules from '@/components/GraduationOptionalProgramRules';
 import GraduationOptionalPrograms from '@/components/GraduationOptionalPrograms';
 import Admin from '../views/Admin.vue';
-import LetterGrades from '@/components/Admin/LetterGrades';
-import SpecialCases from '@/components/Admin/SpecialCases';
-import AlgorithmRules from '@/components/Admin/AlgorithmRules';
+import LetterGrades from '@/components/Programs/LetterGrades';
+import SpecialCases from '@/components/Programs/SpecialCases';
+import AlgorithmRules from '@/components/Programs/AlgorithmRules';
 
 Vue.use(VueRouter)
 
@@ -95,6 +105,19 @@ const routes = [{
   {
     path: '/codes',
     component: AdminCodes,
+    children: [
+      { path: '', component: CareerPrograms },
+      { path: '/codes/career-programs', component: CareerPrograms },
+      { path: '/codes/certificates-types', component: CertificateTypes },
+      { path: '/codes/digital-signatures', component: DigitialSignatures, name: "digitalSignatures"},
+      { path: '/codes/signature-blocks', component: SignatureBlockType },
+      { path: '/codes/transcript-types', component: TranscriptTypes },
+      { path: '/codes/program-certificate-transcript', component: ProgramCertificateTranscripts },
+      { path: '/codes/report-types', component: ReportTypes, name: "reportTypes" },
+      { path: '/codes/requirement-types', component: RequirementTypes },
+      { path: '/codes/student-status-codes', component: StatusCodes },
+      { path: '/codes/ungrad-reasons', component: UngradReasons },
+    ],    
     meta: {
       requiresAuth: true
     },

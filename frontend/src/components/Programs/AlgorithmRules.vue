@@ -1,0 +1,91 @@
+<template>
+  <div>
+  <DisplayTable v-bind:items="algorithmRules" title="Program" v-bind:filterOn="toFilterItem" v-bind:fields="algorithmRulesFields" id="specialCase" showFilter="true"
+        v-bind:role="role">
+        <template #cell(ruleName)="row">
+          {{row.item.algorithmRuleCode.label}}
+        </template>
+        <template #cell(ruleDescription)="row">
+          {{row.item.algorithmRuleCode.description}}
+        </template>
+        <template #cell(isActive)="row">
+          {{row.item.algorithmRuleCode.isActiveRule}}
+        </template>
+    </DisplayTable>
+  </div>
+</template>
+
+<script>
+import {
+  mapGetters
+} from "vuex";
+import DisplayTable from "@/components/DisplayTable";
+import ProgramManagementService from "@/services/ProgramManagementService.js";
+
+
+export default {
+  name: 'AlgorithmRules',
+  components: {
+    DisplayTable: DisplayTable,
+  },
+  created() {
+     ProgramManagementService.getAlgorithmRules(this.token)
+      .then((response) => {
+        this.algorithmRules = response.data;
+      })
+      // eslint-disable-next-line no-unused-vars
+      .catch((error) => {
+        //console.log('There was an error:' + error.response);
+      });
+  },
+  data: function() {
+    return {
+      algorithmRules: [],
+      toFilterItem:['graduationProgramCode','isActive'],
+      algorithmRulesFields: [
+        {
+          key: 'graduationProgramCode',
+          label: 'Program code',
+          sortable: true,
+          sortDirection: 'desc',
+          
+        },
+        {
+          key: 'ruleName',
+          label: 'Rule name',
+          sortable: true,
+        },
+        {
+          key: 'ruleDescription',
+          label: 'Rule description',
+          sortable: true,
+        },
+        {
+          key: 'sortOrder',
+          label: 'Sort order',
+          sortable: true,
+        },  
+        {
+          key: 'isActive',
+          label: 'Active flag',
+          sortable: true,
+        }            
+      ],
+    };
+  },
+  computed: {
+    ...mapGetters({  
+      token: "getToken",
+      role: "getRoles"
+    }),
+  },
+  methods: {
+  },
+};
+</script>
+
+<style>
+.table th, .table td{
+  border-top: none !important;
+
+}</style>
