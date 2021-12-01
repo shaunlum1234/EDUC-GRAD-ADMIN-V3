@@ -84,7 +84,7 @@
               <div class="form-group top-search">
                 <!-- Pen Input -->
                 <div>                
-                    <b-form-input maxlength=9 size="sm" id="search-by-pen" type="search" v-model="penInput" placeholder="PEN"
+                    <b-form-input maxlength=9 size="sm" id="search-by-pen-header" type="search" v-model="penInput" placeholder="PEN"
                       ref="penSearch" v-on:keyup="keyHandler" class="w-50 float-left m-1">
                     </b-form-input>
                     <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary float-left">
