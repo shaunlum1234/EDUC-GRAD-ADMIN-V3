@@ -147,7 +147,7 @@
                         size="sm"
                         v-model="editedGradStatus.studentGrade"
                         :options="gradeOptions"
-                        :disabled="disableInput"
+                        :disabled="disableInput || studentGradStatus.programCompletionDate !== null"
                       ></b-form-select>
                       </td>
                   </tr>            
