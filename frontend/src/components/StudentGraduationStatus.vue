@@ -579,8 +579,13 @@ export default {
       this.programExpiryDate = this.programCompletionEffectiveDateList[0].expiryDate
 
       if(this.editedGradStatus.programCompletionDate == ""){
-        this.disableSchoolAtGrad = true;
-        this.disableButton = true;
+        if(this.editedGradStatus.program == 'SCCP'){
+          this.disableButton = false;
+        } else {
+          this.disableSchoolAtGrad = true;
+          this.disableButton = true;
+        }
+        
       } else {
         if(this.editedGradStatus.programCompletionDate > this.programExpiryDate || this.editedGradStatus.programCompletionDate < this.programEffectiveDate)
         {
