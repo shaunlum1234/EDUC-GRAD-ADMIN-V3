@@ -2,9 +2,7 @@
 
   <div>
     <div class="row">
-      <!-- {{programCompletionEffectiveDateList}}<br>
-      effective:{{programEffectiveDate}}<br>
-      expire:{{programExpiryDate}}<br> -->
+
       <div class="col-12 m-0 p-2">
         <b-card  header="Graduation Information" class="col-12 p-0" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
@@ -49,7 +47,7 @@
                     </p>
                   </b-alert>
                 </div>    
-                <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'T' && showEdit">
+                <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'TER' && showEdit">
                   <b-alert show variant="warning" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Terminated</h4>
                     <p class="locked-message">
@@ -57,7 +55,7 @@
                     </p>
                   </b-alert>
                 </div>    
-                <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'D' && showEdit">
+                <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'DEC' && showEdit">
                   <b-alert show variant="info" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Deceased</h4>
                     <p class="locked-message">
@@ -65,7 +63,7 @@
                     </p>
                   </b-alert>
                 </div>          
-                <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'M' && showEdit">
+                <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'MER' && showEdit">
                   <b-alert show variant="info" class="p-3 mb-1">
                     <h4 class="alert-heading">Student status: Merged</h4>
                     <p class="locked-message">
@@ -431,7 +429,7 @@ export default {
       return this.studentGradStatus.recalculateGradStatus; 
     },
     disableSaveButton(){
-      return this.studentGradStatus.studentStatus == "D" || this.disableButton
+      return this.studentGradStatus.studentStatus == "DEC" || this.disableButton
     },
     ...mapGetters({
       studentGradStatus: "getStudentGradStatus",
@@ -738,11 +736,11 @@ export default {
         this.disableSchoolAtGrad = true;
       }
 
-      if(this.studentGradStatus.studentStatus == 'M' || this.studentGradStatus.studentStatus == 'D'){
+      if(this.studentGradStatus.studentStatus == 'MER' || this.studentGradStatus.studentStatus == 'DEC'){
         this.disableInput = true;
         this.disableStudentStatus = true;
       }
-      else if(this.studentGradStatus.studentStatus == 'T' || this.studentGradStatus.studentStatus == 'N'){
+      else if(this.studentGradStatus.studentStatus == 'TER' || this.studentGradStatus.studentStatus == 'N'){
         this.disableInput = false;
         this.disableStudentStatus = false;
       }

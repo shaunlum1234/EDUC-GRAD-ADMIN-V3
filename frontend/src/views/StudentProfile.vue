@@ -2,9 +2,11 @@
   <div class="student-profile">
     <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
     <!-- Button trigger modal -->
+    <b-button size="sm" variant="outline-secondary" v-on:click="cancel">
+              TEST
+            </b-button>
     <div class="row m-0 py-3">    
       <div class="px-0">   
-        
           <table v-if="!smallScreen" class="profile-name">
             <tr>
               <td></td>
@@ -234,6 +236,12 @@
             </b-card-group>
             </div>
           </div>
+            <template #modal-footer="{cancel}">
+            <!-- Emulate built in modal footer ok and cancel button actions -->
+            <b-button size="sm" variant="outline-secondary" v-on:click="cancel">
+              Close
+            </b-button>
+          </template>
       </b-modal>
       <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalAndReg" centered title="Projected Grad Status with Final Marks and Registrations">
             <b-alert variant="info" show>{{projectedGradStatus.gradMessage}}</b-alert>
@@ -309,6 +317,12 @@
             </b-card-group>
             </div>
           </div>    
+          <template #modal-footer="{ok, cancel, hide}">
+            <!-- Emulate built in modal footer ok and cancel button actions -->
+            <b-button size="sm" variant="outline-secondary" @click="cancel">
+              Close
+            </b-button>
+          </template>
       </b-modal>
       <div>
         <b-modal id="ungraduate-student-modal" title="Ungraduate Student">
@@ -317,7 +331,7 @@
 
           <template #modal-footer="{ok, cancel, hide}">
             <!-- Emulate built in modal footer ok and cancel button actions -->
-            <b-button size="sm" variant="outline-secondary" @click="cancel('resetUngraduateStudent')">
+            <b-button size="sm" variant="outline-secondary" @click="cancel">
               Cancel
             </b-button>
             <!-- Button with custom close trigger value -->
@@ -651,7 +665,11 @@
             });
           }
         });
-      },  
+      }, 
+      cancel: function () {
+        alert('message')
+        this.$router.go(`/student-profile/${this.profile.pen}/${this.profile.studentID}`);
+      },
       closeRecord: function () {
         this.$store.commit("unsetStudent");
       },
