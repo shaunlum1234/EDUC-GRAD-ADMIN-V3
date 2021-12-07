@@ -1,7 +1,5 @@
 <template>
   <div>
-    <!-- <h3>{{programCode }} Rule {{ selectedRule }} ({{ ruleName }})</h3> -->
-
     <div v-if="graduationProgramRuleCourses == 'not applicable'">
       Not applicable
     </div>
@@ -62,6 +60,18 @@ export default {
         {
           key: "courseName",
           label: "Course name",
+          sortable: true,
+          editable: true,
+        },
+        {
+          key: "startDate",
+          label: "Start date",
+          sortable: true,
+          editable: true,
+        },
+        {
+          key: "endDate",
+          label: "End date",
           sortable: true,
           editable: true,
         },
