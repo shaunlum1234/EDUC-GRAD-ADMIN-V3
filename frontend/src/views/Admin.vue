@@ -289,7 +289,6 @@ export default {
             formatter: (value) => {
               let newValue = new Date(value);           
               value = newValue.toLocaleString('en-CA', { timeZone: 'PST' })
-              console.log(value)
               return value
             }
           },
