@@ -1,10 +1,6 @@
 <template>
   <div class="student-profile">
     <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
-    <!-- Button trigger modal -->
-    <b-button size="sm" variant="outline-secondary" v-on:click="cancel">
-              TEST
-            </b-button>
     <div class="row m-0 py-3">    
       <div class="px-0">   
           <table v-if="!smallScreen" class="profile-name">
@@ -631,6 +627,7 @@
           } 
           this.$refs['projectedGradStatusWithFinalMarks'].show();
           this.tabLoading = false; 
+          this.getStudentReportsAndCertificates(this.studentId);
         }).catch((error) => {
           this.tabLoading = false; 
           if(error.response.status){
@@ -655,6 +652,7 @@
           this.projectedrequirementsMet = this.projectedGradStatus.requirementsMet;
           this.$refs['projectedGradStatusWithFinalAndReg'].show();
           this.tabLoading = false; 
+          this.getStudentReportsAndCertificates(this.studentId);
         }).catch((error) => {
           if(error.response.status){
             this.tabLoading = false; 
@@ -666,10 +664,9 @@
           }
         });
       }, 
-      cancel: function () {
-        alert('message')
-        this.$router.go(`/student-profile/${this.profile.pen}/${this.profile.studentID}`);
-      },
+
+        //this.$router.go(`/student-profile/${this.profile.pen}/${this.profile.studentID}`);
+
       closeRecord: function () {
         this.$store.commit("unsetStudent");
       },
@@ -677,7 +674,6 @@
         this.window.width = window.innerWidth;
         this.window.height = window.innerHeight;
         if (this.window.width < 992) {
-          //md
           this.smallScreen = true;
         } else {
           this.smallScreen = false;

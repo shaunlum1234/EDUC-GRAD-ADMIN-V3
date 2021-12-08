@@ -56,11 +56,7 @@
             </div>
           </div>
           </b-card-text>   
-      </b-card>      
-     
-
-                       
-                                 
+      </b-card>                                   
     </b-card-group>
   <div class="mt-2 row">
   <div class="col-8 float-left p-0">
@@ -72,9 +68,9 @@
               <DisplayTable title="Job/Runs" v-bind:items="batchInfoListData"
                 v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
                >
-                <template #cell(updateDate)="data">
+                <!-- <template #cell(updateDate)="data">
                    {{data.item.updateDate|formatTime}})
-                </template>   
+                </template>    -->
                
               </DisplayTable>
                 <!-- <b-table small striped :items="jobs" :fields="jobFields" :tbody-tr-class="rowClass">
@@ -107,8 +103,8 @@
               </b-table> -->
 
             </b-card-text>
-          </b-tab>
-          <b-tab title="Errors (32)">
+         </b-tab>
+          <!--  <b-tab title="Errors (32)">
             <b-card-text>
                       <table>
                         <tr><td>1234561</td><td>Success</td><td></td></tr>
@@ -138,16 +134,16 @@
                       </table> 
 
             </b-card-text>
-          </b-tab>
-          <b-tab title="Last Run Details" class="p-2 m-0">
+          </b-tab> -->
+          <!-- <b-tab title="Last Run Details" class="p-2 m-0">
             <b-card-text>
               <b-table small striped :items="items" :fields="fields" :tbody-tr-class="rowClass">
                  <template #cell(view)="data">
                   <div>
-                    <!-- Using modifiers -->
+          
                     <b-button v-b-modal="'modal-' + data.item.id">View</b-button>
 
-                    <!-- The modal -->
+      
                     <b-modal :id="'modal-' + data.item.id">
                       <table>
                         <tr><td>1234561</td><td>Success</td><td></td></tr>
@@ -169,7 +165,7 @@
               </b-table>
             </b-card-text>
           </b-tab>
-                    
+                     -->
         </b-tabs>
       </b-card>
     </div>    
@@ -289,14 +285,21 @@ export default {
             sortable: true,
             class: 'text-left',
             editable: true,
-            sortDirection: 'desc'
+            sortDirection: 'desc',
+            formatter: (value) => {
+              let newValue = new Date(value);           
+              value = newValue.toLocaleString('en-CA', { timeZone: 'PST' })
+              console.log(value)
+              return value
+            }
           },
           {
             key: 'updateUser',
             label: 'Update user',
             sortable: true,
             class: 'text-left',
-            editable: true
+            editable: true,
+           
           },          
           {
             key: 'status',
@@ -340,7 +343,12 @@ export default {
   created() {
     this.getAdminDashboardData()
   },
-  methods: {
+  methods: { 
+    formatDate(value) {    
+      return  value.toLocaleString('en-CA', { timeZone: 'PST' });
+      // value.toLocaleString('en-CA', { timeZone: 'PST' })
+      // return value;
+    },
     getAdminDashboardData(){
       DashboardService.getDashboardInfo(this.token).then(
         (response) => {

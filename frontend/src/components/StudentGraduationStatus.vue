@@ -457,6 +457,7 @@ export default {
       programChangeWarning:false,
       programEffectiveDate: "",
       programExpiryDate: "", 
+      errorMessage:"",
       dismissSecs: 3,
       dismissCountDown: 0,
       showModal: false,
@@ -861,11 +862,14 @@ export default {
         if(this.editedGradStatus.programCompletionDate != null){
           this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("-", "/").substring(0, 7);
         }         
-        // eslint-disable-next-line
-        console.log(error);
+        if(error.response.data){
+          if(error.response.data.messages){
+            this.errorMessage = error.response.data.messages[0].message;
+          }
+        }
         this.showNotification(
           "danger",
-          "There was an error: " + error
+          this.errorMessage
         );
       });
     },
