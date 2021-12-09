@@ -56,6 +56,7 @@
             size="sm"
             @click="row.toggleDetails"
             class="more-button"
+            v-if="row.item.hasMoreInfo"
           >
             <i v-if="row.item.mincodeAssessment || row.item.mincodeAssessmentName" class="fas fa-sm fa-caret-down"></i>
           </b-btn>
