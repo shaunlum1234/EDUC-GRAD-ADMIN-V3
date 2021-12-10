@@ -299,7 +299,14 @@ export default {
             class: 'text-left',
             editable: true,
            
-          },          
+          },    
+          {
+            key: 'triggerBy',
+            label: 'Trigger ID',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          },      
           {
             key: 'status',
             label: 'Status',
