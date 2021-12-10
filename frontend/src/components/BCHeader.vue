@@ -61,23 +61,23 @@
       <div class="container">
         <ul>
           <li>
-            <router-link to="/">Select Student</router-link>
+            <router-link to="/" id="select-student-route">Select Student</router-link>
             <!-- <a class="nav-link" @click="selectStudent()"
               >Student search</a
             > -->
           </li>
           <li>
-            <router-link to="/admin-graduation-programs"
+            <router-link to="/admin-graduation-programs" id="programs-route"
               >Programs</router-link
             >
           </li>
-          <li><router-link to="/courses">Courses</router-link></li>
-          <li><router-link to="/assessments">Assessments</router-link></li>
-          <li><router-link to="/schools">Schools</router-link></li>
-          <li><router-link to="/psi">PSI</router-link></li>
-          <li><router-link to="/codes">Codes</router-link></li>
-          <li v-if="!profile.pen" class="disabled"><a class="text-decoration-none text-disabled" :disabled=true>Profile (Student not loaded)</a></li>
-          <li v-else><router-link :to="`/student-profile/${this.profile.pen}/${this.profile.studentID}`">Profile ({{profile.pen? profile.pen : 'Student not loaded'}})</router-link></li>
+          <li><router-link to="/courses" id="courses-route">Courses</router-link></li>
+          <li><router-link to="/assessments" id="assessments-route">Assessments</router-link></li>
+          <li><router-link to="/schools" id="schools-route">Schools</router-link></li>
+          <li><router-link to="/psi" id="psi-route">PSI</router-link></li>
+          <li><router-link to="/codes" id="codes-route">Codes</router-link></li>
+          <li v-if="!profile.pen" class="disabled"><a id="profile-route" class="text-decoration-none text-disabled" :disabled=true>Profile (Student not loaded)</a></li>
+          <li v-else><router-link :to="`/student-profile/${this.profile.pen}/${this.profile.studentID}`" id="profile-route">Profile ({{profile.pen? profile.pen : 'Student not loaded'}})</router-link></li>
 
           <li>
              <form v-on:submit.prevent>
