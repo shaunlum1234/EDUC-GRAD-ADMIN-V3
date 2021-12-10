@@ -81,8 +81,8 @@
               <b-dropdown-item v-on:click="graduateStudent" v-if="!studentGradStatus.programCompletionDate">Graduate Student</b-dropdown-item>
               <b-dropdown-item v-if="studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Ungraduate Student</b-dropdown-item>
               <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks">Projected final marks</b-dropdown-item>
-              <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg" >Projected final marks and registrations</b-dropdown-item>
+              <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks" v-if="studentGradStatus.program != 'SCCP'">Projected final marks</b-dropdown-item>
+              <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg" v-if="studentGradStatus.program != 'SCCP'">Projected final marks and registrations</b-dropdown-item>
                 <b-dropdown-item v-on:click="updateStudentReports">Update Student Reports</b-dropdown-item>
             </b-dropdown>
           </div>
