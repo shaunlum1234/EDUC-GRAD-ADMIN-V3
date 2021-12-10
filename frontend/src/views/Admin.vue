@@ -2,7 +2,7 @@
   <div class="container">
     <h2>Admin Dashboard</h2>
 <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
-Dashboard data: {{dashboardData}}
+<!-- Dashboard data: {{dashboardData}} -->
 <div>
       <b-card-group deck>
       <b-card class="text-left m-1">
