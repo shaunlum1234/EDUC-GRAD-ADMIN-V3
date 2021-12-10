@@ -2,7 +2,7 @@
   <div class="container">
     <h2>Admin Dashboard</h2>
 <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
-<!-- Dashboard data: {{dashboardData}} -->
+Dashboard data: {{dashboardData}}
 <div>
       <b-card-group deck>
       <b-card class="text-left m-1">
@@ -299,7 +299,14 @@ export default {
             class: 'text-left',
             editable: true,
            
-          },          
+          },    
+          {
+            key: 'triggerBy',
+            label: 'Trigger ID',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          },      
           {
             key: 'status',
             label: 'Status',
