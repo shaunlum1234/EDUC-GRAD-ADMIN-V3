@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <div v-if="!isHidden"> -->
         <div v-if="!selectedProgramCode">
           <DisplayTable v-bind:items="graduationProgramRules" title="Program" v-bind:fields="graduationProgramsFields" id="programCode"
             v-bind:role="role" :slots="templates" showFilter=true pagination=true>
@@ -79,6 +78,13 @@ export default {
             class: '',
           },
           {
+            key: 'programRequirementCode.description',
+            label: 'Requirement description',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
             key: 'programRequirementCode.requiredCredits',
             label: 'Required credits',
             sortable: true,
@@ -140,7 +146,6 @@ export default {
   methods: {
     onClickChild(value) {
       this.selectedProgramId = value;
-      //console.log("Program Id: " + value); // someValue
     },
     selectGradRule(programCode) {
       this.selectedProgramCode = programCode;

@@ -70,6 +70,13 @@ export default {
             class: '',
           },
           {
+            key: 'optionalProgramRequirementCode.description',
+            label: 'Requirement description',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
             key: 'optionalProgramRequirementCode.requiredCredits',
             label: 'Required credits',
             sortable: true,
