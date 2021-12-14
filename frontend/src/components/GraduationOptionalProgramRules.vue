@@ -57,7 +57,7 @@ export default {
           },
           {
             key: 'optionalProgramRequirementCode.requirementCategory',
-            label: 'Rule category',
+            label: 'Rule category (C-courses, A-Assessments)',
             sortable: true,
             editable: true,
             class: '',
