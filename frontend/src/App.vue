@@ -15,6 +15,7 @@
         <router-link
       to="/admin"
       class="text-white"
+      id="dashboard-route"
     >Dashboard</router-link> | 
         <!-- <a
         @click="logout"
@@ -31,6 +32,7 @@
         <router-link
       to="/logout"
       class="text-white"
+      id="logout-route"
     >Logout</router-link>
         </Bcheader>
     
