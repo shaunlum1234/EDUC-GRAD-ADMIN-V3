@@ -50,6 +50,7 @@
             </div>
           </div>
       </div>
+
       <div class="col-12 px-3">
         <b-collapse id="student-accordion" class="">
           <b-card no-body class="border-0">
@@ -87,8 +88,8 @@
             </b-dropdown>
           </div>
       </div>
-      
     </div>
+
     <div class="row m-0">
       <div class="col-12 px-0">
         <div>
@@ -101,10 +102,8 @@
                       <b-button class="mr-2" :disabled="!gradCourses" v-on:click="gradTab ='gradCourses'" size="sm" :variant="gradTab == 'gradCourses'? 'primary':'outline-secondary'">Requirement Details</b-button>
                     </div>
                     <div class="col-12 col-md-8 text-right"><strong>Updated:</strong> {{ studentGradStatus.updateDate|formatTime }} by {{ studentGradStatus.updateUser }}</div>
-
                   </div>   
-                  <b-card-text>
-                    
+                  <b-card-text>              
                     <StudentGraduationStatus v-if="gradTab=='gradStatus'"></StudentGraduationStatus>
                     <GRADRequirementDetails v-if="gradTab=='gradCourses'">
                       <b-alert variant="info" :show="!studentGradStatus.recalculateGradStatus">{{studentGradStatus.studentGradData.gradMessage}}</b-alert>
@@ -149,7 +148,7 @@
                   <b-card-text class="text-center">Loading Student Courses and Assesments</b-card-text>
                 </b-tab>
                  
-                <b-tab v-if="studentUngradReasons.length" :title="'Ungrad Reasons ('  + studentUngradReasons.length + ')'" class="py-3 px-3 m-1">
+                <b-tab  :title="'Ungrad Reasons ('  + studentUngradReasons.length + ')'" class="py-3 px-3 m-1">
                   <b-card-text>
                     <b-table striped :items="studentUngradReasons" :fields='[{ key: "createDate",label: "Ungrad Date",class:"px-0 py-2 w-10"},{key: "ungradReasonCode",label: "Code",class:"px-0 py-2 w-10"},{key: "ungradReasonDescription",label: "Reason",class:"px-0 py-2 w-80"},{key: "createUser",label: "User",class:"px-0 py-2 w-80"}]'></b-table>
                   </b-card-text>
@@ -172,11 +171,8 @@
       </div>
     </div>
     <div>
- 
       <!-- Projected Grad Status Modal -->
-      <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalMarks" title="Projected Grad Status with Final Marks
-" centered>
-            
+      <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalMarks" title="Projected Grad Status with Final Marks" centered>    
             <b-alert variant="info" show>{{projectedGradStatus.gradMessage}}</b-alert>
             <b-card-group deck v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">
             <b-card
@@ -344,8 +340,6 @@
         
       </div>
     </div>
-
-
   </div>
 </template>
 
@@ -364,9 +358,6 @@
   import StudentGraduationStatus from "@/components/StudentGraduationStatus";
   import StudentOptionalPrograms from "@/components/StudentOptionalPrograms";
   import StudentAuditHistory from "@/components/StudentAuditHistory";
-  
-  
-
 
   import {
     mapGetters
@@ -396,7 +387,6 @@
       StudentGraduationStatus: StudentGraduationStatus,
       StudentOptionalPrograms: StudentOptionalPrograms,
       StudentAuditHistory: StudentAuditHistory
-
     },
     props: {
       pen: {
@@ -663,10 +653,7 @@
             });
           }
         });
-      }, 
-
-        //this.$router.go(`/student-profile/${this.profile.pen}/${this.profile.studentID}`);
-
+      },
       closeRecord: function () {
         this.$store.commit("unsetStudent");
       },
@@ -717,6 +704,7 @@
             });
           }
         });
+
         StudentService.getGraduationStatusOptionalPrograms(studentIdFromURL, this.token).then(
           (response) => {
             this.$store.dispatch("setStudentGradStatusOptionalPrograms", response.data);
@@ -729,6 +717,7 @@
             });
           }
         });
+
         StudentService.getStudentCareerPrograms(studentIdFromURL, this.token).then(
           (response) => {
             this.$store.dispatch("setStudentCareerPrograms", response.data);
@@ -757,6 +746,7 @@
             });
           }
         });
+
         CourseService.getStudentExamDetails(pen, this.token).then(
           (response) => {           
             this.$store.dispatch("setStudentExams", response.data);
@@ -770,6 +760,7 @@
             });
           }
         });
+
         StudentService.getStudentNotes(studentIdFromURL, this.token).then(
           (response) => {           
             this.$store.dispatch("setStudentNotes", response.data);
@@ -813,6 +804,7 @@
             });
           }
         });
+
         StudentService.getStudentOptionalProgramHistory(studentIdFromURL, this.token).then(
           (response) => {
   
@@ -826,7 +818,6 @@
             });
           }
         });
-
       },
     },
   };
