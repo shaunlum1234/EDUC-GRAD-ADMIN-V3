@@ -1,4 +1,5 @@
 <template>
+
   <div class="student-profile">
     <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
     <div class="row m-0 py-3">    
@@ -54,7 +55,7 @@
       <div class="col-12 px-3">
         <b-collapse id="student-accordion" class="">
           <b-card no-body class="border-0">
-            <!-- {{studentInfo}} -->
+            
               <table class="table table-sm table-striped">
                   <tbody>
                     <tr>
@@ -89,7 +90,6 @@
           </div>
       </div>
     </div>
-
     <div class="row m-0">
       <div class="col-12 px-0">
         <div>
@@ -99,8 +99,9 @@
                   <div class="mb-2 row">
                     <div class="col-12 col-md-4 m-0 p-0">
                       <b-button class="mx-2" v-on:click="gradTab ='gradStatus'" size="sm" :variant="gradTab == 'gradStatus'? 'primary':'outline-secondary'">GRAD Status</b-button>
-                      <b-button class="mr-2" :disabled="!gradCourses" v-on:click="gradTab ='gradCourses'" size="sm" :variant="gradTab == 'gradCourses'? 'primary':'outline-secondary'">Requirement Details</b-button>
-                    </div>
+                      <!-- <b-button class="mr-2" :disabled="!gradCourses" v-on:click="gradTab ='gradCourses'" size="sm" :variant="gradTab == 'gradCourses'? 'primary':'outline-secondary'">Requirement Details</b-button> -->
+                      <b-button class="mr-2" :disabled="!gradCourses" v-on:click="gradTab ='gradCourses'" size="sm">Requirement Details</b-button>
+                    </div> 
                     <div class="col-12 col-md-8 text-right"><strong>Updated:</strong> {{ studentGradStatus.updateDate|formatTime }} by {{ studentGradStatus.updateUser }}</div>
                   </div>   
                   <b-card-text>              
@@ -119,6 +120,7 @@
                     </b-overlay>
                   </b-card-text>
                 </b-tab>
+
                 <b-tab v-if="assessments != 'not loaded'"  :title="'Assessments ('  + assessments.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>             
                     <StudentAssessments />
@@ -132,19 +134,15 @@
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>
+
                 <b-tab v-if="optionalPrograms != 'not loaded'" :title="'Optional Programs ('  + optionalPrograms.length + ')'"  class="py-3 px-0 m-1">
                   <b-card-text>
-                    
                     <StudentOptionalPrograms></StudentOptionalPrograms>
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>                                   
                
-                <b-tab v-if="
-                this.courses == 'not loaded' ||
-  
-                  this.assessments == 'not loaded'
-              " title="Loading ..." class="tab-loading py-3 px-0 m-1">
+                <b-tab v-if="this.courses == 'not loaded' || this.assessments == 'not loaded'" title="Loading ..." class="tab-loading py-3 px-0 m-1">
                   <b-card-text class="text-center">Loading Student Courses and Assesments</b-card-text>
                 </b-tab>
                  
@@ -152,7 +150,8 @@
                   <b-card-text>
                     <b-table striped :items="studentUngradReasons" :fields='[{ key: "createDate",label: "Ungrad Date",class:"px-0 py-2 w-10"},{key: "ungradReasonCode",label: "Code",class:"px-0 py-2 w-10"},{key: "ungradReasonDescription",label: "Reason",class:"px-0 py-2 w-80"},{key: "createUser",label: "User",class:"px-0 py-2 w-80"}]'></b-table>
                   </b-card-text>
-                </b-tab>                
+                </b-tab>  
+
                 <b-tab :title="'Notes ('  + studentNotes.length + ')'" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentNotes></StudentNotes>
@@ -169,7 +168,7 @@
           </b-card>
         </div>
       </div>
-    </div>
+    </div> 
     <div>
       <!-- Projected Grad Status Modal -->
       <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalMarks" title="Projected Grad Status with Final Marks" centered>    
