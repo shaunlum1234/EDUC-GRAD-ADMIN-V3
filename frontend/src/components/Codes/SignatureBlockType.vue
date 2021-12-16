@@ -7,12 +7,12 @@
     id=""
     showFilter="true"
   >
-    <template #cell(effectiveDate)="row">
+    <!-- <template #cell(effectiveDate)="row">
       {{ row.item.effectiveDate | formatSimpleDate }}
     </template>
     <template #cell(expiryDate)="row">
       {{ row.item.expiryDate | formatSimpleDate }}
-    </template>              
+    </template>               -->
   </DisplayTable>
   </div>
 </template>
@@ -57,7 +57,7 @@ export default {
         },
         {
           key: "label",
-          label: "Label",
+          label: "Signature Block",
           sortable: true,
         },
         {
@@ -65,16 +65,16 @@ export default {
           label: "Description",
           sortable: true,
         },
-        {
-          key: "effectiveDate",
-          label: "Effective date",
-          sortable: true,
-        },
-        {
-          key: "expiryDate",
-          label: "Expiry date",
-          sortable: true,
-        },
+        // {
+        //   key: "effectiveDate",
+        //   label: "Effective date",
+        //   sortable: true,
+        // },
+        // {
+        //   key: "expiryDate",
+        //   label: "Expiry date",
+        //   sortable: true,
+        // },
       ],
     };
   },

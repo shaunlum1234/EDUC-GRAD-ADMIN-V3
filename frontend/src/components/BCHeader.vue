@@ -84,7 +84,7 @@
               <div class="form-group top-search">
                 <!-- Pen Input -->
                 <div>                
-                    <b-form-input maxlength=9 size="sm" id="search-by-pen-header" type="search" v-model="penInput" placeholder="PEN"
+                    <b-form-input maxlength=9 minlength=9 size="sm" id="search-by-pen-header" type="search" v-model="penInput" placeholder="PEN"
                       ref="penSearch" v-on:keyup="keyHandler" class="w-50 float-left m-1">
                     </b-form-input>
                     <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary float-left">
@@ -185,7 +185,7 @@ export default {
           // eslint-disable-next-line
           console.log('BCHeader: ' + error);
           this.searchLoading = false;
-          this.showNotification("danger", "There was an error with the web service: " + error);
+          this.showNotification("danger", "Student cannot be found on the GRAD or PEN database");
         });
       }
     },
