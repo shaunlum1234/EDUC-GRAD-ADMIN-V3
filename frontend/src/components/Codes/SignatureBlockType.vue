@@ -57,7 +57,7 @@ export default {
         },
         {
           key: "label",
-          label: "Label",
+          label: "Signature Block",
           sortable: true,
         },
         {
