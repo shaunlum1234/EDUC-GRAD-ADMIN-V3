@@ -7,11 +7,14 @@
     id="code"
     showFilter="true"
   >
-    <template #cell(effectiveDate)="row">
-      {{ row.item.effectiveDate | formatSimpleDate }}
+    <template #cell(schoolCategoryCode)="row">
+      {{ row.item.schoolCategoryCode | formatNullsToNA }}
     </template>
-    <template #cell(expiryDate)="row">
-      {{ row.item.expiryDate | formatSimpleDate }}
+    <template #cell(certificateTypeCode)="row">
+      {{ row.item.certificateTypeCode | formatNullsToNA }}
+    </template>
+    <template #cell(transcriptTypeCode)="row">
+      {{ row.item.transcriptTypeCode | formatNullsToNA }}
     </template>
   </DisplayTable>
   </div>

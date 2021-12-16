@@ -70,6 +70,14 @@ Vue.filter('formatSimpleDate', function(value) {
     return "";
   }
 });
+//Format nulls to n/a
+Vue.filter('formatNullsToNA', function(value) {
+  if(!value){
+    return 'n/a';
+  }else{
+    return value;
+  }
+});
 
 Vue.filter('formatSetenceCase', function(value) {
   
