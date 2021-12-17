@@ -24,6 +24,8 @@
         <b-nav-item to="/codes/requirement-types" :active="tab === 4" @click="tab = 4">Requirements</b-nav-item>
         <b-nav-item to="/codes/student-status-codes" :active="tab === 5" @click="tab = 5">Student Status Codes</b-nav-item>
         <b-nav-item to="/codes/ungrad-reasons" :active="tab === 6" @click="tab = 6">Ungrad Reasons</b-nav-item>
+        <b-nav-item to="/codes/history-activity" :active="tab === 7" @click="tab = 7">History Activity</b-nav-item>
+        <b-nav-item to="/codes/document-status-codes" :active="tab === 8" @click="tab = 8">Document Status Codes</b-nav-item>
       </b-nav>
     </b-card-header>
      <b-card-body >

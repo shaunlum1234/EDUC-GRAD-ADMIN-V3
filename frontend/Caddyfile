@@ -29,6 +29,9 @@
     proxy /api/v1/student/studentOptionalProgramHistory/ {$VUE_APP_STUDENTS_API_HOST} {
         header_upstream Cookie "SMSESSION=siteminder"
     }
+    proxy /api/v1/student/historyactivity {$VUE_APP_STUDENTS_API_HOST} {
+        header_upstream Cookie "SMSESSION=siteminder"
+    }
     proxy /api/v1/studentassessment {$VUE_APP_ASSESSMENT_API_HOST} {
         header_upstream Cookie "SMSESSION=siteminder"
     }
@@ -72,6 +75,9 @@
         header_upstream Cookie "SMSESSION=siteminder"
     }
     proxy /api/v1/graduationreports {$VUE_APP_GRADUATION_REPORT_API_HOST} {
+        header_upstream Cookie "SMSESSION=siteminder"
+    }
+    proxy /api/v1/graduationreports/documentstatus {$VUE_APP_GRADUATION_REPORT_API_HOST} {
         header_upstream Cookie "SMSESSION=siteminder"
     }
     proxy /api/v1/signatures {$VUE_APP_GRAD_REPORT_API_HOST} {
