@@ -52,6 +52,10 @@ module.exports = {
         target: process.env.VUE_APP_STUDENTS_API_HOST,
         changeOrigin: true,
       },
+      '/api/v1/student/historyactivity': {
+        target: process.env.VUE_APP_STUDENTS_API_HOST,
+        changeOrigin: true,
+      },
       '/api/v1/algo': {
         target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
         changeOrigin: true,
@@ -65,6 +69,10 @@ module.exports = {
         changeOrigin: true,
       },
       '/api/v1/graduationreports': {
+        target: process.env.VUE_APP_GRADUATION_REPORT_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/graduationreports/documentstatus': {
         target: process.env.VUE_APP_GRADUATION_REPORT_API_HOST,
         changeOrigin: true,
       },

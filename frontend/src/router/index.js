@@ -17,9 +17,11 @@ import UngradReasons from '../components/Codes/UngradReasons.vue';
 import StatusCodes from '../components/Codes/StatusCodes.vue';
 import TranscriptTypes from '../components/Codes/TranscriptTypes.vue';
 import CertificateTypes from '../components/Codes/CertificateTypes.vue';
+import HistoryActivityCodes from '../components/Codes/HistoryActivityCodes.vue';
 import ProgramCertificateTranscripts from '../components/Codes/ProgramCertificateTranscripts.vue';
 import DigitialSignatures from '../components/Codes/DigitalSignatures.vue';
 import SignatureBlockType from '../components/Codes/SignatureBlockType.vue';
+import DocumentStatusCode from '../components/Codes/DocumentStatusCode.vue';
 import GraduationPrograms from '../components/GraduationPrograms.vue';
 import GraduationProgramCourses from '../components/GraduationProgramCourses.vue';
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
@@ -29,6 +31,7 @@ import Admin from '../views/Admin.vue';
 import LetterGrades from '@/components/Programs/LetterGrades';
 import SpecialCases from '@/components/Programs/SpecialCases';
 import AlgorithmRules from '@/components/Programs/AlgorithmRules';
+
 
 Vue.use(VueRouter)
 
@@ -109,6 +112,8 @@ const routes = [{
       { path: '/codes/requirement-types', component: RequirementTypes },
       { path: '/codes/student-status-codes', component: StatusCodes },
       { path: '/codes/ungrad-reasons', component: UngradReasons },
+      { path: '/codes/history-activity', component: HistoryActivityCodes },
+      { path: '/codes/document-status-codes', component: DocumentStatusCode },
     ],    
     meta: {
       requiresAuth: true
