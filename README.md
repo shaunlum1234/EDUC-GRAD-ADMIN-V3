@@ -1,5 +1,6 @@
 [![img](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md) &nbsp;
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bcgov/EDUC-GRAD-ADMIN/Build) &nbsp; 
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bcgov/EDUC-GRAD-ADMIN/Build) &nbsp; &nbsp;
+[![Node.js CI](https://github.com/bcgov/EDUC-GRAD-ADMIN/actions/workflows/CI.yml/badge.svg)](https://github.com/bcgov/EDUC-GRAD-ADMIN/actions/workflows/CI.yml)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=bcgov_EDUC-GRAD-ADMIN&metric=bugs)](https://sonarcloud.io/summary/new_code?id=bcgov_EDUC-GRAD-ADMIN) &nbsp;
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=bcgov_EDUC-GRAD-ADMIN&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=bcgov_EDUC-GRAD-ADMIN) &nbsp;
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=bcgov_EDUC-GRAD-ADMIN&metric=coverage)](https://sonarcloud.io/summary/new_code?id=bcgov_EDUC-GRAD-ADMIN) &nbsp;
