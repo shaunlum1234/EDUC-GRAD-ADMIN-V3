@@ -21,5 +21,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          sonar.organization: ${{ secrets.SONAR_ORG }}
-          sonar.projectKey: ${{ secrets.SONAR_PROJECT_KEY }}
