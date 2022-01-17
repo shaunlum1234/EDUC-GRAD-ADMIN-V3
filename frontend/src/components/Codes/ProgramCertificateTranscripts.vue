@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>The rules governing which certificate type or transcript type will be used for a student.</p>
   <DisplayTable
     title="Program Certificate Transcripts"
     v-bind:items="programCertificateTranscripts"

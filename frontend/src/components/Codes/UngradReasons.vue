@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>When a User "ungrads" a student (security permissions needed), the User must select an "ungrad" reason.  The list of Ungrad Reasons a User can choose from are maintained in this table. </p>
   <DisplayTable
     title="Ungrad Reasons"
     v-bind:items="ungradReasons"

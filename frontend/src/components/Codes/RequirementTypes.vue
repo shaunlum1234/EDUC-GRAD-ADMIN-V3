@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>Requirement type codes support how the algorithm runs program rules and optional program rules.</p>
     <DisplayTable
       title="Requirement Types"
       v-bind:items="requirementTypes"

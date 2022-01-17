@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>Digitized signatures used on students' certificates and transcript.</p>
     <DisplayTable
       title="Report Types"
       v-bind:items="digitalSignatures"
@@ -71,15 +72,20 @@ export default {
           sortable: true,
         },
         {
+          key: "gradReportSignatureCode",
+          label: "Code",
+          sortable: true,
+        },   
+        {
+          key: "gradReportSignatureName",
+          label: "Signature Name",
+          sortable: true,
+        },
+        {
           key: "updatedTimestamp",
           label: "Last Updated",
           sortable: true,
-        },        
-        {
-          key: "gradReportSignatureCode",
-          label: "District",
-          sortable: true,
-        }        
+        },                 
       ],     
     };
   },

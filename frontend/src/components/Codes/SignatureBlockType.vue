@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>Signature block(s) used on students' certificates and transcript.</p>
   <DisplayTable
     title="Signature Block"
     v-bind:items="signatureBlock"
@@ -7,12 +8,6 @@
     id=""
     showFilter="true"
   >
-    <!-- <template #cell(effectiveDate)="row">
-      {{ row.item.effectiveDate | formatSimpleDate }}
-    </template>
-    <template #cell(expiryDate)="row">
-      {{ row.item.expiryDate | formatSimpleDate }}
-    </template>               -->
   </DisplayTable>
   </div>
 </template>

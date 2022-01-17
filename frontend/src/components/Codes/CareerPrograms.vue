@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>The optional program Career Program in GRAD can be broken down further by specific career program code.  A Student on the optional program CP, Career Program,  would also be assigned a Career Program code(s) to identify what career program(s) they are on.</p>
     <DisplayTable
       title="Career Programs"
       v-bind:items="careerPrograms"

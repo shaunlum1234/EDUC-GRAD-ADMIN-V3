@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>Student history records are created by certain GRAD processes and User initiated activity.  Each record will be associated with a history activity code. </p>
     <DisplayTable
         title="Program Certificate Transcripts"
         v-bind:items="historyActivityCode"

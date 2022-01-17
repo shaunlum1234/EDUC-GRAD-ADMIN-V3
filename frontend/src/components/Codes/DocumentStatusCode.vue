@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>A students' Transcript, Student Achievement Report (TVR) and Certificate(s) will show a status as the student progresses through the system.  The list of document statuses are maintained in this table.  Documents will show In Progress until the student graduates, once a student graduates and the final documents are created, the documents will show a status of Completed.  If, and only if, a student gets "ungraded" will a students existing documents get Archived. </p>
     <DisplayTable
         title="Program Certificate Transcripts"
         v-bind:items="documentStatusCodes"

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>A list of transcript types used by the GRAD system.</p>
   <DisplayTable
     title="Transcript Type Codes"
     v-bind:items="transcriptTypes"

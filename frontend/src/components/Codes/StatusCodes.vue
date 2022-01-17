@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>Student status codes refer to a students' status in the GRAD system.</p>
     <DisplayTable
       title="Status Codes"
       v-bind:items="studentStatusCodes"

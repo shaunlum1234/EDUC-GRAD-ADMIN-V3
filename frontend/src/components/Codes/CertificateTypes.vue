@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>A list of certificate types used by the GRAD system.</p>
   <DisplayTable
     title="Certificate Types"
     v-bind:items="certificateTypes"
