@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>Students' in the GRAD system may have several types of reports associated with their GRAD data.  The list of report types are maintained in this table.</p>
     <DisplayTable
       title="Report Types"
       v-bind:items="reportTypes"
