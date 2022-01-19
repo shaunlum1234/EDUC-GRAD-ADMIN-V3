@@ -825,7 +825,7 @@
   .grad-actions{
     position: absolute;
     right: 0;
-    top: -50px
+    top: -100px
   }
   .profile-info{
     font-size: 29px;
