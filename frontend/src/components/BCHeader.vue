@@ -40,9 +40,6 @@
         <ul class="navbar-nav mr-auto">
           <li>
             <router-link to="/">Select Student</router-link>
-            <!-- <a class="nav-link" @click="selectStudent()"
-              >Student search</a
-            > -->
           </li>
           <li>
             <router-link to="/admin-graduation-programs">Programs</router-link>
@@ -54,17 +51,13 @@
           <li><router-link to="/codes">Codes</router-link></li>
 
         </ul>
-        <!-- <div class="float:right"><slot></slot></div> -->
       </div>
     </nav>
-    <nav class="navigation-main" id="navbar">
+    <nav class="navigation-main" id="navbar" aria-label="aria-label">
       <div class="container">
         <ul>
           <li>
             <router-link to="/" id="select-student-route">Select Student</router-link>
-            <!-- <a class="nav-link" @click="selectStudent()"
-              >Student search</a
-            > -->
           </li>
           <li>
             <router-link to="/admin-graduation-programs" id="programs-route"
@@ -140,8 +133,6 @@ export default {
   },
   methods: {
     logout() {
-      //LoginService.logout();
-
         if (localStorage.getItem('jwt') != null){
 
             localStorage.removeItem('jwt');
@@ -167,8 +158,6 @@ export default {
         if(path == currentRoute){
           location.reload();
         }
-        
-        //this.$router.push({ name: "student-profile", params: {pen: this.selectedPen}});
     },
     findStudentByPen: function() {
       if (this.penInput) {
@@ -272,9 +261,6 @@ header .nav-btn {
   -webkit-box-shadow: 0 6px 8px -4px #b3b1b3;
   -moz-box-shadow: 0 6px 8px -4px #b3b1b3;
   box-shadow: 0 6px 8px -4px #b3b1b3;
-}
-
-.navigation-main {
   padding: 10px 0 10px 0;
 }
 

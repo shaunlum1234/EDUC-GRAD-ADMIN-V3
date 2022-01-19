@@ -9,19 +9,12 @@ body {
   background: #fff;
 }
 
-.form-control {
-  border: 1px solid #606060;
-}
-
 form {
   font-family: ‘BCSans’, ‘Noto Sans’, Verdana, Arial, sans-serif;
 
 }
 .form-control{border: 1px solid #212529;}
 .custom-select{border: 1px solid #212529;}
-.text_input {
-  font-family: ‘BCSans’, ‘Noto Sans’, Verdana, Arial, sans-serif;
-}
 
 .text_input {
   
@@ -79,12 +72,12 @@ opacity: 1;
 .btn-secondary.disabled, .btn-secondary:disabled{
     background:#38598a;
 }
-.btn-secondary:hover, .btn-secondary:hover {
+.btn-secondary:hover {
   color: #fff;
   background-color: #2d476f;
   border-color: #294266;
 }
-.btn-secondary.disabled::hover, .btn-secondary:disabled:hover{
+.btn-secondary.disabled::hover{
   background:#38598a
 }
 

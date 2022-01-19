@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Login from '../views/Login.vue';
-//import Logout from '../views/Logout.vue';
 import StudentSearch from '../views/StudentSearch.vue';
 import StudentProfile from '../views/StudentProfile.vue';
 import Assessments from '../views/Assessments.vue';
@@ -32,9 +31,7 @@ import LetterGrades from '@/components/Programs/LetterGrades';
 import SpecialCases from '@/components/Programs/SpecialCases';
 import AlgorithmRules from '@/components/Programs/AlgorithmRules';
 
-
 Vue.use(VueRouter)
-
 const routes = [{
     path: '/login',
     name: 'login',

@@ -145,9 +145,6 @@ keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIfra
             store.dispatch("setRefreshToken",keycloak.refreshToken);
             store.dispatch("setPermissions",keycloak.tokenParsed.scope);
             store.dispatch("setUsername",keycloak.tokenParsed.name);
-            
-            
-            
           } else {
             Vue.$log.warn('Token not refreshed, valid for '
             + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
@@ -165,7 +162,6 @@ keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIfra
       }else{
         keycloak.login({idpHint:'IDIR'});
       }   
-      
     }
    
 
