@@ -6,12 +6,12 @@
       <div class="px-0">   
           <table v-if="!smallScreen" class="profile-name">
             <tr>
-              <td></td>
-              <td class="align-top profile-name-header"><label>PEN</label></td>
-              <td class="align-top profile-name-header"><label>Legal surname</label></td>
-              <td class="align-top profile-name-header"><label>Legal given</label></td>
-              <td class="align-top profile-name-header"><label>Legal middle</label></td>
-              <td class="align-top profile-name-header"><label>Birthdate (yyyy-mm-dd)</label></td>
+              <th class="align-top profile-name-header"></th>
+              <th class="align-top profile-name-header"><label>PEN</label></th>
+              <th class="align-top profile-name-header"><label>Legal surname</label></th>
+              <th class="align-top profile-name-header"><label>Legal given</label></th>
+              <th class="align-top profile-name-header"><label>Legal middle</label></th>
+              <th class="align-top profile-name-header"><label>Birthdate (yyyy-mm-dd)</label></th>
             </tr>
             <tr>
               <td>
@@ -99,7 +99,6 @@
                   <div class="mb-2 row">
                     <div class="col-12 col-md-4 m-0 p-0">
                       <b-button class="mx-2" v-on:click="gradTab ='gradStatus'" size="sm" :variant="gradTab == 'gradStatus'? 'primary':'outline-secondary'">GRAD Status</b-button>
-                      <!-- <b-button class="mr-2" :disabled="!gradCourses" v-on:click="gradTab ='gradCourses'" size="sm" :variant="gradTab == 'gradCourses'? 'primary':'outline-secondary'">Requirement Details</b-button> -->
                       <b-button class="mr-2" :disabled="!gradCourses" v-on:click="gradTab ='gradCourses'" size="sm">Requirement Details</b-button>
                     </div> 
                     <div class="col-12 col-md-8 text-right"><strong>Updated:</strong> {{ studentGradStatus.updateDate|formatTime }} by {{ studentGradStatus.updateUser }}</div>

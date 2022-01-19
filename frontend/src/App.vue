@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- <Header></Header> -->
     <Bcheader class="bcheader" style="margin-bottom: 15px; text-transform: capitalize">
     <a v-b-toggle.sidebar-1>{{username}}</a>
     <b-sidebar id="sidebar-1" title="Permissions" shadow>

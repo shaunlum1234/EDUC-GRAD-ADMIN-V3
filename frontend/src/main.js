@@ -54,7 +54,7 @@ Vue.use(ToastPlugin);
 Vue.filter('formatTime', function(value) {
   if(value){
     var date = new Date(value);
-    date.toLocaleString('en-US', { timeZone: 'America/New_York' });
+    //date.toLocaleString('en-US', { timeZone: 'America/New_York' });
     return date.toString();  
   }else{
     return "";
@@ -88,7 +88,6 @@ Vue.filter('formatSetenceCase', function(value) {
 //keycloak init options
 let token = localStorage.getItem('jwt');
 let refreshToken = localStorage.getItem('refresh');
-
 
 let initOptions;
 //THIS should be replaced with configmap env variables from each Openshift environment.
