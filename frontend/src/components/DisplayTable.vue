@@ -42,7 +42,7 @@
         >
           <b-input-group>
             <div class="filter-icon p-2 text-secondary">
-              Filter:
+              Filter: 
             </div>
             <b-form-input
               debounce="500"
@@ -523,7 +523,7 @@ lg (for laptops and desktops - screens equal to or greater than 1200px
   .col-lg-4.table-filter {
     position: absolute;
     right: 0;
-    top: 0px;
+    top: -60px;
   }
 }
 

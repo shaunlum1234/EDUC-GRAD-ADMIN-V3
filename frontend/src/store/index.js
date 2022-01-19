@@ -102,16 +102,11 @@
           state.student.hasGradStatusPendingUpdates = payload;
       },
       setToken(state, payload) {
-        //state.token = payload;
-       // console.log("PAYLOAD" + payload);
         localStorage.setItem("jwt", payload);
         state.token = payload;
         
       },
       setRefreshToken(state, payload) {
-        //state.token = payload;
-        //console.log("PAYLOAD" + payload);
-        
         localStorage.setItem("refresh", payload);
         state.refreshToken = payload;
       },

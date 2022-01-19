@@ -77,7 +77,7 @@ opacity: 1;
   background-color: #2d476f;
   border-color: #294266;
 }
-.btn-secondary.disabled::hover{
+.btn-secondary.disabled:hover{
   background:#38598a
 }
 
