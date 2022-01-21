@@ -5,7 +5,7 @@ import VueLogger from 'vuejs-logger';
 import Vuelidate from 'vuelidate';
 import * as Keycloak from 'keycloak-js';
 import router from './router';
-import BootstrapVue from 'bootstrap-vue';
+import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue';
 import { ToastPlugin } from 'bootstrap-vue';
 import qs from 'query-string';
 import VueFilterDateParse from '@vuejs-community/vue-filter-date-parse';
@@ -13,7 +13,6 @@ import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
 import store from './store/index.js';
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
-import { BootstrapVueIcons } from 'bootstrap-vue';
 
 //import 'bootstrap/dist/css/bootstrap.css'
 import '@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css';

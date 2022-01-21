@@ -20,7 +20,7 @@
               && v.pathTo != 'recalculateGradStatus'
               ">
               <div class="w-25 float-left"> <strong>{{v.pathTo | formatSetenceCase}}</strong>:</div>
-              <div class="w-50 float-left"> {{v.lhs==null?"blank":v.lhs}} <i class="fas fa-arrow-right"></i> {{v.rhs == null?"blank":v.rhs}}</div>
+              <div class="w-50 float-left"> {{v.lhs==null?"blank":v.lhs}} <i class="fas fa-arrow-right" aria-hidden="true"></i> {{v.rhs == null?"blank":v.rhs}}</div>
         
               <div class="w-100 float-left">
                 <b-collapse :id="'collapse-' + studentHistory[index+1].historyID" class="mt-2">
@@ -57,7 +57,7 @@
               && v.pathTo != 'recalculateGradStatus'
               ">
               <div class="w-25 float-left"> <strong>{{v.pathTo | formatSetenceCase}}</strong>:</div>
-              <div class="w-50 float-left"> {{v.lhs==null?"blank":v.lhs}} <i class="fas fa-arrow-right"></i> {{v.rhs == null?"blank":v.rhs}}</div>
+              <div class="w-50 float-left"> {{v.lhs==null?"blank":v.lhs}} <i class="fas fa-arrow-right" aria-hidden="true"></i> {{v.rhs == null?"blank":v.rhs}}</div>
         
               <div class="w-100 float-left">
                 <b-collapse :id="'collapse-' + optionalProgramHistory[index+1].historyId" class="mt-2">

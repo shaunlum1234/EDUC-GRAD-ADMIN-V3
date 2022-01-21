@@ -64,7 +64,7 @@
             @click="row.toggleDetails"
             class="more-button"
           >
-            <i class="fas fa-sm fa-caret-down"></i>
+            <i class="fas fa-sm fa-caret-down" aria-hidden="true"></i>
           </b-btn>
         </template>
         <template #row-details="">   
@@ -115,14 +115,10 @@ export default {
       
     };
   },
-  created() {
-  },
   methods: {
     filterGradReqCourses(row) {
       if (row.gradReqMet.length > 0) {
         return true;
-      } else {
-        return false;
       }
     },
     toggle(id) {
@@ -158,7 +154,5 @@ export default {
 }
 .gradReqsMet span + span::before{
     content: ", "
-
 }
-
 </style>

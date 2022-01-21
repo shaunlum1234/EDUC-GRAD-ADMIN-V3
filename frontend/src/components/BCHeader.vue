@@ -81,10 +81,10 @@
                       ref="penSearch" v-on:keyup="keyHandler" class="w-50 float-left m-1">
                     </b-form-input>
                     <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary float-left">
-                      <i class="fas fa-search"></i>
+                      <i class="fas fa-search" aria-hidden="true"></i>
                     </button>
                     <button v-if="searchLoading" class="btn btn-success ml-2 float-left">
-                      <i class="fas fa-search"></i>
+                      <i class="fas fa-search" aria-hidden="true"></i>
                     </button>  
                     
                 </div>

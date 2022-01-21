@@ -11,7 +11,7 @@
           <div class="row">
             <div class="col-12">
               <strong> Processed:</strong>
-              <h2><i class="fas fa-info-circle text-info"></i> {{processed}} / {{lastExpectedStudentsProcessed}}</h2>
+              <h2><i class="fas fa-info-circle text-info" aria-hidden="true"></i> {{processed}} / {{lastExpectedStudentsProcessed}}</h2>
               <hr>
               <strong>Last run:</strong> {{ processedLastRun }}<br>
               <strong>Last run status: {{lastRunStatus}}</strong>
@@ -24,7 +24,7 @@
           <div class="row">
             <div class="col-12">
               <strong> Errors:</strong>
-              <h2><i class="fas fa-times-circle text-danger"></i>  {{errors}} Records</h2> 
+              <h2><i class="fas fa-times-circle text-danger" aria-hidden="true"></i>  {{errors}} Records</h2> 
               <hr>
               <!-- <a href="#">View Errors</a> -->
             </div>
@@ -36,7 +36,7 @@
           <div class="row">
             <div class="col-12">
               <strong> Processing Time: </strong>
-                <h2><i class="fas fa-info-circle text-info"></i> {{processingTime}} hours</h2>          
+                <h2><i class="fas fa-info-circle text-info" aria-hidden="true"></i> {{processingTime}} hours</h2>          
                 <hr>
                 <strong>Timespan:</strong><br/>{{processedLastJobstartTime}} <strong>to</strong> <br/> {{processedLastJobendTime}} <br/>
                 <!-- <strong>Time Per Record:</strong> {{timePerRecord}}               -->
@@ -50,7 +50,7 @@
           <div class="row">
             <div class="col-12">
               <strong>Expected: </strong>
-                <h2><i class="fas fa-info-circle text-info"></i> {{expected}} Records</h2>          
+                <h2><i class="fas fa-info-circle text-info" aria-hidden="true"></i> {{expected}} Records</h2>          
                 <hr>
               <strong>Next Run:</strong> Today at 6:00PM
             </div>
@@ -200,38 +200,38 @@
 
     <!-- <b-card-group deck>
       <b-card class="text-center m-1">
-        <b-card-text><i class="fas fa-times-circle text-danger h2"></i><h3>231/232</h3></b-card-text>
+        <b-card-text><i class="fas fa-times-circle text-danger h2" aria-hidden="true"></i><h3>231/232</h3></b-card-text>
       </b-card>
             <b-card class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>175/175</h3></b-card-text>
+        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>175/175</h3></b-card-text>
       </b-card>
       <b-card class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>0</h3></b-card-text>
+        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>0</h3></b-card-text>
       </b-card>
       <b-card  class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>81/81</h3></b-card-text>
+        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>81/81</h3></b-card-text>
       </b-card>
       <b-card class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>100/100</h3></b-card-text>
+        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>100/100</h3></b-card-text>
       </b-card>                                      
     </b-card-group>
   </div>
   <div class="mt-3">
     <b-card-group deck>
       <b-card header="1986" class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>232/232</h3></b-card-text>
+        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>232/232</h3></b-card-text>
       </b-card>
             <b-card header="2018-PF" class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>175/175</h3></b-card-text>
+        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>175/175</h3></b-card-text>
       </b-card>
       <b-card header="1950" class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>0</h3></b-card-text>
+        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>0</h3></b-card-text>
       </b-card>
       <b-card header="SCCP" class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>81/81</h3></b-card-text>
+        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>81/81</h3></b-card-text>
       </b-card>
       <b-card header="2004-PF" class="text-center m-1">
-        <b-card-text><i class="fas fa-times-circle text-danger h2"></i><h3>100/200</h3></b-card-text>
+        <b-card-text><i class="fas fa-times-circle text-danger h2" aria-hidden="true"></i><h3>100/200</h3></b-card-text>
       </b-card> 
     </b-card-group>
   </div> 

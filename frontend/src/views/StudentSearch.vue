@@ -17,10 +17,10 @@
                         ref="penSearch" v-on:keyup="keyHandler" tabindex="1" class="w-50 float-left">
                       </b-form-input>
                       <button id="search-submit" v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary ml-2 float-left">
-                        <i class="fas fa-search"></i> Search
+                        <i class="fas fa-search" aria-hidden="true"></i> Search
                       </button>
                       <button id="search-submit"  v-if="searchLoading" class=" btn btn-success ml-2 float-left">
-                        <i class="fas fa-search"></i> Search  
+                        <i class="fas fa-search" aria-hidden="true"></i> Search  
                       </button>  
                       &nbsp;&nbsp;<b-spinner v-if="searchLoading" label="Loading">Loading</b-spinner>    
                     </div>
@@ -253,7 +253,7 @@
                           @click="row.toggleDetails"
                           class="more-button w-100"
                         >
-                          <i class="fas fa-sm fa-caret-down"></i>
+                          <i class="fas fa-sm fa-caret-down" aria-hidden="true"></i>
                         </b-btn>            
                       </template>                  
                       <template #row-details="row">
@@ -694,7 +694,6 @@ export default {
     width: 100%;
     margin-right: 9px;
     float: left;
-    /*padding-left: 25px;*/
   }
 
   h6 {
