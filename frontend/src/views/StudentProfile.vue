@@ -55,7 +55,7 @@
         <b-collapse id="student-accordion" class="">
           <b-card no-body class="border-0">
             
-              <table class="table table-sm table-striped" aria-label="student details">
+              <table class="table table-sm table-striped" role="presentation" aria-label="student details">
                   <tbody>
                     <tr>
                       <td class="px-2"><strong>Usual surname:</strong> {{studentInfo.usualLastName}}</td>
