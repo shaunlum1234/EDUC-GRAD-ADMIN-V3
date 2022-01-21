@@ -52,20 +52,7 @@
                 "
                 :title="row.item.courseName"
               >
-                    <table>
-                      <!-- <tr>
-                        <td><strong>COREG ID:</strong>  {{ row.item.courseDetails.coRegID }}</td>
-                      </tr> -->
-                      <!-- <tr>
-                        <td><strong>Course Code:</strong>  {{ row.item.courseDetails.courseCode }}</td>
-                      </tr> -->
-                      <!-- <tr>
-                        <td><strong>Course Level:</strong> {{ row.item.courseDetails.courseLevel }}</td>
-                      </tr> -->
-                      <!-- <tr>                        
-                        <td><strong>Course name:</strong><br> {{ row.item.courseDetails.courseName }}</td>
-                      </tr> -->
-
+                    <table role="presentation" aria-label="course details">
                       <tr>                        
                         <td><strong>Language:</strong> {{ row.item.courseDetails.language }}</td>
                       </tr>

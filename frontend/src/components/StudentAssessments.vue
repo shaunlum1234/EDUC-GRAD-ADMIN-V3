@@ -28,7 +28,7 @@
                 "
                 :title="row.item.assessmentName"
               >
-                <table>
+                <table aria-label="assessment details" role="presentation">
                   <tr>
                     <td><strong>Assessment Code:</strong> {{row.item.assessmentDetails.assessmentCode}}</td>
                   </tr>
