@@ -1,22 +1,21 @@
 <template>
 
   <div class="student-profile">
-    <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
     <div class="row m-0 py-3">    
       <div class="px-0">   
-          <table v-if="!smallScreen" class="profile-name">
+          <table v-if="!smallScreen" class="profile-name" aria-label="student information">
             <tr>
-              <th class="align-top profile-name-header"></th>
-              <th class="align-top profile-name-header"><label>PEN</label></th>
-              <th class="align-top profile-name-header"><label>Legal surname</label></th>
-              <th class="align-top profile-name-header"><label>Legal given</label></th>
-              <th class="align-top profile-name-header"><label>Legal middle</label></th>
-              <th class="align-top profile-name-header"><label>Birthdate (yyyy-mm-dd)</label></th>
+              <th class="align-top profile-name-header" scope="col"></th>
+              <th class="align-top profile-name-header" scope="col"><label>PEN</label></th>
+              <th class="align-top profile-name-header" scope="col"><label>Legal surname</label></th>
+              <th class="align-top profile-name-header" scope="col"><label>Legal given</label></th>
+              <th class="align-top profile-name-header" scope="col"><label>Legal middle</label></th>
+              <th class="align-top profile-name-header" scope="col"><label>Birthdate (yyyy-mm-dd)</label></th>
             </tr>
             <tr>
               <td>
                 <b-button  v-b-toggle.student-accordion variant="link" v-on:click="moreStudentInfo = !moreStudentInfo">
-                  <i class='fas fa-lg fa-caret-down'></i>
+                  <i class='fas fa-lg fa-caret-down' aria-hidden="true"></i>
                 </b-button>
               </td>
               <td class="align-top profile-name-data px-0" v-if="studentFullName.pen"><strong><p class="profile-info">{{ studentFullName.pen }}</p></strong></td>
@@ -56,7 +55,7 @@
         <b-collapse id="student-accordion" class="">
           <b-card no-body class="border-0">
             
-              <table class="table table-sm table-striped">
+              <table class="table table-sm table-striped" aria-label="student details">
                   <tbody>
                     <tr>
                       <td class="px-2"><strong>Usual surname:</strong> {{studentInfo.usualLastName}}</td>
@@ -347,7 +346,6 @@
   import CourseService from "@/services/CourseService.js";
   import StudentService from "@/services/StudentService.js";
   import GraduationService from "@/services/GraduationService.js"
-  import SiteMessage from "@/components/SiteMessage";
   import GRADRequirementDetails from "@/components/GRADRequirementDetails";
   import StudentCourses from "@/components/StudentCourses";
   import StudentAssessments from "@/components/StudentAssessments";
@@ -376,7 +374,6 @@
 
     },
     components: {
-      SiteMessage: SiteMessage,
       StudentCourses: StudentCourses,
       GRADRequirementDetails: GRADRequirementDetails,
       StudentAssessments: StudentAssessments,
@@ -825,7 +822,7 @@
   .grad-actions{
     position: absolute;
     right: 0;
-    top: -50px
+    top: -100px
   }
   .profile-info{
     font-size: 29px;

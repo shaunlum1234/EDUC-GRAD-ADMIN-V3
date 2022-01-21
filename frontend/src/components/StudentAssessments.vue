@@ -58,7 +58,7 @@
             class="more-button"
             v-if="row.item.hasMoreInfo"
           >
-            <i v-if="row.item.mincodeAssessment || row.item.mincodeAssessmentName" class="fas fa-sm fa-caret-down"></i>
+            <i v-if="row.item.mincodeAssessment || row.item.mincodeAssessmentName" class="fas fa-sm fa-caret-down" aria-hidden="true"></i>
           </b-btn>
         </template>
         <template #row-details="row">

@@ -104,7 +104,7 @@
                 size="sm"
                 @click="addItem"
                 class="float-left"
-                ><i class="fas fa-plus"></i> Add</b-button
+                ><i class="fas fa-plus" aria-hidden="true"></i> Add</b-button
               >
             </b-button-toolbar>
           </div>
@@ -185,7 +185,7 @@
           </b-btn> -->
         </b-button-group>
         <!-- <b-btn v-else-if="role=='administrator'" variant="primary" size="sm" @click="edit(item)" class="square">
-          <i class="fas fa-edit"></i>
+          <i class="fas fa-edit" aria-hidden="true"></i>
         </b-btn> -->
       </template>
 
@@ -212,13 +212,13 @@
           @click="confirmDelete(item)"
           class="square"
         >
-          <i class="fas fa-lg fa-times"></i>
+          <i class="fas fa-lg fa-times" aria-hidden="true"></i>
         </b-btn>
       </template>
       <!-- 
       <template #cell(more)="row">
         <b-btn variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
-          <i class="fas fa-sm fa-caret-down"></i>
+          <i class="fas fa-sm fa-caret-down" aria-hidden="true"></i>
         </b-btn>
       </template>
 

@@ -104,11 +104,11 @@
                   <tr v-if="showEdit">
                     <td v-if="editedGradStatus.program != 'SCCP'">
                       <strong>Program completion date: (YYYY/MM)</strong><br>
-                      <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                      <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                     </td>
                     <td v-if="editedGradStatus.program == 'SCCP'">
                       <strong>Program completion date: (YYYY/MM/DD)</strong><br>
-                      <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                      <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                     </td>
                     <td v-if="editedGradStatus.program != 'SCCP'"><b-input :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="7" @keyup="dateFormatYYYYMM()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                     <td v-if="editedGradStatus.program == 'SCCP'"><b-input  size="sm" type="text" maxLength="10" @keyup="dateFormatYYYYMMDD()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
@@ -197,10 +197,10 @@
                   </tr>
                   <tr v-if="showEdit">
                       <td><strong>School of record:</strong><br>
-                        <div v-if="schoolOfRecordMissing" class="form-validation-message text-warning" >School of record is empty&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                        <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                        <div v-if="schoolNotFoundWarning" class="form-validation-message text-danger" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                        <div v-if="schoolOfRecordInputWarning" class="form-validation-message text-danger" >Please enter at least 8 digits&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                        <div v-if="schoolOfRecordMissing" class="form-validation-message text-warning" >School of record is empty&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                        <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                        <div v-if="schoolNotFoundWarning" class="form-validation-message text-danger" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                        <div v-if="schoolOfRecordInputWarning" class="form-validation-message text-danger" >Please enter at least 8 digits&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                         <div v-if="schoolFound" class="form-validation-message text-success" >{{editedGradStatus.schoolName}} found.</div>                      
                       </td>
                       <td><b-input :disabled="disableInput" size="sm" type="text" maxlength="8" minength="8" v-model='editedGradStatus.schoolOfRecord'></b-input></td>                  
@@ -249,10 +249,10 @@
                     </tr>    
                     <tr v-if="showEdit">
                       <td><strong>School at graduation:</strong><br>
-                      <div v-if="schoolAtGraduationWarning" class="form-validation-message text-warning" >School at graduation entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                      <div v-if="schoolAtGradProgramCompletionDateMessage" class="form-validation-message text-danger" >If program completion date is not blank, school at graduation cannot be blank&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                      <div v-if="schoolAtGraduationNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                      <div v-if="schoolAtGraduationInputWarning" class="form-validation-message text-danger" >Please enter at least 8 digits&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                      <div v-if="schoolAtGraduationWarning" class="form-validation-message text-warning" >School at graduation entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                      <div v-if="schoolAtGradProgramCompletionDateMessage" class="form-validation-message text-danger" >If program completion date is not blank, school at graduation cannot be blank&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                      <div v-if="schoolAtGraduationNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                      <div v-if="schoolAtGraduationInputWarning" class="form-validation-message text-danger" >Please enter at least 8 digits&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                       <div v-if="schoolAtGraduationFound" class="form-validation-message text-success" >{{editedGradStatus.schoolAtGradName}} found.</div> 
                         </td>
                       <td><b-input :disabled="disableSchoolAtGrad" size="sm" type="text" maxlength="8" v-model='editedGradStatus.schoolAtGrad'></b-input></td>        

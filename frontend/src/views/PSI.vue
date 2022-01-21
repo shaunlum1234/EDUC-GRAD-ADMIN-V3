@@ -145,7 +145,7 @@
                   @click="row.toggleDetails"
                   class="more-button"
                 >
-                  <i class="fas fa-sm fa-caret-down"></i>
+                  <i class="fas fa-sm fa-caret-down" aria-hidden="true"></i>
                 </b-btn>
               </template>
               <template #row-details="row">
