@@ -17,7 +17,6 @@ export default {
       studentInfo: "getStudentProfile",
     }),
   },
-  created() {},
 };
 </script>
 

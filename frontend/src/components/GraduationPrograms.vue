@@ -87,7 +87,13 @@ export default {
       .then((response) => {
         this.graduationPrograms = response.data;
       })
-      .catch(() => {});
+      .catch((error) => {
+         //eslint-disable-next-line
+        console.log('There was an error:' + error.response);
+      });
+
+
+      
       
   },
   methods: {
