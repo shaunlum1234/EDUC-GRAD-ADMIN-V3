@@ -974,7 +974,7 @@ export default {
 
 <style scoped>
 .pdf-link::before{
-   font-family: "Font Awesome 5 Free, sans-serif"; font-weight: 900; content: "\f15b";
+   font-family: "Font Awesome 5 Free, Sans-serif"; font-weight: 900; content: "\f15b";
    padding-right:10px
 }
 .graduation-status table tr td{
