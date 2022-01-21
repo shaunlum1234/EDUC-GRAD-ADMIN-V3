@@ -679,9 +679,6 @@ export default {
         });
         //this.$router.push({ name: "student-profile", params: {pen: this.selectedPen}});
       },
-
-      clearStudent: function () {},
-
       clearInput: function () {
         this.penInput = "";
         this.studentSearchResults = "";

@@ -229,8 +229,6 @@ export default {
 
     };
   },
-  created() {
-  },
   methods: {
     toggle(id) {
       const index = this.opened.indexOf(id);

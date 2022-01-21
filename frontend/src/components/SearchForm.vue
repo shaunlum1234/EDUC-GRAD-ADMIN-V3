@@ -47,7 +47,7 @@
                                     <div class="advanced-search-button">
                                       <button v-on:click="submit" v-if="!searchLoading" class="btn btn-primary" tabindex="6">Search</button>
                                       <button  class="btn btn-success" v-if="searchLoading">Search</button>
-                                      <button  @click="clearInput" class="btn btn-outline-primary mx-2">Reset</button>                
+                                      
                                     </div>   
                                   </div>
                                 </b-col>
@@ -99,9 +99,6 @@ export default {
     ...mapActions({
       searchAction: "searchSchools"
     }),
-    clearInput(){
-     
-    },
     // Triggered when `childToParent` event is emitted by the child.
     async submit() {
       //go to webservices
