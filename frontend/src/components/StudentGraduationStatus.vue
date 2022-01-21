@@ -80,7 +80,7 @@
                   </b-alert>
                 </div>                                                                              
                 <!-- {{editedGradStatus}} -->
-                <table class="table  table-hover table-sm" >
+                <table role="presentation" aria-label="edit grad status" class="table  table-hover table-sm" >
                   <tbody>
                   <tr v-if="!showEdit">
                     <td class="w-50"><strong>Program: </strong></td>
@@ -166,31 +166,30 @@
                       title="School Information"
                       triggers="focus"
                       v-if="studentGradStatus.schoolOfRecord" >
-                      <table>
+                      <table role="presentation" aria-label="grad status">
                         <tbody>
-                        <tr>
-                          <td><strong>District:</strong> {{schoolOfRecord.districtName}}</td>
-                        </tr>
-                        <tr>
-                          <td><strong>School name:</strong> <br> {{schoolOfRecord.schoolName}}</td>
-                        </tr> 
+                          <tr>
+                            <td><strong>District:</strong> {{schoolOfRecord.districtName}}</td>
+                          </tr>
+                          <tr>
+                            <td><strong>School name:</strong> <br> {{schoolOfRecord.schoolName}}</td>
+                          </tr> 
+                            <tr>                        
+                            <td><strong>Status: </strong> {{ schoolOfRecord.openFlag == 'Y' ? 'Open': 'Closed' }}</td>
+                          </tr>
+                            <tr>                        
+                            <td><strong>Independent type:</strong> {{schoolOfRecord.independentDesignation}}</td>
+                          </tr>
+                            <tr>                        
+                            <td><strong>Independent affiliation:</strong> {{schoolOfRecord.independentAffiliation}}</td>
+                          </tr>
+                            <tr>                        
+                            <td><strong>Transcript eligible:</strong> {{schoolOfRecord.transcriptEligibility}}</td>
+                          </tr>
                           <tr>                        
-                          <td><strong>Status: </strong> {{ schoolOfRecord.openFlag == 'Y' ? 'Open': 'Closed' }}</td>
-                        </tr>
-                          <tr>                        
-                          <td><strong>Independent type:</strong> {{schoolOfRecord.independentDesignation}}</td>
-                        </tr>
-                          <tr>                        
-                          <td><strong>Independent affiliation:</strong> {{schoolOfRecord.independentAffiliation}}</td>
-                        </tr>
-                          <tr>                        
-                          <td><strong>Transcript eligible:</strong> {{schoolOfRecord.transcriptEligibility}}</td>
-                        </tr>
-                        <tr>                        
-                          <td><strong>Dogwood eligibility:</strong> {{schoolOfRecord.certificateEligibility}}</td>
-                        </tr>
+                            <td><strong>Dogwood eligibility:</strong> {{schoolOfRecord.certificateEligibility}}</td>
+                          </tr>
                         </tbody>
-                        
                       </table>
                     </b-popover>                       
                     </td>
@@ -222,7 +221,7 @@
                       target="school-at-graduation-popover"
                       title="School Information"
                       triggers="focus">
-                      <table>
+                      <table role="presentation" aria-label="edit graduation status">
                         <tr>
                           <td><strong>District:</strong> {{schoolAtGraduation.districtName}}</td>
                         </tr>
@@ -365,17 +364,7 @@
                <b-table :items="requirementsMet"
                         :fields='[{ key: "rule",label: "Rule", sortable: true},{key: "description",label:"Description", sortable: true}]'   
                         small
-                        striped></b-table> 
-
-                <!-- <b-table
-                  v-if="requirementsMet"  
-                  :items="requirementsMet"
-                  small
-                  striped
-                  filter=null
-                  class="requirements-met">  
-                </b-table> -->
-                
+                        striped></b-table>                 
               </b-card-text>
             </b-card>
            
@@ -985,7 +974,7 @@ export default {
 
 <style scoped>
 .pdf-link::before{
-   font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f15b";
+   font-family: "Font Awesome 5 Free, sans-serif"; font-weight: 900; content: "\f15b";
    padding-right:10px
 }
 .graduation-status table tr td{
