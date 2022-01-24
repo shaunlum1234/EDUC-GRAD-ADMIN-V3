@@ -236,7 +236,6 @@
             <b-alert variant="info" show>{{projectedGradStatus.gradMessage}}</b-alert>
 
             <b-card-group deck v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">
-            
             <b-card
               header="Requirements met"
             >
@@ -441,8 +440,6 @@
       window.removeEventListener('resize', this.handleResize);
     },
     methods: {
-      run(){
-      },
       ungraduateStudent(){
         this.tabLoading = true;
         let ungradCode = this.ungradReasonSelected;

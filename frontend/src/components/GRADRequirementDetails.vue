@@ -33,7 +33,7 @@
           >
         <b-card-text class="p-3">   
          
-          <DisplayTable v-if="hasGradStatus" :items="gradStatusCourses" :fields="fields" showFilter="true" title="RequirementDetailsCourses">
+          <DisplayTable v-if="hasGradStatus && gradStatusCourses" :items="gradStatusCourses" :fields="fields" showFilter="true" title="RequirementDetailsCourses">
             <template #cell(gradReqMet)="row">
               <div class="d-flex flex-column text-md-left">
                 <div class="gradReqsMet">
@@ -76,7 +76,6 @@ export default {
   components: {
     DisplayTable: DisplayTable,
   },
-  props: {},
   computed: {
     ...mapGetters({
       courses: "getStudentCourses",
