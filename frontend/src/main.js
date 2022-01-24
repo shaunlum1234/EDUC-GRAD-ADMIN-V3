@@ -13,8 +13,6 @@ import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
 import store from './store/index.js';
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
-
-//import 'bootstrap/dist/css/bootstrap.css'
 import '@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import '../src/assets/css/bcgov.css';
@@ -22,10 +20,7 @@ import '../src/assets/css/global.css';
 
 
 // Install BootstrapVue
-
-//import store from './store';
 import SmartTable from 'vuejs-smart-table';
-//require('../node_modules/@mygovbc-bootstrap-theme/dist/mygovbc-bootstrap-theme.min.css')
 Vue.use(Vuelidate);
 Vue.config.productionTip = false;
 const options = {
@@ -53,7 +48,6 @@ Vue.use(ToastPlugin);
 Vue.filter('formatTime', function(value) {
   if(value){
     var date = new Date(value);
-    //date.toLocaleString('en-US', { timeZone: 'America/New_York' });
     return date.toString();  
   }else{
     return "";
@@ -81,8 +75,8 @@ Vue.filter('formatNullsToNA', function(value) {
 Vue.filter('formatSetenceCase', function(value) {
   
   const result = value.replace(/([A-Z])/g, " $1");
-  const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
-  return finalResult;
+  return result.charAt(0).toUpperCase() + result.slice(1);
+  
 });
 //keycloak init options
 let token = localStorage.getItem('jwt');

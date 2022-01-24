@@ -68,11 +68,6 @@
         state.student.reports = payload;         
       },
       setProgramOptions(state, payload){
-        // let programs = payload;
-        // let i=0;
-        //  for(i=0; i < programs.length; i++){
-        //    state.applicationVariables.programOptions.push({"value": programs[i].programCode, "text":programs[i].programCode});
-        //  }
         state.applicationVariables.programOptions = payload;
       },
       setStudentStatusCodesOptions(state, payload){
@@ -90,21 +85,17 @@
         state.permissions = payload;
       },
       setStudentGradStatusOptionalPrograms(state, payload) {
-      //  console.log(payload);
         state.student.optionalPrograms = payload;
-        let i = 0;
-        for (i = 0; i < state.student.optionalPrograms.length; i++) {
+        for (let i = 0; i < state.student.optionalPrograms.length; i++) {
           state.student.optionalPrograms[i].studentOptionalProgramData = JSON.parse(state.student.optionalPrograms[i].studentOptionalProgramData); 
         }
       },
       setHasGradStatusPendingUpdates(state, payload) {
-      //  console.log(payload);
           state.student.hasGradStatusPendingUpdates = payload;
       },
       setToken(state, payload) {
         localStorage.setItem("jwt", payload);
         state.token = payload;
-        
       },
       setRefreshToken(state, payload) {
         localStorage.setItem("refresh", payload);
@@ -160,8 +151,8 @@
         state.student.hasNotes = false;
         state.student.hasGradStatus = false;
         state.student.hasgradStatusPendingUpdates = false;
-        state.student.certificates = "not loaded",
-        state.student.reports = "not loaded",
+        state.student.certificates = "not loaded";
+        state.student.reports = "not loaded";
         state.student.ungradReasons = "";
         state.student.careerPrograms = [];
       },
@@ -290,31 +281,6 @@
           console.log(error.response.status);
         });
       },    
-      updateStudentAuditHistory({commit,state}){
-        StudentService.getStudentHistory(state.student.profile.studentID, state.token).then(
-            (response) => {
-              commit('setStudentAuditHistory', response.data);
-            }
-        ).catch((error) => {
-          if(error.response.status){
-              // eslint-disable-next-line
-            console.log(error.response.status);
-          }
-        });
-      },
-      updateStudentOptionalProgramsAuditHistory({commit,state}){
-        StudentService.getStudentHistory(state.student.profile.studentID, state.token).then(
-            (response) => {
-              commit('setStudentAuditHistory', response.data);
-            }
-        ).catch((error) => {
-          if(error.response.status){
-              // eslint-disable-next-line
-            console.log(error.response.status);
-          }
-        });
-      },      
-      
       setStudentAuditHistory({commit}, payload){
         commit('setStudentAuditHistory', payload);
       },
@@ -437,8 +403,6 @@
         return state.student.profile;
       },
       getStudentFullName(state) {
-  
-
         return {
           "legalLastName": state.student.profile.legalLastName,
           "legalFirstName": state.student.profile.legalFirstName,
@@ -459,10 +423,10 @@
         return state.student.courses;
       },
       getStudentExams(state) {
-        return  state.student.exams;
+        return state.student.exams;
       },
       getStudentAssessments(state) {
-        return  state.student.assessments;
+        return state.student.assessments;
       },
       getStudentNotes(state) {
         return state.student.notes;
@@ -483,7 +447,12 @@
         return state.student.hasNotes;
       },
       gradStatusCourses(state){
-        return state.student.gradStatus.studentGradData.studentCourses.studentCourseList;
+        if(state.student.gradStatus.studentCourses){
+          return state.student.gradStatus.studentGradData.studentCourses.studentCourseList;
+        }else {
+          return {};
+        }
+        
       },
       gradStatusAssessments(state){
         return state.student.gradStatus.studentGradData.studentAssessments.studentAssessmentList;

@@ -127,15 +127,6 @@
                             tabindex="6"
                             v-on:keyup="keyHandler"
                           ></b-form-input>
-                          <!-- <b-input-group-append>
-                            <b-form-datepicker
-                              v-model="advancedSearchInput.birthdateFrom.value"
-                              button-only
-                              right
-                              locale="en-US"
-                              aria-controls="datepicker-birthdate-to"
-                            ></b-form-datepicker>
-                          </b-input-group-append> -->
                         </b-input-group>
                          <div
                         class="error"
@@ -208,13 +199,7 @@
                         </div>
                         <b-input id="usual-middle-input" v-model="advancedSearchInput.usualMiddleNames.value" placeholder=""
                           v-on:keyup=" keyHandler" tabindex="9" />
-                      </div> 
-                      <!-- <div class="advanced-search-field form-group col-12 col-md-2" :class="{ 'form-group--error': $v.advancedSearchInput.mincode.value.$error }">
-                          <label class="form__label">Mincode</label>
-                          <b-input class="form__input" v-model="advancedSearchInput.mincode.value" placeholder=""
-                            v-on:keyup="keyHandler" tabindex="11" />
-                          <div class="error" v-if="!$v.advancedSearchInput.mincode.value.numeric">Field is not numeric.</div>  
-                      </div>    -->                        
+                      </div>                    
                       <div class="advanced-search-field col-12 col-md-2">
                         <label>Local ID</label>
                         <b-input id="local-id-input" v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
@@ -607,8 +592,6 @@ export default {
           path: `/student-profile/${this.selectedPen}/${this.selectedId}`
         });
       },
-
-      clearStudent: function () {},
 
       clearInput: function () {
         this.penInput = "";

@@ -25,12 +25,8 @@
         >
       </b-button-group>
     </b-button-toolbar>
-
-    <!--b-btn v-if="isAdmin && updateAllowed" v-bind:class="this.quickEdit?'btn-success':'btn-primary'" class="float-right" @click="toggleQuickEdit">Edit</b-btn-->
     <b-row>
       <b-col lg="8" class="px-0 float-left">
-        <!--b-button v-if="role=='administrator' && createAllowed" variant="success" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
-        </b-button-->
       </b-col>
       <b-col sm="12" lg="4" class="my-1 table-filter" v-if="this.showFilter">
         <b-form-group
@@ -180,13 +176,7 @@
           >
             Save
           </b-btn>
-          <!-- <b-btn variant="outline-primary" size="sm" @click="resetEdit">
-            Cancel
-          </b-btn> -->
         </b-button-group>
-        <!-- <b-btn v-else-if="role=='administrator'" variant="primary" size="sm" @click="edit(item)" class="square">
-          <i class="fas fa-edit" aria-hidden="true"></i>
-        </b-btn> -->
       </template>
 
       <template v-for="(_, slotName) of $scopedSlots" v-slot:[slotName]="scope">
@@ -199,10 +189,6 @@
           <b-btn variant="danger" size="sm" @click="deleteItem(item)">
             Delete
           </b-btn>
-          <!-- <b-btn variant="outline-primary" size="sm" 
-          @click="cancelDelete()">
-            Cancel
-          </b-btn> -->
         </b-button-group>
 
         <b-btn
@@ -331,17 +317,9 @@ export default {
     },
   },
   created() {
-    //      console.log(this.fields[this.fields.length-1].class);
     window.addEventListener("keyup", this.validateInput);
     //Set up permissions from role
     this.setAdmin(this.role);
-
-    //add Default Columns for table
-    // this.fields.unshift({
-    //   key: 'more',
-    //   label: 'More'
-    // });
-
     if (this.pagination) {
       this.perPage = 25;
     }
@@ -365,23 +343,12 @@ export default {
         label: "Delete",
       });
     }
-
-    //this.itemToAdd = JSON.parse(JSON.stringify(this.items[0]));
     this.itemToAdd = { ...this.items[0] };
-
     for (var i = 0; i < this.fields.length; i++) {
       this.itemToAdd[this.fields[i].key] = "";
     }
-
-    // for (var i = 0; i < this.fields.length; i++) {
-    //   this.itemToAdd[this.fields[i].key] = "N/A";
-    // }
-  },
-  mounted() {
-    // Set the initial number of items
   },
   methods: {
-   
     toggleQuickEdit() {
       this.quickEdit = !this.quickEdit;
       this.resetEdit();

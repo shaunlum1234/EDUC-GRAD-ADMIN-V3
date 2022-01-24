@@ -533,7 +533,6 @@ export default {
     this.showNotification = sharedMethods.showNotification
     if(this.savedAdvSearchInput != ""){
       this.advancedSearchInput = this.savedAdvSearchInput;
-      //this.findStudentsByAdvancedSearch(1,50);
     }
   },
   components: {
@@ -621,7 +620,6 @@ export default {
       this.message = "";
       this.errorMessage = "";
       this.$v.$touch();
-      // console.log(this.advancedSearchValidate(this.advancedSearchInput));
 
       if(this.$v.$invalid){
         this.advancedSearchMessage += "Form Validation Error: please correct the form input";
