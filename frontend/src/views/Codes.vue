@@ -34,156 +34,6 @@
       </b-card-text>
     </b-card-body>
     </b-card>    
-
-      <!-- <b-card no-body>
-        <b-tabs card>
-          <b-tab title="Career Programs" active>
-            <b-card-text v-if="careerPrograms">
-              <DisplayTable
-                title="Career Programs"
-                v-bind:items="careerPrograms"
-                v-bind:fields="careerProgramFields"
-                id="code"
-                showFilter="true"
-              >
-                <template #cell(effectiveDate)="row">
-                  {{ row.item.effectiveDate | formatSimpleDate }}
-                </template>
-                <template #cell(expiryDate)="row">
-                  {{ row.item.expiryDate | formatSimpleDate }}
-                </template>
-              </DisplayTable>
-            </b-card-text>
-          </b-tab>
-          <b-tab title="Certificate Types" active>
-            <b-card-text v-if="certificateTypes">
-              <DisplayTable
-                title="Certificate Types"
-                v-bind:items="certificateTypes"
-                v-bind:fields="certificateTypesFields"
-                id="code"
-                showFilter="true"
-              >
-                <template #cell(effectiveDate)="row">
-                  {{ row.item.effectiveDate | formatSimpleDate }}
-                </template>
-                <template #cell(expiryDate)="row">
-                  {{ row.item.expiryDate | formatSimpleDate }}
-                </template>
-              </DisplayTable>
-            </b-card-text>
-          </b-tab>   
-          
-          <b-tab title="Report Types" active>
-            <b-card-text v-if="reportTypes">
-              <DisplayTable
-                title="Report Types"
-                v-bind:items="reportTypes"
-                v-bind:fields="reportTypesFields"
-                id="code"
-                showFilter="true"
-              >
-                <template #cell(effectiveDate)="row">
-                  {{ row.item.effectiveDate | formatSimpleDate }}
-                </template>
-                <template #cell(expiryDate)="row">
-                  {{ row.item.expiryDate | formatSimpleDate }}
-                </template>
-              </DisplayTable>
-            </b-card-text>
-          </b-tab>          
-          <b-tab title="Requirement Types" active>
-            <b-card-text v-if="requirementTypes">
-              <DisplayTable
-                title="Requirement Types"
-                v-bind:items="requirementTypes"
-                v-bind:fields="requirementTypesFields"
-                id="code"
-                showFilter="true"
-              >
-                <template #cell(effectiveDate)="row">
-                  {{ row.item.effectiveDate | formatSimpleDate }}
-                </template>
-                <template #cell(expiryDate)="row">
-                  {{ row.item.expiryDate | formatSimpleDate }}
-                </template>
-              </DisplayTable>
-            </b-card-text>
-          </b-tab>                        
-          <b-tab title="Student Status Codes" active>
-            <b-card-text v-if="studentStatusCodes">
-              <DisplayTable
-                title="Report Types"
-                v-bind:items="studentStatusCodes"
-                v-bind:fields="studentStatusCodesFields"
-                id="code"
-                showFilter="true"
-              >
-                <template #cell(effectiveDate)="row">
-                  {{ row.item.effectiveDate | formatSimpleDate }}
-                </template>
-                <template #cell(expiryDate)="row">
-                  {{ row.item.expiryDate | formatSimpleDate }}
-                </template>
-              </DisplayTable>
-            </b-card-text>
-          </b-tab>      
-          <b-tab title="Ungrad Reasons" active>
-            <b-card-text v-if="ungradReasons">
-              <DisplayTable
-                title="Report Types"
-                v-bind:items="ungradReasons"
-                v-bind:fields="ungradReasonsFields"
-                id=""
-                showFilter="true"
-              >
-                <template #cell(effectiveDate)="row">
-                  {{ row.item.effectiveDate | formatSimpleDate }}
-                </template>
-                <template #cell(expiryDate)="row">
-                  {{ row.item.expiryDate | formatSimpleDate }}
-                </template>              
-              </DisplayTable>
-            </b-card-text>
-          </b-tab>  
-          <<b-tab title="Signatures">
-            <b-card-text v-if="reportSignatures">
-              <DisplayTable
-                title="Report Types"
-                v-bind:items="reportSignatures"
-                v-bind:fields="reportSignaturesFields"
-                showFilter="true"
-                id="signatureId"
-              >         
-              <template #cell(signatureContent)="row">
-                      <b-card header="School District 0XX: MR/MRS/MS SMITH" class="overflow-hidden">
-                            <b-row no-gutters>
-                              <b-col md="6">
-                                <b-card-img v-if="!url" :src="'data:image/png;base64, ' + row.item.signatureContent"></b-card-img>
-                                <b-card-img v-if="url" :src="url"  alt="Principal Signature" class="rounded-0"></b-card-img>
-             
-                              </b-col>
-                              <b-col md="6">
-                                <b-card-body title="Update/Change Signature">
-                                  <b-card-text>
-                                    <b-form-file @change="onFileChange"  v-model="file" class="mt-3" plain></b-form-file>
-                                      <div class="updateImage mt-3" v-if="url" @click="updateSignature"> 
-                                        <button class="btn btn-success" v-if="updateSignature">Update</button>
-                                        <button @click="clearInput" class="btn btn-outline-primary mx-2">Cancel</button>
-                                      </div>
-                                  </b-card-text>
-                                </b-card-body>
-                              </b-col>
-                            </b-row>
-                          </b-card>
-
-                </template>
-              </DisplayTable>
-            </b-card-text>
-          </b-tab>          
-           
-        </b-tabs>
-      </b-card> -->
     </div>
     
   </div>
@@ -394,8 +244,6 @@ export default {
     closeDropdown(dropdown){
       this.$refs[dropdown].visible=false
     },
-    updateSignature(){
-    },
     onFileChange(e) {
       const file = e.target.files[0];
       this.url = URL.createObjectURL(file);
@@ -508,16 +356,15 @@ export default {
 </script>
 
 <style scoped>
-.close-record {
-  float: right;
-}
+  .close-record {
+    float: right;
+  }
 
-.tab-loading {
-  color: green !important;
-}
+  .tab-loading {
+    color: green !important;
+  }
 
-.profile-name {
-  padding-bottom: 10px;
-}
-
+  .profile-name {
+    padding-bottom: 10px;
+  }
 </style>
