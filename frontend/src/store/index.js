@@ -447,7 +447,8 @@
         return state.student.hasNotes;
       },
       gradStatusCourses(state){
-        if(state.student.gradStatus.studentCourses){
+    
+        if(state.student.gradStatus.studentGradData && state.student.gradStatus.studentGradData.studentCourses){
           return state.student.gradStatus.studentGradData.studentCourses.studentCourseList;
         }else {
           return {};
