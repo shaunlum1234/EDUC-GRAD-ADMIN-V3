@@ -288,7 +288,7 @@
             >
       
                 <b-card-text class="py-4">
-                    <div v-for="report in reports" :key="report.gradReportTypeCode" class="px-3 w-100 float-left">
+                    <div v-for="report in reports" :key="report.gradReportTypeCode+report.updatedTimestamp" class="px-3 w-100 float-left">
                       <a  @click="downloadPDF(report.report,'application/pdf')" href="#"  class="pdf-link float-left ">{{report.gradReportTypeLabel}} (PDF)</a> 
                       <span class="float-right pr-3">
                           <strong>Status:</strong> {{report.documentStatusLabel}} 
@@ -309,7 +309,7 @@
              
             >
               <b-card-text class="py-4">
-                <div v-for="certificate in certificates" :key="certificate.gradCertificateTypeCode" class="px-3 w-100 float-left">
+                <div v-for="certificate in certificates" :key="certificate.gradCertificateTypeCode+certificate.createdTimestamp" class="px-3 w-100 float-left">
                   
                   <a @click="downloadPDF(certificate.certificate,'application/pdf')" href="#"  class="pdf-link float-left ">{{certificate.gradCertificateTypeLabel}} (PDF)</a> 
                   <span class="float-right pr-3">
@@ -397,7 +397,6 @@ import sharedMethods from '../sharedMethods';
 
 export default {
   name: "StudentGraduationStatus",
-  components: {},
   computed: {
     studentGradeChange(){
       return this.editedGradStatus.studentGrade;

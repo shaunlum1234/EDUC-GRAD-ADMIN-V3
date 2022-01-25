@@ -170,7 +170,7 @@
     <div>
       <!-- Projected Grad Status Modal -->
       <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalMarks" title="Projected Grad Status with Final Marks" centered>    
-            <b-alert variant="info" show>{{projectedGradStatus.gradMessage}}</b-alert>
+            <b-alert variant="info" show v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">{{projectedGradStatus.gradMessage}}</b-alert>
             <b-card-group deck v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">
             <b-card
               header="Requirements met"
@@ -532,8 +532,9 @@
       graduateStudent(){
         this.selectedTab = 0;
         this.tabLoading = true; 
-        GraduationService.graduateStudent(this.studentId, this.token).then((response) => {
-            if(response.data.graduationStudentRecord){
+        GraduationService.graduateStudent(this.studentId, this.token).then(() => {
+  
+  
               // use when response is updated
               //this.$store.dispatch("setStudentGradStatus", response.data.graduationStatus);
                 StudentService.getGraduationStatus(this.studentId, this.token).then(
@@ -551,7 +552,7 @@
                   }
                 });
                 this.getStudentReportsAndCertificates(this.studentId);                                 
-            }            
+                       
             this.tabLoading = false; 
         }).catch((error) => {
           this.tabLoading = false; 
