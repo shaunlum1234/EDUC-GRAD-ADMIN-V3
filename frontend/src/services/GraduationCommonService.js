@@ -21,7 +21,6 @@ export default {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     return apiClient.get('/api/v1/graduationreports/studentcertificate/' + id,{ headers});
   },
-
   getCertificateTypes(token) {
       const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
       return apiClient.get('/api/v1/graduationreports/certificatetype',{ headers });

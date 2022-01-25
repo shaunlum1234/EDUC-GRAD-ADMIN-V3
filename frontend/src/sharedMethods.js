@@ -1,6 +1,6 @@
 export default {
 
-    showNotification: function (variant = null, bodyContent) {
+    showNotification: function (variant, bodyContent) {
         let title = variant;
         let delay = 30000;
         if(title == "success"){

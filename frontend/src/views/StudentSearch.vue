@@ -700,11 +700,6 @@ export default {
     clear: both;
     margin-top: 15px;
   }
-
-.fade-enter-active {
-  transition: opacity 0.8s;
-}
-
   .search-results-message {
     float: left;
     clear: both;
