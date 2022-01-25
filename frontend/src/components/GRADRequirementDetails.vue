@@ -247,5 +247,7 @@ export default {
     content: ", "
 
 }
-
+.gradstatus-tabs .card{
+  margin-top:70px;
+}
 </style>

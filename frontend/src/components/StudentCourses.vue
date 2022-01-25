@@ -300,7 +300,6 @@ export default {
       } else if (result[0].gradReqMet) {
         if (!this.compareCourses(result[0], course)) {
           //Course has been monified and not updated in the Grad Status Course List
-          //this.gradStatusPendingUpdates.push("world");
 
           this.gradStatusPendingUpdates.push(course.courseName + "UPDATED");
           return "TBD - Modified";

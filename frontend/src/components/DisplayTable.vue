@@ -28,7 +28,7 @@
     <b-row>
       <b-col lg="8" class="px-0 float-left">
       </b-col>
-      <b-col sm="12" lg="4" class="my-1 table-filter" v-if="this.showFilter">
+      <b-col sm="12" lg="4" class="my-1 table-filter p-0" v-if="this.showFilter">
         <b-form-group
           label-for="filter-input"
           label-cols-sm="3"
