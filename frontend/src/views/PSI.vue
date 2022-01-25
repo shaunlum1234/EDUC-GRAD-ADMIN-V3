@@ -293,7 +293,7 @@ export default {
         this.totalResults = ""
         this.advancedSearchLoading = false;
         this.advancedSearchMessage += "Enter at least one field to search."
-      }else if(isEmpty == false){
+      }else if(!isEmpty){
         try {
           if(this.advancedSearchInput){
             if(this.advancedSearchInput.psiCode.value != ""){

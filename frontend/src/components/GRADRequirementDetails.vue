@@ -61,9 +61,6 @@
           </DisplayTable>
         </b-card-text>
       </b-card>
-
-      
-
     </div>
   </div>
 </template>

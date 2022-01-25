@@ -458,7 +458,7 @@
           this.totalResults = ""
           this.advancedSearchLoading = false;
           this.advancedSearchMessage += "Enter at least one field to search."
-        }else if(isEmpty == false){
+        }else if(!isEmpty){
           try {
             if(this.advancedSearchInput){
               if(this.advancedSearchInput.courseCode.value != ""){
@@ -542,7 +542,7 @@
           this.totalRequirementResults = ""
           this.courseRequirementLoading = false;
           this.courseRequirementMessage += "Enter at least one field to search."
-        }else if(isEmpty == false){
+        }else if(!isEmpty){
           try {
             if(this.requirementsSearchInput){
               if(this.requirementsSearchInput.courseLevel.value != ""){

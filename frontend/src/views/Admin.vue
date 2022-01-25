@@ -2,7 +2,6 @@
   <div class="container">
     <h2>Admin Dashboard</h2>
 <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
-<!-- Dashboard data: {{dashboardData}} -->
 <div>
       <b-card-group deck>
       <b-card class="text-left m-1">
@@ -26,7 +25,6 @@
               <strong> Errors:</strong>
               <h2><i class="fas fa-times-circle text-danger" aria-hidden="true"></i>  {{errors}} Records</h2> 
               <hr>
-              <!-- <a href="#">View Errors</a> -->
             </div>
           </div>
           </b-card-text>   
@@ -39,7 +37,6 @@
                 <h2><i class="fas fa-info-circle text-info" aria-hidden="true"></i> {{processingTime}} hours</h2>          
                 <hr>
                 <strong>Timespan:</strong><br/>{{processedLastJobstartTime}} <strong>to</strong> <br/> {{processedLastJobendTime}} <br/>
-                <!-- <strong>Time Per Record:</strong> {{timePerRecord}}               -->
             </div>
           </div>
           </b-card-text>   
@@ -68,110 +65,13 @@
               <DisplayTable title="Job/Runs" v-bind:items="batchInfoListData"
                 v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
                >
-                <!-- <template #cell(updateDate)="data">
-                   {{data.item.updateDate|formatTime}})
-                </template>    -->
-               
               </DisplayTable>
-                <!-- <b-table small striped :items="jobs" :fields="jobFields" :tbody-tr-class="rowClass">
-                 <template #cell(view)="data">
-                  <div>
-                    
-                    <b-button v-b-modal="'modal-' + data.item.id">View</b-button>
-                    
-                    <b-modal :id="'modal-' + data.item.id">
-                      <table>
-                        <tr><td>1234561</td><td>Success</td><td></td></tr>
-                        <tr><td>1234562</td><td>Failure</td><a href="#">Rerun</a></tr>
-                        <tr><td>1234563</td><td>Success</td><td></td></tr>
-                        <tr><td>1234564</td><td>Success</td><td></td></tr>
-                        <tr><td>1234565</td><td>Success</td><td></td></tr>
-                        <tr><td>1234566</td><td>Failure</td><a href="#">Rerun</a></tr>
-                        <tr><td>1234567</td><td>Success</td><td></td></tr>
-                        <tr><td>1234568</td><td>Success</td><td></td></tr>                        
-                      </table>                        
-
-                    </b-modal>
-                  </div>
-                </template>
-                <template #cell(success)="data">
-                   {{data.item.status}} ({{data.item.success}})
-                </template>   
-                <template #cell(status)="data">
-                   {{data.item.status}} <b-spinner small v-if="data.item.status=='Running'"></b-spinner>
-                </template>                                
-              </b-table> -->
-
             </b-card-text>
          </b-tab>
-          <!--  <b-tab title="Errors (32)">
-            <b-card-text>
-                      <table>
-                        <tr><td>1234561</td><td>Success</td><td></td></tr>
-                        <tr><td>1234562</td><td>Failure</td><td><a href="#">Rerun</a></td></tr>
-                        <tr><td>1234563</td><td>Success</td><td></td></tr>
-                        <tr><td>1234564</td><td>Success</td><td></td></tr>
-                        <tr><td>1234565</td><td>Success</td><td></td></tr>
-                        <tr><td>1234566</td><td>Failure</td><td><a href="#">Rerun</a></td></tr>
-                        <tr><td>1234567</td><td>Success</td><td></td></tr>
-                        <tr><td>1234568</td><td>Success</td><td></td></tr>                        
-                        <tr><td>1234561</td><td>Success</td><td></td></tr>
-                        <tr><td>1234562</td><td>Failure</td><td><a href="#">Rerun</a></td></tr>
-                        <tr><td>1234563</td><td>Success</td><td></td></tr>
-                        <tr><td>1234564</td><td>Success</td><td></td></tr>
-                        <tr><td>1234565</td><td>Success</td><td></td></tr>
-                        <tr><td>1234566</td><td>Failure</td><td><a href="#">Rerun</a></td></tr>
-                        <tr><td>1234567</td><td>Success</td><td></td></tr>
-                        <tr><td>1234568</td><td>Success</td></tr> 
-                        <tr><td>1234561</td><td>Success</td></tr>
-                        <tr><td>1234562</td><td>Failure</td><a href="#">Rerun</a></tr>
-                        <tr><td>1234563</td><td>Success</td></tr>
-                        <tr><td>1234564</td><td>Success</td></tr>
-                        <tr><td>1234565</td><td>Success</td></tr>
-                        <tr><td>1234566</td><td>Failure</td><a href="#">Rerun</a></tr>
-                        <tr><td>1234567</td><td>Success</td></tr>
-                        <tr><td>1234568</td><td>Success</td></tr>                                                 
-                      </table> 
-
-            </b-card-text>
-          </b-tab> -->
-          <!-- <b-tab title="Last Run Details" class="p-2 m-0">
-            <b-card-text>
-              <b-table small striped :items="items" :fields="fields" :tbody-tr-class="rowClass">
-                 <template #cell(view)="data">
-                  <div>
-          
-                    <b-button v-b-modal="'modal-' + data.item.id">View</b-button>
-
-      
-                    <b-modal :id="'modal-' + data.item.id">
-                      <table>
-                        <tr><td>1234561</td><td>Success</td><td></td></tr>
-                        <tr><td>1234562</td><td>Failure</td><a href="#">Rerun</a></tr>
-                        <tr><td>1234563</td><td>Success</td><td></td></tr>
-                        <tr><td>1234564</td><td>Success</td><td></td></tr>
-                        <tr><td>1234565</td><td>Success</td><td></td></tr>
-                        <tr><td>1234566</td><td>Failure</td><a href="#">Rerun</a></tr>
-                        <tr><td>1234567</td><td>Success</td><td></td></tr>
-                        <tr><td>1234568</td><td>Success</td><td></td></tr>                        
-                      </table>                        
-
-                    </b-modal>
-                  </div>
-                </template>
-                <template #cell(success)="data">
-                   {{data.item.status}} ({{data.item.success}})
-                </template>                
-              </b-table>
-            </b-card-text>
-          </b-tab>
-                     -->
         </b-tabs>
       </b-card>
     </div>    
   </div>
-    <!-- <SearchForm v-on:searchResults="displaySearchResults" searchAPI="searchSchools" :searchAPIFields="searchAPIFields"></SearchForm>
-    <DisplayTable v-if="searchResults" :items="searchResults" :fields="schoolFields" title="schoolsearch" ></DisplayTable> -->
     <div class="col-4 float-left pl-2 pr-0">
       <b-card bg-variant="light" header="Graduation Batch" class="text-left mb-2">
         <b-card-text>
@@ -189,54 +89,8 @@
           </ul>
         </b-card-text>
       </b-card>
-      <!-- <b-card bg-variant="Placeholder" header="Placeholder 2" class="text-left mb-2">
-        <b-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</b-card-text>
-      </b-card>             -->
     </div>
-    <!-- <SearchForm v-on:searchResults="displaySearchResults" searchAPI="searchSchools" :searchAPIFields="searchAPIFields"></SearchForm>
-    <DisplayTable v-if="searchResults" :items="searchResults" :fields="schoolFields" title="schoolsearch" ></DisplayTable> -->
    </div>  
-
-
-    <!-- <b-card-group deck>
-      <b-card class="text-center m-1">
-        <b-card-text><i class="fas fa-times-circle text-danger h2" aria-hidden="true"></i><h3>231/232</h3></b-card-text>
-      </b-card>
-            <b-card class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>175/175</h3></b-card-text>
-      </b-card>
-      <b-card class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>0</h3></b-card-text>
-      </b-card>
-      <b-card  class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>81/81</h3></b-card-text>
-      </b-card>
-      <b-card class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>100/100</h3></b-card-text>
-      </b-card>                                      
-    </b-card-group>
-  </div>
-  <div class="mt-3">
-    <b-card-group deck>
-      <b-card header="1986" class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>232/232</h3></b-card-text>
-      </b-card>
-            <b-card header="2018-PF" class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>175/175</h3></b-card-text>
-      </b-card>
-      <b-card header="1950" class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>0</h3></b-card-text>
-      </b-card>
-      <b-card header="SCCP" class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2" aria-hidden="true"></i><h3>81/81</h3></b-card-text>
-      </b-card>
-      <b-card header="2004-PF" class="text-center m-1">
-        <b-card-text><i class="fas fa-times-circle text-danger h2" aria-hidden="true"></i><h3>100/200</h3></b-card-text>
-      </b-card> 
-    </b-card-group>
-  </div> 
-  <div>-->
-    
   </div>
 
 </div>
@@ -245,8 +99,6 @@
 
 <script>
 // @ is an alias to /src
-//import SearchForm from "@/components/SearchForm.vue"
-//import { store } from "@/store.js";
 import DashboardService from "@/services/DashboardService.js";
 import SiteMessage from "@/components/SiteMessage";
 import DisplayTable from '@/components/DisplayTable.vue';
@@ -352,8 +204,6 @@ export default {
   methods: { 
     formatDate(value) {    
       return  value.toLocaleString('en-CA', { timeZone: 'PST' });
-      // value.toLocaleString('en-CA', { timeZone: 'PST' })
-      // return value;
     },
     getAdminDashboardData(){
       DashboardService.getDashboardInfo(this.token).then(
@@ -403,10 +253,8 @@ export default {
       setTimeout(() => this.timespan=0, 10000);
       setTimeout(() => this.processed="53/56", 10000);
       setTimeout(() => this.timePerRecord="1s", 10000);
-      // setTimeout(() => this.processingTime="8s", 10000);
       setTimeout(() => this.timespan="6:00pm to 6:01pm", 10000);
       setTimeout(() => this.errors=3, 10000);
-      // setTimeout(() => this.processedLastRun="Just now", 10000);    
     },
     displaySearchResults(value){ 
       this.searchResults = value

@@ -4,10 +4,7 @@
       <div class="container pt-3 pb-4"> 
         <h1>Logout Successful</h1>
         <p>Please login using the Login Portal if you require access</p>
-                     <a
-     
-              >Login</a
-            >
+          <a>Login</a>
       </div>  
     </div>
   </div>  
@@ -22,12 +19,5 @@ export default {
       host: location.protocol + "//" + location.host
     }
   },
-  created() {},
-  computed: {},
-  methods: {}
-  
 }  
 </script>
-
-<style scoped>
-</style>
