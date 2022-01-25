@@ -24,7 +24,7 @@
          <div class="float-right" style="margin-top: -20px"><slot></slot></div>
       </div>
     </header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary-nav burgernav">
+    <nav aria-label="Menu" class="navbar navbar-expand-lg navbar-dark bg-primary-nav burgernav">
       <button
         class="navbar-toggler collapsed"
         type="button"
@@ -36,7 +36,7 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="navbar-collapse collapse" id="navbarColor01" style="">
+      <div class="navbar-collapse collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
           <li>
             <router-link to="/">Select Student</router-link>
