@@ -153,16 +153,6 @@
                             tabindex="6"
                             v-on:keyup="keyHandler"
                           ></b-form-input>
-                          <!-- <b-input-group-append>
-                            <b-form-datepicker
-                              v-model="advancedSearchInput.birthdateTo.value"
-                              button-only     
-                              right
-                              locale="en-US"
-                              aria-controls="datepicker-birthdate-to"
-
-                            ></b-form-datepicker>
-                          </b-input-group-append> -->
                         </b-input-group>     
                       </div>
                     </div>
