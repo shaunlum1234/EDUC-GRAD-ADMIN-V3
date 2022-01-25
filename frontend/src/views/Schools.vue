@@ -282,7 +282,7 @@ mapGetters
           this.totalResults = ""
           this.searchLoading = false;
           this.searchMessage = "Enter at least one field to search."
-        }else if(isEmpty == false){
+        }else if(!isEmpty){
           this.searchLoading = true;
           this.schools = {};
           SchoolService.searchSchools(this.search, this.token).then((res) => {
