@@ -106,9 +106,7 @@
           </div>
         </b-card-text>
       </b-card>
-    </b-row>
-    <!-- Main table element -->
-     
+    </b-row>   
     <b-table
       v-if="items && items.length"
       :responsive="responsive"
@@ -201,20 +199,6 @@
           <i class="fas fa-lg fa-times" aria-hidden="true"></i>
         </b-btn>
       </template>
-      <!-- 
-      <template #cell(more)="row">
-        <b-btn variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
-          <i class="fas fa-sm fa-caret-down" aria-hidden="true"></i>
-        </b-btn>
-      </template>
-
-      <template #row-details="row">
-        <b-card>
-          <ul>
-            <li v-for="(value, key, index) in row.item" :key="index">{{ key }}: {{ value }}</li>
-          </ul>
-        </b-card>
-      </template>  -->
     </b-table>
     <b-pagination
       v-if="this.totalRowz && this.pagination"
@@ -223,7 +207,6 @@
       :per-page="perPage"
       aria-controls="my-table"
     ></b-pagination>
-    <!-- Info modal -->
     <b-modal
       :id="infoModal.id"
       :title="infoModal.title"
@@ -305,7 +288,6 @@ export default {
       } else return this.totalRows;
     },
     sortOptions() {
-      // Create an options list from our fields
       return this.fields
         .filter((f) => f.sortable)
         .map((f) => {
@@ -318,12 +300,10 @@ export default {
   },
   created() {
     window.addEventListener("keyup", this.validateInput);
-    //Set up permissions from role
     this.setAdmin(this.role);
     if (this.pagination) {
       this.perPage = 25;
     }
-    //remove Columns based on permssions, create, update and delete props
     if (this.create && this.isAdmin) {
       this.createAllowed = true;
     }
@@ -355,7 +335,6 @@ export default {
       if (this.quickEdit) {
         this.fields[this.fields.length - 1].class = "d-block";
         this.fields[this.fields.length - 2].class = "d-block";
-        //  console.log(this.fields[this.fields.length-1].class);
       } else {
         this.fields[this.fields.length - 1].class = "d-none";
         this.fields[this.fields.length - 2].class = "d-none";
@@ -471,7 +450,6 @@ export default {
       this.infoModal.content = "";
     },
     onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
@@ -479,13 +457,6 @@ export default {
 };
 </script>
 <style scoped>
-/*
-Media Queries
-xs (for phones - screens less than 768px wide)
-sm (for tablets - screens equal to or greater than 768px wide)
-md (for small laptops - screens equal to or greater than 992px wide)
-lg (for laptops and desktops - screens equal to or greater than 1200px
-*/
 @media (min-width: 992px) {
   .col-lg-4.table-filter {
     position: absolute;
