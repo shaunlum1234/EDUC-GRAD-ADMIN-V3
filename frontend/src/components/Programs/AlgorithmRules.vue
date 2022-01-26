@@ -21,7 +21,7 @@ import {
 } from "vuex";
 import DisplayTable from "@/components/DisplayTable";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
-
+import sharedMethods from '../../sharedMethods';
 
 export default {
   name: 'AlgorithmRules',
@@ -29,14 +29,14 @@ export default {
     DisplayTable: DisplayTable,
   },
   created() {
-     ProgramManagementService.getAlgorithmRules(this.token)
-      .then((response) => {
-        this.algorithmRules = response.data;
-      })
-      // eslint-disable-next-line no-unused-vars
-      .catch((error) => {
-        //console.log('There was an error:' + error.response);
-      });
+    this.showNotification = sharedMethods.showNotification;  
+    ProgramManagementService.getAlgorithmRules(this.token)
+    .then((response) => {
+      this.algorithmRules = response.data;
+    })
+    .catch((error) => {
+      this.showNotification("danger", "There was an error: " + error);
+    });
   },
   data: function() {
     return {

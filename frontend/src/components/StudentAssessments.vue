@@ -44,8 +44,7 @@
                   <tr>
                     <td><strong>End Date:</strong> {{row.item.assessmentDetails.endDate}}</td>
                   </tr>
-                </table>
-                 
+                </table>    
               </b-popover>
             </div>
         </template>

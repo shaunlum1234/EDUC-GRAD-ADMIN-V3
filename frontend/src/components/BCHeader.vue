@@ -179,7 +179,6 @@ export default {
     },
     keyHandler: function (e) {
       if (e.keyCode === 13) {
-        //enter key pressed
         this.studentSearchResults = [];
         if (this.penInput) {
           this.findStudentByPen();
