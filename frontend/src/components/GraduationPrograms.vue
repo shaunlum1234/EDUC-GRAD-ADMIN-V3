@@ -1,29 +1,28 @@
 <template>
   <div>
-    <!-- <div v-if="!isHidden"> -->
-        <div v-if="!selectedProgramCode">
-
-          <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="programCode" showFilter="true"
-            v-bind:role="role" pagination="true">
-            <template #cell(effectiveDate)="row">
-                {{ row.item.effectiveDate | formatSimpleDate }}
-            </template>
-            <template #cell(expiryDate)="row">
-                {{ row.item.expiryDate| formatSimpleDate }}
-            </template>
-          </DisplayTable>
-        </div>
-      <router-view v-bind:key="$route.fullPath"></router-view>
-      
-      </div>
+    <div v-if="!selectedProgramCode">
+      <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="programCode" showFilter="true"
+        v-bind:role="role" pagination="true">
+        <template #cell(effectiveDate)="row">
+            {{ row.item.effectiveDate | formatSimpleDate }}
+        </template>
+        <template #cell(expiryDate)="row">
+            {{ row.item.expiryDate| formatSimpleDate }}
+        </template>
+      </DisplayTable>
+    </div>
+    <router-view v-bind:key="$route.fullPath"></router-view>    
+  </div>
 </template>
 
 <script>
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 import DisplayTable from "@/components/DisplayTable";
+import sharedMethods from '../sharedMethods';
 import {
     mapGetters
 } from "vuex";
+
 export default {
   name: "GraduationPrograms",
   components: {
@@ -35,8 +34,7 @@ export default {
       role: "getRoles", 
   })},
   data: function () {
-    return {
-      
+    return {   
       show: false,
       isHidden: false,
       opened: [],
@@ -81,25 +79,19 @@ export default {
       selectedProgramId: "",
     };
   },
-  created() {
-    
+  created() {  
+    this.showNotification = sharedMethods.showNotification 
     ProgramManagementService.getGraduationPrograms(this.token)
       .then((response) => {
         this.graduationPrograms = response.data;
       })
       .catch((error) => {
-         //eslint-disable-next-line
-        console.log('There was an error:' + error.response);
-      });
-
-
-      
-      
+        this.showNotification("danger", "There was an error: "+ error.response);
+      });    
   },
   methods: {
     onClickChild(value) {
       this.selectedProgramId = value;
-      //console.log("Program Id: " + value); // someValue
     },
     selectGradRule(programCode) {
       this.selectedProgramCode = programCode;

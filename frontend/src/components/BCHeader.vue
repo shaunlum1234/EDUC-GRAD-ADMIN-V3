@@ -114,8 +114,7 @@ export default {
     };
   },
   created() {
-    this.showNotification = sharedMethods.showNotification
-    
+    this.showNotification = sharedMethods.showNotification    
   },
    computed: {
      isDev(){

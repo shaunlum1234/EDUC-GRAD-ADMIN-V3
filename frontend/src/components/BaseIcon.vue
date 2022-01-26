@@ -10,7 +10,6 @@
 <script>
 export default {
   props: {
-    // TODO: name is showing up as undefined in vue dev tools, but icon displays
     name: String,
     width: {
       type: [Number, String],
