@@ -51,24 +51,23 @@
                 "
                 :title="row.item.courseName"
               >
-                    <table role="presentation" aria-label="course details">
-                      <tr>                        
-                        <td><strong>Language:</strong> {{ row.item.courseDetails.language }}</td>
-                      </tr>
-                      <tr>                        
-                        <td><strong>Start Date:</strong> {{ row.item.courseDetails.startDate}}</td>
-                      </tr>
-                      <tr>                        
-                        <td><strong>End Date:</strong> {{ row.item.courseDetails.endDate}}</td>
-                      </tr>                      
-                      <tr>                        
-                        <td><strong>Work Experience:</strong> {{ row.item.courseDetails.workExpFlag }}</td>
-                      </tr>
-                      <tr>                        
-                        <td><strong>Generic Course Type:</strong> {{ row.item.courseDetails.genericCourseType }}</td>
-                      </tr>
-                    </table>
-                 
+                <table role="presentation" aria-label="course details">
+                  <tr>                        
+                    <td><strong>Language:</strong> {{ row.item.courseDetails.language }}</td>
+                  </tr>
+                  <tr>                        
+                    <td><strong>Start Date:</strong> {{ row.item.courseDetails.startDate}}</td>
+                  </tr>
+                  <tr>                        
+                    <td><strong>End Date:</strong> {{ row.item.courseDetails.endDate}}</td>
+                  </tr>                      
+                  <tr>                        
+                    <td><strong>Work Experience:</strong> {{ row.item.courseDetails.workExpFlag }}</td>
+                  </tr>
+                  <tr>                        
+                    <td><strong>Generic Course Type:</strong> {{ row.item.courseDetails.genericCourseType }}</td>
+                  </tr>
+                </table> 
               </b-popover>
             </div>
         </template>
