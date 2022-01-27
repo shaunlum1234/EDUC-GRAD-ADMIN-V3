@@ -592,7 +592,8 @@ export default {
             this.advancedSearchInput[key].contains = false;
           }
         }
-
+        this.advancedSearchInput.birthdateFrom.value = "0000-00-00";
+        this.advancedSearchInput.birthdateTo.value = "0000-00-00";
       },
       advancedSearchValidate(obj){
         //check if all inputs are empty
