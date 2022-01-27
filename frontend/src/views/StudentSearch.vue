@@ -253,7 +253,6 @@
   </div>
 </template>
 <script>
-// @ is an alias to /src
 import { mapGetters } from "vuex";
 import StudentService from "@/services/StudentService.js";
 import DisplayTable from "@/components/DisplayTable";
@@ -331,13 +330,6 @@ export default {
           editable: false,
           class: "w-1",
         },
-        // {
-        //   key: "schoolName",
-        //   label: "School (SLD)",
-        //   sortable: true,
-        //   editable: false,
-        //   class: "w-1",
-        // },
         {
           key: "program",
           label: "Program (GRAD)",
@@ -601,17 +593,8 @@ export default {
         let isEmpty = true;
         for (var key in obj) {
           if (obj.hasOwnProperty(key)) {
-            //console.log(obj[key])
             if (obj[key].value != "") {
               isEmpty = false;
-                // if(key == "mincode"){
-                //   contains all digits
-                //     if(obj[key].value.length >= 1 && obj[key].value.length <= 7){
-                //       obj[key].contains = true;
-                      
-                //     }
-                //   add wildcard to mincode if at least 3 digits are included      
-                // }//mincode
                 if(key == "birthdateFrom") {
                   let dateToCheck = Date.parse(obj[key].value);
                   let today = new Date();
