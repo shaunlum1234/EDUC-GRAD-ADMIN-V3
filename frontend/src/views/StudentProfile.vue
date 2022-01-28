@@ -536,7 +536,7 @@
         ).catch((error) => {
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
+              title: "Transcript Service ERROR" + error.response.status,
               variant: 'danger',
               noAutoHide: true,
             });
