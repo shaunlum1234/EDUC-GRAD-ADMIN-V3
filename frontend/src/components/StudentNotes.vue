@@ -173,9 +173,6 @@ export default {
         event.preventDefault()
         // Reset our form values
         this.newNote.note = '';
-        // this.$nextTick(() => {
-        //   this.showForm = true;
-        // })
       },
       onDelete(noteID) {
         StudentService.deleteStudentNotes(noteID, this.token)  
