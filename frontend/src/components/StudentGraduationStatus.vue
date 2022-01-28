@@ -367,11 +367,7 @@
                         striped></b-table>                 
               </b-card-text>
             </b-card>
-           
           </div>
-
-          
-     
         </div>
       </div>
     </div>
@@ -585,8 +581,6 @@ export default {
       }
     },
     schoolOfRecordChange:function(){
-      //changed due to GRADT-25
-
       if (this.editedGradStatus.schoolOfRecord.length == ""){
         this.disableButton = true;
       }else {
@@ -803,7 +797,6 @@ export default {
         var date;
         try{
           date = new Date(this.editedGradStatus.programCompletionDate);
-//          console.log('DATE: ' + date.toISOString().split('T')[0])
           this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
         }catch(error){
           // eslint-disable-next-line
@@ -898,7 +891,6 @@ export default {
       // eslint-disable-next-line no-use-before-define
       GraduationService.graduateStudent(pen, this.token)
       .then((response) => {
-        //console.log(response.data);
         this.$store.dispatch("setStudentGradStatus", response.data);
       })
       .catch((error) => {
@@ -917,8 +909,6 @@ export default {
         var fileURL = URL.createObjectURL(file);
         window.open(fileURL);
     },
-    
-    
     getStudentAchievementReportPDF: function () {
       GraduationCommonService.getAchievementReport(
         this.studentId,
