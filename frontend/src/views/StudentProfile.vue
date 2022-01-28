@@ -531,7 +531,6 @@
         });        
         GraduationCommonService.getStudentTranscripts(id, this.token).then(
           (response) => {        
-            console.log(response.data);    
             this.$store.dispatch("setStudentTranscripts", response.data);
           }
         ).catch((error) => {
