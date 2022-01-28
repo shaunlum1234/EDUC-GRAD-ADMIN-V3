@@ -69,6 +69,11 @@ export default {
           sortable: true,
         },
         {
+          key: "districtName",
+          label: "District Name",
+          sortable: true,
+        },
+        {
           key: "updatedTimestamp",
           label: "Last Updated",
           sortable: true,
