@@ -9,9 +9,9 @@ export default {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token, "responseType": "arraybuffer" }
     return apiClient.get('/api/v1/graduationreports/studentreport/?studentID=' + id + '&reportType=ACHV',{ headers, responseType: 'arraybuffer'});
   },
-  getStudentTranscript(id, token) {
+  getStudentTranscripts(id, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token, "responseType": "arraybuffer" }
-    return apiClient.get('/api/v1/graduationreports/studentreport/?studentID=' + id + '&reportType=TRAN',{ headers, responseType: 'arraybuffer'});
+    return apiClient.get('/api/v1/graduationreports/studenttranscript/' + id,{ headers});
   },
   getStudentReports(id,token){
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token, "responseType": "arraybuffer" }

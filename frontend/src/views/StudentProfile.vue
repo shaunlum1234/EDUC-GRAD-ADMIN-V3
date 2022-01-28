@@ -529,6 +529,19 @@
             });
           }
         });        
+        GraduationCommonService.getStudentTranscripts(id, this.token).then(
+          (response) => {        
+            this.$store.dispatch("setStudentTranscripts", response.data);
+          }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "Service ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });                
       },
       graduateStudent(){
         this.selectedTab = 0;
@@ -784,6 +797,7 @@
             });
           }
         });
+        
 
         StudentService.getStudentHistory(studentIdFromURL, this.token).then(
             (response) => {

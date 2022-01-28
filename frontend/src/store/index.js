@@ -34,6 +34,7 @@
         hasNotes: false,
         certificates: "not loaded",
         reports: "not loaded",
+        transcripts: "not loaded",
         ungradReasons: "",
         careerPrograms: [],
         auditHistory:[],
@@ -67,6 +68,9 @@
       setStudentReports(state, payload){
         state.student.reports = payload;         
       },
+      setStudentTranscripts(state, payload){
+        state.student.transcripts = payload;         
+      },      
       setProgramOptions(state, payload){
         state.applicationVariables.programOptions = payload;
       },
@@ -153,6 +157,7 @@
         state.student.hasgradStatusPendingUpdates = false;
         state.student.certificates = "not loaded";
         state.student.reports = "not loaded";
+        state.student.transcripts = "not loaded";
         state.student.ungradReasons = "";
         state.student.careerPrograms = [];
       },
@@ -295,7 +300,10 @@
       },
       setStudentReports({commit}, payload) {
         commit('setStudentReports', payload);
-      },      
+      },
+      setStudentTranscripts({commit}, payload) {
+        commit('setStudentTranscripts', payload);
+      },            
       setAdvancedSearchProps({commit}, payload) {
         commit('setAdvancedSearchProps', payload);
       },
@@ -385,6 +393,9 @@
       getStudentReports(state){
         return state.student.reports;
       },      
+      getStudentTranscripts(state){
+        return state.student.transcripts;
+      },            
       getStudentGraduationCreationAndUpdate(state){
         return {
           "createdBy" : state.student.gradStatus.createdBy,

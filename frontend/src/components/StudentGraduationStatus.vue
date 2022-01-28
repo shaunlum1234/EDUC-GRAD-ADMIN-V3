@@ -2,7 +2,6 @@
 
   <div>
     <div class="row">
-
       <div class="col-12 m-0 p-2">
         <b-card  header="Graduation Information" class="col-12 p-0" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
@@ -289,13 +288,21 @@
       
                 <b-card-text class="py-4">
                     <div v-for="report in reports" :key="report.gradReportTypeCode+report.updatedTimestamp" class="px-3 w-100 float-left">
-                      <a  @click="downloadPDF(report.report,'application/pdf')" href="#"  class="pdf-link float-left ">{{report.gradReportTypeLabel}} (PDF)</a> 
-                      <span class="float-right pr-3">
+                      <a  @click="downloadPDF(report.report,'application/pdf')" href="#"  class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
+                      <div class="float-left col-12 pr-4 ml-1">
                           <strong>Status:</strong> {{report.documentStatusLabel}} 
                           <strong>Last Updated:</strong> {{report.updatedTimestamp}} 
                           <strong>Distributed:</strong> {{report.distributionDate}}
-                      </span>
+                      </div>
                     </div>
+                    <div v-for="transcript in transcripts" :key="transcript.id" class="px-3 w-100 float-left mt-2">
+                      <a  @click="downloadPDF(transcript.transcript,'application/pdf')" href="#"  class="pdf-link float-left ">{{transcript.transcriptTypeLabel}} (PDF)</a> 
+                      <div class="float-left col-12 pr-4 ml-1">
+                          <strong>Status:</strong> {{transcript.documentStatusLabel}} 
+                          <strong>Last Updated:</strong> {{transcript.updatedTimestamp}} 
+                          <strong>Distributed:</strong> {{transcript.distributionDate}}
+                      </div>
+                    </div>                    
                 </b-card-text>
             </b-card> 
             
@@ -385,7 +392,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import GraduationCommonService from "@/services/GraduationCommonService.js";
 import GraduationService from "@/services/GraduationService.js";
 import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
@@ -431,7 +437,8 @@ export default {
       studentId: "getStudentId",
       username: "getUsername",
       certificates: "getStudentCertificates",  
-      reports: "getStudentReports"
+      reports: "getStudentReports",
+      transcripts: "getStudentTranscripts"
     }),
   },
   data() {
@@ -909,54 +916,54 @@ export default {
         var fileURL = URL.createObjectURL(file);
         window.open(fileURL);
     },
-    getStudentAchievementReportPDF: function () {
-      GraduationCommonService.getAchievementReport(
-        this.studentId,
-        this.token
-      )
-      .then((response) => {
-        //Create a Blob from the PDF Stream
-        const file = new Blob([response.data], {
-          type: "application/pdf",
-        });
-        //Build a URL from the file
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-          // IE
-          window.navigator.msSaveOrOpenBlob(file);
-        } else {
-          const fileURL = URL.createObjectURL(file);
-          window.open(fileURL); //Open the URL on new Window
-        }
-      })
-      // eslint-disable-next-line no-unused-vars
-      .catch((error) => {
-        //console.log('There was an error:' + error.response);
-      });
-    },
-    getStudentTranscriptPDF: function () {
-      GraduationCommonService.getStudentTranscript(
-        this.studentId,
-        this.token
-      )
-      .then((response) => {
-        //Create a Blob from the PDF Stream
-        const file = new Blob([response.data], {
-          type: "application/pdf",
-        });
-        //Build a URL from the file
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-          // IE
-          window.navigator.msSaveOrOpenBlob(file);
-        } else {
-          const fileURL = URL.createObjectURL(file);
-          window.open(fileURL); //Open the URL on new Window
-        }
-      })
-      // eslint-disable-next-line no-unused-vars
-      .catch((error) => {
-      //console.log('There was an error:' + error.response);
-      });
-    },
+    // getStudentAchievementReportPDF: function () {
+    //   GraduationCommonService.getAchievementReport(
+    //     this.studentId,
+    //     this.token
+    //   )
+    //   .then((response) => {
+    //     //Create a Blob from the PDF Stream
+    //     const file = new Blob([response.data], {
+    //       type: "application/pdf",
+    //     });
+    //     //Build a URL from the file
+    //     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    //       // IE
+    //       window.navigator.msSaveOrOpenBlob(file);
+    //     } else {
+    //       const fileURL = URL.createObjectURL(file);
+    //       window.open(fileURL); //Open the URL on new Window
+    //     }
+    //   })
+    //   // eslint-disable-next-line no-unused-vars
+    //   .catch((error) => {
+    //     //console.log('There was an error:' + error.response);
+    //   });
+    // },
+    // getStudentTranscriptPDF: function () {
+    //   GraduationCommonService.getStudentTranscript(
+    //     this.studentId,
+    //     this.token
+    //   )
+    //   .then((response) => {
+    //     //Create a Blob from the PDF Stream
+    //     const file = new Blob([response.data], {
+    //       type: "application/pdf",
+    //     });
+    //     //Build a URL from the file
+    //     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    //       // IE
+    //       window.navigator.msSaveOrOpenBlob(file);
+    //     } else {
+    //       const fileURL = URL.createObjectURL(file);
+    //       window.open(fileURL); //Open the URL on new Window
+    //     }
+    //   })
+    //   // eslint-disable-next-line no-unused-vars
+    //   .catch((error) => {
+    //   //console.log('There was an error:' + error.response);
+    //   });
+    // },
   },
 };
 </script>
