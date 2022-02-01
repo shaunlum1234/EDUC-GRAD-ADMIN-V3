@@ -543,31 +543,29 @@
           }
         });                
       },
+      reloadGradStatus(){
+        StudentService.getGraduationStatus(this.studentId, this.token).then(
+          (res) => {
+            this.$store.dispatch("setStudentGradStatus", res.data);
+          }
+        ).catch((error) => {
+          if(error.res.status){
+            this.$bvToast.toast("ERROR " + error.res.statusText, {
+              title: "ERROR" + error.res.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });
+        this.getStudentReportsAndCertificates(this.studentId);                                     
+        this.tabLoading = false;
+      },
       graduateStudent(){
         this.selectedTab = 0;
         this.tabLoading = true; 
         GraduationService.graduateStudent(this.studentId, this.token).then(() => {
-  
-  
-              // use when response is updated
-              //this.$store.dispatch("setStudentGradStatus", response.data.graduationStatus);
-                StudentService.getGraduationStatus(this.studentId, this.token).then(
-                  (res) => {
-                
-                    this.$store.dispatch("setStudentGradStatus", res.data);
-                  }
-                ).catch((error) => {
-                  if(error.res.status){
-                    this.$bvToast.toast("ERROR " + error.res.statusText, {
-                      title: "ERROR" + error.res.status,
-                      variant: 'danger',
-                      noAutoHide: true,
-                    });
-                  }
-                });
-                this.getStudentReportsAndCertificates(this.studentId);                                 
-                       
-            this.tabLoading = false; 
+              this.reloadGradStatus();
+               
         }).catch((error) => {
           this.tabLoading = false; 
           if(error.response.status){
@@ -583,23 +581,7 @@
         this.selectedTab = 0;
         this.tabLoading = true; 
         GraduationService.updateStudentReports(this.studentId, this.token).then(() => {
-          StudentService.getGraduationStatus(this.studentId, this.token).then(
-            (res) => {
-          
-              this.$store.dispatch("setStudentGradStatus", res.data);
-              
-            }
-          ).catch((error) => {
-            if(error.res.status){
-              this.$bvToast.toast("ERROR " + error.res.statusText, {
-                title: "ERROR" + error.res.status,
-                variant: 'danger',
-                noAutoHide: true,
-              });
-            }
-          });
-          this.getStudentReportsAndCertificates(this.studentId);              
-          this.tabLoading = false; 
+           this.reloadGradStatus();
         }).catch((error) => {
           this.tabLoading = false; 
           if(error.response.status){
