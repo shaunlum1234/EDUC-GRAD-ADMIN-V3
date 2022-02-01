@@ -582,7 +582,7 @@
       updateStudentReports(){
         this.selectedTab = 0;
         this.tabLoading = true; 
-        GraduationService.updateStudentReports(this.studentId, this.token).then((response) => {
+        GraduationService.updateStudentReports(this.studentId, this.token).then(() => {
           StudentService.getGraduationStatus(this.studentId, this.token).then(
             (res) => {
           
