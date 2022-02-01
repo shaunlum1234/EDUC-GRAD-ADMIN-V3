@@ -583,26 +583,23 @@
         this.selectedTab = 0;
         this.tabLoading = true; 
         GraduationService.updateStudentReports(this.studentId, this.token).then((response) => {
-            if(response.data.graduationStatus){
-
-                StudentService.getGraduationStatus(this.studentId, this.token).then(
-                  (res) => {
-                
-                    this.$store.dispatch("setStudentGradStatus", res.data);
-                    
-                  }
-                ).catch((error) => {
-                  if(error.res.status){
-                    this.$bvToast.toast("ERROR " + error.res.statusText, {
-                      title: "ERROR" + error.res.status,
-                      variant: 'danger',
-                      noAutoHide: true,
-                    });
-                  }
-                });
-                this.getStudentReportsAndCertificates(this.studentId);   
-            }            
-            this.tabLoading = false; 
+          StudentService.getGraduationStatus(this.studentId, this.token).then(
+            (res) => {
+          
+              this.$store.dispatch("setStudentGradStatus", res.data);
+              
+            }
+          ).catch((error) => {
+            if(error.res.status){
+              this.$bvToast.toast("ERROR " + error.res.statusText, {
+                title: "ERROR" + error.res.status,
+                variant: 'danger',
+                noAutoHide: true,
+              });
+            }
+          });
+          this.getStudentReportsAndCertificates(this.studentId);              
+          this.tabLoading = false; 
         }).catch((error) => {
           this.tabLoading = false; 
           if(error.response.status){
