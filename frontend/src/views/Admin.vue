@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    {{batchInfoListData}}
     <h2>Admin Dashboard</h2>
 <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
 <div>
@@ -131,6 +132,28 @@ export default {
       timePerRecord: "18s",
       batchInfoListData:[],
       jobRunFields: [
+         {
+            key: 'jobExecutionId',
+            label: 'Job Execution ID',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          },  
+          {
+            key: 'updateUser',
+            label: 'Batch Job Type Code',
+            sortable: true,
+            class: 'text-left',
+            editable: true,
+           
+          },     
+          {
+            key: 'triggerBy',
+            label: 'Batch Job Trigger',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          },       
           {
             key: 'updateDate',
             label: 'Update date',
@@ -145,27 +168,13 @@ export default {
             }
           },
           {
-            key: 'updateUser',
-            label: 'Update user',
-            sortable: true,
-            class: 'text-left',
-            editable: true,
-           
-          },    
-          {
-            key: 'triggerBy',
-            label: 'Trigger ID',
-            sortable: true,
-            class: 'text-left',
-            editable: true
-          },      
-          {
             key: 'status',
             label: 'Status',
             sortable: true,
             class: 'text-left',
             editable: true
           },
+        
           {
             key: 'expectedStudentsProcessed',
             label: 'Expected',
