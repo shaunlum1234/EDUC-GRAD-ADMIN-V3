@@ -9,7 +9,7 @@
             <div class="advanced-search-form">
               <div class="row my-3">
                 <div class="advanced-search-field col-12 col-md-2">
-                  <label>PSI code</label>
+                  <label>PSI Code</label>
                   <div
                     href="#"
                     v-on:click="advancedSearchInput.psiCode.contains = !advancedSearchInput.psiCode.contains"
@@ -28,7 +28,7 @@
                   />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
-                  <label>PSI name</label>
+                  <label>PSI Name</label>
                   <div
                     href="#"
                     v-on:click="advancedSearchInput.psiName.contains = !advancedSearchInput.psiName.contains"
@@ -47,7 +47,7 @@
                   />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
-                  <label>CSL code</label>
+                  <label>CSL Code</label>
                   <div
                     href="#"
                     v-on:click="advancedSearchInput.cslCode.contains = !advancedSearchInput.cslCode.contains"
@@ -66,7 +66,7 @@
                   />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
-                  <label>Transmission mode</label>
+                  <label>Transmission Mode</label>
                   <div
                     href="#"
                     v-on:click="advancedSearchInput.transmissionMode.contains = !advancedSearchInput.transmissionMode.contains"
@@ -207,31 +207,61 @@ export default {
       psi: {},
       psiResults: [],
       psiFields: [
-        { key: "more", label: "" },
-        "psiCode",
-        "psiName",
-        "cslCode",
-        "psisCode",
-        "openFlag",
-        "transmissionMode",
-        "psiGrouping",
+        { key: "more", label: "",  sortable: true, },
+        {
+          key: 'psiCode',
+          label: 'PSI Code',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: 'psiName',
+          label: 'PSI Name',
+          sortable: true,
+        },
+        {
+          key: 'cslCode',
+          label: 'Csl Code',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: 'openFlag',
+          label: 'Open Flag',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: 'transmissionMode',
+          label: 'Transmission Mode',
+          sortable: true,
+        },
+        {
+          key: 'psiGrouping',
+          label: 'Psi Grouping',
+          sortable: true,
+        },
       ],
       advancedSearchInput: {
         psiCode: {
           value: "",
           contains: false,
+         
         },
         psiName: {
           value: "",
           contains: false,
+          
         },
         cslCode: {
           value: "",
           contains: false,
+          
         },
         transmissionMode: {
           value: "",
           contains: false,
+          
         },
       },
     };
