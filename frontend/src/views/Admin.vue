@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    {{batchInfoListData}}
     <h2>Admin Dashboard</h2>
 <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
 <div>
