@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    {{batchInfoListData}}
+    <!-- {{batchInfoListData}} -->
     <h2>Admin Dashboard</h2>
 <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
 <div>
@@ -140,7 +140,7 @@ export default {
             editable: true
           },  
           {
-            key: 'updateUser',
+            key: 'jobType',
             label: 'Batch Job Type Code',
             sortable: true,
             class: 'text-left',
