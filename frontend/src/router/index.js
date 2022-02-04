@@ -30,7 +30,7 @@ import Admin from '../views/Admin.vue';
 import LetterGrades from '@/components/Programs/LetterGrades';
 import SpecialCases from '@/components/Programs/SpecialCases';
 import AlgorithmRules from '@/components/Programs/AlgorithmRules';
-
+import BatchJobSearch from '../views/BatchJobSearch.vue';
 Vue.use(VueRouter)
 const routes = [{
     path: '/login',
@@ -56,14 +56,6 @@ const routes = [{
     path: '/',
     name: 'student-search',
     component: StudentSearch,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/student-profile/:pen/:studentId',
-    name: 'student-profile',
-    component: StudentProfile,
     meta: {
       requiresAuth: true
     }
@@ -97,6 +89,22 @@ const routes = [{
     },
   },
   {
+    path: '/assessments',
+    name: 'assessments',
+    component: Assessments,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/batch-job-search/:batchJobId',
+    name: 'batchJobSearch',
+    component: BatchJobSearch,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/codes',
     component: AdminCodes,
     children: [
@@ -117,7 +125,7 @@ const routes = [{
     meta: {
       requiresAuth: true
     },
-  },  
+  }, 
   {
     path: '/courses',
     name: 'courses',
@@ -125,11 +133,11 @@ const routes = [{
     meta: {
       requiresAuth: true
     }
-  },
+  }, 
   {
-    path: '/assessments',
-    name: 'assessments',
-    component: Assessments,
+    path: '/psi',
+    name: 'psi',
+    component: PSI,
     meta: {
       requiresAuth: true
     }
@@ -143,20 +151,20 @@ const routes = [{
     }
   },
   {
-    path: '/psi',
-    name: 'psi',
-    component: PSI,
+    path: '/student-profile/:pen/:studentId',
+    name: 'student-profile',
+    component: StudentProfile,
     meta: {
       requiresAuth: true
     }
-  }
-]
+  },
+];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
+});
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
@@ -164,14 +172,14 @@ router.beforeEach((to, from, next) => {
           next({
               path: '/logout',
               params: { nextUrl: to.fullPath }
-          })
+          });
       }
       else {
-            next()
+            next();
       }
   } 
    else {
-       next()
+       next();
   }
 })
-export default router
+export default router;
