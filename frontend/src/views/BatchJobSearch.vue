@@ -5,13 +5,13 @@
 </template>
 
 <script>
-// import DisplayTable from "@/components/DisplayTable.vue";
+
 import { mapGetters } from "vuex";
 import sharedMethods from '../sharedMethods'
 export default {
   name: "batchJobSearch",
   components: {
-    // DisplayTable: DisplayTable,
+
   },
   data() {
     return {
