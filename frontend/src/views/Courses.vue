@@ -256,42 +256,48 @@
         courseFields: [     
           {
             key: 'courseCode',
-            label: 'Course code',
+            label: 'TRAX Course Code',
             sortable: true,
             sortDirection: 'desc'
           },
           {
             key: 'courseLevel',
-            label: 'Course Level',
+            label: 'Grade Level',
             sortable: true,
             class: 'text-center'
           },
           {
             key: 'courseName',
-            label: 'Course name',
+            label: 'Course Title',
+            sortable: true,
+          },
+          {
+            key: 'numCredits',
+            label: 'Credit Value',
+            class: 'text-center',
             sortable: true,
           },
           {
             key: 'language',
-            label: 'Language',
+            label: 'Instruction Language',
             sortable: true,
             class: 'text-center'
           },          
           {
             key: 'startDate',
-            label: 'Course Start date',
+            label: 'TRAX Start Date',
             sortable: true,
             sortDirection: 'desc'
           },
           {
             key: 'endDate',
-            label: 'Course End date',
+            label: 'TRAX End Date',
             sortable: true,
             class: 'text-center'
           },
           {
             key: 'coRegID',
-            label: 'COREG ID',
+            label: 'Coreg ID',
             sortable: true,
             sortDirection: 'desc'
           },
