@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{optionalPrograms}}
     <div class="table-responsive">
       <div v-if="!optionalPrograms" class="container">
         This student does not have any optional programs.

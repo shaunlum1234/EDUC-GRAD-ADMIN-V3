@@ -9,7 +9,7 @@
               <div class="advanced-search-form">
               <div class="row my-3">
                 <div class="advanced-search-field col-12 col-md-2">
-                  <label >Course code</label>
+                  <label >TRAX Code</label>
                   <div href="#"
                     v-on:click="advancedSearchInput.courseCode.contains = !advancedSearchInput.courseCode.contains"
                     v-bind:class="{active: advancedSearchInput.courseCode.contains}"
@@ -22,7 +22,7 @@
                     tabindex="1" />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
-                  <label >Course level</label>
+                  <label >Grade Level</label>
                    <div href="#"
                     v-on:click="advancedSearchInput.courseLevel.contains = !advancedSearchInput.courseLevel.contains"
                     v-bind:class="{active: advancedSearchInput.courseLevel.contains}"
@@ -35,7 +35,7 @@
                     tabindex="2" />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
-                  <label >Course name</label>
+                  <label >Course Title</label>
                   <div href="#"
                     v-on:click="advancedSearchInput.courseName.contains = !advancedSearchInput.courseName.contains"
                     v-bind:class="{active: advancedSearchInput.courseName.contains}"
@@ -47,8 +47,8 @@
                   <b-input class="form__input" v-model="advancedSearchInput.courseName.value" placeholder=""
                     tabindex="3" />
                 </div>
-                <div class="advanced-search-field col-12 col-md-1">
-                  <label >Language</label>
+                <div class="advanced-search-field col-12 col-md-2">
+                  <label >Instruction Language</label>
                     <b-form-select                      
                       v-model="advancedSearchInput.language.value"
                       :options=langOptions
@@ -57,7 +57,7 @@
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
                   <label for="datepicker-startDate"
-                    >Start date</label
+                    >TRAX Start Date</label
                   >
                   <b-input-group class="mb-3">
                     <b-form-input
@@ -74,7 +74,7 @@
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
                   <label for="datepicker-endDate"
-                    >End date</label
+                    >TRAX End Date</label
                   >
                   <b-input-group class="mb-3">
                     <b-form-input
