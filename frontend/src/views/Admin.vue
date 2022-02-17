@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    {{batchInfoListData}}
     <h2>Admin Dashboard</h2>
 <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
 <div>
@@ -69,6 +68,44 @@
               </DisplayTable>
             </b-card-text>
          </b-tab>
+         <b-tab v-for="i in tabs" :key="'dyn-tab-' + i" :title="'Job ' + i">
+            <div>
+              <b-dropdown id="batch-type" text="What" class="m-md-2" v-model="tabContent[i].what">
+                <b-dropdown-item>TVRRUN</b-dropdown-item>
+                <b-dropdown-item>REGALG</b-dropdown-item>
+                <b-dropdown-item>DISTRUN</b-dropdown-item>
+              </b-dropdown>
+            </div>
+            {{tabContent[i].what}}
+
+            <div>
+              <b-dropdown id="batch-users" text="Who" class="m-md-2">
+                <b-dropdown-item>Student</b-dropdown-item>
+                <b-dropdown-item>School</b-dropdown-item>
+                <b-dropdown-item>District</b-dropdown-item>
+                <b-dropdown-item>Program</b-dropdown-item>
+              </b-dropdown>
+            </div>
+          <b-button size="sm" variant="danger" class="float-right" @click="closeTab(i)">
+            Delete
+          </b-button>
+                    <b-button size="sm" variant="primary" class="float-right" @click="runbatch">
+            Run Batch
+          </b-button>
+        </b-tab>
+
+        <!-- New Tab Button (Using tabs-end slot) -->
+        <template #tabs-end>
+          <b-nav-item role="presentation" @click.prevent="newTab" href="#"><b>+</b></b-nav-item>
+        </template>
+
+        <!-- Render this if no tabs -->
+        <template #empty>
+          <div class="text-center text-muted">
+            There are no open tabs<br>
+            Open a new tab using the <b>+</b> button above.
+          </div>
+        </template>
         </b-tabs>
       </b-card>
     </div>    
@@ -203,7 +240,10 @@ export default {
       items: [],
       jobs: [],   
       selectedTab: 0,     
-      searchResults: [],     
+      searchResults: [],
+      tabs: [],
+      tabCounter: 1,
+      tabContent: [],
     };
     
   },
@@ -211,6 +251,20 @@ export default {
     this.getAdminDashboardData()
   },
   methods: { 
+    closeTab(x) {
+      for (let i = 0; i < this.tabs.length; i++) {
+        if (this.tabs[i] === x) {
+          this.tabs.splice(i, 1)
+          this.tabContent.splice(i, 1)
+        }
+      }
+    },
+    newTab() {
+      this.tabContent.push({"what":"","who":""});
+      this.tabs.push(this.tabCounter++);
+      console.log(this.tabContent);
+      
+    },
     formatDate(value) {    
       return  value.toLocaleString('en-CA', { timeZone: 'PST' });
     },
