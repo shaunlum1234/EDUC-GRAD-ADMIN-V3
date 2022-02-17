@@ -177,7 +177,7 @@ export default {
             editable: true
           },  
           {
-            key: 'updateUser',
+            key: 'jobType',
             label: 'Batch Job Type Code',
             sortable: true,
             class: 'text-left',
