@@ -485,8 +485,6 @@ export default {
         { text: "11", value: "11" },
         { text: "12", value: "12" },
         { text: "HS - Homeschool", value: "HS" },
-        { text: "GA - Graduated Adult", value: "GA" },
-        { text: "SU - Secondary Ungraded", value: "SU" },
         { text: "OT - Other", value: "OT" },
         { text: "AD - Adult expected to graduate", value: "AD" },
         { text: "AN - Adult not expected to graduate", value: "AN" },     
