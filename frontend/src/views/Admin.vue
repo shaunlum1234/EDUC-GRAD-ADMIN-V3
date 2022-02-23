@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <!-- {{batchInfoListData}} -->
     <h2>Admin Dashboard</h2>
 <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
 <div>
@@ -65,7 +64,18 @@
             <b-card-text>
               <DisplayTable title="Job/Runs" v-bind:items="batchInfoListData"
                 v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
-               >
+              >
+                <template #cell(jobExecutionId)="row">
+                  <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
+                    {{row.item.jobExecutionId}}           
+                  </b-btn>
+                  <b-popover :target="'batch-job-id-btn'+ row.item.jobExecutionId" triggers="focus">
+                    <template #title>Search batch job</template>
+                    <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="passBatchId(row.item.jobExecutionId)">   
+                      All results           
+                    </b-btn>
+                  </b-popover>
+                </template>
               </DisplayTable>
             </b-card-text>
          </b-tab>
@@ -74,20 +84,9 @@
     </div>    
   </div>
     <div class="col-4 float-left pl-2 pr-0">
-      <b-card bg-variant="light" header="Graduation Batch" class="text-left mb-2">
+      <b-card bg-variant="light" header="Batch Job" class="text-left mb-2">
         <b-card-text>
-          <ul>
-            <li><a @click="runbatch" href="#">Run Batch</a></li>
-          </ul>
-        </b-card-text>
-      </b-card>
-
-      <b-card bg-variant="Placeholder" header="Placeholder 1" class="text-left mb-2">
-        <b-card-text>
-          <ul>
-            <li><a @click="runbatch" href="#">Clear Logs</a></li>
-            <li><a href="#">Download Logs</a></li>
-          </ul>
+          <BatchJobSearchResults :selectedBatchId="adminSelectedBatchId"></BatchJobSearchResults>
         </b-card-text>
       </b-card>
     </div>
@@ -103,17 +102,23 @@
 import DashboardService from "@/services/DashboardService.js";
 import SiteMessage from "@/components/SiteMessage";
 import DisplayTable from '@/components/DisplayTable.vue';
+import BatchJobSearchResults from "@/components/BatchJobSearchResults.vue";
 import {
   mapGetters
 } from "vuex";
 export default {
   name: "test",
+  props: [
+    //'adminSelectedBatchId',
+  ],
   components: {
       SiteMessage: SiteMessage,
-      DisplayTable: DisplayTable
+      DisplayTable: DisplayTable,
+      BatchJobSearchResults: BatchJobSearchResults
   },
   data() {
     return {
+      adminSelectedBatchId:"",
       errorOn: false,
       displayMessage: null,
       dashboardData:"",
@@ -267,7 +272,10 @@ export default {
     },
     displaySearchResults(value){ 
       this.searchResults = value
-    }
+    },
+    passBatchId(value) {
+      this.adminSelectedBatchId = value.toString();
+    },
   },
   computed:{
     results(){

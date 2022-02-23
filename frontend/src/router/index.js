@@ -30,7 +30,7 @@ import Admin from '../views/Admin.vue';
 import LetterGrades from '@/components/Programs/LetterGrades';
 import SpecialCases from '@/components/Programs/SpecialCases';
 import AlgorithmRules from '@/components/Programs/AlgorithmRules';
-import BatchJobSearch from '../views/BatchJobSearch.vue';
+
 Vue.use(VueRouter)
 const routes = [{
     path: '/login',
@@ -92,14 +92,6 @@ const routes = [{
     path: '/assessments',
     name: 'assessments',
     component: Assessments,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/batch-job-search/:batchJobId',
-    name: 'batchJobSearch',
-    component: BatchJobSearch,
     meta: {
       requiresAuth: true
     }

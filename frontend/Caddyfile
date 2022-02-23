@@ -26,6 +26,9 @@
     proxy /api/v1/student/studentHistory/ {$VUE_APP_STUDENTS_API_HOST} {
         header_upstream Cookie "SMSESSION=siteminder"
     }
+    proxy /api/v1/student/studentHistory/batchid/ {$VUE_APP_STUDENTS_API_HOST} {
+        header_upstream Cookie "SMSESSION=siteminder"
+    }
     proxy /api/v1/student/studentOptionalProgramHistory/ {$VUE_APP_STUDENTS_API_HOST} {
         header_upstream Cookie "SMSESSION=siteminder"
     }
