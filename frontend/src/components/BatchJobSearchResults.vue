@@ -3,6 +3,11 @@
       <DisplayTable title="Job/Runs" v-bind:items="batchData"
         v-bind:fields="batchDataFields" id="id" :showFilter=false pagination="true"
       >
+        <template #cell(pen)="row">
+          <b-btn :id="'pen'+ row.item.pen" variant='link' size="xs" @click="findStudentByPen(row.item.pen)">   
+            {{row.item.pen}}           
+          </b-btn>
+        </template>
       </DisplayTable>
   </div>
 </template>
@@ -25,12 +30,33 @@ export default {
       batchData: [],
       batchDataFields: [
         {
-          key: 'createUser',
-          label: 'User',
+          key: 'pen',
+          label: 'Pen',
           sortable: true,
           class: 'text-left',
           editable: true
         },  
+        {
+          key: 'legalFirstName',
+          label: 'First Name',
+          sortable: true,
+          class: 'text-left',
+          editable: true
+        }, 
+        {
+          key: 'legalLastName',
+          label: 'Last Name',
+          sortable: true,
+          class: 'text-left',
+          editable: true
+        }, 
+        {
+          key: 'schoolOfRecord',
+          label: 'School of Record',
+          sortable: true,
+          class: 'text-left',
+          editable: true
+        }, 
       ],     
     };
   },
@@ -64,7 +90,36 @@ export default {
             });
           }
       });
-    }
+    },
+    loadStudent: function (student) {
+        this.selectedPen = student[0].pen;
+        this.selectedId = student[0].studentID;
+        let path = 'student-profile';
+        var currentRoute =  this.$route.path.split("/").slice(1)[0];
+
+        this.$router.push({
+          path: `/student-profile/${this.selectedPen}/${this.selectedId}`
+        });
+        //Used for reloading if on the same Student Profile page  
+        if(path == currentRoute){
+          location.reload();
+        }
+    },
+    findStudentByPen: function(pen) {
+      if (pen) {
+        StudentService.getStudentByPen(pen, this.token)
+        .then((response) => {
+          if (response.data) {
+            this.loadStudent(response.data);
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log('Batch Admin Load: ' + error);
+          this.showNotification("danger", "Student cannot be found on the GRAD or PEN database");
+        });
+      }
+    },
   },
 }
 </script>
