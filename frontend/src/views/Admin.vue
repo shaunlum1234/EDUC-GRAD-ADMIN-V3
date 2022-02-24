@@ -67,7 +67,18 @@
             <b-card-text>
               <DisplayTable title="Job/Runs" v-bind:items="batchInfoListData"
                 v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
-               >
+              >
+                <template #cell(jobExecutionId)="row">
+                  <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
+                    {{row.item.jobExecutionId}}           
+                  </b-btn>
+                  <b-popover :target="'batch-job-id-btn'+ row.item.jobExecutionId" triggers="focus">
+                    <template #title>Search batch job</template>
+                    <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="passBatchId(row.item.jobExecutionId)">   
+                      All results           
+                    </b-btn>
+                  </b-popover>
+                </template>
               </DisplayTable>
             </b-card-text>
          </b-tab>
@@ -202,20 +213,9 @@
     </div>    
   </div>
     <div class="col-4 float-left pl-2 pr-0">
-      <b-card bg-variant="light" header="Graduation Batch" class="text-left mb-2">
+      <b-card bg-variant="light" header="Batch Job" class="text-left mb-2">
         <b-card-text>
-          <ul>
-            <li><a @click="runbatch" href="#">Run Batch</a></li>
-          </ul>
-        </b-card-text>
-      </b-card>
-
-      <b-card bg-variant="Placeholder" header="Placeholder 1" class="text-left mb-2">
-        <b-card-text>
-          <ul>
-            <li><a @click="runbatch" href="#">Clear Logs</a></li>
-            <li><a href="#">Download Logs</a></li>
-          </ul>
+          <BatchJobSearchResults :selectedBatchId="adminSelectedBatchId"></BatchJobSearchResults>
         </b-card-text>
       </b-card>
     </div>
@@ -231,18 +231,23 @@
 import DashboardService from "@/services/DashboardService.js";
 import SiteMessage from "@/components/SiteMessage";
 import DisplayTable from '@/components/DisplayTable.vue';
+import BatchJobSearchResults from "@/components/BatchJobSearchResults.vue";
 import {
   mapGetters
 } from "vuex";
 export default {
   name: "test",
+  props: [
+    //'adminSelectedBatchId',
+  ],
   components: {
       SiteMessage: SiteMessage,
-      DisplayTable: DisplayTable
+      DisplayTable: DisplayTable,
+      BatchJobSearchResults: BatchJobSearchResults
   },
   data() {
     return {
-      
+      adminSelectedBatchId:"",
       errorOn: false,
       displayMessage: null,
       dashboardData:"",
@@ -461,15 +466,21 @@ export default {
         noAutoHide: true,
       });
       this.selectedTab = 0;
-      setTimeout(()=>{
-        let batchJob = {"createUser":"-","createDate":"2022-02-23T07:01:09.000+00:00","updateUser":"-","updateDate":"-","jobExecutionId":"5xxx","startTime":"2022-02-23T07:00:00.643+00:00","endTime":"2022-02-23T07:01:09.529+00:00","expectedStudentsProcessed":"?","actualStudentsProcessed":"?","failedStudentsProcessed":"?","status":"RUNNING","triggerBy":"BATCH", "_rowVariant":"success"}
-        batchJob.jobType = this.tabContent[id].details['what'];
-        this.batchInfoListData.splice(0,0,batchJob);
-        this.closeTab(id.replace("job-",""));
-      },1000);
-      
-
-    }
+      setTimeout(() => this.jobs.splice(0, 0,{ id: "9", date: 'Less than 1 minute ago', user: "JOHN DOE", success: "N/A", status: 'Running' }), 1000);
+      setTimeout(() => this.jobs.splice(0, 1,{ id: "9", date: today, user: "JOHN DOE", success: "53/56", status: 'Complete' }), 10000);
+      setTimeout(() => this.expected=3, 10000);
+      setTimeout(() => this.timespan=0, 10000);
+      setTimeout(() => this.processed="53/56", 10000);
+      setTimeout(() => this.timePerRecord="1s", 10000);
+      setTimeout(() => this.timespan="6:00pm to 6:01pm", 10000);
+      setTimeout(() => this.errors=3, 10000);
+    },
+    displaySearchResults(value){ 
+      this.searchResults = value
+    },
+    passBatchId(value) {
+      this.adminSelectedBatchId = value.toString();
+    },
   },
   computed:{
     results(){
