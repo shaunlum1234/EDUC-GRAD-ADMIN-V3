@@ -45,8 +45,41 @@
         studentStatusOptions:[],
         ungradReasons:[]
       },
+      tabs: [],
+      batchDetails: [],
+      batchAutoIncrement: 1,
+
     },
     mutations: {
+
+      addTypeToBatchId(state, payload){
+        state.batchDetails[payload['id']][payload['type']].push({})
+
+      },
+      addSchoolToBatch(state,payload){
+        state.batchDetails[payload].schools.push({})
+      },
+      addDistrictToBatch(state,payload){
+        state.batchDetails[payload].districts.push({})
+      },
+      addStudentToBatch(state,payload){
+        state.batchDetails[payload].students.push({})
+      },
+
+
+      //id, type, value
+      deleteValueFromTypeInBatchId(state,payload){
+        let items = state.batchDetails[payload['id']][payload['type']];
+        for( var i = 0; i < items.length; i++){     
+          if ( items[i].value === payload['value']) { 
+            items.splice(i--, 1); 
+          }
+        }
+        if(items.length == 0){
+          items.push({});
+        }
+      },
+
       setStudentAuditHistory(state, payload){
         state.student.auditHistory = payload; 
       },
@@ -167,10 +200,35 @@
       logout(state){
         state.token ="";
         state.refreshToke ="";
-      }      
+      },        
+      addBatchJob(state,id){
+        state.batchAutoIncrement++;
+        state.tabs.push(id);
+      },
+      editBatchDetails(state,payload){
+
+        state.batchDetails[payload['id']]=payload['batchDetail'];
+      },
+
+      clearBatchDetails(state,payload){
+        state.batchDetails[payload].schools=[];
+        state.batchDetails[payload].districts=[];
+        state.batchDetails[payload].programs=[];
+        state.batchDetails[payload].students=[];
+        state.batchDetails[payload]['details'].credential="";
+        state.batchDetails[payload]['details'].categoryCode="";
+      }
     },
     actions: {
-      
+      addStudentToBatch({commit}, payload){
+        commit('addStudentToBatch', payload);
+      },
+      addSchoolToBatch({commit}, payload){
+        commit('addSchoolToBatch', payload);
+      },
+      addDistrictToBatch({commit}, payload){
+        commit('addDistrictToBatch', payload);
+      },      
       setApplicationVariables({commit,state}) {
         ProgramManagementService.getGraduationPrograms(state.token).then(
           (response) => {
@@ -369,7 +427,7 @@
           // eslint-disable-next-line
           console.log(error);
         });
-      }
+      },      
     },
 
     
@@ -507,7 +565,18 @@
       },
       getStudentCareerPrograms(state){
         return state.student.careerPrograms;
-      }    
+      },
+      getTabs(state){
+        return state.tabs;
+      },
+      getBatchDetails(state){
+        return state.batchDetails;
+      },
+      getBatchCounter(state){
+          return state.batchAutoIncrement;
+      }
+
+      
         
     },
     modules: {}

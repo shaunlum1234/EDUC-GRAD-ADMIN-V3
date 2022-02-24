@@ -7,7 +7,6 @@
             header="Assessment Requirements"
           >
         <b-card-text class="p-3">       
-              {{gradStatusCourses}} 
           <DisplayTable v-if="hasGradStatus" :items="gradStatusAssessments" :fields="fields2" showFilter="true" title="RequirementDetailsAssessments">
             <template #cell(gradReqMet)="row">
               <div class="d-flex flex-column text-md-left">
