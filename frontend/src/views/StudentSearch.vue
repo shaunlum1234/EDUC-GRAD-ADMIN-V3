@@ -237,7 +237,6 @@
                             <li><strong>Usual given:</strong> {{row.item.usualFirstName}}</li>
                             <li><strong>Usual middle:</strong> {{row.item.usualMiddleNames}}</li>
                             <li><strong>Usual surname:</strong> {{row.item.usualLastName}}</li>
-                            <li><strong>Mincode (PEN):</strong> {{row.item.mincode}}</li>
                           </ul>
                         </b-card>
                       </template>                               
