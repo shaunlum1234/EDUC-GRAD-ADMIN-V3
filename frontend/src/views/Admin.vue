@@ -124,12 +124,12 @@
 
                 <b-input v-model="pen.value" class="col-5"/>
                 <b-input disabled v-model="pen.name" :ref="'pen'+ index" class="col-5"/>
-                <button v-show="index != tabContent['job-'+i].students.length-1" class="col-2 delete-button btn btn-danger" @click="deleteValueFromTypeInBatchId('job-' + i, 'students',pen.value)">
+                <b-button v-show="index != tabContent['job-'+i].students.length-1" class="col-2 delete-button btn btn-danger" @click="deleteValueFromTypeInBatchId('job-' + i, 'students',pen.value)">
                   Delete
-                </button>
-                <button v-show="index == tabContent['job-'+i].students.length-1" class="col-2 btn btn-primary" @click="addValueToTypeInBatchId('job-' + i,'students',pen.value,index)">
+                </b-button>
+                <b-button v-show="index == tabContent['job-'+i].students.length-1" class="col-2 btn btn-primary" @click="addValueToTypeInBatchId('job-' + i,'students',pen.value,index)">
                   Add Student
-                </button>    
+                </b-button>    
                 
               </div>
             </b-card>
@@ -138,12 +138,12 @@
               Schools
               <div  v-for="(school, index) in tabContent['job-' + i].schools" :key="index" class="row pl-3 mb-1">
                 <b-input v-model="school.value" class="col-5"/>
-                <button  v-show="index != tabContent['job-'+i].schools.length-1" class="col-2 delete-button btn btn-danger" @click="deleteValueFromTypeInBatchId('job-' + i, 'schools',school.value)">
+                <b-button  v-show="index != tabContent['job-'+i].schools.length-1" class="col-2 delete-button btn btn-danger" @click="deleteValueFromTypeInBatchId('job-' + i, 'schools',school.value)">
                   Delete
-                </button>
-                <button v-show="index == tabContent['job-'+i].schools.length-1" class="col-2 btn btn-primary" @click="addValueToTypeInBatchId('job-' + i,'schools', school.value)">
+                </b-button>
+                <b-button v-show="index == tabContent['job-'+i].schools.length-1" class="col-2 btn btn-primary" @click="addValueToTypeInBatchId('job-' + i,'schools', school.value)">
                   Add School
-                </button>
+                </b-button>
               </div>
               
             </b-card>
@@ -166,12 +166,12 @@
                 <div class="mt-2">Districts</div>
                 <div  v-for="(district, index) in tabContent['job-' + i].districts" :key="index" class=" row pl-3 mb-1">
                   <b-input v-model="district.value" class="col-5"/>
-                  <button  v-if="index != tabContent['job-'+i].districts.length-1" class="col-2 delete-button btn btn-primary btn-danger" @click="deleteValueFromTypeInBatchId('job-' + i, 'districts',district.value)">
+                  <b-button  v-if="index != tabContent['job-'+i].districts.length-1" class="col-2 delete-button btn btn-primary btn-danger" @click="deleteValueFromTypeInBatchId('job-' + i, 'districts',district.value)">
                     Delete
-                  </button>
-                  <button v-if="index == tabContent['job-'+i].districts.length-1" class="col-2 btn btn-primary" @click="addValueToTypeInBatchId('job-' + i,'districts', district.value)">
+                  </b-button>
+                  <b-button v-if="index == tabContent['job-'+i].districts.length-1" class="col-2 btn btn-primary" @click="addValueToTypeInBatchId('job-' + i,'districts', district.value)">
                     Add District
-                  </button>  
+                  </b-button>  
                 </div>
    
                 
