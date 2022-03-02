@@ -59,30 +59,39 @@
       </b-card>                                   
     </b-card-group>
   <div class="mt-2 row">
-  <div class="col-8 float-left p-0">
+  <div class="col-12 float-left p-0">
     <div>
       <b-card no-body>
         <b-tabs v-model="selectedTab" active card >
           <b-tab title="Job/Runs">
-            <b-card-text>
-              <DisplayTable title="Job/Runs" v-bind:items="batchInfoListData"
-                v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
-              >
-                <template #cell(jobExecutionId)="row">
-                  <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
-                    {{row.item.jobExecutionId}}   
-                  </b-btn>
-                  <b-btn v-else disabled variant='link' size="xs">  
-                    {{row.item.jobExecutionId}}   
-                  </b-btn>                  
-                  <b-popover :target="'batch-job-id-btn'+ row.item.jobExecutionId" triggers="focus">
-                    <template #title>Search batch job</template>
-                    <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="passBatchId(row.item.jobExecutionId)">   
-                      All results           
+            <b-card-text class="row">
+              <div class="col-12 col-md-7">
+                <DisplayTable title="Job/Runs" v-bind:items="batchInfoListData"
+                  v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
+                >
+                  <template #cell(jobExecutionId)="row">
+                    <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
+                      {{row.item.jobExecutionId}}   
                     </b-btn>
-                  </b-popover>
-                </template>
-              </DisplayTable>
+                    <b-btn v-else disabled variant='link' size="xs">  
+                      {{row.item.jobExecutionId}}   
+                    </b-btn>                  
+                    <b-popover :target="'batch-job-id-btn'+ row.item.jobExecutionId" triggers="focus">
+                      <template #title>Search batch job</template>
+                      <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="passBatchId(row.item.jobExecutionId)">   
+                        All results           
+                      </b-btn>
+                    </b-popover>
+                  </template>
+                </DisplayTable>
+              </div>
+              <div v-if="adminSelectedBatchId" class="col-12 col-md-5 float-left pl-2 pr-0">
+                <b-card bg-variant="light" :header="'Batch Job '+ this.adminSelectedBatchId" class="text-left mb-2">
+                  <b-card-text>
+                    <BatchJobSearchResults :selectedBatchId="adminSelectedBatchId"></BatchJobSearchResults>
+                  </b-card-text>
+                </b-card>
+              </div>
             </b-card-text>
          </b-tab>
          <b-tab v-for="i in tabs" :key="'dyn-tab-' + i" :title="'Job ' + i">
@@ -219,13 +228,6 @@
       </b-card>
     </div>    
   </div>
-    <div v-if="adminSelectedBatchId" class="col-4 float-left pl-2 pr-0">
-      <b-card bg-variant="light" header="Batch Job" class="text-left mb-2">
-        <b-card-text>
-          <BatchJobSearchResults :selectedBatchId="adminSelectedBatchId"></BatchJobSearchResults>
-        </b-card-text>
-      </b-card>
-    </div>
    </div>  
   </div>
 
