@@ -224,13 +224,9 @@
     },
     actions: {
       validateStudentInGrad({state}, payload){
-        console.log("validating grad student");
         
         StudentService.getStudentByPen(payload['pen'],state.token).then(
           (response) => {
-            
-            console.log("RESPONSE RETURNED")
-            console.log(response)
             this.$store.commit("addValueToTypeInBatchId", payload);
             return response;
           }
