@@ -1,14 +1,28 @@
 <template>
   <div>
+    {{currentPage}}
       <DisplayTable title="Job/Runs" v-bind:items="batchData"
-        v-bind:fields="batchDataFields" id="id" :showFilter=false pagination="true"
+        v-bind:fields="batchDataFields" 
+        id="id" 
+        :showFilter=false 
+        :pagination=false
       >
         <template #cell(pen)="row">
-          <b-btn :id="'pen'+ row.item.pen" variant='link' size="xs" @click="findStudentByPen(row.item.pen)">   
+          <b-btn :id="'pen'+ row.item.pen" 
+            variant='link' 
+            size="xs" 
+            @click="findStudentByPen(row.item.pen)
+          ">   
             {{row.item.pen}}           
           </b-btn>
         </template>
       </DisplayTable>
+      <b-pagination
+        v-model="userSelectedPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="my-table"
+      ></b-pagination>
   </div>
 </template>
 
@@ -28,6 +42,10 @@ export default {
   data() {
     return {
       batchData: [],
+      perPage: 10,
+      rows:0,
+      currentPage:0,
+      userSelectedPage:0,
       batchDataFields: [
         {
           key: 'pen',
@@ -65,21 +83,32 @@ export default {
     ...mapGetters({
       token: "getToken",
     }),
-    
+    currentPageChange(){
+      return this.userSelectedPage;
+    },
   },
   created() {
     this.showNotification = sharedMethods.showNotification;   
   },
   watch: { 
     selectedBatchId: function() { 
-      this.getAdminDashboardData();
-    }
+      this.getAdminDashboardData(0);
+    },
+    currentPageChange:function(){  
+      this.getAdminDashboardData(this.userSelectedPage);
+    },
   },
   methods: {
-    getAdminDashboardData(){
-      StudentService.getBatchHistory(this.selectedBatchId, this.token).then(
+    getAdminDashboardData(page){ 
+      if(page){
+        if(page > 0){
+          page = page - 1;  
+        }
+      }    
+      StudentService.getBatchHistory(this.selectedBatchId, page, this.token).then(
         (response) => {
             this.batchData = response.data.content;
+            this.rows = response.data.totalElements;
           }
         ).catch((error) => {
           if(error.response.status){
