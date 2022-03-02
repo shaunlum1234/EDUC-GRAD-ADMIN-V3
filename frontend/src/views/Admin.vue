@@ -83,7 +83,7 @@
       </b-card>
     </div>    
   </div>
-    <div class="col-4 float-left pl-2 pr-0">
+    <div v-if="adminSelectedBatchId" class="col-4 float-left pl-2 pr-0">
       <b-card bg-variant="light" header="Batch Job" class="text-left mb-2">
         <b-card-text>
           <BatchJobSearchResults :selectedBatchId="adminSelectedBatchId"></BatchJobSearchResults>

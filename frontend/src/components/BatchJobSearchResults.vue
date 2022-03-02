@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{currentPage}}
       <DisplayTable title="Job/Runs" v-bind:items="batchData"
         v-bind:fields="batchDataFields" 
         id="id" 
