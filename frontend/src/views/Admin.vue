@@ -69,9 +69,12 @@
                 v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
               >
                 <template #cell(jobExecutionId)="row">
-                  <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
-                    {{row.item.jobExecutionId}}           
+                  <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
+                    {{row.item.jobExecutionId}}   
                   </b-btn>
+                  <b-btn v-else disabled variant='link' size="xs">  
+                    {{row.item.jobExecutionId}}   
+                  </b-btn>                  
                   <b-popover :target="'batch-job-id-btn'+ row.item.jobExecutionId" triggers="focus">
                     <template #title>Search batch job</template>
                     <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="passBatchId(row.item.jobExecutionId)">   
@@ -87,7 +90,7 @@
             <div>
               <b-form-select
                 id="inline-form-select-type"
-                class="mb-2 mr-sm-2 mb-sm-0"
+                class="mb-2 mr-sm-2 mb-sm-0 col-2"
                 :options="[{ text: 'Choose...', value: null }, 'TVRRUN', 'REGALG', 'DISTRUN']"
                 :value="tabContent['job-'+i].details['what']"     
                 @change="editBatchJob('job-'+i,'what', $event)"       
@@ -97,7 +100,7 @@
             <div>
              <b-form-select
                 id="inline-form-select-audience"
-                class="mb-2 mr-sm-2 mb-sm-0"
+                class="mb-2 mr-sm-2 mb-sm-0 col-2"
                 :options="[{ text: 'Choose...', value: null }, 'Student', 'School', 'District', 'Program']"
                 :value="tabContent['job-'+i].details['who']"     
                 @change="editBatchJob('job-'+i,'who', $event)"       
@@ -116,14 +119,18 @@
             </div>            
            <b-card v-if="tabContent['job-'+i].details['who']=='Student'" class="mt-3" header="Include Students">
               Student
+              
               <div v-for="(pen, index) in tabContent['job-' + i].students" :key="index" class="row pl-3 mb-1">
+
                 <b-input v-model="pen.value" class="col-5"/>
-                <button  v-show="index != tabContent['job-'+i].students.length-1" class="col-2 delete-button btn btn-primary" @click="deleteValueFromTypeInBatchId('job-' + i, 'students',pen.value)">
+                <b-input disabled v-model="pen.name" :ref="'pen'+ index" class="col-5"/>
+                <button v-show="index != tabContent['job-'+i].students.length-1" class="col-2 delete-button btn btn-danger" @click="deleteValueFromTypeInBatchId('job-' + i, 'students',pen.value)">
                   Delete
                 </button>
-                <button v-show="index == tabContent['job-'+i].students.length-1" class="col-2 btn btn-primary" @click="addTypeToBatchId('job-' + i,'students')">
+                <button v-show="index == tabContent['job-'+i].students.length-1" class="col-2 btn btn-primary" @click="addValueToTypeInBatchId('job-' + i,'students',pen.value,index)">
                   Add Student
                 </button>    
+                
               </div>
             </b-card>
 
@@ -131,10 +138,10 @@
               Schools
               <div  v-for="(school, index) in tabContent['job-' + i].schools" :key="index" class="row pl-3 mb-1">
                 <b-input v-model="school.value" class="col-5"/>
-                <button  v-show="index != tabContent['job-'+i].schools.length-1" class="col-2 delete-button btn btn-primary" @click="deleteValueFromTypeInBatchId('job-' + i, 'schools',school.value)">
+                <button  v-show="index != tabContent['job-'+i].schools.length-1" class="col-2 delete-button btn btn-danger" @click="deleteValueFromTypeInBatchId('job-' + i, 'schools',school.value)">
                   Delete
                 </button>
-                <button v-show="index == tabContent['job-'+i].schools.length-1" class="col-2 btn btn-primary" @click="addTypeToBatchId('job-' + i,'schools')">
+                <button v-show="index == tabContent['job-'+i].schools.length-1" class="col-2 btn btn-primary" @click="addValueToTypeInBatchId('job-' + i,'schools', school.value)">
                   Add School
                 </button>
               </div>
@@ -159,10 +166,10 @@
                 <div class="mt-2">Districts</div>
                 <div  v-for="(district, index) in tabContent['job-' + i].districts" :key="index" class=" row pl-3 mb-1">
                   <b-input v-model="district.value" class="col-5"/>
-                  <button  v-if="index != tabContent['job-'+i].districts.length-1" class="col-2 delete-button btn btn-primary" @click="deleteValueFromTypeInBatchId('job-' + i, 'districts',district.value)">
+                  <button  v-if="index != tabContent['job-'+i].districts.length-1" class="col-2 delete-button btn btn-primary btn-danger" @click="deleteValueFromTypeInBatchId('job-' + i, 'districts',district.value)">
                     Delete
                   </button>
-                  <button v-if="index == tabContent['job-'+i].districts.length-1" class="col-2 btn btn-primary" @click="addTypeToBatchId('job-' + i,'districts')">
+                  <button v-if="index == tabContent['job-'+i].districts.length-1" class="col-2 btn btn-primary" @click="addValueToTypeInBatchId('job-' + i,'districts', district.value)">
                     Add District
                   </button>  
                 </div>
@@ -188,7 +195,7 @@
               ></b-form-checkbox-group>
             </b-card>
 
-          <b-button size="sm" variant="danger" class="btn btn-primary float-right col-2" @click="closeTab(i)">
+          <b-button size="sm" variant="danger" class="btn btn-danger float-right col-2" @click="closeTab(i)">
             Delete
           </b-button>
           <b-button size="sm" variant="primary" class="btn btn-primary float-right col-2" @click="runbatch('job-'+i)">
@@ -232,6 +239,7 @@ import DashboardService from "@/services/DashboardService.js";
 import SiteMessage from "@/components/SiteMessage";
 import DisplayTable from '@/components/DisplayTable.vue';
 import BatchJobSearchResults from "@/components/BatchJobSearchResults.vue";
+import StudentService from "@/services/StudentService.js";
 import {
   mapGetters
 } from "vuex";
@@ -350,17 +358,37 @@ export default {
     
   },
   methods: { 
+
     closeTab(x) {
       for (let i = 0; i < this.tabs.length; i++) {
-        console.log(this.tabs[i]);
         if (this.tabs[i] == x) {
           this.tabs.splice(i, 1);
           this.$store.commit("clearBatchDetails",i);
         }
       }
       
+    },      
+    addValueToTypeInBatchId(id, type, value, penValueIndex){
+      if(type == "students"){
+
+         StudentService.getStudentByPen(value,this.token).then(
+          (response) => {
+            if(response.data.length > 0){
+              this.$store.commit("addValueToTypeInBatchId", {id,type, value});
+              this.$refs['pen' + penValueIndex][0].updateValue(response.data[0].usualFirstName + " " + (response.data[0].usualMiddleNames?response.data[0].usualMiddleNames+ " ":"") + response.data[0].usualLastName);
+            }else{
+               this.$refs['pen' + penValueIndex][0].updateValue("PEN not found.");
+            }
+            this.$forceUpdate();
+          }
+        ).catch((error) => {
+          // eslint-disable-next-line
+          console.log(error)      
+        });
+      }
+      
     },
-    /* NEW STORE functions*/
+    //delete
     addTypeToBatchId(id, type){
       this.$store.commit("addTypeToBatchId", {type, id});
       this.$forceUpdate();
@@ -398,14 +426,8 @@ export default {
         requestAnimationFrame(() => {
           this.selectedTab = this.tabs.length;
         })
-
-      
-      console.log(this.selectedTab);
-      
-      
     },
     editBatchJob(id,type,event){
-      console.log(event)
       let batchDetail = this.tabContent[id];
       if(!batchDetail.details[type] && batchDetail.details[type] != event && type != "credential" && type != "categoryCode"){
         this.clearBatchDetails(id)
@@ -466,21 +488,19 @@ export default {
         noAutoHide: true,
       });
       this.selectedTab = 0;
-      setTimeout(() => this.jobs.splice(0, 0,{ id: "9", date: 'Less than 1 minute ago', user: "JOHN DOE", success: "N/A", status: 'Running' }), 1000);
-      setTimeout(() => this.jobs.splice(0, 1,{ id: "9", date: today, user: "JOHN DOE", success: "53/56", status: 'Complete' }), 10000);
-      setTimeout(() => this.expected=3, 10000);
-      setTimeout(() => this.timespan=0, 10000);
-      setTimeout(() => this.processed="53/56", 10000);
-      setTimeout(() => this.timePerRecord="1s", 10000);
-      setTimeout(() => this.timespan="6:00pm to 6:01pm", 10000);
-      setTimeout(() => this.errors=3, 10000);
+      setTimeout(()=>{
+        let batchJob = {"createUser":"-","createDate":"2022-02-23T07:01:09.000+00:00","updateUser":"-","updateDate":"-","jobExecutionId":"5xxx","startTime":"2022-02-23T07:00:00.643+00:00","endTime":"2022-02-23T07:01:09.529+00:00","expectedStudentsProcessed":"?","actualStudentsProcessed":"?","failedStudentsProcessed":"?","status":"RUNNING","triggerBy":"BATCH", "_rowVariant":"success"}
+        batchJob.jobType = this.tabContent[id].details['what'];
+        this.batchInfoListData.splice(0,0,batchJob);
+        this.closeTab(id.replace("job-",""));
+      },1000);
     },
     displaySearchResults(value){ 
       this.searchResults = value
     },
     passBatchId(value) {
       this.adminSelectedBatchId = value.toString();
-    },
+    },    
   },
   computed:{
     results(){

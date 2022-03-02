@@ -51,10 +51,14 @@
 
     },
     mutations: {
-
+      addValueToTypeInBatchId(state, payload){
+        //validate the item
+        
+        //add a new item
+        state.batchDetails[payload['id']][payload['type']].push({})
+      },
       addTypeToBatchId(state, payload){
         state.batchDetails[payload['id']][payload['type']].push({})
-
       },
       addSchoolToBatch(state,payload){
         state.batchDetails[payload].schools.push({})
@@ -206,7 +210,6 @@
         state.tabs.push(id);
       },
       editBatchDetails(state,payload){
-
         state.batchDetails[payload['id']]=payload['batchDetail'];
       },
 
@@ -220,6 +223,22 @@
       }
     },
     actions: {
+      validateStudentInGrad({state}, payload){
+        console.log("validating grad student");
+        
+        StudentService.getStudentByPen(payload['pen'],state.token).then(
+          (response) => {
+            
+            console.log("RESPONSE RETURNED")
+            console.log(response)
+            this.$store.commit("addValueToTypeInBatchId", payload);
+            return response;
+          }
+        ).catch((error) => {
+          // eslint-disable-next-line
+          console.log(error.response.status);
+        });
+      },
       addStudentToBatch({commit}, payload){
         commit('addStudentToBatch', payload);
       },
