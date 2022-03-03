@@ -94,7 +94,9 @@ export default {
       this.getAdminDashboardData(0);
     },
     currentPageChange:function(){  
-      this.getAdminDashboardData(this.userSelectedPage);
+      if(this.userSelectedPage !== null){
+        this.getAdminDashboardData(this.userSelectedPage);
+      }     
     },
   },
   methods: {
