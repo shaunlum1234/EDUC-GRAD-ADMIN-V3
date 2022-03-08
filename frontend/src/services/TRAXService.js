@@ -13,5 +13,9 @@ export default {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         return apiClient.get('/api/v1/psi/search/?'  + params,{ headers });
     },
+    getDistrict(district, token){
+        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        return apiClient.get('/api/v1/district/'  + district ,{ headers });
+    }
 };
 
