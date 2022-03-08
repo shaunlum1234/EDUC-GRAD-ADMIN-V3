@@ -189,7 +189,7 @@
 </template>
 
 <script>
-import PSIService from "@/services/PSIService.js";
+import TRAXService from "@/services/TRAXService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
 import { mapGetters } from "vuex";
 import sharedMethods from '../sharedMethods'
@@ -293,7 +293,7 @@ export default {
       }
     },
     getAllPSI: function () {
-      PSIService.getPSI(this.token)
+      TRAXService.getPSI(this.token)
       .then((res) => {
         this.psi = res.data;
       })
@@ -355,7 +355,7 @@ export default {
               }   
             }          
           }//if this.advanceSearchInput
-          PSIService.getPSIByAdvanceSearch(this.params,this.token)
+          TRAXService.getPSIByAdvanceSearch(this.params,this.token)
             .then((response) => {
               this.advancedSearchLoading = false;
               this.psiResults = response.data;
@@ -370,7 +370,7 @@ export default {
               // eslint-disable-next-line
               console.log('There was an error:' + error);
               this.showNotification("danger", "There was an error with the web service.");
-          });//PSIService
+          });//TRAXService
         } catch (error) {
           this.advancedSearchLoading = false;
           this.advancedSearchMessage = "Search Error" + error;

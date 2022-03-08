@@ -32,7 +32,7 @@ export default {
     DisplayTable: DisplayTable,
   },
   created() {
-      GraduationCommonService.getTranscriptsTypes(this.token)
+      GraduationCommonService.getTranscriptTypes(this.token)
       .then((response) => {
         this.transcriptTypes = response.data;
       })
