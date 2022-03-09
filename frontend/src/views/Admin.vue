@@ -58,13 +58,14 @@
       </b-card>                                   
     </b-card-group>
   <div class="mt-2 row">
-  <div class="col-12 float-left p-0">
+  <div class=" float-left p-0">
     <div>
+       
       <b-card no-body>
         <b-tabs v-model="selectedTab" active card >
           <b-tab title="Job/Runs">
             <b-card-text class="row">
-              <div class="col-12 col-md-7">
+              <div :class="adminSelectedBatchId ? 'col-md-7':'col-12'">
                 <DisplayTable title="Job/Runs" v-bind:items="batchInfoListData"
                   v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
                 >
