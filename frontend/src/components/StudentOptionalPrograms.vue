@@ -4,56 +4,61 @@
       <div v-if="!optionalPrograms" class="container">
         This student does not have any optional programs.
       </div>
-      <DisplayTable v-if="optionalPrograms" :items="optionalPrograms" :striped=false :fields="optionalProgramsfields" showFilter="true" title="Optional Programs">
+    <DisplayTable v-if="optionalPrograms" :items="optionalPrograms" :striped=false :fields="optionalProgramsfields" showFilter="true" title="Optional Programs">
         <template #cell(optionalNonGradReasons)="row">
           <div v-if="row.item.studentOptionalProgramData">
-            <ul v-if="row.item.studentOptionalProgramData.optionalNonGradReasons != null" id="optionalNonGradReasons">
-              <li v-for="optionalNonGradReasons in row.item.studentOptionalProgramData.optionalNonGradReasons" :key="optionalNonGradReasons.rule">
-                <strong>{{ optionalNonGradReasons.rule }} - {{ optionalNonGradReasons.description }}</strong>
-              </li>
-            </ul>
             <div v-if="row.item.studentOptionalProgramData.optionalNonGradReasons == null && row.item.studentOptionalProgramData.optionalRequirementsMet != null">
               <span v-if="row.item.studentOptionalProgramData.optionalRequirementsMet.length != 0">All requirements have been met</span>
             </div>
             <div v-else>
-              <span v-if="row.item.studentOptionalProgramData.optionalNonGradReasons.length == 0 && row.item.studentOptionalProgramData.optionalRequirementsMet.length > 0">All requirements have been met</span>
+              <div class="p-2" v-if="row.item.studentOptionalProgramData.optionalNonGradReasons.length == 0 && row.item.studentOptionalProgramData.optionalRequirementsMet.length > 0">All requirements have been met</div>
             </div>
             <span v-if="row.item.studentOptionalProgramData.optionalNonGradReasons && row.item.studentOptionalProgramData.optionalNonGradReasons.length == 0 && 
                         row.item.studentOptionalProgramData.optionalRequirementsMet && row.item.studentOptionalProgramData.optionalRequirementsMet.length == 0">n/a</span>
           </div> 
+          <ul v-if="row.item.studentOptionalProgramData.optionalNonGradReasons != null" id="optionalNonGradReasons">
+            <li v-for="optionalNonGradReasons in row.item.studentOptionalProgramData.optionalNonGradReasons" :key="optionalNonGradReasons.rule">
+              <strong>{{ optionalNonGradReasons.rule }} - {{ optionalNonGradReasons.description }}</strong>
+            </li>
+          </ul>
           <div v-else>n/a</div>
         </template>   
          
         <template #cell(optionalProgramName)="row">
+          <div class="pt-2">
             {{row.item.optionalProgramName}} ({{row.item.optionalProgramCode}}) <br> {{row.item.OptionalProgramCompletionDate}}
+          </div>
         </template>   
         <template #cell(optionalReqMet)="row">  
-          <div v-if="row.item.studentOptionalProgramData">
-            <div v-if="row.item.studentOptionalProgramData.optionalNonGradReasons && row.item.studentOptionalProgramData.optionalNonGradReasons.length == 0 && 
-                      row.item.studentOptionalProgramData.optionalRequirementsMet && row.item.studentOptionalProgramData.optionalRequirementsMet.length == 0
-                      ">n/a</div>            
+          <div v-if="row.item.studentOptionalProgramData">      
+              <b-table v-if="row.item.optionalProgramCode == 'BC' || row.item.optionalProgramCode == 'AN' || row.item.optionalProgramCode == 'AD' || row.item.optionalProgramCode == 'CP'"
+                        :bordered=false small :items="row.item.studentOptionalProgramData.optionalRequirementsMet" :fields="fields" thead-class="d-none">
+                <template #cell(gradReqMetDetail)="row2">
+                  <div class="p-2">
+                    <strong>{{row2.item.rule}}</strong> - {{row2.item.description}}
+                  </div>
+              </template>
+              </b-table>
+              
             <b-table :bordered=false small :items="row.item.studentOptionalProgramData.optionalStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
               <template #cell(gradReqMetDetail)="row2">
-                  <ul class="m-0 p-0">
-                    <li ><strong>{{row2.item.gradReqMetDetail}}</strong><br/>
-                      {{row2.item.courseCode}} {{row2.item.courseLevel}} - {{row2.item.sessionDate}} ({{row2.item.courseName}} )
-                    </li>
-                  </ul>
+                <div class="p-2">
+                  <strong>{{row2.item.gradReqMetDetail}}</strong><br/>
+                   {{row2.item.courseCode}} {{row2.item.courseLevel}} - {{row2.item.sessionDate}} ({{row2.item.courseName}})
+                </div>    
               </template>
             </b-table>
             <b-table :bordered=false small :items="row.item.studentOptionalProgramData.optionalStudentAssessments.studentAssessmentList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
               <template #cell(gradReqMetDetail)="row2">
-                  <ul class="m-0 p-0">
-                    <li ><strong>{{row2.item.gradReqMetDetail}}</strong><br/>
+                    <div class="p-2">
+                      <strong>{{row2.item.gradReqMetDetail}}</strong><br/>
                       {{row2.item.assessmentCode}} - {{row2.item.sessionDate}} ({{row2.item.assessmentName}})
-                    </li>
-                  </ul>
+                    </div>
+                    
               </template>
-            </b-table> 
-          </div>
-          <div v-else>
-            n/a
-          </div>         
+            </b-table>
+            
+          </div>       
         </template> 
         <template #cell(more)="row">            
           <b-btn
@@ -78,6 +83,7 @@
           </b-card>
         </template>                                 
       </DisplayTable>
+
     </div>
   </div>
 </template>
@@ -99,6 +105,7 @@ export default {
   },
   data: function () {
     return {
+      
       fields: [
         { key: "gradReqMetDetail", label: "Grad Requirement Met", class: "text-left"}
       ],
