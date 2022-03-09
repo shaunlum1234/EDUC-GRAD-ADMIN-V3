@@ -33,6 +33,7 @@
           </b-nav-item-dropdown>
         <b-nav-item to="/admin-graduation-programs/letter-grades" :active="tab === 4" @click="tab = 4">Letter grades</b-nav-item>
         <b-nav-item to="/admin-graduation-programs/special-cases" :active="tab === 5" @click="tab = 5">Special cases</b-nav-item>
+        <b-nav-item to="/admin-graduation-programs/requirement-types" :active="tab === 6" @click="tab = 6">Requirements</b-nav-item>
       </b-nav>
     </b-card-header>
      <b-card-body >

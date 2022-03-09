@@ -548,6 +548,7 @@
           (res) => {
             this.$store.dispatch("setStudentGradStatus", res.data);
           }
+          
         ).catch((error) => {
           if(error.res.status){
             this.$bvToast.toast("ERROR " + error.res.statusText, {
