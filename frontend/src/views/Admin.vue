@@ -2,7 +2,7 @@
   <div class="container">
     <h2>Admin Dashboard</h2>
     {{tabContent['job-1']}}
-
+    
     <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
     <div>
       <b-card-group deck>
