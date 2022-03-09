@@ -58,7 +58,7 @@
       </b-card>                                   
     </b-card-group>
   <div class="mt-2 row">
-  <div class=" float-left p-0">
+  <div class="col-12 float-left p-0">
     <div>
        
       <b-card no-body>
