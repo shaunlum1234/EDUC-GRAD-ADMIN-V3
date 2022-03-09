@@ -1,5 +1,9 @@
 <template>
   <div>
+     <b-spinner v-if="batchLoading" label="Loading">Loading</b-spinner>
+     <p v-if="rows <  1">There are no results to display.<br>
+        Please select another Job Execution ID.
+     </p>
       <DisplayTable title="Job/Runs" v-bind:items="batchData"
         v-bind:fields="batchDataFields" 
         id="id" 
@@ -17,6 +21,7 @@
         </template>
       </DisplayTable>
       <b-pagination
+        v-if="rows >  1"
         v-model="userSelectedPage"
         :total-rows="rows"
         :per-page="perPage"
@@ -45,6 +50,7 @@ export default {
       rows:0,
       currentPage:0,
       userSelectedPage:0,
+      batchLoading:false,
       batchDataFields: [
         {
           key: 'pen',
@@ -87,29 +93,34 @@ export default {
     },
   },
   created() {
-    this.showNotification = sharedMethods.showNotification;   
+    this.showNotification = sharedMethods.showNotification;  
+    this.getAdminDashboardData(this.selectedBatchId,0); 
   },
   watch: { 
     selectedBatchId: function() { 
-      this.getAdminDashboardData(0);
+      this.getAdminDashboardData(this.selectedBatchId,0);
     },
     currentPageChange:function(){  
       if(this.userSelectedPage !== null){
-        this.getAdminDashboardData(this.userSelectedPage);
+        this.getAdminDashboardData(this.selectedBatchId,this.userSelectedPage);
       }     
     },
   },
   methods: {
-    getAdminDashboardData(page){ 
+    getAdminDashboardData(batchId, page){ 
+      this.batchData = []; 
+      this.rows = 0;
+      this.batchLoading = true;
       if(page){
         if(page > 0){
           page = page - 1;  
         }
       }    
-      StudentService.getBatchHistory(this.selectedBatchId, page, this.token).then(
+      StudentService.getBatchHistory(batchId, page, this.token).then(
         (response) => {
             this.batchData = response.data.content;
             this.rows = response.data.totalElements;
+            this.batchLoading = false
           }
         ).catch((error) => {
           if(error.response.status){
@@ -118,6 +129,7 @@ export default {
               variant: 'danger',
               noAutoHide: true,
             });
+            this.isBatchLoading = false
           }
       });
     },
