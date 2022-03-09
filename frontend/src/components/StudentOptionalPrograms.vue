@@ -23,7 +23,6 @@
           </ul>
           <div v-else>n/a</div>
         </template>   
-         
         <template #cell(optionalProgramName)="row">
           <div class="pt-2">
             {{row.item.optionalProgramName}} ({{row.item.optionalProgramCode}}) <br> {{row.item.OptionalProgramCompletionDate}}
