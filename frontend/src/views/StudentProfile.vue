@@ -85,7 +85,7 @@
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks" v-if="studentGradStatus.program != 'SCCP'">Projected final marks</b-dropdown-item>
               <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg" v-if="studentGradStatus.program != 'SCCP'">Projected final marks and registrations</b-dropdown-item>
-                <b-dropdown-item v-on:click="updateStudentReports">Update Student Reports</b-dropdown-item>
+              <b-dropdown-item v-on:click="updateStudentReports">Update Student Reports</b-dropdown-item>
             </b-dropdown>
           </div>
       </div>
@@ -428,6 +428,7 @@
         studentGradStatus: "getStudentGradStatus",
         token: "getToken",
         studentId: "getStudentId",
+        studentPen: "getStudentPen",
         studentInfo: "getStudentProfile",
         studentNotes: "getStudentNotes",
         optionalPrograms: "getStudentOptionalPrograms",    
@@ -517,7 +518,7 @@
           }
         });
         GraduationCommonService.getStudentReports(id, this.token).then(
-          (response) => {            
+          (response) => {                     
             this.$store.dispatch("setStudentReports", response.data);
           }
         ).catch((error) => {
@@ -543,12 +544,11 @@
           }
         });                
       },
-      reloadGradStatus(){
+      reloadGradStatus(){  
         StudentService.getGraduationStatus(this.studentId, this.token).then(
           (res) => {
             this.$store.dispatch("setStudentGradStatus", res.data);
-          }
-          
+          }          
         ).catch((error) => {
           if(error.res.status){
             this.$bvToast.toast("ERROR " + error.res.statusText, {
@@ -557,8 +557,8 @@
               noAutoHide: true,
             });
           }
-        });
-        this.getStudentReportsAndCertificates(this.studentId);                                     
+        }); 
+        this.getStudentReportsAndCertificates(this.studentId);                                        
         this.tabLoading = false;
       },
       graduateStudent(){
@@ -582,9 +582,12 @@
         this.selectedTab = 0;
         this.tabLoading = true; 
         GraduationService.updateStudentReports(this.studentId, this.token).then(() => {
-           this.reloadGradStatus();
+          this.getStudentReportsAndCertificates(this.studentId);
+          this.tabLoading= false;
+          // this.reloadGradStatus();
+          //this.loadStudent(this.studentPen, this.studentId);
         }).catch((error) => {
-          this.tabLoading = false; 
+           
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error, {
               title: "ERROR" + error.response.status.response,
@@ -593,6 +596,7 @@
             });
           }
         });
+       
       },      
       projectedGradStatusWithFinalMarks(){
         this.tabLoading = true; 

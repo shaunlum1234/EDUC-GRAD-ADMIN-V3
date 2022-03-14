@@ -60,6 +60,9 @@
                   </tr>
                   <tr>                        
                     <td><strong>End Date:</strong> {{ row.item.courseDetails.endDate}}</td>
+                  </tr>  
+                  <tr>                        
+                    <td><strong>Credits:</strong> {{ row.item.courseDetails.numCredits}}</td>
                   </tr>                      
                   <tr>                        
                     <td><strong>Work Experience:</strong> {{ row.item.courseDetails.workExpFlag }}</td>
