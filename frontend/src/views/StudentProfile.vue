@@ -584,10 +584,7 @@
         GraduationService.updateStudentReports(this.studentId, this.token).then(() => {
           this.getStudentReportsAndCertificates(this.studentId);
           this.tabLoading= false;
-          // this.reloadGradStatus();
-          //this.loadStudent(this.studentPen, this.studentId);
-        }).catch((error) => {
-           
+        }).catch((error) => {       
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error, {
               title: "ERROR" + error.response.status.response,
