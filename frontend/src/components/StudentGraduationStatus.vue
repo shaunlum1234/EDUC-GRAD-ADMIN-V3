@@ -282,7 +282,7 @@
           <div class="graduation-reports">
       
             <b-card
-              header="Student Reports"
+              header="Student Transcript Reports"
               no-body
             >
       
