@@ -428,6 +428,7 @@
         studentGradStatus: "getStudentGradStatus",
         token: "getToken",
         studentId: "getStudentId",
+        studentPen: "getStudentPen",
         studentInfo: "getStudentProfile",
         studentNotes: "getStudentNotes",
         optionalPrograms: "getStudentOptionalPrograms",    
@@ -517,7 +518,7 @@
           }
         });
         GraduationCommonService.getStudentReports(id, this.token).then(
-          (response) => {            
+          (response) => {                     
             this.$store.dispatch("setStudentReports", response.data);
           }
         ).catch((error) => {
@@ -543,11 +544,11 @@
           }
         });                
       },
-      reloadGradStatus(){
+      reloadGradStatus(){  
         StudentService.getGraduationStatus(this.studentId, this.token).then(
           (res) => {
             this.$store.dispatch("setStudentGradStatus", res.data);
-          }
+          }          
         ).catch((error) => {
           if(error.res.status){
             this.$bvToast.toast("ERROR " + error.res.statusText, {
@@ -556,8 +557,8 @@
               noAutoHide: true,
             });
           }
-        });
-        this.getStudentReportsAndCertificates(this.studentId);                                     
+        }); 
+        this.getStudentReportsAndCertificates(this.studentId);                                        
         this.tabLoading = false;
       },
       graduateStudent(){
@@ -581,9 +582,9 @@
         this.selectedTab = 0;
         this.tabLoading = true; 
         GraduationService.updateStudentReports(this.studentId, this.token).then(() => {
-           this.reloadGradStatus();
-        }).catch((error) => {
-          this.tabLoading = false; 
+          this.getStudentReportsAndCertificates(this.studentId);
+          this.tabLoading= false;
+        }).catch((error) => {       
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error, {
               title: "ERROR" + error.response.status.response,
@@ -592,6 +593,7 @@
             });
           }
         });
+       
       },      
       projectedGradStatusWithFinalMarks(){
         this.tabLoading = true; 

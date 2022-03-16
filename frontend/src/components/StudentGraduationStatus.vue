@@ -74,7 +74,7 @@
                   <b-alert show variant="info" class="p-3 mb-1">
                     <h4 class="alert-heading">Grad Status has been updated</h4>
                     <p class="locked-message">
-                      Run the graduation algorithm (graduate student) to update the GRAD status
+                      Run the graduation algorithm - graduate student to update grad status OR reports only to update student credentials.
                     </p>
                   </b-alert>
                 </div>                                                                              
@@ -282,7 +282,7 @@
           <div class="graduation-reports">
       
             <b-card
-              header="Student Reports"
+              header="Student Transcript Reports"
               no-body
             >
       
