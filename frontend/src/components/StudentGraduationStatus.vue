@@ -268,7 +268,7 @@
                          <!-- OPTIONAL PROGRAMS -->                      
                           <ul class="p-0" v-if="optionalPrograms[0] && optionalPrograms[0].studentOptionalProgramData" id="optional-programs">
                             <li v-for="item in optionalPrograms" :key="item.optionalProgramCode">
-                              {{ item.optionalProgramName }} <br><strong> {{item.optionalProgramCompletionDate==null?'Not Completed':"Completed"}}</strong>
+                              {{ item.optionalProgramName }}
                             </li>
                           </ul>
                       </td>

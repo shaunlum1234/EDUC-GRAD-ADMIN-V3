@@ -4,6 +4,8 @@
       <div v-if="!optionalPrograms" class="container">
         This student does not have any optional programs.
       </div>
+
+      
     <DisplayTable v-if="optionalPrograms" :items="optionalPrograms" :striped=false :fields="optionalProgramsfields" showFilter="true" title="Optional Programs">
         <template #cell(optionalNonGradReasons)="row">
           <div v-if="row.item.studentOptionalProgramData">
@@ -29,8 +31,8 @@
           </div>
         </template>   
         <template #cell(optionalReqMet)="row">  
-          <div v-if="row.item.studentOptionalProgramData">      
-              <b-table v-if="row.item.optionalProgramCode == 'BC' || row.item.optionalProgramCode == 'AN' || row.item.optionalProgramCode == 'AD' || row.item.optionalProgramCode == 'CP'"
+          <div v-if="row.item.studentOptionalProgramData">   
+              <b-table v-if="row.item.optionalProgramCode == 'BC' || row.item.optionalProgramCode == 'AN' || row.item.optionalProgramCode == 'AD'"
                         :bordered=false small :items="row.item.studentOptionalProgramData.optionalRequirementsMet" :fields="fields" thead-class="d-none">
                 <template #cell(gradReqMetDetail)="row2">
                   <div class="p-2">

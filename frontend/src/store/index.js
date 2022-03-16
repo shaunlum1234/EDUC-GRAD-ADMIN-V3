@@ -212,17 +212,27 @@
       editBatchDetails(state,payload){
         state.batchDetails[payload['id']]=payload['batchDetail'];
       },
-
       clearBatchDetails(state,payload){
-        state.batchDetails[payload].schools=[];
-        state.batchDetails[payload].districts=[];
-        state.batchDetails[payload].programs=[];
-        state.batchDetails[payload].students=[];
-        state.batchDetails[payload].blankCertificateDetails=[];
-        state.batchDetails[payload].blankTranscriptDetails=[];
+        state.batchDetails[payload]['details'].who="Choose...";
+        state.batchDetails[payload].schools=[{}];
+        state.batchDetails[payload].districts=[{}];
+        state.batchDetails[payload].programs=[{}];
+        state.batchDetails[payload].students=[{}];
+        state.batchDetails[payload].details['blankCertificateDetails']=[{}];
+        state.batchDetails[payload].details['blankTranscriptDetails']=[{}];
         state.batchDetails[payload]['details'].credential="";
         state.batchDetails[payload]['details'].categoryCode="";
-      }
+      },
+      clearBatchGroupDetails(state,payload){
+        state.batchDetails[payload].schools=[{}];
+        state.batchDetails[payload].districts=[{}];
+        state.batchDetails[payload].programs=[{}];
+        state.batchDetails[payload].students=[{}];
+      },     
+      clearBatchCredentialsDetails(state,payload){
+        state.batchDetails[payload].details['blankCertificateDetails']=[{}];
+        state.batchDetails[payload].details['blankTranscriptDetails']=[{}];
+      }            
     },
     actions: {
       validateStudentInGrad({state}, payload){
