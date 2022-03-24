@@ -4,16 +4,18 @@
       <div v-if="!optionalPrograms" class="container">
         This student does not have any optional programs.
       </div>
-
-      
     <DisplayTable v-if="optionalPrograms" :items="optionalPrograms" :striped=false :fields="optionalProgramsfields" showFilter="true" title="Optional Programs">
         <template #cell(optionalNonGradReasons)="row">
           <div v-if="row.item.studentOptionalProgramData">
-            <div v-if="row.item.studentOptionalProgramData.optionalNonGradReasons == null && row.item.studentOptionalProgramData.optionalRequirementsMet != null">
+            <div v-if="row.item.studentOptionalProgramData.optionalNonGradReasons == null && 
+                       row.item.studentOptionalProgramData.optionalRequirementsMet != null"
+            >
               <span v-if="row.item.studentOptionalProgramData.optionalRequirementsMet.length != 0">All requirements have been met</span>
             </div>
             <div v-else>
-              <div class="p-2" v-if="row.item.studentOptionalProgramData.optionalNonGradReasons.length == 0 && row.item.studentOptionalProgramData.optionalRequirementsMet.length > 0">All requirements have been met</div>
+              <div class="p-2" v-if="row.item.studentOptionalProgramData.optionalNonGradReasons.length == 0 && 
+                                     row.item.studentOptionalProgramData.optionalRequirementsMet.length > 0"
+              >All requirements have been met</div>
             </div>
             <span v-if="row.item.studentOptionalProgramData.optionalNonGradReasons && row.item.studentOptionalProgramData.optionalNonGradReasons.length == 0 && 
                         row.item.studentOptionalProgramData.optionalRequirementsMet && row.item.studentOptionalProgramData.optionalRequirementsMet.length == 0">n/a</span>
@@ -32,15 +34,21 @@
         </template>   
         <template #cell(optionalReqMet)="row">  
           <div v-if="row.item.studentOptionalProgramData">   
-              <b-table v-if="row.item.optionalProgramCode == 'BC' || row.item.optionalProgramCode == 'AN' || row.item.optionalProgramCode == 'AD'"
-                        :bordered=false small :items="row.item.studentOptionalProgramData.optionalRequirementsMet" :fields="fields" thead-class="d-none">
+              <b-table v-if="row.item.optionalProgramCode == 'BC' || 
+                             row.item.optionalProgramCode == 'AN' || 
+                             row.item.optionalProgramCode == 'AD' || 
+                             row.item.programCode == 'SCCP'"
+                        :bordered=false small 
+                        :items="row.item.studentOptionalProgramData.optionalRequirementsMet" 
+                        :fields="fields" 
+                        thead-class="d-none"
+              >
                 <template #cell(gradReqMetDetail)="row2">
                   <div class="p-2">
                     <strong>{{row2.item.rule}}</strong> - {{row2.item.description}}
                   </div>
-              </template>
+                </template>
               </b-table>
-              
             <b-table :bordered=false small :items="row.item.studentOptionalProgramData.optionalStudentCourses.studentCourseList" :fields="fields" filter=null :filter-function="filterGradReqCourses" thead-class="d-none" >
               <template #cell(gradReqMetDetail)="row2">
                 <div class="p-2">
@@ -85,7 +93,6 @@
           </b-card>
         </template>                                 
       </DisplayTable>
-
     </div>
   </div>
 </template>
