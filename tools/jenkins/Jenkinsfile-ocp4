@@ -67,7 +67,7 @@ pipeline{
       steps{
         script {
           openshift.withCluster(){
-            openshift.withProject(DEV){
+            openshift.withProject(TOOLS){
               parallel(
                       
               Frontend: {
