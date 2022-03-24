@@ -67,7 +67,7 @@ pipeline{
       steps{
         script {
           openshift.withCluster(){
-            openshift.withProject(TOOLS){
+            openshift.withProject(DEV){
               parallel(
                       
               Frontend: {
@@ -121,7 +121,7 @@ pipeline{
     }
 	stage('Promote to DEV') {
       steps{
-        deployStage('Dev', TOOLS, DEV_HOST_ROUTE, 'latest')
+        deployStage('Dev', DEV, DEV_HOST_ROUTE, 'latest')
       }
       post{
         success{
