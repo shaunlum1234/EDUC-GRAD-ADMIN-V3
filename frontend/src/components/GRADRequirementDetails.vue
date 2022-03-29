@@ -6,9 +6,9 @@
             no-body
             header="Assessment Requirements"
           >
-        <b-card-text class="p-3">       
+        <b-card-text class="p-3">      
           <DisplayTable v-if="hasGradStatus" :items="gradStatusAssessments" :fields="fields2" showFilter="true" title="RequirementDetailsAssessments">
-            <template #cell(gradReqMet)="row">
+            <template #cell(gradReqMet)="row">            
               <div class="d-flex flex-column text-md-left">
                   <div class="gradReqsMet">
                     <span v-if="row.item.used">
@@ -24,14 +24,13 @@
             </template>
           </DisplayTable>
         </b-card-text>
-      </b-card>
-      
+      </b-card>  
       <b-card
             no-body
             header="Course Requirements"
           >
         <b-card-text class="p-3">   
-         
+
           <DisplayTable v-if="hasGradStatus && gradStatusCourses" :items="gradStatusCourses" :fields="fields" showFilter="true" title="RequirementDetailsCourses">
             <template #cell(gradReqMet)="row">
               <div class="d-flex flex-column text-md-left">
@@ -46,7 +45,9 @@
                     <span v-if="row.item.localDeveloped">LD Course - Ineligible</span>   
                     <span v-if="row.item.restricted">Restricted Course</span>   
                     <span v-if="row.item.boardAuthorityAuthorized">BAA Course</span>   
-                    <span v-if="row.item.independentDirectedStudies">IDS Course</span>   
+                    <span v-if="row.item.independentDirectedStudies">IDS Course</span>    
+                    <span v-if="row.item.locallyDeveloped">Not Used, Locally Developed Course</span>
+                    <span v-if="row.item.careerPrep">Not Used, Career Prep Course</span>
                   </div>
                 </div>
             </template>
