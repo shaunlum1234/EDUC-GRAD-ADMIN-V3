@@ -48,6 +48,12 @@
                     <span v-if="row.item.independentDirectedStudies">IDS Course</span>    
                     <span v-if="row.item.locallyDeveloped">Not Used, Locally Developed Course</span>
                     <span v-if="row.item.careerPrep">Not Used, Career Prep Course</span>
+                    <span v-if="row.item.boardAuthorityAuthorized">Not Used, Board/Authority Authorized Course</span>
+                    <span v-if="row.item.independentDirectedStudies">Not Used, Independent Directed Studies Course</span>
+                    <span v-if="row.item.cutOffCourse">Not Used, Course Taken After Cut-off</span>
+                    <span v-if="row.item.grade10Cours">Not Used, Level 10 Courses Ineligible</span>
+                    <span v-if="row.item.lessCreditCourse">Not Used, Courses with credits less than 4 ineligible</span>
+                    <span v-if="row.item.restricted">Not Used, Course Restricted Against Another Course</span>
                   </div>
                 </div>
             </template>
