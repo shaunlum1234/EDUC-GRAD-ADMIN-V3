@@ -69,8 +69,7 @@
             
           </div>       
         </template> 
-        <template #cell(more)="row">   
-          {{row.item.optionalProgramName}}         
+        <template #cell(more)="row">         
           <b-btn
             v-if="row.item.optionalProgramName == '2018 Graduation Program Career Program' || row.item.optionalProgramName == 'Adult Career Program' || row.item.optionalProgramName == 'Career Program'"
             variant="outline primary"
