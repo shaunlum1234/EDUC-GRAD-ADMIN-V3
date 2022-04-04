@@ -104,7 +104,7 @@
         <template #empty>
           <div class="text-center text-muted">
             There are no open tabs<br>
-            Open a new tab using the <b>+</b> button above.
+            Open a new tab using the <strong>+</strong> button above.
           </div>
         </template>
         </b-tabs>
