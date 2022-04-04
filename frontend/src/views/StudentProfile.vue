@@ -102,7 +102,7 @@
                       <b-button class="mr-2" :disabled="!gradCourses" v-on:click="gradTab ='gradCourses'" size="sm">Requirement Details</b-button>
                     </div> 
                     <div class="col-12 col-md-8 text-right"><strong>Updated:</strong> {{ studentGradStatus.updateDate|formatTime }} by {{ studentGradStatus.updateUser }}</div>
-                  </div>   
+                  </div>
                   <b-card-text>              
                     <StudentGraduationStatus v-if="gradTab=='gradStatus'"></StudentGraduationStatus>
                     <GRADRequirementDetails v-if="gradTab=='gradCourses'">
