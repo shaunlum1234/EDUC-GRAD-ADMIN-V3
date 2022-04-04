@@ -8,7 +8,7 @@ export default {
       const headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "*.gov.bc.ca",
         Authorization: "Bearer " + token,
       }
       return apiClient.get("/api/v1/batch/dashboard", { headers });
@@ -18,7 +18,7 @@ export default {
       const headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "*.gov.bc.ca",
         Authorization: "Bearer " + token,
       };
       return apiClient.post("/api/v1/batch/specialrun", users, { headers });
