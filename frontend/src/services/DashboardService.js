@@ -10,8 +10,17 @@ export default {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         Authorization: "Bearer " + token,
-      };
+      }
       return apiClient.get("/api/v1/batch/dashboard", { headers });
+    },
+    //Run Regualar Algorithm for users
+    runREGALG(token,users) {
+      const headers = {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: "Bearer " + token,
+      };
+      return apiClient.post("/api/v1/batch/specialrun", users, { headers });
     }
-  };
-  
+}

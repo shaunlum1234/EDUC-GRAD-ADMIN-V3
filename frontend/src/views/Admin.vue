@@ -49,7 +49,6 @@
               <strong>Expected: </strong>
                 <h2><i class="fas fa-info-circle text-info" aria-hidden="true"></i> {{expected}} Records</h2>          
                 <hr>
-              <strong>Next Run:</strong> Today at 6:00PM
             </div>
           </div>
           </b-card-text>   
@@ -332,18 +331,74 @@ export default {
     },
     runbatch(id){
       if(!this.checkBatchForErrors(id)){
-        this.$bvToast.toast('Running: ' + id, {
-          title: this.tabContent[id].details['who'] + " " + this.tabContent[id].details['what'] + this.tabContent[id].details['who'],
-          variant: 'success',
-          noAutoHide: true,
-        });
-        this.selectedTab = 0;
-        setTimeout(()=>{
-          let batchJob = {"createUser":"-","createDate":"2022-02-23T07:01:09.000+00:00","updateUser":"-","updateDate":"-","jobExecutionId":"5xxx","startTime":"2022-02-23T07:00:00.643+00:00","endTime":"2022-02-23T07:01:09.529+00:00","expectedStudentsProcessed":"?","actualStudentsProcessed":"?","failedStudentsProcessed":"?","status":"RUNNING","triggerBy":"BATCH", "_rowVariant":"success"}
-          batchJob.jobType = this.tabContent[id].details['what'];
-          this.batchInfoListData.splice(0,0,batchJob);
-          this.cancelBatchJob(id.replace("job-",""));
-        },1000);
+        if(this.tabContent[id].details['what'] == 'REGALG'){
+          let pens = []
+          let schools = [];
+          let districts = [];
+          let programs = [];
+          if(this.tabContent[id].details['who'] == "Student"){
+            if(this.tabContent[id].students){
+              for(const p of this.tabContent[id].students){
+                if(p.value){
+                  pens.push(p.value)
+                }
+              }
+            }
+          }
+           if(this.tabContent[id].details['who'] == "Program"){
+            if(this.tabContent[id].programs){
+              for(const p of this.tabContent[id].programs){
+                if(p.value){
+                  programs.push(p.value)
+                }
+              }
+            }
+          }
+           if(this.tabContent[id].details['who'] == "District"){
+            if(this.tabContent[id].districts){
+              for(const d of this.tabContent[id].districts){
+                if(d.value){
+                  districts.push(d.value)
+                }
+              }
+            }
+          }
+           if(this.tabContent[id].details['who'] == "School"){
+            if(this.tabContent[id].schools){
+              for(const s of this.tabContent[id].schools){
+                if(s.value){
+                  schools.push(s.value)
+                }
+              }
+            }
+          }
+
+  
+          let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts,"programs":programs, "validateInput": false}
+          DashboardService.runREGALG(this.token, request).then(
+          (response) => {
+            // eslint-disable-next-line
+            console.log(response.data)
+            this.selectedTab = 0;
+            this.cancelBatchJob(id.replace("job-",""));
+            this.$bvToast.toast("Batch run has completed" , {
+              title: "SUCCESS",
+              variant: 'success',
+              noAutoHide: true,
+            })
+            //update the admin dashboard
+            this.getAdminDashboardData();
+          })
+          .catch((error) => {
+            if(error.response.status){
+              this.$bvToast.toast("ERROR " + error.response.statusText, {
+                title: "ERROR" + error.response.status,
+                variant: 'danger',
+                noAutoHide: true,
+              })
+            }
+          })
+        }
       }
     },
     displaySearchResults(value){ 
