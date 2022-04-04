@@ -28,9 +28,10 @@
             no-body
             tag="article"
             class="col-12 mb-2"
-            :header="'Created by ' + studentNote.createUser + ' on ' + studentNote.createDate"
+            :header="'Created by ' + studentNote.createUser"
           >
             <b-card-text>
+              <strong>Created:</strong> {{studentNote.createDate | formatTime}}
               <p v-if="showEditForm != studentNote.id">{{studentNote.note}}</p>
                <b-form-textarea
                   id="textarea"

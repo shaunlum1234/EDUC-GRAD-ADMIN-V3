@@ -89,7 +89,6 @@
         <template #row-details="row">
           <b-card class="px-0">
             <ul>        
-                
                 <li v-if="row.item.customizedCourseName">
                   <strong>Customized Course Title:</strong> {{ row.item.customizedCourseName }}
                 </li>
@@ -113,6 +112,9 @@
                 </li>
                 <li v-if="row.item.metLitNumRequirement">
                   <strong>Assessment Equivalent:</strong> {{ row.item.metLitNumRequirement }}
+                </li>
+                 <li v-if="row.item.specialCase">
+                  <strong>Special case:</strong> {{ row.item.specialCase }}
                 </li>
             </ul>
           </b-card>
