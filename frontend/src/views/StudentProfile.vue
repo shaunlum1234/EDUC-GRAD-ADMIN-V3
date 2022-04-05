@@ -49,6 +49,10 @@
               <label>Birthdate(yyyy-mm-dd)</label>
               <h2 class="px-0">{{ studentInfo.dob }}</h2>
             </div>
+            <b-button  v-b-toggle.student-accordion variant="link" v-on:click="moreStudentInfo = !moreStudentInfo">
+              <img v-show="!moreStudentInfo" src="../assets/images/icon-down.svg" height="8px"/>
+              <img v-show="moreStudentInfo" src="../assets/images/icon-up.svg" height="8px"/>
+            </b-button>
           </div>
       </div>
 
@@ -367,7 +371,7 @@
       this.loadStudent(penFromURL, studentIdFromURL);
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
-      if (this.window.width < 960) {
+      if (this.window.width < 768) {
         this.smallScreen = true;
       }
       window.addEventListener('resize', this.handleResize);

@@ -15,7 +15,7 @@
     </div>
     <div class="row">
       <!-- Left col -->  
-      <div class="col-12 pl-2 pr-0 col-md-5 ">
+      <div class="col-12 px-1 col-xl-5 col-lg-4 col-md-12">
           <div class="graduation-status">
           <b-card
             no-body
@@ -329,8 +329,8 @@
             </b-card> 
           </div>            -->
       </div>
-      <!-- Right Column -->
-      <div class="col-12 px-2 col-md-3"> 
+      <!-- Mid Column -->
+      <div class="col-12 px-1 col-xl-3 col-lg-4 col-md-6"> 
 
         <div class="requirements-met-and-not-met">
           <div class="requirements-not-met">
@@ -376,8 +376,8 @@
           </div>
         </div>
       </div>
-      <!-- Mid Column -->
-      <div class="col-12 px-2 col-md-4">
+      <!-- Right Column -->
+      <div class="col-12 px-1 col-lg-4 col-md-6">
         <!-- GRADUATION REPORTS -->
           <div class="graduation-reports">
       
@@ -419,7 +419,7 @@
                 <div v-for="certificate in certificates" :key="certificate.gradCertificateTypeCode+certificate.createdTimestamp" class="px-3 w-100 float-left">
                   
                   <a @click="downloadPDF(certificate.certificate,'application/pdf')" href="#"  class="pdf-link float-left ">{{certificate.gradCertificateTypeLabel}} (PDF)</a> 
-                  <span class="float-right pr-3">
+                  <span class="float-left pr-3">
                     <strong>Status:</strong> {{certificate.documentStatusLabel}} 
                     <strong>Last Updated:</strong> {{certificate.createdTimestamp}}
                     <strong>Distributed:</strong> {{certificate.distributionDate}}
