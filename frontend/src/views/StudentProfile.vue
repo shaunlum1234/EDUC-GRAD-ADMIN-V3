@@ -15,7 +15,11 @@
             <tr>
               <td>
                 <b-button  v-b-toggle.student-accordion variant="link" v-on:click="moreStudentInfo = !moreStudentInfo">
-                  <i class='fas fa-lg fa-caret-down' aria-hidden="true"></i>
+                  <!-- <i class='fas fa-lg fa-caret-down' aria-hidden="true"></i> -->
+                  <!-- <object data="../assets/images/icon-down.svg" type="image/svg+xml">Why no work?</object> -->
+                  <!-- <object v-show="moreStudentInfo" data="../assets/images/icon-up.svg" type="image/svg+xml"></object> -->
+                  <img v-show="!moreStudentInfo" src="../assets/images/icon-down.svg" height="8px"/>
+                  <img v-show="moreStudentInfo" src="../assets/images/icon-up.svg" height="8px"/>
                 </b-button>
               </td>
               <td class="align-top profile-name-data px-0" v-if="studentFullName.pen"><strong><p class="profile-info">{{ studentFullName.pen }}</p></strong></td>
