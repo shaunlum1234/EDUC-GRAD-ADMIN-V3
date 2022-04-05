@@ -16,7 +16,7 @@
     <!-- GRAD Status -->
     <div class="row px-2">
       <!-- Left col -->  
-      <div class="col-12 px-1 col-xl-5 col-lg-4 col-md-12">
+      <div class="col-12 px-2 col-xl-4 col-lg-7">
           <div class="graduation-status">
           <b-card
             no-body
@@ -331,7 +331,7 @@
           </div>            -->
       </div>
       <!-- Mid Column -->
-      <div class="col-12 px-1 col-xl-3 col-lg-4 col-md-6"> 
+      <div class="col-12 px-2 col-xl-4 col-lg-5"> 
 
         <div class="requirements-met-and-not-met">
           <div class="requirements-not-met pb-2">
@@ -378,9 +378,9 @@
         </div>
       </div>
       <!-- Right Column -->
-      <div class="col-12 px-1 col-lg-4 col-md-6">
+      <div class="col-12 px-2 col-xl-4 col-lg-12">
         <!-- GRADUATION REPORTS -->
-          <div class="graduation-reports">
+          <div class="graduation-reports pb-2">
       
             <b-card
               header="Student Transcript Reports"
@@ -389,7 +389,7 @@
       
                 <b-card-text class="py-4">
                     <div v-for="report in reports" :key="report.gradReportTypeCode+report.updatedTimestamp" class="px-3 w-100 float-left">
-                      <a  @click="downloadPDF(report.report,'application/pdf')" href="#"  class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
+                      <a  @click="downloadPDF(report.report,'application/pdf')" href="#" class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
                       <div class="float-left col-12 pr-4 ml-1">
                           <strong>Status:</strong> {{report.documentStatusLabel}} 
                           <strong>Last Updated:</strong> {{report.updatedTimestamp}} 
@@ -410,7 +410,7 @@
           </div>
           
           <!-- CERTIFICATION DOGWOODS -->           
-          <div class="certification-dogwoods">
+          <div class="certification-dogwoods pb-2">
             <b-card
               header="Student Certificates/Dogwoods"
               no-body
