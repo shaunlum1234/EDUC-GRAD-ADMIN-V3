@@ -243,8 +243,6 @@ export default {
   },
   created() {
     this.getAdminDashboardData()
-    
-    //Vue.set(this.tabContent, this.tabCounter, { what: 'Flint', who:  stats: { goals: 10, assists: 10 }});
   },
   methods: { 
     cancelBatchJob(id) {
@@ -260,7 +258,6 @@ export default {
     newBatchJob() {
       let batchDetail = { details: {what: 'what' +this.tabCounter, who: 'who'+this.tabCounter, credential: ""}, students: [{}], schools:[{}], districts: [{}], programs:[{}],blankTranscriptDetails:[{}],blankCertificateDetails:[{}]};
       let id = "job-" + this.tabCounter;
-      
       this.$store.commit("editBatchDetails",  {batchDetail, id});
       this.$store.commit("addBatchJob", this.tabCounter);
         requestAnimationFrame(() => {
@@ -313,7 +310,6 @@ export default {
         this.validationMessage = "Type of batch Not Specified";
         return false;
       }
-      
       //check for who
       if(!this.tabContent[id].details['who']){
         this.validationMessage = "Group not specified"
@@ -327,54 +323,30 @@ export default {
           }
       }
       return false;
-    
+    },
+    getBatchData(item){
+      if(item.value){
+        return item.value
+      }
+    },
+    beforeRouteLeave(to, from, next) { 
+      console.log(`I'm called before leaving the route!`) 
+      console.log(`I have access to the component instance, here's proof!  Name: ${this.name}`); next(); 
     },
     runbatch(id){
       if(!this.checkBatchForErrors(id)){
-        if(this.tabContent[id].details['what'] == 'REGALG'){
-          let pens = []
-          let schools = [];
-          let districts = [];
-          let programs = [];
-          if(this.tabContent[id].details['who'] == "Student"){
-            if(this.tabContent[id].students){
-              for(const p of this.tabContent[id].students){
-                if(p.value){
-                  pens.push(p.value)
-                }
-              }
-            }
-          }
-           if(this.tabContent[id].details['who'] == "Program"){
-            if(this.tabContent[id].programs){
-              for(const p of this.tabContent[id].programs){
-                if(p.value){
-                  programs.push(p.value)
-                }
-              }
-            }
-          }
-           if(this.tabContent[id].details['who'] == "District"){
-            if(this.tabContent[id].districts){
-              for(const d of this.tabContent[id].districts){
-                if(d.value){
-                  districts.push(d.value)
-                }
-              }
-            }
-          }
-           if(this.tabContent[id].details['who'] == "School"){
-            if(this.tabContent[id].schools){
-              for(const s of this.tabContent[id].schools){
-                if(s.value){
-                  schools.push(s.value)
-                }
-              }
-            }
-          }
-
+        if(this.tabContent[id].details['what'] == 'REGALG'){          
+          let pens = this.tabContent[id].students.map(this.getBatchData);
+          let districts = this.tabContent[id].districts.map(this.getBatchData);
+          let programs = this.tabContent[id].programs.map(this.getBatchData);
+          let schools = this.tabContent[id].schools.map(this.getBatchData);
+          pens.pop();
+          districts.pop();
+          programs.pop();
+          schools.pop();
   
           let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts,"programs":programs, "validateInput": false}
+          console.log(request)
           DashboardService.runREGALG(this.token, request).then(
           (response) => {
             // eslint-disable-next-line
