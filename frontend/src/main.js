@@ -5,8 +5,7 @@ import VueLogger from 'vuejs-logger';
 import Vuelidate from 'vuelidate';
 import * as Keycloak from 'keycloak-js';
 import router from './router';
-import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue';
-import { ToastPlugin } from 'bootstrap-vue';
+import {BootstrapVue, BootstrapVueIcons, ToastPlugin} from 'bootstrap-vue';
 import qs from 'query-string';
 import VueFilterDateParse from '@vuejs-community/vue-filter-date-parse';
 import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
@@ -127,12 +126,9 @@ keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIfra
         render: h => h(App)
       }).$mount('#app');
   
-  
-      // TODO: Maybe dont store the token in the localstore, rather use it direct from the keycloak.token object
       setInterval(() =>{
         keycloak.updateToken(70).success((refreshed)=>{
           if (refreshed) {
-            Vue.$log.debug('Token refreshed');
             store.dispatch("setToken",keycloak.token);
             store.dispatch("setRefreshToken",keycloak.refreshToken);
             store.dispatch("setPermissions",keycloak.tokenParsed.scope);
