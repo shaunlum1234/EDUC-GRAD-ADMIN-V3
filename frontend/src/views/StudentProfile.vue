@@ -49,10 +49,9 @@
               <label>Birthdate(yyyy-mm-dd)</label>
               <h2 class="px-0">{{ studentInfo.dob }}</h2>
             </div>
-            <b-button class="text-decoration-none" v-b-toggle.student-accordion variant="link" v-on:click="moreStudentInfo = !moreStudentInfo">
-              <img v-show="!moreStudentInfo" src="../assets/images/icon-right.svg" height="14px" aria-hidden="true" alt=""/>
-              <img v-show="moreStudentInfo" src="../assets/images/icon-down.svg" height="8px" aria-hidden="true" alt=""/>
-              &nbsp;{{moreStudentInfo? 'Hide ' : 'Show '}}Student Details
+            <b-button  v-b-toggle.student-accordion variant="link" v-on:click="moreStudentInfo = !moreStudentInfo">
+              <img v-show="!moreStudentInfo" src="../assets/images/icon-down.svg" height="8px"/>
+              <img v-show="moreStudentInfo" src="../assets/images/icon-up.svg" height="8px"/>
             </b-button>
           </div>
       </div>
