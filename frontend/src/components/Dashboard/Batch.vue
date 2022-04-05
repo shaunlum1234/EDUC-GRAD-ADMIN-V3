@@ -165,9 +165,6 @@
             </b-button>
             </div>
           </div>
-
-          
-          
         </div>
       <pre>Test PENS: 106900004     124304700      126604461       101005700</pre>
       </b-card>            
@@ -203,7 +200,7 @@
             </div>
           </div>
         </div>
-      <pre>TEST Schools: 00501007 00699127 00807025 010100006 01010011</pre>
+      <pre>TEST Schools: 04343000 04399143 02222022 06161064 06161049</pre>
 
       </b-card>            
       <b-card v-if="tabContent['job-'+i].details['who']=='Program'" class="mt-3 px-0" header="Include Programs">
@@ -253,6 +250,7 @@ export default {
     }
   },
   created() {
+
     this.transcriptTypes = this.getTranscriptTypes();
     this.certificateTypes = this.getCertificateTypes();
   },
@@ -290,31 +288,34 @@ export default {
           this.validating = false;
         });
       }
+
+
       if(type == "students"){
         //remove duplicates
-          this.validating = true;
-          StudentService.getStudentByPen(value,this.token).then(
-          (response) => {
-            if(response.data.length > 0){
-              this.$store.commit("addValueToTypeInBatchId", {id,type, value});
-              this.$refs['pen' + id + valueIndex][0].updateValue(response.data[0].usualFirstName + " " + (response.data[0].usualMiddleNames?response.data[0].usualMiddleNames+ " ":"") + response.data[0].usualLastName);        
-              this.$refs['dob' + id + valueIndex][0].updateValue(response.data[0].dob);        
-              this.$refs['school' + id + valueIndex][0].updateValue(response.data[0].schoolOfRecordName);        
-            }else{
-               this.validationMessage = value + " is not a valid PEN"
-               this.deleteValueFromTypeInBatchId(id, type, value);
-               this.addTypeToBatchId(id, type);
-            }
-            this.$forceUpdate();
-            this.validating = false;  
-            
+        this.validating = true;
+        StudentService.getStudentByPen(value,this.token).then(
+        (response) => {
+          if(response.data.length > 0){
+            this.$store.commit("addValueToTypeInBatchId", {id,type, value});
+            this.$refs['pen' + id + valueIndex][0].updateValue(response.data[0].usualFirstName + " " + (response.data[0].usualMiddleNames?response.data[0].usualMiddleNames+ " ":"") + response.data[0].usualLastName);        
+            this.$refs['dob' + id + valueIndex][0].updateValue(response.data[0].dob);        
+            this.$refs['school' + id + valueIndex][0].updateValue(response.data[0].schoolOfRecordName);        
+          }else{
+              this.validationMessage = value + " is not a valid PEN"
+              this.deleteValueFromTypeInBatchId(id, type, value);
+              this.addTypeToBatchId(id, type);
           }
-        ).catch((error) => {
+          this.$forceUpdate();
+          this.validating = false;  
+          
+        }).catch((error) => {
           // eslint-disable-next-line
           console.log(error)      
           this.validating = false;
         });
       }
+
+
       if(type == "districts"){
         //remove duplicates
           this.validating = true;
@@ -389,15 +390,6 @@ export default {
         
       }
       
-      // Changing credential type in a distrun will clear all batch details
-      // if(type == "who" && batchDetail.details[type] != event){
-      //   this.clearBatchGroupDetails();
-      // }      
-
-      // if(type=="programs" || type =="blankTranscriptDetails" || type=="blankCertificateDetails"){
-      //   batchDetail[type] = event;
-      // }
-
       this.$store.commit("editBatchDetails", {batchDetail, id});
       this.$forceUpdate();
     },
@@ -409,11 +401,7 @@ export default {
         })
         // eslint-disable-next-line
         .catch((error) => {
-          this.$bvToast.toast("ERROR " + error.response.statusText, {
-            title: "ERROR" + error.response.status,
-            variant: "danger",
-            noAutoHide: true,
-          });
+          this.makeToast("ERROR " + error.response.statusText, "danger")
         });
     },
     getTranscriptTypes() {
@@ -423,13 +411,16 @@ export default {
         })
         // eslint-disable-next-line
         .catch((error) => {
-          this.$bvToast.toast("ERROR " + error.response.statusText, {
-            title: "ERROR" + error.response.status,
-            variant: "danger",
-            noAutoHide: true,
-          });
+          this.makeToast("ERROR " + error.response.statusText, "danger")
         });
     },    
+    makeToast(message, variant){
+      this.$bvToast.toast(message, {
+        title: message,
+        variant: variant,
+        noAutoHide: true,
+      });
+    }
   },
   props: {
     i: Number,

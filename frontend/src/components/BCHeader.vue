@@ -117,13 +117,6 @@ export default {
     this.showNotification = sharedMethods.showNotification    
   },
    computed: {
-     isDev(){
-       if(window.location == "dev.grad.gov.bc.ca" || window.location == "localhost:8080"){
-          return true;
-       }else{
-         return false;
-       }
-     },
     ...mapGetters({
       token: "getToken",
       roles: "getRoles",
