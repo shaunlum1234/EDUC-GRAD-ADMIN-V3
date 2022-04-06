@@ -122,6 +122,8 @@ ul.sidebar-panel-nav > li > a {
   .container {
       /* max-width: 1300px !important; */
       max-width: 100%;
+      /* padding-right: 50px !important;
+      padding-left: 50px !important; */
   }
 }
   .bcheader{

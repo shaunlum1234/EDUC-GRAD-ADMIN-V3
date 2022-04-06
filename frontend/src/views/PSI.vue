@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="psi-view">
     <h1>Post Secondary Institutions</h1>
 
     <b-card no-body>
@@ -383,6 +383,10 @@ export default {
 </script>
 
 <style scoped>
+.psi-view{
+  padding-left: 25px;
+  padding-right: 25px;
+}
 .close-record {
   float: right;
 }

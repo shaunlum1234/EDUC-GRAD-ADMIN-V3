@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="assessments-view">
     <h1>Assessments</h1>
     <div>
       <b-card no-body>
@@ -160,6 +160,10 @@ export default {
 </script>
 
 <style scoped>
+.assessments-view{
+  padding-left: 25px;
+  padding-right: 25px;
+}
 .close-record {
   float: right;
 }

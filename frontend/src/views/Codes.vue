@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="codes-view">
     <h1>Codes</h1>
     <div class="codes">
 <b-card title="Program Management" no-body>
@@ -355,6 +355,10 @@ export default {
 </script>
 
 <style scoped>
+  .codes-view{
+    padding-left: 25px;
+    padding-right: 25px;
+  }
   .close-record {
     float: right;
   }
