@@ -60,55 +60,25 @@
       <div class="col-12 px-3">
         <b-collapse id="student-accordion" class="">
           <b-card no-body class="border-0">
-            
-              <table class="table table-sm table-striped" role="presentation" aria-label="student details">
-                  <tbody v-if="!smallScreen">
-                    <tr>
-                      <td class="px-2"><strong>Usual surname:</strong> {{studentInfo.usualLastName}}</td>
-                      <td class="px-2"><strong>Usual given:</strong> {{studentInfo.usualFirstName}} </td>
-                      <td class="px-2"><strong>Usual middle:</strong> {{studentInfo.usualMiddleNames}} </td>
-                    </tr>
-                    <tr>
-                      <td class="px-2"><strong>Gender:</strong> {{studentInfo.genderCode}}</td>
-                      <td class="px-2"><strong>True student ID:</strong> {{studentInfo.trueStudentID}}</td>
-                      <td class="px-2"><strong>Local ID:</strong> {{studentInfo.localID}}</td>
-                    </tr>
-                    <tr>     
-                      <td class="px-2"><strong>PEN Status Code:</strong> {{studentInfo.statusCode}}</td>
-                      <td class="px-2"><strong>Postal code:</strong> {{studentInfo.postalCode}}</td>
-                      <td class="px-2" v-if="studentInfo.studentStatus == 'D'"><strong>Deceased date:</strong> {{studentInfo.deceasedDate}}</td>
-                    </tr>              
-                  </tbody>
-                  <tbody v-else>
-                    <tr>
-                      <td class="px-2"><strong>Usual surname:</strong> {{studentInfo.usualLastName}}</td>
-                    </tr>
-                    <tr>
-                      <td class="px-2"><strong>Usual given:</strong> {{studentInfo.usualFirstName}} </td>
-                    </tr>
-                    <tr>
-                      <td class="px-2"><strong>Usual middle:</strong> {{studentInfo.usualMiddleNames}} </td>
-                    </tr>
-                    <tr>
-                      <td class="px-2"><strong>Gender:</strong> {{studentInfo.genderCode}}</td>
-                    </tr>
-                    <tr>
-                      <td class="px-2"><strong>True student ID:</strong> {{studentInfo.trueStudentID}}</td>
-                    </tr>
-                    <tr>
-                      <td class="px-2"><strong>Local ID:</strong> {{studentInfo.localID}}</td>
-                    </tr>
-                    <tr>
-                      <td class="px-2"><strong>PEN Status Code:</strong> {{studentInfo.statusCode}}</td>
-                    </tr>
-                    <tr>
-                      <td class="px-2"><strong>Postal code:</strong> {{studentInfo.postalCode}}</td>
-                    </tr>
-                    <tr>
-                      <td class="px-2" v-if="studentInfo.studentStatus == 'D'"><strong>Deceased date:</strong> {{studentInfo.deceasedDate}}</td>
-                    </tr>
-                  </tbody>
-              </table>
+            <b-table-simple striped hover small stacked="md" role="presentation" aria-label="student details">
+              <b-tbody>
+                <b-tr>
+                  <b-td class="px-2"><strong>Usual surname:</strong> {{studentInfo.usualLastName}}</b-td>
+                  <b-td class="px-2"><strong>Usual given:</strong> {{studentInfo.usualFirstName}} </b-td>
+                  <b-td class="px-2"><strong>Usual middle:</strong> {{studentInfo.usualMiddleNames}} </b-td>
+                </b-tr>
+                <b-tr>
+                  <b-td class="px-2"><strong>Gender:</strong> {{studentInfo.genderCode}}</b-td>
+                  <b-td class="px-2"><strong>True student ID:</strong> {{studentInfo.trueStudentID}}</b-td>
+                  <b-td class="px-2"><strong>Local ID:</strong> {{studentInfo.localID}}</b-td>
+                </b-tr>
+                <b-tr>     
+                  <b-td class="px-2"><strong>PEN Status Code:</strong> {{studentInfo.statusCode}}</b-td>
+                  <b-td class="px-2"><strong>Postal code:</strong> {{studentInfo.postalCode}}</b-td>
+                  <b-td class="px-2" v-if="studentInfo.studentStatus == 'D'"><strong>Deceased date:</strong> {{studentInfo.deceasedDate}}</b-td>
+                </b-tr>
+              </b-tbody>
+            </b-table-simple>
           </b-card>
         </b-collapse>
           <div class="float-right grad-actions">
