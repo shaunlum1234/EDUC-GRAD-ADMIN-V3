@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="schools-view">
     <h1>Schools</h1>
     
     <b-card no-body>
@@ -313,6 +313,10 @@ mapGetters
 </script>
 
 <style scoped>
+  .schools-view{
+    padding-left: 25px;
+    padding-right: 25px;
+  }
   .close-record {
     float: right;
   }

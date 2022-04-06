@@ -629,6 +629,10 @@ export default {
   };
 </script>
 <style scoped>
+.studentlist{
+  padding-left: 25px;
+  padding-right: 25px;
+}
 .results-option-group{
   text-align:right;
   margin-top: 10px;
