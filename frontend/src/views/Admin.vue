@@ -329,10 +329,6 @@ export default {
         return item.value
       }
     },
-    beforeRouteLeave(to, from, next) { 
-      console.log(`I'm called before leaving the route!`) 
-      console.log(`I have access to the component instance, here's proof!  Name: ${this.name}`); next(); 
-    },
     runbatch(id){
       if(!this.checkBatchForErrors(id)){
         if(this.tabContent[id].details['what'] == 'REGALG'){          
@@ -346,7 +342,6 @@ export default {
           schools.pop();
   
           let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts,"programs":programs, "validateInput": false}
-          console.log(request)
           DashboardService.runREGALG(this.token, request).then(
           (response) => {
             // eslint-disable-next-line
