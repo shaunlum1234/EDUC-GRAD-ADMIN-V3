@@ -60,7 +60,7 @@
       <div class="col-12 px-3">
         <b-collapse id="student-accordion" class="">
           <b-card no-body class="border-0">
-            <b-table-simple striped hover small stacked="md" role="presentation" aria-label="student details">
+            <b-table-simple striped hover small stacked="lg" role="presentation" aria-label="student details">
               <b-tbody>
                 <b-tr>
                   <b-td class="px-2"><strong>Usual surname:</strong> {{studentInfo.usualLastName}}</b-td>
