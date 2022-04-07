@@ -74,13 +74,13 @@
                     </b-btn>                  
                     <b-popover :target="'batch-job-id-btn'+ row.item.jobExecutionId" triggers="focus" :ref="'popover'+row.item.jobExecutionId">
                       <template #title>Search batch job</template>
-                      <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="passBatchId(row.item.jobExecutionId)">   
+                      <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'batch')">   
                         All results           
                       </b-btn>
                     </b-popover>
                   </template>
                   <template #cell(failedStudentsProcessed)="row">
-                    <b-btn v-if="row.item.failedStudentsProcessed != 0" variant='link' size="xs" @click="passErrorId(row.item.jobExecutionId)">  
+                    <b-btn v-if="row.item.failedStudentsProcessed != 0" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'error')">  
                       {{row.item.failedStudentsProcessed}}   
                     </b-btn>  
                     <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
@@ -88,18 +88,24 @@
                 </DisplayTable>
               </div>
               <!-- All batch results -->
-              <div v-if="adminSelectedBatchId" class="col-12 col-md-5 float-right pl-2 pr-0">
+              <div v-if="adminSelectedBatchId" v-show="isBatchShowing" class="col-12 col-md-5 float-right pl-2 pr-0">
                 <b-card bg-variant="light" :header="'Batch Job '+ this.adminSelectedBatchId" class="text-left mb-2">
-                  <b-card-text>
+                  <b-card-text>                
                     <BatchJobSearchResults :selectedBatchId="adminSelectedBatchId"></BatchJobSearchResults>
+                    <b-btn variant="danger" size="xs" class="float-right" @click="isBatchShowing ^= true">  
+                      Close 
+                    </b-btn> 
                   </b-card-text>
                 </b-card>
               </div>
               <!-- All error results -->
-              <div v-if="adminSelectedErrorId" class="col-12 col-md-5 float-right pl-2 pr-0">
+              <div v-if="adminSelectedErrorId" v-show="isErrorShowing" class="col-12 col-md-5 float-right pl-2 pr-0">
                 <b-card bg-variant="light" :header="'Batch Job Error '+ this.adminSelectedErrorId" class="text-left mb-2">
-                  <b-card-text>
+                  <b-card-text>                   
                     <BatchJobErrorResults :selectedErrorId="adminSelectedErrorId"></BatchJobErrorResults>
+                     <b-btn variant="danger" size="xs" class="float-right" @click="isErrorShowing ^= true">  
+                      Close 
+                    </b-btn> 
                   </b-card-text>
                 </b-card>
               </div>
@@ -178,6 +184,8 @@ export default {
       processedLastJobendTime:"",
       timespan: "6:00pm to 7:12pm",
       timePerRecord: "18s",
+      isErrorShowing: false,
+      isBatchShowing: false,
       batchInfoListData:[],
       certificateTypes:[],
       transcriptTypes:[],
@@ -422,16 +430,20 @@ export default {
     displaySearchResults(value){ 
       this.searchResults = value
     },
-    passBatchId(batchId) {
-      this.adminSelectedBatchId = batchId.toString();
-      this.$refs['popover' + batchId].$emit('close');
+    setBatchId(id, type){
+      if(type == 'batch'){
+        this.isBatchShowing = true
+        this.adminSelectedBatchId = id.toString();
+        this.$refs['popover' + id].$emit('close');
+      }
+      if (type == 'error'){
+        this.isErrorShowing = true;
+        this.adminSelectedErrorId = id.toString(); 
+      }
       var element = this.$refs['top'];
       var top = element.offsetTop;
-      window.scrollTo(0, top);      
-    },  
-    passErrorId(errorId) {
-      this.adminSelectedErrorId = errorId.toString();    
-    },      
+      window.scrollTo(0, top);  
+    }, 
   },
   computed:{
     results(){
