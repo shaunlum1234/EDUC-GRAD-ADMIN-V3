@@ -15,8 +15,8 @@
             <tr>
               <td>
                 <b-button  v-b-toggle.student-accordion variant="link" v-on:click="moreStudentInfo = !moreStudentInfo">
-                  <img v-show="!moreStudentInfo" src="../assets/images/icon-right.svg" width="14px" aria-hidden="true"/>
-                  <img v-show="moreStudentInfo" src="../assets/images/icon-down.svg" height="8px" aria-hidden="true"/>
+                  <img v-show="!moreStudentInfo" src="../assets/images/icon-right.svg" width="14px" aria-hidden="true" alt=""/>
+                  <img v-show="moreStudentInfo" src="../assets/images/icon-down.svg" height="8px" aria-hidden="true" alt=""/>
                 </b-button>
               </td>
               <td class="align-top profile-name-data px-0" v-if="studentFullName.pen"><strong><p class="profile-info">{{ studentFullName.pen }}</p></strong></td>
@@ -50,8 +50,8 @@
               <h2 class="px-0">{{ studentInfo.dob }}</h2>
             </div>
             <b-button class="text-decoration-none" v-b-toggle.student-accordion variant="link" v-on:click="moreStudentInfo = !moreStudentInfo">
-              <img v-show="!moreStudentInfo" src="../assets/images/icon-right.svg" height="14px" aria-hidden="true"/>
-              <img v-show="moreStudentInfo" src="../assets/images/icon-down.svg" height="8px" aria-hidden="true"/>
+              <img v-show="!moreStudentInfo" src="../assets/images/icon-right.svg" height="14px" aria-hidden="true" alt=""/>
+              <img v-show="moreStudentInfo" src="../assets/images/icon-down.svg" height="8px" aria-hidden="true" alt=""/>
               &nbsp;{{moreStudentInfo? 'Hide ' : 'Show '}}Student Details
             </b-button>
           </div>
@@ -104,7 +104,7 @@
                   <div class="mb-2 mx-1 row">
                     <div class="col-12 col-lg-4 col-md-5 m-0 p-0">
                       <b-button class="mr-2 my-1" v-on:click="gradTab ='gradStatus'" size="sm" :variant="gradTab == 'gradStatus'? 'primary':'outline-secondary'">GRAD Status</b-button>
-                      <b-button class="mx-0 my-1" :disabled="!gradCourses" v-on:click="gradTab ='gradCourses'" size="sm">Requirement Details</b-button>
+                      <b-button class="mx-0 my-1" :disabled="!gradCourses" v-on:click="gradTab ='gradCourses'" size="sm" :variant="gradTab == 'gradCourses' ? 'primary':'outline-secondary'">Requirement Details</b-button>
                     </div>
                     <div class="pr-0 col-12 col-lg-8 col-md-7 text-right"><strong>Updated:</strong> {{ studentGradStatus.updateDate|formatTime }} by {{ studentGradStatus.updateUser }}</div>
                   </div>
