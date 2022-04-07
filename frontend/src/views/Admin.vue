@@ -80,7 +80,7 @@
                     </b-popover>
                   </template>
                   <template #cell(failedStudentsProcessed)="row">
-                    <b-btn v-if="row.item.failedStudentsProcessed != 0" variant='link' size="xs" @click="passErrorId(row.item.jobExecutionId)">  
+                    <b-btn v-if="row.item.failedStudentsProcessed != 0" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'error')">  
                       {{row.item.failedStudentsProcessed}}   
                     </b-btn>  
                     <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
@@ -88,7 +88,7 @@
                 </DisplayTable>
               </div>
               <!-- All batch results -->
-              <div v-if="adminSelectedBatchId" class="col-12 col-md-5 float-right pl-2 pr-0">
+              <div v-if="adminSelectedBatchId" v-show="isBatchShowing" class="col-12 col-md-5 float-right pl-2 pr-0">
                 <b-card bg-variant="light" :header="'Batch Job '+ this.adminSelectedBatchId" class="text-left mb-2">
                   <b-card-text>                
                     <BatchJobSearchResults :selectedBatchId="adminSelectedBatchId"></BatchJobSearchResults>
@@ -106,14 +106,6 @@
                      <b-btn variant="danger" size="xs" class="float-right" @click="isErrorShowing ^= true">  
                       Close 
                     </b-btn> 
-                  </b-card-text>
-                </b-card>
-              </div>
-              <!-- All error results -->
-              <div v-if="adminSelectedErrorId" class="col-12 col-md-5 float-right pl-2 pr-0">
-                <b-card bg-variant="light" :header="'Batch Job Error '+ this.adminSelectedErrorId" class="text-left mb-2">
-                  <b-card-text>
-                    <BatchJobErrorResults :selectedErrorId="adminSelectedErrorId"></BatchJobErrorResults>
                   </b-card-text>
                 </b-card>
               </div>
@@ -417,11 +409,8 @@ export default {
       }
       var element = this.$refs['top'];
       var top = element.offsetTop;
-      window.scrollTo(0, top);      
-    },  
-    passErrorId(errorId) {
-      this.adminSelectedErrorId = errorId.toString();    
-    },      
+      window.scrollTo(0, top);  
+    }, 
   },
   computed:{
     results(){
