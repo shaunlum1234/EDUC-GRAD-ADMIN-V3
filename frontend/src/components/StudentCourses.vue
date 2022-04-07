@@ -69,7 +69,8 @@
             @click="row.toggleDetails"
             class="more-button"
           >
-            <i class="fas fa-sm fa-caret-down" aria-hidden="true"></i>
+            <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
+            <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
           </b-btn>
         </template>
         <template #row-details="row">

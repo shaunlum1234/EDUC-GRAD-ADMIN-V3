@@ -228,7 +228,8 @@
                           @click="row.toggleDetails"
                           class="more-button w-100"
                         >
-                          <i class="fas fa-sm fa-caret-down" aria-hidden="true"></i>
+                          <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
+                          <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
                         </b-btn>            
                       </template>                  
                       <template #row-details="row">
@@ -629,6 +630,10 @@ export default {
   };
 </script>
 <style scoped>
+.studentlist{
+  padding-left: 25px;
+  padding-right: 25px;
+}
 .results-option-group{
   text-align:right;
   margin-top: 10px;
