@@ -256,7 +256,7 @@
                       <td><b-input :disabled="disableSchoolAtGrad" size="sm" type="text" maxlength="8" v-model='editedGradStatus.schoolAtGrad'></b-input></td>        
                     </tr>        
                     <tr>
-                      <td><strong>Honours:</strong></td>
+                      <td><strong>Honours standing:</strong></td>
                       <td><span v-if="studentGradStatus.honoursStanding"> {{ studentGradStatus.honoursStanding }}</span></td>
                     </tr>
                     <tr>
