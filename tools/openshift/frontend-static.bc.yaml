@@ -75,7 +75,6 @@ objects:
         EXPOSE 2015
         COPY /tmp/src/dist/app/view /var/www/html
         COPY /tmp/src/Caddyfile /etc/caddy/Caddyfile
-        CMD /tmp/scripts/run
       images:
       - as:
         from:
