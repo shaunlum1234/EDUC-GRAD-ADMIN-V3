@@ -28,23 +28,23 @@
                 "
                 :title="row.item.assessmentName"
               >
-                <table aria-label="assessment details" role="presentation">
-                  <tr>
+              
+       
+                  <div>
                     <td><strong>Assessment Code:</strong> {{row.item.assessmentDetails.assessmentCode}}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Asessment Name:</strong><br> {{row.item.assessmentDetails.assessmentName}} </td>
-                  </tr>
-                  <tr>
-                    <td><strong>Language:</strong> {{row.item.assessmentDetails.language}}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Start Date:</strong> {{row.item.assessmentDetails.startDate}}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>End Date:</strong> {{row.item.assessmentDetails.endDate}}</td>
-                  </tr>
-                </table>    
+                  </div>
+                  <div>
+                    <strong>Asessment Name:</strong><br> {{row.item.assessmentDetails.assessmentName}}
+                  </div>
+                  <div>
+                    <strong>Language:</strong> {{row.item.assessmentDetails.language}}
+                  </div>
+                  <div>
+                    <strong>Start Date:</strong> {{row.item.assessmentDetails.startDate}}
+                  </div>
+                  <div>
+                    <strong>End Date:</strong> {{row.item.assessmentDetails.endDate}}
+                  </div>
               </b-popover>
             </div>
         </template>
@@ -143,8 +143,3 @@ export default {
 };
 </script>
 
-<style>
-.table th, .table td{
-  border-top: none !important;
-}
-</style>
