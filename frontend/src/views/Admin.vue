@@ -61,7 +61,7 @@
         <b-tabs v-model="selectedTab" active card >
           <b-tab title="Job/Runs">
             <b-card-text class="row">
-              <div :class="adminSelectedBatchId ? 'col-12 col-md-7':'col-12'">
+              <div :class="adminSelectedBatchId || adminSelectedErrorId ? 'col-12 col-md-7':'col-12'">
                 <DisplayTable title="Job/Runs" v-bind:items="batchInfoListData"
                   v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
                 >
@@ -79,12 +79,27 @@
                       </b-btn>
                     </b-popover>
                   </template>
+                  <template #cell(failedStudentsProcessed)="row">
+                    <b-btn v-if="row.item.failedStudentsProcessed != 0" variant='link' size="xs" @click="passErrorId(row.item.jobExecutionId)">  
+                      {{row.item.failedStudentsProcessed}}   
+                    </b-btn>  
+                    <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
+                  </template>
                 </DisplayTable>
               </div>
-              <div v-if="adminSelectedBatchId" class="col-12 col-md-5 float-left pl-2 pr-0">
+              <!-- All batch results -->
+              <div v-if="adminSelectedBatchId" class="col-12 col-md-5 float-right pl-2 pr-0">
                 <b-card bg-variant="light" :header="'Batch Job '+ this.adminSelectedBatchId" class="text-left mb-2">
                   <b-card-text>
                     <BatchJobSearchResults :selectedBatchId="adminSelectedBatchId"></BatchJobSearchResults>
+                  </b-card-text>
+                </b-card>
+              </div>
+              <!-- All error results -->
+              <div v-if="adminSelectedErrorId" class="col-12 col-md-5 float-right pl-2 pr-0">
+                <b-card bg-variant="light" :header="'Batch Job Error '+ this.adminSelectedErrorId" class="text-left mb-2">
+                  <b-card-text>
+                    <BatchJobErrorResults :selectedErrorId="adminSelectedErrorId"></BatchJobErrorResults>
                   </b-card-text>
                 </b-card>
               </div>
@@ -124,6 +139,7 @@ import DashboardService from "@/services/DashboardService.js";
 import SiteMessage from "@/components/SiteMessage";
 import DisplayTable from '@/components/DisplayTable.vue';
 import BatchJobSearchResults from "@/components/BatchJobSearchResults.vue";
+import BatchJobErrorResults from "@/components/BatchJobErrorResults.vue";
 import BatchJobForm from "@/components/Dashboard/Batch.vue";
 import {
   mapGetters
@@ -137,6 +153,7 @@ export default {
       SiteMessage: SiteMessage,
       DisplayTable: DisplayTable,
       BatchJobSearchResults: BatchJobSearchResults,
+      BatchJobErrorResults: BatchJobErrorResults,
       BatchJobForm: BatchJobForm
   },
   data() {
@@ -144,6 +161,7 @@ export default {
       validationMessage: "",
       validating: false,
       adminSelectedBatchId:"",
+      adminSelectedErrorId:"",
       errorOn: false,
       displayMessage: null,
       dashboardData:"",
@@ -225,7 +243,7 @@ export default {
             key: 'failedStudentsProcessed',
             label: 'Error',
             sortable: true,
-            class: 'text-left',
+            class: 'text-center',
             editable: true
           }
 
@@ -410,7 +428,10 @@ export default {
       var element = this.$refs['top'];
       var top = element.offsetTop;
       window.scrollTo(0, top);      
-    },    
+    },  
+    passErrorId(errorId) {
+      this.adminSelectedErrorId = errorId.toString();    
+    },      
   },
   computed:{
     results(){

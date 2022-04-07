@@ -22,5 +22,9 @@ export default {
         Authorization: "Bearer " + token,
       };
       return apiClient.post("/api/v1/batch/specialrun", users, { headers });
-    }
+    },
+    getBatchErrors(id, page, token) {
+      const headers = { Accept: 'application/json','Content-Type': 'application/json','Access-Control-Allow-Origin': '*','Authorization': 'Bearer '+ token }
+      return apiClient.get('/api/v1/batch/dashboard/errors/' + id + '?pageNumber=' + page,{ headers });
+    },
 }
