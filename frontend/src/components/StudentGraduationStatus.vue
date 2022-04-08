@@ -195,8 +195,8 @@
                   </tr>
                   <tr v-if="showEdit">
                       <td><strong>School of record:</strong><br>
-                        <div v-if="schoolOfRecordMissing" class="form-validation-message text-warning" >School of record is empty&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
-                        <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                        <div v-if="schoolOfRecordMissing" class="form-validation-message text-warning" >This School is closed, changes should be to historical activity only&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                        <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >This School is closed, changes should be to historical activity only&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                         <div v-if="schoolNotFoundWarning" class="form-validation-message text-danger" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                         <div v-if="schoolOfRecordInputWarning" class="form-validation-message text-danger" >Please enter at least 8 digits&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                         <div v-if="schoolFound" class="form-validation-message text-success" >{{editedGradStatus.schoolName}} found.</div>                      
