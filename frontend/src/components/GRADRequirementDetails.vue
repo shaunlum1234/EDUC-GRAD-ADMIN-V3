@@ -42,17 +42,12 @@
                     <span v-if="row.item.failed">Failed</span>   
                     <span v-if="row.item.duplicate">Repeat</span>   
                     <span v-if="row.item.careerPrep">Career Prep course</span>   
-                    <span v-if="row.item.localDeveloped">Locally Developed course</span>   
-                    <span v-if="row.item.restricted">Restricted Course</span>   
-                    <span v-if="row.item.boardAuthorityAuthorized">Board/Authority Authorized course</span>   
-                    <span v-if="row.item.independentDirectedStudies">IDS Course</span>    
-                    <span v-if="row.item.locallyDeveloped">Locally Developed Course</span>
-                    <span v-if="row.item.careerPrep">Career Prep Course</span>
+                    <span v-if="row.item.localDeveloped">Locally Developed course</span>     
                     <span v-if="row.item.boardAuthorityAuthorized">Board/Authority Authorized Course</span>
                     <span v-if="row.item.independentDirectedStudies">Independent Directed Studies course</span>
                     <span v-if="row.item.cutOffCourse">Course taken after Cut-off</span>
                     <span v-if="row.item.grade10Course">Grade 10 ineligible (1995 program)</span>
-                    <span v-if="row.item.lessCreditCourse">Courses with credits less than 4 ineligible</span>
+                    <span v-if="row.item.lessCreditCourse">Courses with credits &lt; 4 ineligible</span>
                     <span v-if="row.item.restricted">Course restricted against another course</span>
                   </div>
                 </div>
