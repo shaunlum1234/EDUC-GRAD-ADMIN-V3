@@ -17,7 +17,7 @@
             <b-form-select
                 id="inline-form-select-audience"
                 class="mb-2 mr-sm-2 mb-sm-0"
-                :options="[{ text: 'Choose...', value: null }, 'Blank certificate print', 'Replacement certificate - no principal signature block', 'Reprint certificate – with principal signature block', 'Blank transcript print','Transcript']"
+                :options="[{ text: 'Choose...', value: null }, 'Blank certificate print', 'Reprint certificate – no principal signature block', 'Original certificate – with principal signature block', 'Blank transcript print','Transcript']"
                 :value="tabContent['job-'+i].details['credential']"     
                 @change="editBatchJob('job-'+i,'credential', $event)"       
               ></b-form-select>
