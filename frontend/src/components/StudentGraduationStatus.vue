@@ -247,7 +247,7 @@
                     </tr>    
                     <tr v-if="showEdit">
                       <td><strong>School at graduation:</strong><br>
-                      <div v-if="schoolAtGraduationWarning" class="form-validation-message text-warning" >School at graduation entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                      <div v-if="schoolAtGraduationWarning" class="form-validation-message text-warning" >Warning: This School is closed, changes should be to historical activity only&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                       <div v-if="schoolAtGradProgramCompletionDateMessage" class="form-validation-message text-danger" >If program completion date is not blank, school at graduation cannot be blank&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                       <div v-if="schoolAtGraduationNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                       <div v-if="schoolAtGraduationInputWarning" class="form-validation-message text-danger" >Please enter at least 8 digits&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
