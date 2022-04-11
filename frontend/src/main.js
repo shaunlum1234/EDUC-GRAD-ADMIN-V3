@@ -47,7 +47,7 @@ Vue.use(ToastPlugin);
 Vue.filter('formatTime', function(value) {
   if(value){
     var date = new Date(value);
-    return date.toString();  
+    return date.toLocaleString();  
   }else{
     return "";
   }

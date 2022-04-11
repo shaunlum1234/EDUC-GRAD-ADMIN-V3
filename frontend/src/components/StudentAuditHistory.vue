@@ -4,7 +4,7 @@
     <div class="col-12" v-for="(value, index) in changeHistory.slice().reverse()" :key="value.historyID">
       <div class="row col-12 py-2" :header="studentHistory[index+1].historyID">
         <div class="col-4 border-bottom">
-          Edited by <strong>{{studentHistory[index+1].activityCode}}</strong> on<br/>
+          Activity Code: <strong>{{studentHistory[index+1].activityCode}}</strong> on<br/>
           {{studentHistory[index+1].createDate | formatTime}}
         </div>
         <div class="float-left col-8 border-bottom">
