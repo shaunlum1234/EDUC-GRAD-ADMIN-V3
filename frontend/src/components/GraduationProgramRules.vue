@@ -64,6 +64,13 @@ export default {
             class: '',
           },
           {
+            key: 'programRequirementCode.traxReqNumber',
+            label: 'Transcript Req #',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
             key: 'programRequirementCode.requirementCategory',
             label: 'Rule category (C-courses, A-Assessments)',
             sortable: true,
