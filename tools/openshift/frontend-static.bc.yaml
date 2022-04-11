@@ -15,19 +15,19 @@ objects:
     creationTimestamp:
     labels:
       build: "${REPO_NAME}-frontend-static"
-    name: caddy
+    name: s2i-caddy
   spec:
     lookupPolicy:
       local: false
     tags:
     - annotations:
-        openshift.io/imported-from: image-registry.openshift-image-registry.svc:5000/77c02f-tools/caddy:v2
+        openshift.io/imported-from: docker-registry.default.svc:5000/bcgov/s2i-caddy:v1-stable
       from:
         kind: DockerImage
-        name: image-registry.openshift-image-registry.svc:5000/77c02f-tools/caddy:v2
+        name: docker-registry.default.svc:5000/bcgov/s2i-caddy:v1-stable
       generation:
       importPolicy: {}
-      name: v2
+      name: v1-stable
       referencePolicy:
         type: Local
 - apiVersion: v1
@@ -71,10 +71,10 @@ objects:
     runPolicy: SerialLatestOnly
     source:
       dockerfile: |-
-        FROM image-registry.openshift-image-registry.svc:5000/77c02f-tools/caddy:v2
-        EXPOSE 2015
+        FROM docker-registry.default.svc:5000/bcgov/s2i-caddy:v1-stable
         COPY /tmp/src/dist/app/view /var/www/html
-        COPY /tmp/src/Caddyfile /etc/caddy/Caddyfile
+        COPY /tmp/src/Caddyfile /etc/Caddyfile
+        CMD /tmp/scripts/run
       images:
       - as:
         from:
@@ -89,7 +89,7 @@ objects:
       dockerStrategy:
         from:
           kind: ImageStreamTag
-          name: caddy:v2
+          name: s2i-caddy:v1-stable
       type: Docker
 parameters:
 - name: REPO_NAME
