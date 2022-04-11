@@ -21,8 +21,8 @@ header {
     Feature-Policy "fullscreen 'self'; camera 'none'; microphone 'none'"
 }
 
-gzip {
-    level 8
+encode {
+    gzip 8
 }
 
 log {
