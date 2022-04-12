@@ -40,10 +40,10 @@
                     <strong>Language:</strong> {{row.item.assessmentDetails.language}}
                   </div>
                   <div>
-                    <strong>Start Date:</strong> {{row.item.assessmentDetails.startDate}}
+                    <strong>Start Date:</strong> {{row.item.assessmentDetails.startDate | formatTime}}
                   </div>
                   <div>
-                    <strong>End Date:</strong> {{row.item.assessmentDetails.endDate}}
+                    <strong>End Date:</strong> {{row.item.assessmentDetails.endDate | formatTime}}
                   </div>
               </b-popover>
             </div>
