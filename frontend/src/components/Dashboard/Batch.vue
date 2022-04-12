@@ -94,6 +94,16 @@
                 @change="editBatchJob('job-'+i,'copies', $event)"       
               ></b-form-input>
           </div>  
+          <div class="mt-1" v-if="tabContent['job-'+i].details['what'] == 'DISTRUN'">
+            <label>Where</label>
+            <b-form-select
+              id="inline-form-select-type"
+              class="col-12 my-2"
+              :options="[{ text: 'Choose...', value: null }, 'Download', 'BC Mail']"
+              @change="editBatchJob('job-'+i,'where', $event)"
+            ></b-form-select>
+          </div>          
+          
 
       <div v-if="tabContent['job-'+i].details['who']=='District'" class="float-left col-12 px-0">
 
@@ -205,20 +215,49 @@
       </b-card>            
       <b-card v-if="tabContent['job-'+i].details['who']=='Program'" class="mt-3 px-0" header="Include Programs">
         Program:
+ <b-alert v-if="validationMessage" show variant="danger">{{validationMessage}}</b-alert>
+
+      <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
+        <div class="row col-12 border-bottom mb-3">
+            <div class="col-2"><strong>Program</strong></div>
+        </div>
+        <div v-for="(program, index) in tabContent['job-' + i].programs" :key="index" class="row pl-3 mb-1">
+          <div v-if="!program.value" class="row col-12">
+
+            <b-form-select
+              id="inline-form-select-type"
+              class="mb-2 mr-sm-2 mb-sm-0"
+              :options="programOptions"
+              value-field="programCode"
+              text-field="programCode"
+              v-model="program.value"
+            ></b-form-select>
+            <div v-if="index == tabContent['job-'+i].programs.length-1" class="col-2">
+              <b-button class="btn btn-primary w-100" @click="addValueToTypeInBatchId('job-' + i,'programs',program.value,index)">
+              <b-spinner small v-if="validating"></b-spinner> Add
+              </b-button>   
+            </div>
+          </div>
+          <div class="row col-12">
+            
+            <div v-if="program.value" class="col-2">{{program.value}}</div>
+            <div v-if="program.programName" class="col-3">{{program.programName}}</div>
+            <div v-if="program.districtName" class="col-2">{{program.districtName}}</div>
+            <div v-if="program.address" class="col-3"> {{program.address}}</div>   
+
+            <div v-if="index != tabContent['job-'+i].programs.length-1" class="col-2" ><b-button  class="btn btn-primary w-100 w-100" @click="deleteValueFromTypeInBatchId('job-' + i, 'programs',program.value)">
+              Remove
+            </b-button>
+            </div>
+          </div>
+        </div>
 
 
-        <b-form-checkbox-group
-          multiple
-          stacked
-          :select-size="10"
-          id="inline-form-select-audience"
-          class="mb-2 mr-sm-2 mb-sm-0"
-          :options="programOptions"
-          value-field="programCode"
-          text-field="programCode"
-          :value="tabContent['job-'+i].details['who']"     
-          @change="editBatchJob('job-'+i,'programs', $event)"      
-        ></b-form-checkbox-group>
+
+
+
+
+
       </b-card>
       </div>       
       </div>
@@ -263,6 +302,7 @@ export default {
       this.$emit("cancelBatchJob",id)
     },
     addValueToTypeInBatchId(id, type, value, valueIndex){
+      console.log(value)
       this.validationMessage = "";
       if(type == "schools"){
           this.validating = true;
@@ -280,12 +320,12 @@ export default {
             }
             this.$forceUpdate();
             this.validating = false;  
-            
           }
         ).catch((error) => {
           // eslint-disable-next-line
           console.log(error)      
           this.validating = false;
+          this.$forceUpdate();
         });
       }
 
@@ -325,7 +365,6 @@ export default {
               this.$store.commit("addValueToTypeInBatchId", {id,type, value});
               this.$refs['districtName' + id + valueIndex][0].updateValue(response.data.districtName);        
               this.$refs['districtCity' + id + valueIndex][0].updateValue(response.data.city);        
-              
             }else{
                this.validationMessage = value + " is not a valid District"
                this.deleteValueFromTypeInBatchId(id, type, value);
@@ -333,14 +372,26 @@ export default {
             }
             this.$forceUpdate();
             this.validating = false;  
-            
           }
         ).catch((error) => {
           // eslint-disable-next-line
           console.log(error)      
           this.validating = false;
         });
-      }      
+      }   
+      if(type == "programs"){
+        this.validating = true;
+        
+        if(value){
+          this.$store.commit("addValueToTypeInBatchId", {id,type, value});
+        }else{
+         console.log("select a program")
+          this.validationMessage = "Select a program";
+        }
+        this.$forceUpdate();
+        this.validating = false;   
+      }
+              
     },
     addTypeToBatchId(id, type){
       this.$store.commit("addTypeToBatchId", {type, id});
