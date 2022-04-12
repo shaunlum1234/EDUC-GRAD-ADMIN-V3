@@ -98,7 +98,7 @@
                   </tr>
                   <tr v-if="!showEdit">
                     <td><strong>Program completion date: </strong></td>
-                    <td>{{ studentGradStatus.programCompletionDate }}</td>
+                    <td>{{ studentGradStatus.programCompletionDate | formatTime}}</td>
                   </tr>          
                   <tr v-if="showEdit">
                     <td v-if="editedGradStatus.program != 'SCCP'">
@@ -392,16 +392,16 @@
                       <a  @click="downloadPDF(report.report,'application/pdf')" href="#" class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
                       <div class="float-left col-12 pr-4 ml-1">
                           <strong>Status:</strong> {{report.documentStatusLabel}} 
-                          <strong>Last Updated:</strong> {{report.updatedTimestamp}} 
-                          <strong>Distributed:</strong> {{report.distributionDate}}
+                          <strong>Last Updated:</strong> {{report.updatedTimestamp | formatTime}} 
+                          <strong>Distributed:</strong> {{report.distributionDate | formatTime}}
                       </div>
                     </div>
                     <div v-for="transcript in transcripts" :key="transcript.id" class="px-3 w-100 float-left mt-2">
                       <a  @click="downloadPDF(transcript.transcript,'application/pdf')" href="#"  class="pdf-link float-left ">{{transcript.transcriptTypeLabel}} (PDF)</a> 
                       <div class="float-left col-12 pr-4 ml-1">
                           <strong>Status:</strong> {{transcript.documentStatusLabel}} 
-                          <strong>Last Updated:</strong> {{transcript.updatedTimestamp}} 
-                          <strong>Distributed:</strong> {{transcript.distributionDate}}
+                          <strong>Last Updated:</strong> {{transcript.updatedTimestamp | formatTime}} 
+                          <strong>Distributed:</strong> {{transcript.distributionDate | formatTime}}
                       </div>
                     </div>                    
                 </b-card-text>
