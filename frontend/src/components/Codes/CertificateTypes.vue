@@ -9,10 +9,10 @@
     showFilter="true"
   >
     <template #cell(effectiveDate)="row">
-      {{ row.item.effectiveDate | formatSimpleDate }}
+      {{ row.item.effectiveDate | formatTime }}
     </template>
     <template #cell(expiryDate)="row">
-      {{ row.item.expiryDate | formatSimpleDate }}
+      {{ row.item.expiryDate | formatTime }}
     </template>
   </DisplayTable>
   </div>
