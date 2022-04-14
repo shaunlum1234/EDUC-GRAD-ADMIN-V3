@@ -329,7 +329,8 @@
       </div>
       <!-- Mid Column -->
       <div class="col-12 px-2 col-xl-4 col-lg-5"> 
-        <div class="requirements-met-and-not-met">
+        <NoncompletionReasons :student-grad-data="studentGradStatus.studentGradData" :nongrad-reasons="nongradReasons" :requirements-met="requirementsMet"></NoncompletionReasons>
+        <!-- <div class="requirements-met-and-not-met">
           <div class="requirements-not-met pb-2">
             <b-card
               header="Noncompletion Reasons"
@@ -371,7 +372,7 @@
               </b-card-text>
             </b-card>
           </div>
-        </div>
+        </div> -->
       </div>
       <!-- Right Column -->
       <div class="col-12 px-2 col-xl-4 col-lg-12">
@@ -447,9 +448,13 @@ import GraduationService from "@/services/GraduationService.js";
 import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
 import sharedMethods from '../sharedMethods';
+import NoncompletionReasons from "@/components/NoncompletionReasons";
 
 export default {
   name: "StudentGraduationStatus",
+  components: {
+    NoncompletionReasons: NoncompletionReasons
+  },
   computed: {
     studentGradeChange(){
       return this.editedGradStatus.studentGrade;
