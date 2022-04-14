@@ -9,6 +9,10 @@
                 <router-link :to="{ name: 'programRuleCourses', params: { programCode: row.item.programRequirementCode.programReqCode, category: row.item.programRequirementCode.requirementCategory,  rule: row.item.programRequirementCode.proReqCode, ruleName: row.item.programRequirementCode.label  }}">{{row.item.programRequirementCode.proReqCode}}</router-link>
                 </b-btn>
               </template>
+
+            <template #cell(programRequirementCode.traxReqNumber)="row">
+              {{row.item.programRequirementCode.traxReqNumber === row.item.programRequirementCode.proReqCode ? '' : row.item.programRequirementCode.traxReqNumber}}
+            </template>
           </DisplayTable>
         </div>
       
@@ -59,6 +63,13 @@ export default {
           {
             key: 'ruleCode',
             label: 'Rule #',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'programRequirementCode.traxReqNumber',
+            label: 'Transcript Req #',
             sortable: true,
             editable: true,
             class: '',
