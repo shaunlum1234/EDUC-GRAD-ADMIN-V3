@@ -329,7 +329,6 @@
       </div>
       <!-- Mid Column -->
       <div class="col-12 px-2 col-xl-4 col-lg-5"> 
-
         <div class="requirements-met-and-not-met">
           <div class="requirements-not-met pb-2">
             <b-card
