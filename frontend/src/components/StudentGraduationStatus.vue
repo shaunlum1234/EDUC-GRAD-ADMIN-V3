@@ -330,49 +330,6 @@
       <!-- Mid Column -->
       <div class="col-12 px-2 col-xl-4 col-lg-5"> 
         <NoncompletionReasons :student-grad-data="studentGradStatus.studentGradData" :nongrad-reasons="nongradReasons" :requirements-met="requirementsMet"></NoncompletionReasons>
-        <!-- <div class="requirements-met-and-not-met">
-          <div class="requirements-not-met pb-2">
-            <b-card
-              header="Noncompletion Reasons"
-              class="w-100"
-            >
-              <b-card-text v-if="studentGradStatus.studentGradData">
-
-                <div v-if="!nongradReasons || !nongradReasons.length">
-                  <ul>
-                    <li>All program requirements have been met</li>
-                  </ul>
-                </div>
-                <div v-else>
-                   
-                  <b-table :items="nongradReasons" 
-                  :fields='[{ key: "rule",label: "Rule", sortable: true},{key: "description",label:"Description", sortable: true}]' 
-                  small
-                  striped>
-
-                  </b-table> 
-       
-                </div>
-              </b-card-text>
-            </b-card>
-          </div>
-          <div class="requirements-met pb-2">
-             
-            <b-card
-              header="Requirements met"
-              v-if="studentGradStatus.studentGradData"
-              no-body
-              class="w-100"
-            >
-              <b-card-text class=" m-3">
-               <b-table :items="requirementsMet"
-                        :fields='[{ key: "rule",label: "Rule", sortable: true},{key: "description",label:"Description", sortable: true}]'   
-                        small
-                        striped></b-table>                 
-              </b-card-text>
-            </b-card>
-          </div>
-        </div> -->
       </div>
       <!-- Right Column -->
       <div class="col-12 px-2 col-xl-4 col-lg-12">

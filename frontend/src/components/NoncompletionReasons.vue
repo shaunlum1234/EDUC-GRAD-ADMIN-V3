@@ -57,3 +57,24 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+ul.requirements-met,
+ul.non-grad-reasons {
+  list-style: none;
+}
+ul.requirements-met li,
+ul.non-grad-reasons li {
+  border-bottom: 1px solid #ccc;
+}
+.card-body {
+  border-bottom: 1px solid #ccc;
+}
+.card {
+  margin-bottom: 10px;
+}
+
+.card-header {
+  font-weight: 700;
+}
+</style>
