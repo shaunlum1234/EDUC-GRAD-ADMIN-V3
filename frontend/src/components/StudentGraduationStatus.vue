@@ -15,7 +15,6 @@
     </div>
     <!-- GRAD Status -->
     <div class="row px-2">
-      <!-- Left col -->  
       <div class="col-12 px-2 col-xl-4 col-lg-7">
           <div class="graduation-status">
           <b-card
@@ -78,8 +77,7 @@
                     </p>
                   </b-alert>
                 </div>                                                                              
-                <!-- {{editedGradStatus}} -->
-                <table role="presentation" aria-label="edit grad status" class="table  table-hover table-sm" >
+                <table  role="presentation" aria-label="edit grad status" class="table  table-hover table-sm" >
                   <tbody>
                   <tr v-if="!showEdit">
                     <td class="w-50"><strong>Program: </strong></td>
@@ -264,8 +262,7 @@
                     </tr>
                     <tr>
                       <td><strong>Optional Programs</strong></td>
-                      <td >
-                         <!-- OPTIONAL PROGRAMS -->                      
+                      <td>                      
                           <ul class="p-0" v-if="optionalPrograms[0] && optionalPrograms[0].studentOptionalProgramData" id="optional-programs">
                             <li v-for="item in optionalPrograms" :key="item.optionalProgramCode">
                               {{ item.optionalProgramName }}
@@ -381,53 +378,54 @@
       <div class="col-12 px-2 col-xl-4 col-lg-12">
         <!-- GRADUATION REPORTS -->
           <div class="graduation-reports pb-2">
-      
             <b-card
               header="Student Transcript Reports"
               no-body
-            >
-      
-                <b-card-text class="py-4">
-                    <div v-for="report in reports" :key="report.gradReportTypeCode+report.updatedTimestamp" class="px-3 w-100 float-left">
-                      <a  @click="downloadPDF(report.report,'application/pdf')" href="#" class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
-                      <div class="float-left col-12 pr-4 ml-1">
-                          <strong>Status:</strong> {{report.documentStatusLabel}} 
-                          <strong>Last Updated:</strong> {{report.updatedTimestamp }} 
-                          <strong>Distributed:</strong> {{report.distributionDate }}
-                      </div>
+            >   
+              <b-card-text class="py-4">
+                <div v-if="reports">
+                  
+                  <div v-for="(report, index) in reports" :key="index" class="px-3 w-100 float-left">
+                    <a  @click="downloadPDF(report.report,'application/pdf')" href="#" class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
+                    <div class="float-left col-12 pr-4 ml-1">
+                        <strong>Status:</strong> {{report.documentStatusLabel}} 
+                        <strong>Last Updated:</strong> {{report.updatedTimestamp }} 
+                        <strong>Distributed:</strong> {{report.distributionDate | formatTime}}
                     </div>
-                    <div v-for="transcript in transcripts" :key="transcript.id" class="px-3 w-100 float-left mt-2">
-                      <a  @click="downloadPDF(transcript.transcript,'application/pdf')" href="#"  class="pdf-link float-left ">{{transcript.transcriptTypeLabel}} (PDF)</a> 
-                      <div class="float-left col-12 pr-4 ml-1">
-                          <strong>Status:</strong> {{transcript.documentStatusLabel}} 
-                          <strong>Last Updated:</strong> {{transcript.updatedTimestamp}} 
-                          <strong>Distributed:</strong> {{transcript.distributionDate}}
-                      </div>
-                    </div>                    
-                </b-card-text>
-            </b-card> 
-            
+                  </div>
+                </div>
+                <div v-if="transcripts">
+                  <div  v-for="transcript in transcripts" :key="transcript.id" class="px-3 w-100 float-left mt-2">
+                    <a  @click="downloadPDF(transcript.transcript,'application/pdf')" href="#"  class="pdf-link float-left ">{{transcript.transcriptTypeLabel}} (PDF)</a> 
+                    <div class="float-left col-12 pr-4 ml-1">
+                        <strong>Status:</strong> {{transcript.documentStatusLabel}} 
+                        <strong>Last Updated:</strong> {{transcript.updatedTimestamp }} 
+                        <strong>Distributed:</strong> {{transcript.distributionDate | formatTime}}
+                    </div>
+                  </div>    
+                </div>                  
+              </b-card-text>
+            </b-card>       
           </div>
           
           <!-- CERTIFICATION DOGWOODS -->           
           <div class="certification-dogwoods pb-2">
             <b-card
               header="Student Certificates/Dogwoods"
-              no-body
-             
+              no-body            
             >
-              <b-card-text class="py-4">
-                <div v-for="certificate in certificates" :key="certificate.gradCertificateTypeCode+certificate.createdTimestamp" class="px-3 w-100 float-left">
-                  
+            <b-card-text class="py-4">
+              <div v-if="certificates">
+                <div v-for="(certificate, index) in certificates" :key="index" class="px-3 w-100 float-left">        
                   <a @click="downloadPDF(certificate.certificate,'application/pdf')" href="#"  class="pdf-link float-left ">{{certificate.gradCertificateTypeLabel}} (PDF)</a> 
                   <span class="float-left pr-3">
                     <strong>Status:</strong> {{certificate.documentStatusLabel}} 
                     <strong>Last Updated:</strong> {{certificate.createdTimestamp }}
-                    <strong>Distributed:</strong> {{certificate.distributionDate }}
-                  </span>
-                
+                    <strong>Distributed:</strong> {{certificate.distributionDate | formatTime}}
+                  </span>               
                 </div>
-              </b-card-text>
+              </div>
+            </b-card-text>
             </b-card> 
           </div> 
       </div>
