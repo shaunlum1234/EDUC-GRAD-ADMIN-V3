@@ -334,7 +334,8 @@
       <!-- Right Column -->
       <div class="col-12 px-2 col-xl-4 col-lg-12">
         <!-- GRADUATION REPORTS -->
-          <div class="graduation-reports pb-2">
+        <GraduationReports :reports="reports" :transcripts="transcripts"></GraduationReports>
+          <!-- <div class="graduation-reports pb-2">
             <b-card
               header="Student Transcript Reports"
               no-body
@@ -363,7 +364,7 @@
                 </div>                  
               </b-card-text>
             </b-card>       
-          </div>
+          </div> -->
           
           <!-- CERTIFICATION DOGWOODS -->           
           <div class="certification-dogwoods pb-2">
@@ -406,11 +407,13 @@ import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
 import sharedMethods from '../sharedMethods';
 import NoncompletionReasons from "@/components/NoncompletionReasons";
+import GraduationReports from "@/components/GraduationReports";
 
 export default {
   name: "StudentGraduationStatus",
   components: {
-    NoncompletionReasons: NoncompletionReasons
+    NoncompletionReasons: NoncompletionReasons,
+    GraduationReports: GraduationReports
   },
   computed: {
     studentGradeChange(){

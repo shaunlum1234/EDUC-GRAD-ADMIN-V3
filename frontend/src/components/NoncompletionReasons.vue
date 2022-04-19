@@ -44,18 +44,18 @@
 </template>
 
 <script>
-export default {
-  name: "NoncompletionReasons",
-  props: {
-    studentGradData: Object,
-    nongradReasons: [],
-    requirementsMet: []
-    },
-  data() {
-    return {
+  export default {
+    name: "NoncompletionReasons",
+    props: {
+      studentGradData: Object,
+      nongradReasons: [],
+      requirementsMet: []
+      },
+    data() {
+      return {
+      }
     }
   }
-}
 </script>
 
 <style scoped>
