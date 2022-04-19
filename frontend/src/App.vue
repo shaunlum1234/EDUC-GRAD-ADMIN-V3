@@ -30,6 +30,7 @@
         <router-view />
       </transition>
     </div>
+    <BCFooter></BCFooter>
   </div>
 </template>
 <script>
@@ -38,9 +39,11 @@ import {
 } from "vuex";
 
 import Bcheader from "@/components/BCHeader";
+import BCFooter from "@/components/BCFooter";
 export default {
   components: {
-    Bcheader
+    Bcheader,
+    BCFooter
   },
   created() {
     if(this.role == "administrator"){

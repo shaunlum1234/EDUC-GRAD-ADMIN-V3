@@ -570,7 +570,7 @@
         this.selectedTab = 0;
         this.tabLoading = true; 
         GraduationService.graduateStudent(this.studentId, this.token).then(() => {
-              this.reloadGradStatus();
+          this.reloadGradStatus();
                
         }).catch((error) => {
           this.tabLoading = false; 
@@ -588,6 +588,19 @@
         this.tabLoading = true; 
         GraduationService.updateStudentReports(this.studentId, this.token).then(() => {
           this.getStudentReportsAndCertificates(this.studentId);
+          StudentService.getGraduationStatus(this.studentId, this.token).then(
+            (res) => {
+              this.$store.dispatch("setStudentGradStatus", res.data);
+            }          
+          ).catch((error) => {
+            if(error.res.status){
+              this.$bvToast.toast("ERROR " + error.res.statusText, {
+                title: "ERROR" + error.res.status,
+                variant: 'danger',
+                noAutoHide: true,
+              });
+            }
+          }); 
           this.tabLoading= false;
         }).catch((error) => {       
           if(error.response.status){
