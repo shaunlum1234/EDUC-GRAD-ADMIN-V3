@@ -335,57 +335,8 @@
       <div class="col-12 px-2 col-xl-4 col-lg-12">
         <!-- GRADUATION REPORTS -->
         <GraduationReports :reports="reports" :transcripts="transcripts"></GraduationReports>
-          <!-- <div class="graduation-reports pb-2">
-            <b-card
-              header="Student Transcript Reports"
-              no-body
-            >   
-              <b-card-text class="py-4">
-                <div v-if="reports">
-                  
-                  <div v-for="(report, index) in reports" :key="index" class="px-3 w-100 float-left">
-                    <a  @click="downloadPDF(report.report,'application/pdf')" href="#" class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
-                    <div class="float-left col-12 pr-4 ml-1">
-                        <strong>Status:</strong> {{report.documentStatusLabel}} 
-                        <strong>Last Updated:</strong> {{report.updatedTimestamp }} 
-                        <strong>Distributed:</strong> {{report.distributionDate | formatTime}}
-                    </div>
-                  </div>
-                </div>
-                <div v-if="transcripts">
-                  <div  v-for="transcript in transcripts" :key="transcript.id" class="px-3 w-100 float-left mt-2">
-                    <a  @click="downloadPDF(transcript.transcript,'application/pdf')" href="#"  class="pdf-link float-left ">{{transcript.transcriptTypeLabel}} (PDF)</a> 
-                    <div class="float-left col-12 pr-4 ml-1">
-                        <strong>Status:</strong> {{transcript.documentStatusLabel}} 
-                        <strong>Last Updated:</strong> {{transcript.updatedTimestamp }} 
-                        <strong>Distributed:</strong> {{transcript.distributionDate | formatTime}}
-                    </div>
-                  </div>    
-                </div>                  
-              </b-card-text>
-            </b-card>       
-          </div> -->
-          
           <!-- CERTIFICATION DOGWOODS -->           
-          <div class="certification-dogwoods pb-2">
-            <b-card
-              header="Student Certificates/Dogwoods"
-              no-body            
-            >
-            <b-card-text class="py-4">
-              <div v-if="certificates">
-                <div v-for="(certificate, index) in certificates" :key="index" class="px-3 w-100 float-left">        
-                  <a @click="downloadPDF(certificate.certificate,'application/pdf')" href="#"  class="pdf-link float-left ">{{certificate.gradCertificateTypeLabel}} (PDF)</a> 
-                  <span class="float-left pr-3">
-                    <strong>Status:</strong> {{certificate.documentStatusLabel}} 
-                    <strong>Last Updated:</strong> {{certificate.createdTimestamp }}
-                    <strong>Distributed:</strong> {{certificate.distributionDate | formatTime}}
-                  </span>               
-                </div>
-              </div>
-            </b-card-text>
-            </b-card> 
-          </div> 
+          <CertificationDogwoods :certificates="certificates"></CertificationDogwoods>
       </div>
     </div>
 
@@ -408,12 +359,14 @@ import StudentService from "@/services/StudentService.js";
 import sharedMethods from '../sharedMethods';
 import NoncompletionReasons from "@/components/NoncompletionReasons";
 import GraduationReports from "@/components/GraduationReports";
+import CertificationDogwoods from "@/components/CertificationDogwoods";
 
 export default {
   name: "StudentGraduationStatus",
   components: {
     NoncompletionReasons: NoncompletionReasons,
-    GraduationReports: GraduationReports
+    GraduationReports: GraduationReports,
+    CertificationDogwoods: CertificationDogwoods
   },
   computed: {
     studentGradeChange(){
