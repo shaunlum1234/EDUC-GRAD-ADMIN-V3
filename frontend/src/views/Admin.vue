@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <h2>Admin Dashboard</h2>
-  {{tabContent['job-1']}}
     <div>
       <b-card-group deck>
       <b-card class="text-left m-1"> 
@@ -112,7 +111,7 @@
          </b-tab>
          
          <b-tab v-for="i in tabs" :key="'dyn-tab-' + i" :title="'Request ' + i">
-           <b-alert show v-if="tabContent['job-'+i].validationMessage">hello</b-alert>
+         
            <BatchJobForm :i="i" @runbatch="runbatch" @cancelBatchJob="cancelBatchJob" ></BatchJobForm>
         </b-tab>
 
@@ -328,18 +327,27 @@ export default {
           }
       });
     },
-    batchHasErrors(id){
-      this.tabContent[id].validationMessage = "";
+    batchHasErrors(batch){
+      batch.validationMessage = "";
       //check for what
-      if(!this.tabContent[id].details['what']){
-        this.tabContent[id].validationMessage = "Type of batch Not Specified";
-        return false;
+      if(!batch.details['what']){
+        batch.validationMessage = "Type of batch Not Specified";
+        console.log(batch.validationMessage)
+
+        return true;
       }
       //check for who
-      if(!this.tabContent[id].details['who']){
-        this.tabContent[id].validationMessage = "Group not specified"
-        return false;
+      if(!batch.details['who']){
+        batch.validationMessage = "Group not specified"
+        console.log(batch.validationMessage)
+        return true;
       }  
+      
+      console.log('batch validated');
+      console.log(batch.details['who']);
+      console.log(batch.details['what']);
+
+
       return false;
     },
     getBatchData(item){
@@ -350,44 +358,72 @@ export default {
       }
     },
     runbatch(id){
-      if(!this.batchHasErrors(id)){
-        if(this.tabContent[id].details['what'] == 'REGALG'){          
-          console.log(this.tabContent[id])
-          let pens = this.tabContent[id].students.map(this.getBatchData);
-          let districts = this.tabContent[id].districts.map(this.getBatchData);
-          let programs = this.tabContent[id].programs;
-          let schools = this.tabContent[id].schools.map(this.getBatchData);
-          pens.pop();
-          districts.pop();
-          programs.pop();
+        let pens, schools, districts, programs;
+        console.log(this.tabContent[id].details['who'])
+        if(this.tabContent[id].details['who'] == 'School'){
+          schools = this.tabContent[id].schools.map(this.getBatchData);  
           schools.pop();
-
-          let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts,"programs":programs, "validateInput": false}
-          console.log(request);
-          // DashboardService.runREGALG(this.token, request).then(
-          // (response) => {
-          //   // eslint-disable-next-line
-          //   console.log(response.data)
-          //   this.selectedTab = 0;
-          //   this.cancelBatchJob(id.replace("job-",""));
-          //   this.$bvToast.toast("Batch run has completed" , {
-          //     title: "SUCCESS",
-          //     variant: 'success',
-          //     noAutoHide: true,
-          //   })
-          //   //update the admin dashboard
-          //   this.getAdminDashboardData();
-          // })
-          // .catch((error) => {
-          //   if(error.response.status){
-          //     this.$bvToast.toast("ERROR " + error.response.statusText, {
-          //       title: "ERROR" + error.response.status,
-          //       variant: 'danger',
-          //       noAutoHide: true,
-          //     })
-          //   }
-          // })
+          if(schools.length){
+            console.log("no schools")
+            return
+          }
+        }else if(this.tabContent[id].details['who'] == 'Student'){
+          
+          pens = this.tabContent[id].students.map(this.getBatchData);  
+          pens.pop();
+          console.log(pens)
+          if(pens.length){
+            console.log("no students")
+            return
+          }
+        }else if(this.tabContent[id].details['who'] == 'District'){
+          districts = this.tabContent[id].districts.map(this.getBatchData);  
+          districts.pop();
+          if(districts.lengtt){
+            console.log("no districts")
+            return
+          }
+        }else if(this.tabContent[id].details['who'] == 'Program'){
+          programs = this.tabContent[id].programs.map(this.getBatchData);  
+          programs.pop();
+          
+          if(programs.length){
+            console.log("no programs")
+            return
+          }
         }
+      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts,"programs":programs, "validateInput": false}
+      if(!this.batchHasErrors(this.tabContent[id])){
+        return;
+      }
+
+      if(this.tabContent[id].details['what'] == 'REGALG'){          
+        console.log(this.tabContent[id])
+
+        console.log(request);
+        // DashboardService.runREGALG(this.token, request).then(
+        // (response) => {
+        //   // eslint-disable-next-line
+        //   console.log(response.data)
+        //   this.selectedTab = 0;
+        //   this.cancelBatchJob(id.replace("job-",""));
+        //   this.$bvToast.toast("Batch run has completed" , {
+        //     title: "SUCCESS",
+        //     variant: 'success',
+        //     noAutoHide: true,
+        //   })
+        //   //update the admin dashboard
+        //   this.getAdminDashboardData();
+        // })
+        // .catch((error) => {
+        //   if(error.response.status){
+        //     this.$bvToast.toast("ERROR " + error.response.statusText, {
+        //       title: "ERROR" + error.response.status,
+        //       variant: 'danger',
+        //       noAutoHide: true,
+        //     })
+        //   }
+        // })
       }
     },
     displaySearchResults(value){ 

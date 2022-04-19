@@ -53,12 +53,12 @@
         </div>
         <div class="col-9">
 
-          <div class="mt-2">
+          <div class="mt-2 col-2">
             <label>Group</label>
             <b-form-select
                 id="inline-form-select-audience"
                 class="mb-2 mr-sm-2 mb-sm-0"
-                :options="[{ text: 'Choose...', value: null }, 'Student', 'School', 'District', 'Program']"
+                :options="[{ text: '', value: null }, 'Student', 'School', 'District', 'Program']"
                 :value="tabContent['job-'+i].details['who']"     
                 @change="editBatchJob('job-'+i,'who', $event)"  
                 v-if="tabContent['job-'+i].details['credential'] != 'Blank certificate print' && tabContent['job-'+i].details['credential'] != 'Blank transcript print' "     
@@ -66,14 +66,14 @@
               <b-form-select
                 id="inline-form-select-audience"
                 class="mb-2 mr-sm-2 mb-sm-0"
-                :options="[{ text: 'Choose...', value: null }, 'School', 'Ministry of Advanced Education']"
+                :options="[{ text: '', value: null }, 'School', 'Ministry of Advanced Education']"
                 :value="tabContent['job-'+i].details['who']"     
                 @change="editBatchJob('job-'+i,'who', $event)"       
                 v-else
               ></b-form-select>                    
           </div>
                     
-          <div class="mt-1" v-if="tabContent['job-'+i].details['who'] == 'District'">
+          <div class="mt-1 col-3" v-if="tabContent['job-'+i].details['who'] == 'District'">
             <label>District Category</label>
             <b-form-select
               id="inline-form-select-type"
@@ -83,7 +83,6 @@
               @change="editBatchJob('job-'+i,'categoryCode', $event)"
             ></b-form-select>
           </div>
-
           <div class="mt-1" v-if="tabContent['job-'+i].details['what'] == 'DISTRUN'">
             <label>Copies</label>
             <b-form-input
@@ -103,7 +102,6 @@
               @change="editBatchJob('job-'+i,'where', $event)"
             ></b-form-select>
           </div>          
-          
 
       <div v-if="tabContent['job-'+i].details['who']=='District'" class="float-left col-12 px-0">
 
@@ -214,8 +212,7 @@
 
       </b-card>            
       <b-card v-if="tabContent['job-'+i].details['who']=='Program'" class="mt-3 px-0" header="Include Programs">
-        Program:
- <b-alert v-if="validationMessage" show variant="danger">{{validationMessage}}</b-alert>
+      <b-alert v-if="validationMessage" show variant="danger">{{validationMessage}}</b-alert>
 
       <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
         <div class="row col-12 border-bottom mb-3">
@@ -226,7 +223,7 @@
 
             <b-form-select
               id="inline-form-select-type"
-              class="mb-2 mr-sm-2 mb-sm-0"
+              class="col-2"
               :options="programOptions"
               value-field="programCode"
               text-field="programCode"
@@ -251,12 +248,6 @@
             </div>
           </div>
         </div>
-
-
-
-
-
-
 
       </b-card>
       </div>       
