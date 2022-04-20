@@ -275,158 +275,15 @@
               </b-card-text>
             </b-card>       
           </div> 
-          <!-- GRADUATION REPORTS -->
-          <!-- <div class="graduation-reports">
-      
-            <b-card
-              header="Student Transcript Reports"
-              no-body
-            >
-      
-                <b-card-text class="py-4">
-                    <div v-for="report in reports" :key="report.gradReportTypeCode+report.updatedTimestamp" class="px-3 w-100 float-left">
-                      <a  @click="downloadPDF(report.report,'application/pdf')" href="#"  class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
-                      <div class="float-left col-12 pr-4 ml-1">
-                          <strong>Status:</strong> {{report.documentStatusLabel}} 
-                          <strong>Last Updated:</strong> {{report.updatedTimestamp}} 
-                          <strong>Distributed:</strong> {{report.distributionDate}}
-                      </div>
-                    </div>
-                    <div v-for="transcript in transcripts" :key="transcript.id" class="px-3 w-100 float-left mt-2">
-                      <a  @click="downloadPDF(transcript.transcript,'application/pdf')" href="#"  class="pdf-link float-left ">{{transcript.transcriptTypeLabel}} (PDF)</a> 
-                      <div class="float-left col-12 pr-4 ml-1">
-                          <strong>Status:</strong> {{transcript.documentStatusLabel}} 
-                          <strong>Last Updated:</strong> {{transcript.updatedTimestamp}} 
-                          <strong>Distributed:</strong> {{transcript.distributionDate}}
-                      </div>
-                    </div>                    
-                </b-card-text>
-            </b-card> 
-            
-          </div> -->
-
-          <!-- CERTIFICATION DOGWOODS -->           
-          <!-- <div class="certification-dogwoods">
-            <b-card
-              header="Student Certificates/Dogwoods"
-              no-body
-             
-            >
-              <b-card-text class="py-4">
-                <div v-for="certificate in certificates" :key="certificate.gradCertificateTypeCode+certificate.createdTimestamp" class="px-3 w-100 float-left">
-                  
-                  <a @click="downloadPDF(certificate.certificate,'application/pdf')" href="#"  class="pdf-link float-left ">{{certificate.gradCertificateTypeLabel}} (PDF)</a> 
-                  <span class="float-right pr-3">
-                    <strong>Status:</strong> {{certificate.documentStatusLabel}} 
-                    <strong>Last Updated:</strong> {{certificate.createdTimestamp}}
-                    <strong>Distributed:</strong> {{certificate.distributionDate}}
-                  </span>
-                
-                </div>
-              </b-card-text>
-            </b-card> 
-          </div>            -->
       </div>
       <!-- Mid Column -->
-      <div class="col-12 px-2 col-xl-4 col-lg-5"> 
-        <div class="requirements-met-and-not-met">
-          <div class="requirements-not-met pb-2">
-            <b-card
-              header="Noncompletion Reasons"
-              class="w-100"
-            >
-              <b-card-text v-if="studentGradStatus.studentGradData">
-
-                <div v-if="!nongradReasons || !nongradReasons.length">
-                  <ul>
-                    <li>All program requirements have been met</li>
-                  </ul>
-                </div>
-                <div v-else>
-                   
-                  <b-table :items="nongradReasons" 
-                  :fields='[{ key: "rule",label: "Rule", sortable: true},{key: "description",label:"Description", sortable: true}]' 
-                  small
-                  striped>
-
-                  </b-table> 
-       
-                </div>
-              </b-card-text>
-            </b-card>
-          </div>
-          <div class="requirements-met pb-2">
-             
-            <b-card
-              header="Requirements met"
-              v-if="studentGradStatus.studentGradData"
-              no-body
-              class="w-100"
-            >
-              <b-card-text class=" m-3">
-               <b-table :items="requirementsMet"
-                        :fields='[{ key: "rule",label: "Rule", sortable: true},{key: "description",label:"Description", sortable: true}]'   
-                        small
-                        striped></b-table>                 
-              </b-card-text>
-            </b-card>
-          </div>
-        </div>
+      <div class="col-12 px-2 col-xl-4 col-lg-5">
+        <NoncompletionReasons :student-grad-data="studentGradStatus.studentGradData"></NoncompletionReasons>
       </div>
       <!-- Right Column -->
       <div class="col-12 px-2 col-xl-4 col-lg-12">
-        <!-- GRADUATION REPORTS -->
-          <div class="graduation-reports pb-2">
-            <b-card
-              header="Student Transcript Reports"
-              no-body
-            >   
-              <b-card-text class="py-4">
-                <div v-if="reports">
-                  
-                  <div v-for="(report, index) in reports" :key="index" class="px-3 w-100 float-left">
-                    <a  @click="downloadPDF(report.report,'application/pdf')" href="#" class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
-                    <div class="float-left col-12 pr-4 ml-1">
-                        <strong>Status:</strong> {{report.documentStatusLabel}} 
-                        <strong>Last Updated:</strong> {{report.updatedTimestamp }} 
-                        <strong>Distributed:</strong> {{report.distributionDate | formatTime}}
-                    </div>
-                  </div>
-                </div>
-                <div v-if="transcripts">
-                  <div  v-for="transcript in transcripts" :key="transcript.id" class="px-3 w-100 float-left mt-2">
-                    <a  @click="downloadPDF(transcript.transcript,'application/pdf')" href="#"  class="pdf-link float-left ">{{transcript.transcriptTypeLabel}} (PDF)</a> 
-                    <div class="float-left col-12 pr-4 ml-1">
-                        <strong>Status:</strong> {{transcript.documentStatusLabel}} 
-                        <strong>Last Updated:</strong> {{transcript.updatedTimestamp }} 
-                        <strong>Distributed:</strong> {{transcript.distributionDate | formatTime}}
-                    </div>
-                  </div>    
-                </div>                  
-              </b-card-text>
-            </b-card>       
-          </div>
-          
-          <!-- CERTIFICATION DOGWOODS -->           
-          <div class="certification-dogwoods pb-2">
-            <b-card
-              header="Student Certificates/Dogwoods"
-              no-body            
-            >
-            <b-card-text class="py-4">
-              <div v-if="certificates">
-                <div v-for="(certificate, index) in certificates" :key="index" class="px-3 w-100 float-left">        
-                  <a @click="downloadPDF(certificate.certificate,'application/pdf')" href="#"  class="pdf-link float-left ">{{certificate.gradCertificateTypeLabel}} (PDF)</a> 
-                  <span class="float-left pr-3">
-                    <strong>Status:</strong> {{certificate.documentStatusLabel}} 
-                    <strong>Last Updated:</strong> {{certificate.createdTimestamp }}
-                    <strong>Distributed:</strong> {{certificate.distributionDate | formatTime}}
-                  </span>               
-                </div>
-              </div>
-            </b-card-text>
-            </b-card> 
-          </div> 
+        <GraduationReports :reports="reports" :transcripts="transcripts"></GraduationReports>         
+        <CertificationDogwoods :certificates="certificates"></CertificationDogwoods>
       </div>
     </div>
 
@@ -447,9 +304,17 @@ import GraduationService from "@/services/GraduationService.js";
 import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
 import sharedMethods from '../sharedMethods';
+import NoncompletionReasons from "@/components/NoncompletionReasons";
+import GraduationReports from "@/components/GraduationReports";
+import CertificationDogwoods from "@/components/CertificationDogwoods";
 
 export default {
   name: "StudentGraduationStatus",
+  components: {
+    NoncompletionReasons: NoncompletionReasons,
+    GraduationReports: GraduationReports,
+    CertificationDogwoods: CertificationDogwoods
+  },
   computed: {
     studentGradeChange(){
       return this.editedGradStatus.studentGrade;
@@ -475,9 +340,7 @@ export default {
     ...mapGetters({
       studentGradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
-      studentGradRequirementCourses: "gradStatusCourses",
-      nongradReasons: "getNongradReasons",
-      requirementsMet: "getRequirementsMet",      
+      studentGradRequirementCourses: "gradStatusCourses",   
       studentPen: "getStudentPen",
       studentFullName: "getStudentFullName",
       token: "getToken",
