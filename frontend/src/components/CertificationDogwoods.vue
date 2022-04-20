@@ -21,11 +21,16 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 
 export default {
+
   name: "CertificationDogwoods",
-  props: {
-    certificates: []
+  props: {},
+  computed: {
+    ...mapGetters({
+      certificates: "getStudentCertificates"
+    })
   }
 }
 </script>

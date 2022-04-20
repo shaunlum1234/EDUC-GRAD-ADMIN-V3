@@ -365,6 +365,7 @@ export default {
       schoolAtGraduationInputWarning:false,
       schoolAtGraduationFound: false,
       editedGradStatus: {},
+      disableInput:false,
       gradeOptions: [
         { text: "08", value: "8" },
         { text: "09", value: "9" },

@@ -32,11 +32,16 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
   export default {
     name: "GraduationReports",
-    props: {
-      reports: [],
-      transcripts: []
+    props: {},
+    computed: {
+      ...mapGetters({
+        reports: "getStudentReports",
+        transcripts: "getStudentTranscripts"
+      })
     }
   }
 </script>
