@@ -266,6 +266,7 @@
 <script>
 import { mapGetters } from "vuex";
 import SchoolService from "@/services/SchoolService.js";
+import StudentService from "@/services/StudentService.js";
 
 export default {
   name: "GraduationStatus",
@@ -285,6 +286,16 @@ export default {
   })
   },
   methods: {
+    dateFormatYYYYMM(){
+      var value = this.editedGradStatus.programCompletionDate;    
+      this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})$/,"$1/$2");        
+    },
+
+    dateFormatYYYYMMDD(){
+      var value = this.editedGradStatus.programCompletionDate;    
+      this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})([\d]{2})$/,"$1/$2/$3");     
+    },
+
     editGradStatus() {
       //If the student has a programCompletionDate disable input fields
       this.schoolOfRecordWarning = false;
@@ -330,6 +341,78 @@ export default {
       this.studentUngradReason = "";   
     },
 
+    saveGraduationStatus(id) {
+      //add the user info
+      this.editedGradStatus.updatedBy = this.username;
+      this.editedGradStatus.studentID = id;
+      this.editedGradStatus.pen = this.studentPen;
+      //process the program completion date
+      if(this.editedGradStatus.programCompletionDate == ''){
+        this.editedGradStatus.programCompletionDate = null;
+      }
+      if(this.editedGradStatus.programCompletionDate != null){
+        this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("/", "-");
+        var date;
+        try{
+          date = new Date(this.editedGradStatus.programCompletionDate);
+          this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
+        }catch(error){
+          // eslint-disable-next-line
+          console.log(error);
+        }
+      }
+      if(this.editedGradStatus.schoolOfRecord == ''){
+        this.editedGradStatus.schoolOfRecord = null;
+      }
+      if(this.editedGradStatus.schoolAtGrad == ''){
+        this.editedGradStatus.schoolAtGrad = null;
+      }
+
+      StudentService.editGraduationStatus(
+        id,
+        this.token,
+        this.editedGradStatus
+      )
+      .then((response) => {
+        this.updateStatus = response.data;
+        this.studentGradStatus.pen = response.data.pen;
+        this.studentGradStatus.program = response.data.program;
+        this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
+        this.studentGradStatus.honoursStanding = response.data.honoursStanding;
+        this.studentGradStatus.gpa = response.data.gpa;
+        this.studentGradStatus.studentGrade = response.data.studentGrade;
+        this.studentGradStatus.schoolName = this.editedGradStatus.schoolName;
+        this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
+        this.studentGradStatus.schoolAtGradName = this.editedGradStatus.schoolAtGradName;
+        this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
+        this.studentGradStatus.studentStatus = response.data.studentStatus;
+        this.studentGradStatus.recalculateGradStatus = response.data.recalculateGradStatus;
+        this.studentGradStatus.updatedTimestamp = response.data.updatedTimestamp;
+        this.studentGradStatus.studentStatusName = this.getStudentStatus(
+          response.data.studentStatus
+        );         
+        this.showTop = !this.showTop;
+        this.showEdit = false;
+        //Update the student audit history
+        this.$store.dispatch("updateStudentAuditHistory");
+        this.showNotification("success", "GRAD Status Saved");
+      })
+      .catch((error) => {
+        if(this.editedGradStatus.programCompletionDate != null){
+          this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("-", "/").substring(0, 7);
+        }         
+        if(error.response.data){
+          if(error.response.data.messages){
+            this.errorMessage = error.response.data.messages[0].message;
+          }
+        }
+        this.showNotification(
+          "danger",
+          this.errorMessage
+        );
+      });
+    },
+
     getSchoolInfo(mincode, type) {
       SchoolService.getSchoolInfo(mincode, this.token)
       .then((response) => {
@@ -349,6 +432,7 @@ export default {
   data() {
     return {
       programCompletionDateRangeError:false,
+      programChangeWarning:false,
       showEdit: false,
       schoolOfRecord: "",
       schoolOfRecordStatus:"",
@@ -365,7 +449,11 @@ export default {
       schoolAtGraduationInputWarning:false,
       schoolAtGraduationFound: false,
       editedGradStatus: {},
+      studentUngradReason: "",
+      disableButton:false,
+      disableSchoolAtGrad:false,
       disableInput:false,
+      disableStudentStatus:false,
       gradeOptions: [
         { text: "08", value: "8" },
         { text: "09", value: "9" },
