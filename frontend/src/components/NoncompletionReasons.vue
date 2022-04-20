@@ -48,17 +48,11 @@
     name: "NoncompletionReasons",
     props: {
       studentGradData: Object
-      // nongradReasons: [],
-      // requirementsMet: []
       },
       ...mapGetters({
         requirementsMet: "getRequirementsMet",
         nongradReasons: "getNongradReasons"
-      }),
-    data() {
-      return {
-      }
-    }
+      })
   }
 </script>
 
