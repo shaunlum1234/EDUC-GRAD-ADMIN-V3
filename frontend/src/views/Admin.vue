@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    {{tabContent['job-1']}}
     <h2>Admin Dashboard</h2>
     <div>
       <b-card-group deck>
@@ -334,17 +333,13 @@ export default {
       //check for what
       if(!batch.details['what']){
         batch.validationMessage = "Type of batch Not Specified";
-        console.log(batch.validationMessage)
-
         return true;
       }
       //check for who
       if(!batch.details['who']){
         batch.validationMessage = "Group not specified"
-        console.log(batch.validationMessage)
         return true;
       }  
-      console.log("no errors")
       return false;
     },
     getBatchData(item){
@@ -357,6 +352,8 @@ export default {
     runTVRRUN(request, id){
         DashboardService.runTVRRUN(this.token, request).then(
         (response) => {
+           //update the admin dashboard
+          this.getAdminDashboardData();
           // eslint-disable-next-line
           console.log(response)
           this.selectedTab = 0;
@@ -366,8 +363,7 @@ export default {
             variant: 'success',
             noAutoHide: true,
           })
-          //update the admin dashboard
-          this.getAdminDashboardData();
+         
         })
         .catch((error) => {
           if(error.response.status){
@@ -386,6 +382,7 @@ export default {
         (response) => {
           // eslint-disable-next-line
           console.log(response)
+          this.getAdminDashboardData();
           this.selectedTab = 0;
           this.cancelBatchJob(id.replace("job-",""));
           this.$bvToast.toast("Batch run has completed" , {
@@ -394,7 +391,7 @@ export default {
             noAutoHide: true,
           })
           //update the admin dashboard
-          this.getAdminDashboardData();
+         
         })
         .catch((error) => {
           if(error.response.status){
@@ -414,7 +411,6 @@ export default {
           schools = this.tabContent[id].schools.map(this.getBatchData);  
           schools.pop();
           if(!schools.length){
-            console.log("no schools")
             this.validationMessage = "Please select a school."
             return
           }
@@ -423,7 +419,6 @@ export default {
           pens = this.tabContent[id].students.map(this.getBatchData);  
           pens.pop();
           if(!pens.length){
-            console.log("no students")
             this.validationMessage = "Please select a student."
             return
           }
@@ -432,11 +427,9 @@ export default {
           districtCategoryCode = this.tabContent[id]['details'].categoryCode;
           districts.pop();
           if(!districtCategoryCode){
-            console.log("no districts")
             this.validationMessage = "Please select a district category"
           }
           if(!districts.length){
-            console.log("no districts")
             this.validationMessage = "Please select a district."
             return
           }
@@ -445,7 +438,6 @@ export default {
           programs.pop();
           
           if(!programs.length){
-            console.log("no programs")
             this.validationMessage = "Please select a program."
             return
           }
@@ -454,7 +446,6 @@ export default {
       if(this.batchHasErrors(this.tabContent[id])){
         return;
       }
-      console.log(this.tabContent[id].details['what']);
       if(this.tabContent[id].details['what'] == 'REGALG'){     
         this.runREGALG(request, id)
       }else if(this.tabContent[id].details['what'] == 'TVRRUN'){     

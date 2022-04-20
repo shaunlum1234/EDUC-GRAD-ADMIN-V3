@@ -295,7 +295,6 @@ export default {
       this.$emit("cancelBatchJob",id)
     },
     addValueToTypeInBatchId(id, type, value, valueIndex){
-      console.log(value)
       this.validationMessage = "";
       if(type == "schools"){
           this.validating = true;
@@ -378,7 +377,6 @@ export default {
         if(value){
           this.$store.commit("addValueToTypeInBatchId", {id,type, value});
         }else{
-         console.log("select a program")
           this.validationMessage = "Select a program";
         }
         this.$forceUpdate();
