@@ -16,17 +16,29 @@
     <!-- GRAD Status View -->
     <div class="row px-2">
       <!-- Left Column -->
-      <div class="col-12 px-2 col-xl-4 col-lg-7">
+      <!-- <div class="col-12 px-2 col-xl-4 col-lg-7">
         <GraduationStatus></GraduationStatus>
-      </div>
+      </div> -->
       <!-- Mid Column -->
-      <div class="col-12 px-2 col-xl-4 col-lg-5">
+      <!-- <div class="col-12 px-2 col-xl-4 col-lg-5">
         <NoncompletionReasons></NoncompletionReasons>
-      </div>
+      </div> -->
       <!-- Right Column -->
-      <div class="col-12 px-2 col-xl-4 col-lg-12">
+      <!-- <div class="col-12 px-2 col-xl-4 col-lg-12">
         <GraduationReports></GraduationReports>         
         <CertificationDogwoods></CertificationDogwoods>
+      </div> -->
+      <div class="col-12 col-xl-4 col-lg-12 px-2 pb-2">
+        <GraduationStatus></GraduationStatus>
+      </div>
+      <div class="row col-12 col-xl-8 col-lg-12 px-0 m-0">
+        <div class="col-12 col-lg-6 px-2"> 
+          <NoncompletionReasons></NoncompletionReasons>
+        </div>
+        <div class="col-12 col-lg-6 px-2"> 
+          <GraduationReports></GraduationReports>         
+          <CertificationDogwoods></CertificationDogwoods>
+        </div>
       </div>
     </div>
 
