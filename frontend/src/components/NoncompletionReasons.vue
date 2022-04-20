@@ -12,12 +12,10 @@
               </ul>
             </div>
             <div v-else>
-                   
-            <b-table :items="nongradReasons" 
-              :fields='[{ key: "rule",label: "Rule", sortable: true},{key: "description",label:"Description", sortable: true}]' 
-              small
-              striped>
-
+              <b-table :items="nongradReasons" 
+                :fields='[{ key: "rule",label: "Rule", sortable: true},{key: "description",label:"Description", sortable: true}]' 
+                small
+                striped>
             </b-table> 
        
           </div>
