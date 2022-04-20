@@ -1,19 +1,20 @@
 <template>
   <div>
+    <b-overlay :show='processingBatch'>
       <div class="row">
         <div class="col-12 col-md-3">
-          <div class="mt-2">
-            <label>Run Type</label>
+          <div class="m-0">
+            <label class="font-weight-bold">Run Type</label>
             <b-form-select
               id="inline-form-select-type"
               class="mb-2 mr-sm-2 mb-sm-0"
-              :options="[{ text: 'Choose...', value: null }, 'TVRRUN', 'REGALG', 'DISTRUN']"
+              :options="[{ text: 'Choose...', value: null },{ text: 'TVRRUN', value: 'TVRRUN' },{ text: 'REGALG', value: 'REGALG' },{ text: 'DISTRUN', value: 'DISTRUN' }]"
               :value="tabContent['job-'+i].details['what']"     
               @change="editBatchJob('job-'+i,'what', $event)"       
             ></b-form-select>
           </div>
           <div class="mt-2" v-if="tabContent['job-'+i].details['what'] == 'DISTRUN'">
-            <label>Credential Type</label>
+            <label class="font-weight-bold">Credential Type</label>
             <b-form-select
                 id="inline-form-select-audience"
                 class="mb-2 mr-sm-2 mb-sm-0"
@@ -53,8 +54,8 @@
         </div>
         <div class="col-9">
 
-          <div class="mt-2 col-2">
-            <label>Group</label>
+          <div class="m-0 p-0 col-2">
+            <label class="font-weight-bold">Group</label>
             <b-form-select
                 id="inline-form-select-audience"
                 class="mb-2 mr-sm-2 mb-sm-0"
@@ -73,18 +74,18 @@
               ></b-form-select>                    
           </div>
                     
-          <div class="mt-1 col-3" v-if="tabContent['job-'+i].details['who'] == 'District'">
-            <label>District Category</label>
+          <div class="p-0 mt-3 col-3" v-if="tabContent['job-'+i].details['who'] == 'District'">
+            <label class="font-weight-bold">District Category</label>
             <b-form-select
               id="inline-form-select-type"
               class="col-12 my-2"
-              :options="[{ text: 'Choose...', value: null }, '01 Public', '02 Independent', '03 Federally Operated Band School','04 Yukon School', '09 Offshore']"
+              :options="[{ text: 'Choose...', value: null }, { text: '01 Public', value: '01' }, { text: '02 Independent', value: '02' }, { text: '03 Federally Operated Band School', value: '03' }, { text: '04 Yukon School', value: '04' },{ text: '05 Offshore', value: '05' }]"
               :value="tabContent['job-'+i].districts['categoryCode']"
               @change="editBatchJob('job-'+i,'categoryCode', $event)"
             ></b-form-select>
           </div>
           <div class="mt-1" v-if="tabContent['job-'+i].details['what'] == 'DISTRUN'">
-            <label>Copies</label>
+            <label class="font-weight-bold">Copies</label>
             <b-form-input
                 type="number"
                 id="inline-form-select-audience"
@@ -94,7 +95,7 @@
               ></b-form-input>
           </div>  
           <div class="mt-1" v-if="tabContent['job-'+i].details['what'] == 'DISTRUN'">
-            <label>Where</label>
+            <label class="font-weight-bold">Where</label>
             <b-form-select
               id="inline-form-select-type"
               class="col-12 my-2"
@@ -236,7 +237,6 @@
             </div>
           </div>
           <div class="row col-12">
-            
             <div v-if="program.value" class="col-2">{{program.value}}</div>
             <div v-if="program.programName" class="col-3">{{program.programName}}</div>
             <div v-if="program.districtName" class="col-2">{{program.districtName}}</div>
@@ -260,6 +260,7 @@
           Run Batch
         </b-button>
     </div>
+    </b-overlay>
   </div>
 </template>
 <script>
@@ -273,6 +274,7 @@ import {
 export default {
   data: function () {
     return {
+      processingBatch: false,
       validationMessage: "",
       validating: false,
       certificateTypes:[],
@@ -478,3 +480,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+  input{
+    border-radius: 0px;
+  }
+</style>
