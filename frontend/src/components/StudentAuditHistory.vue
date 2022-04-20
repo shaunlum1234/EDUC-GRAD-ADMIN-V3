@@ -4,7 +4,7 @@
     <div class="col-12" v-for="(value, index) in changeHistory.slice().reverse()" :key="value.historyID">
       <div class="row col-12 py-2" :header="studentHistory[index+1].historyID">
         <div class="col-4 border-bottom">
-          Edited by <strong>{{studentHistory[index+1].activityCode}}</strong> on<br/>
+          Activity Code: <strong>{{studentHistory[index+1].activityCode}}</strong> on<br/>
           {{studentHistory[index+1].createDate | formatTime}}
         </div>
         <div class="float-left col-8 border-bottom">
@@ -20,7 +20,7 @@
               && v.pathTo != 'recalculateGradStatus'
               ">
               <div class="w-25 float-left"> <strong>{{v.pathTo | formatSetenceCase}}</strong>:</div>
-              <div class="w-50 float-left"> {{v.lhs==null?"blank":v.lhs}} <i class="fas fa-arrow-right"></i> {{v.rhs == null?"blank":v.rhs}}</div>
+              <div class="w-50 float-left"> {{v.lhs==null?"blank":v.lhs}} <i class="fas fa-arrow-right" aria-hidden="true"></i> {{v.rhs == null?"blank":v.rhs}}</div>
         
               <div class="w-100 float-left">
                 <b-collapse :id="'collapse-' + studentHistory[index+1].historyID" class="mt-2">
@@ -57,7 +57,7 @@
               && v.pathTo != 'recalculateGradStatus'
               ">
               <div class="w-25 float-left"> <strong>{{v.pathTo | formatSetenceCase}}</strong>:</div>
-              <div class="w-50 float-left"> {{v.lhs==null?"blank":v.lhs}} <i class="fas fa-arrow-right"></i> {{v.rhs == null?"blank":v.rhs}}</div>
+              <div class="w-50 float-left"> {{v.lhs==null?"blank":v.lhs}} <i class="fas fa-arrow-right" aria-hidden="true"></i> {{v.rhs == null?"blank":v.rhs}}</div>
         
               <div class="w-100 float-left">
                 <b-collapse :id="'collapse-' + optionalProgramHistory[index+1].historyId" class="mt-2">

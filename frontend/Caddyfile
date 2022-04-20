@@ -8,7 +8,7 @@
         Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate"
         X-Content-Type-Options "nosniff"
         Strict-Transport-Security "max-age=31536000"
-        Content-Security-Policy "default-src 'self' *.devops.gov.bc.ca https://code.jquery.com/jquery-3.3.1.slim.min.js https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js https://gradstudent-api-77c02f-dev.apps.silver.devops.gov.bc.ca/*; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://use.fontawesome.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://fonts.googleapis.com http://www.w3.org https://unsplash.com https://images.unsplash.com; connect-src 'self' https://gradstudent-api-77c02f-dev.apps.silver.devops.gov.bc.ca/* https://*.apps.silver.devops.gov.bc.ca *.gov.bc.ca"
+        Content-Security-Policy "default-src 'self' *.devops.gov.bc.ca https://code.jquery.com/jquery-3.3.1.slim.min.js https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js https://gradstudent-api-77c02f-dev.apps.silver.devops.gov.bc.ca/*; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://use.fontawesome.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://fonts.googleapis.com http://www.w3.org https://unsplash.com https://images.unsplash.com; connect-src 'self' https://gradstudent-api-77c02f-dev.apps.silver.devops.gov.bc.ca/* https://*.apps.silver.devops.gov.bc.ca *.gov.bc.ca"
         Referrer-Policy "same-origin"
         Feature-Policy "fullscreen 'self'; camera 'none'; microphone 'none'"
     }
@@ -26,6 +26,9 @@
     proxy /api/v1/student/studentHistory/ {$VUE_APP_STUDENTS_API_HOST} {
         header_upstream Cookie "SMSESSION=siteminder"
     }
+    proxy /api/v1/student/studentHistory/batchid/ {$VUE_APP_STUDENTS_API_HOST} {
+        header_upstream Cookie "SMSESSION=siteminder"
+    }
     proxy /api/v1/student/studentOptionalProgramHistory/ {$VUE_APP_STUDENTS_API_HOST} {
         header_upstream Cookie "SMSESSION=siteminder"
     }
@@ -36,6 +39,9 @@
         header_upstream Cookie "SMSESSION=siteminder"
     }
     proxy /api/v1/school {$VUE_APP_TRAX_API_HOST} {
+        header_upstream Cookie "SMSESSION=siteminder"
+    }
+    proxy /api/v1/district {$VUE_APP_TRAX_API_HOST} {
         header_upstream Cookie "SMSESSION=siteminder"
     }
     proxy /api/v1/psi {$VUE_APP_TRAX_API_HOST} {
@@ -86,6 +92,13 @@
     proxy /api/v1/batch/dashboard {$VUE_APP_BATCH_GRADUATION_API_HOST} {
         header_upstream Cookie "SMSESSION=siteminder"
     }
+    proxy /api/v1/batch/dashboard/errors/ {$VUE_APP_BATCH_GRADUATION_API_HOST} {
+        header_upstream Cookie "SMSESSION=siteminder"
+    }   
+    proxy /api/v1/batch/specialrun {$VUE_APP_BATCH_GRADUATION_API_HOST} {
+        header_upstream Cookie "SMSESSION=siteminder"
+    }
+      
     errors stdout
 }
     

@@ -39,7 +39,6 @@
                   </b-button
                 >
               </div>
-              <!-- triggers="hover focus" -->
               <b-popover
                 :ref="'popover'+row.item.courseCode +
                   row.item.courseLevel + row.item.sessionDate"
@@ -52,37 +51,12 @@
                 "
                 :title="row.item.courseName"
               >
-                    <table>
-                      <!-- <tr>
-                        <td><strong>COREG ID:</strong>  {{ row.item.courseDetails.coRegID }}</td>
-                      </tr> -->
-                      <!-- <tr>
-                        <td><strong>Course Code:</strong>  {{ row.item.courseDetails.courseCode }}</td>
-                      </tr> -->
-                      <!-- <tr>
-                        <td><strong>Course Level:</strong> {{ row.item.courseDetails.courseLevel }}</td>
-                      </tr> -->
-                      <!-- <tr>                        
-                        <td><strong>Course name:</strong><br> {{ row.item.courseDetails.courseName }}</td>
-                      </tr> -->
-
-                      <tr>                        
-                        <td><strong>Language:</strong> {{ row.item.courseDetails.language }}</td>
-                      </tr>
-                      <tr>                        
-                        <td><strong>Start Date:</strong> {{ row.item.courseDetails.startDate}}</td>
-                      </tr>
-                      <tr>                        
-                        <td><strong>End Date:</strong> {{ row.item.courseDetails.endDate}}</td>
-                      </tr>                      
-                      <tr>                        
-                        <td><strong>Work Experience:</strong> {{ row.item.courseDetails.workExpFlag }}</td>
-                      </tr>
-                      <tr>                        
-                        <td><strong>Generic Course Type:</strong> {{ row.item.courseDetails.genericCourseType }}</td>
-                      </tr>
-                    </table>
-                 
+                    <div class="row py-1"><div class="col-6"><strong>Language:</strong></div><div class="col-6">{{ row.item.courseDetails.language }}</div></div>                     
+                    <div class="row py-1"><div class="col-6"><strong>Start Date:</strong></div><div class="col-6">{{ row.item.courseDetails.stardivate}}</div></div>                     
+                    <div class="row py-1"><div class="col-6"><strong>End Date:</strong></div><div class="col-6">{{ row.item.courseDetails.endDate}}</div></div>                        
+                    <div class="row py-1"><div class="col-6"><strong>Credits:</strong></div><div class="col-6">{{ row.item.courseDetails.numCredits}}</div></div>
+                    <div class="row py-1"><div class="col-6"><strong>Work Experience:</strong></div><div class="col-6">{{ row.item.courseDetails.workExpFlag }}</div></div>                   
+                    <div class="row py-1"><div class="col-6"><strong>Generic Course Type:</strong></div><div class="col-6">{{ row.item.courseDetails.genericCourseType }}</div></div>
               </b-popover>
             </div>
         </template>
@@ -95,13 +69,13 @@
             @click="row.toggleDetails"
             class="more-button"
           >
-            <i class="fas fa-sm fa-caret-down"></i>
+            <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
+            <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
           </b-btn>
         </template>
         <template #row-details="row">
           <b-card class="px-0">
             <ul>        
-                
                 <li v-if="row.item.customizedCourseName">
                   <strong>Customized Course Title:</strong> {{ row.item.customizedCourseName }}
                 </li>
@@ -126,6 +100,9 @@
                 <li v-if="row.item.metLitNumRequirement">
                   <strong>Assessment Equivalent:</strong> {{ row.item.metLitNumRequirement }}
                 </li>
+                 <li v-if="row.item.specialCase">
+                  <strong>Special case:</strong> {{ row.item.specialCase }}
+                </li>
             </ul>
           </b-card>
         </template>
@@ -142,7 +119,6 @@ export default {
   components: {
     DisplayTable: DisplayTable,
   },
-  props: {},
   computed: {
     ...mapGetters({
       courses: "getStudentCourses",
@@ -242,8 +218,6 @@ export default {
 
     };
   },
-  created() {
-  },
   methods: {
     toggle(id) {
       const index = this.opened.indexOf(id);
@@ -254,16 +228,15 @@ export default {
       }
     },
     checkForPendingUpdates() {
-      let i = 0;
-      let j = 0;
+      
       if (this.hasGradStatus) {
-        for (i = 0; i < this.courses.length; i++) {
+        for (let i = 0; i < this.courses.length; i++) {
           this.courses[i].gradReqMet = this.getProgramCode(this.courses[i]);
         }
         //check for deleted courses
-        for (i = 0; i < this.gradStatusCourses.length; i++) {
+        for (let i = 0; i < this.gradStatusCourses.length; i++) {
           let courseDeleted = true;
-          for (j = 0; j < this.courses.length; j++) {
+          for (let j = 0; j < this.courses.length; j++) {
             if (
               this.courses[j].courseCode +
                 this.courses[j].courseLevel +
@@ -286,11 +259,8 @@ export default {
         }
         if (this.gradStatusPendingUpdates.length) {
           this.$store.dispatch("setHasGradStatusPendingUpdates", true);
-          //console.log(this.gradStatusPendingUpdates);
         } else {
-          //console.log("NO CHANGES");
           this.$store.dispatch("setHasGradStatusPendingUpdates", false);
-          //  console.log(this.gradStatusPendingUpdates);
         }
       }
     },
@@ -321,7 +291,6 @@ export default {
       } else if (result[0].gradReqMet) {
         if (!this.compareCourses(result[0], course)) {
           //Course has been monified and not updated in the Grad Status Course List
-          //this.gradStatusPendingUpdates.push("world");
 
           this.gradStatusPendingUpdates.push(course.courseName + "UPDATED");
           return "TBD - Modified";

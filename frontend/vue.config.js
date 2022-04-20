@@ -48,6 +48,10 @@ module.exports = {
         target: process.env.VUE_APP_STUDENTS_API_HOST,
         changeOrigin: true,
       },
+      '/api/v1/student/studentHistory/batchid/': {
+        target: process.env.VUE_APP_STUDENTS_API_HOST,
+        changeOrigin: true,
+      },
       '/api/v1/student/studentOptionalProgramHistory/': {
         target: process.env.VUE_APP_STUDENTS_API_HOST,
         changeOrigin: true,
@@ -92,10 +96,22 @@ module.exports = {
         target: process.env.VUE_APP_TRAX_API_HOST,
         changeOrigin: true,
       },    
+      '/api/v1/district': {
+        target: process.env.VUE_APP_TRAX_API_HOST,
+        changeOrigin: true,
+      },          
       '/api/v1/batch/dashboard': {
         target: process.env.VUE_APP_BATCH_GRADUATION_API_HOST,
         changeOrigin: true,
-      }   
+      },
+      '/api/v1/batch/dashboard/errors/': {
+        target: process.env.VUE_APP_BATCH_GRADUATION_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/batch/specialrun': {
+        target: process.env.VUE_APP_BATCH_GRADUATION_API_HOST,
+        changeOrigin: true,
+      }      
     }
   },
   transpileDependencies: ['vuetify'],

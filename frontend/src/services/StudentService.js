@@ -7,7 +7,6 @@ var apiClient = axios.create({
 export default {
     getStudentByPen(pen, token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json','Access-Control-Allow-Origin': '*','Authorization': 'Bearer '+ token }
-        //console.log("TOKEN IN SERVICE getStudentByPen " + token);
         return apiClient.get('/api/v1/student/pen/' + pen,{ headers });
     },
     getStudentsByAdvancedSearch(advancedSearchInput, token){
@@ -75,6 +74,10 @@ export default {
     getStudentHistory(id, token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json','Access-Control-Allow-Origin': '*','Authorization': 'Bearer '+ token }
         return apiClient.get('/api/v1/student/studentHistory/' + id,{ headers });
+    },
+    getBatchHistory(id, page, token) {
+        const headers = { Accept: 'application/json','Content-Type': 'application/json','Access-Control-Allow-Origin': '*','Authorization': 'Bearer '+ token }
+        return apiClient.get('/api/v1/student/studentHistory/batchid/' + id + '?pageNumber=' + page,{ headers });
     },
     getStudentOptionalProgramHistory(id, token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json','Access-Control-Allow-Origin': '*','Authorization': 'Bearer '+ token }

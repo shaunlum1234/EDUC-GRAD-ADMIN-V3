@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="psi-view">
     <h1>Post Secondary Institutions</h1>
 
     <b-card no-body>
@@ -9,7 +9,7 @@
             <div class="advanced-search-form">
               <div class="row my-3">
                 <div class="advanced-search-field col-12 col-md-2">
-                  <label>PSI code</label>
+                  <label>PSI Code</label>
                   <div
                     href="#"
                     v-on:click="advancedSearchInput.psiCode.contains = !advancedSearchInput.psiCode.contains"
@@ -28,7 +28,7 @@
                   />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
-                  <label>PSI name</label>
+                  <label>PSI Name</label>
                   <div
                     href="#"
                     v-on:click="advancedSearchInput.psiName.contains = !advancedSearchInput.psiName.contains"
@@ -47,7 +47,7 @@
                   />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
-                  <label>CSL code</label>
+                  <label>CSL Code</label>
                   <div
                     href="#"
                     v-on:click="advancedSearchInput.cslCode.contains = !advancedSearchInput.cslCode.contains"
@@ -66,7 +66,7 @@
                   />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
-                  <label>Transmission mode</label>
+                  <label>Transmission Mode</label>
                   <div
                     href="#"
                     v-on:click="advancedSearchInput.transmissionMode.contains = !advancedSearchInput.transmissionMode.contains"
@@ -145,7 +145,8 @@
                   @click="row.toggleDetails"
                   class="more-button"
                 >
-                  <i class="fas fa-sm fa-caret-down"></i>
+                  <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
+                  <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
                 </b-btn>
               </template>
               <template #row-details="row">
@@ -189,7 +190,7 @@
 </template>
 
 <script>
-import PSIService from "@/services/PSIService.js";
+import TRAXService from "@/services/TRAXService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
 import { mapGetters } from "vuex";
 import sharedMethods from '../sharedMethods'
@@ -207,31 +208,61 @@ export default {
       psi: {},
       psiResults: [],
       psiFields: [
-        { key: "more", label: "" },
-        "psiCode",
-        "psiName",
-        "cslCode",
-        "psisCode",
-        "openFlag",
-        "transmissionMode",
-        "psiGrouping",
+        { key: "more", label: "",  sortable: true, },
+        {
+          key: 'psiCode',
+          label: 'PSI Code',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: 'psiName',
+          label: 'PSI Name',
+          sortable: true,
+        },
+        {
+          key: 'cslCode',
+          label: 'Csl Code',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: 'openFlag',
+          label: 'Open Flag',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
+          key: 'transmissionMode',
+          label: 'Transmission Mode',
+          sortable: true,
+        },
+        {
+          key: 'psiGrouping',
+          label: 'Psi Grouping',
+          sortable: true,
+        },
       ],
       advancedSearchInput: {
         psiCode: {
           value: "",
           contains: false,
+         
         },
         psiName: {
           value: "",
           contains: false,
+          
         },
         cslCode: {
           value: "",
           contains: false,
+          
         },
         transmissionMode: {
           value: "",
           contains: false,
+          
         },
       },
     };
@@ -263,7 +294,7 @@ export default {
       }
     },
     getAllPSI: function () {
-      PSIService.getPSI(this.token)
+      TRAXService.getPSI(this.token)
       .then((res) => {
         this.psi = res.data;
       })
@@ -293,7 +324,7 @@ export default {
         this.totalResults = ""
         this.advancedSearchLoading = false;
         this.advancedSearchMessage += "Enter at least one field to search."
-      }else if(isEmpty == false){
+      }else if(!isEmpty){
         try {
           if(this.advancedSearchInput){
             if(this.advancedSearchInput.psiCode.value != ""){
@@ -325,7 +356,7 @@ export default {
               }   
             }          
           }//if this.advanceSearchInput
-          PSIService.getPSIByAdvanceSearch(this.params,this.token)
+          TRAXService.getPSIByAdvanceSearch(this.params,this.token)
             .then((response) => {
               this.advancedSearchLoading = false;
               this.psiResults = response.data;
@@ -340,7 +371,7 @@ export default {
               // eslint-disable-next-line
               console.log('There was an error:' + error);
               this.showNotification("danger", "There was an error with the web service.");
-          });//PSIService
+          });//TRAXService
         } catch (error) {
           this.advancedSearchLoading = false;
           this.advancedSearchMessage = "Search Error" + error;
@@ -353,6 +384,10 @@ export default {
 </script>
 
 <style scoped>
+.psi-view{
+  padding-left: 25px;
+  padding-right: 25px;
+}
 .close-record {
   float: right;
 }

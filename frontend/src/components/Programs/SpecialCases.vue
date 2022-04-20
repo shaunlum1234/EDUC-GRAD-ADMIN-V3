@@ -12,19 +12,20 @@ import {
 } from "vuex";
 import DisplayTable from "@/components/DisplayTable";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
+import sharedMethods from '../../sharedMethods';
 export default {
   name: 'SpecialCases',
   components: {
     DisplayTable: DisplayTable,
   },
   created() {
+     this.showNotification = sharedMethods.showNotification; 
      ProgramManagementService.getSpecialCases(this.token)
       .then((response) => {
         this.specialCases = response.data;
       })
-      // eslint-disable-next-line no-unused-vars
       .catch((error) => {
-        //console.log('There was an error:' + error.response);
+        this.showNotification("danger", "There was an error: " + error);
       });
   },
   data: function() {

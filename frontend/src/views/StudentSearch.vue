@@ -17,10 +17,10 @@
                         ref="penSearch" v-on:keyup="keyHandler" tabindex="1" class="w-50 float-left">
                       </b-form-input>
                       <button id="search-submit" v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary ml-2 float-left">
-                        <i class="fas fa-search"></i> Search
+                        <i class="fas fa-search" aria-hidden="true"></i> Search
                       </button>
                       <button id="search-submit"  v-if="searchLoading" class=" btn btn-success ml-2 float-left">
-                        <i class="fas fa-search"></i> Search  
+                        <i class="fas fa-search" aria-hidden="true"></i> Search  
                       </button>  
                       &nbsp;&nbsp;<b-spinner v-if="searchLoading" label="Loading">Loading</b-spinner>    
                     </div>
@@ -127,15 +127,6 @@
                             tabindex="6"
                             v-on:keyup="keyHandler"
                           ></b-form-input>
-                          <!-- <b-input-group-append>
-                            <b-form-datepicker
-                              v-model="advancedSearchInput.birthdateFrom.value"
-                              button-only
-                              right
-                              locale="en-US"
-                              aria-controls="datepicker-birthdate-to"
-                            ></b-form-datepicker>
-                          </b-input-group-append> -->
                         </b-input-group>
                          <div
                         class="error"
@@ -162,16 +153,6 @@
                             tabindex="6"
                             v-on:keyup="keyHandler"
                           ></b-form-input>
-                          <!-- <b-input-group-append>
-                            <b-form-datepicker
-                              v-model="advancedSearchInput.birthdateTo.value"
-                              button-only     
-                              right
-                              locale="en-US"
-                              aria-controls="datepicker-birthdate-to"
-
-                            ></b-form-datepicker>
-                          </b-input-group-append> -->
                         </b-input-group>     
                       </div>
                     </div>
@@ -208,13 +189,7 @@
                         </div>
                         <b-input id="usual-middle-input" v-model="advancedSearchInput.usualMiddleNames.value" placeholder=""
                           v-on:keyup=" keyHandler" tabindex="9" />
-                      </div> 
-                      <!-- <div class="advanced-search-field form-group col-12 col-md-2" :class="{ 'form-group--error': $v.advancedSearchInput.mincode.value.$error }">
-                          <label class="form__label">Mincode</label>
-                          <b-input class="form__input" v-model="advancedSearchInput.mincode.value" placeholder=""
-                            v-on:keyup="keyHandler" tabindex="11" />
-                          <div class="error" v-if="!$v.advancedSearchInput.mincode.value.numeric">Field is not numeric.</div>  
-                      </div>    -->                        
+                      </div>                    
                       <div class="advanced-search-field col-12 col-md-2">
                         <label>Local ID</label>
                         <b-input id="local-id-input" v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
@@ -253,7 +228,8 @@
                           @click="row.toggleDetails"
                           class="more-button w-100"
                         >
-                          <i class="fas fa-sm fa-caret-down"></i>
+                          <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
+                          <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
                         </b-btn>            
                       </template>                  
                       <template #row-details="row">
@@ -262,7 +238,6 @@
                             <li><strong>Usual given:</strong> {{row.item.usualFirstName}}</li>
                             <li><strong>Usual middle:</strong> {{row.item.usualMiddleNames}}</li>
                             <li><strong>Usual surname:</strong> {{row.item.usualLastName}}</li>
-                            <li><strong>Mincode (PEN):</strong> {{row.item.mincode}}</li>
                           </ul>
                         </b-card>
                       </template>                               
@@ -278,7 +253,6 @@
   </div>
 </template>
 <script>
-// @ is an alias to /src
 import { mapGetters } from "vuex";
 import StudentService from "@/services/StudentService.js";
 import DisplayTable from "@/components/DisplayTable";
@@ -356,13 +330,6 @@ export default {
           editable: false,
           class: "w-1",
         },
-        // {
-        //   key: "schoolName",
-        //   label: "School (SLD)",
-        //   sortable: true,
-        //   editable: false,
-        //   class: "w-1",
-        // },
         {
           key: "program",
           label: "Program (GRAD)",
@@ -608,8 +575,6 @@ export default {
         });
       },
 
-      clearStudent: function () {},
-
       clearInput: function () {
         this.penInput = "";
         this.studentSearchResults = "";
@@ -619,7 +584,8 @@ export default {
             this.advancedSearchInput[key].contains = false;
           }
         }
-
+        this.advancedSearchInput.birthdateFrom.value = "0000-00-00";
+        this.advancedSearchInput.birthdateTo.value = "0000-00-00";
       },
       advancedSearchValidate(obj){
         //check if all inputs are empty
@@ -627,17 +593,8 @@ export default {
         let isEmpty = true;
         for (var key in obj) {
           if (obj.hasOwnProperty(key)) {
-            //console.log(obj[key])
             if (obj[key].value != "") {
               isEmpty = false;
-                // if(key == "mincode"){
-                //   contains all digits
-                //     if(obj[key].value.length >= 1 && obj[key].value.length <= 7){
-                //       obj[key].contains = true;
-                      
-                //     }
-                //   add wildcard to mincode if at least 3 digits are included      
-                // }//mincode
                 if(key == "birthdateFrom") {
                   let dateToCheck = Date.parse(obj[key].value);
                   let today = new Date();
@@ -673,6 +630,10 @@ export default {
   };
 </script>
 <style scoped>
+.studentlist{
+  padding-left: 25px;
+  padding-right: 25px;
+}
 .results-option-group{
   text-align:right;
   margin-top: 10px;
@@ -694,7 +655,6 @@ export default {
     width: 100%;
     margin-right: 9px;
     float: left;
-    /*padding-left: 25px;*/
   }
 
   h6 {
@@ -728,11 +688,6 @@ export default {
     clear: both;
     margin-top: 15px;
   }
-
-.fade-enter-active {
-  transition: opacity 0.8s;
-}
-
   .search-results-message {
     float: left;
     clear: both;

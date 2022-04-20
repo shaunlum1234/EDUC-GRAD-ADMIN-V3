@@ -28,24 +28,23 @@
                 "
                 :title="row.item.assessmentName"
               >
-                <table>
-                  <tr>
+              
+       
+                  <div>
                     <td><strong>Assessment Code:</strong> {{row.item.assessmentDetails.assessmentCode}}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Asessment Name:</strong><br> {{row.item.assessmentDetails.assessmentName}} </td>
-                  </tr>
-                  <tr>
-                    <td><strong>Language:</strong> {{row.item.assessmentDetails.language}}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Start Date:</strong> {{row.item.assessmentDetails.startDate}}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>End Date:</strong> {{row.item.assessmentDetails.endDate}}</td>
-                  </tr>
-                </table>
-                 
+                  </div>
+                  <div>
+                    <strong>Asessment Name:</strong><br> {{row.item.assessmentDetails.assessmentName}}
+                  </div>
+                  <div>
+                    <strong>Language:</strong> {{row.item.assessmentDetails.language}}
+                  </div>
+                  <div>
+                    <strong>Start Date:</strong> {{row.item.assessmentDetails.startDate | formatTime}}
+                  </div>
+                  <div>
+                    <strong>End Date:</strong> {{row.item.assessmentDetails.endDate | formatTime}}
+                  </div>
               </b-popover>
             </div>
         </template>
@@ -58,7 +57,9 @@
             class="more-button"
             v-if="row.item.hasMoreInfo"
           >
-            <i v-if="row.item.mincodeAssessment || row.item.mincodeAssessmentName" class="fas fa-sm fa-caret-down"></i>
+            <i v-if="row.item.mincodeAssessment || row.item.mincodeAssessmentName" class="fas fa-sm fa-caret-down" aria-hidden="true"></i>
+            <!-- <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
+            <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/> -->
           </b-btn>
         </template>
         <template #row-details="row">
@@ -144,8 +145,3 @@ export default {
 };
 </script>
 
-<style>
-.table th, .table td{
-  border-top: none !important;
-}
-</style>

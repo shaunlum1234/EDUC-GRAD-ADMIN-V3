@@ -5,17 +5,13 @@ import VueLogger from 'vuejs-logger';
 import Vuelidate from 'vuelidate';
 import * as Keycloak from 'keycloak-js';
 import router from './router';
-import BootstrapVue from 'bootstrap-vue';
-import { ToastPlugin } from 'bootstrap-vue';
+import {BootstrapVue, BootstrapVueIcons, ToastPlugin} from 'bootstrap-vue';
 import qs from 'query-string';
 import VueFilterDateParse from '@vuejs-community/vue-filter-date-parse';
 import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format';
 import store from './store/index.js';
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
-import { BootstrapVueIcons } from 'bootstrap-vue';
-
-//import 'bootstrap/dist/css/bootstrap.css'
 import '@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import '../src/assets/css/bcgov.css';
@@ -23,10 +19,7 @@ import '../src/assets/css/global.css';
 
 
 // Install BootstrapVue
-
-//import store from './store';
 import SmartTable from 'vuejs-smart-table';
-//require('../node_modules/@mygovbc-bootstrap-theme/dist/mygovbc-bootstrap-theme.min.css')
 Vue.use(Vuelidate);
 Vue.config.productionTip = false;
 const options = {
@@ -54,8 +47,7 @@ Vue.use(ToastPlugin);
 Vue.filter('formatTime', function(value) {
   if(value){
     var date = new Date(value);
-    date.toLocaleString('en-US', { timeZone: 'America/New_York' });
-    return date.toString();  
+    return date.toLocaleString();  
   }else{
     return "";
   }
@@ -82,13 +74,12 @@ Vue.filter('formatNullsToNA', function(value) {
 Vue.filter('formatSetenceCase', function(value) {
   
   const result = value.replace(/([A-Z])/g, " $1");
-  const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
-  return finalResult;
+  return result.charAt(0).toUpperCase() + result.slice(1);
+  
 });
 //keycloak init options
 let token = localStorage.getItem('jwt');
 let refreshToken = localStorage.getItem('refresh');
-
 
 let initOptions;
 //THIS should be replaced with configmap env variables from each Openshift environment.
@@ -98,12 +89,12 @@ if(window.location.host == 'dev.grad.gov.bc.ca' || window.location.host == 'loca
   //localhost and dev.grad.gov.bc.ca keycloak
   if(window.location.search == "?login=noidir"){
     initOptions = {
-      url: "https://soam-tools.apps.silver.devops.gov.bc.ca/auth", realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
+      url: "https://soam-dev.apps.silver.devops.gov.bc.ca/auth", realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
     }
   }else{
     
     initOptions = {
-      url: "https://soam-tools.apps.silver.devops.gov.bc.ca/auth", realm: 'master', clientId: 'educ-grad-school-api-service', idpHint:'IDIR', onLoad:'check-sso'
+      url: "https://soam-dev.apps.silver.devops.gov.bc.ca/auth", realm: 'master', clientId: 'educ-grad-school-api-service', idpHint:'IDIR', onLoad:'check-sso'
     }
   }
 }else{
@@ -135,19 +126,13 @@ keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIfra
         render: h => h(App)
       }).$mount('#app');
   
-  
-      // TODO: Maybe dont store the token in the localstore, rather use it direct from the keycloak.token object
       setInterval(() =>{
         keycloak.updateToken(70).success((refreshed)=>{
           if (refreshed) {
-            Vue.$log.debug('Token refreshed');
             store.dispatch("setToken",keycloak.token);
             store.dispatch("setRefreshToken",keycloak.refreshToken);
             store.dispatch("setPermissions",keycloak.tokenParsed.scope);
             store.dispatch("setUsername",keycloak.tokenParsed.name);
-            
-            
-            
           } else {
             Vue.$log.warn('Token not refreshed, valid for '
             + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
@@ -165,7 +150,6 @@ keycloak.init({ onLoad: initOptions.onLoad, token, refreshToken ,"checkLoginIfra
       }else{
         keycloak.login({idpHint:'IDIR'});
       }   
-      
     }
    
 

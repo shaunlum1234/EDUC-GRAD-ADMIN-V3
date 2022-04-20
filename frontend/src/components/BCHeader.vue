@@ -24,7 +24,7 @@
          <div class="float-right" style="margin-top: -20px"><slot></slot></div>
       </div>
     </header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary-nav burgernav">
+    <nav aria-label="Menu" class="navbar navbar-expand-lg navbar-dark bg-primary-nav burgernav">
       <button
         class="navbar-toggler collapsed"
         type="button"
@@ -36,13 +36,10 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="navbar-collapse collapse" id="navbarColor01" style="">
+      <div class="navbar-collapse collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
           <li>
             <router-link to="/">Select Student</router-link>
-            <!-- <a class="nav-link" @click="selectStudent()"
-              >Student search</a
-            > -->
           </li>
           <li>
             <router-link to="/admin-graduation-programs">Programs</router-link>
@@ -54,17 +51,13 @@
           <li><router-link to="/codes">Codes</router-link></li>
 
         </ul>
-        <!-- <div class="float:right"><slot></slot></div> -->
       </div>
     </nav>
-    <nav class="navigation-main" id="navbar">
+    <nav class="navigation-main" id="navbar" aria-label="aria-label">
       <div class="container">
         <ul>
           <li>
             <router-link to="/" id="select-student-route">Select Student</router-link>
-            <!-- <a class="nav-link" @click="selectStudent()"
-              >Student search</a
-            > -->
           </li>
           <li>
             <router-link to="/admin-graduation-programs" id="programs-route"
@@ -85,13 +78,13 @@
                 <!-- Pen Input -->
                 <div>                
                     <b-form-input maxlength=9 minlength=9 size="sm" id="search-by-pen-header" type="search" v-model="penInput" placeholder="PEN"
-                      ref="penSearch" v-on:keyup="keyHandler" class="w-50 float-left m-1">
+                      ref="penSearch" v-on:keyup="keyHandler" class="w-75 float-left m-1">
                     </b-form-input>
                     <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary float-left">
-                      <i class="fas fa-search"></i>
+                      <i class="fas fa-search" aria-hidden="true"></i>
                     </button>
                     <button v-if="searchLoading" class="btn btn-success ml-2 float-left">
-                      <i class="fas fa-search"></i>
+                      <i class="fas fa-search" aria-hidden="true"></i>
                     </button>  
                     
                 </div>
@@ -121,17 +114,10 @@ export default {
     };
   },
   created() {
-    this.showNotification = sharedMethods.showNotification
-    
+    this.loadStudent = sharedMethods.loadStudent;
+    this.showNotification = sharedMethods.showNotification    
   },
    computed: {
-     isDev(){
-       if(window.location == "dev.grad.gov.bc.ca" || window.location == "localhost:8080"){
-          return true;
-       }else{
-         return false;
-       }
-     },
     ...mapGetters({
       token: "getToken",
       roles: "getRoles",
@@ -140,8 +126,6 @@ export default {
   },
   methods: {
     logout() {
-      //LoginService.logout();
-
         if (localStorage.getItem('jwt') != null){
 
             localStorage.removeItem('jwt');
@@ -153,22 +137,6 @@ export default {
     },
     selectStudent() {
       this.$router.push("/");
-    },
-    loadStudent: function (student) {
-        this.selectedPen = student[0].pen;
-        this.selectedId = student[0].studentID;
-        let path = 'student-profile';
-        var currentRoute =  this.$route.path.split("/").slice(1)[0];
-
-        this.$router.push({
-          path: `/student-profile/${this.selectedPen}/${this.selectedId}`
-        });
-        //Used for reloading if on the same Student Profile page  
-        if(path == currentRoute){
-          location.reload();
-        }
-        
-        //this.$router.push({ name: "student-profile", params: {pen: this.selectedPen}});
     },
     findStudentByPen: function() {
       if (this.penInput) {
@@ -191,7 +159,6 @@ export default {
     },
     keyHandler: function (e) {
       if (e.keyCode === 13) {
-        //enter key pressed
         this.studentSearchResults = [];
         if (this.penInput) {
           this.findStudentByPen();
@@ -272,9 +239,6 @@ header .nav-btn {
   -webkit-box-shadow: 0 6px 8px -4px #b3b1b3;
   -moz-box-shadow: 0 6px 8px -4px #b3b1b3;
   box-shadow: 0 6px 8px -4px #b3b1b3;
-}
-
-.navigation-main {
   padding: 10px 0 10px 0;
 }
 
@@ -324,7 +288,7 @@ header .nav-btn {
   .top-search{
     position: absolute;
     top: 0px;
-    right: 123px;
+    right: 20px;
   }
   .navigation-main {
     display: block;
@@ -353,11 +317,11 @@ header .nav-btn {
     cursor: pointer;
   }
 }
-@media screen and (min-width: 768px) and (max-width: 1330px){
+/* @media screen and (min-width: 768px) and (max-width: 1330px){
   .top-search{
     right: -99px;
   }
-}
+} */
 @media screen and (min-width: 768px) and (max-width: 899px) {
   header h1 {
     font-size: calc(7px + 2.2vw);

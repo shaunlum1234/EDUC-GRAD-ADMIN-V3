@@ -1,8 +1,6 @@
 <template>
-
   <div>
     <div class="row">
-
       <div class="col-12 m-0 p-2">
         <b-card  header="Graduation Information" class="col-12 p-0" no-body v-if="studentGradStatus != 'not loaded' && !hasGradStatus">
           <b-card-body>
@@ -15,9 +13,9 @@
         </b-card>
       </div>
     </div>
-    <div class="row">
-      <!-- Left col -->  
-      <div class="col-12 pl-2 pr-0 col-md-7 ">
+    <!-- GRAD Status -->
+    <div class="row px-2">
+      <div class="col-12 px-2 col-xl-4 col-lg-7">
           <div class="graduation-status">
           <b-card
             no-body
@@ -75,12 +73,11 @@
                   <b-alert show variant="info" class="p-3 mb-1">
                     <h4 class="alert-heading">Grad Status has been updated</h4>
                     <p class="locked-message">
-                      Run the graduation algorithm (graduate student) to update the GRAD status
+                      Run the graduation algorithm - graduate student to update grad status OR reports only to update student credentials.
                     </p>
                   </b-alert>
                 </div>                                                                              
-                <!-- {{editedGradStatus}} -->
-                <table class="table  table-hover table-sm" >
+                <table  role="presentation" aria-label="edit grad status" class="table  table-hover table-sm" >
                   <tbody>
                   <tr v-if="!showEdit">
                     <td class="w-50"><strong>Program: </strong></td>
@@ -104,11 +101,11 @@
                   <tr v-if="showEdit">
                     <td v-if="editedGradStatus.program != 'SCCP'">
                       <strong>Program completion date: (YYYY/MM)</strong><br>
-                      <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                      <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                     </td>
                     <td v-if="editedGradStatus.program == 'SCCP'">
                       <strong>Program completion date: (YYYY/MM/DD)</strong><br>
-                      <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                      <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                     </td>
                     <td v-if="editedGradStatus.program != 'SCCP'"><b-input :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="7" @keyup="dateFormatYYYYMM()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                     <td v-if="editedGradStatus.program == 'SCCP'"><b-input  size="sm" type="text" maxLength="10" @keyup="dateFormatYYYYMMDD()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
@@ -166,41 +163,40 @@
                       title="School Information"
                       triggers="focus"
                       v-if="studentGradStatus.schoolOfRecord" >
-                      <table>
+                      <table role="presentation" aria-label="grad status">
                         <tbody>
-                        <tr>
-                          <td><strong>District:</strong> {{schoolOfRecord.districtName}}</td>
-                        </tr>
-                        <tr>
-                          <td><strong>School name:</strong> <br> {{schoolOfRecord.schoolName}}</td>
-                        </tr> 
+                          <tr>
+                            <td><strong>District:</strong> {{schoolOfRecord.districtName}}</td>
+                          </tr>
+                          <tr>
+                            <td><strong>School name:</strong> <br> {{schoolOfRecord.schoolName}}</td>
+                          </tr> 
+                            <tr>                        
+                            <td><strong>Status: </strong> {{ schoolOfRecord.openFlag == 'Y' ? 'Open': 'Closed' }}</td>
+                          </tr>
+                            <tr>                        
+                            <td><strong>Independent type:</strong> {{schoolOfRecord.independentDesignation}}</td>
+                          </tr>
+                            <tr>                        
+                            <td><strong>Independent affiliation:</strong> {{schoolOfRecord.independentAffiliation}}</td>
+                          </tr>
+                            <tr>                        
+                            <td><strong>Transcript eligible:</strong> {{schoolOfRecord.transcriptEligibility}}</td>
+                          </tr>
                           <tr>                        
-                          <td><strong>Status: </strong> {{ schoolOfRecord.openFlag == 'Y' ? 'Open': 'Closed' }}</td>
-                        </tr>
-                          <tr>                        
-                          <td><strong>Independent type:</strong> {{schoolOfRecord.independentDesignation}}</td>
-                        </tr>
-                          <tr>                        
-                          <td><strong>Independent affiliation:</strong> {{schoolOfRecord.independentAffiliation}}</td>
-                        </tr>
-                          <tr>                        
-                          <td><strong>Transcript eligible:</strong> {{schoolOfRecord.transcriptEligibility}}</td>
-                        </tr>
-                        <tr>                        
-                          <td><strong>Dogwood eligibility:</strong> {{schoolOfRecord.certificateEligibility}}</td>
-                        </tr>
+                            <td><strong>Dogwood eligibility:</strong> {{schoolOfRecord.certificateEligibility}}</td>
+                          </tr>
                         </tbody>
-                        
                       </table>
                     </b-popover>                       
                     </td>
                   </tr>
                   <tr v-if="showEdit">
                       <td><strong>School of record:</strong><br>
-                        <div v-if="schoolOfRecordMissing" class="form-validation-message text-warning" >School of record is empty&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                        <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >School of record entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                        <div v-if="schoolNotFoundWarning" class="form-validation-message text-danger" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                        <div v-if="schoolOfRecordInputWarning" class="form-validation-message text-danger" >Please enter at least 8 digits&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                        <div v-if="schoolOfRecordMissing" class="form-validation-message text-warning" >This School is closed, changes should be to historical activity only&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                        <div v-if="schoolOfRecordWarning" class="form-validation-message text-warning" >This School is closed, changes should be to historical activity only&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                        <div v-if="schoolNotFoundWarning" class="form-validation-message text-danger" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                        <div v-if="schoolOfRecordInputWarning" class="form-validation-message text-danger" >Please enter at least 8 digits&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                         <div v-if="schoolFound" class="form-validation-message text-success" >{{editedGradStatus.schoolName}} found.</div>                      
                       </td>
                       <td><b-input :disabled="disableInput" size="sm" type="text" maxlength="8" minength="8" v-model='editedGradStatus.schoolOfRecord'></b-input></td>                  
@@ -222,7 +218,7 @@
                       target="school-at-graduation-popover"
                       title="School Information"
                       triggers="focus">
-                      <table>
+                      <table role="presentation" aria-label="edit graduation status">
                         <tr>
                           <td><strong>District:</strong> {{schoolAtGraduation.districtName}}</td>
                         </tr>
@@ -249,16 +245,16 @@
                     </tr>    
                     <tr v-if="showEdit">
                       <td><strong>School at graduation:</strong><br>
-                      <div v-if="schoolAtGraduationWarning" class="form-validation-message text-warning" >School at graduation entered is closed&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                      <div v-if="schoolAtGradProgramCompletionDateMessage" class="form-validation-message text-danger" >If program completion date is not blank, school at graduation cannot be blank&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                      <div v-if="schoolAtGraduationNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
-                      <div v-if="schoolAtGraduationInputWarning" class="form-validation-message text-danger" >Please enter at least 8 digits&nbsp;&nbsp;<i class="fas fa-exclamation-triangle"></i></div>
+                      <div v-if="schoolAtGraduationWarning" class="form-validation-message text-warning" >Warning: This School is closed, changes should be to historical activity only&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                      <div v-if="schoolAtGradProgramCompletionDateMessage" class="form-validation-message text-danger" >If program completion date is not blank, school at graduation cannot be blank&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                      <div v-if="schoolAtGraduationNotFoundWarning" class="form-validation-message text-warning" >Invalid school entered, school does not exist on the school table&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+                      <div v-if="schoolAtGraduationInputWarning" class="form-validation-message text-danger" >Please enter at least 8 digits&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                       <div v-if="schoolAtGraduationFound" class="form-validation-message text-success" >{{editedGradStatus.schoolAtGradName}} found.</div> 
                         </td>
                       <td><b-input :disabled="disableSchoolAtGrad" size="sm" type="text" maxlength="8" v-model='editedGradStatus.schoolAtGrad'></b-input></td>        
                     </tr>        
                     <tr>
-                      <td><strong>Honours:</strong></td>
+                      <td><strong>Honours standing:</strong></td>
                       <td><span v-if="studentGradStatus.honoursStanding"> {{ studentGradStatus.honoursStanding }}</span></td>
                     </tr>
                     <tr>
@@ -266,11 +262,10 @@
                     </tr>
                     <tr>
                       <td><strong>Optional Programs</strong></td>
-                      <td >
-                         <!-- OPTIONAL PROGRAMS -->                      
+                      <td>                      
                           <ul class="p-0" v-if="optionalPrograms[0] && optionalPrograms[0].studentOptionalProgramData" id="optional-programs">
                             <li v-for="item in optionalPrograms" :key="item.optionalProgramCode">
-                              {{ item.optionalProgramName }} <br><strong> {{item.optionalProgramCompletionDate==null?'Not Completed':"Completed"}}</strong>
+                              {{ item.optionalProgramName }}
                             </li>
                           </ul>
                       </td>
@@ -281,36 +276,44 @@
             </b-card>       
           </div> 
           <!-- GRADUATION REPORTS -->
-          <div class="graduation-reports">
+          <!-- <div class="graduation-reports">
       
             <b-card
-              header="Student Reports"
+              header="Student Transcript Reports"
               no-body
             >
       
                 <b-card-text class="py-4">
-                    <div v-for="report in reports" :key="report.gradReportTypeCode" class="px-3 w-100 float-left">
-                      <a  @click="downloadPDF(report.report,'application/pdf')" href="#"  class="pdf-link float-left ">{{report.gradReportTypeLabel}} (PDF)</a> 
-                      <span class="float-right pr-3">
+                    <div v-for="report in reports" :key="report.gradReportTypeCode+report.updatedTimestamp" class="px-3 w-100 float-left">
+                      <a  @click="downloadPDF(report.report,'application/pdf')" href="#"  class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
+                      <div class="float-left col-12 pr-4 ml-1">
                           <strong>Status:</strong> {{report.documentStatusLabel}} 
                           <strong>Last Updated:</strong> {{report.updatedTimestamp}} 
                           <strong>Distributed:</strong> {{report.distributionDate}}
-                      </span>
+                      </div>
                     </div>
+                    <div v-for="transcript in transcripts" :key="transcript.id" class="px-3 w-100 float-left mt-2">
+                      <a  @click="downloadPDF(transcript.transcript,'application/pdf')" href="#"  class="pdf-link float-left ">{{transcript.transcriptTypeLabel}} (PDF)</a> 
+                      <div class="float-left col-12 pr-4 ml-1">
+                          <strong>Status:</strong> {{transcript.documentStatusLabel}} 
+                          <strong>Last Updated:</strong> {{transcript.updatedTimestamp}} 
+                          <strong>Distributed:</strong> {{transcript.distributionDate}}
+                      </div>
+                    </div>                    
                 </b-card-text>
             </b-card> 
             
-          </div>
+          </div> -->
 
           <!-- CERTIFICATION DOGWOODS -->           
-          <div class="certification-dogwoods">
+          <!-- <div class="certification-dogwoods">
             <b-card
               header="Student Certificates/Dogwoods"
               no-body
              
             >
               <b-card-text class="py-4">
-                <div v-for="certificate in certificates" :key="certificate.gradCertificateTypeCode" class="px-3 w-100 float-left">
+                <div v-for="certificate in certificates" :key="certificate.gradCertificateTypeCode+certificate.createdTimestamp" class="px-3 w-100 float-left">
                   
                   <a @click="downloadPDF(certificate.certificate,'application/pdf')" href="#"  class="pdf-link float-left ">{{certificate.gradCertificateTypeLabel}} (PDF)</a> 
                   <span class="float-right pr-3">
@@ -322,13 +325,12 @@
                 </div>
               </b-card-text>
             </b-card> 
-          </div>           
+          </div>            -->
       </div>
-      <!-- Right Column -->
-      <div class="col-12 px-2 col-md-5"> 
-
+      <!-- Mid Column -->
+      <div class="col-12 px-2 col-xl-4 col-lg-5"> 
         <div class="requirements-met-and-not-met">
-          <div class="requirements-not-met">
+          <div class="requirements-not-met pb-2">
             <b-card
               header="Noncompletion Reasons"
               class="w-100"
@@ -353,7 +355,7 @@
               </b-card-text>
             </b-card>
           </div>
-          <div class="requirements-met">
+          <div class="requirements-met pb-2">
              
             <b-card
               header="Requirements met"
@@ -365,25 +367,66 @@
                <b-table :items="requirementsMet"
                         :fields='[{ key: "rule",label: "Rule", sortable: true},{key: "description",label:"Description", sortable: true}]'   
                         small
-                        striped></b-table> 
-
-                <!-- <b-table
-                  v-if="requirementsMet"  
-                  :items="requirementsMet"
-                  small
-                  striped
-                  filter=null
-                  class="requirements-met">  
-                </b-table> -->
-                
+                        striped></b-table>                 
               </b-card-text>
             </b-card>
-           
           </div>
-
-          
-     
         </div>
+      </div>
+      <!-- Right Column -->
+      <div class="col-12 px-2 col-xl-4 col-lg-12">
+        <!-- GRADUATION REPORTS -->
+          <div class="graduation-reports pb-2">
+            <b-card
+              header="Student Transcript Reports"
+              no-body
+            >   
+              <b-card-text class="py-4">
+                <div v-if="reports">
+                  
+                  <div v-for="(report, index) in reports" :key="index" class="px-3 w-100 float-left">
+                    <a  @click="downloadPDF(report.report,'application/pdf')" href="#" class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
+                    <div class="float-left col-12 pr-4 ml-1">
+                        <strong>Status:</strong> {{report.documentStatusLabel}} 
+                        <strong>Last Updated:</strong> {{report.updatedTimestamp }} 
+                        <strong>Distributed:</strong> {{report.distributionDate | formatTime}}
+                    </div>
+                  </div>
+                </div>
+                <div v-if="transcripts">
+                  <div  v-for="transcript in transcripts" :key="transcript.id" class="px-3 w-100 float-left mt-2">
+                    <a  @click="downloadPDF(transcript.transcript,'application/pdf')" href="#"  class="pdf-link float-left ">{{transcript.transcriptTypeLabel}} (PDF)</a> 
+                    <div class="float-left col-12 pr-4 ml-1">
+                        <strong>Status:</strong> {{transcript.documentStatusLabel}} 
+                        <strong>Last Updated:</strong> {{transcript.updatedTimestamp }} 
+                        <strong>Distributed:</strong> {{transcript.distributionDate | formatTime}}
+                    </div>
+                  </div>    
+                </div>                  
+              </b-card-text>
+            </b-card>       
+          </div>
+          
+          <!-- CERTIFICATION DOGWOODS -->           
+          <div class="certification-dogwoods pb-2">
+            <b-card
+              header="Student Certificates/Dogwoods"
+              no-body            
+            >
+            <b-card-text class="py-4">
+              <div v-if="certificates">
+                <div v-for="(certificate, index) in certificates" :key="index" class="px-3 w-100 float-left">        
+                  <a @click="downloadPDF(certificate.certificate,'application/pdf')" href="#"  class="pdf-link float-left ">{{certificate.gradCertificateTypeLabel}} (PDF)</a> 
+                  <span class="float-left pr-3">
+                    <strong>Status:</strong> {{certificate.documentStatusLabel}} 
+                    <strong>Last Updated:</strong> {{certificate.createdTimestamp }}
+                    <strong>Distributed:</strong> {{certificate.distributionDate | formatTime}}
+                  </span>               
+                </div>
+              </div>
+            </b-card-text>
+            </b-card> 
+          </div> 
       </div>
     </div>
 
@@ -400,7 +443,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import GraduationCommonService from "@/services/GraduationCommonService.js";
 import GraduationService from "@/services/GraduationService.js";
 import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
@@ -408,7 +450,6 @@ import sharedMethods from '../sharedMethods';
 
 export default {
   name: "StudentGraduationStatus",
-  components: {},
   computed: {
     studentGradeChange(){
       return this.editedGradStatus.studentGrade;
@@ -447,7 +488,8 @@ export default {
       studentId: "getStudentId",
       username: "getUsername",
       certificates: "getStudentCertificates",  
-      reports: "getStudentReports"
+      reports: "getStudentReports",
+      transcripts: "getStudentTranscripts"
     }),
   },
   data() {
@@ -494,8 +536,6 @@ export default {
         { text: "11", value: "11" },
         { text: "12", value: "12" },
         { text: "HS - Homeschool", value: "HS" },
-        { text: "GA - Graduated Adult", value: "GA" },
-        { text: "SU - Secondary Ungraded", value: "SU" },
         { text: "OT - Other", value: "OT" },
         { text: "AD - Adult expected to graduate", value: "AD" },
         { text: "AN - Adult not expected to graduate", value: "AN" },     
@@ -597,8 +637,6 @@ export default {
       }
     },
     schoolOfRecordChange:function(){
-      //changed due to GRADT-25
-
       if (this.editedGradStatus.schoolOfRecord.length == ""){
         this.disableButton = true;
       }else {
@@ -815,7 +853,6 @@ export default {
         var date;
         try{
           date = new Date(this.editedGradStatus.programCompletionDate);
-//          console.log('DATE: ' + date.toISOString().split('T')[0])
           this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
         }catch(error){
           // eslint-disable-next-line
@@ -910,7 +947,6 @@ export default {
       // eslint-disable-next-line no-use-before-define
       GraduationService.graduateStudent(pen, this.token)
       .then((response) => {
-        //console.log(response.data);
         this.$store.dispatch("setStudentGradStatus", response.data);
       })
       .catch((error) => {
@@ -929,63 +965,63 @@ export default {
         var fileURL = URL.createObjectURL(file);
         window.open(fileURL);
     },
-    
-    
-    getStudentAchievementReportPDF: function () {
-      GraduationCommonService.getAchievementReport(
-        this.studentId,
-        this.token
-      )
-      .then((response) => {
-        //Create a Blob from the PDF Stream
-        const file = new Blob([response.data], {
-          type: "application/pdf",
-        });
-        //Build a URL from the file
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-          // IE
-          window.navigator.msSaveOrOpenBlob(file);
-        } else {
-          const fileURL = URL.createObjectURL(file);
-          window.open(fileURL); //Open the URL on new Window
-        }
-      })
-      // eslint-disable-next-line no-unused-vars
-      .catch((error) => {
-        //console.log('There was an error:' + error.response);
-      });
-    },
-    getStudentTranscriptPDF: function () {
-      GraduationCommonService.getStudentTranscript(
-        this.studentId,
-        this.token
-      )
-      .then((response) => {
-        //Create a Blob from the PDF Stream
-        const file = new Blob([response.data], {
-          type: "application/pdf",
-        });
-        //Build a URL from the file
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-          // IE
-          window.navigator.msSaveOrOpenBlob(file);
-        } else {
-          const fileURL = URL.createObjectURL(file);
-          window.open(fileURL); //Open the URL on new Window
-        }
-      })
-      // eslint-disable-next-line no-unused-vars
-      .catch((error) => {
-      //console.log('There was an error:' + error.response);
-      });
-    },
+    // getStudentAchievementReportPDF: function () {
+    //   GraduationCommonService.getAchievementReport(
+    //     this.studentId,
+    //     this.token
+    //   )
+    //   .then((response) => {
+    //     //Create a Blob from the PDF Stream
+    //     const file = new Blob([response.data], {
+    //       type: "application/pdf",
+    //     });
+    //     //Build a URL from the file
+    //     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    //       // IE
+    //       window.navigator.msSaveOrOpenBlob(file);
+    //     } else {
+    //       const fileURL = URL.createObjectURL(file);
+    //       window.open(fileURL); //Open the URL on new Window
+    //     }
+    //   })
+    //   // eslint-disable-next-line no-unused-vars
+    //   .catch((error) => {
+    //     //console.log('There was an error:' + error.response);
+    //   });
+    // },
+    // getStudentTranscriptPDF: function () {
+    //   GraduationCommonService.getStudentTranscript(
+    //     this.studentId,
+    //     this.token
+    //   )
+    //   .then((response) => {
+    //     //Create a Blob from the PDF Stream
+    //     const file = new Blob([response.data], {
+    //       type: "application/pdf",
+    //     });
+    //     //Build a URL from the file
+    //     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    //       // IE
+    //       window.navigator.msSaveOrOpenBlob(file);
+    //     } else {
+    //       const fileURL = URL.createObjectURL(file);
+    //       window.open(fileURL); //Open the URL on new Window
+    //     }
+    //   })
+    //   // eslint-disable-next-line no-unused-vars
+    //   .catch((error) => {
+    //   //console.log('There was an error:' + error.response);
+    //   });
+    // },
   },
 };
 </script>
 
 <style scoped>
 .pdf-link::before{
-   font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f15b";
+   font-family: "Font Awesome 5 Free", sans-serif; 
+   font-weight: 900;
+   content: "\f15b";
    padding-right:10px
 }
 .graduation-status table tr td{

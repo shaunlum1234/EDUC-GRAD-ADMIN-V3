@@ -34,6 +34,7 @@
         hasNotes: false,
         certificates: "not loaded",
         reports: "not loaded",
+        transcripts: "not loaded",
         ungradReasons: "",
         careerPrograms: [],
         auditHistory:[],
@@ -44,8 +45,45 @@
         studentStatusOptions:[],
         ungradReasons:[]
       },
+      tabs: [],
+      batchDetails: [],
+      batchAutoIncrement: 1,
+
     },
     mutations: {
+      addValueToTypeInBatchId(state, payload){
+        //validate the item
+        
+        //add a new item
+        state.batchDetails[payload['id']][payload['type']].push({})
+      },
+      addTypeToBatchId(state, payload){
+        state.batchDetails[payload['id']][payload['type']].push({})
+      },
+      addSchoolToBatch(state,payload){
+        state.batchDetails[payload].schools.push({})
+      },
+      addDistrictToBatch(state,payload){
+        state.batchDetails[payload].districts.push({})
+      },
+      addStudentToBatch(state,payload){
+        state.batchDetails[payload].students.push({})
+      },
+
+
+      //id, type, value
+      deleteValueFromTypeInBatchId(state,payload){
+        let items = state.batchDetails[payload['id']][payload['type']];
+        for( var i = 0; i < items.length; i++){    
+          if ( items[i].value === payload['value']) { 
+            items.splice(i--, 1); 
+          }
+        }
+        if(items.length == 0){
+          items.push({});
+        }
+      },
+
       setStudentAuditHistory(state, payload){
         state.student.auditHistory = payload; 
       },
@@ -67,12 +105,10 @@
       setStudentReports(state, payload){
         state.student.reports = payload;         
       },
+      setStudentTranscripts(state, payload){
+        state.student.transcripts = payload;         
+      },      
       setProgramOptions(state, payload){
-        // let programs = payload;
-        // let i=0;
-        //  for(i=0; i < programs.length; i++){
-        //    state.applicationVariables.programOptions.push({"value": programs[i].programCode, "text":programs[i].programCode});
-        //  }
         state.applicationVariables.programOptions = payload;
       },
       setStudentStatusCodesOptions(state, payload){
@@ -90,28 +126,19 @@
         state.permissions = payload;
       },
       setStudentGradStatusOptionalPrograms(state, payload) {
-      //  console.log(payload);
         state.student.optionalPrograms = payload;
-        let i = 0;
-        for (i = 0; i < state.student.optionalPrograms.length; i++) {
+        for (let i = 0; i < state.student.optionalPrograms.length; i++) {
           state.student.optionalPrograms[i].studentOptionalProgramData = JSON.parse(state.student.optionalPrograms[i].studentOptionalProgramData); 
         }
       },
       setHasGradStatusPendingUpdates(state, payload) {
-      //  console.log(payload);
           state.student.hasGradStatusPendingUpdates = payload;
       },
       setToken(state, payload) {
-        //state.token = payload;
-       // console.log("PAYLOAD" + payload);
         localStorage.setItem("jwt", payload);
         state.token = payload;
-        
       },
       setRefreshToken(state, payload) {
-        //state.token = payload;
-        //console.log("PAYLOAD" + payload);
-        
         localStorage.setItem("refresh", payload);
         state.refreshToken = payload;
       },
@@ -165,8 +192,9 @@
         state.student.hasNotes = false;
         state.student.hasGradStatus = false;
         state.student.hasgradStatusPendingUpdates = false;
-        state.student.certificates = "not loaded",
-        state.student.reports = "not loaded",
+        state.student.certificates = "not loaded";
+        state.student.reports = "not loaded";
+        state.student.transcripts = "not loaded";
         state.student.ungradReasons = "";
         state.student.careerPrograms = [];
       },
@@ -176,10 +204,58 @@
       logout(state){
         state.token ="";
         state.refreshToke ="";
-      }      
+      },        
+      addBatchJob(state,id){
+        state.batchAutoIncrement++;
+        state.tabs.push(id);
+      },
+      editBatchDetails(state,payload){
+        state.batchDetails[payload['id']]=payload['batchDetail'];
+      },
+      clearBatchDetails(state,payload){
+        state.batchDetails[payload]['details'].who="Choose...";
+        state.batchDetails[payload].schools=[{}];
+        state.batchDetails[payload].districts=[{}];
+        state.batchDetails[payload].programs=[{}];
+        state.batchDetails[payload].students=[{}];
+        state.batchDetails[payload].details['blankCertificateDetails']=[{}];
+        state.batchDetails[payload].details['blankTranscriptDetails']=[{}];
+        state.batchDetails[payload]['details'].credential="";
+        state.batchDetails[payload]['details'].categoryCode="";
+      },
+      clearBatchGroupDetails(state,payload){
+        state.batchDetails[payload].schools=[{}];
+        state.batchDetails[payload].districts=[{}];
+        state.batchDetails[payload].programs=[{}];
+        state.batchDetails[payload].students=[{}];
+      },     
+      clearBatchCredentialsDetails(state,payload){
+        state.batchDetails[payload].details['blankCertificateDetails']=[{}];
+        state.batchDetails[payload].details['blankTranscriptDetails']=[{}];
+      }            
     },
     actions: {
-      
+      validateStudentInGrad({state}, payload){
+        
+        StudentService.getStudentByPen(payload['pen'],state.token).then(
+          (response) => {
+            this.$store.commit("addValueToTypeInBatchId", payload);
+            return response;
+          }
+        ).catch((error) => {
+          // eslint-disable-next-line
+          console.log(error.response.status);
+        });
+      },
+      addStudentToBatch({commit}, payload){
+        commit('addStudentToBatch', payload);
+      },
+      addSchoolToBatch({commit}, payload){
+        commit('addSchoolToBatch', payload);
+      },
+      addDistrictToBatch({commit}, payload){
+        commit('addDistrictToBatch', payload);
+      },      
       setApplicationVariables({commit,state}) {
         ProgramManagementService.getGraduationPrograms(state.token).then(
           (response) => {
@@ -295,31 +371,6 @@
           console.log(error.response.status);
         });
       },    
-      updateStudentAuditHistory({commit,state}){
-        StudentService.getStudentHistory(state.student.profile.studentID, state.token).then(
-            (response) => {
-              commit('setStudentAuditHistory', response.data);
-            }
-        ).catch((error) => {
-          if(error.response.status){
-              // eslint-disable-next-line
-            console.log(error.response.status);
-          }
-        });
-      },
-      updateStudentOptionalProgramsAuditHistory({commit,state}){
-        StudentService.getStudentHistory(state.student.profile.studentID, state.token).then(
-            (response) => {
-              commit('setStudentAuditHistory', response.data);
-            }
-        ).catch((error) => {
-          if(error.response.status){
-              // eslint-disable-next-line
-            console.log(error.response.status);
-          }
-        });
-      },      
-      
       setStudentAuditHistory({commit}, payload){
         commit('setStudentAuditHistory', payload);
       },
@@ -334,7 +385,10 @@
       },
       setStudentReports({commit}, payload) {
         commit('setStudentReports', payload);
-      },      
+      },
+      setStudentTranscripts({commit}, payload) {
+        commit('setStudentTranscripts', payload);
+      },            
       setAdvancedSearchProps({commit}, payload) {
         commit('setAdvancedSearchProps', payload);
       },
@@ -400,7 +454,7 @@
           // eslint-disable-next-line
           console.log(error);
         });
-      }
+      },      
     },
 
     
@@ -424,6 +478,9 @@
       getStudentReports(state){
         return state.student.reports;
       },      
+      getStudentTranscripts(state){
+        return state.student.transcripts;
+      },            
       getStudentGraduationCreationAndUpdate(state){
         return {
           "createdBy" : state.student.gradStatus.createdBy,
@@ -442,8 +499,6 @@
         return state.student.profile;
       },
       getStudentFullName(state) {
-  
-
         return {
           "legalLastName": state.student.profile.legalLastName,
           "legalFirstName": state.student.profile.legalFirstName,
@@ -464,10 +519,10 @@
         return state.student.courses;
       },
       getStudentExams(state) {
-        return  state.student.exams;
+        return state.student.exams;
       },
       getStudentAssessments(state) {
-        return  state.student.assessments;
+        return state.student.assessments;
       },
       getStudentNotes(state) {
         return state.student.notes;
@@ -488,7 +543,13 @@
         return state.student.hasNotes;
       },
       gradStatusCourses(state){
-        return state.student.gradStatus.studentGradData.studentCourses.studentCourseList;
+    
+        if(state.student.gradStatus.studentGradData && state.student.gradStatus.studentGradData.studentCourses){
+          return state.student.gradStatus.studentGradData.studentCourses.studentCourseList;
+        }else {
+          return {};
+        }
+        
       },
       gradStatusAssessments(state){
         return state.student.gradStatus.studentGradData.studentAssessments.studentAssessmentList;
@@ -531,7 +592,18 @@
       },
       getStudentCareerPrograms(state){
         return state.student.careerPrograms;
-      }    
+      },
+      getTabs(state){
+        return state.tabs;
+      },
+      getBatchDetails(state){
+        return state.batchDetails;
+      },
+      getBatchCounter(state){
+          return state.batchAutoIncrement;
+      }
+
+      
         
     },
     modules: {}

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="schools-view">
     <h1>Schools</h1>
     
     <b-card no-body>
@@ -75,7 +75,8 @@
                     @click="row.toggleDetails"
                     class="more-button"
                   >
-                    <i class="fas fa-sm fa-caret-down"></i>
+                    <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
+                    <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
                   </b-btn>
                 </template>
                 <template #row-details="row">
@@ -122,32 +123,6 @@
                         </b-card-text>
                       </b-card>
                     </div>
-                    <div class="col-12 col-md-7 float-left pl-3 pr-0">
-        
-                      <!-- <div v-if="row.item.principalName">
-                          {{ row.item.signature }}        
-                          <b-card :header="'Principal: ' + row.item.principalName" class="overflow-hidden">
-                            <b-row no-gutters>
-                              <b-col md="6">
-                                <b-card-img v-if="!url" src="/img/bcid-logo-rev-en.fc4c71cf.svg"></b-card-img>
-                                <b-card-img v-if="url" :src="url"  alt="Principal Signature" class="rounded-0"></b-card-img>
-                                <div class="mt-3">Selected file: {{ file ? file.name : '' }}</div>
-                                <div class="updateImage" v-if="url" @click="updateSignature"> 
-                                  <button class="btn btn-success" v-if="updateSignature">Update</button>
-                                  <button @click="clearInput" class="btn btn-outline-primary mx-2">Cancel</button>
-                                </div>
-                              </b-col>
-                              <b-col md="6">
-                                <b-card-body title="Update/Change Signature">
-                                  <b-card-text>
-                                    <b-form-file @change="onFileChange"  v-model="file" class="mt-3" plain></b-form-file>
-                                  </b-card-text>
-                                </b-card-body>
-                              </b-col>
-                            </b-row>
-                          </b-card>
-                      </div> -->
-                    </div>
                   </b-card>
                 </template>
             </DisplayTable>
@@ -171,8 +146,7 @@ mapGetters
       DisplayTable: DisplayTable,
     },
     data() {
-      return {
-        
+      return {    
         url: null,
         file: [],
         schools: {},
@@ -285,12 +259,10 @@ mapGetters
     },
     methods: {
       keyHandler: function (e) {
-      if (e.keyCode === 13) {
-        //enter key pressed
-        this.advancedSchoolSearch();
-      }
-    },
-      updateSignature(){
+        if (e.keyCode === 13) {
+          //enter key pressed
+          this.advancedSchoolSearch();
+        }
       },
       onFileChange(e) {
         const file = e.target.files[0];
@@ -311,7 +283,7 @@ mapGetters
           this.totalResults = ""
           this.searchLoading = false;
           this.searchMessage = "Enter at least one field to search."
-        }else if(isEmpty == false){
+        }else if(!isEmpty){
           this.searchLoading = true;
           this.schools = {};
           SchoolService.searchSchools(this.search, this.token).then((res) => {
@@ -342,6 +314,10 @@ mapGetters
 </script>
 
 <style scoped>
+  .schools-view{
+    padding-left: 25px;
+    padding-right: 25px;
+  }
   .close-record {
     float: right;
   }

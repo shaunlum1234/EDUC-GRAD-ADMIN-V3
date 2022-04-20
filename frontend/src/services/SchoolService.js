@@ -7,17 +7,11 @@ const apiClient = axios.create({
 export default {
     getSchoolInfo(mincode, token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        //console.log("TOKEN IN SERVICE getStudentExams: " + token);
         return apiClient.get('/api/v1/school/' + mincode,{ headers });
     },
     getAllSchools(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        //console.log("TOKEN IN SERVICE getStudentExams: " + token);
         return apiClient.get('/api/v1/school/',{ headers });
-    },
-    searchSchoolByMincode(mincode, token){
-        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/school/' + mincode,{ headers });
     },
     searchSchools(searchInput, token) {
         

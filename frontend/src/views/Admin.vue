@@ -1,17 +1,16 @@
 <template>
   <div class="container">
     <h2>Admin Dashboard</h2>
-<SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
-<!-- Dashboard data: {{dashboardData}} -->
-<div>
+    
+    <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
+    <div>
       <b-card-group deck>
-      <b-card class="text-left m-1">
-        
+      <b-card class="text-left m-1"> 
         <b-card-text>
           <div class="row">
-            <div class="col-12">
+            <div class="col-12 col-md-12">
               <strong> Processed:</strong>
-              <h2><i class="fas fa-info-circle text-info"></i> {{processed}} / {{lastExpectedStudentsProcessed}}</h2>
+              <h2><i class="fas fa-info-circle text-info" aria-hidden="true"></i> {{processed}} / {{lastExpectedStudentsProcessed}}</h2>
               <hr>
               <strong>Last run:</strong> {{ processedLastRun }}<br>
               <strong>Last run status: {{lastRunStatus}}</strong>
@@ -22,11 +21,10 @@
       <b-card class="text-left m-1"> 
         <b-card-text>
           <div class="row">
-            <div class="col-12">
+            <div class="col-12 col-md-12">
               <strong> Errors:</strong>
-              <h2><i class="fas fa-times-circle text-danger"></i>  {{errors}} Records</h2> 
+              <h2><i class="fas fa-times-circle text-danger" aria-hidden="true"></i>  {{errors}} Records</h2> 
               <hr>
-              <!-- <a href="#">View Errors</a> -->
             </div>
           </div>
           </b-card-text>   
@@ -34,12 +32,11 @@
       <b-card class="text-left m-1">
         <b-card-text>
           <div class="row">
-            <div class="col-12">
+            <div class="col-12 col-md-12">
               <strong> Processing Time: </strong>
-                <h2><i class="fas fa-info-circle text-info"></i> {{processingTime}} hours</h2>          
+                <h2><i class="fas fa-info-circle text-info" aria-hidden="true"></i> {{processingTime}} hours</h2>          
                 <hr>
                 <strong>Timespan:</strong><br/>{{processedLastJobstartTime}} <strong>to</strong> <br/> {{processedLastJobendTime}} <br/>
-                <!-- <strong>Time Per Record:</strong> {{timePerRecord}}               -->
             </div>
           </div>
           </b-card-text>   
@@ -50,193 +47,92 @@
           <div class="row">
             <div class="col-12">
               <strong>Expected: </strong>
-                <h2><i class="fas fa-info-circle text-info"></i> {{expected}} Records</h2>          
+                <h2><i class="fas fa-info-circle text-info" aria-hidden="true"></i> {{expected}} Records</h2>          
                 <hr>
-              <strong>Next Run:</strong> Today at 6:00PM
             </div>
           </div>
           </b-card-text>   
       </b-card>                                   
     </b-card-group>
   <div class="mt-2 row">
-  <div class="col-8 float-left p-0">
-    <div>
+  <div class="col-12 float-left p-0">
+    <div ref="top">
       <b-card no-body>
         <b-tabs v-model="selectedTab" active card >
           <b-tab title="Job/Runs">
-            <b-card-text>
-              <DisplayTable title="Job/Runs" v-bind:items="batchInfoListData"
-                v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
-               >
-                <!-- <template #cell(updateDate)="data">
-                   {{data.item.updateDate|formatTime}})
-                </template>    -->
-               
-              </DisplayTable>
-                <!-- <b-table small striped :items="jobs" :fields="jobFields" :tbody-tr-class="rowClass">
-                 <template #cell(view)="data">
-                  <div>
-                    
-                    <b-button v-b-modal="'modal-' + data.item.id">View</b-button>
-                    
-                    <b-modal :id="'modal-' + data.item.id">
-                      <table>
-                        <tr><td>1234561</td><td>Success</td><td></td></tr>
-                        <tr><td>1234562</td><td>Failure</td><a href="#">Rerun</a></tr>
-                        <tr><td>1234563</td><td>Success</td><td></td></tr>
-                        <tr><td>1234564</td><td>Success</td><td></td></tr>
-                        <tr><td>1234565</td><td>Success</td><td></td></tr>
-                        <tr><td>1234566</td><td>Failure</td><a href="#">Rerun</a></tr>
-                        <tr><td>1234567</td><td>Success</td><td></td></tr>
-                        <tr><td>1234568</td><td>Success</td><td></td></tr>                        
-                      </table>                        
-
-                    </b-modal>
-                  </div>
-                </template>
-                <template #cell(success)="data">
-                   {{data.item.status}} ({{data.item.success}})
-                </template>   
-                <template #cell(status)="data">
-                   {{data.item.status}} <b-spinner small v-if="data.item.status=='Running'"></b-spinner>
-                </template>                                
-              </b-table> -->
-
+            <b-card-text class="row">
+              <div :class="adminSelectedBatchId || adminSelectedErrorId ? 'col-12 col-md-7':'col-12'">
+                <DisplayTable title="Job/Runs" v-bind:items="batchInfoListData"
+                  v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
+                >
+                  <template #cell(jobExecutionId)="row">
+                    <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
+                      {{row.item.jobExecutionId}}   
+                    </b-btn>
+                    <b-btn v-else disabled variant='link' size="xs">  
+                      {{row.item.jobExecutionId}}   
+                    </b-btn>                  
+                    <b-popover :target="'batch-job-id-btn'+ row.item.jobExecutionId" triggers="focus" :ref="'popover'+row.item.jobExecutionId">
+                      <template #title>Search batch job</template>
+                      <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'batch')">   
+                        All results           
+                      </b-btn>
+                    </b-popover>
+                  </template>
+                  <template #cell(failedStudentsProcessed)="row">
+                    <b-btn v-if="row.item.failedStudentsProcessed != 0" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'error')">  
+                      {{row.item.failedStudentsProcessed}}   
+                    </b-btn>  
+                    <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
+                  </template>
+                </DisplayTable>
+              </div>
+              <!-- All batch results -->
+              <div v-if="adminSelectedBatchId" v-show="isBatchShowing" class="col-12 col-md-5 float-right pl-2 pr-0">
+                <b-card bg-variant="light" :header="'Batch Job '+ this.adminSelectedBatchId" class="text-left mb-2">
+                  <b-card-text>                
+                    <BatchJobSearchResults :selectedBatchId="adminSelectedBatchId"></BatchJobSearchResults>
+                    <b-btn variant="danger" size="xs" class="float-right" @click="isBatchShowing ^= true">  
+                      Close 
+                    </b-btn> 
+                  </b-card-text>
+                </b-card>
+              </div>
+              <!-- All error results -->
+              <div v-if="adminSelectedErrorId" v-show="isErrorShowing" class="col-12 col-md-5 float-right pl-2 pr-0">
+                <b-card bg-variant="light" :header="'Batch Job Error '+ this.adminSelectedErrorId" class="text-left mb-2">
+                  <b-card-text>                   
+                    <BatchJobErrorResults :selectedErrorId="adminSelectedErrorId"></BatchJobErrorResults>
+                     <b-btn variant="danger" size="xs" class="float-right" @click="isErrorShowing ^= true">  
+                      Close 
+                    </b-btn> 
+                  </b-card-text>
+                </b-card>
+              </div>
             </b-card-text>
          </b-tab>
-          <!--  <b-tab title="Errors (32)">
-            <b-card-text>
-                      <table>
-                        <tr><td>1234561</td><td>Success</td><td></td></tr>
-                        <tr><td>1234562</td><td>Failure</td><td><a href="#">Rerun</a></td></tr>
-                        <tr><td>1234563</td><td>Success</td><td></td></tr>
-                        <tr><td>1234564</td><td>Success</td><td></td></tr>
-                        <tr><td>1234565</td><td>Success</td><td></td></tr>
-                        <tr><td>1234566</td><td>Failure</td><td><a href="#">Rerun</a></td></tr>
-                        <tr><td>1234567</td><td>Success</td><td></td></tr>
-                        <tr><td>1234568</td><td>Success</td><td></td></tr>                        
-                        <tr><td>1234561</td><td>Success</td><td></td></tr>
-                        <tr><td>1234562</td><td>Failure</td><td><a href="#">Rerun</a></td></tr>
-                        <tr><td>1234563</td><td>Success</td><td></td></tr>
-                        <tr><td>1234564</td><td>Success</td><td></td></tr>
-                        <tr><td>1234565</td><td>Success</td><td></td></tr>
-                        <tr><td>1234566</td><td>Failure</td><td><a href="#">Rerun</a></td></tr>
-                        <tr><td>1234567</td><td>Success</td><td></td></tr>
-                        <tr><td>1234568</td><td>Success</td></tr> 
-                        <tr><td>1234561</td><td>Success</td></tr>
-                        <tr><td>1234562</td><td>Failure</td><a href="#">Rerun</a></tr>
-                        <tr><td>1234563</td><td>Success</td></tr>
-                        <tr><td>1234564</td><td>Success</td></tr>
-                        <tr><td>1234565</td><td>Success</td></tr>
-                        <tr><td>1234566</td><td>Failure</td><a href="#">Rerun</a></tr>
-                        <tr><td>1234567</td><td>Success</td></tr>
-                        <tr><td>1234568</td><td>Success</td></tr>                                                 
-                      </table> 
+         
+         <b-tab v-for="i in tabs" :key="'dyn-tab-' + i" :title="'Request ' + i">
+           <BatchJobForm :i="i" @runbatch="runbatch" @cancelBatchJob="cancelBatchJob" ></BatchJobForm>
+        </b-tab>
 
-            </b-card-text>
-          </b-tab> -->
-          <!-- <b-tab title="Last Run Details" class="p-2 m-0">
-            <b-card-text>
-              <b-table small striped :items="items" :fields="fields" :tbody-tr-class="rowClass">
-                 <template #cell(view)="data">
-                  <div>
-          
-                    <b-button v-b-modal="'modal-' + data.item.id">View</b-button>
+        <!-- New Tab Button (Using tabs-end slot) -->
+        <template #tabs-end>
+          <b-nav-item role="presentation" @click.prevent="newBatchJob" href="#">+ New Request</b-nav-item>
+        </template>
 
-      
-                    <b-modal :id="'modal-' + data.item.id">
-                      <table>
-                        <tr><td>1234561</td><td>Success</td><td></td></tr>
-                        <tr><td>1234562</td><td>Failure</td><a href="#">Rerun</a></tr>
-                        <tr><td>1234563</td><td>Success</td><td></td></tr>
-                        <tr><td>1234564</td><td>Success</td><td></td></tr>
-                        <tr><td>1234565</td><td>Success</td><td></td></tr>
-                        <tr><td>1234566</td><td>Failure</td><a href="#">Rerun</a></tr>
-                        <tr><td>1234567</td><td>Success</td><td></td></tr>
-                        <tr><td>1234568</td><td>Success</td><td></td></tr>                        
-                      </table>                        
-
-                    </b-modal>
-                  </div>
-                </template>
-                <template #cell(success)="data">
-                   {{data.item.status}} ({{data.item.success}})
-                </template>                
-              </b-table>
-            </b-card-text>
-          </b-tab>
-                     -->
+        <!-- Render this if no tabs -->
+        <template #empty>
+          <div class="text-center text-muted">
+            There are no open tabs<br>
+            Open a new tab using the <strong>+</strong> button above.
+          </div>
+        </template>
         </b-tabs>
       </b-card>
     </div>    
   </div>
-    <!-- <SearchForm v-on:searchResults="displaySearchResults" searchAPI="searchSchools" :searchAPIFields="searchAPIFields"></SearchForm>
-    <DisplayTable v-if="searchResults" :items="searchResults" :fields="schoolFields" title="schoolsearch" ></DisplayTable> -->
-    <div class="col-4 float-left pl-2 pr-0">
-      <b-card bg-variant="light" header="Graduation Batch" class="text-left mb-2">
-        <b-card-text>
-          <ul>
-            <li><a @click="runbatch" href="#">Run Batch</a></li>
-          </ul>
-        </b-card-text>
-      </b-card>
-
-      <b-card bg-variant="Placeholder" header="Placeholder 1" class="text-left mb-2">
-        <b-card-text>
-          <ul>
-            <li><a @click="runbatch" href="#">Clear Logs</a></li>
-            <li><a href="#">Download Logs</a></li>
-          </ul>
-        </b-card-text>
-      </b-card>
-      <!-- <b-card bg-variant="Placeholder" header="Placeholder 2" class="text-left mb-2">
-        <b-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</b-card-text>
-      </b-card>             -->
-    </div>
-    <!-- <SearchForm v-on:searchResults="displaySearchResults" searchAPI="searchSchools" :searchAPIFields="searchAPIFields"></SearchForm>
-    <DisplayTable v-if="searchResults" :items="searchResults" :fields="schoolFields" title="schoolsearch" ></DisplayTable> -->
    </div>  
-
-
-    <!-- <b-card-group deck>
-      <b-card class="text-center m-1">
-        <b-card-text><i class="fas fa-times-circle text-danger h2"></i><h3>231/232</h3></b-card-text>
-      </b-card>
-            <b-card class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>175/175</h3></b-card-text>
-      </b-card>
-      <b-card class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>0</h3></b-card-text>
-      </b-card>
-      <b-card  class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>81/81</h3></b-card-text>
-      </b-card>
-      <b-card class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>100/100</h3></b-card-text>
-      </b-card>                                      
-    </b-card-group>
-  </div>
-  <div class="mt-3">
-    <b-card-group deck>
-      <b-card header="1986" class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>232/232</h3></b-card-text>
-      </b-card>
-            <b-card header="2018-PF" class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>175/175</h3></b-card-text>
-      </b-card>
-      <b-card header="1950" class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>0</h3></b-card-text>
-      </b-card>
-      <b-card header="SCCP" class="text-center m-1">
-        <b-card-text><i class="fas fa-check-circle text-success h2"></i><h3>81/81</h3></b-card-text>
-      </b-card>
-      <b-card header="2004-PF" class="text-center m-1">
-        <b-card-text><i class="fas fa-times-circle text-danger h2"></i><h3>100/200</h3></b-card-text>
-      </b-card> 
-    </b-card-group>
-  </div> 
-  <div>-->
-    
   </div>
 
 </div>
@@ -245,22 +141,33 @@
 
 <script>
 // @ is an alias to /src
-//import SearchForm from "@/components/SearchForm.vue"
-//import { store } from "@/store.js";
 import DashboardService from "@/services/DashboardService.js";
 import SiteMessage from "@/components/SiteMessage";
 import DisplayTable from '@/components/DisplayTable.vue';
+import BatchJobSearchResults from "@/components/BatchJobSearchResults.vue";
+import BatchJobErrorResults from "@/components/BatchJobErrorResults.vue";
+import BatchJobForm from "@/components/Dashboard/Batch.vue";
 import {
   mapGetters
 } from "vuex";
 export default {
   name: "test",
+  props: [
+    //'adminSelectedBatchId',
+  ],
   components: {
       SiteMessage: SiteMessage,
-      DisplayTable: DisplayTable
+      DisplayTable: DisplayTable,
+      BatchJobSearchResults: BatchJobSearchResults,
+      BatchJobErrorResults: BatchJobErrorResults,
+      BatchJobForm: BatchJobForm
   },
   data() {
     return {
+      validationMessage: "",
+      validating: false,
+      adminSelectedBatchId:"",
+      adminSelectedErrorId:"",
       errorOn: false,
       displayMessage: null,
       dashboardData:"",
@@ -277,8 +184,34 @@ export default {
       processedLastJobendTime:"",
       timespan: "6:00pm to 7:12pm",
       timePerRecord: "18s",
+      isErrorShowing: false,
+      isBatchShowing: false,
       batchInfoListData:[],
+      certificateTypes:[],
+      transcriptTypes:[],
       jobRunFields: [
+         {
+            key: 'jobExecutionId',
+            label: 'Job Execution ID',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          },  
+          {
+            key: 'jobType',
+            label: 'Batch Job Type Code',
+            sortable: true,
+            class: 'text-left',
+            editable: true,
+           
+          },     
+          {
+            key: 'triggerBy',
+            label: 'Batch Job Trigger',
+            sortable: true,
+            class: 'text-left',
+            editable: true
+          },       
           {
             key: 'updateDate',
             label: 'Update date',
@@ -293,27 +226,13 @@ export default {
             }
           },
           {
-            key: 'updateUser',
-            label: 'Update user',
-            sortable: true,
-            class: 'text-left',
-            editable: true,
-           
-          },    
-          {
-            key: 'triggerBy',
-            label: 'Trigger ID',
-            sortable: true,
-            class: 'text-left',
-            editable: true
-          },      
-          {
             key: 'status',
             label: 'Status',
             sortable: true,
             class: 'text-left',
             editable: true
           },
+        
           {
             key: 'expectedStudentsProcessed',
             label: 'Expected',
@@ -332,7 +251,7 @@ export default {
             key: 'failedStudentsProcessed',
             label: 'Error',
             sortable: true,
-            class: 'text-left',
+            class: 'text-center',
             editable: true
           }
 
@@ -342,7 +261,9 @@ export default {
       items: [],
       jobs: [],   
       selectedTab: 0,     
-      searchResults: [],     
+      searchResults: [], 
+      
+      
     };
     
   },
@@ -350,10 +271,27 @@ export default {
     this.getAdminDashboardData()
   },
   methods: { 
+    cancelBatchJob(id) {
+      for (let i = 0; i < this.tabs.length; i++) {
+        if (this.tabs[i] == id) {
+          this.tabs.splice(i, 1);
+          this.$store.commit("clearBatchDetails",i);
+        }
+      }
+      
+    },      
+    
+    newBatchJob() {
+      let batchDetail = { details: {what: 'what' +this.tabCounter, who: 'who'+this.tabCounter, credential: ""}, students: [{}], schools:[{}], districts: [{}], programs:[{}],blankTranscriptDetails:[{}],blankCertificateDetails:[{}]};
+      let id = "job-" + this.tabCounter;
+      this.$store.commit("editBatchDetails",  {batchDetail, id});
+      this.$store.commit("addBatchJob", this.tabCounter);
+        requestAnimationFrame(() => {
+          this.selectedTab = this.tabs.length;
+        })
+    },
     formatDate(value) {    
       return  value.toLocaleString('en-CA', { timeZone: 'PST' });
-      // value.toLocaleString('en-CA', { timeZone: 'PST' })
-      // return value;
     },
     getAdminDashboardData(){
       DashboardService.getDashboardInfo(this.token).then(
@@ -392,37 +330,103 @@ export default {
           }
       });
     },
-    runbatch(){
-      let d = new Date();
-      var today =  (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear() + " " +
-      d.getHours() + ":" + d.getMinutes();
-      this.selectedTab = 0;
-      setTimeout(() => this.jobs.splice(0, 0,{ id: "9", date: 'Less than 1 minute ago', user: "JOHN DOE", success: "N/A", status: 'Running' }), 1000);
-      setTimeout(() => this.jobs.splice(0, 1,{ id: "9", date: today, user: "JOHN DOE", success: "53/56", status: 'Complete' }), 10000);
-      setTimeout(() => this.expected=3, 10000);
-      setTimeout(() => this.timespan=0, 10000);
-      setTimeout(() => this.processed="53/56", 10000);
-      setTimeout(() => this.timePerRecord="1s", 10000);
-      // setTimeout(() => this.processingTime="8s", 10000);
-      setTimeout(() => this.timespan="6:00pm to 6:01pm", 10000);
-      setTimeout(() => this.errors=3, 10000);
-      // setTimeout(() => this.processedLastRun="Just now", 10000);    
+    checkBatchForErrors(id){
+      //check for what
+      if(!this.tabContent[id].details['what']){
+        this.validationMessage = "Type of batch Not Specified";
+        return false;
+      }
+      //check for who
+      if(!this.tabContent[id].details['who']){
+        this.validationMessage = "Group not specified"
+        return false;
+      }  
+      let type = this.tabContent[id].details['who'].toLowerCase() + "s";
+      for(const element of this.tabContent[id][type]){
+          if(element.name == "PEN not Found"){
+            this.validationMessage = element.value + " is not found. Delete this pen and run batch";
+            return true;
+          }
+      }
+      return false;
+    },
+    getBatchData(item){
+      if(item.value){
+        return item.value
+      }
+    },
+    runbatch(id){
+      if(!this.checkBatchForErrors(id)){
+        if(this.tabContent[id].details['what'] == 'REGALG'){          
+          let pens = this.tabContent[id].students.map(this.getBatchData);
+          let districts = this.tabContent[id].districts.map(this.getBatchData);
+          let programs = this.tabContent[id].programs.map(this.getBatchData);
+          let schools = this.tabContent[id].schools.map(this.getBatchData);
+          pens.pop();
+          districts.pop();
+          programs.pop();
+          schools.pop();
+  
+          let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts,"programs":programs, "validateInput": false}
+          DashboardService.runREGALG(this.token, request).then(
+          (response) => {
+            // eslint-disable-next-line
+            console.log(response.data)
+            this.selectedTab = 0;
+            this.cancelBatchJob(id.replace("job-",""));
+            this.$bvToast.toast("Batch run has completed" , {
+              title: "SUCCESS",
+              variant: 'success',
+              noAutoHide: true,
+            })
+            //update the admin dashboard
+            this.getAdminDashboardData();
+          })
+          .catch((error) => {
+            if(error.response.status){
+              this.$bvToast.toast("ERROR " + error.response.statusText, {
+                title: "ERROR" + error.response.status,
+                variant: 'danger',
+                noAutoHide: true,
+              })
+            }
+          })
+        }
+      }
     },
     displaySearchResults(value){ 
       this.searchResults = value
-    }
+    },
+    setBatchId(id, type){
+      if(type == 'batch'){
+        this.isBatchShowing = true
+        this.adminSelectedBatchId = id.toString();
+        this.$refs['popover' + id].$emit('close');
+      }
+      if (type == 'error'){
+        this.isErrorShowing = true;
+        this.adminSelectedErrorId = id.toString(); 
+      }
+      var element = this.$refs['top'];
+      var top = element.offsetTop;
+      window.scrollTo(0, top);  
+    }, 
   },
   computed:{
     results(){
       return this.searchResults;
     },
     ...mapGetters({
+      tabCounter: "getBatchCounter",
+      tabContent: "getBatchDetails",
+      tabs: "getTabs",
       token: "getToken",
       courses: "getStudentCourses",
       gradStatusCourses: "gradStatusCourses",
       studentGradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
-      gradStatusPendingUpdates: "getHasGradStatusPendingUpdates"
+      gradStatusPendingUpdates: "getHasGradStatusPendingUpdates",
+
     }),
   },
 };
@@ -439,4 +443,8 @@ h6 {
 .find {
   padding-bottom: 1rem;
 }
+.delete-button{
+  border-radius: 0px;
+}
+
 </style>

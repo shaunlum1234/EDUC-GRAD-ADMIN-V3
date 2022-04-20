@@ -9,9 +9,9 @@ export default {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token, "responseType": "arraybuffer" }
     return apiClient.get('/api/v1/graduationreports/studentreport/?studentID=' + id + '&reportType=ACHV',{ headers, responseType: 'arraybuffer'});
   },
-  getStudentTranscript(id, token) {
+  getStudentTranscripts(id, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token, "responseType": "arraybuffer" }
-    return apiClient.get('/api/v1/graduationreports/studentreport/?studentID=' + id + '&reportType=TRAN',{ headers, responseType: 'arraybuffer'});
+    return apiClient.get('/api/v1/graduationreports/studenttranscript/' + id,{ headers});
   },
   getStudentReports(id,token){
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token, "responseType": "arraybuffer" }
@@ -21,12 +21,11 @@ export default {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     return apiClient.get('/api/v1/graduationreports/studentcertificate/' + id,{ headers});
   },
-
   getCertificateTypes(token) {
       const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
       return apiClient.get('/api/v1/graduationreports/certificatetype',{ headers });
   },
-  getTranscriptsTypes(token) {
+  getTranscriptTypes(token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
     return apiClient.get('/api/v1/graduationreports/transcripttype',{ headers });
   },  

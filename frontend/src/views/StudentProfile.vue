@@ -1,22 +1,22 @@
 <template>
 
   <div class="student-profile">
-    <SiteMessage v-bind:message="this.displayMessage" v-if="displayMessage"></SiteMessage>
     <div class="row m-0 py-3">    
       <div class="px-0">   
-          <table v-if="!smallScreen" class="profile-name">
+          <table v-if="!smallScreen" class="profile-name" aria-label="student information">
             <tr>
-              <td></td>
-              <td class="align-top profile-name-header"><label>PEN</label></td>
-              <td class="align-top profile-name-header"><label>Legal surname</label></td>
-              <td class="align-top profile-name-header"><label>Legal given</label></td>
-              <td class="align-top profile-name-header"><label>Legal middle</label></td>
-              <td class="align-top profile-name-header"><label>Birthdate (yyyy-mm-dd)</label></td>
+              <th class="align-top profile-name-header" scope="col"></th>
+              <th class="align-top profile-name-header" scope="col"><label>PEN</label></th>
+              <th class="align-top profile-name-header" scope="col"><label>Legal surname</label></th>
+              <th class="align-top profile-name-header" scope="col"><label>Legal given</label></th>
+              <th class="align-top profile-name-header" scope="col"><label>Legal middle</label></th>
+              <th class="align-top profile-name-header" scope="col"><label>Birthdate (yyyy-mm-dd)</label></th>
             </tr>
             <tr>
               <td>
                 <b-button  v-b-toggle.student-accordion variant="link" v-on:click="moreStudentInfo = !moreStudentInfo">
-                  <i class='fas fa-lg fa-caret-down'></i>
+                  <img v-show="!moreStudentInfo" src="../assets/images/icon-right.svg" width="14px" aria-hidden="true" alt=""/>
+                  <img v-show="moreStudentInfo" src="../assets/images/icon-down.svg" height="8px" aria-hidden="true" alt=""/>
                 </b-button>
               </td>
               <td class="align-top profile-name-data px-0" v-if="studentFullName.pen"><strong><p class="profile-info">{{ studentFullName.pen }}</p></strong></td>
@@ -49,42 +49,47 @@
               <label>Birthdate(yyyy-mm-dd)</label>
               <h2 class="px-0">{{ studentInfo.dob }}</h2>
             </div>
+            <b-button class="text-decoration-none" v-b-toggle.student-accordion variant="link" v-on:click="moreStudentInfo = !moreStudentInfo">
+              <img v-show="!moreStudentInfo" src="../assets/images/icon-right.svg" height="14px" aria-hidden="true" alt=""/>
+              <img v-show="moreStudentInfo" src="../assets/images/icon-down.svg" height="8px" aria-hidden="true" alt=""/>
+              &nbsp;{{moreStudentInfo? 'Hide ' : 'Show '}}Student Details
+            </b-button>
           </div>
       </div>
 
       <div class="col-12 px-3">
         <b-collapse id="student-accordion" class="">
           <b-card no-body class="border-0">
-            
-              <table class="table table-sm table-striped">
-                  <tbody>
-                    <tr>
-                      <td class="px-2"><strong>Usual surname:</strong> {{studentInfo.usualLastName}}</td>
-                      <td class="px-2"><strong>Usual given:</strong> {{studentInfo.usualFirstName}} </td>
-                      <td class="px-2"><strong>Usual middle:</strong> {{studentInfo.usualMiddleNames}} </td>
-                    </tr>
-                    <tr>
-                      <td class="px-2"><strong>Gender:</strong> {{studentInfo.genderCode}}</td>
-                      <td class="px-2"><strong>True student ID:</strong> {{studentInfo.trueStudentID}}</td>
-                      <td class="px-2"><strong>Local ID:</strong> {{studentInfo.localID}}</td>
-                    </tr>
-                    <tr>     
-                      <td class="px-2"><strong>PEN Status Code:</strong> {{studentInfo.statusCode}}</td>
-                      <td class="px-2"><strong>Postal code:</strong> {{studentInfo.postalCode}}</td>
-                      <td class="px-2" v-if="studentInfo.studentStatus == 'D'"><strong>Deceased date:</strong> {{studentInfo.deceasedDate}}</td>
-                    </tr>              
-                  </tbody>
-              </table>
+            <b-table-simple striped hover small stacked="lg" role="presentation" aria-label="student details">
+              <b-tbody>
+                <b-tr>
+                  <b-td class="px-2"><strong>Usual surname:</strong> {{studentInfo.usualLastName}}</b-td>
+                  <b-td class="px-2"><strong>Usual given:</strong> {{studentInfo.usualFirstName}} </b-td>
+                  <b-td class="px-2"><strong>Usual middle:</strong> {{studentInfo.usualMiddleNames}} </b-td>
+                </b-tr>
+                <b-tr>
+                  <b-td class="px-2"><strong>Gender:</strong> {{studentInfo.genderCode}}</b-td>
+                  <b-td class="px-2"><strong>True student ID:</strong> {{studentInfo.trueStudentID}}</b-td>
+                  <b-td class="px-2"><strong>Local ID:</strong> {{studentInfo.localID}}</b-td>
+                </b-tr>
+                <b-tr>     
+                  <b-td class="px-2"><strong>PEN Status Code:</strong> {{studentInfo.statusCode}}</b-td>
+                  <b-td class="px-2"><strong>Postal code:</strong> {{studentInfo.postalCode}}</b-td>
+                  <b-td class="px-2" v-if="studentInfo.studentStatus == 'D'"><strong>Deceased date:</strong> {{studentInfo.deceasedDate}}</b-td>
+                </b-tr>
+              </b-tbody>
+            </b-table-simple>
           </b-card>
         </b-collapse>
           <div class="float-right grad-actions">
             <b-spinner v-if="tabLoading" class="px-1 my-2" ></b-spinner> 
             <b-dropdown :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right :text="smallScreen?'':'Run Graduation Algorithm'" class="m-md-2 float-right admin-gear-w-text">
               <b-dropdown-item v-on:click="graduateStudent" v-if="!studentGradStatus.programCompletionDate">Graduate Student</b-dropdown-item>
+              <b-dropdown-item v-on:click="graduateStudent" v-if="studentGradStatus.programCompletionDate && studentGradStatus.program == ('SCCP'||'NOPROG')">Graduate Student</b-dropdown-item>
               <b-dropdown-item v-if="studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Ungraduate Student</b-dropdown-item>
               <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks" v-if="studentGradStatus.program != 'SCCP'">Projected final marks</b-dropdown-item>
-              <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg" v-if="studentGradStatus.program != 'SCCP'">Projected final marks and registrations</b-dropdown-item>
+              <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks" :disabled="studentGradStatus.program == 'SCCP'">Projected final marks</b-dropdown-item>
+              <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg" :disabled="studentGradStatus.program == 'SCCP'">Projected final marks and registrations</b-dropdown-item>
                 <b-dropdown-item v-on:click="updateStudentReports">Update Student Reports</b-dropdown-item>
             </b-dropdown>
           </div>
@@ -96,14 +101,13 @@
           <b-card no-body class="p-0" >
             <b-tabs :pills="smallScreen" v-model="selectedTab" card>
                 <b-tab title="GRAD" class="grad-tab gradstatus-tabs py-4">
-                  <div class="mb-2 row">
-                    <div class="col-12 col-md-4 m-0 p-0">
-                      <b-button class="mx-2" v-on:click="gradTab ='gradStatus'" size="sm" :variant="gradTab == 'gradStatus'? 'primary':'outline-secondary'">GRAD Status</b-button>
-                      <!-- <b-button class="mr-2" :disabled="!gradCourses" v-on:click="gradTab ='gradCourses'" size="sm" :variant="gradTab == 'gradCourses'? 'primary':'outline-secondary'">Requirement Details</b-button> -->
-                      <b-button class="mr-2" :disabled="!gradCourses" v-on:click="gradTab ='gradCourses'" size="sm">Requirement Details</b-button>
-                    </div> 
-                    <div class="col-12 col-md-8 text-right"><strong>Updated:</strong> {{ studentGradStatus.updateDate|formatTime }} by {{ studentGradStatus.updateUser }}</div>
-                  </div>   
+                  <div class="mb-2 mx-1 row">
+                    <div class="col-12 col-lg-4 col-md-5 m-0 p-0">
+                      <b-button class="mr-2 my-1" v-on:click="gradTab ='gradStatus'" size="sm" :variant="gradTab == 'gradStatus'? 'primary':'outline-secondary'">GRAD Status</b-button>
+                      <b-button class="mx-0 my-1" :disabled="!gradCourses" v-on:click="gradTab ='gradCourses'" size="sm" :variant="gradTab == 'gradCourses' ? 'primary':'outline-secondary'">Requirement Details</b-button>
+                    </div>
+                    <div class="pr-0 col-12 col-lg-8 col-md-7 text-right"><strong>Updated:</strong> {{ studentGradStatus.updateDate|formatTime }} by {{ studentGradStatus.updateUser }}</div>
+                  </div>
                   <b-card-text>              
                     <StudentGraduationStatus v-if="gradTab=='gradStatus'"></StudentGraduationStatus>
                     <GRADRequirementDetails v-if="gradTab=='gradCourses'">
@@ -172,7 +176,7 @@
     <div>
       <!-- Projected Grad Status Modal -->
       <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalMarks" title="Projected Grad Status with Final Marks" centered>    
-            <b-alert variant="info" show>{{projectedGradStatus.gradMessage}}</b-alert>
+            <b-alert variant="info" show v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">{{projectedGradStatus.gradMessage}}</b-alert>
             <b-card-group deck v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">
             <b-card
               header="Requirements met"
@@ -238,7 +242,6 @@
             <b-alert variant="info" show>{{projectedGradStatus.gradMessage}}</b-alert>
 
             <b-card-group deck v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">
-            
             <b-card
               header="Requirements met"
             >
@@ -348,7 +351,6 @@
   import CourseService from "@/services/CourseService.js";
   import StudentService from "@/services/StudentService.js";
   import GraduationService from "@/services/GraduationService.js"
-  import SiteMessage from "@/components/SiteMessage";
   import GRADRequirementDetails from "@/components/GRADRequirementDetails";
   import StudentCourses from "@/components/StudentCourses";
   import StudentAssessments from "@/components/StudentAssessments";
@@ -369,7 +371,7 @@
       this.loadStudent(penFromURL, studentIdFromURL);
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
-      if (this.window.width < 960) {
+      if (this.window.width < 768) {
         this.smallScreen = true;
       }
       window.addEventListener('resize', this.handleResize);
@@ -377,7 +379,6 @@
 
     },
     components: {
-      SiteMessage: SiteMessage,
       StudentCourses: StudentCourses,
       GRADRequirementDetails: GRADRequirementDetails,
       StudentAssessments: StudentAssessments,
@@ -432,6 +433,7 @@
         studentGradStatus: "getStudentGradStatus",
         token: "getToken",
         studentId: "getStudentId",
+        studentPen: "getStudentPen",
         studentInfo: "getStudentProfile",
         studentNotes: "getStudentNotes",
         optionalPrograms: "getStudentOptionalPrograms",    
@@ -445,8 +447,6 @@
       window.removeEventListener('resize', this.handleResize);
     },
     methods: {
-      run(){
-      },
       ungraduateStudent(){
         this.tabLoading = true;
         let ungradCode = this.ungradReasonSelected;
@@ -523,7 +523,7 @@
           }
         });
         GraduationCommonService.getStudentReports(id, this.token).then(
-          (response) => {            
+          (response) => {                     
             this.$store.dispatch("setStudentReports", response.data);
           }
         ).catch((error) => {
@@ -535,31 +535,43 @@
             });
           }
         });        
+        GraduationCommonService.getStudentTranscripts(id, this.token).then(
+          (response) => {        
+            this.$store.dispatch("setStudentTranscripts", response.data);
+          }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "Service ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });                
+      },
+      reloadGradStatus(){  
+        StudentService.getGraduationStatus(this.studentId, this.token).then(
+          (res) => {
+            this.$store.dispatch("setStudentGradStatus", res.data);
+          }          
+        ).catch((error) => {
+          if(error.res.status){
+            this.$bvToast.toast("ERROR " + error.res.statusText, {
+              title: "ERROR" + error.res.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        }); 
+        this.getStudentReportsAndCertificates(this.studentId);                                        
+        this.tabLoading = false;
       },
       graduateStudent(){
         this.selectedTab = 0;
         this.tabLoading = true; 
-        GraduationService.graduateStudent(this.studentId, this.token).then((response) => {
-            if(response.data.graduationStudentRecord){
-              // use when response is updated
-              //this.$store.dispatch("setStudentGradStatus", response.data.graduationStatus);
-                StudentService.getGraduationStatus(this.studentId, this.token).then(
-                  (res) => {
-                
-                    this.$store.dispatch("setStudentGradStatus", res.data);
-                  }
-                ).catch((error) => {
-                  if(error.res.status){
-                    this.$bvToast.toast("ERROR " + error.res.statusText, {
-                      title: "ERROR" + error.res.status,
-                      variant: 'danger',
-                      noAutoHide: true,
-                    });
-                  }
-                });
-                this.getStudentReportsAndCertificates(this.studentId);                                 
-            }            
-            this.tabLoading = false; 
+        GraduationService.graduateStudent(this.studentId, this.token).then(() => {
+          this.reloadGradStatus();
+               
         }).catch((error) => {
           this.tabLoading = false; 
           if(error.response.status){
@@ -574,37 +586,33 @@
       updateStudentReports(){
         this.selectedTab = 0;
         this.tabLoading = true; 
-        GraduationService.updateStudentReports(this.studentId, this.token).then((response) => {
-            if(response.data.graduationStatus){
-
-                StudentService.getGraduationStatus(this.studentId, this.token).then(
-                  (res) => {
-                
-                    this.$store.dispatch("setStudentGradStatus", res.data);
-                    
-                  }
-                ).catch((error) => {
-                  if(error.res.status){
-                    this.$bvToast.toast("ERROR " + error.res.statusText, {
-                      title: "ERROR" + error.res.status,
-                      variant: 'danger',
-                      noAutoHide: true,
-                    });
-                  }
-                });
-                this.getStudentReportsAndCertificates(this.studentId);   
-            }            
-            this.tabLoading = false; 
-        }).catch((error) => {
-          this.tabLoading = false; 
+        GraduationService.updateStudentReports(this.studentId, this.token).then(() => {
+          this.getStudentReportsAndCertificates(this.studentId);
+          StudentService.getGraduationStatus(this.studentId, this.token).then(
+            (res) => {
+              this.$store.dispatch("setStudentGradStatus", res.data);
+            }          
+          ).catch((error) => {
+            if(error.res.status){
+              this.$bvToast.toast("ERROR " + error.res.statusText, {
+                title: "ERROR" + error.res.status,
+                variant: 'danger',
+                noAutoHide: true,
+              });
+            }
+          }); 
+          this.tabLoading= false;
+        }).catch((error) => {       
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error, {
               title: "ERROR" + error.response.status.response,
               variant: 'danger',
               noAutoHide: true,
             });
+            this.tabLoading= false;
           }
         });
+       
       },      
       projectedGradStatusWithFinalMarks(){
         this.tabLoading = true; 
@@ -789,6 +797,7 @@
             });
           }
         });
+        
 
         StudentService.getStudentHistory(studentIdFromURL, this.token).then(
             (response) => {
@@ -823,10 +832,14 @@
 </script>
 
 <style scoped>
+  .student-profile{
+    padding-left: 25px;
+    padding-right: 25px;
+  }
   .grad-actions{
     position: absolute;
     right: 0;
-    top: -50px
+    top: -100px
   }
   .profile-info{
     font-size: 29px;

@@ -25,14 +25,10 @@
         >
       </b-button-group>
     </b-button-toolbar>
-
-    <!--b-btn v-if="isAdmin && updateAllowed" v-bind:class="this.quickEdit?'btn-success':'btn-primary'" class="float-right" @click="toggleQuickEdit">Edit</b-btn-->
     <b-row>
       <b-col lg="8" class="px-0 float-left">
-        <!--b-button v-if="role=='administrator' && createAllowed" variant="success" @click="addMode = !addMode" class="float-left">{{ addMode ? "Cancel":"Add " + title}}
-        </b-button-->
       </b-col>
-      <b-col sm="12" lg="4" class="my-1 table-filter" v-if="this.showFilter">
+      <b-col sm="12" lg="4" class="my-1 table-filter p-0" v-if="this.showFilter">
         <b-form-group
           label-for="filter-input"
           label-cols-sm="3"
@@ -42,7 +38,7 @@
         >
           <b-input-group>
             <div class="filter-icon p-2 text-secondary">
-              Filter:
+              Filter: 
             </div>
             <b-form-input
               debounce="500"
@@ -104,15 +100,13 @@
                 size="sm"
                 @click="addItem"
                 class="float-left"
-                ><i class="fas fa-plus"></i> Add</b-button
+                ><i class="fas fa-plus" aria-hidden="true"></i> Add</b-button
               >
             </b-button-toolbar>
           </div>
         </b-card-text>
       </b-card>
-    </b-row>
-    <!-- Main table element -->
-     
+    </b-row>   
     <b-table
       v-if="items && items.length"
       :responsive="responsive"
@@ -180,13 +174,7 @@
           >
             Save
           </b-btn>
-          <!-- <b-btn variant="outline-primary" size="sm" @click="resetEdit">
-            Cancel
-          </b-btn> -->
         </b-button-group>
-        <!-- <b-btn v-else-if="role=='administrator'" variant="primary" size="sm" @click="edit(item)" class="square">
-          <i class="fas fa-edit"></i>
-        </b-btn> -->
       </template>
 
       <template v-for="(_, slotName) of $scopedSlots" v-slot:[slotName]="scope">
@@ -199,10 +187,6 @@
           <b-btn variant="danger" size="sm" @click="deleteItem(item)">
             Delete
           </b-btn>
-          <!-- <b-btn variant="outline-primary" size="sm" 
-          @click="cancelDelete()">
-            Cancel
-          </b-btn> -->
         </b-button-group>
 
         <b-btn
@@ -212,23 +196,9 @@
           @click="confirmDelete(item)"
           class="square"
         >
-          <i class="fas fa-lg fa-times"></i>
+          <i class="fas fa-lg fa-times" aria-hidden="true"></i>
         </b-btn>
       </template>
-      <!-- 
-      <template #cell(more)="row">
-        <b-btn variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
-          <i class="fas fa-sm fa-caret-down"></i>
-        </b-btn>
-      </template>
-
-      <template #row-details="row">
-        <b-card>
-          <ul>
-            <li v-for="(value, key, index) in row.item" :key="index">{{ key }}: {{ value }}</li>
-          </ul>
-        </b-card>
-      </template>  -->
     </b-table>
     <b-pagination
       v-if="this.totalRowz && this.pagination"
@@ -237,7 +207,6 @@
       :per-page="perPage"
       aria-controls="my-table"
     ></b-pagination>
-    <!-- Info modal -->
     <b-modal
       :id="infoModal.id"
       :title="infoModal.title"
@@ -319,7 +288,6 @@ export default {
       } else return this.totalRows;
     },
     sortOptions() {
-      // Create an options list from our fields
       return this.fields
         .filter((f) => f.sortable)
         .map((f) => {
@@ -331,21 +299,11 @@ export default {
     },
   },
   created() {
-    //      console.log(this.fields[this.fields.length-1].class);
     window.addEventListener("keyup", this.validateInput);
-    //Set up permissions from role
     this.setAdmin(this.role);
-
-    //add Default Columns for table
-    // this.fields.unshift({
-    //   key: 'more',
-    //   label: 'More'
-    // });
-
     if (this.pagination) {
       this.perPage = 25;
     }
-    //remove Columns based on permssions, create, update and delete props
     if (this.create && this.isAdmin) {
       this.createAllowed = true;
     }
@@ -365,30 +323,18 @@ export default {
         label: "Delete",
       });
     }
-
-    //this.itemToAdd = JSON.parse(JSON.stringify(this.items[0]));
     this.itemToAdd = { ...this.items[0] };
-
     for (var i = 0; i < this.fields.length; i++) {
       this.itemToAdd[this.fields[i].key] = "";
     }
-
-    // for (var i = 0; i < this.fields.length; i++) {
-    //   this.itemToAdd[this.fields[i].key] = "N/A";
-    // }
-  },
-  mounted() {
-    // Set the initial number of items
   },
   methods: {
-   
     toggleQuickEdit() {
       this.quickEdit = !this.quickEdit;
       this.resetEdit();
       if (this.quickEdit) {
         this.fields[this.fields.length - 1].class = "d-block";
         this.fields[this.fields.length - 2].class = "d-block";
-        //  console.log(this.fields[this.fields.length-1].class);
       } else {
         this.fields[this.fields.length - 1].class = "d-none";
         this.fields[this.fields.length - 2].class = "d-none";
@@ -504,7 +450,6 @@ export default {
       this.infoModal.content = "";
     },
     onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
@@ -512,18 +457,11 @@ export default {
 };
 </script>
 <style scoped>
-/*
-Media Queries
-xs (for phones - screens less than 768px wide)
-sm (for tablets - screens equal to or greater than 768px wide)
-md (for small laptops - screens equal to or greater than 992px wide)
-lg (for laptops and desktops - screens equal to or greater than 1200px
-*/
 @media (min-width: 992px) {
   .col-lg-4.table-filter {
     position: absolute;
     right: 0;
-    top: 0px;
+    top: -60px;
   }
 }
 
