@@ -42,13 +42,19 @@
 </template>
 
 <script>
+  import { mapGetters } from "vuex";
+
   export default {
     name: "NoncompletionReasons",
     props: {
-      studentGradData: Object,
-      nongradReasons: [],
-      requirementsMet: []
+      studentGradData: Object
+      // nongradReasons: [],
+      // requirementsMet: []
       },
+      ...mapGetters({
+        requirementsMet: "getRequirementsMet",
+        nongradReasons: "getNongradReasons"
+      }),
     data() {
       return {
       }

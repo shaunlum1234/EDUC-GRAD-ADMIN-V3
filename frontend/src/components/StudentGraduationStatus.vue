@@ -330,7 +330,7 @@
       <!-- Mid Column -->
       <div class="col-12 px-2 col-xl-4 col-lg-5">
         <!-- TODO: Null check -->
-        <NoncompletionReasons :student-grad-data="studentGradStatus.studentGradData" :nongrad-reasons="nongradReasons" :requirements-met="requirementsMet"></NoncompletionReasons>
+        <NoncompletionReasons :student-grad-data="studentGradStatus.studentGradData"></NoncompletionReasons>
       </div>
       <!-- Right Column -->
       <div class="col-12 px-2 col-xl-4 col-lg-12">
@@ -394,9 +394,7 @@ export default {
     ...mapGetters({
       studentGradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
-      studentGradRequirementCourses: "gradStatusCourses",
-      nongradReasons: "getNongradReasons",
-      requirementsMet: "getRequirementsMet",      
+      studentGradRequirementCourses: "gradStatusCourses",   
       studentPen: "getStudentPen",
       studentFullName: "getStudentFullName",
       token: "getToken",
