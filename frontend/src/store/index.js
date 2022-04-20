@@ -52,9 +52,6 @@
     },
     mutations: {
       addValueToTypeInBatchId(state, payload){
-        //validate the item
-        
-        //add a new item
         state.batchDetails[payload['id']][payload['type']].push({})
       },
       addTypeToBatchId(state, payload){

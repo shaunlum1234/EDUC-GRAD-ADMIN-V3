@@ -108,7 +108,7 @@ module.exports = {
         target: process.env.VUE_APP_BATCH_GRADUATION_API_HOST,
         changeOrigin: true,
       },
-      '/api/v1/batch/specialrun': {
+      '/api/v1/batch': {
         target: process.env.VUE_APP_BATCH_GRADUATION_API_HOST,
         changeOrigin: true,
       }      
