@@ -21,13 +21,19 @@
 </template>
 
 <script>
-
+import sharedMethods from '../sharedMethods';
 export default {
   name: "CertificationDogwoods",
   props: {
     certificates: []
+  },
+  methods: {
+    downloadPDF: function (data, mimeType) {
+      sharedMethods.base64ToPdfAndOpenWindow(data,mimeType)
+    },
   }
 }
+
 </script>
 
 <style scoped>
