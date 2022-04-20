@@ -89,18 +89,18 @@ if(window.location.host == 'dev.grad.gov.bc.ca' || window.location.host == 'loca
   //localhost and dev.grad.gov.bc.ca keycloak
   if(window.location.search == "?login=noidir"){
     initOptions = {
-      url: "https://soam-dev.apps.silver.devops.gov.bc.ca/auth", realm: 'master', clientId: 'educ-grad-school-api-service', onLoad:'login-required'
+      url: "https://soam-dev.apps.silver.devops.gov.bc.ca/auth", realm: 'master', clientId: 'educ-grad-api-service', onLoad:'login-required'
     }
   }else{
     
     initOptions = {
-      url: "https://soam-dev.apps.silver.devops.gov.bc.ca/auth", realm: 'master', clientId: 'educ-grad-school-api-service', idpHint:'IDIR', onLoad:'check-sso'
+      url: "https://soam-dev.apps.silver.devops.gov.bc.ca/auth", realm: 'master', clientId: 'educ-grad-api-service', idpHint:'IDIR', onLoad:'check-sso'
     }
   }
 }else{
   //test.grad.gov.bc.ca keycloak
   initOptions = {
-    url: "https://soam-dev.apps.silver.devops.gov.bc.ca/auth", realm: 'master', clientId: 'educ-grad-test-service', idpHint:'IDIR', onLoad:'check-sso'
+    url: "https://soam-test.apps.silver.devops.gov.bc.ca/auth", realm: 'master', clientId: 'educ-grad-api-service', idpHint:'IDIR', onLoad:'check-sso'
   }
 }
 

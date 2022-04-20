@@ -1,23 +1,24 @@
 <template>
   <div>
+    <b-overlay :show='processingBatch'>
       <div class="row">
         <div class="col-12 col-md-3">
-          <div class="mt-2">
-            <label>Run Type</label>
+          <div class="m-0">
+            <label class="font-weight-bold">Run Type</label>
             <b-form-select
               id="inline-form-select-type"
               class="mb-2 mr-sm-2 mb-sm-0"
-              :options="[{ text: 'Choose...', value: null }, 'TVRRUN', 'REGALG', 'DISTRUN']"
+              :options="[{ text: 'Choose...', value: null },{ text: 'TVRRUN', value: 'TVRRUN' },{ text: 'REGALG', value: 'REGALG' },{ text: 'DISTRUN', value: 'DISTRUN' }]"
               :value="tabContent['job-'+i].details['what']"     
               @change="editBatchJob('job-'+i,'what', $event)"       
             ></b-form-select>
           </div>
           <div class="mt-2" v-if="tabContent['job-'+i].details['what'] == 'DISTRUN'">
-            <label>Credential Type</label>
+            <label class="font-weight-bold">Credential Type</label>
             <b-form-select
                 id="inline-form-select-audience"
                 class="mb-2 mr-sm-2 mb-sm-0"
-                :options="[{ text: 'Choose...', value: null }, 'Blank certificate print', 'Replacement certificate - no principal signature block', 'Reprint certificate – with principal signature block', 'Blank transcript print','Transcript']"
+                :options="[{ text: 'Choose...', value: null }, 'Blank certificate print', 'Reprint certificate – no principal signature block', 'Original certificate – with principal signature block', 'Blank transcript print','Transcript']"
                 :value="tabContent['job-'+i].details['credential']"     
                 @change="editBatchJob('job-'+i,'credential', $event)"       
               ></b-form-select>
@@ -53,12 +54,12 @@
         </div>
         <div class="col-9">
 
-          <div class="mt-2">
-            <label>Group</label>
+          <div class="m-0 p-0 col-2">
+            <label class="font-weight-bold">Group</label>
             <b-form-select
                 id="inline-form-select-audience"
                 class="mb-2 mr-sm-2 mb-sm-0"
-                :options="[{ text: 'Choose...', value: null }, 'Student', 'School', 'District', 'Program']"
+                :options="[{ text: '', value: null }, 'Student', 'School', 'District', 'Program']"
                 :value="tabContent['job-'+i].details['who']"     
                 @change="editBatchJob('job-'+i,'who', $event)"  
                 v-if="tabContent['job-'+i].details['credential'] != 'Blank certificate print' && tabContent['job-'+i].details['credential'] != 'Blank transcript print' "     
@@ -66,26 +67,25 @@
               <b-form-select
                 id="inline-form-select-audience"
                 class="mb-2 mr-sm-2 mb-sm-0"
-                :options="[{ text: 'Choose...', value: null }, 'School', 'Ministry of Advanced Education']"
+                :options="[{ text: '', value: null }, 'School', 'Ministry of Advanced Education']"
                 :value="tabContent['job-'+i].details['who']"     
                 @change="editBatchJob('job-'+i,'who', $event)"       
                 v-else
               ></b-form-select>                    
           </div>
                     
-          <div class="mt-1" v-if="tabContent['job-'+i].details['who'] == 'District'">
-            <label>District Category</label>
+          <div class="p-0 mt-3 col-3" v-if="tabContent['job-'+i].details['who'] == 'District'">
+            <label class="font-weight-bold">District Category</label>
             <b-form-select
               id="inline-form-select-type"
               class="col-12 my-2"
-              :options="[{ text: 'Choose...', value: null }, '01 Public', '02 Independent', '03 Federally Operated Band School','04 Yukon School', '09 Offshore']"
+              :options="[{ text: 'Choose...', value: null }, { text: '01 Public', value: '01' }, { text: '02 Independent', value: '02' }, { text: '03 Federally Operated Band School', value: '03' }, { text: '04 Yukon School', value: '04' },{ text: '05 Offshore', value: '05' }]"
               :value="tabContent['job-'+i].districts['categoryCode']"
               @change="editBatchJob('job-'+i,'categoryCode', $event)"
             ></b-form-select>
           </div>
-
           <div class="mt-1" v-if="tabContent['job-'+i].details['what'] == 'DISTRUN'">
-            <label>Copies</label>
+            <label class="font-weight-bold">Copies</label>
             <b-form-input
                 type="number"
                 id="inline-form-select-audience"
@@ -94,6 +94,15 @@
                 @change="editBatchJob('job-'+i,'copies', $event)"       
               ></b-form-input>
           </div>  
+          <div class="mt-1" v-if="tabContent['job-'+i].details['what'] == 'DISTRUN'">
+            <label class="font-weight-bold">Where</label>
+            <b-form-select
+              id="inline-form-select-type"
+              class="col-12 my-2"
+              :options="[{ text: 'Choose...', value: null }, 'Download', 'BC Mail']"
+              @change="editBatchJob('job-'+i,'where', $event)"
+            ></b-form-select>
+          </div>          
 
       <div v-if="tabContent['job-'+i].details['who']=='District'" class="float-left col-12 px-0">
 
@@ -204,21 +213,42 @@
 
       </b-card>            
       <b-card v-if="tabContent['job-'+i].details['who']=='Program'" class="mt-3 px-0" header="Include Programs">
-        Program:
+      <b-alert v-if="validationMessage" show variant="danger">{{validationMessage}}</b-alert>
 
+      <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
+        <div class="row col-12 border-bottom mb-3">
+            <div class="col-2"><strong>Program</strong></div>
+        </div>
+        <div v-for="(program, index) in tabContent['job-' + i].programs" :key="index" class="row pl-3 mb-1">
+          <div v-if="!program.value" class="row col-12">
 
-        <b-form-checkbox-group
-          multiple
-          stacked
-          :select-size="10"
-          id="inline-form-select-audience"
-          class="mb-2 mr-sm-2 mb-sm-0"
-          :options="programOptions"
-          value-field="programCode"
-          text-field="programCode"
-          :value="tabContent['job-'+i].details['who']"     
-          @change="editBatchJob('job-'+i,'programs', $event)"      
-        ></b-form-checkbox-group>
+            <b-form-select
+              id="inline-form-select-type"
+              class="col-2"
+              :options="programOptions"
+              value-field="programCode"
+              text-field="programCode"
+              v-model="program.value"
+            ></b-form-select>
+            <div v-if="index == tabContent['job-'+i].programs.length-1" class="col-2">
+              <b-button class="btn btn-primary w-100" @click="addValueToTypeInBatchId('job-' + i,'programs',program.value,index)">
+              <b-spinner small v-if="validating"></b-spinner> Add
+              </b-button>   
+            </div>
+          </div>
+          <div class="row col-12">
+            <div v-if="program.value" class="col-2">{{program.value}}</div>
+            <div v-if="program.programName" class="col-3">{{program.programName}}</div>
+            <div v-if="program.districtName" class="col-2">{{program.districtName}}</div>
+            <div v-if="program.address" class="col-3"> {{program.address}}</div>   
+
+            <div v-if="index != tabContent['job-'+i].programs.length-1" class="col-2" ><b-button  class="btn btn-primary w-100 w-100" @click="deleteValueFromTypeInBatchId('job-' + i, 'programs',program.value)">
+              Remove
+            </b-button>
+            </div>
+          </div>
+        </div>
+
       </b-card>
       </div>       
       </div>
@@ -230,6 +260,7 @@
           Run Batch
         </b-button>
     </div>
+    </b-overlay>
   </div>
 </template>
 <script>
@@ -243,6 +274,7 @@ import {
 export default {
   data: function () {
     return {
+      processingBatch: false,
       validationMessage: "",
       validating: false,
       certificateTypes:[],
@@ -280,12 +312,12 @@ export default {
             }
             this.$forceUpdate();
             this.validating = false;  
-            
           }
         ).catch((error) => {
           // eslint-disable-next-line
           console.log(error)      
           this.validating = false;
+          this.$forceUpdate();
         });
       }
 
@@ -325,7 +357,6 @@ export default {
               this.$store.commit("addValueToTypeInBatchId", {id,type, value});
               this.$refs['districtName' + id + valueIndex][0].updateValue(response.data.districtName);        
               this.$refs['districtCity' + id + valueIndex][0].updateValue(response.data.city);        
-              
             }else{
                this.validationMessage = value + " is not a valid District"
                this.deleteValueFromTypeInBatchId(id, type, value);
@@ -333,14 +364,25 @@ export default {
             }
             this.$forceUpdate();
             this.validating = false;  
-            
           }
         ).catch((error) => {
           // eslint-disable-next-line
           console.log(error)      
           this.validating = false;
         });
-      }      
+      }   
+      if(type == "programs"){
+        this.validating = true;
+        
+        if(value){
+          this.$store.commit("addValueToTypeInBatchId", {id,type, value});
+        }else{
+          this.validationMessage = "Select a program";
+        }
+        this.$forceUpdate();
+        this.validating = false;   
+      }
+              
     },
     addTypeToBatchId(id, type){
       this.$store.commit("addTypeToBatchId", {type, id});
@@ -436,3 +478,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+  input{
+    border-radius: 0px;
+  }
+</style>
