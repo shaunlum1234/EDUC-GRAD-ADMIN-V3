@@ -175,7 +175,7 @@
     </div> 
     <div>
       <!-- Projected Grad Status Modal -->
-      <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalMarks" title="Projected Grad Status with Final Marks" centered>    
+      <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalMarks" title="Projected Grad Status with Final Marks" centered>
             <b-alert variant="info" show v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">{{projectedGradStatus.gradMessage}}</b-alert>
             <b-card-group deck v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">
             <b-card
