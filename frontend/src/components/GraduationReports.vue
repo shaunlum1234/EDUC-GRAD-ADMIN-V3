@@ -32,12 +32,18 @@
 </template>
 
 <script>
+import sharedMethods from '../sharedMethods';
   export default {
     name: "GraduationReports",
     props: {
       reports: [],
       transcripts: []
-    }
+    },
+    methods: {
+      downloadPDF: function (data, mimeType) {
+      sharedMethods.base64ToPdfAndOpenWindow(data,mimeType)
+    },
+  }
   }
 </script>
 

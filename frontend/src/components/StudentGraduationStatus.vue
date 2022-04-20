@@ -817,65 +817,6 @@ export default {
         console.log("There was an error:" + error.response);
       });
     },
-    downloadPDF (data, mimeType) {
-        var byteCharacters = atob(data);
-        var byteNumbers = new Array(byteCharacters.length);
-        for (var i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        var byteArray = new Uint8Array(byteNumbers);
-        var file = new Blob([byteArray], { type: mimeType + ';base64' });
-        var fileURL = URL.createObjectURL(file);
-        window.open(fileURL);
-    },
-    // getStudentAchievementReportPDF: function () {
-    //   GraduationCommonService.getAchievementReport(
-    //     this.studentId,
-    //     this.token
-    //   )
-    //   .then((response) => {
-    //     //Create a Blob from the PDF Stream
-    //     const file = new Blob([response.data], {
-    //       type: "application/pdf",
-    //     });
-    //     //Build a URL from the file
-    //     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-    //       // IE
-    //       window.navigator.msSaveOrOpenBlob(file);
-    //     } else {
-    //       const fileURL = URL.createObjectURL(file);
-    //       window.open(fileURL); //Open the URL on new Window
-    //     }
-    //   })
-    //   // eslint-disable-next-line no-unused-vars
-    //   .catch((error) => {
-    //     //console.log('There was an error:' + error.response);
-    //   });
-    // },
-    // getStudentTranscriptPDF: function () {
-    //   GraduationCommonService.getStudentTranscript(
-    //     this.studentId,
-    //     this.token
-    //   )
-    //   .then((response) => {
-    //     //Create a Blob from the PDF Stream
-    //     const file = new Blob([response.data], {
-    //       type: "application/pdf",
-    //     });
-    //     //Build a URL from the file
-    //     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-    //       // IE
-    //       window.navigator.msSaveOrOpenBlob(file);
-    //     } else {
-    //       const fileURL = URL.createObjectURL(file);
-    //       window.open(fileURL); //Open the URL on new Window
-    //     }
-    //   })
-    //   // eslint-disable-next-line no-unused-vars
-    //   .catch((error) => {
-    //   //console.log('There was an error:' + error.response);
-    //   });
-    // },
   },
 };
 </script>

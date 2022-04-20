@@ -151,6 +151,31 @@ import {
 } from "vuex";
 export default {
   name: "test",
+  computed:{
+    results(){
+      return this.searchResults;
+    },
+    batchInfoListDataChange(){
+      return this.batchInfoListData;
+    },
+    ...mapGetters({
+      tabCounter: "getBatchCounter",
+      tabContent: "getBatchDetails",
+      tabs: "getTabs",
+      token: "getToken",
+      courses: "getStudentCourses",
+      gradStatusCourses: "gradStatusCourses",
+      studentGradStatus: "getStudentGradStatus",
+      hasGradStatus: "studentHasGradStatus",
+      gradStatusPendingUpdates: "getHasGradStatusPendingUpdates",
+
+    }),
+  },
+  // watch:{
+  //   batchInfoListDataChange(){
+  //     return this.batchInfoListData;
+  //   }
+  // },
   props: [
     //'adminSelectedBatchId',
   ],
@@ -470,23 +495,7 @@ export default {
       window.scrollTo(0, top);  
     }, 
   },
-  computed:{
-    results(){
-      return this.searchResults;
-    },
-    ...mapGetters({
-      tabCounter: "getBatchCounter",
-      tabContent: "getBatchDetails",
-      tabs: "getTabs",
-      token: "getToken",
-      courses: "getStudentCourses",
-      gradStatusCourses: "gradStatusCourses",
-      studentGradStatus: "getStudentGradStatus",
-      hasGradStatus: "studentHasGradStatus",
-      gradStatusPendingUpdates: "getHasGradStatusPendingUpdates",
-
-    }),
-  },
+  
 };
 </script>
 <style scoped>
