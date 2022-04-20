@@ -16,7 +16,8 @@
     <!-- GRAD Status -->
     <div class="row px-2">
       <div class="col-12 px-2 col-xl-4 col-lg-7">
-          <div class="graduation-status">
+        <GraduationStatus></GraduationStatus>
+          <!-- <div class="graduation-status">
           <b-card
             no-body
             header="GRAD status"
@@ -274,7 +275,8 @@
                   </table> 
               </b-card-text>
             </b-card>       
-          </div> 
+          </div>  -->
+
       </div>
       <!-- Mid Column -->
       <div class="col-12 px-2 col-xl-4 col-lg-5">
@@ -307,13 +309,15 @@ import sharedMethods from '../sharedMethods';
 import NoncompletionReasons from "@/components/NoncompletionReasons";
 import GraduationReports from "@/components/GraduationReports";
 import CertificationDogwoods from "@/components/CertificationDogwoods";
+import GraduationStatus from "@/components/GraduationStatus";
 
 export default {
   name: "StudentGraduationStatus",
   components: {
     NoncompletionReasons: NoncompletionReasons,
     GraduationReports: GraduationReports,
-    CertificationDogwoods: CertificationDogwoods
+    CertificationDogwoods: CertificationDogwoods,
+    GraduationStatus: GraduationStatus
   },
   computed: {
     studentGradeChange(){
