@@ -275,68 +275,14 @@
               </b-card-text>
             </b-card>       
           </div> 
-          <!-- GRADUATION REPORTS -->
-          <!-- <div class="graduation-reports">
-      
-            <b-card
-              header="Student Transcript Reports"
-              no-body
-            >
-      
-                <b-card-text class="py-4">
-                    <div v-for="report in reports" :key="report.gradReportTypeCode+report.updatedTimestamp" class="px-3 w-100 float-left">
-                      <a  @click="downloadPDF(report.report,'application/pdf')" href="#"  class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
-                      <div class="float-left col-12 pr-4 ml-1">
-                          <strong>Status:</strong> {{report.documentStatusLabel}} 
-                          <strong>Last Updated:</strong> {{report.updatedTimestamp}} 
-                          <strong>Distributed:</strong> {{report.distributionDate}}
-                      </div>
-                    </div>
-                    <div v-for="transcript in transcripts" :key="transcript.id" class="px-3 w-100 float-left mt-2">
-                      <a  @click="downloadPDF(transcript.transcript,'application/pdf')" href="#"  class="pdf-link float-left ">{{transcript.transcriptTypeLabel}} (PDF)</a> 
-                      <div class="float-left col-12 pr-4 ml-1">
-                          <strong>Status:</strong> {{transcript.documentStatusLabel}} 
-                          <strong>Last Updated:</strong> {{transcript.updatedTimestamp}} 
-                          <strong>Distributed:</strong> {{transcript.distributionDate}}
-                      </div>
-                    </div>                    
-                </b-card-text>
-            </b-card> 
-            
-          </div> -->
-
-          <!-- CERTIFICATION DOGWOODS -->           
-          <!-- <div class="certification-dogwoods">
-            <b-card
-              header="Student Certificates/Dogwoods"
-              no-body
-             
-            >
-              <b-card-text class="py-4">
-                <div v-for="certificate in certificates" :key="certificate.gradCertificateTypeCode+certificate.createdTimestamp" class="px-3 w-100 float-left">
-                  
-                  <a @click="downloadPDF(certificate.certificate,'application/pdf')" href="#"  class="pdf-link float-left ">{{certificate.gradCertificateTypeLabel}} (PDF)</a> 
-                  <span class="float-right pr-3">
-                    <strong>Status:</strong> {{certificate.documentStatusLabel}} 
-                    <strong>Last Updated:</strong> {{certificate.createdTimestamp}}
-                    <strong>Distributed:</strong> {{certificate.distributionDate}}
-                  </span>
-                
-                </div>
-              </b-card-text>
-            </b-card> 
-          </div>            -->
       </div>
       <!-- Mid Column -->
       <div class="col-12 px-2 col-xl-4 col-lg-5">
-        <!-- TODO: Null check -->
         <NoncompletionReasons :student-grad-data="studentGradStatus.studentGradData"></NoncompletionReasons>
       </div>
       <!-- Right Column -->
       <div class="col-12 px-2 col-xl-4 col-lg-12">
-        <!-- GRADUATION REPORTS -->
-        <GraduationReports :reports="reports" :transcripts="transcripts"></GraduationReports>
-        <!-- CERTIFICATION DOGWOODS -->           
+        <GraduationReports :reports="reports" :transcripts="transcripts"></GraduationReports>         
         <CertificationDogwoods :certificates="certificates"></CertificationDogwoods>
       </div>
     </div>
