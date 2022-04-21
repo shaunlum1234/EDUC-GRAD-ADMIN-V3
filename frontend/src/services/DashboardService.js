@@ -36,4 +36,9 @@ export default {
       const headers = { Accept: 'application/json','Content-Type': 'application/json','Access-Control-Allow-Origin': '*','Authorization': 'Bearer '+ token }
       return apiClient.get('/api/v1/batch/dashboard/errors/' + id + '?pageNumber=' + page,{ headers });
     },
+    getBatchSummary(token) {
+      const headers = { Accept: 'application/json','Content-Type': 'application/json','Access-Control-Allow-Origin': '*','Authorization': 'Bearer '+ token }
+      return apiClient.get('/api/v1/batch/dashboard/summary',{ headers });
+    },
+    
 }

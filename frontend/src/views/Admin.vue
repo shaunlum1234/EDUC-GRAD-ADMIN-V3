@@ -2,7 +2,7 @@
   <div class="container">
     <h2>Admin Dashboard</h2>
     <div>
-      <b-card-group deck>
+      <!-- <b-card-group deck>
       <b-card class="text-left m-1"> 
         <b-card-text>
           <div class="row">
@@ -51,7 +51,7 @@
           </div>
           </b-card-text>   
       </b-card>                                   
-    </b-card-group>
+    </b-card-group> -->
   <div class="mt-2 row">
   <div class="col-12 float-left p-0">
     <div ref="top">
@@ -110,10 +110,15 @@
             </b-card-text>
          </b-tab>
          
-         <b-tab v-for="i in tabs" :key="'dyn-tab-' + i" :title="'Request ' + i">
-           <b-overlay :ref="'job-request' + i"></b-overlay>
+         <b-tab v-for="i in tabs" :key="'dyn-tab-' + i" :title="'Request ' + i" >
+          
+             <template #title>
+              <b-spinner v-show="spinner[i-1]" type="border" small></b-spinner> Request {{i}}
+              </template>
             <b-alert v-if="validationMessage" show>{{validationMessage}}</b-alert>
-           <BatchJobForm :i="i" @runbatch="runbatch" @cancelBatchJob="cancelBatchJob" ></BatchJobForm>
+            <b-overlay :show="spinner[i-1]">
+            <BatchJobForm :i="i" @runbatch="runbatch" @cancelBatchJob="cancelBatchJob" ></BatchJobForm>
+            </b-overlay>
         </b-tab>
 
         <!-- New Tab Button (Using tabs-end slot) -->
@@ -168,6 +173,7 @@ export default {
       studentGradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
       gradStatusPendingUpdates: "getHasGradStatusPendingUpdates",
+      spinner: "getBatchTabsLoading"
 
     }),
   },
@@ -306,6 +312,7 @@ export default {
     
     newBatchJob() {
       let batchDetail = { details: {what: "", who: "", credential: ""}, students: [{}], schools:[{}], districts: [{}], programs:[{}],blankTranscriptDetails:[{}],blankCertificateDetails:[{}]};
+      this.spinner[this.tabCounter-1] = false;
       let id = "job-" + this.tabCounter;
       this.$store.commit("editBatchDetails",  {batchDetail, id});
       this.$store.commit("addBatchJob", this.tabCounter);
@@ -375,14 +382,20 @@ export default {
       }
     },
     runTVRRUN(request, id){
+      this.$set(this.spinner, id.replace("job-","")-1, true)
+      let index= id.replace("job-","")-1;
+      let value = true
+      this.$store.commit("setTabLoading",{index, value});
+      
+      
         DashboardService.runTVRRUN(this.token, request).then(
         (response) => {
            //update the admin dashboard
           this.getAdminDashboardData();
           // eslint-disable-next-line
           console.log(response)
-          this.selectedTab = 0;
           this.cancelBatchJob(id.replace("job-",""));
+          this.selectedTab = 0;
           this.$bvToast.toast("Batch run has completed" , {
             title: "SUCCESS",
             variant: 'success',
@@ -392,8 +405,6 @@ export default {
         })
         .catch((error) => {
           if(error.response.status){
-            this.selectedTab = 0;
-            this.cancelBatchJob(id.replace("job-",""));
             this.$bvToast.toast("Batch run in progress" , {
               title: "SUCCESS",
               variant: 'success',
@@ -401,15 +412,25 @@ export default {
             })
           }
         })
+        DashboardService.getBatchSummary(this.token).then(
+           (response) => {
+              console.log(response.data)
+              let jid = response.data.batchJobList[0].jobExecutionId;
+              
+
+              console.log(jid)
+           }
+        );        
     },
     runREGALG(request, id){
+        this.cancelBatchJob(id.replace("job-",""));
         DashboardService.runREGALG(this.token, request).then(
         (response) => {
           // eslint-disable-next-line
           console.log(response)
           this.getAdminDashboardData();
           this.selectedTab = 0;
-          this.cancelBatchJob(id.replace("job-",""));
+ 
           this.$bvToast.toast("Batch run has completed" , {
             title: "SUCCESS",
             variant: 'success',
