@@ -5,7 +5,7 @@
           header="Noncompletion Reasons"
           class="w-100"
         >
-          <b-card-text v-if="studentGradData">
+          <b-card-text v-if="studentGradStatus.studentGradData">
             <div v-if="!nongradReasons || !nongradReasons.length">
               <ul>
                 <li>All program requirements have been met</li>
@@ -26,7 +26,7 @@
     <div class="requirements-met pb-2">  
       <b-card
         header="Requirements met"
-        v-if="studentGradData"
+        v-if="studentGradStatus.studentGradData"
         no-body
         class="w-100"
       >
@@ -46,13 +46,17 @@
 
   export default {
     name: "NoncompletionReasons",
-    props: {
-      studentGradData: Object
-      },
+    props: {},
+    computed: {
       ...mapGetters({
+        studentGradStatus: "getStudentGradStatus",
         requirementsMet: "getRequirementsMet",
         nongradReasons: "getNongradReasons"
       })
+    },
+    methods: {
+
+    }
   }
 </script>
 
