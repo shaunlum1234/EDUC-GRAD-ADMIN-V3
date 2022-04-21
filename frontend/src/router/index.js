@@ -46,9 +46,9 @@ const routes = [{
       localStorage.removeItem('refresh');
       localStorage.removeItem('jwt');
       if(window.location.host == "dev.grad.gov.bc.ca" || window.location.host == "localhost:8080"){
-        location.href = 'https://soam-tools.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + location.protocol + '//' + location.host;
-      }else{
         location.href = 'https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + location.protocol + '//' + location.host;
+      }else{
+        location.href = 'https://soam-test.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + location.protocol + '//' + location.host;
       }
     }
   },
