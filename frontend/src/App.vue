@@ -12,11 +12,6 @@
     </b-sidebar>
         (<a @click="toggleRole">{{role}}</a>) | 
         <router-link
-      to="/admin"
-      class="text-white"
-      id="dashboard-route"
-    >Dashboard</router-link> | 
-        <router-link
       to="/logout"
       class="text-white"
       id="logout-route"
