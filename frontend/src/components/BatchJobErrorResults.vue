@@ -38,6 +38,7 @@
 
 import { mapGetters } from "vuex";
 import sharedMethods from '../sharedMethods';
+import DashboardService from "@/services/DashboardService.js";
 import StudentService from "@/services/StudentService.js";
 import DisplayTable from '@/components/DisplayTable.vue';
 export default {
@@ -45,7 +46,7 @@ export default {
   components: {
     DisplayTable: DisplayTable,
   },
-  props: ['selectedBatchId']
+  props: ['selectedErrorId']
   ,
   data() {
     return {
@@ -78,8 +79,8 @@ export default {
           editable: true
         }, 
         {
-          key: 'schoolOfRecord',
-          label: 'School of Record',
+          key: 'error',
+          label: 'Error',
           sortable: true,
           class: 'text-left',
           editable: true
@@ -97,17 +98,17 @@ export default {
     },
   },
   created() {
-    this.loadStudent = sharedMethods.loadStudent;
     this.showNotification = sharedMethods.showNotification;  
-    this.getAdminDashboardData(this.selectedBatchId,0); 
+    this.loadStudent = sharedMethods.loadStudent;
+    this.getAdminDashboardData(this.selectedErrorId,0); 
   },
   watch: { 
-    selectedBatchId: function() { 
-      this.getAdminDashboardData(this.selectedBatchId,0);
+    selectedErrorId: function() { 
+      this.getAdminDashboardData(this.selectedErrorId,0);
     },
     currentPageChange:function(){  
       if(this.userSelectedPage !== null){
-        this.getAdminDashboardData(this.selectedBatchId,this.userSelectedPage);
+        this.getAdminDashboardData(this.selectedErrorId,this.userSelectedPage);
       }     
     },
   },
@@ -121,9 +122,9 @@ export default {
           page = page - 1;  
         }
       }    
-      StudentService.getBatchHistory(batchId, page, this.token).then(
+      DashboardService.getBatchErrors(batchId, page, this.token).then(
         (response) => {
-            this.batchData = response.data.content;
+            this.batchData = response.data.errorList;
             this.rows = response.data.totalElements;
             this.batchLoading = false
           }

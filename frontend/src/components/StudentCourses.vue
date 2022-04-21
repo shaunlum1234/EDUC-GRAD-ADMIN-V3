@@ -51,26 +51,12 @@
                 "
                 :title="row.item.courseName"
               >
-                <table role="presentation" aria-label="course details">
-                  <tr>                        
-                    <td><strong>Language:</strong> {{ row.item.courseDetails.language }}</td>
-                  </tr>
-                  <tr>                        
-                    <td><strong>Start Date:</strong> {{ row.item.courseDetails.startDate}}</td>
-                  </tr>
-                  <tr>                        
-                    <td><strong>End Date:</strong> {{ row.item.courseDetails.endDate}}</td>
-                  </tr>  
-                  <tr>                        
-                    <td><strong>Credits:</strong> {{ row.item.courseDetails.numCredits}}</td>
-                  </tr>                      
-                  <tr>                        
-                    <td><strong>Work Experience:</strong> {{ row.item.courseDetails.workExpFlag }}</td>
-                  </tr>
-                  <tr>                        
-                    <td><strong>Generic Course Type:</strong> {{ row.item.courseDetails.genericCourseType }}</td>
-                  </tr>
-                </table> 
+                    <div class="row py-1"><div class="col-6"><strong>Language:</strong></div><div class="col-6">{{ row.item.courseDetails.language }}</div></div>                     
+                    <div class="row py-1"><div class="col-6"><strong>Start Date:</strong></div><div class="col-6">{{ row.item.courseDetails.stardivate}}</div></div>                     
+                    <div class="row py-1"><div class="col-6"><strong>End Date:</strong></div><div class="col-6">{{ row.item.courseDetails.endDate}}</div></div>                        
+                    <div class="row py-1"><div class="col-6"><strong>Credits:</strong></div><div class="col-6">{{ row.item.courseDetails.numCredits}}</div></div>
+                    <div class="row py-1"><div class="col-6"><strong>Work Experience:</strong></div><div class="col-6">{{ row.item.courseDetails.workExpFlag }}</div></div>                   
+                    <div class="row py-1"><div class="col-6"><strong>Generic Course Type:</strong></div><div class="col-6">{{ row.item.courseDetails.genericCourseType }}</div></div>
               </b-popover>
             </div>
         </template>
@@ -83,7 +69,8 @@
             @click="row.toggleDetails"
             class="more-button"
           >
-            <i class="fas fa-sm fa-caret-down" aria-hidden="true"></i>
+            <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
+            <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
           </b-btn>
         </template>
         <template #row-details="row">

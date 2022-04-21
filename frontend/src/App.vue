@@ -30,6 +30,7 @@
         <router-view />
       </transition>
     </div>
+    <BCFooter></BCFooter>
   </div>
 </template>
 <script>
@@ -38,9 +39,11 @@ import {
 } from "vuex";
 
 import Bcheader from "@/components/BCHeader";
+import BCFooter from "@/components/BCFooter";
 export default {
   components: {
-    Bcheader
+    Bcheader,
+    BCFooter
   },
   created() {
     if(this.role == "administrator"){
@@ -120,7 +123,10 @@ ul.sidebar-panel-nav > li > a {
 }
 @media (min-width: 1300px){
   .container {
-      max-width: 1300px !important;
+      /* max-width: 1300px !important; */
+      max-width: 100%;
+      /* padding-right: 50px !important;
+      padding-left: 50px !important; */
   }
 }
   .bcheader{

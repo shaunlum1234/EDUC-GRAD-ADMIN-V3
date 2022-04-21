@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="courses-all">
     <h1>Courses</h1>
     <div>
       <b-card no-body>
@@ -662,6 +662,10 @@
 </script>
 
 <style scoped>
+  .courses-all{
+    padding-left: 25px;
+    padding-right: 25px;
+  }
   .close-record {
     float: right;
   }

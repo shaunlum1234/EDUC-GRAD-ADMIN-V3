@@ -29,7 +29,7 @@
         </template>   
         <template #cell(optionalProgramName)="row">
           <div class="pt-2">
-            {{row.item.optionalProgramName}} ({{row.item.optionalProgramCode}}) <br> {{row.item.OptionalProgramCompletionDate}}
+            {{row.item.optionalProgramName}} ({{row.item.optionalProgramCode}}) <br> {{row.item.OptionalProgramCompletionDate | formatTime}}
           </div>
         </template>   
         <template #cell(optionalReqMet)="row">  
@@ -53,7 +53,7 @@
               <template #cell(gradReqMetDetail)="row2">
                 <div class="p-2">
                   <strong>{{row2.item.gradReqMetDetail}}</strong><br/>
-                   {{row2.item.courseCode}} {{row2.item.courseLevel}} - {{row2.item.sessionDate}} ({{row2.item.courseName}})
+                   {{row2.item.courseCode}} {{row2.item.courseLevel}} - {{row2.item.sessionDate | formatTime}} ({{row2.item.courseName}})
                 </div>    
               </template>
             </b-table>
@@ -61,7 +61,7 @@
               <template #cell(gradReqMetDetail)="row2">
                     <div class="p-2">
                       <strong>{{row2.item.gradReqMetDetail}}</strong><br/>
-                      {{row2.item.assessmentCode}} - {{row2.item.sessionDate}} ({{row2.item.assessmentName}})
+                      {{row2.item.assessmentCode}} - {{row2.item.sessionDate | formatTime}} ({{row2.item.assessmentName}})
                     </div>
                     
               </template>
@@ -78,7 +78,8 @@
             @click="row.toggleDetails"
             class="more-button"
           >
-            <i class="fas fa-sm fa-caret-down" aria-hidden="true"></i>
+            <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
+            <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
           </b-btn>
         </template>
         <template #row-details="">   

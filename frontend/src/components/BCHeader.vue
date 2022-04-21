@@ -78,7 +78,7 @@
                 <!-- Pen Input -->
                 <div>                
                     <b-form-input maxlength=9 minlength=9 size="sm" id="search-by-pen-header" type="search" v-model="penInput" placeholder="PEN"
-                      ref="penSearch" v-on:keyup="keyHandler" class="w-50 float-left m-1">
+                      ref="penSearch" v-on:keyup="keyHandler" class="w-75 float-left m-1">
                     </b-form-input>
                     <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary float-left">
                       <i class="fas fa-search" aria-hidden="true"></i>
@@ -114,16 +114,10 @@ export default {
     };
   },
   created() {
+    this.loadStudent = sharedMethods.loadStudent;
     this.showNotification = sharedMethods.showNotification    
   },
    computed: {
-     isDev(){
-       if(window.location == "dev.grad.gov.bc.ca" || window.location == "localhost:8080"){
-          return true;
-       }else{
-         return false;
-       }
-     },
     ...mapGetters({
       token: "getToken",
       roles: "getRoles",
@@ -143,20 +137,6 @@ export default {
     },
     selectStudent() {
       this.$router.push("/");
-    },
-    loadStudent: function (student) {
-        this.selectedPen = student[0].pen;
-        this.selectedId = student[0].studentID;
-        let path = 'student-profile';
-        var currentRoute =  this.$route.path.split("/").slice(1)[0];
-
-        this.$router.push({
-          path: `/student-profile/${this.selectedPen}/${this.selectedId}`
-        });
-        //Used for reloading if on the same Student Profile page  
-        if(path == currentRoute){
-          location.reload();
-        }
     },
     findStudentByPen: function() {
       if (this.penInput) {
@@ -308,7 +288,7 @@ header .nav-btn {
   .top-search{
     position: absolute;
     top: 0px;
-    right: 123px;
+    right: 20px;
   }
   .navigation-main {
     display: block;
@@ -337,11 +317,11 @@ header .nav-btn {
     cursor: pointer;
   }
 }
-@media screen and (min-width: 768px) and (max-width: 1330px){
+/* @media screen and (min-width: 768px) and (max-width: 1330px){
   .top-search{
     right: -99px;
   }
-}
+} */
 @media screen and (min-width: 768px) and (max-width: 899px) {
   header h1 {
     font-size: calc(7px + 2.2vw);

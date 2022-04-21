@@ -92,6 +92,13 @@
     proxy /api/v1/batch/dashboard {$VUE_APP_BATCH_GRADUATION_API_HOST} {
         header_upstream Cookie "SMSESSION=siteminder"
     }
+    proxy /api/v1/batch/dashboard/errors/ {$VUE_APP_BATCH_GRADUATION_API_HOST} {
+        header_upstream Cookie "SMSESSION=siteminder"
+    }   
+    proxy /api/v1/batch {$VUE_APP_BATCH_GRADUATION_API_HOST} {
+        header_upstream Cookie "SMSESSION=siteminder"
+    }
+      
     errors stdout
 }
     

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="programs-all">
   <h1>Programs</h1>
   <p> Manage programs settings</p>
 
@@ -80,6 +80,10 @@ export default {
 </script>
 
 <style scoped>
+.programs-all{
+  padding-left: 25px;
+  padding-right: 25px;
+}
 .close-record {
   float: right;
 }

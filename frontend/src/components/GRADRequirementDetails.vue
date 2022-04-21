@@ -30,30 +30,25 @@
             header="Course Requirements"
           >
         <b-card-text class="p-3">   
-
           <DisplayTable v-if="hasGradStatus && gradStatusCourses" :items="gradStatusCourses" :fields="fields" showFilter="true" title="RequirementDetailsCourses">
             <template #cell(gradReqMet)="row">
               <div class="d-flex flex-column text-md-left">
                 <div class="gradReqsMet">
+
                     <span v-if="row.item.used">{{row.item.gradReqMet ? row.item.gradReqMet : "" }}</span>   
                     <span v-if="!row.item.used">Not Used</span>     
-                    <span v-if="row.item.notCompleted">Not Completed</span>     
-                    <span v-if="row.item.projected">Registration</span>   
+                    <span v-if="row.item.notCompleted">Incomplete Course</span>     
+                    <span v-if="row.item.projected">Registration or Interim</span>   
                     <span v-if="row.item.failed">Failed</span>   
-                    <span v-if="row.item.duplicate">Duplicate</span>   
-                    <span v-if="row.item.careerPrep">CP Course - Ineligible</span>   
-                    <span v-if="row.item.localDeveloped">LD Course - Ineligible</span>   
-                    <span v-if="row.item.restricted">Restricted Course</span>   
-                    <span v-if="row.item.boardAuthorityAuthorized">BAA Course</span>   
-                    <span v-if="row.item.independentDirectedStudies">IDS Course</span>    
-                    <span v-if="row.item.locallyDeveloped">Not Used, Locally Developed Course</span>
-                    <span v-if="row.item.careerPrep">Not Used, Career Prep Course</span>
-                    <span v-if="row.item.boardAuthorityAuthorized">Not Used, Board/Authority Authorized Course</span>
-                    <span v-if="row.item.independentDirectedStudies">Not Used, Independent Directed Studies Course</span>
-                    <span v-if="row.item.cutOffCourse">Not Used, Course Taken After Cut-off</span>
-                    <span v-if="row.item.grade10Cours">Not Used, Level 10 Courses Ineligible</span>
-                    <span v-if="row.item.lessCreditCourse">Not Used, Courses with credits less than 4 ineligible</span>
-                    <span v-if="row.item.restricted">Not Used, Course Restricted Against Another Course</span>
+                    <span v-if="row.item.duplicate">Repeat</span>   
+                    <span v-if="row.item.careerPrep">Career Prep course</span>   
+                    <span v-if="row.item.localDeveloped">Locally Developed course</span>     
+                    <span v-if="row.item.boardAuthorityAuthorized">Board/Authority Authorized Course</span>
+                    <span v-if="row.item.independentDirectedStudies">Independent Directed Studies course</span>
+                    <span v-if="row.item.cutOffCourse">Course taken after Cut-off</span>
+                    <span v-if="row.item.grade10Course">Grade 10 ineligible (1995 program)</span>
+                    <span v-if="row.item.lessCreditCourse">Courses with credits &lt; 4 ineligible</span>
+                    <span v-if="row.item.restricted">Course restricted against another course</span>
                   </div>
                 </div>
             </template>
