@@ -47,12 +47,15 @@
   export default {
     name: "NoncompletionReasons",
     props: {},
-    computed:{
+    computed: {
       ...mapGetters({
         studentGradStatus: "getStudentGradStatus",
         requirementsMet: "getRequirementsMet",
         nongradReasons: "getNongradReasons"
       })
+    },
+    methods: {
+
     }
   }
 </script>
