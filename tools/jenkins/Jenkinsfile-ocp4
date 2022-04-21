@@ -44,14 +44,30 @@ pipeline{
     MIN_MEM_BE = "200Mi"
     MAX_MEM_BE = "250Mi"
     DC_URL_FRONTEND = "https://raw.githubusercontent.com/bcgov/EDUC-GRAD-ADMIN/main/tools/openshift/frontend-static.dc.ocp4.yaml"
-
-
+  }
+  options {
+      buildDiscarder(logRotator(daysToKeepStr: '', numToKeepStr: '5'))
+  }
+  parameters {
+      gitParameter(
+        branch: '',
+        branchFilter: ".*",
+        defaultValue: "origin/main",
+        description: '',
+        listSize: '10',
+        name: 'BRANCH_PARAM',
+        quickFilterEnabled: false,
+        selectedValue: 'DEFAULT',
+        sortMode: 'ASCENDING_SMART',
+        tagFilter: "BRANCH",
+        type: 'PT_BRANCH_TAG')
   }
 
   stages {
     stage('Initialize') {
       steps {
         script {
+          SOURCE_REPO_REF = params.BRANCH_PARAM.substring(7)
           if(DEBUG_OUTPUT.equalsIgnoreCase('true')) {
             // Force OpenShift Plugin directives to be verbose
             openshift.logLevel(1)
