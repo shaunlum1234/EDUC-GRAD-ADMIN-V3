@@ -278,7 +278,7 @@
       </div>
       <!-- Mid Column -->
       <div class="col-12 px-2 col-xl-4 col-lg-5">
-        <NoncompletionReasons :student-grad-data="studentGradStatus.studentGradData"></NoncompletionReasons>
+        <NoncompletionReasons></NoncompletionReasons>
       </div>
       <!-- Right Column -->
       <div class="col-12 px-2 col-xl-4 col-lg-12">
