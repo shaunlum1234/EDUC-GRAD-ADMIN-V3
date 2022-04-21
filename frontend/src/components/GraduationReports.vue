@@ -11,7 +11,7 @@
             <a  @click="downloadPDF(report.report,'application/pdf')" href="#" class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
             <div class="float-left col-12 pr-4 ml-1">
               <strong>Status:</strong> {{report.documentStatusLabel}} 
-              <strong>Last Updated:</strong> {{report.updatedTimestamp }} 
+              <strong>Last Updated:</strong> {{report.updatedTimestamp | formatTime}} 
               <strong>Distributed:</strong> {{report.distributionDate | formatTime}}
             </div>
           </div>
@@ -21,7 +21,7 @@
             <a  @click="downloadPDF(transcript.transcript,'application/pdf')" href="#"  class="pdf-link float-left ">{{transcript.transcriptTypeLabel}} (PDF)</a> 
             <div class="float-left col-12 pr-4 ml-1">
               <strong>Status:</strong> {{transcript.documentStatusLabel}} 
-              <strong>Last Updated:</strong> {{transcript.updatedTimestamp }} 
+              <strong>Last Updated:</strong> {{transcript.updatedTimestamp | formatTime}} 
               <strong>Distributed:</strong> {{transcript.distributionDate | formatTime}}
             </div>
           </div>    
@@ -33,6 +33,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import sharedMethods from '../sharedMethods';
 
   export default {
     name: "GraduationReports",
@@ -42,6 +43,11 @@ import { mapGetters } from "vuex";
         reports: "getStudentReports",
         transcripts: "getStudentTranscripts"
       })
+    },
+    methods: {
+      downloadPDF: function (data, mimeType) {
+      sharedMethods.base64ToPdfAndOpenWindow(data,mimeType)
+      },
     }
   }
 </script>

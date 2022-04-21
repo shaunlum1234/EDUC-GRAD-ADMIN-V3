@@ -10,7 +10,7 @@
             <a @click="downloadPDF(certificate.certificate,'application/pdf')" href="#"  class="pdf-link float-left ">{{certificate.gradCertificateTypeLabel}} (PDF)</a> 
             <span class="float-left pr-3">
               <strong>Status:</strong> {{certificate.documentStatusLabel}} 
-              <strong>Last Updated:</strong> {{certificate.createdTimestamp }}
+              <strong>Last Updated:</strong> {{certificate.createdTimestamp |formatTime}}
               <strong>Distributed:</strong> {{certificate.distributionDate |formatTime}}
             </span>               
           </div>
@@ -22,6 +22,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import sharedMethods from '../sharedMethods';
 
 export default {
 
@@ -31,8 +32,14 @@ export default {
     ...mapGetters({
       certificates: "getStudentCertificates"
     })
+  },
+  methods: {
+    downloadPDF: function (data, mimeType) {
+      sharedMethods.base64ToPdfAndOpenWindow(data,mimeType)
+    },
   }
 }
+
 </script>
 
 <style scoped>
