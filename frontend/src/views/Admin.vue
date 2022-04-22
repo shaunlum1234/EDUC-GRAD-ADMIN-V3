@@ -86,7 +86,7 @@
                 </DisplayTable>
               </div>
               <!-- All batch results -->
-              <div v-if="adminSelectedBatchId" v-show="isBatchShowing" class="col-12 col-md-5 float-right pl-2 pr-0">
+              <div v-if="isBatchShowing"  class="col-12 col-md-5 float-right pl-2 pr-0">
                 <b-card bg-variant="light" :header="'Batch Job '+ this.adminSelectedBatchId" class="text-left mb-2">
                   <b-card-text>                
                     <BatchJobSearchResults :selectedBatchId="adminSelectedBatchId"></BatchJobSearchResults>
@@ -97,7 +97,7 @@
                 </b-card>
               </div>
               <!-- All error results -->
-              <div v-if="adminSelectedErrorId" v-show="isErrorShowing" class="col-12 col-md-5 float-right pl-2 pr-0">
+              <div v-if="isErrorShowing"  class="col-12 col-md-5 float-right pl-2 pr-0">
                 <b-card bg-variant="light" :header="'Batch Job Error '+ this.adminSelectedErrorId" class="text-left mb-2">
                   <b-card-text>                   
                     <BatchJobErrorResults :selectedErrorId="adminSelectedErrorId"></BatchJobErrorResults>
@@ -482,11 +482,13 @@ export default {
     },
     setBatchId(id, type){
       if(type == 'batch'){
-        this.isBatchShowing = true
+        this.isBatchShowing = true;
+        this.isErrorShowing = false;
         this.adminSelectedBatchId = id.toString();
         this.$refs['popover' + id].$emit('close');
       }
       if (type == 'error'){
+        this.isBatchShowing = false;
         this.isErrorShowing = true;
         this.adminSelectedErrorId = id.toString(); 
       }
