@@ -2,64 +2,14 @@
   <div class="container">
     <h2>Admin Dashboard</h2>
     <div>
-      <!-- <b-card-group deck>
-      <b-card class="text-left m-1"> 
-        <b-card-text>
-          <div class="row">
-            <div class="col-12 col-md-12">
-              <strong> Processed:</strong>
-              <h2><i class="fas fa-info-circle text-info" aria-hidden="true"></i> {{processed}} / {{lastExpectedStudentsProcessed}}</h2>
-              <hr>
-              <strong>Last run:</strong> {{ processedLastRun }}<br>
-              <strong>Last run status: {{lastRunStatus}}</strong>
-            </div>
-          </div>
-          </b-card-text>   
-      </b-card>
-      <b-card class="text-left m-1"> 
-        <b-card-text>
-          <div class="row">
-            <div class="col-12 col-md-12">
-              <strong> Errors:</strong>
-              <h2><i class="fas fa-times-circle text-danger" aria-hidden="true"></i>  {{errors}} Records</h2> 
-              <hr>
-            </div>
-          </div>
-          </b-card-text>   
-      </b-card>      
-      <b-card class="text-left m-1">
-        <b-card-text>
-          <div class="row">
-            <div class="col-12 col-md-12">
-              <strong> Processing Time: </strong>
-                <h2><i class="fas fa-info-circle text-info" aria-hidden="true"></i> {{processingTime}} hours</h2>          
-                <hr>
-                <strong>Timespan:</strong><br/>{{processedLastJobstartTime}} <strong>to</strong> <br/> {{processedLastJobendTime}} <br/>
-            </div>
-          </div>
-          </b-card-text>   
-      </b-card>      
-            <b-card class="text-left m-1">
-        
-        <b-card-text>
-          <div class="row">
-            <div class="col-12">
-              <strong>Expected: </strong>
-                <h2><i class="fas fa-info-circle text-info" aria-hidden="true"></i> {{expected}} Records</h2>          
-                <hr>
-            </div>
-          </div>
-          </b-card-text>   
-      </b-card>                                   
-    </b-card-group> -->
   <div class="mt-2 row">
   <div class="col-12 float-left p-0">
     <div ref="top">
       <b-card no-body>
-        <b-tabs v-model="selectedTab" active card >
+        <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
             <b-card-text class="row">
-              <div :class="adminSelectedBatchId || adminSelectedErrorId ? 'col-12 col-md-7':'col-12'">
+              <div :class="isBatchShowing ? 'col-12 col-md-7':'col-12'">
                 <DisplayTable title="Job/Runs" :items="batchInfoListData"
                   v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
                 >
@@ -423,33 +373,47 @@ export default {
         );        
     },
     runREGALG(request, id){
-        this.cancelBatchJob(id.replace("job-",""));
+
+      this.$set(this.spinner, id.replace("job-","")-1, true)
+      let index= id.replace("job-","")-1;
+      let value = true
+      this.$store.commit("setTabLoading",{index, value});
         DashboardService.runREGALG(this.token, request).then(
         (response) => {
+           //update the admin dashboard
+          this.getAdminDashboardData();
           // eslint-disable-next-line
           console.log(response)
-          this.getAdminDashboardData();
+          this.cancelBatchJob(id.replace("job-",""));
           this.selectedTab = 0;
- 
           this.$bvToast.toast("Batch run has completed" , {
             title: "SUCCESS",
             variant: 'success',
             noAutoHide: true,
           })
-          //update the admin dashboard
          
         })
         .catch((error) => {
-          if(error.response.status){
-            this.selectedTab = 0;
-            this.cancelBatchJob(id.replace("job-",""));
-            this.$bvToast.toast("Batch run in progress" , {
+          if(error){
+            this.$bvToast.toast("Batch run is still in progress and will run in the background" , {
               title: "SUCCESS",
               variant: 'success',
               noAutoHide: true,
             })
+
+            
+
           }
         })
+        DashboardService.getBatchSummary(this.token).then(
+           (response) => {
+              console.log(response.data)
+              let jid = response.data.batchJobList[0].jobExecutionId;
+              
+
+              console.log(jid)
+           }
+        ); 
     },
     runbatch(id){
         let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
