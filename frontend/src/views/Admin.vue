@@ -9,7 +9,7 @@
         <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
             <b-card-text class="row">
-              <div :class="isBatchShowing ? 'col-12 col-md-7':'col-12'">
+              <div :class="adminSelectedBatchId || adminSelectedErrorId ? 'col-12 col-md-7':'col-12'">
                 <DisplayTable title="Job/Runs" :items="batchInfoListData"
                   v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
                 >
@@ -355,7 +355,7 @@ export default {
         })
         .catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("Batch run in progress" , {
+            this.$bvToast.toast("Batch run is still in progress and will run in the background" , {
               title: "SUCCESS",
               variant: 'success',
               noAutoHide: true,
@@ -365,10 +365,17 @@ export default {
         DashboardService.getBatchSummary(this.token).then(
            (response) => {
               console.log(response.data)
-              let jid = response.data.batchJobList[0].jobExecutionId;
-              
+              let jobDetails = response.data.batchJobList[0];
+              let job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": "?", "id": "?", "jobExecutionId": jobDetails.jobExecutionId, "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": "TVRRUN" }
+              console.log(job)
+              this.batchInfoListData.push(job)
 
-              console.log(jid)
+                   // .jobExecutionId;
+                // .createTime
+                // .startTime
+                // .endtime
+                // .status
+              
            }
         );        
     },
@@ -400,20 +407,18 @@ export default {
               variant: 'success',
               noAutoHide: true,
             })
-
-            
-
+            DashboardService.getBatchSummary(this.token).then(
+                (response) => {
+                    console.log(response.data)
+                    let jobDetails = response.data.batchJobList[0];
+                    let job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": , "id": "?", "jobExecutionId": jobDetails.jobExecutionId, "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": "REGALG" }
+                    console.log(job)
+                    this.batchInfoListData.splice(0,1,job)
+                }
+              );  
           }
         })
-        DashboardService.getBatchSummary(this.token).then(
-           (response) => {
-              console.log(response.data)
-              let jid = response.data.batchJobList[0].jobExecutionId;
-              
-
-              console.log(jid)
-           }
-        ); 
+        
     },
     runbatch(id){
         let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
@@ -457,9 +462,9 @@ export default {
         return;
       }
       if(this.tabContent[id].details['what'] == 'REGALG'){     
-        this.runREGALG(request, id)
+        this.runREGALG(request, id);
       }else if(this.tabContent[id].details['what'] == 'TVRRUN'){     
-        this.runTVRRUN(request, id)
+        this.runTVRRUN(request, id);
       }
     },
     displaySearchResults(value){ 
