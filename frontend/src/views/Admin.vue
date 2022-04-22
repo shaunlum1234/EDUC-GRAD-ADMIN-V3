@@ -339,11 +339,10 @@ export default {
       
       
         DashboardService.runTVRRUN(this.token, request).then(
-        (response) => {
+        () => {
            //update the admin dashboard
           this.getAdminDashboardData();
           // eslint-disable-next-line
-          console.log(response)
           this.cancelBatchJob(id.replace("job-",""));
           this.selectedTab = 0;
           this.$bvToast.toast("Batch run has completed" , {
@@ -364,18 +363,9 @@ export default {
         })
         DashboardService.getBatchSummary(this.token).then(
            (response) => {
-              console.log(response.data)
               let jobDetails = response.data.batchJobList[0];
               let job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": "?", "id": "?", "jobExecutionId": jobDetails.jobExecutionId, "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": "TVRRUN" }
-              console.log(job)
-              this.batchInfoListData.push(job)
-
-                   // .jobExecutionId;
-                // .createTime
-                // .startTime
-                // .endtime
-                // .status
-              
+              this.batchInfoListData.push(job)    
            }
         );        
     },
@@ -409,11 +399,9 @@ export default {
             })
             DashboardService.getBatchSummary(this.token).then(
                 (response) => {
-                    console.log(response.data)
-                    let jobDetails = response.data.batchJobList[0];
-                    let job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": , "id": "?", "jobExecutionId": jobDetails.jobExecutionId, "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": "REGALG" }
-                    console.log(job)
-                    this.batchInfoListData.splice(0,1,job)
+                  let jobDetails = response.data.batchJobList[0];
+                  let job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": 'jobDetails.startTime', "id": "?", "jobExecutionId": jobDetails.jobExecutionId, "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": "REGALG" }
+                  this.batchInfoListData.splice(0,1,job)
                 }
               );  
           }
