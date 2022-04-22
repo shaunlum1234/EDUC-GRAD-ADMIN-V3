@@ -231,7 +231,7 @@
               v-model="program.value"
             ></b-form-select>
             <div v-if="index == tabContent['job-'+i].programs.length-1" class="col-2">
-              <b-button class="btn btn-primary w-100" @click="addValueToTypeInBatchId('job-' + i,'programs',program.value,index)">
+              <b-button :disabled='validating' class="btn btn-primary w-100" @click="addValueToTypeInBatchId('job-' + i,'programs',program.value,index)">
               <b-spinner small v-if="validating"></b-spinner> Add
               </b-button>   
             </div>
