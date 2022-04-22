@@ -18,7 +18,7 @@
     >Logout</router-link>
         </Bcheader>
     
-    <div class="container">
+    <div class="container" style="height: 100%;">
         <transition
           name="fade"
         >
