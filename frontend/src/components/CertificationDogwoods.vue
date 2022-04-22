@@ -21,11 +21,16 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import sharedMethods from '../sharedMethods';
+
 export default {
   name: "CertificationDogwoods",
-  props: {
-    certificates: []
+  props: {},
+  computed: {
+    ...mapGetters({
+      certificates: "getStudentCertificates"
+    })
   },
   methods: {
     downloadPDF: function (data, mimeType) {

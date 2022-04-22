@@ -12,18 +12,13 @@
     </b-sidebar>
         (<a @click="toggleRole">{{role}}</a>) | 
         <router-link
-      to="/admin"
-      class="text-white"
-      id="dashboard-route"
-    >Dashboard</router-link> | 
-        <router-link
       to="/logout"
       class="text-white"
       id="logout-route"
     >Logout</router-link>
         </Bcheader>
     
-    <div class="container">
+    <div class="container" style="height: 100%;">
         <transition
           name="fade"
         >

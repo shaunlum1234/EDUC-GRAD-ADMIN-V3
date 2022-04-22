@@ -32,12 +32,17 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import sharedMethods from '../sharedMethods';
+
   export default {
     name: "GraduationReports",
-    props: {
-      reports: [],
-      transcripts: []
+    props: {},
+    computed: {
+      ...mapGetters({
+        reports: "getStudentReports",
+        transcripts: "getStudentTranscripts"
+      })
     },
     methods: {
       downloadPDF: function (data, mimeType) {
