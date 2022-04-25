@@ -589,8 +589,9 @@
         GraduationService.updateStudentReports(this.studentId, this.token).then(() => {
           this.getStudentReportsAndCertificates(this.studentId);
           StudentService.getGraduationStatus(this.studentId, this.token).then(
-            (res) => {
+            (res) => {             
               this.$store.dispatch("setStudentGradStatus", res.data);
+              this.tabLoading= false;
             }          
           ).catch((error) => {
             if(error.res.status){
@@ -601,7 +602,7 @@
               });
             }
           }); 
-          this.tabLoading= false;
+          
         }).catch((error) => {       
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error, {
