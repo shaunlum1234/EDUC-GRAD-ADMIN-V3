@@ -23,7 +23,7 @@
           <NoncompletionReasons></NoncompletionReasons>
         </div>
         <div class="col-12 col-lg-6 px-2"> 
-          <GraduationReports></GraduationReports>         
+          <StudentGraduationReports></StudentGraduationReports>         
           <CertificationDogwoods></CertificationDogwoods>
         </div>
       </div>
@@ -46,8 +46,8 @@ import GraduationService from "@/services/GraduationService.js";
 import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
 import sharedMethods from '../sharedMethods';
-import NoncompletionReasons from "@/components/NoncompletionReasons";
-import GraduationReports from "@/components/GraduationReports";
+import NoncompletionReasons from "@/components/GraduationStatus/NoncompletionReasons";
+import StudentGraduationReports from "@/components/GraduationStatus/StudentGraduationReports";
 import CertificationDogwoods from "@/components/CertificationDogwoods";
 import GraduationStatus from "@/components/GraduationStatus";
 
@@ -55,7 +55,7 @@ export default {
   name: "StudentGraduationStatus",
   components: {
     NoncompletionReasons: NoncompletionReasons,
-    GraduationReports: GraduationReports,
+    StudentGraduationReports: StudentGraduationReports,
     CertificationDogwoods: CertificationDogwoods,
     GraduationStatus: GraduationStatus
   },
@@ -376,81 +376,81 @@ export default {
         );
       });
     },
-    saveGraduationStatus: function (id) {
-      sharedMethods.saveGraduationStatus(id)
-    },
-    // TODO-SF: Move to shared methods
-    // saveGraduationStatus(id) {
-    //   //add the user info
-    //   this.editedGradStatus.updatedBy = this.username;
-    //   this.editedGradStatus.studentID = id;
-    //   this.editedGradStatus.pen = this.studentPen;
-    //   //process the program completion date
-    //   if(this.editedGradStatus.programCompletionDate == ''){
-    //     this.editedGradStatus.programCompletionDate = null;
-    //   }
-    //   if(this.editedGradStatus.programCompletionDate != null){
-    //     this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("/", "-");
-    //     var date;
-    //     try{
-    //       date = new Date(this.editedGradStatus.programCompletionDate);
-    //       this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
-    //     }catch(error){
-    //       // eslint-disable-next-line
-    //       console.log(error);
-    //     }
-    //   }
-    //   if(this.editedGradStatus.schoolOfRecord == ''){
-    //     this.editedGradStatus.schoolOfRecord = null;
-    //   }
-    //   if(this.editedGradStatus.schoolAtGrad == ''){
-    //     this.editedGradStatus.schoolAtGrad = null;
-    //   }
-
-    //   StudentService.editGraduationStatus(
-    //     id,
-    //     this.token,
-    //     this.editedGradStatus
-    //   )
-    //   .then((response) => {
-    //     this.updateStatus = response.data;
-    //     this.studentGradStatus.pen = response.data.pen;
-    //     this.studentGradStatus.program = response.data.program;
-    //     this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
-    //     this.studentGradStatus.honoursStanding = response.data.honoursStanding;
-    //     this.studentGradStatus.gpa = response.data.gpa;
-    //     this.studentGradStatus.studentGrade = response.data.studentGrade;
-    //     this.studentGradStatus.schoolName = this.editedGradStatus.schoolName;
-    //     this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
-    //     this.studentGradStatus.schoolAtGradName = this.editedGradStatus.schoolAtGradName;
-    //     this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
-    //     this.studentGradStatus.studentStatus = response.data.studentStatus;
-    //     this.studentGradStatus.recalculateGradStatus = response.data.recalculateGradStatus;
-    //     this.studentGradStatus.updatedTimestamp = response.data.updatedTimestamp;
-    //     this.studentGradStatus.studentStatusName = this.getStudentStatus(
-    //       response.data.studentStatus
-    //     );         
-    //     this.showTop = !this.showTop;
-    //     this.showEdit = false;
-    //     //Update the student audit history
-    //     this.$store.dispatch("updateStudentAuditHistory");
-    //     this.showNotification("success", "GRAD Status Saved");
-    //   })
-    //   .catch((error) => {
-    //     if(this.editedGradStatus.programCompletionDate != null){
-    //       this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("-", "/").substring(0, 7);
-    //     }         
-    //     if(error.response.data){
-    //       if(error.response.data.messages){
-    //         this.errorMessage = error.response.data.messages[0].message;
-    //       }
-    //     }
-    //     this.showNotification(
-    //       "danger",
-    //       this.errorMessage
-    //     );
-    //   });
+    // saveGraduationStatus: function (id) {
+    //   sharedMethods.saveGraduationStatus(id, this.editedGradStatus)
     // },
+    // TODO-SF: Move to shared methods
+    saveGraduationStatus(id) {
+      //add the user info
+      this.editedGradStatus.updatedBy = this.username;
+      this.editedGradStatus.studentID = id;
+      this.editedGradStatus.pen = this.studentPen;
+      //process the program completion date
+      if(this.editedGradStatus.programCompletionDate == ''){
+        this.editedGradStatus.programCompletionDate = null;
+      }
+      if(this.editedGradStatus.programCompletionDate != null){
+        this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("/", "-");
+        var date;
+        try{
+          date = new Date(this.editedGradStatus.programCompletionDate);
+          this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
+        }catch(error){
+          // eslint-disable-next-line
+          console.log(error);
+        }
+      }
+      if(this.editedGradStatus.schoolOfRecord == ''){
+        this.editedGradStatus.schoolOfRecord = null;
+      }
+      if(this.editedGradStatus.schoolAtGrad == ''){
+        this.editedGradStatus.schoolAtGrad = null;
+      }
+
+      StudentService.editGraduationStatus(
+        id,
+        this.token,
+        this.editedGradStatus
+      )
+      .then((response) => {
+        this.updateStatus = response.data;
+        this.studentGradStatus.pen = response.data.pen;
+        this.studentGradStatus.program = response.data.program;
+        this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
+        this.studentGradStatus.honoursStanding = response.data.honoursStanding;
+        this.studentGradStatus.gpa = response.data.gpa;
+        this.studentGradStatus.studentGrade = response.data.studentGrade;
+        this.studentGradStatus.schoolName = this.editedGradStatus.schoolName;
+        this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
+        this.studentGradStatus.schoolAtGradName = this.editedGradStatus.schoolAtGradName;
+        this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
+        this.studentGradStatus.studentStatus = response.data.studentStatus;
+        this.studentGradStatus.recalculateGradStatus = response.data.recalculateGradStatus;
+        this.studentGradStatus.updatedTimestamp = response.data.updatedTimestamp;
+        this.studentGradStatus.studentStatusName = this.getStudentStatus(
+          response.data.studentStatus
+        );         
+        this.showTop = !this.showTop;
+        this.showEdit = false;
+        //Update the student audit history
+        this.$store.dispatch("updateStudentAuditHistory");
+        this.showNotification("success", "GRAD Status Saved");
+      })
+      .catch((error) => {
+        if(this.editedGradStatus.programCompletionDate != null){
+          this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("-", "/").substring(0, 7);
+        }         
+        if(error.response.data){
+          if(error.response.data.messages){
+            this.errorMessage = error.response.data.messages[0].message;
+          }
+        }
+        this.showNotification(
+          "danger",
+          this.errorMessage
+        );
+      });
+    },
     popClose() {
       this.show = false;
     },

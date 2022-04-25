@@ -33,10 +33,10 @@
 
 <script>
 import { mapGetters } from "vuex";
-import sharedMethods from '../sharedMethods';
+import sharedMethods from '../../sharedMethods';
 
   export default {
-    name: "GraduationReports",
+    name: "StudentGraduationReports",
     props: {},
     computed: {
       ...mapGetters({
