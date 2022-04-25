@@ -2,64 +2,14 @@
   <div class="container">
     <h2>Admin Dashboard</h2>
     <div>
-      <b-card-group deck>
-      <b-card class="text-left m-1"> 
-        <b-card-text>
-          <div class="row">
-            <div class="col-12 col-md-12">
-              <strong> Processed:</strong>
-              <h2><i class="fas fa-info-circle text-info" aria-hidden="true"></i> {{processed}} / {{lastExpectedStudentsProcessed}}</h2>
-              <hr>
-              <strong>Last run:</strong> {{ processedLastRun }}<br>
-              <strong>Last run status: {{lastRunStatus}}</strong>
-            </div>
-          </div>
-          </b-card-text>   
-      </b-card>
-      <b-card class="text-left m-1"> 
-        <b-card-text>
-          <div class="row">
-            <div class="col-12 col-md-12">
-              <strong> Errors:</strong>
-              <h2><i class="fas fa-times-circle text-danger" aria-hidden="true"></i>  {{errors}} Records</h2> 
-              <hr>
-            </div>
-          </div>
-          </b-card-text>   
-      </b-card>      
-      <b-card class="text-left m-1">
-        <b-card-text>
-          <div class="row">
-            <div class="col-12 col-md-12">
-              <strong> Processing Time: </strong>
-                <h2><i class="fas fa-info-circle text-info" aria-hidden="true"></i> {{processingTime}} hours</h2>          
-                <hr>
-                <strong>Timespan:</strong><br/>{{processedLastJobstartTime}} <strong>to</strong> <br/> {{processedLastJobendTime}} <br/>
-            </div>
-          </div>
-          </b-card-text>   
-      </b-card>      
-            <b-card class="text-left m-1">
-        
-        <b-card-text>
-          <div class="row">
-            <div class="col-12">
-              <strong>Expected: </strong>
-                <h2><i class="fas fa-info-circle text-info" aria-hidden="true"></i> {{expected}} Records</h2>          
-                <hr>
-            </div>
-          </div>
-          </b-card-text>   
-      </b-card>                                   
-    </b-card-group>
   <div class="mt-2 row">
   <div class="col-12 float-left p-0">
     <div ref="top">
       <b-card no-body>
-        <b-tabs v-model="selectedTab" active card >
+        <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
             <b-card-text class="row">
-              <div :class="adminSelectedBatchId || adminSelectedErrorId ? 'col-12 col-md-7':'col-12'">
+              <div :class="isBatchShowing || isErrorShowing ? 'col-12 col-md-7':'col-12'">
                 <DisplayTable title="Job/Runs" :items="batchInfoListData"
                   v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
                 >
@@ -86,7 +36,7 @@
                 </DisplayTable>
               </div>
               <!-- All batch results -->
-              <div v-if="adminSelectedBatchId" v-show="isBatchShowing" class="col-12 col-md-5 float-right pl-2 pr-0">
+              <div v-if="isBatchShowing"  class="col-12 col-md-5 float-right pl-2 pr-0">
                 <b-card bg-variant="light" :header="'Batch Job '+ this.adminSelectedBatchId" class="text-left mb-2">
                   <b-card-text>                
                     <BatchJobSearchResults :selectedBatchId="adminSelectedBatchId"></BatchJobSearchResults>
@@ -97,7 +47,7 @@
                 </b-card>
               </div>
               <!-- All error results -->
-              <div v-if="adminSelectedErrorId" v-show="isErrorShowing" class="col-12 col-md-5 float-right pl-2 pr-0">
+              <div v-if="isErrorShowing"  class="col-12 col-md-5 float-right pl-2 pr-0">
                 <b-card bg-variant="light" :header="'Batch Job Error '+ this.adminSelectedErrorId" class="text-left mb-2">
                   <b-card-text>                   
                     <BatchJobErrorResults :selectedErrorId="adminSelectedErrorId"></BatchJobErrorResults>
@@ -110,10 +60,15 @@
             </b-card-text>
          </b-tab>
          
-         <b-tab v-for="i in tabs" :key="'dyn-tab-' + i" :title="'Request ' + i">
-           <b-overlay :ref="'job-request' + i"></b-overlay>
+         <b-tab v-for="i in tabs" :key="'dyn-tab-' + i" :title="'Request ' + i" >
+          
+             <template #title>
+              <b-spinner v-show="spinner[i-1]" type="border" small></b-spinner> Request {{i}}
+              </template>
             <b-alert v-if="validationMessage" show>{{validationMessage}}</b-alert>
-           <BatchJobForm :i="i" @runbatch="runbatch" @cancelBatchJob="cancelBatchJob" ></BatchJobForm>
+            <b-overlay :show="spinner[i-1]">
+            <BatchJobForm :i="i" @runbatch="runbatch" @cancelBatchJob="cancelBatchJob" ></BatchJobForm>
+            </b-overlay>
         </b-tab>
 
         <!-- New Tab Button (Using tabs-end slot) -->
@@ -168,6 +123,7 @@ export default {
       studentGradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
       gradStatusPendingUpdates: "getHasGradStatusPendingUpdates",
+      spinner: "getBatchTabsLoading"
 
     }),
   },
@@ -306,6 +262,7 @@ export default {
     
     newBatchJob() {
       let batchDetail = { details: {what: "", who: "", credential: ""}, students: [{}], schools:[{}], districts: [{}], programs:[{}],blankTranscriptDetails:[{}],blankCertificateDetails:[{}]};
+      this.spinner[this.tabCounter-1] = false;
       let id = "job-" + this.tabCounter;
       this.$store.commit("editBatchDetails",  {batchDetail, id});
       this.$store.commit("addBatchJob", this.tabCounter);
@@ -375,14 +332,57 @@ export default {
       }
     },
     runTVRRUN(request, id){
+      this.$set(this.spinner, id.replace("job-","")-1, true)
+      let index= id.replace("job-","")-1;
+      let value = true
+      this.$store.commit("setTabLoading",{index, value});
+      
+      
         DashboardService.runTVRRUN(this.token, request).then(
+        () => {
+           //update the admin dashboard
+          this.getAdminDashboardData();
+          // eslint-disable-next-line
+          this.cancelBatchJob(id.replace("job-",""));
+          this.selectedTab = 0;
+          this.$bvToast.toast("Batch run has completed" , {
+            title: "SUCCESS",
+            variant: 'success',
+            noAutoHide: true,
+          })
+         
+        })
+        .catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("Batch run is still in progress and will run in the background" , {
+              title: "SUCCESS",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
+        })
+        DashboardService.getBatchSummary(this.token).then(
+           (response) => {
+              let jobDetails = response.data.batchJobList[0];
+              let job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": "?", "id": "?", "jobExecutionId": jobDetails.jobExecutionId, "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": "TVRRUN" }
+              this.batchInfoListData.push(job)    
+           }
+        );        
+    },
+    runREGALG(request, id){
+
+      this.$set(this.spinner, id.replace("job-","")-1, true)
+      let index= id.replace("job-","")-1;
+      let value = true
+      this.$store.commit("setTabLoading",{index, value});
+        DashboardService.runREGALG(this.token, request).then(
         (response) => {
            //update the admin dashboard
           this.getAdminDashboardData();
           // eslint-disable-next-line
           console.log(response)
-          this.selectedTab = 0;
           this.cancelBatchJob(id.replace("job-",""));
+          this.selectedTab = 0;
           this.$bvToast.toast("Batch run has completed" , {
             title: "SUCCESS",
             variant: 'success',
@@ -391,44 +391,22 @@ export default {
          
         })
         .catch((error) => {
-          if(error.response.status){
-            this.selectedTab = 0;
-            this.cancelBatchJob(id.replace("job-",""));
-            this.$bvToast.toast("Batch run in progress" , {
+          if(error){
+            this.$bvToast.toast("Batch run is still in progress and will run in the background" , {
               title: "SUCCESS",
               variant: 'success',
               noAutoHide: true,
             })
+            DashboardService.getBatchSummary(this.token).then(
+                (response) => {
+                  let jobDetails = response.data.batchJobList[0];
+                  let job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": 'jobDetails.startTime', "id": "?", "jobExecutionId": jobDetails.jobExecutionId, "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": "REGALG" }
+                  this.batchInfoListData.splice(0,1,job)
+                }
+              );  
           }
         })
-    },
-    runREGALG(request, id){
-        DashboardService.runREGALG(this.token, request).then(
-        (response) => {
-          // eslint-disable-next-line
-          console.log(response)
-          this.getAdminDashboardData();
-          this.selectedTab = 0;
-          this.cancelBatchJob(id.replace("job-",""));
-          this.$bvToast.toast("Batch run has completed" , {
-            title: "SUCCESS",
-            variant: 'success',
-            noAutoHide: true,
-          })
-          //update the admin dashboard
-         
-        })
-        .catch((error) => {
-          if(error.response.status){
-            this.selectedTab = 0;
-            this.cancelBatchJob(id.replace("job-",""));
-            this.$bvToast.toast("Batch run in progress" , {
-              title: "SUCCESS",
-              variant: 'success',
-              noAutoHide: true,
-            })
-          }
-        })
+        
     },
     runbatch(id){
         let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
@@ -472,9 +450,9 @@ export default {
         return;
       }
       if(this.tabContent[id].details['what'] == 'REGALG'){     
-        this.runREGALG(request, id)
+        this.runREGALG(request, id);
       }else if(this.tabContent[id].details['what'] == 'TVRRUN'){     
-        this.runTVRRUN(request, id)
+        this.runTVRRUN(request, id);
       }
     },
     displaySearchResults(value){ 
@@ -482,11 +460,13 @@ export default {
     },
     setBatchId(id, type){
       if(type == 'batch'){
-        this.isBatchShowing = true
+        this.isBatchShowing = true;
+        this.isErrorShowing = false;
         this.adminSelectedBatchId = id.toString();
         this.$refs['popover' + id].$emit('close');
       }
       if (type == 'error'){
+        this.isBatchShowing = false;
         this.isErrorShowing = true;
         this.adminSelectedErrorId = id.toString(); 
       }

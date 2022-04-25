@@ -48,9 +48,13 @@
       tabs: [],
       batchDetails: [],
       batchAutoIncrement: 1,
+      batchTabsLoading: [],
 
     },
     mutations: {
+      setTabLoading(state, payload){
+        state.batchTabsLoading[payload['index']] = payload['value'];
+      },
       addValueToTypeInBatchId(state, payload){
         state.batchDetails[payload['id']][payload['type']].push({})
       },
@@ -598,6 +602,9 @@
       },
       getBatchCounter(state){
           return state.batchAutoIncrement;
+      },
+      getBatchTabsLoading(state){
+        return state.batchTabsLoading;
       }
 
       
