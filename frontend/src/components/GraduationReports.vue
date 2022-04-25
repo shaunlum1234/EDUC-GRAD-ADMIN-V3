@@ -25,7 +25,12 @@
               <strong>Distributed:</strong> {{transcript.distributionDate | formatTime}}
             </div>
           </div>    
-        </div>                  
+        </div>  
+        <div>
+          <div class="px-3 w-100 float-left mt-2">
+              <a href="#">View XML</a>
+          </div>    
+        </div>                          
       </b-card-text>
     </b-card>       
   </div>
