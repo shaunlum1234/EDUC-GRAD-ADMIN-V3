@@ -280,6 +280,7 @@ export default {
     },
     ...mapGetters({
     role: "getRoles",
+    token: "getToken",
     optionalPrograms: "getStudentOptionalPrograms",
     programOptions: "getProgramOptions",
     studentStatusOptions: "getStudentStatusOptions",
