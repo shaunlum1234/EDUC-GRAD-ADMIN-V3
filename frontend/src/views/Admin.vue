@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h2>Admin Dashboard</h2>
+    <h2>Batch Processing</h2>
     <div>
   <div class="mt-2 row">
   <div class="col-12 float-left p-0">

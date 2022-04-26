@@ -88,8 +88,8 @@
               <b-dropdown-item v-on:click="graduateStudent" v-if="studentGradStatus.programCompletionDate && studentGradStatus.program == ('SCCP'||'NOPROG')">Graduate Student</b-dropdown-item>
               <b-dropdown-item v-if="studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Ungraduate Student</b-dropdown-item>
               <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks" :disabled="studentGradStatus.program == 'SCCP'">Projected final marks</b-dropdown-item>
-              <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg" :disabled="studentGradStatus.program == 'SCCP'">Projected final marks and registrations</b-dropdown-item>
+              <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks" >Projected final marks</b-dropdown-item>
+              <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg">Projected final marks and registrations</b-dropdown-item>
                 <b-dropdown-item v-on:click="updateStudentReports">Update Student Reports</b-dropdown-item>
             </b-dropdown>
           </div>
@@ -589,8 +589,9 @@
         GraduationService.updateStudentReports(this.studentId, this.token).then(() => {
           this.getStudentReportsAndCertificates(this.studentId);
           StudentService.getGraduationStatus(this.studentId, this.token).then(
-            (res) => {
+            (res) => {             
               this.$store.dispatch("setStudentGradStatus", res.data);
+              this.tabLoading= false;
             }          
           ).catch((error) => {
             if(error.res.status){
@@ -601,7 +602,7 @@
               });
             }
           }); 
-          this.tabLoading= false;
+          
         }).catch((error) => {       
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error, {
