@@ -28,7 +28,7 @@
         </div>  
         <div>
           <div class="px-3 w-100 float-left mt-2">
-              <a href="#">View XML</a>
+              <a href="#">View XML Preview</a>
           </div>    
         </div>                          
       </b-card-text>
