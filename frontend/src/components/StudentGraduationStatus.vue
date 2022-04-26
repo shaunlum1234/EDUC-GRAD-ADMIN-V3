@@ -16,7 +16,7 @@
     <!-- GRAD Status View -->
     <div class="row px-2">
       <div class="col-12 col-xl-4 col-lg-12 px-2 pb-2">
-        <GraduationStatus></GraduationStatus>
+        <GRADStatus></GRADStatus>
       </div>
       <div class="row col-12 col-xl-8 col-lg-12 px-0 m-0">
         <div class="col-12 col-lg-6 px-2"> 
@@ -42,14 +42,14 @@
 
 <script>
 import { mapGetters } from "vuex";
-import GraduationService from "@/services/GraduationService.js";
-import SchoolService from "@/services/SchoolService.js";
-import StudentService from "@/services/StudentService.js";
+//import GraduationService from "@/services/GraduationService.js";
+//import SchoolService from "@/services/SchoolService.js";
+//import StudentService from "@/services/StudentService.js";
 import sharedMethods from '../sharedMethods';
 import NoncompletionReasons from "@/components/GraduationStatus/NoncompletionReasons";
 import StudentGraduationReports from "@/components/GraduationStatus/StudentGraduationReports";
 import CertificationDogwoods from "@/components/CertificationDogwoods";
-import GraduationStatus from "@/components/GraduationStatus";
+import GRADStatus from "@/components/GraduationStatus/GRADStatus";
 
 export default {
   name: "StudentGraduationStatus",
@@ -57,7 +57,7 @@ export default {
     NoncompletionReasons: NoncompletionReasons,
     StudentGraduationReports: StudentGraduationReports,
     CertificationDogwoods: CertificationDogwoods,
-    GraduationStatus: GraduationStatus
+    GRADStatus: GRADStatus
   },
   computed: {
     ...mapGetters({
@@ -79,40 +79,8 @@ export default {
   },
   data() {
     return {
-      programCompletionEffectiveDateList:[],
-      programCompletionDateRangeError:false,
-      programChangeWarning:false,
-      programEffectiveDate: "",
-      programExpiryDate: "", 
-      errorMessage:"",
-      dismissSecs: 3,
-      dismissCountDown: 0,
-      showModal: false,
-      showTop: false,
-      showEdit: false,
-      show: false,
-      projectedStudentGradStatus: [],
-      updateStatus: [],
-      schoolOfRecord: "",
-      schoolOfRecordStatus:"",
-      schoolOfRecordMissing: false,
-      schoolOfRecordWarning: false,
-      schoolNotFoundWarning: false,
-      schoolOfRecordInputWarning: false,
-      schoolFound: false,
-      schoolAtGradProgramCompletionDateMessage: false,
-      schoolAtGraduation: "",
-      schoolAtGraduationStatus:"",
-      schoolAtGraduationWarning: false,
-      schoolAtGraduationNotFoundWarning:false,
-      schoolAtGraduationInputWarning:false,
-      schoolAtGraduationFound: false,
       programDropdownList: [],
-      editedGradStatus: {},
-      studentUngradReason: "",
       disableButton:false,
-      disableSchoolAtGrad:false,
-      disableStudentStatus:false,
     };
   },
   created() {
@@ -124,84 +92,86 @@ export default {
     getStudentStatus(code) {
       return sharedMethods.getStudentStatus(code, this.studentStatusOptions);
     },
-    ungradStudent(){
-      StudentService.ungradStudent(
-        this.studentId,
-        this.studentUngradReason,
+    // ungradStudent(){
+    //   StudentService.ungradStudent(
+    //     this.studentId,
+    //     this.studentUngradReason,
         
-        this.token,this.editedGradStatus
-      )
-      .then((response) => {
-        this.updateStatus = response.data;
-        this.studentGradStatus.pen = response.data.pen;
-        this.studentGradStatus.program = response.data.program;
-        this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
-        this.studentGradStatus.honoursStanding = response.data.honoursStanding;
-        this.studentGradStatus.gpa = response.data.gpa;
-        this.studentGradStatus.studentGrade = response.data.studentGrade;
-        this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
-        this.studentGradStatus.studentStatus = response.data.studentStatus;
-        this.studentGradStatus.studentStatusName = this.getStudentStatus(
-          response.data.studentStatus
-        );
-        this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
+    //     this.token,this.editedGradStatus
+    //   )
+    //   .then((response) => {
+    //     this.updateStatus = response.data;
+    //     this.studentGradStatus.pen = response.data.pen;
+    //     this.studentGradStatus.program = response.data.program;
+    //     this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
+    //     this.studentGradStatus.honoursStanding = response.data.honoursStanding;
+    //     this.studentGradStatus.gpa = response.data.gpa;
+    //     this.studentGradStatus.studentGrade = response.data.studentGrade;
+    //     this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
+    //     this.studentGradStatus.studentStatus = response.data.studentStatus;
+    //     this.studentGradStatus.studentStatusName = this.getStudentStatus(
+    //       response.data.studentStatus
+    //     );
+    //     this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
 
-        this.showTop = !this.showTop;
-        this.showEdit = false;
+    //     this.showTop = !this.showTop;
+    //     this.showEdit = false;
 
-        this.showNotification("success", "GRAD Status Saved");      
-      })
-      .catch((error) => {
-        this.showNotification(
-          "danger",
-          "There was an error: " + error.response.data.messages[0].message
-        );
-      });
-    },
-    popClose() {
-      this.show = false;
-    },
-    getSchoolInfo(mincode, type) {
-      SchoolService.getSchoolInfo(mincode, this.token)
-      .then((response) => {
-        if(type == 'schoolOfRecord'){
-          this.schoolOfRecord = response.data;
-        }
-        if(type == 'schoolAtGrad'){
-          this.schoolAtGraduation = response.data;
-        }          
-      })
-      .catch((error) => {
-        // eslint-disable-next-line
-        console.log("There was an error:" + error.response);
-      });
-    },
-    projectGraduationStatus(id) {
-      StudentService.getGraduationStatus(id, this.token)
-      .then((response) => {
-        this.projectedStudentGradStatus = response.data;
-        this.projectedStudentGradStatus.studentGradData = JSON.parse(
-          this.projectedStudentGradStatus.studentGradData
-        );
-        this.$bvModal.show("modal-1");
-        this.showModal = true;
-      })
-      .catch((error) => {
-        // eslint-disable-next-line
-        console.log("There was an error:" + error.response);
-      });
-    },
-    updateGraduationStatus: function (pen) {
-      // eslint-disable-next-line no-use-before-define
-      GraduationService.graduateStudent(pen, this.token)
-      .then((response) => {
-        this.$store.dispatch("setStudentGradStatus", response.data);
-      })
-      .catch((error) => {
-        // eslint-disable-next-line
-        console.log("There was an error:" + error.response);
-      });
-    },
+    //     this.showNotification("success", "GRAD Status Saved");      
+    //   })
+    //   .catch((error) => {
+    //     this.showNotification(
+    //       "danger",
+    //       "There was an error: " + error.response.data.messages[0].message
+    //     );
+    //   });
+    // },
+    
+    // popClose() {
+    //   this.show = false;
+    // },
+
+    // getSchoolInfo(mincode, type) {
+    //   SchoolService.getSchoolInfo(mincode, this.token)
+    //   .then((response) => {
+    //     if(type == 'schoolOfRecord'){
+    //       this.schoolOfRecord = response.data;
+    //     }
+    //     if(type == 'schoolAtGrad'){
+    //       this.schoolAtGraduation = response.data;
+    //     }          
+    //   })
+    //   .catch((error) => {
+    //     // eslint-disable-next-line
+    //     console.log("There was an error:" + error.response);
+    //   });
+    // },
+    // projectGraduationStatus(id) {
+    //   StudentService.getGraduationStatus(id, this.token)
+    //   .then((response) => {
+    //     this.projectedStudentGradStatus = response.data;
+    //     this.projectedStudentGradStatus.studentGradData = JSON.parse(
+    //       this.projectedStudentGradStatus.studentGradData
+    //     );
+    //     this.$bvModal.show("modal-1");
+    //     this.showModal = true;
+    //   })
+    //   .catch((error) => {
+    //     // eslint-disable-next-line
+    //     console.log("There was an error:" + error.response);
+    //   });
+    // },
+    // updateGraduationStatus: function (pen) {
+    //   // eslint-disable-next-line no-use-before-define
+    //   GraduationService.graduateStudent(pen, this.token)
+    //   .then((response) => {
+    //     this.$store.dispatch("setStudentGradStatus", response.data);
+    //   })
+    //   .catch((error) => {
+    //     // eslint-disable-next-line
+    //     console.log("There was an error:" + error.response);
+    //   });
+    // },
   },
 };
 </script>

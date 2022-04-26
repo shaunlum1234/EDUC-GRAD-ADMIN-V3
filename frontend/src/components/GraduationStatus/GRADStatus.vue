@@ -266,11 +266,11 @@
 <script>
 import { mapGetters } from "vuex";
 import SchoolService from "@/services/SchoolService.js";
-import sharedMethods from '../sharedMethods';
+import sharedMethods from '../../sharedMethods';
 import StudentService from "@/services/StudentService.js";
 
 export default {
-  name: "GraduationStatus",
+  name: "GRADStatus",
   computed: {
     studentGradeChange(){
       return this.editedGradStatus.studentGrade;
@@ -677,7 +677,6 @@ export default {
       schoolAtGraduationNotFoundWarning:false,
       schoolAtGraduationInputWarning:false,
       schoolAtGraduationFound: false,
-      programDropdownList: [],
       editedGradStatus: {},
       studentUngradReason: "",
       disableButton:false,
@@ -721,5 +720,12 @@ export default {
 }
 .edit {
   padding: 10px;
+}
+.form-validation-message{
+  font-size: 11px;
+}
+.form-control:disabled{
+    color: #6c757d;
+    background-color: #e9ecef;
 }
 </style>
