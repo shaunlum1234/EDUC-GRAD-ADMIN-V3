@@ -337,6 +337,7 @@ export default {
       }
       return "";
     },
+    // Is this in use?
     reactivateStudentRecord(){
         this.editedGradStatus.studentStatus = "A";
         this.saveGraduationStatus(this.studentId);

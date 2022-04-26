@@ -444,6 +444,7 @@ export default {
       programCompletionDateRangeError:false,
       programChangeWarning:false,
       showEdit: false,
+      errorMessage:"",
       schoolOfRecord: "",
       schoolOfRecordStatus:"",
       schoolOfRecordMissing: false,
