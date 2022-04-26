@@ -330,18 +330,7 @@ export default {
   },
   methods: {
     getStudentStatus(code) {
-      for (var i = 0; i <= this.studentStatusOptions.length; i++) {
-        if (this.studentStatusOptions[i].code == code) {
-          return this.studentStatusOptions[i].label;
-        }
-      }
-      return "";
-    },
-    // Is this in use?
-    reactivateStudentRecord(){
-        this.editedGradStatus.studentStatus = "A";
-        this.saveGraduationStatus(this.studentId);
-        this.showNotification("success", "Student Record re-activated.");
+      return sharedMethods.getStudentStatus(code, this.studentStatusOptions);
     },
     ungradStudent(){
       StudentService.ungradStudent(
@@ -374,81 +363,6 @@ export default {
         this.showNotification(
           "danger",
           "There was an error: " + error.response.data.messages[0].message
-        );
-      });
-    },
-    // saveGraduationStatus: function (id) {
-    //   sharedMethods.saveGraduationStatus(id, this.editedGradStatus)
-    // },
-    // TODO-SF: Move to shared methods
-    saveGraduationStatus(id) {
-      //add the user info
-      this.editedGradStatus.updatedBy = this.username;
-      this.editedGradStatus.studentID = id;
-      this.editedGradStatus.pen = this.studentPen;
-      //process the program completion date
-      if(this.editedGradStatus.programCompletionDate == ''){
-        this.editedGradStatus.programCompletionDate = null;
-      }
-      if(this.editedGradStatus.programCompletionDate != null){
-        this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("/", "-");
-        var date;
-        try{
-          date = new Date(this.editedGradStatus.programCompletionDate);
-          this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
-        }catch(error){
-          // eslint-disable-next-line
-          console.log(error);
-        }
-      }
-      if(this.editedGradStatus.schoolOfRecord == ''){
-        this.editedGradStatus.schoolOfRecord = null;
-      }
-      if(this.editedGradStatus.schoolAtGrad == ''){
-        this.editedGradStatus.schoolAtGrad = null;
-      }
-
-      StudentService.editGraduationStatus(
-        id,
-        this.token,
-        this.editedGradStatus
-      )
-      .then((response) => {
-        this.updateStatus = response.data;
-        this.studentGradStatus.pen = response.data.pen;
-        this.studentGradStatus.program = response.data.program;
-        this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
-        this.studentGradStatus.honoursStanding = response.data.honoursStanding;
-        this.studentGradStatus.gpa = response.data.gpa;
-        this.studentGradStatus.studentGrade = response.data.studentGrade;
-        this.studentGradStatus.schoolName = this.editedGradStatus.schoolName;
-        this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
-        this.studentGradStatus.schoolAtGradName = this.editedGradStatus.schoolAtGradName;
-        this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
-        this.studentGradStatus.studentStatus = response.data.studentStatus;
-        this.studentGradStatus.recalculateGradStatus = response.data.recalculateGradStatus;
-        this.studentGradStatus.updatedTimestamp = response.data.updatedTimestamp;
-        this.studentGradStatus.studentStatusName = this.getStudentStatus(
-          response.data.studentStatus
-        );         
-        this.showTop = !this.showTop;
-        this.showEdit = false;
-        //Update the student audit history
-        this.$store.dispatch("updateStudentAuditHistory");
-        this.showNotification("success", "GRAD Status Saved");
-      })
-      .catch((error) => {
-        if(this.editedGradStatus.programCompletionDate != null){
-          this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("-", "/").substring(0, 7);
-        }         
-        if(error.response.data){
-          if(error.response.data.messages){
-            this.errorMessage = error.response.data.messages[0].message;
-          }
-        }
-        this.showNotification(
-          "danger",
-          this.errorMessage
         );
       });
     },

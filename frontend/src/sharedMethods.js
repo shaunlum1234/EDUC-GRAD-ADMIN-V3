@@ -1,7 +1,14 @@
 import StudentService from "@/services/StudentService.js";
 
 export default {
-
+    getStudentStatus(code, studentStatusOptions) {
+        for (var i = 0; i <= studentStatusOptions.length; i++) {
+          if (studentStatusOptions[i].code == code) {
+            return studentStatusOptions[i].label;
+          }
+        }
+        return "";
+      },
     showNotification: function (variant, bodyContent) {
         let title = variant;
         let delay = 30000;

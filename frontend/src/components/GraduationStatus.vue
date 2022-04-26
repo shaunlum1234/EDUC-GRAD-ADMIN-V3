@@ -292,9 +292,10 @@ export default {
     this.showNotification = sharedMethods.showNotification;
   },
   methods: {
-    // saveGraduationStatus: function (id) {
-    //   sharedMethods.saveGraduationStatus(id, this.editedGradStatus)
-    // },
+    getStudentStatus(code) {
+      return sharedMethods.getStudentStatus(code, this.studentStatusOptions);
+    },
+
     dateFormatYYYYMM(){
       var value = this.editedGradStatus.programCompletionDate;    
       this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})$/,"$1/$2");        
@@ -350,7 +351,6 @@ export default {
       this.studentUngradReason = "";   
     },
 
-    //TODO-SF: Move to shared methods
     saveGraduationStatus(id) {
       //add the user info
       this.editedGradStatus.updatedBy = this.username;
@@ -408,6 +408,8 @@ export default {
         this.showNotification("success", "GRAD Status Saved");
       })
       .catch((error) => {
+        //eslint-disable-next-line
+          console.log(error);
         if(this.editedGradStatus.programCompletionDate != null){
           this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("-", "/").substring(0, 7);
         }         
