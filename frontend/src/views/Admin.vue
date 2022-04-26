@@ -61,13 +61,13 @@
          </b-tab>
          
          <b-tab v-for="i in tabs" :key="'dyn-tab-' + i" :title="'Request ' + i" >
-          
+           
              <template #title>
-              <b-spinner v-show="spinner[i-1]" type="border" small></b-spinner> Request {{i}}
+              <b-spinner v-show="spinners['job-'+i]" type="border" small></b-spinner> Request {{i|jobIdLabel}}
               </template>
             <b-alert v-if="validationMessage" show>{{validationMessage}}</b-alert>
-            <b-overlay :show="spinner[i-1]">
-            <BatchJobForm :i="i" @runbatch="runbatch" @cancelBatchJob="cancelBatchJob" ></BatchJobForm>
+            <b-overlay :show="spinners[i]">
+            <BatchJobForm :jobId="i" @runbatch="runbatch" @cancelBatchJob="cancelBatchJob"></BatchJobForm>
             </b-overlay>
         </b-tab>
 
@@ -123,15 +123,10 @@ export default {
       studentGradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
       gradStatusPendingUpdates: "getHasGradStatusPendingUpdates",
-      spinner: "getBatchTabsLoading"
+      spinners: "getBatchTabsLoading"
 
     }),
   },
-  // watch:{
-  //   batchInfoListDataChange(){
-  //     return this.batchInfoListData;
-  //   }
-  // },
   props: [
     //'adminSelectedBatchId',
   ],
@@ -251,10 +246,16 @@ export default {
   },
   methods: { 
     cancelBatchJob(id) {
+      console.log("SPINNERS")
+      console.log(this.spinners)
+      console.log("TABS")
+      console.log(this.tabs)
       for (let i = 0; i < this.tabs.length; i++) {
         if (this.tabs[i] == id) {
           this.tabs.splice(i, 1);
-          this.$store.commit("clearBatchDetails",i);
+          this.spinners.splice(i,1)
+          this.$store.commit("clearBatchDetails",id);
+          return;
         }
       }
       
@@ -262,10 +263,11 @@ export default {
     
     newBatchJob() {
       let batchDetail = { details: {what: "", who: "", credential: ""}, students: [{}], schools:[{}], districts: [{}], programs:[{}],blankTranscriptDetails:[{}],blankCertificateDetails:[{}]};
-      this.spinner[this.tabCounter-1] = false;
+      
       let id = "job-" + this.tabCounter;
+      this.spinners[id] = false;
       this.$store.commit("editBatchDetails",  {batchDetail, id});
-      this.$store.commit("addBatchJob", this.tabCounter);
+      this.$store.commit("addBatchJob", "job-"+this.tabCounter);
         requestAnimationFrame(() => {
           this.selectedTab = this.tabs.length;
         })
@@ -332,7 +334,8 @@ export default {
       }
     },
     runTVRRUN(request, id){
-      this.$set(this.spinner, id.replace("job-","")-1, true)
+      let requestId = id.replace("job-","")-1; 
+      this.$set(this.spinners, id, true)
       let index= id.replace("job-","")-1;
       let value = true
       this.$store.commit("setTabLoading",{index, value});
@@ -343,9 +346,9 @@ export default {
            //update the admin dashboard
           this.getAdminDashboardData();
           // eslint-disable-next-line
-          this.cancelBatchJob(id.replace("job-",""));
+          this.cancelBatchJob(id);
           this.selectedTab = 0;
-          this.$bvToast.toast("Batch run has completed" , {
+          this.$bvToast.toast("Batch processing has completed for request " + requestId  , {
             title: "SUCCESS",
             variant: 'success',
             noAutoHide: true,
@@ -354,24 +357,33 @@ export default {
         })
         .catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("Batch run is still in progress and will run in the background" , {
+            this.$bvToast.toast("Batch processing is for <strong>request " + requestId + "</strong>is still in progress and will run in the background" , {
               title: "SUCCESS",
               variant: 'success',
               noAutoHide: true,
             })
+            this.cancelBatchJob(id.replace("job-",""));
+            this.selectedTab = 0;
           }
         })
         DashboardService.getBatchSummary(this.token).then(
            (response) => {
-              let jobDetails = response.data.batchJobList[0];
-              let job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": "?", "id": "?", "jobExecutionId": jobDetails.jobExecutionId, "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": "TVRRUN" }
-              this.batchInfoListData.push(job)    
+            let jobDetails = response.data.batchJobList[0];
+            let job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": "?", "id": "?", "jobExecutionId": jobDetails.jobExecutionId, "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": "TVRRUN" }
+            this.batchInfoListData.push(job)    
+            this.$bvToast.toast("Batch for Request " + id + "has Started" , {
+              title: "SUCCESS",
+              variant: 'success',
+              noAutoHide: true,
+            })             
+     
            }
         );        
     },
     runREGALG(request, id){
-
-      this.$set(this.spinner, id.replace("job-","")-1, true)
+      let requestId = id.replace("job-",""); 
+      console.log(this.spinners)
+      this.$set(this.spinners, id, true)
       let index= id.replace("job-","")-1;
       let value = true
       this.$store.commit("setTabLoading",{index, value});
@@ -381,34 +393,52 @@ export default {
           this.getAdminDashboardData();
           // eslint-disable-next-line
           console.log(response)
-          this.cancelBatchJob(id.replace("job-",""));
+          console.log("the regalg ran and completed")
+          console.log("cancelBatchJob " +  id.replace("job-",""))
+          this.cancelBatchJob(id);
           this.selectedTab = 0;
-          this.$bvToast.toast("Batch run has completed" , {
+          this.$bvToast.toast("Batch run has completed for request " + requestId , {
             title: "SUCCESS",
             variant: 'success',
             noAutoHide: true,
           })
-         
         })
         .catch((error) => {
+          console.log("there was an error")
+          console.log(error)
           if(error){
-            this.$bvToast.toast("Batch run is still in progress and will run in the background" , {
+            this.$bvToast.toast("Batch run is still in progress for request" + requestId + " and will run in the background" , {
               title: "SUCCESS",
               variant: 'success',
               noAutoHide: true,
             })
-            DashboardService.getBatchSummary(this.token).then(
-                (response) => {
-                  let jobDetails = response.data.batchJobList[0];
-                  let job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": 'jobDetails.startTime', "id": "?", "jobExecutionId": jobDetails.jobExecutionId, "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": "REGALG" }
-                  this.batchInfoListData.splice(0,1,job)
-                }
-              );  
           }
         })
-        
+        DashboardService.getBatchSummary(this.token).then(
+          (response) => {
+            let jobDetails = response.data.batchJobList[0];
+            let job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": jobDetails.startTime, "id": "?", "jobExecutionId": jobDetails.jobExecutionId, "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": "REGALG" }
+            this.batchInfoListData.splice(0,1,job)
+
+            this.$bvToast.toast("Batch for request " + requestId + " has started" , {
+              title: "SUCCESS",
+              variant: 'success',
+              noAutoHide: true,
+            })
+            
+            
+            
+          }
+        );  
     },
     runbatch(id){
+      console.log("spinners")
+      console.log(this.spinners)
+      console.log("batches")
+      console.log(this.tabContent)      
+      console.log("count")
+      console.log(this.tabCounter)      
+
         let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
         if(this.tabContent[id].details['who'] == 'School'){
           schools = this.tabContent[id].schools.map(this.getBatchData);  
@@ -451,9 +481,18 @@ export default {
       }
       if(this.tabContent[id].details['what'] == 'REGALG'){     
         this.runREGALG(request, id);
+          
       }else if(this.tabContent[id].details['what'] == 'TVRRUN'){     
         this.runTVRRUN(request, id);
       }
+
+      console.log("STATE AFTER RUN BATCH");
+      console.log("spinners")
+      console.log(this.spinners)
+      console.log("batches")
+      console.log(this.tabContent)      
+      console.log("count")
+      console.log(this.tabCounter)      
     },
     displaySearchResults(value){ 
       this.searchResults = value
