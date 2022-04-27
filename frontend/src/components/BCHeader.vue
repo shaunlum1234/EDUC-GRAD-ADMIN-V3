@@ -174,6 +174,9 @@ export default {
 .nav {
   z-index: 100;
 }
+.navbar-brand {
+  padding-top: .5rem;
+}
 #navbar {
   z-index: 100;
 }
@@ -198,7 +201,8 @@ header h1 {
   font-weight: normal; /* 400 */
   margin: 5px 5px 0 18px;
   text-transform: none;
-  visibility: hidden;
+  display: none;
+  /* visibility: hidden; */
 }
 
 header .banner {
@@ -274,6 +278,16 @@ header .nav-btn {
   font-weight: bold;
 }
 
+.min-nav {
+  position: fixed;
+  left: 80px;
+  z-index: 110;
+  top: 5px;
+}
+.burgernav {
+  position: fixed;
+}
+
 :focus {
   outline: 4px solid #3b99fc;
   outline-offset: 1px;
@@ -285,18 +299,61 @@ header .nav-btn {
     size: phone, tablet, full. 
   */
 
-@media screen and (min-width: 768px) {
-  .top-search{
-    position: absolute;
-    top: 0px;
-    right: 20px;
+  @media screen and (min-width: 880px) {
+    header h1 {
+      display: inline;
+    }
+    .top-search{
+      position: absolute;
+      top: 55px;
+      right: 20px;
+    }
+    .burgernav {
+      display: none;
+    }
+    .navigation-main {
+      display: block;
+      margin-bottom: 100px; /* do I need this? */
+    }
+    .navigation-main ul {
+      flex-direction: row;
+    }
+    .navigation-main ul li {
+      margin: 0;
+    }
+    .navigation-main ul li a {
+      border-right: 1px solid #9b9b9b;
+    }
+  }
+
+  @media screen and (min-width: 880px) and (max-width: 1360px) {
+    header h1 {
+      font-size: calc(7px + 1.9vw);
+    }
+  }
+
+  @media screen and (min-width: 880px) and (max-width: 1200px) {
+    .navigation-main ul li a {
+      padding: 0 calc(4px + .9vw) 0 calc(4px + .9vw);
+      font-size: calc(7px + .5vw);
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .top-search{
+      position: absolute;
+      top: 0px;
+      right: 20px;
+    }
+  }
+
+/* @media screen and (min-width: 992px) {
+  .burgernav {
+    display: none;
   }
   .navigation-main {
     display: block;
     margin-bottom: 100px;
-  }
-  .burgernav {
-    display: none;
   }
 
   .navigation-main ul {
@@ -310,6 +367,13 @@ header .nav-btn {
   .navigation-main ul li a {
     border-right: 1px solid #9b9b9b;
   }
+} */
+/* @media screen and (min-width: 1200px) {
+  .top-search{
+    position: absolute;
+    top: 0px;
+    right: 20px;
+  }
 
   header .nav-btn {
     display: none;
@@ -317,35 +381,23 @@ header .nav-btn {
     margin: 0 0 0 auto;
     cursor: pointer;
   }
-}
+} */
 /* @media screen and (min-width: 768px) and (max-width: 1330px){
   .top-search{
     right: -99px;
   }
 } */
-@media screen and (min-width: 768px) and (max-width: 899px) {
+/* @media screen and (min-width: 992px) and (max-width: 1399px) {
   header h1 {
     font-size: calc(7px + 2.2vw);
-    visibility: visible;
+    display: inline;
   }
-  .top-search{
-    position: inherit;
-  }
-}
+} */
 
-@media screen and (min-width: 900px) {
+/* @media screen and (min-width: 1400px) {
   header h1 {
     font-size: 2em;
-    visibility: visible;
+    display: inline;
   }
-}
-.min-nav {
-  position: fixed;
-  left: 80px;
-  z-index: 110;
-  top: 5px;
-}
-.burgernav {
-  position: fixed;
-}
+} */
 </style>
