@@ -1,18 +1,18 @@
 <template>
   <div>
-    <img
+    <!-- <img
       class="min-nav d-md-none"
       src="../assets/images/bcid-logo-rev-en.svg"
       width="200"
       height="44"
       alt="B.C. Government Logo"
-    />
+    /> -->
     <header>
       <div class="container">
         <div class="banner">
           <a class="navbar-brand" href="https://www2.gov.bc.ca">
             <img
-              class="img-fluid d-none d-md-block"
+              class="img-fluid d-md-block"
               src="../assets/images/bcid-logo-rev-en.svg"
               width="185"
               height="45"
@@ -183,8 +183,8 @@ export default {
 }
 header {
   z-index: 100;
-  background-color: #036;
-  border-bottom: 2px solid #fcba19;
+  background-color: var(--primary-nav);
+  border-bottom: 2px solid var(--bcgold);
   padding: 0 30px 0 30px;
   color: #fff;
   display: flex;
@@ -236,13 +236,14 @@ header .nav-btn {
 }
 
 .user-profile {
-  margin-top: -20px
+  margin-top: 0px;
+  display: none;
 }
 
 .navigation-main {
   display: none;
   position: fixed;
-  top: 65px;
+  top: 85px;
   color: #fcba19;
   background-color: #38598a;
   width: 100%;
@@ -304,7 +305,10 @@ header .nav-btn {
     size: phone, tablet, full. 
   */
 
-  @media screen and (min-width: 880px) {
+  @media screen and (min-width: 774px) {
+    header {
+      height: 85px;
+    }
     header h1 {
       display: inline;
     }
@@ -332,30 +336,43 @@ header .nav-btn {
     .navbar-brand {
       padding-left: 0;
     }
-    /* remove vertical line on last item on nav */
+    .user-profile {
+      display:block;
+    }
+    /* removes vertical line on last item on nav */
     #profile-route {
       border-right: none;
     }
   }
 
-  @media screen and (min-width: 880px) and (max-width: 1360px) {
+  @media screen and (min-width: 774px) and (max-width: 1360px) {
     header h1 {
-      font-size: calc(7px + 1.9vw);
+      font-size: calc(5px + 2.05vw);
+    }
+    .navigation-main ul li a {
+      padding: 0 calc(2px + .85vw) 0 calc(2px + .85vw);
+      font-size: calc(8.5px + .35vw);
     }
   }
 
-  @media screen and (min-width: 880px) and (max-width: 1200px) {
-    .navigation-main ul li a {
-      padding: 0 calc(2px + .9vw) 0 calc(2px + .9vw);
-      font-size: calc(8px + .5vw);
-    }
+  @media screen and (min-width: 774px) and (max-width: 1200px) {
+    
   }
 
   @media screen and (min-width: 1200px) {
-    .top-search{
+    header {
+      height: 65px;
+    }
+    .navigation-main {
+      top: 65px;
+    }
+    .top-search {
       position: absolute;
       top: 0px;
       right: 20px;
+    }
+    .user-profile {
+      margin-top: -20px
     }
   }
 
