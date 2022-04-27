@@ -14,14 +14,14 @@
             <img
               class="img-fluid d-none d-md-block"
               src="../assets/images/bcid-logo-rev-en.svg"
-              width="181"
-              height="44"
+              width="185"
+              height="45"
               alt="B.C. Government Logo"
             />
           </a>
           <h1>Graduation Records and Achievement Data</h1>
         </div>
-         <div class="float-right" style="margin-top: -20px"><slot></slot></div>
+         <div class="float-right user-profile"><slot></slot></div>
       </div>
     </header>
     <nav aria-label="Menu" class="navbar navbar-expand-lg navbar-dark bg-primary-nav burgernav">
@@ -176,6 +176,7 @@ export default {
 }
 .navbar-brand {
   padding-top: .5rem;
+  padding-left: 65px;
 }
 #navbar {
   z-index: 100;
@@ -234,6 +235,10 @@ header .nav-btn {
   cursor: pointer;
 }
 
+.user-profile {
+  margin-top: -20px
+}
+
 .navigation-main {
   display: none;
   position: fixed;
@@ -265,7 +270,7 @@ header .nav-btn {
   font-size: 0.813em;
   font-weight: normal;
   color: #fff;
-  padding: 0 15px 0 15px;
+  padding: 0 14px 0 14px;
   text-decoration: none;
 }
 
@@ -324,6 +329,13 @@ header .nav-btn {
     .navigation-main ul li a {
       border-right: 1px solid #9b9b9b;
     }
+    .navbar-brand {
+      padding-left: 0;
+    }
+    /* remove vertical line on last item on nav */
+    #profile-route {
+      border-right: none;
+    }
   }
 
   @media screen and (min-width: 880px) and (max-width: 1360px) {
@@ -334,8 +346,8 @@ header .nav-btn {
 
   @media screen and (min-width: 880px) and (max-width: 1200px) {
     .navigation-main ul li a {
-      padding: 0 calc(4px + .9vw) 0 calc(4px + .9vw);
-      font-size: calc(7px + .5vw);
+      padding: 0 calc(2px + .9vw) 0 calc(2px + .9vw);
+      font-size: calc(8px + .5vw);
     }
   }
 
