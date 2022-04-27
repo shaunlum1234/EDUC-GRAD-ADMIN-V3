@@ -75,6 +75,7 @@
       //id, type, value
       deleteValueFromTypeInBatchId(state,payload){
         let items = state.batchDetails[payload['id']][payload['type']];
+
         for( var i = 0; i < items.length; i++){    
           if ( items[i].value === payload['value']) { 
             items.splice(i--, 1); 
@@ -219,8 +220,8 @@
         state.batchDetails[payload].districts=[{}];
         state.batchDetails[payload].programs=[{}];
         state.batchDetails[payload].students=[{}];
-        state.batchDetails[payload].details['blankCertificateDetails']=[{}];
-        state.batchDetails[payload].details['blankTranscriptDetails']=[{}];
+        state.batchDetails[payload]['details'].blankCertificateDetails=[{}];
+        state.batchDetails[payload]['details'].blankTranscriptDetails=[{}];
         state.batchDetails[payload]['details'].credential="";
         state.batchDetails[payload]['details'].categoryCode="";
       },
