@@ -246,10 +246,7 @@ export default {
   },
   methods: { 
     cancelBatchJob(id) {
-      console.log("SPINNERS")
-      console.log(this.spinners)
-      console.log("TABS")
-      console.log(this.tabs)
+  
       for (let i = 0; i < this.tabs.length; i++) {
         if (this.tabs[i] == id) {
           this.tabs.splice(i, 1);
