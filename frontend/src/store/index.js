@@ -215,10 +215,6 @@
         state.batchDetails[payload['id']]=payload['batchDetail'];
       },
       clearBatchDetails(state,payload){
-        console.log("payload")
-        console.log(payload)
-        console.log(state.batchDetails)
-        console.log(state.batchDetails[payload])
         state.batchDetails[payload]['details'].who="Choose...";
         state.batchDetails[payload].schools=[{}];
         state.batchDetails[payload].districts=[{}];

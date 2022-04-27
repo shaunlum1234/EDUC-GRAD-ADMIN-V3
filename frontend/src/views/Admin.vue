@@ -334,67 +334,17 @@ export default {
       }
     },
     runTVRRUN(request, id){
-      let requestId = id.replace("job-","")-1; 
+     let requestId = id.replace("job-",""); 
       this.$set(this.spinners, id, true)
       let index= id.replace("job-","")-1;
       let value = true
       this.$store.commit("setTabLoading",{index, value});
-      
-      
         DashboardService.runTVRRUN(this.token, request).then(
-        () => {
-           //update the admin dashboard
-          this.getAdminDashboardData();
-          // eslint-disable-next-line
-          this.cancelBatchJob(id);
-          this.selectedTab = 0;
-          this.$bvToast.toast("Batch processing has completed for request " + requestId  , {
-            title: "SUCCESS",
-            variant: 'success',
-            noAutoHide: true,
-          })
-         
-        })
-        .catch((error) => {
-          if(error.response.status){
-            this.$bvToast.toast("Batch processing is for <strong>request " + requestId + "</strong>is still in progress and will run in the background" , {
-              title: "SUCCESS",
-              variant: 'success',
-              noAutoHide: true,
-            })
-            this.cancelBatchJob(id.replace("job-",""));
-            this.selectedTab = 0;
-          }
-        })
-        DashboardService.getBatchSummary(this.token).then(
-           (response) => {
-            let jobDetails = response.data.batchJobList[0];
-            let job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": "?", "id": "?", "jobExecutionId": jobDetails.jobExecutionId, "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": "TVRRUN" }
-            this.batchInfoListData.push(job)    
-            this.$bvToast.toast("Batch for Request " + id + "has Started" , {
-              title: "SUCCESS",
-              variant: 'success',
-              noAutoHide: true,
-            })             
-     
-           }
-        );        
-    },
-    runREGALG(request, id){
-      let requestId = id.replace("job-",""); 
-      console.log(this.spinners)
-      this.$set(this.spinners, id, true)
-      let index= id.replace("job-","")-1;
-      let value = true
-      this.$store.commit("setTabLoading",{index, value});
-        DashboardService.runREGALG(this.token, request).then(
         (response) => {
            //update the admin dashboard
           this.getAdminDashboardData();
           // eslint-disable-next-line
           console.log(response)
-          console.log("the regalg ran and completed")
-          console.log("cancelBatchJob " +  id.replace("job-",""))
           this.cancelBatchJob(id);
           this.selectedTab = 0;
           this.$bvToast.toast("Batch run has completed for request " + requestId , {
@@ -404,8 +354,6 @@ export default {
           })
         })
         .catch((error) => {
-          console.log("there was an error")
-          console.log(error)
           if(error){
             this.$bvToast.toast("Batch run is still in progress for request" + requestId + " and will run in the background" , {
               title: "SUCCESS",
@@ -419,62 +367,91 @@ export default {
             let jobDetails = response.data.batchJobList[0];
             let job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": jobDetails.startTime, "id": "?", "jobExecutionId": jobDetails.jobExecutionId, "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": "REGALG" }
             this.batchInfoListData.splice(0,1,job)
-
             this.$bvToast.toast("Batch for request " + requestId + " has started" , {
               title: "SUCCESS",
               variant: 'success',
               noAutoHide: true,
             })
-            
-            
-            
+          }
+        );      
+    },
+    runREGALG(request, id){
+      let requestId = id.replace("job-",""); 
+      this.$set(this.spinners, id, true)
+      let index= id.replace("job-","")-1;
+      let value = true
+      this.$store.commit("setTabLoading",{index, value});
+        DashboardService.runREGALG(this.token, request).then(
+        (response) => {
+           //update the admin dashboard
+          this.getAdminDashboardData();
+          // eslint-disable-next-line
+          console.log(response)
+          this.cancelBatchJob(id);
+          this.selectedTab = 0;
+          this.$bvToast.toast("Batch run has completed for request " + requestId , {
+            title: "SUCCESS",
+            variant: 'success',
+            noAutoHide: true,
+          })
+        })
+        .catch((error) => {
+          if(error){
+            this.$bvToast.toast("Batch run is still in progress for request" + requestId + " and will run in the background" , {
+              title: "SUCCESS",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
+        })
+        DashboardService.getBatchSummary(this.token).then(
+          (response) => {
+            let jobDetails = response.data.batchJobList[0];
+            let job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": jobDetails.startTime, "id": "?", "jobExecutionId": jobDetails.jobExecutionId, "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": "REGALG" }
+            this.batchInfoListData.splice(0,1,job)
+            this.$bvToast.toast("Batch for request " + requestId + " has started" , {
+              title: "SUCCESS",
+              variant: 'success',
+              noAutoHide: true,
+            })
           }
         );  
     },
-    runbatch(id){
-      console.log("spinners")
-      console.log(this.spinners)
-      console.log("batches")
-      console.log(this.tabContent)      
-      console.log("count")
-      console.log(this.tabCounter)      
-
-        let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
-        if(this.tabContent[id].details['who'] == 'School'){
-          schools = this.tabContent[id].schools.map(this.getBatchData);  
-          schools.pop();
-          if(!schools.length){
-            this.validationMessage = "Please select a school."
-            return
-          }
-        }else if(this.tabContent[id].details['who'] == 'Student'){
-          
-          pens = this.tabContent[id].students.map(this.getBatchData);  
-          pens.pop();
-          if(!pens.length){
-            this.validationMessage = "Please select a student."
-            return
-          }
-        }else if(this.tabContent[id].details['who'] == 'District'){
-          districts = this.tabContent[id].districts.map(this.getBatchData);  
-          districtCategoryCode = this.tabContent[id]['details'].categoryCode;
-          districts.pop();
-          if(!districtCategoryCode){
-            this.validationMessage = "Please select a district category"
-          }
-          if(!districts.length){
-            this.validationMessage = "Please select a district."
-            return
-          }
-        }else if(this.tabContent[id].details['who'] == 'Program'){
-          programs = this.tabContent[id].programs.map(this.getBatchData);  
-          programs.pop();
-          
-          if(!programs.length){
-            this.validationMessage = "Please select a program."
-            return
-          }
+    runbatch(id){    
+      let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
+      if(this.tabContent[id].details['who'] == 'School'){
+        schools = this.tabContent[id].schools.map(this.getBatchData);  
+        schools.pop();
+        if(!schools.length){
+          this.validationMessage = "Please select a school."
+          return
         }
+      }else if(this.tabContent[id].details['who'] == 'Student'){
+        pens = this.tabContent[id].students.map(this.getBatchData);  
+        pens.pop();
+        if(!pens.length){
+          this.validationMessage = "Please select a student."
+          return
+        }
+      }else if(this.tabContent[id].details['who'] == 'District'){
+        districts = this.tabContent[id].districts.map(this.getBatchData);  
+        districtCategoryCode = this.tabContent[id]['details'].categoryCode;
+        districts.pop();
+        if(!districtCategoryCode){
+          this.validationMessage = "Please select a district category"
+        }
+        if(!districts.length){
+          this.validationMessage = "Please select a district."
+          return
+        }
+      }else if(this.tabContent[id].details['who'] == 'Program'){
+        programs = this.tabContent[id].programs.map(this.getBatchData);  
+        programs.pop();
+        if(!programs.length){
+          this.validationMessage = "Please select a program."
+          return
+        }
+      }
       let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts, "schoolCategoryCodes": [districtCategoryCode], "programs":programs, "validateInput": false}
       if(this.batchHasErrors(this.tabContent[id])){
         return;
@@ -484,15 +461,7 @@ export default {
           
       }else if(this.tabContent[id].details['what'] == 'TVRRUN'){     
         this.runTVRRUN(request, id);
-      }
-
-      console.log("STATE AFTER RUN BATCH");
-      console.log("spinners")
-      console.log(this.spinners)
-      console.log("batches")
-      console.log(this.tabContent)      
-      console.log("count")
-      console.log(this.tabCounter)      
+      }     
     },
     displaySearchResults(value){ 
       this.searchResults = value
