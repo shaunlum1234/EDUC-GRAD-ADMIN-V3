@@ -30,6 +30,9 @@
     </b-navbar>
     <b-collapse id="navbarSmallScreen" is-nav>
       <b-navbar-nav class="mr-auto">
+        <b-navbar-item class="user-burgernav">
+          <div><slot></slot></div>
+        </b-navbar-item>
         <b-navbar-item>
           <router-link to="/">Select Student</router-link>
         </b-navbar-item>
@@ -175,15 +178,6 @@ export default {
 #navbar {
   z-index: 100;
 }
-#navbarSmallScreen {
-  z-index: 100;
-  background-color:#38598a;
-  top: 65px;
-  position: relative;
-}
-#navbarSmallScreen a {
-  color: white;
-}
 header {
   z-index: 100;
   background-color: var(--primary-nav);
@@ -296,6 +290,26 @@ header .nav-btn {
 .burgernav {
   position: fixed;
 }
+#navbarSmallScreen {
+  z-index: 100;
+  padding: 10px 0;
+  background-color:#38598a;
+  color: white;
+  top: 65px;
+  position: relative;
+  -webkit-box-shadow: 0 6px 8px -4px #b3b1b3;
+  -moz-box-shadow: 0 6px 8px -4px #b3b1b3;
+  box-shadow: 0 6px 8px -4px #b3b1b3;
+}
+#navbarSmallScreen a {
+  color: white;
+}
+#navbarSmallScreen b-navbar-item {
+  margin-left: 15px;
+}
+.user-burgernav {
+  margin-bottom: 5px;
+}
 
 :focus {
   outline: 4px solid #3b99fc;
@@ -367,65 +381,11 @@ header .nav-btn {
     }
     .top-search {
       position: absolute;
-      top: 0px;
+      top: 1px;
       right: 20px;
     }
     .user-profile {
       margin-top: -20px
     }
   }
-
-/* @media screen and (min-width: 992px) {
-  .burgernav {
-    display: none;
-  }
-  .navigation-main {
-    display: block;
-    margin-bottom: 100px;
-  }
-
-  .navigation-main ul {
-    flex-direction: row;
-  }
-
-  .navigation-main ul li {
-    margin: 0;
-  }
-
-  .navigation-main ul li a {
-    border-right: 1px solid #9b9b9b;
-  }
-} */
-/* @media screen and (min-width: 1200px) {
-  .top-search{
-    position: absolute;
-    top: 0px;
-    right: 20px;
-  }
-
-  header .nav-btn {
-    display: none;
-    width: auto;
-    margin: 0 0 0 auto;
-    cursor: pointer;
-  }
-} */
-/* @media screen and (min-width: 768px) and (max-width: 1330px){
-  .top-search{
-    right: -99px;
-  }
-} */
-/* @media screen and (min-width: 992px) and (max-width: 1399px) {
-  header h1 {
-    font-size: calc(7px + 2.2vw);
-    display: inline;
-  }
-} */
-
-/* @media screen and (min-width: 1400px) {
-  header h1 {
-    font-size: 2em;
-    display: inline;
-  }
-} */
 </style>
