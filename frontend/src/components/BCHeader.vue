@@ -30,9 +30,6 @@
     </b-navbar>
     <b-collapse id="navbarSmallScreen" is-nav>
       <b-navbar-nav class="mr-auto">
-        <b-navbar-item class="user-burgernav">
-          <div><slot></slot></div>
-        </b-navbar-item>
         <b-navbar-item>
           <router-link to="/">Select Student</router-link>
         </b-navbar-item>
@@ -47,6 +44,9 @@
         <b-navbar-item><router-link to="/admin">Batch Processing</router-link></b-navbar-item>
         <b-navbar-item v-if="!profile.pen" class="disabled"><a id="profile-route" class="text-decoration-none text-disabled" :disabled=true>Profile (Student not loaded)</a></b-navbar-item>
         <b-navbar-item v-else><router-link :to="`/student-profile/${this.profile.pen}/${this.profile.studentID}`" id="profile-route">Profile ({{profile.pen? profile.pen : 'Student not loaded'}})</router-link></b-navbar-item>
+        <b-navbar-item class="user-burgernav">
+          <div><slot></slot></div>
+        </b-navbar-item>
       </b-navbar-nav>
     </b-collapse >
 
@@ -292,7 +292,7 @@ header .nav-btn {
 }
 #navbarSmallScreen {
   z-index: 100;
-  padding: 10px 0;
+  /* padding: 10px 0; */
   background-color:#38598a;
   color: white;
   top: 65px;
@@ -304,11 +304,13 @@ header .nav-btn {
 #navbarSmallScreen a {
   color: white;
 }
-#navbarSmallScreen b-navbar-item {
+#navbarSmallScreen b-navbar-item a {
   margin-left: 15px;
 }
 .user-burgernav {
-  margin-bottom: 5px;
+  padding: 5px 0 5px 15px;
+  background-color: var(--primary-nav);
+  border-top: 2px solid var(--bcgold);
 }
 
 :focus {
