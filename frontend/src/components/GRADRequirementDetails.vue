@@ -34,7 +34,6 @@
             <template #cell(gradReqMet)="row">
               <div class="d-flex flex-column text-md-left">
                 <div class="gradReqsMet">
-
                     <span v-if="row.item.used">{{row.item.gradReqMet ? row.item.gradReqMet : "" }}</span>   
                     <span v-if="!row.item.used">Not Used</span>     
                     <span v-if="row.item.notCompleted">Incomplete Course</span>     
@@ -42,7 +41,7 @@
                     <span v-if="row.item.failed">Failed</span>   
                     <span v-if="row.item.duplicate">Repeat</span>   
                     <span v-if="row.item.careerPrep">Career Prep course</span>   
-                    <span v-if="row.item.localDeveloped">Locally Developed course</span>     
+                    <span v-if="row.item.locallyDeveloped">Locally Developed course</span>     
                     <span v-if="row.item.boardAuthorityAuthorized">Board/Authority Authorized Course</span>
                     <span v-if="row.item.independentDirectedStudies">Independent Directed Studies course</span>
                     <span v-if="row.item.cutOffCourse">Course taken after Cut-off</span>

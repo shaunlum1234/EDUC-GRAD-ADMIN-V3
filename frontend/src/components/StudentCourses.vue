@@ -6,7 +6,7 @@
       </div> 
       <DisplayTable v-if="courses" :items="courses" v-bind:filterOn="toFilterItem" :fields="fields"  showFilter="true" title="studentCourse">
         <template #thead-top="">
-          <b-tr class="table-row-header-group">
+          <b-tr class="table-row-header-group top-row">
             <b-th colspan="1" class="table-header-group text-center"></b-th>
             <b-th colspan="3" class="table-header-group text-center">
               <div></div></b-th
@@ -320,5 +320,9 @@ export default {
 
 .highlight {
   background: aliceblue !important;
+}
+
+.top-row{
+  border-bottom-style: hidden;
 }
 </style>
