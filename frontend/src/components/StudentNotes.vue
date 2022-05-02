@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div class="student-note">
+      <div class="student-note px-3">
       <!-- Add new Note form -->
         <b-card
             title=""
