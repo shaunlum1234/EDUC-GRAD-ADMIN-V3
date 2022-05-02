@@ -30,23 +30,23 @@
     </b-navbar>
     <b-collapse id="navbarSmallScreen" is-nav>
       <b-navbar-nav class="mr-auto">
-        <b-navbar-item>
+        <b-nav-item>
           <router-link to="/">Select Student</router-link>
-        </b-navbar-item>
-        <b-navbar-item>
+        </b-nav-item>
+        <b-nav-item>
           <router-link to="/admin-graduation-programs">Programs</router-link>
-        </b-navbar-item>
-        <b-navbar-item><router-link to="/courses">Courses</router-link></b-navbar-item>
-        <b-navbar-item><router-link to="/assessments">Assessments</router-link></b-navbar-item>
-        <b-navbar-item><router-link to="/schools">Schools</router-link></b-navbar-item>
-        <b-navbar-item><router-link to="/psi">PSI</router-link></b-navbar-item>
-        <b-navbar-item><router-link to="/codes">Codes</router-link></b-navbar-item>
-        <b-navbar-item><router-link to="/admin">Batch Processing</router-link></b-navbar-item>
-        <b-navbar-item v-if="!profile.pen" class="disabled"><a id="profile-route" class="text-decoration-none text-disabled" :disabled=true>Profile (Student not loaded)</a></b-navbar-item>
-        <b-navbar-item v-else><router-link :to="`/student-profile/${this.profile.pen}/${this.profile.studentID}`" id="profile-route">Profile ({{profile.pen? profile.pen : 'Student not loaded'}})</router-link></b-navbar-item>
-        <b-navbar-item class="user-burgernav">
+        </b-nav-item>
+        <b-nav-item><router-link to="/courses">Courses</router-link></b-nav-item>
+        <b-nav-item><router-link to="/assessments">Assessments</router-link></b-nav-item>
+        <b-nav-item><router-link to="/schools">Schools</router-link></b-nav-item>
+        <b-nav-item><router-link to="/psi">PSI</router-link></b-nav-item>
+        <b-nav-item><router-link to="/codes">Codes</router-link></b-nav-item>
+        <b-nav-item><router-link to="/admin">Batch Processing</router-link></b-nav-item>
+        <b-nav-item v-if="!profile.pen" class="disabled"><a id="profile-route" class="text-decoration-none text-disabled" :disabled=true>Profile (Student not loaded)</a></b-nav-item>
+        <b-nav-item v-else><router-link :to="`/student-profile/${this.profile.pen}/${this.profile.studentID}`" id="profile-route">Profile ({{profile.pen? profile.pen : 'Student not loaded'}})</router-link></b-nav-item>
+        <b-nav-item class="user-burgernav">
           <div><slot></slot></div>
-        </b-navbar-item>
+        </b-nav-item>
       </b-navbar-nav>
     </b-collapse >
 
@@ -303,9 +303,7 @@ header .nav-btn {
 }
 #navbarSmallScreen a {
   color: white;
-}
-#navbarSmallScreen b-navbar-item a {
-  margin-left: 15px;
+  margin-left: 10px;
 }
 .user-burgernav {
   padding: 5px 0 5px 15px;
