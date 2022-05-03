@@ -21,7 +21,9 @@
           </a>
           <h1>Graduation Records and Achievement Data</h1>
         </div>
-         <div class="float-right user-profile"><slot></slot></div>
+        <div class="float-right user-profile">
+          <slot></slot>
+        </div>
       </div>
     </header>
 
