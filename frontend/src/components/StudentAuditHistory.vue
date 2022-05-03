@@ -2,14 +2,14 @@
   <div class="container">
      <h3>Student change history</h3>
     <div class="col-12" v-for="(value, index) in changeHistory.slice().reverse()" :key="value.historyID">
-      <div class="row col-12 py-2" :header="studentHistory[index+1].historyID">
+      <div class="row col-12 py-2" :header="studentHistory[index].historyID">
         <div class="col-4 border-bottom">
-          Activity Code: <strong>{{studentHistory[index+1].activityCode}}</strong> on<br/>
-          {{studentHistory[index+1].createDate | formatTime}}
+          Activity Code: <strong>{{studentHistory[index].activityCode}}</strong> on<br/>
+          {{studentHistory[index].createDate | formatTime}}
         </div>
         <div class="float-left col-8 border-bottom">
                 <div class="float-right w-25">
-                  <b-button v-b-toggle="'collapse-'+ studentHistory[index+1].historyID" variant="primary">View</b-button>
+                  <b-button v-b-toggle="'collapse-'+ studentHistory[index].historyID" variant="primary">View</b-button>
                 </div>
           <div v-for="v in value" :key="v.historyID" class="">
             <div class="" v-if="v.pathTo != 'updateDate' 
@@ -23,8 +23,8 @@
               <div class="w-50 float-left"> {{v.lhs==null?"blank":v.lhs}} <i class="fas fa-arrow-right" aria-hidden="true"></i> {{v.rhs == null?"blank":v.rhs}}</div>
         
               <div class="w-100 float-left">
-                <b-collapse :id="'collapse-' + studentHistory[index+1].historyID" class="mt-2">
-                  <pre>{{JSON.stringify(studentHistory[index+1], null, '\t')}}</pre>
+                <b-collapse :id="'collapse-' + studentHistory[index].historyID" class="mt-2">
+                  <pre>{{JSON.stringify(studentHistory[index], null, '\t')}}</pre>
                 </b-collapse>
               </div>
             </div>  
