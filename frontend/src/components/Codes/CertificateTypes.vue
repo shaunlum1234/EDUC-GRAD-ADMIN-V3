@@ -14,6 +14,9 @@
     <template #cell(expiryDate)="row">
       {{ row.item.expiryDate | formatTime }}
     </template>
+    <template #cell(language)="row">
+        {{ row.item.language }}
+    </template>
   </DisplayTable>
   </div>
 </template>
@@ -55,7 +58,7 @@ export default {
           label: "Code",
           sortable: true,
           sortDirection: "desc",
-          class: "w-15"
+          class: "w-10"
         },
         {
           key: "label",
@@ -66,6 +69,12 @@ export default {
           key: "description",
           label: "Description",
           sortable: true,
+        },
+        {
+          key: "language",
+          label: "Language",
+          sortable: true,
+          class: "w-10",
         },
         {
           key: "effectiveDate",
