@@ -300,6 +300,7 @@ export default {
             this.expected = this.dashboardData.lastExpectedStudentsProcessed
           }
         ).catch((error) => {
+          
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error.response.statusText, {
               title: "ERROR" + error.response.status,
@@ -352,6 +353,7 @@ export default {
         })
         .catch((error) => {
           if(error){
+            this.cancelBatchJob(id);
             this.$bvToast.toast("Batch run is still in progress for request" + requestId + " and will run in the background" , {
               title: "BATCH PROCESSING UPDATE",
               variant: 'success',
@@ -383,6 +385,7 @@ export default {
         })
         .catch((error) => {
           if(error){
+            this.cancelBatchJob(id);
             this.$bvToast.toast("Batch run is still in progress for request" + requestId + " and will run in the background" , {
               title: "BATCH PROCESSING UPDATE",
               variant: 'success',
@@ -414,6 +417,7 @@ export default {
         })
         .catch((error) => {
           if(error){
+            this.cancelBatchJob(id);
             this.$bvToast.toast("Batch run is still in progress for request" + requestId + " and will run in the background" , {
               title: "BATCH PROCESSING UPDATE",
               variant: 'success',
