@@ -6,16 +6,16 @@ const apiClient = axios.create({
 
 export default {
     getSchoolInfo(mincode, token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
         return apiClient.get('/api/v1/school/' + mincode,{ headers });
     },
     getAllSchools(token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
         return apiClient.get('/api/v1/school/',{ headers });
     },
     searchSchools(searchInput, token) {
         
-        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
+        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
         let queryString = ""
         for (var key in searchInput) {
             if (searchInput.hasOwnProperty(key)) {
