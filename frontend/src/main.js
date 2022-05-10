@@ -16,7 +16,7 @@ import '@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import '../src/assets/css/bcgov.css';
 import '../src/assets/css/global.css';
-import keycloakHost from "./js/config/VUE_APP_KEYCLOAK_AUTH_HOST"
+import keycloakHost from "/js/config/VUE_APP_KEYCLOAK_AUTH_HOST"
 
 
 // Install BootstrapVue
@@ -100,6 +100,9 @@ if(window.location.host == 'dev.grad.gov.bc.ca' || window.location.host == 'loca
   console.log("KEYCLOAK HOST")
   // eslint-disable-next-line
   console.log(keycloakHost)
+  if(!keycloakHost){
+    keycloakHost ="https://soam-dev.apps.silver.devops.gov.bc.ca/auth"
+  }
   if(window.location.search == "?login=noidir"){
     initOptions = {
       url: "https://soam-dev.apps.silver.devops.gov.bc.ca/auth", realm: 'master', clientId: 'educ-grad-api-service', onLoad:'login-required'
