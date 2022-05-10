@@ -98,7 +98,7 @@ if(window.location.host == 'dev.grad.gov.bc.ca' || window.location.host == 'loca
   // eslint-disable-next-line
   console.log("PROCESS")
   // eslint-disable-next-line
-  console.log(process.env.VUE_APP_KEYCLOAK_AUTH_HOST)
+  console.log(process.env.EDUC_HELLO)
   if(window.location.search == "?login=noidir"){
     initOptions = {
       url: "https://soam-dev.apps.silver.devops.gov.bc.ca/auth", realm: 'master', clientId: 'educ-grad-api-service', onLoad:'login-required'
