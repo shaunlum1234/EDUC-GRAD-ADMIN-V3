@@ -92,7 +92,7 @@
                         <div v-if="programChangeWarning" class="form-validation-message text-danger">Warning, any optional programs associated with the original program will be <strong>deleted</strong>. You must add back in any pertinent optional programs once you have saved the changes to Program.</div>
                       </div>   
                     </td>
-                    <td class="w-50"><b-form-select :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" v-model="editedGradStatus.program" :options="programOptions" value-field="programCode" text-field="programCode"></b-form-select></td>                   
+                    <td class="w-50"><b-form-select :disabled="disableInput" size="sm" v-model="editedGradStatus.program" :options="programOptions" value-field="programCode" text-field="programCode"></b-form-select></td>                   
                   </tr>
                   <tr v-if="!showEdit">
                     <td><strong>Program completion date: </strong></td>
@@ -634,7 +634,12 @@ export default {
       this.schoolOfRecordWarning = false;
       this.schoolNotFoundWarning = false;
       if(this.studentGradStatus.programCompletionDate != null){
-        this.disableInput = false;
+        if(this.studentGradStatus.program == 'SCCP'){
+          this.disableInput = false;
+        } else {
+          this.disableInput = true;
+        }
+        
         this.disableSchoolAtGrad = false;
         this.disableStudentStatus = false;
       }else{
