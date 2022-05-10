@@ -95,6 +95,10 @@ let initOptions;
 //need to have clientID same in all environments
 if(window.location.host == 'dev.grad.gov.bc.ca' || window.location.host == 'localhost:8080'){
   //localhost and dev.grad.gov.bc.ca keycloak
+  // eslint-disable-next-line
+  console.log("PROCESS")
+  // eslint-disable-next-line
+  console.log(process.env.VUE_APP_KEYCLOAK_AUTH_HOST)
   if(window.location.search == "?login=noidir"){
     initOptions = {
       url: "https://soam-dev.apps.silver.devops.gov.bc.ca/auth", realm: 'master', clientId: 'educ-grad-api-service', onLoad:'login-required'
