@@ -1,8 +1,6 @@
 <template>
 
   <div class="student-profile">
-    Student history: {{studentHistory.length}}<br>
-    Student optionalProgramHistory: {{optionalProgramHistory.length}}
     <div class="row m-0 py-3">    
       <div class="px-0">   
           <table v-if="!smallScreen" class="profile-name" aria-label="student information">
