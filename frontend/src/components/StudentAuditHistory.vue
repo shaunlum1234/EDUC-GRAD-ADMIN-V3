@@ -38,7 +38,7 @@
       <h3 class="pt-2">Student Audit</h3>
     </div>
     
-    <b-collapse id="student-audit-collapse">
+    <b-collapse visible id="student-audit-collapse">
       <!-- TODO: Remove counts on buttons; leaving in for debuggin purposes right now -->
       <b-button class="mx-2" v-on:click="auditTab = 'studentHistory'" :variant="auditTab == 'studentHistory' ? 'primary' : 'outline-secondary'">Student change history [DEBUG: {{this.studentHistory.length}}]</b-button>
       <b-button class="mx-2" v-on:click="auditTab = 'optionalProgramHistory'" :variant="auditTab == 'optionalProgramHistory' ? 'primary' : 'outline-secondary'">Optional program change history [DEBUG: {{this.optionalProgramHistory.length}}]</b-button>
@@ -197,11 +197,8 @@ export default {
         ],
         showNotes: false,
         showUngradReasons: false,
-        showStudentAudit: false,
+        showStudentAudit: true,
         auditTab: "studentHistory",
-
-        showStudentChangeHistory: true,
-        ShowOptionalProgramHistory: false,
     };
   },
   mounted() {
