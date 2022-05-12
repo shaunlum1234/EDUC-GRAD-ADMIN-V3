@@ -39,16 +39,18 @@
     </div>
     
     <b-collapse id="student-audit-collapse">
-      <b-button class="mx-2" v-on:click="auditTab = 'studentHistory'" :variant="auditTab == 'studentHistory' ? 'primary' : 'outline-secondary'">Student change history ({{this.studentHistory.length}})</b-button>
-      <b-button class="mx-2" v-on:click="auditTab = 'optionalProgramHistory'" :variant="auditTab == 'optionalProgramHistory' ? 'primary' : 'outline-secondary'">Optional program change history ({{this.optionalProgramHistory.length}})</b-button>
+      <!-- TODO: Remove counts on buttons; leaving in for debuggin purposes right now -->
+      <b-button class="mx-2" v-on:click="auditTab = 'studentHistory'" :variant="auditTab == 'studentHistory' ? 'primary' : 'outline-secondary'">Student change history [DEBUG: {{this.studentHistory.length}}]</b-button>
+      <b-button class="mx-2" v-on:click="auditTab = 'optionalProgramHistory'" :variant="auditTab == 'optionalProgramHistory' ? 'primary' : 'outline-secondary'">Optional program change history [DEBUG: {{this.optionalProgramHistory.length}}]</b-button>
 
     <!-- Student change history -->
       <div v-if="auditTab === 'studentHistory'">
         <div class="col-12" v-for="(value, index) in changeHistory.slice().reverse()" :key="value.historyID">
           <div class="row col-12 py-2" :header="studentHistory.slice().reverse()[index].historyID">
             <div class="col-4 border-bottom">
-              Activity Code: <strong>{{studentHistory.slice().reverse()[index].activityCode}}</strong> on<br/>
-              {{studentHistory.slice().reverse()[index].createDate | formatTime}}
+              <p><strong>Activity Code: </strong>{{studentHistory.slice().reverse()[index].activityCode}}</p>
+              <p><strong>Update User: </strong>{{studentHistory.slice().reverse()[index].updateUser}}</p>
+              <p><strong>Updated: </strong>{{studentHistory.slice().reverse()[index].createDate | formatTime}}</p>
             </div>
             <div class="float-left col-8 border-bottom">
               <div class="float-right w-25">
@@ -62,7 +64,9 @@
                   && v.pathTo != 'historyID'
                   && v.pathTo != 'studentGradData'
                   && v.pathTo != 'activityCode'
-                  && v.pathTo != 'recalculateGradStatus'
+                  && v.pathTo != 'studentID'
+                  && v.pathTo != 'updateUser'
+                  && (v.kind != 'N' || v.rhs)
                   ">
                   <div class="w-25 float-left"> <strong>{{v.pathTo | formatSetenceCase}}</strong>:</div>
                   <div class="w-50 float-left" v-if="v.kind != 'N'">
@@ -70,8 +74,8 @@
                     <i class="fas fa-arrow-right" aria-hidden="true"></i>
                     {{v.rhs == null?"blank":v.rhs}}
                   </div>
-                  <div class="w-50 float-left" v-else>
-                    {{v.rhs == null?"blank":v.rhs}}
+                  <div class="w-50 float-left" v-else-if="v.rhs != null">
+                    {{v.rhs}}
                   </div>
                   <!-- This empty div is just a temporary spacer; need to implement more elegant solution -->
                   <div class="w-100 float-left"></div>
@@ -95,8 +99,9 @@
         <div class="col-12" v-for="(value, index) in optionalProgramChangeHistory.slice().reverse()" :key="value.historyID">
           <div class="row col-12 py-2" :header="optionalProgramHistory.slice().reverse()[index].historyID">
             <div class="col-4 border-bottom">
-              Activity Code: <strong>{{optionalProgramHistory.slice().reverse()[index].activityCode}}</strong> on<br/>
-            {{optionalProgramHistory.slice().reverse()[index].createDate | formatTime}}
+              <p><strong>Activity Code: </strong>{{optionalProgramHistory.slice().reverse()[index].activityCode}}</p>
+              <p><strong>Update User: </strong>{{optionalProgramHistory.slice().reverse()[index].updateUser}}</p>
+              <p><strong>Updated: </strong>{{optionalProgramHistory.slice().reverse()[index].createDate | formatTime}}</p>
             </div>
             <div class="float-left col-8 border-bottom">
               <div class="float-right w-25">
@@ -106,11 +111,13 @@
                 <div class="" v-if="v.pathTo != 'updateDate' 
                   && v.pathTo != 'createDate' 
                   && v.pathTo != 'historyId'
+                  && v.pathTo != 'studentID'
                   && v.pathTo != 'studentOptionalProgramId'
                   && v.pathTo != 'optionalProgramID'
                   && v.pathTo != 'studentOptionalProgramData'
                   && v.pathTo != 'activityCode'
                   && v.pathTo != 'recalculateGradStatus'
+                  && (v.kind != 'N' || v.rhs)
                   ">
                   <div class="w-25 float-left">
                     <strong>{{v.pathTo | formatSetenceCase}}</strong>:
@@ -118,8 +125,8 @@
                   <div class="w-50 float-left" v-if="v.kind != 'N'">
                     {{v.lhs==null?"blank":v.lhs}} <i class="fas fa-arrow-right" aria-hidden="true"></i> {{v.rhs == null?"blank":v.rhs}}
                   </div>
-                  <div class="w-50 float-left" v-else>
-                    {{v.rhs == null?"blank":v.rhs}}
+                  <div class="w-50 float-left"  v-else-if="v.rhs != null">
+                    {{v.rhs}}
                   </div>
                   <!-- This empty div is just a temporary spacer; need to implement more elegant solution -->
                   <div class="w-100 float-left"></div>
