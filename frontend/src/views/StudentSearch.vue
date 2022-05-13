@@ -215,9 +215,15 @@
                 </form>
                 <transition name="fade">
                 <div v-if="studentSearchResults" class="table-responsive">  
-                  <DisplayTable v-if="studentSearchResults.length"  v-bind:items="studentSearchResults" title="Student search results" v-bind:fields="studentSearchResultsFields" id="pen"
-                    v-bind:showFilter=false  v-bind:pagination=true>
-                      <template  #cell(pen)="data">
+                  <DisplayTable v-if="studentSearchResults.length"  
+                    v-bind:items="studentSearchResults" 
+                    title="Student search results" 
+                    v-bind:fields="studentSearchResultsFields" 
+                    id="pen"
+                    v-bind:showFilter = "false"  
+                    v-bind:pagination = "true"
+                  >
+                      <template #cell(pen)="data">
                         <router-link :to="'/student-profile/' + data.item.pen + '/' + data.item.studentID">{{ data.item.pen }}</router-link>
                       </template>
                       <template #cell(more)="row">
@@ -484,6 +490,7 @@ export default {
     },
     findStudentByPen: function () {
       if (this.penInput) {
+        this.closeRecord();
         this.searchByPenMessage = "";
         this.searchLoading = true;
         this.studentSearchResults = [];
