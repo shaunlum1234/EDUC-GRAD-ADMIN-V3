@@ -105,7 +105,7 @@
                     </td>
                     <td v-if="editedGradStatus.program == 'SCCP'">
                       <strong>Program completion date: (YYYY/MM/DD)</strong><br>
-                      <!-- <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div> -->
+                      <div v-if="dateInFutureWarning" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                     </td>
                     <td v-if="editedGradStatus.program != 'SCCP'"><b-input :disabled="studentGradStatus.programCompletionDate == null" size="sm" type="text" maxLength="7" @keyup="dateFormatYYYYMM()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                     <td v-if="editedGradStatus.program == 'SCCP'"><b-input  size="sm" type="text" maxLength="10" @keyup="dateFormatYYYYMMDD()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
@@ -361,6 +361,7 @@ export default {
   },
   data() {
     return {
+      todayDate: new Date(),
       programCompletionEffectiveDateList:[],
       programCompletionDateRangeError:false,
       programChangeWarning:false,
@@ -389,6 +390,7 @@ export default {
       schoolAtGraduationNotFoundWarning:false,
       schoolAtGraduationInputWarning:false,
       schoolAtGraduationFound: false,
+      dateInFutureWarning: false,
       programDropdownList: [],
       editedGradStatus: {},
       studentUngradReason: "",
@@ -473,6 +475,7 @@ export default {
       this.programChangeWarning = true;
     },
     programCompletionDateChange:function(){
+
       var programNameSearch = this.editedGradStatus.program;
       for (var i=0 ; i < this.programOptions.length ; i++)
       {
@@ -483,13 +486,15 @@ export default {
       }
       this.programEffectiveDate = this.programCompletionEffectiveDateList[0].effectiveDate
       this.programExpiryDate = this.programCompletionEffectiveDateList[0].expiryDate
-
+      var compareDate = new Date(this.editedGradStatus.programCompletionDate);
       if(this.editedGradStatus.programCompletionDate == ""){
         if(this.editedGradStatus.program == 'SCCP'){
-          this.disableButton = false;
+          this.disableButton = true;
+          this.dateInFutureWarning = true;
         } else {
           this.disableSchoolAtGrad = true;
-          this.disableButton = true;
+          this.disableButton = false;
+          this.dateInFutureWarning = false;
         }
         
       } else {
@@ -500,6 +505,14 @@ export default {
         } else {
           this.programCompletionDateRangeError = false;
           this.disableButton = false;
+        }
+        if(this.editedGradStatus.program == 'SCCP'){
+          if(compareDate > this.todayDate){
+            this.dateInFutureWarning = true;
+            this.disableButton = true;
+          }else{
+            this.dateInFutureWarning = false;
+          }        
         }
       }
     },

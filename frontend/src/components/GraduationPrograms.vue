@@ -65,6 +65,13 @@ export default {
           sortable: true,
         },
         {
+          key: 'associatedCredential',
+          label: 'Associated Credential',
+          sortable: true,
+          sortDirection: 'desc',
+          editable: true,
+        },   
+        {
           key: "effectiveDate",
           label: "Effective Date",
           sortable: true,
