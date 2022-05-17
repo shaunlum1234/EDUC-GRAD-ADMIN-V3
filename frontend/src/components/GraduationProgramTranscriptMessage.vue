@@ -61,7 +61,7 @@ export default {
         },
         {
           key: "adIBProgramMessage",
-          label: "adIBProgramMessage",
+          label: "ad IB Program Message",
           sortable: true,
           editable: true,
         },
@@ -104,6 +104,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>
