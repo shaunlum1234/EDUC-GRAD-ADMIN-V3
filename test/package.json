@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/bcgov/EDUC-GRAD-TEST-AUTOMATION#readme",
   "dependencies": {
+    "@testing-library/testcafe": "^4.4.0",
     "axios": "^0.21.1",
     "date-and-time": "^0.14.2",
     "dotenv": "^8.2.0",
