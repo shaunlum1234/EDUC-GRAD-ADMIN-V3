@@ -334,7 +334,8 @@
 </template>
 
 <script>
-  import AssessmentService from "@/services/AssessmentService.js"
+  import sharedMethods from '../sharedMethods';  
+  import AssessmentService from "@/services/AssessmentService.js";
   import GraduationCommonService from "@/services/GraduationCommonService.js";
   import CourseService from "@/services/CourseService.js";
   import StudentService from "@/services/StudentService.js";
@@ -353,6 +354,7 @@
   export default {
     name: "studentProfile",
     created() {
+      this.showNotification = sharedMethods.showNotification;
       const penFromURL = this.$route.params.pen;
       const studentIdFromURL = this.$route.params.studentId;
       this.loadStudent(penFromURL, studentIdFromURL);
@@ -458,11 +460,15 @@
               }
             ).catch((error) => {
               if(error.response.status){
-                this.$bvToast.toast("ERROR " + error.response.statusText, {
-                  title: "ERROR" + error.response.status,
-                  variant: 'danger',
-                  noAutoHide: true,
-                });
+                // this.$bvToast.toast("ERROR " + error.response.statusText, {
+                //   title: "ERROR" + error.response.status,
+                //   variant: 'danger',
+                //   noAutoHide: true,
+                // });
+                this.showNotification(
+                  "danger",
+                  "There was an error: " + error.response.status
+                );
               }
             });            
             StudentService.getGraduationStatus(this.studentId, this.token).then(
@@ -642,11 +648,10 @@
         }).catch((error) => {
           if(error.response.status){
             this.tabLoading = false; 
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Graduation Service (projected Grad Status with Final and Reg): " + error.response.status
+            );
           }
         });
       },
@@ -667,23 +672,22 @@
           this.$store.dispatch('setStudentProfile', response.data);
         }).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Student using PEN): " + error.response.status
+            );
           }
+         
         });
 
         AssessmentService.getStudentAssessment(pen, this.token).then((response) => {
           this.$store.dispatch('setStudentAssessments', response.data);
         }).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Assessment Service: " + error.response.status
+            );
           }
         });
         StudentService.getGraduationStatus(studentIdFromURL, this.token).then(
@@ -692,11 +696,10 @@
           }
         ).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Graduation Status): " + error.response.status
+            );
           }
         });
 
@@ -705,11 +708,10 @@
             this.$store.dispatch("setStudentGradStatusOptionalPrograms", response.data);
         }).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Graduation Status Optional Programs): " + error.response.status
+            );
           }
         });
 
@@ -719,11 +721,10 @@
         }
         ).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Student Career Programs): " + error.response.status
+            );
           }
         });        
 
@@ -734,11 +735,10 @@
           }
         ).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Student Course Achievements): " + error.response.status
+            );
           }
         });
 
@@ -748,11 +748,10 @@
           }
         ).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Student Exam Details): " + error.response.status
+            );
           }
         });
 
@@ -762,26 +761,25 @@
           }
         ).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Student Notes): " + error.response.status
+            );
           }
         });
 
         this.getStudentReportsAndCertificates(studentIdFromURL);
+
         StudentService.getStudentUngradReasons(studentIdFromURL, this.token).then(
           (response) => {         
             this.$store.dispatch("setStudentUngradReasons", response.data);
           }
         ).catch((error) => {
           if(error.response.status){ 
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Ungrad Reasons): " + error.response.status
+            );
           }
         });
         
@@ -791,11 +789,10 @@
             }
         ).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Student History): " + error.response.status
+            );
           }
         });
 
@@ -805,11 +802,10 @@
             this.$store.dispatch("setStudentOptionalProgramsAuditHistory", response.data);
         }).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Student Optional Program History): " + error.response.status
+            );
           }
         });
       },//loadStudent
