@@ -486,7 +486,7 @@
                 });
               }
             });
-            this.getStudentReportsAndCertificates(this.studentId);   
+            this.getStudentReportsAndCertificates(this.studentId, this.studentPen);   
           })
           .catch((error) => {
             this.tabLoading= false;
@@ -502,7 +502,7 @@
         this.ungradReasonSelected = "";
         this.ungradReasonDesc = "";
       },
-      getStudentReportsAndCertificates(id){
+      getStudentReportsAndCertificates(id, pen){
         GraduationCommonService.getStudentCertificates(id, this.token).then(
           (response) => {          
             this.$store.dispatch("setStudentCertificates", response.data);
@@ -541,7 +541,20 @@
               noAutoHide: true,
             });
           }
-        });                
+        }); 
+        GraduationCommonService.getStudentXmlReport(pen, this.token).then(
+          (response) => {        
+            this.$store.dispatch("setStudentXmlReport", response.data);
+          }
+        ).catch((error) => {
+          if(error.response.status){
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "Service ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });                       
       },
       reloadGradStatus(){  
         StudentService.getGraduationStatus(this.studentId, this.token).then(
@@ -557,7 +570,7 @@
             });
           }
         }); 
-        this.getStudentReportsAndCertificates(this.studentId);                                        
+        this.getStudentReportsAndCertificates(this.studentId, this.studentPen);                                        
         this.tabLoading = false;
       },
       graduateStudent(){
@@ -581,7 +594,7 @@
         this.selectedTab = 0;
         this.tabLoading = true; 
         GraduationService.updateStudentReports(this.studentId, this.token).then(() => {
-          this.getStudentReportsAndCertificates(this.studentId);
+          this.getStudentReportsAndCertificates(this.studentId, this.studentPen);
           StudentService.getGraduationStatus(this.studentId, this.token).then(
             (res) => {             
               this.$store.dispatch("setStudentGradStatus", res.data);
@@ -619,7 +632,7 @@
           } 
           this.$refs['projectedGradStatusWithFinalMarks'].show();
           this.tabLoading = false; 
-          this.getStudentReportsAndCertificates(this.studentId);
+          this.getStudentReportsAndCertificates(this.studentId, this.studentPen);
         }).catch((error) => {
           this.tabLoading = false; 
           if(error.response.status){
@@ -644,7 +657,7 @@
           this.projectedrequirementsMet = this.projectedGradStatus.requirementsMet;
           this.$refs['projectedGradStatusWithFinalAndReg'].show();
           this.tabLoading = false; 
-          this.getStudentReportsAndCertificates(this.studentId);
+          this.getStudentReportsAndCertificates(this.studentId,this.studentPen);
         }).catch((error) => {
           if(error.response.status){
             this.tabLoading = false; 
@@ -768,7 +781,7 @@
           }
         });
 
-        this.getStudentReportsAndCertificates(studentIdFromURL);
+        this.getStudentReportsAndCertificates(studentIdFromURL, pen);
 
         StudentService.getStudentUngradReasons(studentIdFromURL, this.token).then(
           (response) => {         
