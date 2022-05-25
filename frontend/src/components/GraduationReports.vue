@@ -44,7 +44,7 @@
         </div>  
         <div>
           <div class="px-3 w-100 float-left mt-2">
-              <a @click="openXml(xmlReports)" href="#">View XML Preview</a>
+              <a @click="downloadPDF(xmlReports,'application/pdf')" href="#">View XML Preview</a>
           </div>    
         </div>                          
       </b-card-text>
@@ -69,9 +69,6 @@ import sharedMethods from '../sharedMethods';
     methods: {
       downloadPDF: function (data, mimeType) {
         sharedMethods.base64ToPdfAndOpenWindow(data,mimeType)
-      },
-      openXml: function (data) {
-        sharedMethods.base64XMLToPdfAndOpenWindow(data)
       }
   }
   }
