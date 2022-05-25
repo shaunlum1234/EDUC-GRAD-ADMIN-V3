@@ -38,7 +38,7 @@
 
 import { mapGetters } from "vuex";
 import sharedMethods from '../sharedMethods';
-import DashboardService from "@/services/DashboardService.js";
+import BatchProcessingService from "@/services/BatchProcessingService.js";
 import StudentService from "@/services/StudentService.js";
 import DisplayTable from '@/components/DisplayTable.vue';
 export default {
@@ -122,7 +122,7 @@ export default {
           page = page - 1;  
         }
       }    
-      DashboardService.getBatchErrors(batchId, page, this.token).then(
+      BatchProcessingService.getBatchErrors(batchId, page, this.token).then(
         (response) => {
             this.batchData = response.data.errorList;
             this.rows = response.data.totalElements;
