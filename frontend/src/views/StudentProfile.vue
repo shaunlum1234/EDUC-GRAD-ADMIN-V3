@@ -439,7 +439,7 @@
         studentInfo: "getStudentProfile",
         studentNotes: "getStudentNotes",
         optionalPrograms: "getStudentOptionalPrograms",    
-        ungradReasons: "getUngradReasons",      
+        ungradReasons: "app/getUngradReasons",      
         studentUngradReasons: "getStudentUngradReasons",
         gradCourses: "gradStatusCourses",
         studentHistory: 'getStudentAuditHistory',

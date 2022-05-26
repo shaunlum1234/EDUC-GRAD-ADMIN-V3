@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{tabCounter}}
     <b-overlay :show='processingBatch'>
       <div class="row">
         <div class="col-12 col-md-3">
@@ -301,7 +302,7 @@ export default {
           SchoolService.getSchoolInfo(value,this.token).then(
           (response) => {
             if(response.data.minCode){
-              this.$store.commit("addValueToTypeInBatchId", {id,type, value});
+              this.$store.commit("batchprocessing/addValueToTypeInBatchId", {id,type, value});
               this.$refs['schoolName' + id + valueIndex][0].updateValue(response.data.schoolName);        
               this.$refs['districtName' + id + valueIndex][0].updateValue(response.data.districtName);        
               this.$refs['address' + id + valueIndex][0].updateValue(response.data.address1);        
@@ -329,7 +330,7 @@ export default {
         StudentService.getStudentByPen(value,this.token).then(
         (response) => {
           if(response.data.length > 0){
-            this.$store.commit("addValueToTypeInBatchId", {id,type, value});
+            this.$store.commit("batchprocessing/addValueToTypeInBatchId", {id,type, value});
             this.$refs['pen' + id + valueIndex][0].updateValue(response.data[0].usualFirstName + " " + (response.data[0].usualMiddleNames?response.data[0].usualMiddleNames+ " ":"") + response.data[0].usualLastName);        
             this.$refs['dob' + id + valueIndex][0].updateValue(response.data[0].dob);        
             this.$refs['school' + id + valueIndex][0].updateValue(response.data[0].schoolOfRecordName);        
@@ -353,7 +354,7 @@ export default {
           TRAXService.getDistrict(value,this.token).then(
           (response) => {
             if(response.data){
-              this.$store.commit("addValueToTypeInBatchId", {id,type, value});
+              this.$store.commit("batchprocessing/addValueToTypeInBatchId", {id,type, value});
               this.$refs['districtName' + id + valueIndex][0].updateValue(response.data.districtName);        
               this.$refs['districtCity' + id + valueIndex][0].updateValue(response.data.city);        
             }else{
@@ -374,7 +375,7 @@ export default {
         this.validating = true;
         
         if(value){
-          this.$store.commit("addValueToTypeInBatchId", {id,type, value});
+          this.$store.commit("batchprocessing/addValueToTypeInBatchId", {id,type, value});
         }else{
           this.validationMessage = "Select a program";
         }
@@ -383,29 +384,29 @@ export default {
       }
     },
     addTypeToBatchId(id, type){
-      this.$store.commit("addTypeToBatchId", {type, id});
+      this.$store.commit("batchprocessing/addTypeToBatchId", {type, id});
       this.$forceUpdate();
     },
     
     deleteValueFromTypeInBatchId(id, type, value){
-      this.$store.commit("deleteValueFromTypeInBatchId", {id,type, value});
+      this.$store.commit("batchprocessing/deleteValueFromTypeInBatchId", {id,type, value});
       this.$forceUpdate();
     },
     deleteBatch(id){
       this.$store.commit("deleteStudentBatch", id);
     },
     clearBatchDetails: function (id) {
-      this.$store.commit("clearBatchDetails", id);
+      this.$store.commit("batchprocessing/clearBatchDetails", id);
     },
     clearBatchGroupDetails: function (id) {
-      this.$store.commit("clearBatchGroupDetails", id);
+      this.$store.commit("batchprocessing/clearBatchGroupDetails", id);
     },    
     newBatchJob() {
       let batchDetail = { details: {what: 'what' +this.tabCounter, who: 'who'+this.tabCounter, credential: ""}, students: [{}], schools:[{}], districts: [{}], programs:[{}],blankTranscriptDetails:[{}],blankCertificateDetails:[{}]};
       let id = "job-" + this.tabCounter;
       
-      this.$store.commit("editBatchDetails",  {batchDetail, id});
-      this.$store.commit("addBatchJob", id);
+      this.$store.commit("batchprocessing/editBatchDetails",  {batchDetail, id});
+      this.$store.commit("batchprocessing/addBatchJob", id);
         requestAnimationFrame(() => {
           this.selectedTab = this.tabs.length;
         })
@@ -429,7 +430,7 @@ export default {
         batchDetail.details['who'] = '';
         
       }
-      this.$store.commit("editBatchDetails", {batchDetail, id});
+      this.$store.commit("batchprocessing/editBatchDetails", {batchDetail, id});
       this.$forceUpdate();
     },
     getCertificateTypes() {
@@ -465,10 +466,10 @@ export default {
   },  
   computed: {
     ...mapGetters({  
-      tabCounter: "getBatchCounter",
-      tabContent: "getBatchDetails",
+      tabCounter: "batchprocessing/getBatchCounter",
+      tabContent: "batchprocessing/getBatchDetails",
       token: "getToken",
-      programOptions: "getProgramOptions"      
+      programOptions: "app/getProgramOptions"      
 
     }),
   },

@@ -5,6 +5,7 @@
   <div class="mt-2 row">
   <div class="col-12 float-left p-0">
     <div ref="top">
+
       <b-card no-body>
         <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
@@ -114,16 +115,17 @@ export default {
       return this.batchInfoListData;
     },
     ...mapGetters({
-      tabCounter: "getBatchCounter",
-      tabContent: "getBatchDetails",
-      tabs: "getTabs",
+      tabCounter: "batchprocessing/getBatchCounter",
+      tabContent: "batchprocessing/getBatchDetails",
+      tabs: "batchprocessing/getBatchProcessingTabs",
+      spinners: "batchprocessing/getBatchTabsLoading",
       token: "getToken",
       courses: "getStudentCourses",
       gradStatusCourses: "gradStatusCourses",
       studentGradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
-      gradStatusPendingUpdates: "getHasGradStatusPendingUpdates",
-      spinners: "getBatchTabsLoading"
+      gradStatusPendingUpdates: "getHasGradStatusPendingUpdates"
+      
 
     }),
   },
@@ -251,7 +253,7 @@ export default {
         if (this.tabs[i] == id) {
           this.tabs.splice(i, 1);
           this.spinners.splice(i,1)
-          this.$store.commit("clearBatchDetails",id);
+          this.$store.commit("batchprocessing/clearBatchDetails",id);
           return;
         }
       }
@@ -263,8 +265,8 @@ export default {
       
       let id = "job-" + this.tabCounter;
       this.$set(this.spinners, id, false)
-      this.$store.commit("editBatchDetails",  {batchDetail, id});
-      this.$store.commit("addBatchJob", "job-"+this.tabCounter);
+      this.$store.commit("batchprocessing/editBatchDetails",  {batchDetail, id});
+      this.$store.commit("batchprocessing/addBatchJob", "job-"+this.tabCounter);
         requestAnimationFrame(() => {
           this.selectedTab = this.tabs.length;
         })
@@ -336,7 +338,7 @@ export default {
       this.$set(this.spinners, id, true)
       let index= id.replace("job-","")-1;
       let value = true
-      this.$store.commit("setTabLoading",{index, value});
+      this.$store.commit("batchprocessing/setTabLoading",{index, value});
         BatchProcessingService.runDISTRUN(this.token, request, credentialType).then(
         (response) => {
            //update the admin dashboard
@@ -368,7 +370,7 @@ export default {
       this.$set(this.spinners, id, true)
       let index= id.replace("job-","")-1;
       let value = true
-      this.$store.commit("setTabLoading",{index, value});
+      this.$store.commit("batchprocessing/setTabLoading",{index, value});
         BatchProcessingService.runTVRRUN(this.token, request).then(
         (response) => {
            //update the admin dashboard
@@ -400,7 +402,7 @@ export default {
       this.$set(this.spinners, id, true)
       let index= id.replace("job-","")-1;
       let value = true
-      this.$store.commit("setTabLoading",{index, value});
+      this.$store.commit("batchprocessing/setTabLoading",{index, value});
         BatchProcessingService.runREGALG(this.token, request).then(
         (response) => {
            //update the admin dashboard
