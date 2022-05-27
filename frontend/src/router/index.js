@@ -26,7 +26,7 @@ import GraduationProgramRules from '../components/GraduationProgramRules.vue';
 import GraduationOptionalProgramRules from '@/components/GraduationOptionalProgramRules';
 import GraduationOptionalPrograms from '@/components/GraduationOptionalPrograms';
 import GraduationProgramTranscriptMessage from '@/components/GraduationProgramTranscriptMessage';
-import Admin from '../views/Admin.vue';
+import BatchProcessing from '../views/BatchProcessing.vue';
 import RequirementTypes from '@/components/Programs/RequirementTypes.vue';
 import LetterGrades from '@/components/Programs/LetterGrades';
 import SpecialCases from '@/components/Programs/SpecialCases';
@@ -62,9 +62,9 @@ const routes = [{
     }
   },
   {
-    path: '/admin',
-    name: 'Admin',
-    component: Admin,
+    path: '/batch-processing',
+    name: 'Batch Processing',
+    component: BatchProcessing,
     meta: {
       requiresAuth: true
     }
