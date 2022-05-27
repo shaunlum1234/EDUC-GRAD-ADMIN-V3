@@ -149,14 +149,16 @@
           <div class="col-2"><strong>PEN</strong></div>
           <div class="col-3"><strong>Name</strong></div>
           <div class="col-2"><strong>Birthdate</strong></div>
-          <div class="col-3"><strong>School of Record</strong></div>   
+          <div class="col-1"><strong>Status</strong></div>
+          <div class="col-2"><strong>School of Record</strong></div>   
         </div>
         <div v-for="(pen, index) in tabContent[jobId].students" :key="index" class="row pl-3 mb-1">
           <div v-if="!pen.dob" class="row col-12">
             <b-form-input type="number" v-model="pen.value" class="col-2"/>
             <b-form-input show=false disabled v-model="pen.name" :ref="'pen'+ jobId + index" class="col-3"/>
             <b-form-input show=false disabled v-model="pen.dob" :ref="'dob'+ jobId + index" class="col-2"/>
-            <b-form-input show=false disabled v-model="pen.school" :ref="'school'+ jobId + index" class="col-3"/>
+            <b-form-input show=false disabled v-model="pen.studentStatus" :ref="'student-status'+ jobId + index" class="col-1"/>            
+            <b-form-input show=false disabled v-model="pen.school" :ref="'school'+ jobId + index" class="col-2"/>
             <div v-if="index == tabContent[jobId].students.length-1" class="col-2">
               <b-button  class="btn btn-primary w-100" @click="addValueToTypeInBatchId(jobId,'students',pen.value,index)">
               <b-spinner small v-if="validating"></b-spinner> Add
@@ -167,7 +169,8 @@
             <div v-if="pen.dob" class="col-2">{{pen.value}}</div>
             <div v-if="pen.dob" class="col-3">{{pen.name}}</div>
             <div v-if="pen.dob" class="col-2">{{pen.dob}}</div>
-            <div v-if="pen.dob" class="col-3"> {{pen.school}}</div>   
+            <div v-if="pen.dob" class="col-1">{{pen.studentStatus}}</div>
+            <div v-if="pen.dob" class="col-2"> {{pen.school}}</div>   
 
             <div v-if="index != tabContent[jobId].students.length-1" class="col-2" ><b-button  class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'students',pen.value)">
               Remove
@@ -334,14 +337,16 @@ export default {
               this.addTypeToBatchId(id, type);
             }else if(response.data[0].studentStatus == 'MER'){
               this.validationMessage = value + " is a merged student and not permitted"
-              this.deleteValueFromTypeInBatchId(id, type, value);
-              this.addTypeToBatchId(id, type);
+              console.log(id)
+              console.log(this.tabContent[id].students)
+              
             }else{
               //valid student
               this.$store.commit("addValueToTypeInBatchId", {id,type, value});
               this.$refs['pen' + id + valueIndex][0].updateValue(response.data[0].usualFirstName + " " + (response.data[0].usualMiddleNames?response.data[0].usualMiddleNames+ " ":"") + response.data[0].usualLastName);        
               this.$refs['dob' + id + valueIndex][0].updateValue(response.data[0].dob);        
               this.$refs['school' + id + valueIndex][0].updateValue(response.data[0].schoolOfRecordName);   
+              this.$refs['student-status' + id + valueIndex][0].updateValue(response.data[0].studentStatus);   
             }
 
           this.$forceUpdate();
