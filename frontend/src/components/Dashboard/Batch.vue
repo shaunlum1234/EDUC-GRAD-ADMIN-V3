@@ -328,16 +328,23 @@ export default {
         this.validating = true;
         StudentService.getStudentByPen(value,this.token).then(
         (response) => {
-          if(response.data.length > 0){
-            this.$store.commit("addValueToTypeInBatchId", {id,type, value});
-            this.$refs['pen' + id + valueIndex][0].updateValue(response.data[0].usualFirstName + " " + (response.data[0].usualMiddleNames?response.data[0].usualMiddleNames+ " ":"") + response.data[0].usualLastName);        
-            this.$refs['dob' + id + valueIndex][0].updateValue(response.data[0].dob);        
-            this.$refs['school' + id + valueIndex][0].updateValue(response.data[0].schoolOfRecordName);        
-          }else{
+          console.log(response.data)
+            if(response.data.length == 0){
               this.validationMessage = value + " is not a valid PEN"
               this.deleteValueFromTypeInBatchId(id, type, value);
               this.addTypeToBatchId(id, type);
-          }
+            }else if(response.data[0].studentStatus == 'MER'){
+              this.validationMessage = value + " is a merged student and not permitted"
+              this.deleteValueFromTypeInBatchId(id, type, value);
+              this.addTypeToBatchId(id, type);
+            }else{
+              //valid student
+              this.$store.commit("addValueToTypeInBatchId", {id,type, value});
+              this.$refs['pen' + id + valueIndex][0].updateValue(response.data[0].usualFirstName + " " + (response.data[0].usualMiddleNames?response.data[0].usualMiddleNames+ " ":"") + response.data[0].usualLastName);        
+              this.$refs['dob' + id + valueIndex][0].updateValue(response.data[0].dob);        
+              this.$refs['school' + id + valueIndex][0].updateValue(response.data[0].schoolOfRecordName);   
+            }
+
           this.$forceUpdate();
           this.validating = false;  
           
