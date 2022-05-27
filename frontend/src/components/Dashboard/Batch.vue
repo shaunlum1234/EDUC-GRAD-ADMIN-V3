@@ -328,7 +328,6 @@ export default {
         this.validating = true;
         StudentService.getStudentByPen(value,this.token).then(
         (response) => {
-          console.log(response.data)
             if(response.data.length == 0){
               this.validationMessage = value + " is not a valid PEN"
               this.deleteValueFromTypeInBatchId(id, type, value);
