@@ -308,7 +308,7 @@
       </b-modal>
       <div>
         <b-modal id="ungraduate-student-modal" title="Undo Completion">
-          <p>Ungraduation Reason</p>
+          <p>Undo Completion Reason</p>
           <b-form-select v-model="ungradReasonSelected" :options="ungradReasons" value-field="code" text-field="label"></b-form-select>
 
           <template #modal-footer="{ok, cancel, hide}">
@@ -791,7 +791,7 @@
           if(error.response.status){ 
             this.showNotification(
               "danger",
-              "There was an error with the Student Service (getting the Ungrad Reasons): " + error.response.status
+              "There was an error with the Student Service (getting the Undo Completion Reasons): " + error.response.status
             );
           }
         });
