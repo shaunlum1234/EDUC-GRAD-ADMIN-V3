@@ -217,14 +217,12 @@
       </b-card>            
       <b-card v-if="tabContent[jobId].details['who']=='Program'" class="mt-3 px-0" header="Include Programs">
       <b-alert v-if="validationMessage" show variant="danger">{{validationMessage}}</b-alert>
-
       <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
         <div class="row col-12 border-bottom mb-3">
             <div class="col-2"><strong>Program</strong></div>
         </div>
         <div v-for="(program, index) in tabContent[jobId].programs" :key="index" class="row pl-3 mb-1">
           <div v-if="!program.value" class="row col-12">
-
             <b-form-select
               id="inline-form-select-type"
               class="col-2"
@@ -251,7 +249,6 @@
             </div>
           </div>
         </div>
-
       </b-card>
       </div>       
       </div>
@@ -324,8 +321,6 @@ export default {
           this.$forceUpdate();
         });
       }
-
-
       if(type == "students"){
         //remove duplicates
         this.validating = true;
@@ -345,7 +340,6 @@ export default {
               this.$refs['school' + id + valueIndex][0].updateValue(response.data[0].schoolOfRecordName);   
               this.$refs['student-status' + id + valueIndex][0].updateValue(response.data[0].studentStatus);   
             }
-
           this.$forceUpdate();
           this.validating = false;  
           
