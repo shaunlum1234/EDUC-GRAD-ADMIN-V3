@@ -337,9 +337,6 @@ export default {
               this.addTypeToBatchId(id, type);
             }else if(response.data[0].studentStatus == 'MER'){
               this.validationMessage = value + " is a merged student and not permitted"
-              console.log(id)
-              console.log(this.tabContent[id].students)
-              
             }else{
               //valid student
               this.$store.commit("addValueToTypeInBatchId", {id,type, value});
