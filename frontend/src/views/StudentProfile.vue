@@ -1,5 +1,4 @@
 <template>
-
   <div class="student-profile">
     <div class="row m-0 py-3">    
       <div class="px-0">   
@@ -354,10 +353,26 @@
   export default {
     name: "studentProfile",
     created() {
+
+  
+        StudentService.getStudentPen(this.$route.params.studentId, this.token).then(
+          (response) => {           
+            this.pen = response.data.pen
+            const studentIdFromURL = this.$route.params.studentId;
+            this.loadStudent(studentIdFromURL)
+          }
+        ).catch((error) => {
+          if(error.response.status){
+
+            this.showNotification(
+              "danger",
+              "There was an error: " + error.response.status
+            );
+          }
+        })       
+
       this.showNotification = sharedMethods.showNotification;
-      const penFromURL = this.$route.params.pen;
-      const studentIdFromURL = this.$route.params.studentId;
-      this.loadStudent(penFromURL, studentIdFromURL);
+
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
       if (this.window.width < 768) {
@@ -377,12 +392,11 @@
       StudentAuditHistory: StudentAuditHistory
     },
     props: {
-      pen: {
-        type: String,
-      }
+
     },
     data() {
       return { 
+        pen: "",
         optionalProgramTab: "",
         projectedOptionalGradStatus:"",
         nonGradReasons:"",
@@ -680,8 +694,10 @@
           this.smallScreen = false;
         }
       },
-      loadStudent(pen, studentIdFromURL) {
-        StudentService.getStudentByPen(pen, this.token).then((response) => {
+      loadStudent(studentIdFromURL) {
+      
+
+        StudentService.getStudentByPen(this.pen, this.token).then((response) => {
           this.$store.dispatch('setStudentProfile', response.data);
         }).catch((error) => {
           if(error.response.status){
@@ -693,7 +709,7 @@
          
         });
 
-        AssessmentService.getStudentAssessment(pen, this.token).then((response) => {
+        AssessmentService.getStudentAssessment(this.pen, this.token).then((response) => {
           this.$store.dispatch('setStudentAssessments', response.data);
         }).catch((error) => {
           if(error.response.status){
@@ -741,7 +757,7 @@
           }
         });        
 
-        CourseService.getStudentCourseAchievements(pen, this.token).then(
+        CourseService.getStudentCourseAchievements(this.pen, this.token).then(
           (response) => {
             
             this.$store.dispatch("setStudentCourses", response.data);
@@ -755,7 +771,7 @@
           }
         });
 
-        CourseService.getStudentExamDetails(pen, this.token).then(
+        CourseService.getStudentExamDetails(this.pen, this.token).then(
           (response) => {           
             this.$store.dispatch("setStudentExams", response.data);
           }
@@ -781,7 +797,7 @@
           }
         });
 
-        this.getStudentReportsAndCertificates(studentIdFromURL, pen);
+        this.getStudentReportsAndCertificates(studentIdFromURL, this.pen);
 
         StudentService.getStudentUngradReasons(studentIdFromURL, this.token).then(
           (response) => {         

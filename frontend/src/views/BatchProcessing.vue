@@ -96,11 +96,11 @@
 
 <script>
 // @ is an alias to /src
-import DashboardService from "@/services/DashboardService.js";
+import BatchProcessingService from "@/services/BatchProcessingService.js";
 import DisplayTable from '@/components/DisplayTable.vue';
-import BatchJobSearchResults from "@/components/BatchJobSearchResults.vue";
-import BatchJobErrorResults from "@/components/BatchJobErrorResults.vue";
-import BatchJobForm from "@/components/Dashboard/Batch.vue";
+import BatchJobSearchResults from "@/components/Batch/BatchJobSearchResults.vue";
+import BatchJobErrorResults from "@/components/Batch/BatchJobErrorResults.vue";
+import BatchJobForm from "@/components/Batch/Batch.vue";
 import {
   mapGetters
 } from "vuex";
@@ -273,7 +273,7 @@ export default {
       return  value.toLocaleString('en-CA', { timeZone: 'PST' });
     },
     getAdminDashboardData(){
-      DashboardService.getDashboardInfo(this.token).then(
+      BatchProcessingService.getDashboardInfo(this.token).then(
         (response) => {
             this.dashboardData = response.data;
             this.batchInfoListData = response.data.batchInfoList;
@@ -337,7 +337,7 @@ export default {
       let index= id.replace("job-","")-1;
       let value = true
       this.$store.commit("setTabLoading",{index, value});
-        DashboardService.runDISTRUN(this.token, request, credentialType).then(
+        BatchProcessingService.runDISTRUN(this.token, request, credentialType).then(
         (response) => {
            //update the admin dashboard
           this.getAdminDashboardData();
@@ -369,7 +369,7 @@ export default {
       let index= id.replace("job-","")-1;
       let value = true
       this.$store.commit("setTabLoading",{index, value});
-        DashboardService.runTVRRUN(this.token, request).then(
+        BatchProcessingService.runTVRRUN(this.token, request).then(
         (response) => {
            //update the admin dashboard
           this.getAdminDashboardData();
@@ -401,7 +401,7 @@ export default {
       let index= id.replace("job-","")-1;
       let value = true
       this.$store.commit("setTabLoading",{index, value});
-        DashboardService.runREGALG(this.token, request).then(
+        BatchProcessingService.runREGALG(this.token, request).then(
         (response) => {
            //update the admin dashboard
           this.getAdminDashboardData();
@@ -428,7 +428,7 @@ export default {
         setTimeout(this.getBatchProgress(requestId), 5000);
     },
     getBatchProgress(requestId){
-      DashboardService.getBatchSummary(this.token).then((response) => {
+      BatchProcessingService.getBatchSummary(this.token).then((response) => {
 
             let jobDetails = response.data.batchJobList[0];
             let date = new Date();

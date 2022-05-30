@@ -487,10 +487,10 @@ export default {
       this.programEffectiveDate = this.programCompletionEffectiveDateList[0].effectiveDate
       this.programExpiryDate = this.programCompletionEffectiveDateList[0].expiryDate
       var compareDate = new Date(this.editedGradStatus.programCompletionDate);
-      if(this.editedGradStatus.programCompletionDate == ""){
+      if(!this.editedGradStatus.programCompletionDate){
         if(this.editedGradStatus.program == 'SCCP'){
-          this.disableButton = true;
-          this.dateInFutureWarning = true;
+          this.disableButton = false;
+          this.dateInFutureWarning = false;
         } else {
           this.disableSchoolAtGrad = true;
           this.disableButton = false;
@@ -506,14 +506,16 @@ export default {
           this.programCompletionDateRangeError = false;
           this.disableButton = false;
         }
-        if(this.editedGradStatus.program == 'SCCP'){
-          if(compareDate > this.todayDate){
-            this.dateInFutureWarning = true;
-            this.disableButton = true;
-          }else{
-            this.dateInFutureWarning = false;
-          }        
-        }
+        if(this.studentGradStatus.programCompletionDate){
+          if(this.editedGradStatus.program == 'SCCP'){
+            if(compareDate > this.todayDate){
+              this.dateInFutureWarning = true;
+              this.disableButton = true;
+            }else{
+              this.dateInFutureWarning = false;
+            }        
+          }
+        }      
       }
     },
     schoolOfRecordChange:function(){
