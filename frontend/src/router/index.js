@@ -70,7 +70,7 @@ const routes = [{
     }
   },
   {
-    path: '/admin-graduation-programs',
+    path: '/programs',
     component: AdminGraduationPrograms,
     children: [
       { path: '', component: AlgorithmRules },
