@@ -43,6 +43,14 @@ Vue.use(BootstrapVueIcons);
 Vue.use(ToastPlugin);
 
 
+//Job Label Render
+Vue.filter('jobIdLabel', function(value) {
+  if(value){
+    return value.replace("job-","")
+  }
+  
+});
+
 //Date time filter
 Vue.filter('formatTime', function(value) {
   if(value){

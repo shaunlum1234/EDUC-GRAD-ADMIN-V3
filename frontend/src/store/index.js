@@ -35,6 +35,7 @@
         certificates: "not loaded",
         reports: "not loaded",
         transcripts: "not loaded",
+        xmlReports: "not loaded",
         ungradReasons: "",
         careerPrograms: [],
         auditHistory:[],
@@ -75,6 +76,7 @@
       //id, type, value
       deleteValueFromTypeInBatchId(state,payload){
         let items = state.batchDetails[payload['id']][payload['type']];
+
         for( var i = 0; i < items.length; i++){    
           if ( items[i].value === payload['value']) { 
             items.splice(i--, 1); 
@@ -108,6 +110,9 @@
       },
       setStudentTranscripts(state, payload){
         state.student.transcripts = payload;         
+      }, 
+      setStudentXmlReport(state, payload){
+        state.student.xmlReports = payload;         
       },      
       setProgramOptions(state, payload){
         state.applicationVariables.programOptions = payload;
@@ -196,6 +201,7 @@
         state.student.certificates = "not loaded";
         state.student.reports = "not loaded";
         state.student.transcripts = "not loaded";
+        state.student.xmlReports = "not loaded";
         state.student.ungradReasons = "";
         state.student.careerPrograms = [];
       },
@@ -219,10 +225,11 @@
         state.batchDetails[payload].districts=[{}];
         state.batchDetails[payload].programs=[{}];
         state.batchDetails[payload].students=[{}];
-        state.batchDetails[payload].details['blankCertificateDetails']=[{}];
-        state.batchDetails[payload].details['blankTranscriptDetails']=[{}];
+        state.batchDetails[payload]['details'].blankCertificateDetails=[{}];
+        state.batchDetails[payload]['details'].blankTranscriptDetails=[{}];
         state.batchDetails[payload]['details'].credential="";
         state.batchDetails[payload]['details'].categoryCode="";
+        state.batchDetails[payload]['details'].copies="";
       },
       clearBatchGroupDetails(state,payload){
         state.batchDetails[payload].schools=[{}];
@@ -389,7 +396,10 @@
       },
       setStudentTranscripts({commit}, payload) {
         commit('setStudentTranscripts', payload);
-      },            
+      },    
+      setStudentXmlReport({commit}, payload) {
+        commit('setStudentXmlReport', payload);
+      },         
       setAdvancedSearchProps({commit}, payload) {
         commit('setAdvancedSearchProps', payload);
       },
@@ -481,7 +491,10 @@
       },      
       getStudentTranscripts(state){
         return state.student.transcripts;
-      },            
+      },     
+      getStudentXmlReports(state){
+        return state.student.xmlReports;
+      },           
       getStudentGraduationCreationAndUpdate(state){
         return {
           "createdBy" : state.student.gradStatus.createdBy,

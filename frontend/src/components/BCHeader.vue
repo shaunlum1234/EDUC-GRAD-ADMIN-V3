@@ -1,58 +1,57 @@
 <template>
   <div>
-    <img
+    <!-- <img
       class="min-nav d-md-none"
       src="../assets/images/bcid-logo-rev-en.svg"
       width="200"
       height="44"
       alt="B.C. Government Logo"
-    />
+    /> -->
     <header>
       <div class="container">
         <div class="banner">
           <a class="navbar-brand" href="https://www2.gov.bc.ca">
             <img
-              class="img-fluid d-none d-md-block"
+              class="img-fluid d-md-block"
               src="../assets/images/bcid-logo-rev-en.svg"
-              width="181"
-              height="44"
+              width="185"
+              height="45"
               alt="B.C. Government Logo"
             />
           </a>
           <h1>Graduation Records and Achievement Data</h1>
         </div>
-         <div class="float-right" style="margin-top: -20px"><slot></slot></div>
+        <div class="float-right user-profile">
+          <slot></slot>
+        </div>
       </div>
     </header>
-    <nav aria-label="Menu" class="navbar navbar-expand-lg navbar-dark bg-primary-nav burgernav">
-      <button
-        class="navbar-toggler collapsed"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarColor01"
-        aria-controls="navbarColor01"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="navbar-collapse collapse" id="navbarColor01">
-        <ul class="navbar-nav mr-auto">
-          <li>
-            <router-link to="/">Select Student</router-link>
-          </li>
-          <li>
-            <router-link to="/admin-graduation-programs">Programs</router-link>
-          </li>
-          <li><router-link to="/courses">Courses</router-link></li>
-          <li><router-link to="/assessments">Assessments</router-link></li>
-          <li><router-link to="/schools">Schools</router-link></li>
-          <li><router-link to="/psi">PSI</router-link></li>
-          <li><router-link to="/codes">Codes</router-link></li>
-          <li><router-link to="/admin">Batch Processing</router-link></li>
-        </ul>
-      </div>
-    </nav>
+
+    <b-navbar toggleable aria-label="Menu" class="navbar navbar-expand-lg navbar-dark burgernav">
+      <b-navbar-toggle target="navbarSmallScreen"></b-navbar-toggle>
+    </b-navbar>
+    <b-collapse id="navbarSmallScreen" is-nav>
+      <b-navbar-nav class="mr-auto">
+        <b-nav-item>
+          <router-link to="/">Select Student</router-link>
+        </b-nav-item>
+        <b-nav-item>
+          <router-link to="/admin-graduation-programs">Programs</router-link>
+        </b-nav-item>
+        <b-nav-item><router-link to="/courses">Courses</router-link></b-nav-item>
+        <b-nav-item><router-link to="/assessments">Assessments</router-link></b-nav-item>
+        <b-nav-item><router-link to="/schools">Schools</router-link></b-nav-item>
+        <b-nav-item><router-link to="/psi">PSI</router-link></b-nav-item>
+        <b-nav-item><router-link to="/codes">Codes</router-link></b-nav-item>
+        <b-nav-item><router-link to="/batch-processing">Batch Processing</router-link></b-nav-item>
+        <b-nav-item v-if="!profile.pen" class="disabled"><a id="profile-route" class="text-decoration-none text-disabled" :disabled=true>Profile (Student not loaded)</a></b-nav-item>
+        <b-nav-item v-else><router-link :to="`/student-profile/${this.profile.studentID}`" id="profile-route">Profile ({{profile.pen? profile.pen : 'Student not loaded'}})</router-link></b-nav-item>
+        <b-nav-item class="user-burgernav">
+          <div><slot></slot></div>
+        </b-nav-item>
+      </b-navbar-nav>
+    </b-collapse >
+
     <nav class="navigation-main" id="navbar" aria-label="aria-label">
       <div class="container">
         <ul>
@@ -69,9 +68,9 @@
           <li><router-link to="/schools" id="schools-route">Schools</router-link></li>
           <li><router-link to="/psi" id="psi-route">PSI</router-link></li>
           <li><router-link to="/codes" id="codes-route">Codes</router-link></li>
-           <li><router-link to="/admin">Batch Processing</router-link></li>
+           <li><router-link to="/batch-processing">Batch Processing</router-link></li>
           <li v-if="!profile.pen" class="disabled"><a id="profile-route" class="text-decoration-none text-disabled" :disabled=true>Profile (Student not loaded)</a></li>
-          <li v-else><router-link :to="`/student-profile/${this.profile.pen}/${this.profile.studentID}`" id="profile-route">Profile ({{profile.pen? profile.pen : 'Student not loaded'}})</router-link></li>
+          <li v-else><router-link :to="`/student-profile/${this.profile.studentID}`" id="profile-route">Profile ({{profile.pen? profile.pen : 'Student not loaded'}})</router-link></li>
 
           <li>
              <form v-on:submit.prevent>
@@ -174,13 +173,17 @@ export default {
 .nav {
   z-index: 100;
 }
+.navbar-brand {
+  padding-top: .5rem;
+  padding-left: 65px;
+}
 #navbar {
   z-index: 100;
 }
 header {
   z-index: 100;
-  background-color: #036;
-  border-bottom: 2px solid #fcba19;
+  background-color: var(--primary-nav);
+  border-bottom: 2px solid var(--bcgold);
   padding: 0 30px 0 30px;
   color: #fff;
   display: flex;
@@ -198,7 +201,8 @@ header h1 {
   font-weight: normal; /* 400 */
   margin: 5px 5px 0 18px;
   text-transform: none;
-  visibility: hidden;
+  display: none;
+  /* visibility: hidden; */
 }
 
 header .banner {
@@ -230,10 +234,15 @@ header .nav-btn {
   cursor: pointer;
 }
 
+.user-profile {
+  margin-top: 0px;
+  display: none;
+}
+
 .navigation-main {
   display: none;
   position: fixed;
-  top: 65px;
+  top: 85px;
   color: #fcba19;
   background-color: #38598a;
   width: 100%;
@@ -261,7 +270,7 @@ header .nav-btn {
   font-size: 0.813em;
   font-weight: normal;
   color: #fff;
-  padding: 0 15px 0 15px;
+  padding: 0 14px 0 14px;
   text-decoration: none;
 }
 
@@ -272,6 +281,37 @@ header .nav-btn {
 .navigation-main ul .active {
   text-decoration: underline;
   font-weight: bold;
+}
+
+.min-nav {
+  position: fixed;
+  left: 80px;
+  z-index: 110;
+  top: 5px;
+}
+.burgernav {
+  position: fixed;
+}
+#navbarSmallScreen {
+  z-index: 100;
+  /* padding: 10px 0; */
+  background-color:#38598a;
+  color: white;
+  top: 65px;
+  position: fixed;
+  width: 100%;
+  -webkit-box-shadow: 0 6px 8px -4px #b3b1b3;
+  -moz-box-shadow: 0 6px 8px -4px #b3b1b3;
+  box-shadow: 0 6px 8px -4px #b3b1b3;
+}
+#navbarSmallScreen a {
+  color: white;
+  margin-left: 10px;
+}
+.user-burgernav {
+  padding: 5px 0 5px 15px;
+  background-color: var(--primary-nav);
+  border-top: 2px solid var(--bcgold);
 }
 
 :focus {
@@ -285,67 +325,70 @@ header .nav-btn {
     size: phone, tablet, full. 
   */
 
-@media screen and (min-width: 768px) {
-  .top-search{
-    position: absolute;
-    top: 0px;
-    right: 20px;
-  }
-  .navigation-main {
-    display: block;
-    margin-bottom: 100px;
-  }
-  .burgernav {
-    display: none;
+  @media screen and (min-width: 774px) {
+    header {
+      height: 85px;
+    }
+    header h1 {
+      display: inline;
+    }
+    .top-search{
+      position: absolute;
+      top: 55px;
+      right: 20px;
+    }
+    .burgernav {
+      display: none;
+    }
+    .navigation-main {
+      display: block;
+      margin-bottom: 100px; /* do I need this? */
+    }
+    .navigation-main ul {
+      flex-direction: row;
+    }
+    .navigation-main ul li {
+      margin: 0;
+    }
+    .navigation-main ul li a {
+      border-right: 1px solid #9b9b9b;
+    }
+    .navbar-brand {
+      padding-left: 0;
+    }
+    .user-profile {
+      display:block;
+    }
+    /* removes vertical line on last item on nav */
+    #profile-route {
+      border-right: none;
+    }
   }
 
-  .navigation-main ul {
-    flex-direction: row;
+  @media screen and (min-width: 774px) and (max-width: 1360px) {
+    header h1 {
+      font-size: calc(5px + 2.05vw);
+    }
+    .navigation-main ul li a {
+      padding: 0 calc(2px + .85vw) 0 calc(2px + .85vw);
+      font-size: calc(8.5px + .35vw);
+    }
   }
 
-  .navigation-main ul li {
-    margin: 0;
+  @media screen and (min-width: 1200px) {
+    header {
+      height: 65px;
+    }
+    .navigation-main {
+      top: 65px;
+    }
+    .top-search {
+      position: absolute;
+      top: 1px;
+      right: 20px;
+    }
+    .user-profile {
+      margin-top: -20px
+    }
   }
-
-  .navigation-main ul li a {
-    border-right: 1px solid #9b9b9b;
-  }
-
-  header .nav-btn {
-    display: none;
-    width: auto;
-    margin: 0 0 0 auto;
-    cursor: pointer;
-  }
-}
-/* @media screen and (min-width: 768px) and (max-width: 1330px){
-  .top-search{
-    right: -99px;
-  }
-} */
-@media screen and (min-width: 768px) and (max-width: 899px) {
-  header h1 {
-    font-size: calc(7px + 2.2vw);
-    visibility: visible;
-  }
-  .top-search{
-    position: inherit;
-  }
-}
-
-@media screen and (min-width: 900px) {
-  header h1 {
-    font-size: 2em;
-    visibility: visible;
-  }
-}
-.min-nav {
-  position: fixed;
-  left: 80px;
-  z-index: 110;
-  top: 5px;
-}
-.burgernav {
-  position: fixed;
-}
 </style>

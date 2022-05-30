@@ -45,7 +45,7 @@ export default {
         var currentRoute =  this.$route.path.split("/").slice(1)[0];
 
         this.$router.push({
-          path: `/student-profile/${this.selectedPen}/${this.selectedId}`
+          path: `/student-profile/${this.selectedId}`
         });
         //Used for reloading if on the same Student Profile page  
         if(path == currentRoute){
