@@ -98,8 +98,8 @@
 // @ is an alias to /src
 import BatchProcessingService from "@/services/BatchProcessingService.js";
 import DisplayTable from '@/components/DisplayTable.vue';
-import BatchJobSearchResults from "@/components/BatchJobSearchResults.vue";
-import BatchJobErrorResults from "@/components/BatchJobErrorResults.vue";
+import BatchJobSearchResults from "@/components/Dashboard/BatchJobSearchResults.vue";
+import BatchJobErrorResults from "@/components/Dashboard/BatchJobErrorResults.vue";
 import BatchJobForm from "@/components/Dashboard/Batch.vue";
 import {
   mapGetters
