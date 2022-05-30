@@ -237,7 +237,11 @@
                 <div v-if="schoolAtGraduationFound" class="form-validation-message text-success" >{{editedGradStatus.schoolAtGradName}} found.</div> 
               </td>
               <td><b-input :disabled="disableSchoolAtGrad" size="sm" type="text" maxlength="8" v-model='editedGradStatus.schoolAtGrad'></b-input></td>        
-            </tr>        
+            </tr>
+            <tr>
+              <td><strong>Consumer education requirement met:</strong></td>
+              <td><span v-if="studentGradStatus.consumerEducationRequirementMet"> {{ studentGradStatus.consumerEducationRequirementMet }}</span></td>
+            </tr>
             <tr>
               <td><strong>Honours standing:</strong></td>
               <td><span v-if="studentGradStatus.honoursStanding"> {{ studentGradStatus.honoursStanding }}</span></td>
