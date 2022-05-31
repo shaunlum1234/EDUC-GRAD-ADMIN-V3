@@ -377,15 +377,16 @@ export default {
       }
       this.programEffectiveDate = this.programCompletionEffectiveDateList[0].effectiveDate
       this.programExpiryDate = this.programCompletionEffectiveDateList[0].expiryDate
-
-      if(this.editedGradStatus.programCompletionDate == ""){
+      var compareDate = new Date(this.editedGradStatus.programCompletionDate);
+      if(!this.editedGradStatus.programCompletionDate){
         if(this.editedGradStatus.program == 'SCCP'){
           this.disableButton = false;
+          this.dateInFutureWarning = false;
         } else {
           this.disableSchoolAtGrad = true;
-          this.disableButton = true;
-        }
-        
+          this.disableButton = false;
+          this.dateInFutureWarning = false;
+        }       
       } else {
         if(this.editedGradStatus.programCompletionDate > this.programExpiryDate || this.editedGradStatus.programCompletionDate < this.programEffectiveDate)
         {
@@ -396,111 +397,121 @@ export default {
           this.disableButton = false;
         }
       }
+      if(this.studentGradStatus.programCompletionDate){
+        if(this.editedGradStatus.program == 'SCCP'){
+          if(compareDate > this.todayDate){
+            this.dateInFutureWarning = true;
+            this.disableButton = true;
+          }else{
+            this.dateInFutureWarning = false;
+          }        
+        }
+      }      
     },
     schoolOfRecordChange:function(){
-      if (this.editedGradStatus.schoolOfRecord.length == ""){
-        this.disableButton = true;
-      }else {
-        this.schoolOfRecordMissing = false;
-        this.disableButton = false;
-      }
-      if (this.editedGradStatus.schoolOfRecord.length < 8){
-          this.schoolOfRecordWarning = false;
-          this.schoolNotFoundWarning = false;
-          this.schoolOfRecordInputWarning = true;
-          return;
-      }
-      if(this.editedGradStatus.schoolOfRecord == this.studentGradStatus.schoolOfRecord){  
-      this.schoolOfRecordWarning = false;
-      this.schoolNotFoundWarning = false;
-      this.schoolOfRecordInputWarning = false;
-      this.schoolFound = false;
-      } else {
-        if(this.editedGradStatus.schoolOfRecord.length == 8) {
-          this.schoolNotFoundWarning = false;
-          this.schoolOfRecordWarning = false;
-          this.schoolOfRecordInputWarning = false;
-          this.schoolFound = false;
-          SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord, this.token)
-          .then((response) => {
-            this.schoolOfRecordStatus = response.data.openFlag
-            if(response.statusText == "No Content"){
-              this.schoolNotFoundWarning = true;
-            }else {
-              this.schoolNotFoundWarning = false; 
-              if(this.schoolOfRecordStatus == "N"){
-                this.schoolOfRecordWarning = true;
-              }
-              this.schoolFound = true;
-              this.editedGradStatus.schoolName = response.data.schoolName;
-            }    
-          })
-          .catch((error) => {
-            this.showNotification("danger", error.response);
-          });
-        } else {
-            this.schoolNotFoundWarning = true;
-        }
-      }
-    },
-    schoolAtGradChange:function(){
-
-      if(this.editedGradStatus.schoolAtGrad == ""){
-        if(this.editedGradStatus.programCompletionDate != ""){  
+        if (this.editedGradStatus.schoolOfRecord.length == ""){
           this.disableButton = true;
-          this.schoolAtGradProgramCompletionDateMessage = true;      
+        }else {
+          this.schoolOfRecordMissing = false;
+          this.disableButton = false;
+        }
+        if (this.editedGradStatus.schoolOfRecord.length < 8){
+            this.schoolOfRecordWarning = false;
+            this.schoolNotFoundWarning = false;
+            this.schoolOfRecordInputWarning = true;
+            return;
+        }
+        if(this.editedGradStatus.schoolOfRecord == this.studentGradStatus.schoolOfRecord){  
+        this.schoolOfRecordWarning = false;
+        this.schoolNotFoundWarning = false;
+        this.schoolOfRecordInputWarning = false;
+        this.schoolFound = false;
+        } else {
+          if(this.editedGradStatus.schoolOfRecord.length == 8) {
+            this.schoolNotFoundWarning = false;
+            this.schoolOfRecordWarning = false;
+            this.schoolOfRecordInputWarning = false;
+            this.schoolFound = false;
+            SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord, this.token)
+            .then((response) => {
+              this.schoolOfRecordStatus = response.data.openFlag
+              if(response.statusText == "No Content"){
+                this.schoolNotFoundWarning = true;
+              }else {
+                this.schoolNotFoundWarning = false; 
+                if(this.schoolOfRecordStatus == "N"){
+                  this.schoolOfRecordWarning = true;
+                }
+                this.schoolFound = true;
+                this.editedGradStatus.schoolName = response.data.schoolName;
+              }    
+            })
+            .catch((error) => {
+              this.showNotification("danger", error.response);
+            });
+          } else {
+              this.schoolNotFoundWarning = true;
+          }
+        }
+      },
+     schoolAtGradChange:function(){
+  
+        if(this.editedGradStatus.schoolAtGrad == ""){
+          if(this.editedGradStatus.programCompletionDate != ""){  
+            this.disableButton = true;
+            this.schoolAtGradProgramCompletionDateMessage = true;      
+          }else{
+            this.disableButton = false;
+            this.schoolAtGradProgramCompletionDateMessage = false;    
+          }
         }else{
           this.disableButton = false;
-          this.schoolAtGradProgramCompletionDateMessage = false;    
+          this.schoolAtGradProgramCompletionDateMessage = false;
         }
-      }else{
-        this.disableButton = false;
-        this.schoolAtGradProgramCompletionDateMessage = false;
-      }
-     
-      if(this.editedGradStatus.schoolAtGrad && this.editedGradStatus.schoolAtGrad.length < 8){
-        this.schoolAtGraduationWarning = false;
-        this.schoolAtGraduationNotFoundWarning = false;
-        this.schoolAtGraduationInputWarning = true;
-        this.schoolAtGraduationFound= false;
-        return;
-      }else{
-        this.schoolAtGraduationInputWarning = false;
-      }      
-      if(this.editedGradStatus.schoolAtGrad == this.studentGradStatus.schoolAtGrad){  
-        this.schoolAtGraduationWarning = false;
-        this.schoolAtGraduationNotFoundWarning = false;
-        this.schoolAtGraduationInputWarning = false;
-        this.schoolAtGraduationFound= false;
-      }else{
-         if(this.editedGradStatus.schoolAtGrad.length == 8) {
-          this.schoolAtGraduationNotFoundWarning = false;  
+       
+        if(this.editedGradStatus.schoolAtGrad && this.editedGradStatus.schoolAtGrad.length < 8){
           this.schoolAtGraduationWarning = false;
+          this.schoolAtGraduationNotFoundWarning = false;
+          this.schoolAtGraduationInputWarning = true;
+          this.schoolAtGraduationFound= false;
+          return;
+        }else{
+          this.schoolAtGraduationInputWarning = false;
+        }      
+        if(this.editedGradStatus.schoolAtGrad == this.studentGradStatus.schoolAtGrad){  
+          this.schoolAtGraduationWarning = false;
+          this.schoolAtGraduationNotFoundWarning = false;
           this.schoolAtGraduationInputWarning = false;
           this.schoolAtGraduationFound= false;
-          SchoolService.getSchoolInfo(this.editedGradStatus.schoolAtGrad, this.token)
-          .then((response) => {         
-            this.schoolAtGraduationStatus = response.data.openFlag
-            if(response.statusText == "No Content"){
-              this.schoolAtGraduationNotFoundWarning = true;
-            }else{
-              this.schoolAtGraduationNotFoundWarning = false;
-              if(this.schoolAtGraduationStatus == "N"){
-                this.schoolAtGraduationWarning = true;
+        }else{
+           if(this.editedGradStatus.schoolAtGrad.length == 8) {
+            this.schoolAtGraduationNotFoundWarning = false;  
+            this.schoolAtGraduationWarning = false;
+            this.schoolAtGraduationInputWarning = false;
+            this.schoolAtGraduationFound= false;
+            SchoolService.getSchoolInfo(this.editedGradStatus.schoolAtGrad, this.token)
+            .then((response) => {         
+              this.schoolAtGraduationStatus = response.data.openFlag
+              if(response.statusText == "No Content"){
+                this.schoolAtGraduationNotFoundWarning = true;
+              }else{
+                this.schoolAtGraduationNotFoundWarning = false;
+                if(this.schoolAtGraduationStatus == "N"){
+                  this.schoolAtGraduationWarning = true;
+                }
+                this.schoolAtGraduationFound= true;
+                this.editedGradStatus.schoolAtGradName = response.data.schoolName;
               }
-              this.schoolAtGraduationFound= true;
-              this.editedGradStatus.schoolAtGradName = response.data.schoolName;
-            }
-          })
-          .catch((error) => {
-            this.showNotification("danger", error.response);        
-          });
-        } else {
-          this.schoolAtGraduationInputWarning = true;
-        }
-      } 
-    }  
-  },
+            })
+            .catch((error) => {
+              this.showNotification("danger", error.response);        
+            });
+          } else {
+            this.schoolAtGraduationInputWarning = true;
+          }
+        } 
+      }  
+    },
   methods: {
     getStudentStatus(code) {
       return sharedMethods.getStudentStatus(code, this.studentStatusOptions);
