@@ -90,7 +90,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      token: "getToken",
+      token: "auth/getToken",
     }),
     currentPageChange(){
       return this.userSelectedPage;

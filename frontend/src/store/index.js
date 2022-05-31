@@ -2,6 +2,7 @@
   import Vuex from "vuex";
   import batchprocessing from '@/store/modules/batchprocessing.js';
   import app from '@/store/modules/app.js';
+  import auth from '@/store/modules/auth.js';
   import SchoolService from '@/services/SchoolService.js';
   import ProgramManagementService from '@/services/ProgramManagementService.js';
   Vue.use(Vuex);
@@ -10,12 +11,9 @@
     init: {
       //Initialize the store
     },
-    
     state: {
       advancedSearchProps:"",
       tokenTimeout: "",
-      token:"",
-      refreshToken: "",
       roles: "unauthenticated",
       permissions: "",
       username: "",
@@ -86,14 +84,7 @@
       setHasGradStatusPendingUpdates(state, payload) {
           state.student.hasGradStatusPendingUpdates = payload;
       },
-      setToken(state, payload) {
-        localStorage.setItem("jwt", payload);
-        state.token = payload;
-      },
-      setRefreshToken(state, payload) {
-        localStorage.setItem("refresh", payload);
-        state.refreshToken = payload;
-      },
+
       setStudentProfile(state, payload) {
         state.student.profile = payload;
       },
@@ -153,28 +144,18 @@
       },
       setRoles(state, payload){
         state.roles = payload;
-      },
-      logout(state){
-        state.token ="";
-        state.refreshToke ="";
-      },        
-
-              
+      },         
     },
     actions: {
-        
-      
       setUsername({commit}, payload){
         commit('setUsername', payload);
       },
       setPermissions({commit}, payload){
         commit('setPermissions', payload);
       },
-
-      // Programs
-      
+      // Programs      
       createProgram({state}, payload) {
-        ProgramManagementService.createProgram(payload, state.token).then(
+        ProgramManagementService.createProgram(payload, state.auth.token).then(
           (response) => {
             return "STORE REspsonse to display table" + response;
           }
@@ -185,7 +166,7 @@
       },   
       deleteProgram({state}, payload) {
         
-        ProgramManagementService.deleteProgram(payload, state.token).then(
+        ProgramManagementService.deleteProgram(payload, state.auth.token).then(
           (response) => {
             // eslint-disable-next-line
             console.log(response);
@@ -197,7 +178,7 @@
       },   
       updateProgram({state}, payload) {
         
-        ProgramManagementService.updateProgram(payload, state.token).then(
+        ProgramManagementService.updateProgram(payload, state.auth.token).then(
           (response) => {
             // eslint-disable-next-line
             console.log(response);
@@ -209,7 +190,7 @@
       },   
        // Optional Programs
        createOptionalProgram({state}, payload) {
-        ProgramManagementService.createOptionalProgram(payload, state.token).then(
+        ProgramManagementService.createOptionalProgram(payload, state.auth.token).then(
           (response) => {
             return "STORE REspsonse to display table" + response;
           }
@@ -220,7 +201,7 @@
       },   
       deleteOptionalProgram({state}, payload) {
         
-        ProgramManagementService.deleteOptionalProgram(payload, state.token).then(
+        ProgramManagementService.deleteOptionalProgram(payload, state.auth.token).then(
           (response) => {
             // eslint-disable-next-line
             console.log(response);
@@ -232,7 +213,7 @@
       },   
       updateOptionalProgram({state}, payload) {
         
-        ProgramManagementService.updateOptionalProgram(payload, state.token).then(
+        ProgramManagementService.updateOptionalProgram(payload, state.auth.token).then(
           (response) => {
             // eslint-disable-next-line
             console.log(response);
@@ -244,7 +225,7 @@
       },   
       getGraduationPrograms({state}) {
         
-        ProgramManagementService.getGraduationPrograms(state.token).then(
+        ProgramManagementService.getGraduationPrograms(state.auth.token).then(
           (response) => {
             return response.data;
           }
@@ -286,13 +267,6 @@
       setStudentGradStatusOptionalPrograms({commit}, payload) {
         commit('setStudentGradStatusOptionalPrograms', payload);
       },
-      
-      setToken({commit}, payload) {
-        commit('setToken', payload);
-      },
-      setRefreshToken({commit}, payload) {
-        commit('setRefreshToken', payload);
-      },
       setStudentProfile({
         commit
       }, payload) {
@@ -331,7 +305,7 @@
       },    
       // SEARCH
       searchSchools({state},payload) {
-        SchoolService.searchSchools(payload,state.token).then(
+        SchoolService.searchSchools(payload,state.auth.token).then(
           (response) => {
             return response.data;
           }
@@ -341,9 +315,6 @@
         });
       },      
     },
-
-    
-
     getters: {
       getStudentAuditHistory(state){
         return state.student.auditHistory;
@@ -442,12 +413,7 @@
       gradStatusAssessments(state){
         return state.student.gradStatus.studentGradData.studentAssessments.studentAssessmentList;
       },      
-      getToken(state){
-        return state.token;
-      },
-      getRefreshToken(state){
-        return state.refreshToken;
-      },      
+  
       getRoles(state){
         return state.roles;
       },
@@ -475,6 +441,7 @@
     },
     modules: {
       app,
+      auth,
       batchprocessing
     }
   })

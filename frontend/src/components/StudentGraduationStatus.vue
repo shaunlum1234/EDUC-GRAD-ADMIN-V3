@@ -347,7 +347,7 @@ export default {
       studentGradRequirementCourses: "gradStatusCourses",   
       studentPen: "getStudentPen",
       studentFullName: "getStudentFullName",
-      token: "getToken",
+      token: "auth/getToken",
       role: "getRoles",
       optionalPrograms: "getStudentOptionalPrograms",
       programOptions: "app/getProgramOptions",

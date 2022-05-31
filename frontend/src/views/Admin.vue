@@ -119,7 +119,7 @@ export default {
       tabContent: "batchprocessing/getBatchDetails",
       tabs: "batchprocessing/getBatchProcessingTabs",
       spinners: "batchprocessing/getBatchTabsLoading",
-      token: "getToken",
+      token: "auth/getToken",
       courses: "getStudentCourses",
       gradStatusCourses: "gradStatusCourses",
       studentGradStatus: "getStudentGradStatus",

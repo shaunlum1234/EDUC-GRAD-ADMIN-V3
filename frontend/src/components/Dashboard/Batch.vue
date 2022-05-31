@@ -468,7 +468,7 @@ export default {
     ...mapGetters({  
       tabCounter: "batchprocessing/getBatchCounter",
       tabContent: "batchprocessing/getBatchDetails",
-      token: "getToken",
+      token: "auth/getToken",
       programOptions: "app/getProgramOptions"      
 
     }),
