@@ -299,7 +299,7 @@ export default {
     },
     ...mapGetters({
     role: "getRoles",
-    token: "getToken",
+    token: "auth/getToken",
     optionalPrograms: "getStudentOptionalPrograms",
     programOptions: "app/getProgramOptions",
     studentStatusOptions: "app/getStudentStatusOptions",
