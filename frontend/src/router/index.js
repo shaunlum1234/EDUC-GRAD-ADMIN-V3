@@ -7,7 +7,7 @@ import Assessments from '../views/Assessments.vue';
 import Courses from '../views/Courses.vue';
 import Schools from '../views/Schools.vue';
 import PSI from '../views/PSI.vue';
-import AdminGraduationPrograms from '../views/AdminGraduationPrograms.vue';
+import AdminGraduationPrograms from '../views/Programs.vue';
 import AdminCodes from '../views/Codes.vue';
 import CareerPrograms from '../components/Codes/CareerPrograms.vue';
 import ReportTypes from '../components/Codes/ReportTypes.vue';
@@ -57,7 +57,7 @@ const routes = [{
     path: '/',
     name: 'student-search',
     component: StudentSearch,
-    meta: {
+    meta: { 
       requiresAuth: true
     }
   },

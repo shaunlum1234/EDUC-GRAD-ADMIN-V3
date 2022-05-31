@@ -42,9 +42,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-//import GraduationService from "@/services/GraduationService.js";
-//import SchoolService from "@/services/SchoolService.js";
-//import StudentService from "@/services/StudentService.js";
 import sharedMethods from '../sharedMethods';
 import NoncompletionReasons from "@/components/GraduationStatus/NoncompletionReasons";
 import StudentGraduationReports from "@/components/GraduationStatus/StudentGraduationReports";
@@ -66,10 +63,11 @@ export default {
       studentGradRequirementCourses: "gradStatusCourses",   
       studentPen: "getStudentPen",
       studentFullName: "getStudentFullName",
-      token: "getToken",
+      token: "auth/getToken",
       role: "getRoles",
-      programOptions: "getProgramOptions",
-      studentStatusOptions: "getStudentStatusOptions",
+      optionalPrograms: "getStudentOptionalPrograms",
+      programOptions: "app/getProgramOptions",
+      studentStatusOptions: "app/getStudentStatusOptions",
       studentId: "getStudentId",
       username: "getUsername",
       certificates: "getStudentCertificates",  
@@ -92,86 +90,6 @@ export default {
     getStudentStatus(code) {
       return sharedMethods.getStudentStatus(code, this.studentStatusOptions);
     },
-    // ungradStudent(){
-    //   StudentService.ungradStudent(
-    //     this.studentId,
-    //     this.studentUngradReason,
-        
-    //     this.token,this.editedGradStatus
-    //   )
-    //   .then((response) => {
-    //     this.updateStatus = response.data;
-    //     this.studentGradStatus.pen = response.data.pen;
-    //     this.studentGradStatus.program = response.data.program;
-    //     this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
-    //     this.studentGradStatus.honoursStanding = response.data.honoursStanding;
-    //     this.studentGradStatus.gpa = response.data.gpa;
-    //     this.studentGradStatus.studentGrade = response.data.studentGrade;
-    //     this.studentGradStatus.schoolOfRecord = response.data.schoolOfRecord;
-    //     this.studentGradStatus.studentStatus = response.data.studentStatus;
-    //     this.studentGradStatus.studentStatusName = this.getStudentStatus(
-    //       response.data.studentStatus
-    //     );
-    //     this.studentGradStatus.schoolAtGrad = response.data.schoolAtGrad;
-
-    //     this.showTop = !this.showTop;
-    //     this.showEdit = false;
-
-    //     this.showNotification("success", "GRAD Status Saved");      
-    //   })
-    //   .catch((error) => {
-    //     this.showNotification(
-    //       "danger",
-    //       "There was an error: " + error.response.data.messages[0].message
-    //     );
-    //   });
-    // },
-    
-    // popClose() {
-    //   this.show = false;
-    // },
-
-    // getSchoolInfo(mincode, type) {
-    //   SchoolService.getSchoolInfo(mincode, this.token)
-    //   .then((response) => {
-    //     if(type == 'schoolOfRecord'){
-    //       this.schoolOfRecord = response.data;
-    //     }
-    //     if(type == 'schoolAtGrad'){
-    //       this.schoolAtGraduation = response.data;
-    //     }          
-    //   })
-    //   .catch((error) => {
-    //     // eslint-disable-next-line
-    //     console.log("There was an error:" + error.response);
-    //   });
-    // },
-    // projectGraduationStatus(id) {
-    //   StudentService.getGraduationStatus(id, this.token)
-    //   .then((response) => {
-    //     this.projectedStudentGradStatus = response.data;
-    //     this.projectedStudentGradStatus.studentGradData = JSON.parse(
-    //       this.projectedStudentGradStatus.studentGradData
-    //     );
-    //     this.$bvModal.show("modal-1");
-    //     this.showModal = true;
-    //   })
-    //   .catch((error) => {
-    //     // eslint-disable-next-line
-    //     console.log("There was an error:" + error.response);
-    //   });
-    // },
-    // updateGraduationStatus: function (pen) {
-    //   // eslint-disable-next-line no-use-before-define
-    //   GraduationService.graduateStudent(pen, this.token)
-    //   .then((response) => {
-    //     this.$store.dispatch("setStudentGradStatus", response.data);
-    //   })
-    //   .catch((error) => {
-    //     // eslint-disable-next-line
-    //     console.log("There was an error:" + error.response);
-    //   });
-    // },
   },
 };
 </script>

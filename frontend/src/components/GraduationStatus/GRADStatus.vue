@@ -301,8 +301,8 @@ export default {
     role: "getRoles",
     token: "getToken",
     optionalPrograms: "getStudentOptionalPrograms",
-    programOptions: "getProgramOptions",
-    studentStatusOptions: "getStudentStatusOptions",
+    programOptions: "app/getProgramOptions",
+    studentStatusOptions: "app/getStudentStatusOptions",
     studentId: "getStudentId",
     studentGradStatus: "getStudentGradStatus"
   })
