@@ -139,7 +139,7 @@
         state.student.reports = "not loaded";
         state.student.transcripts = "not loaded";
         state.student.xmlReports = "not loaded";
-        state.student.ungradReasons = "";
+        state.student.ungradReasons = [];
         state.student.careerPrograms = [];
       },
       setRoles(state, payload){

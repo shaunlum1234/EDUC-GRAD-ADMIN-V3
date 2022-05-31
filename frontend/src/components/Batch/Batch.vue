@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{tabCounter}}
     <b-overlay :show='processingBatch'>
       <div class="row">
         <div class="col-12 col-md-3">
@@ -335,7 +334,7 @@ export default {
               this.validationMessage = value + " is a merged student and not permitted"
             }else{
               //valid student
-              this.$store.commit("addValueToTypeInBatchId", {id,type, value});
+              this.$store.commit("batchprocessing/addValueToTypeInBatchId", {id,type, value});
               this.$refs['pen' + id + valueIndex][0].updateValue(response.data[0].usualFirstName + " " + (response.data[0].usualMiddleNames?response.data[0].usualMiddleNames+ " ":"") + response.data[0].usualLastName);        
               this.$refs['dob' + id + valueIndex][0].updateValue(response.data[0].dob);        
               this.$refs['school' + id + valueIndex][0].updateValue(response.data[0].schoolOfRecordName);   

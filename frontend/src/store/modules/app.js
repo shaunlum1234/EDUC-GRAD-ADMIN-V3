@@ -31,7 +31,7 @@ export default {
     },
     actions: {
       setApplicationVariables({commit,rootState}) {
-        ProgramManagementService.getGraduationPrograms(rootState.token).then(
+        ProgramManagementService.getGraduationPrograms(rootState.auth.token).then(
           (response) => {
             commit('setProgramOptions', response.data);
           }
@@ -39,7 +39,7 @@ export default {
           // eslint-disable-next-line
           console.log(error.response.status);
         });
-        StudentService.getStudentStatusCodes(rootState.token).then(
+        StudentService.getStudentStatusCodes(rootState.auth.token).then(
           (response) => {
             commit('setStudentStatusCodesOptions', response.data);
           }
@@ -47,7 +47,7 @@ export default {
           // eslint-disable-next-line
           console.log(error.response.status);
         });
-        StudentService.getUngradReasons(rootState.token).then(
+        StudentService.getUngradReasons(rootState.auth.token).then(
           (response) => {
             commit('setUngradReasons', response.data);
           }
