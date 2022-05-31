@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-
+{{studentUngradReasons}}
     <!-- Notes Section -->
     <div>
       <b-button v-b-toggle.note-collapse variant="link" v-on:click="showNotes = !showNotes" class="float-left">
@@ -24,7 +24,7 @@
     </div>
     <b-collapse id="ungrad-reasons-collapse">
       <div class="pb-3 px-3">
-        <b-table striped :items="studentUngradReasons" :fields='[{ key: "createDate",label: "Undo Completion Date",class:"px-0 py-2 w-15"},{key: "ungradReasonCode",label: "Code",class:"px-0 py-2 w-10"},{key: "ungradReasonDescription",label: "Reason",class:"px-0 py-2 w-80"},{key: "createUser",label: "User",class:"px-0 py-2 w-80"}]'></b-table>
+        <DisplayTable striped :items="studentUngradReasons" :fields='[{ key: "createDate",label: "Undo Completion Date",class:"px-0 py-2 w-15"},{key: "ungradReasonCode",label: "Code",class:"px-0 py-2 w-10"},{key: "ungradReasonDescription",label: "Reason",class:"px-0 py-2 w-80"},{key: "createUser",label: "User",class:"px-0 py-2 w-80"}]'></DisplayTable>
       </div>
     </b-collapse>
     <hr>
@@ -154,17 +154,19 @@ import { mapGetters } from "vuex";
 import { DeepDiff } from 'deep-diff';
 import sharedMethods from '../sharedMethods';
 import StudentNotes from "@/components/StudentNotes";
+import DisplayTable from "@/components/DisplayTable.vue";
 
 export default {
   name: "StudentAuditHistory",
   components: {
     StudentNotes: StudentNotes,
+    DisplayTable: DisplayTable,
   },
   props: {},
   computed: {
     ...mapGetters({
         studentId: "getStudentId",
-        token: "getToken",
+        token: "auth/getToken",
         studentHistory: 'getStudentAuditHistory',
         optionalProgramHistory: 'getStudentOptionalProgramAuditHistory',
         studentUngradReasons: "getStudentUngradReasons",

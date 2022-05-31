@@ -465,7 +465,7 @@ export default {
       exams: "getStudentExams",
       gradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
-      token: "getToken",
+      token: "auth/getToken",
       roles: "getRoles",
     }),
   },

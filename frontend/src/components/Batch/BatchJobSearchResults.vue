@@ -37,7 +37,7 @@
 <script>
 
 import { mapGetters } from "vuex";
-import sharedMethods from '../../sharedMethods.js';
+import sharedMethods from '../../sharedMethods';
 import StudentService from "@/services/StudentService.js";
 import DisplayTable from '@/components/DisplayTable.vue';
 export default {
@@ -90,7 +90,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      token: "getToken",
+      token: "auth/getToken",
     }),
     currentPageChange(){
       return this.userSelectedPage;
