@@ -43,7 +43,7 @@
           </div>    
         </div>  
         <div>
-          <div class="px-3 w-100 float-left mt-2">
+          <div v-if="xmlReports != 'not loaded'" class="px-3 w-100 float-left mt-2">
               <a @click="downloadPDF(xmlReports,'application/pdf')" href="#">View XML Preview</a>
           </div>    
         </div>                          
