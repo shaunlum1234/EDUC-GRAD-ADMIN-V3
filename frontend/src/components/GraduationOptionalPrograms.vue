@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <DisplayTable v-bind:items="graduationOptionalPrograms" title="Optional Programs" v-bind:fields="graduationOptionalProgramsFields" id="id" showFilter="true" isOptionalProgram="true">
       <template #cell(effectiveDate)="row">
         {{ row.item.effectiveDate | formatSimpleDate }}
@@ -26,7 +25,7 @@ export default {
   props: {},
   computed: {
     ...mapGetters({
-      token: "getToken",
+      token: "auth/getToken",
       role: "getRoles", 
   })},
   components: {
@@ -35,9 +34,7 @@ export default {
   data: function () {
     return {
       opened: [],
-      //graduationOptionalProgramsFields:[],
       graduationOptionalPrograms:[],
-      //selectedProgramCode: "",
       selectedProgramId: "",
       selectedId:'',
       graduationOptionalProgramsFields: [
@@ -70,7 +67,14 @@ export default {
             sortDirection: 'desc',
             editable: true,
             class: 'w-1',
-          },          
+          },       
+          {
+            key: 'associatedCredential',
+            label: 'Associated Credential',
+            sortable: true,
+            sortDirection: 'desc',
+            editable: true,
+          },   
           {
             key: "effectiveDate",
             label: "Effective Date",

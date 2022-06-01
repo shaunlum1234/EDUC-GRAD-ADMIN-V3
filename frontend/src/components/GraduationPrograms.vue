@@ -30,7 +30,7 @@ export default {
   },
   props: {},
   computed: {...mapGetters({
-      token: "getToken",
+      token: "auth/getToken",
       role: "getRoles", 
   })},
   data: function () {
@@ -64,6 +64,13 @@ export default {
           label: "Description",
           sortable: true,
         },
+        {
+          key: 'associatedCredential',
+          label: 'Associated Credential',
+          sortable: true,
+          sortDirection: 'desc',
+          editable: true,
+        },   
         {
           key: "effectiveDate",
           label: "Effective Date",

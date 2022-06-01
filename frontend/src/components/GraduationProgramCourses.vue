@@ -31,7 +31,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      token: "getToken",
+      token: "auth/getToken",
     }),
   },
   data: function () {
@@ -59,7 +59,7 @@ export default {
         },
         {
           key: "courseName",
-          label: "Course name",
+          label: "Course Title",
           sortable: true,
           editable: true,
         },

@@ -35,6 +35,7 @@
         <template #cell(optionalReqMet)="row">  
           <div v-if="row.item.studentOptionalProgramData">   
               <b-table v-if="row.item.optionalProgramCode == 'BC' || 
+                             row.item.optionalProgramCode == 'BD' || 
                              row.item.optionalProgramCode == 'AN' || 
                              row.item.optionalProgramCode == 'AD' || 
                              row.item.programCode == 'SCCP'"
@@ -53,7 +54,7 @@
               <template #cell(gradReqMetDetail)="row2">
                 <div class="p-2">
                   <strong>{{row2.item.gradReqMetDetail}}</strong><br/>
-                   {{row2.item.courseCode}} {{row2.item.courseLevel}} - {{row2.item.sessionDate | formatTime}} ({{row2.item.courseName}})
+                   {{row2.item.courseCode}} {{row2.item.courseLevel}} - {{row2.item.sessionDate}} ({{row2.item.courseName}})
                 </div>    
               </template>
             </b-table>

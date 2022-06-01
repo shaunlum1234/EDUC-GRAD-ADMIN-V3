@@ -1,7 +1,6 @@
 <template>
   <div class="psi-view">
     <h1>Post Secondary Institutions</h1>
-
     <b-card no-body>
       <b-tabs card>
         <b-tab title="Post Secondary Institutions" active>
@@ -66,6 +65,10 @@
                   />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
+                  <label>Open Flag</label>
+                  <b-form-select v-model="advancedSearchInput.openFlag.value" :options="options"  tabindex="4"></b-form-select>
+                </div>
+                <div class="advanced-search-field col-12 col-md-2">
                   <label>Transmission Mode</label>
                   <div
                     href="#"
@@ -81,7 +84,26 @@
                     class="form__input"
                     v-model="advancedSearchInput.transmissionMode.value"
                     placeholder=""
-                    tabindex="4"
+                    tabindex="5"
+                  />
+                </div>
+                <div class="advanced-search-field col-12 col-md-2">
+                  <label>PSI Grouping</label>
+                  <div
+                    href="#"
+                    v-on:click="advancedSearchInput.psiGrouping.contains = !advancedSearchInput.psiGrouping.contains"
+                    v-bind:class="{active: advancedSearchInput.psiGrouping.contains}"
+                    class="wild-card-button"
+                    v-b-tooltip.hover
+                    title="PSI Grouping mode starts with"
+                  >
+                    [.*]
+                  </div>
+                  <b-input
+                    class="form__input"
+                    v-model="advancedSearchInput.psiGrouping.value"
+                    placeholder=""
+                    tabindex="6"
                   />
                 </div>
               </div>
@@ -206,6 +228,10 @@ export default {
       totalResults: "",
       params: {},
       psi: {},
+      options: [
+          { value: 'Y', text: 'Y' },
+          { value: 'N', text: 'N' },
+      ],
       psiResults: [],
       psiFields: [
         { key: "more", label: "",  sortable: true, },
@@ -222,7 +248,7 @@ export default {
         },
         {
           key: 'cslCode',
-          label: 'Csl Code',
+          label: 'CSL Code',
           sortable: true,
           class: 'text-center'
         },
@@ -239,7 +265,7 @@ export default {
         },
         {
           key: 'psiGrouping',
-          label: 'Psi Grouping',
+          label: 'PSI Grouping',
           sortable: true,
         },
       ],
@@ -247,22 +273,26 @@ export default {
         psiCode: {
           value: "",
           contains: false,
-         
         },
         psiName: {
           value: "",
           contains: false,
-          
         },
         cslCode: {
           value: "",
-          contains: false,
-          
+          contains: false,       
+        },
+        openFlag: {
+          value: "",
+          contains: false,       
         },
         transmissionMode: {
           value: "",
-          contains: false,
-          
+          contains: false        
+        },
+        psiGrouping: {
+          value: "",
+          contains: false        
         },
       },
     };
@@ -270,7 +300,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      token: "getToken",
+      token: "auth/getToken",
     }),
   },
   created() {
@@ -301,7 +331,7 @@ export default {
       .catch((error) => {
         // eslint-disable-next-line
         console.log(
-          "There was an error adding psi information:" + error.response
+          "There was an error adding PSI information:" + error.response
         );
       });
     },
@@ -348,13 +378,23 @@ export default {
                 this.params.append('cslCode', this.advancedSearchInput.cslCode.value);
               }   
             }
+            if(this.advancedSearchInput.openFlag.value != ""){             
+                this.params.append('openFlag', this.advancedSearchInput.openFlag.value);   
+            }      
             if(this.advancedSearchInput.transmissionMode.value != ""){
               if(this.advancedSearchInput.transmissionMode.contains && !this.advancedSearchInput.transmissionMode.value.includes("*")) {            
                 this.params.append('transmissionMode', this.advancedSearchInput.transmissionMode.value + "*");  
               }else{
                 this.params.append('transmissionMode', this.advancedSearchInput.transmissionMode.value);
               }   
-            }          
+            } 
+            if(this.advancedSearchInput.psiGrouping.value != ""){
+              if(this.advancedSearchInput.psiGrouping.contains && !this.advancedSearchInput.psiGrouping.value.includes("*")) {            
+                this.params.append('psiGrouping', this.advancedSearchInput.psiGrouping.value + "*");  
+              }else{
+                this.params.append('psiGrouping', this.advancedSearchInput.psiGrouping.value);
+              }   
+            }             
           }//if this.advanceSearchInput
           TRAXService.getPSIByAdvanceSearch(this.params,this.token)
             .then((response) => {
