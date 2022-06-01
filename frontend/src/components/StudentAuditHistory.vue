@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-{{studentUngradReasons}}
     <!-- Notes Section -->
     <div>
       <b-button v-b-toggle.note-collapse variant="link" v-on:click="showNotes = !showNotes" class="float-left">
