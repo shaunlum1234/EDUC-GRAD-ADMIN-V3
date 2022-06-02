@@ -48,6 +48,7 @@
           <div class="row col-12 py-2" :header="studentHistory.slice().reverse()[index].historyID">
             <div class="col-4 border-bottom">
               <p><strong>Activity Code: </strong>{{studentHistory.slice().reverse()[index].activityCode}}</p>
+              <ul><li>{{studentHistory.slice().reverse()[index].activityCodeDescription}}</li></ul>
               <p><strong>Update User: </strong>{{studentHistory.slice().reverse()[index].updateUser}}</p>
               <p><strong>Updated: </strong>{{studentHistory.slice().reverse()[index].createDate | formatTime}}</p>
             </div>
@@ -62,7 +63,9 @@
                   && v.pathTo != 'createDate' 
                   && v.pathTo != 'historyID'
                   && v.pathTo != 'studentGradData'
+                  && v.pathTo != 'studentProjectedGradData'
                   && v.pathTo != 'activityCode'
+                  && v.pathTo != 'activityCodeDescription'
                   && v.pathTo != 'studentID'
                   && v.pathTo != 'updateUser'
                   && (v.kind != 'N' || v.rhs)
