@@ -454,7 +454,7 @@
       ungraduateStudent(){
         this.tabLoading = true;
         let ungradCode = this.ungradReasonSelected;
-        var ungradDesc = this.ungradReasonDesc;
+        let ungradDesc = this.ungradReasonDesc;
         if(ungradCode != "OTH"){
           ungradDesc = this.ungradReasons.filter(function (reason){  
             return reason.code == ungradCode;

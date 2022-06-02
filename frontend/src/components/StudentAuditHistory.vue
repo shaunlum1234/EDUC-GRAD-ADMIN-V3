@@ -227,7 +227,7 @@ export default {
       this.changeHistory = [];
 
       for (let i = 0; i < this.studentHistoryChangeCount - 1; i++) {
-          var x = DeepDiff(tempHistory[i], tempHistory[i + 1]);
+          let x = DeepDiff(tempHistory[i], tempHistory[i + 1]);
           this.changeHistory.push(x);  
       }
       for (let j = 0; j < this.changeHistory.length ; j++) {  
@@ -246,7 +246,7 @@ export default {
       this.optionalProgramChangeHistory = [];
       
       for (let i = 0; i < this.optionalProgramHistoryChangeCount - 1; i++) {
-            var z = DeepDiff(tempProgramHistory[i], tempProgramHistory[i + 1]);
+            let z = DeepDiff(tempProgramHistory[i], tempProgramHistory[i + 1]);
             this.optionalProgramChangeHistory.push(z);
       } 
       for (let j = 0; j < this.optionalProgramChangeHistory.length ; j++) {  
