@@ -12,63 +12,52 @@ const {
 } = require('express-validator');
 const router = express.Router();
 
-
-router.get('/', (_req, res) => {
-  res.status(200).json({
-    endpoints: [
-      '/callback_bceid',
-      '/login',
-      '/logout',
-      '/refresh',
-      '/token'
-    ]
-  });
-});
-
-function addOIDCRouterGet(strategyName, callbackURI, redirectURL) {
-  router.get(callbackURI,
-    passport.authenticate(strategyName, {
-      failureRedirect: 'error'
-    }),
-    (_req, res) => {
-      res.redirect(redirectURL);
-    }
-  );
-}
-
-addOIDCRouterGet('oidcBceid', '/callback_bceid', config.get('server:frontend'));
-addOIDCRouterGet('oidcBceidActivateUser', '/callback_activate_user', `${config.get('server:frontend')}/user-activation`);
+//provides a callback location for the auth service
+router.get('/callback',
+  passport.authenticate('oidc', {
+    failureRedirect: 'error',
+  }),
+  (_req, res) => {
+    res.redirect(config.get('server:frontend'));
+  }
+);
 
 //a prettier way to handle errors
 router.get('/error', (_req, res) => {
-  res.redirect(config.get('server:frontend') + '/login-error');
+  res.status(401).json({
+    message: 'Error: Unable to authenticate'
+  });
 });
 
-function addBaseRouterGet(strategyName, callbackURI) {
-  router.get(callbackURI, passport.authenticate(strategyName, {
-    failureRedirect: 'error'
-  }));
+//redirects to the SSO login screen
+router.get('/login', passport.authenticate('oidc', {
+  failureRedirect: 'error'
+}));
+
+function logout(req) {
+  req.logout();
+  req.session.destroy();
 }
-
-addBaseRouterGet('oidcBceid', '/login_bceid');
-addBaseRouterGet('oidcBceidActivateUser', '/login_bceid_activate_user');
-
 
 //removes tokens and destroys session
 router.get('/logout', async (req, res) => {
-  req.logout();
-  req.session.destroy();
-  let retUrl;
-  if (req.query && req.query.sessionExpired) {
-    retUrl = encodeURIComponent(config.get('logoutEndpoint') + '?post_logout_redirect_uri=' + config.get('server:frontend') + '/session-expired');
-  } else if (req.query && req.query.loginError) {
-    retUrl = encodeURIComponent(config.get('logoutEndpoint') + '?post_logout_redirect_uri=' + config.get('server:frontend') + '/login-error');
-  } else if (req.query && req.query.loginBceid) {
-    retUrl = encodeURIComponent(config.get('logoutEndpoint') + '?post_logout_redirect_uri=' + config.get('server:frontend') + '/api/auth/login_bceid');
+  if (req?.session?.passport?.user) {
+    logout(req);
+    let retUrl;
+    if (req.query && req.query.sessionExpired) {
+      retUrl = encodeURIComponent(config.get('logoutEndpoint') + '?post_logout_redirect_uri=' + config.get('server:frontend') + '/session-expired');
+    } else {
+      retUrl = encodeURIComponent(config.get('logoutEndpoint') + '?post_logout_redirect_uri=' + config.get('server:frontend') + '/logout');
+    }
+    res.redirect(config.get('siteMinder_logout_endpoint') + retUrl);
   } else {
-    retUrl = encodeURIComponent(config.get('logoutEndpoint') + '?post_logout_redirect_uri=' + config.get('server:frontend') + '/logout');
+    if (req.query && req.query.sessionExpired) {
+      res.redirect(config.get('server:frontend') + '/session-expired');
+    } else {
+      res.redirect(config.get('server:frontend') + '/logout');
+    }
   }
-  res.redirect(config.get('siteMinder_logout_endpoint') + retUrl);
+
 });
 
 const UnauthorizedRsp = {
@@ -125,6 +114,7 @@ router.get('/token', auth.refreshJWT, (req, res) => {
     res.status(401).json(UnauthorizedRsp);
   }
 });
+
 async function generateTokens(req, res) {
   const result = await auth.renew(req.user.refreshToken);
   if (result && result.jwt && result.refreshToken) {
@@ -139,6 +129,7 @@ async function generateTokens(req, res) {
     res.status(401).json(UnauthorizedRsp);
   }
 }
+
 router.get('/user-session-remaining-time', passport.authenticate('jwt', {session: false}), (req, res) => {
   if (req?.session?.cookie && req?.session?.passport?.user) {
     const remainingTime = req.session.cookie.maxAge;
@@ -149,8 +140,4 @@ router.get('/user-session-remaining-time', passport.authenticate('jwt', {session
   }
 });
 
-//redirects to the SSO login screen
-router.get('/login', passport.authenticate('oidcBceid', {
-  failureRedirect: 'error'
-}));
 module.exports = router;
