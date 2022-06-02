@@ -433,13 +433,13 @@
         gradInfo: "getStudentGraduationCreationAndUpdate",
         hasGradStatus: "studentHasGradStatus",
         studentGradStatus: "getStudentGradStatus",
-        token: "getToken",
+        token: "auth/getToken",
         studentId: "getStudentId",
         studentPen: "getStudentPen",
         studentInfo: "getStudentProfile",
         studentNotes: "getStudentNotes",
         optionalPrograms: "getStudentOptionalPrograms",    
-        ungradReasons: "getUngradReasons",      
+        ungradReasons: "app/getUngradReasons",      
         studentUngradReasons: "getStudentUngradReasons",
         gradCourses: "gradStatusCourses",
         studentHistory: 'getStudentAuditHistory',
@@ -591,8 +591,8 @@
         this.selectedTab = 0;
         this.tabLoading = true; 
         GraduationService.graduateStudent(this.studentId, this.token).then(() => {
-          this.reloadGradStatus();
-               
+          // this.reloadGradStatus();
+          this.loadStudent(this.studentId);    
         }).catch((error) => {
           this.tabLoading = false; 
           if(error.response.status){
@@ -695,8 +695,6 @@
         }
       },
       loadStudent(studentIdFromURL) {
-      
-
         StudentService.getStudentByPen(this.pen, this.token).then((response) => {
           this.$store.dispatch('setStudentProfile', response.data);
         }).catch((error) => {
@@ -705,10 +703,8 @@
               "danger",
               "There was an error with the Student Service (getting the Student using PEN): " + error.response.status
             );
-          }
-         
+          }  
         });
-
         AssessmentService.getStudentAssessment(this.pen, this.token).then((response) => {
           this.$store.dispatch('setStudentAssessments', response.data);
         }).catch((error) => {
@@ -731,7 +727,6 @@
             );
           }
         });
-
         StudentService.getGraduationStatusOptionalPrograms(studentIdFromURL, this.token).then(
           (response) => {
             this.$store.dispatch("setStudentGradStatusOptionalPrograms", response.data);
@@ -743,7 +738,6 @@
             );
           }
         });
-
         StudentService.getStudentCareerPrograms(studentIdFromURL, this.token).then(
           (response) => {
             this.$store.dispatch("setStudentCareerPrograms", response.data);
@@ -756,7 +750,6 @@
             );
           }
         });        
-
         CourseService.getStudentCourseAchievements(this.pen, this.token).then(
           (response) => {
             
@@ -770,7 +763,6 @@
             );
           }
         });
-
         CourseService.getStudentExamDetails(this.pen, this.token).then(
           (response) => {           
             this.$store.dispatch("setStudentExams", response.data);
@@ -783,7 +775,6 @@
             );
           }
         });
-
         StudentService.getStudentNotes(studentIdFromURL, this.token).then(
           (response) => {           
             this.$store.dispatch("setStudentNotes", response.data);
@@ -796,9 +787,7 @@
             );
           }
         });
-
         this.getStudentReportsAndCertificates(studentIdFromURL, this.pen);
-
         StudentService.getStudentUngradReasons(studentIdFromURL, this.token).then(
           (response) => {         
             this.$store.dispatch("setStudentUngradReasons", response.data);
@@ -810,8 +799,7 @@
               "There was an error with the Student Service (getting the Undo Completion Reasons): " + error.response.status
             );
           }
-        });
-        
+        });    
         StudentService.getStudentHistory(studentIdFromURL, this.token).then(
             (response) => {
               this.$store.dispatch("setStudentAuditHistory", response.data);
@@ -824,7 +812,6 @@
             );
           }
         });
-
         StudentService.getStudentOptionalProgramHistory(studentIdFromURL, this.token).then(
           (response) => {
   
@@ -837,6 +824,7 @@
             );
           }
         });
+        this.tabLoading = false;
       },//loadStudent
     },
   };
