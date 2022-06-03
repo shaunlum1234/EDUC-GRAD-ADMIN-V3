@@ -65,13 +65,13 @@ export default {
         },
         {
           key: "startDate",
-          label: "Start date",
+          label: "TRAX Start date",
           sortable: true,
           editable: true,
         },
         {
           key: "endDate",
-          label: "End date",
+          label: "TRAX End date",
           sortable: true,
           editable: true,
         },
