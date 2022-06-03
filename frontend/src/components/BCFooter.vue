@@ -1,6 +1,6 @@
 <template>
 <div>
-    <footer class="footer" id="sticky-footer">
+    <footer class="footer">
       <nav class="navbar navbar-expand-lg navbar-dark">
         <!-- Navbar content -->
         <div class="container">
@@ -62,7 +62,8 @@ export default {
     float: left;
     position: fixed;
     left: 0;
-    bottom: 0;
+    bottom: 2%;
     height: 4%;
+    z-index: 100;
   }
 </style>

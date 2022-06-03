@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div class="student-note">
+      <div class="student-note px-3">
       <!-- Add new Note form -->
         <b-card
             title=""
@@ -89,7 +89,7 @@ export default {
   computed: {
     ...mapGetters({
       studentNotes: "getStudentNotes",
-      token: "getToken",
+      token: "auth/getToken",
       profile: "getStudentProfile",
       username: "getUsername"
     }),

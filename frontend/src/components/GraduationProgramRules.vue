@@ -11,7 +11,11 @@
               </template>
 
             <template #cell(programRequirementCode.traxReqNumber)="row">
-              {{row.item.programRequirementCode.traxReqNumber === row.item.programRequirementCode.proReqCode ? '' : row.item.programRequirementCode.traxReqNumber}}
+              {{ row.item.programRequirementCode.traxReqNumber === row.item.programRequirementCode.proReqCode ? '' : row.item.programRequirementCode.traxReqNumber }}
+            </template>
+
+            <template #cell(programRequirementCode.traxReqChar)='row'>
+              {{ row.item.programRequirementCode.traxReqChar }}
             </template>
           </DisplayTable>
         </div>
@@ -35,7 +39,7 @@ export default {
   },
   props: {},
   computed: {...mapGetters({
-      token: "getToken",
+      token: "auth/getToken",
       role: "getRoles", 
   })},
   data: function () {
@@ -70,6 +74,13 @@ export default {
           {
             key: 'programRequirementCode.traxReqNumber',
             label: 'Transcript Req #',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'programRequirementCode.traxReqChar',
+            label: 'TRAX Non-Grad Code',
             sortable: true,
             editable: true,
             class: '',

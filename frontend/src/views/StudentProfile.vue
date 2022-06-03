@@ -1,5 +1,4 @@
 <template>
-
   <div class="student-profile">
     <div class="row m-0 py-3">    
       <div class="px-0">   
@@ -86,7 +85,7 @@
             <b-dropdown :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right :text="smallScreen?'':'Run Graduation Algorithm'" class="m-md-2 float-right admin-gear-w-text">
               <b-dropdown-item v-on:click="graduateStudent" v-if="!studentGradStatus.programCompletionDate">Graduate Student</b-dropdown-item>
               <b-dropdown-item v-on:click="graduateStudent" v-if="studentGradStatus.programCompletionDate && studentGradStatus.program == ('SCCP'||'NOPROG')">Graduate Student</b-dropdown-item>
-              <b-dropdown-item v-if="studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Ungraduate Student</b-dropdown-item>
+              <b-dropdown-item v-if="studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Undo Completion</b-dropdown-item>
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks" >Projected final marks</b-dropdown-item>
               <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg">Projected final marks and registrations</b-dropdown-item>
@@ -149,20 +148,8 @@
                 <b-tab v-if="this.courses == 'not loaded' || this.assessments == 'not loaded'" title="Loading ..." class="tab-loading py-3 px-0 m-1">
                   <b-card-text class="text-center">Loading Student Courses and Assesments</b-card-text>
                 </b-tab>
-                 
-                <b-tab  :title="'Ungrad Reasons ('  + studentUngradReasons.length + ')'" class="py-3 px-3 m-1">
-                  <b-card-text>
-                    <b-table striped :items="studentUngradReasons" :fields='[{ key: "createDate",label: "Ungrad Date",class:"px-0 py-2 w-10"},{key: "ungradReasonCode",label: "Code",class:"px-0 py-2 w-10"},{key: "ungradReasonDescription",label: "Reason",class:"px-0 py-2 w-80"},{key: "createUser",label: "User",class:"px-0 py-2 w-80"}]'></b-table>
-                  </b-card-text>
-                </b-tab>  
 
-                <b-tab :title="'Notes ('  + studentNotes.length + ')'" class="py-3 px-0 m-1">
-                  <b-card-text>
-                    <StudentNotes></StudentNotes>
-                    <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
-                  </b-card-text>
-                </b-tab>
-                <b-tab :title="'Audit history'" class="py-3 px-0 m-1">
+                <b-tab :title="'Audit History'" class="py-3 px-0 m-1">
                   <b-card-text>
                     <StudentAuditHistory></StudentAuditHistory>
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
@@ -319,8 +306,8 @@
           </template>
       </b-modal>
       <div>
-        <b-modal id="ungraduate-student-modal" title="Ungraduate Student">
-          <p>Ungraduation Reason</p>
+        <b-modal id="ungraduate-student-modal" title="Undo Completion">
+          <p>Undo Completion Reason</p>
           <b-form-select v-model="ungradReasonSelected" :options="ungradReasons" value-field="code" text-field="label"></b-form-select>
 
           <template #modal-footer="{ok, cancel, hide}">
@@ -331,7 +318,7 @@
             <!-- Button with custom close trigger value -->
 
             <b-button size="sm" variant="primary" @click="hide('ungraduate-student-modal'); ungraduateStudent()">
-              Ungraduate Student
+              Undo Completion
             </b-button>
           </template>
           <div v-if="ungradReasonSelected == 'OTH'" class="mt=3">
@@ -346,7 +333,8 @@
 </template>
 
 <script>
-  import AssessmentService from "@/services/AssessmentService.js"
+  import sharedMethods from '../sharedMethods';  
+  import AssessmentService from "@/services/AssessmentService.js";
   import GraduationCommonService from "@/services/GraduationCommonService.js";
   import CourseService from "@/services/CourseService.js";
   import StudentService from "@/services/StudentService.js";
@@ -355,7 +343,6 @@
   import StudentCourses from "@/components/StudentCourses";
   import StudentAssessments from "@/components/StudentAssessments";
   import StudentExams from "@/components/StudentExams";
-  import StudentNotes from "@/components/StudentNotes";
   import StudentGraduationStatus from "@/components/StudentGraduationStatus";
   import StudentOptionalPrograms from "@/components/StudentOptionalPrograms";
   import StudentAuditHistory from "@/components/StudentAuditHistory";
@@ -366,9 +353,26 @@
   export default {
     name: "studentProfile",
     created() {
-      const penFromURL = this.$route.params.pen;
-      const studentIdFromURL = this.$route.params.studentId;
-      this.loadStudent(penFromURL, studentIdFromURL);
+
+  
+        StudentService.getStudentPen(this.$route.params.studentId, this.token).then(
+          (response) => {           
+            this.pen = response.data.pen
+            const studentIdFromURL = this.$route.params.studentId;
+            this.loadStudent(studentIdFromURL)
+          }
+        ).catch((error) => {
+          if(error.response.status){
+
+            this.showNotification(
+              "danger",
+              "There was an error: " + error.response.status
+            );
+          }
+        })       
+
+      this.showNotification = sharedMethods.showNotification;
+
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
       if (this.window.width < 768) {
@@ -383,18 +387,16 @@
       GRADRequirementDetails: GRADRequirementDetails,
       StudentAssessments: StudentAssessments,
       StudentExams: StudentExams,
-      StudentNotes:StudentNotes,
       StudentGraduationStatus: StudentGraduationStatus,
       StudentOptionalPrograms: StudentOptionalPrograms,
       StudentAuditHistory: StudentAuditHistory
     },
     props: {
-      pen: {
-        type: String,
-      }
+
     },
     data() {
       return { 
+        pen: "",
         optionalProgramTab: "",
         projectedOptionalGradStatus:"",
         nonGradReasons:"",
@@ -431,15 +433,17 @@
         gradInfo: "getStudentGraduationCreationAndUpdate",
         hasGradStatus: "studentHasGradStatus",
         studentGradStatus: "getStudentGradStatus",
-        token: "getToken",
+        token: "auth/getToken",
         studentId: "getStudentId",
         studentPen: "getStudentPen",
         studentInfo: "getStudentProfile",
         studentNotes: "getStudentNotes",
         optionalPrograms: "getStudentOptionalPrograms",    
-        ungradReasons: "getUngradReasons",      
+        ungradReasons: "app/getUngradReasons",      
         studentUngradReasons: "getStudentUngradReasons",
         gradCourses: "gradStatusCourses",
+        studentHistory: 'getStudentAuditHistory',
+        optionalProgramHistory: 'getStudentOptionalProgramAuditHistory',
       }),
     },
     
@@ -450,7 +454,7 @@
       ungraduateStudent(){
         this.tabLoading = true;
         let ungradCode = this.ungradReasonSelected;
-        var ungradDesc = this.ungradReasonDesc;
+        let ungradDesc = this.ungradReasonDesc;
         if(ungradCode != "OTH"){
           ungradDesc = this.ungradReasons.filter(function (reason){  
             return reason.code == ungradCode;
@@ -470,11 +474,15 @@
               }
             ).catch((error) => {
               if(error.response.status){
-                this.$bvToast.toast("ERROR " + error.response.statusText, {
-                  title: "ERROR" + error.response.status,
-                  variant: 'danger',
-                  noAutoHide: true,
-                });
+                // this.$bvToast.toast("ERROR " + error.response.statusText, {
+                //   title: "ERROR" + error.response.status,
+                //   variant: 'danger',
+                //   noAutoHide: true,
+                // });
+                this.showNotification(
+                  "danger",
+                  "There was an error: " + error.response.status
+                );
               }
             });            
             StudentService.getGraduationStatus(this.studentId, this.token).then(
@@ -492,7 +500,7 @@
                 });
               }
             });
-            this.getStudentReportsAndCertificates(this.studentId);   
+            this.getStudentReportsAndCertificates(this.studentId, this.studentPen);   
           })
           .catch((error) => {
             this.tabLoading= false;
@@ -508,7 +516,7 @@
         this.ungradReasonSelected = "";
         this.ungradReasonDesc = "";
       },
-      getStudentReportsAndCertificates(id){
+      getStudentReportsAndCertificates(id, pen){
         GraduationCommonService.getStudentCertificates(id, this.token).then(
           (response) => {          
             this.$store.dispatch("setStudentCertificates", response.data);
@@ -547,7 +555,23 @@
               noAutoHide: true,
             });
           }
-        });                
+        }); 
+        GraduationCommonService.getStudentXmlReport(pen, this.token).then(
+          (response) => {        
+            this.$store.dispatch("setStudentXmlReport", response.data);
+          }
+        ).catch((error) => {
+          if(error.response.status == 404){
+            // eslint-disable-next-line
+            console.log(error);
+          } else {
+            this.$bvToast.toast("ERROR " + error.response.statusText, {
+              title: "Service ERROR" + error.response.status,
+              variant: 'danger',
+              noAutoHide: true,
+            });
+          }
+        });                       
       },
       reloadGradStatus(){  
         StudentService.getGraduationStatus(this.studentId, this.token).then(
@@ -563,15 +587,15 @@
             });
           }
         }); 
-        this.getStudentReportsAndCertificates(this.studentId);                                        
+        this.getStudentReportsAndCertificates(this.studentId, this.studentPen);                                        
         this.tabLoading = false;
       },
       graduateStudent(){
         this.selectedTab = 0;
         this.tabLoading = true; 
         GraduationService.graduateStudent(this.studentId, this.token).then(() => {
-          this.reloadGradStatus();
-               
+          // this.reloadGradStatus();
+          this.loadStudent(this.studentId);    
         }).catch((error) => {
           this.tabLoading = false; 
           if(error.response.status){
@@ -587,7 +611,7 @@
         this.selectedTab = 0;
         this.tabLoading = true; 
         GraduationService.updateStudentReports(this.studentId, this.token).then(() => {
-          this.getStudentReportsAndCertificates(this.studentId);
+          this.getStudentReportsAndCertificates(this.studentId, this.studentPen);
           StudentService.getGraduationStatus(this.studentId, this.token).then(
             (res) => {             
               this.$store.dispatch("setStudentGradStatus", res.data);
@@ -625,7 +649,7 @@
           } 
           this.$refs['projectedGradStatusWithFinalMarks'].show();
           this.tabLoading = false; 
-          this.getStudentReportsAndCertificates(this.studentId);
+          this.getStudentReportsAndCertificates(this.studentId, this.studentPen);
         }).catch((error) => {
           this.tabLoading = false; 
           if(error.response.status){
@@ -650,15 +674,14 @@
           this.projectedrequirementsMet = this.projectedGradStatus.requirementsMet;
           this.$refs['projectedGradStatusWithFinalAndReg'].show();
           this.tabLoading = false; 
-          this.getStudentReportsAndCertificates(this.studentId);
+          this.getStudentReportsAndCertificates(this.studentId,this.studentPen);
         }).catch((error) => {
           if(error.response.status){
             this.tabLoading = false; 
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Graduation Service (projected Grad Status with Final and Reg): " + error.response.status
+            );
           }
         });
       },
@@ -674,160 +697,138 @@
           this.smallScreen = false;
         }
       },
-      loadStudent(pen, studentIdFromURL) {
-        StudentService.getStudentByPen(pen, this.token).then((response) => {
+      loadStudent(studentIdFromURL) {
+        StudentService.getStudentByPen(this.pen, this.token).then((response) => {
           this.$store.dispatch('setStudentProfile', response.data);
         }).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
-          }
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Student using PEN): " + error.response.status
+            );
+          }  
         });
-
-        AssessmentService.getStudentAssessment(pen, this.token).then((response) => {
+        AssessmentService.getStudentAssessment(this.pen, this.token).then((response) => {
           this.$store.dispatch('setStudentAssessments', response.data);
         }).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Assessment Service: " + error.response.status
+            );
           }
         });
-        
         StudentService.getGraduationStatus(studentIdFromURL, this.token).then(
           (response) => {
             this.$store.dispatch("setStudentGradStatus", response.data);
           }
         ).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Graduation Status): " + error.response.status
+            );
           }
         });
-
         StudentService.getGraduationStatusOptionalPrograms(studentIdFromURL, this.token).then(
           (response) => {
             this.$store.dispatch("setStudentGradStatusOptionalPrograms", response.data);
         }).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Graduation Status Optional Programs): " + error.response.status
+            );
           }
         });
-
         StudentService.getStudentCareerPrograms(studentIdFromURL, this.token).then(
           (response) => {
             this.$store.dispatch("setStudentCareerPrograms", response.data);
         }
         ).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Student Career Programs): " + error.response.status
+            );
           }
         });        
-
-        CourseService.getStudentCourseAchievements(pen, this.token).then(
+        CourseService.getStudentCourseAchievements(this.pen, this.token).then(
           (response) => {
             
             this.$store.dispatch("setStudentCourses", response.data);
           }
         ).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Student Course Achievements): " + error.response.status
+            );
           }
         });
-
-        CourseService.getStudentExamDetails(pen, this.token).then(
+        CourseService.getStudentExamDetails(this.pen, this.token).then(
           (response) => {           
             this.$store.dispatch("setStudentExams", response.data);
           }
         ).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Student Exam Details): " + error.response.status
+            );
           }
         });
-
         StudentService.getStudentNotes(studentIdFromURL, this.token).then(
           (response) => {           
             this.$store.dispatch("setStudentNotes", response.data);
           }
         ).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Student Notes): " + error.response.status
+            );
           }
         });
-
-        this.getStudentReportsAndCertificates(studentIdFromURL);
-
+        this.getStudentReportsAndCertificates(studentIdFromURL, this.pen);
         StudentService.getStudentUngradReasons(studentIdFromURL, this.token).then(
-          (response) => {           
+          (response) => {         
             this.$store.dispatch("setStudentUngradReasons", response.data);
           }
         ).catch((error) => {
-          if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+          if(error.response.status){ 
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Undo Completion Reasons): " + error.response.status
+            );
           }
-        });
-        
-
+        });    
         StudentService.getStudentHistory(studentIdFromURL, this.token).then(
             (response) => {
               this.$store.dispatch("setStudentAuditHistory", response.data);
             }
         ).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Student History): " + error.response.status
+            );
           }
         });
-
         StudentService.getStudentOptionalProgramHistory(studentIdFromURL, this.token).then(
           (response) => {
   
             this.$store.dispatch("setStudentOptionalProgramsAuditHistory", response.data);
         }).catch((error) => {
           if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
+            this.showNotification(
+              "danger",
+              "There was an error with the Student Service (getting the Student Optional Program History): " + error.response.status
+            );
           }
         });
-      },
+        this.tabLoading = false;
+      },//loadStudent
     },
   };
 </script>
@@ -919,5 +920,4 @@
   .optionalProgramName{
     margin-top: 1rem;
   }
-  
 </style>

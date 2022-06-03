@@ -7,7 +7,7 @@ import Assessments from '../views/Assessments.vue';
 import Courses from '../views/Courses.vue';
 import Schools from '../views/Schools.vue';
 import PSI from '../views/PSI.vue';
-import AdminGraduationPrograms from '../views/AdminGraduationPrograms.vue';
+import AdminGraduationPrograms from '../views/Programs.vue';
 import AdminCodes from '../views/Codes.vue';
 import CareerPrograms from '../components/Codes/CareerPrograms.vue';
 import ReportTypes from '../components/Codes/ReportTypes.vue';
@@ -25,7 +25,8 @@ import GraduationProgramCourses from '../components/GraduationProgramCourses.vue
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
 import GraduationOptionalProgramRules from '@/components/GraduationOptionalProgramRules';
 import GraduationOptionalPrograms from '@/components/GraduationOptionalPrograms';
-import Admin from '../views/Admin.vue';
+import GraduationProgramTranscriptMessage from '@/components/GraduationProgramTranscriptMessage';
+import BatchProcessing from '../views/BatchProcessing.vue';
 import RequirementTypes from '@/components/Programs/RequirementTypes.vue';
 import LetterGrades from '@/components/Programs/LetterGrades';
 import SpecialCases from '@/components/Programs/SpecialCases';
@@ -61,14 +62,14 @@ const routes = [{
     path: '/',
     name: 'student-search',
     component: StudentSearch,
-    meta: {
+    meta: { 
       requiresAuth: true
     }
   },
   {
-    path: '/admin',
-    name: 'Admin',
-    component: Admin,
+    path: '/batch-processing',
+    name: 'Batch Processing',
+    component: BatchProcessing,
     meta: {
       requiresAuth: true
     }
@@ -89,6 +90,7 @@ const routes = [{
       { path: 'special-cases/', component: SpecialCases },
       { path: 'algorithm-rules/', component: AlgorithmRules },
       { path: 'requirement-types/', component: RequirementTypes },
+      { path: 'transcript-message/', component: GraduationProgramTranscriptMessage},
     ],
     meta: {
       requiresAuth: true
@@ -148,7 +150,7 @@ const routes = [{
     }
   },
   {
-    path: '/student-profile/:pen/:studentId',
+    path: '/student-profile/:studentId',
     name: 'student-profile',
     component: StudentProfile,
     meta: {
