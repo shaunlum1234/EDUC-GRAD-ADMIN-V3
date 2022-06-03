@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <Bcheader class="bcheader" style="margin-bottom: 15px; text-transform: capitalize">
-    <a v-b-toggle.sidebar-1>{{username}}</a>
+    <a v-b-toggle.sidebar-1>username</a>
     <b-sidebar id="sidebar-1" title="Permissions" shadow>
       <div class="px-3 py-2">
-        <h1>{{username}}</h1>
+        <h1>username</h1>
         <p>
-          {{permissions}}
+          {{isAuthenticated}}
         </p>
       </div>
     </b-sidebar>
@@ -16,7 +16,7 @@
 <!--      class="text-white"-->
 <!--      id="logout-route"-->
 <!--    >Logout</router-link>-->
-        <a id="logout-button" :href="routes.LOGOUT" class="ma-1">Logout</a>
+        <a href='#'>Logout</a>
         </Bcheader>
     
     <div class="container" style="height: 100%;">
@@ -30,9 +30,7 @@
   </div>
 </template>
 <script>
-import {
-  mapGetters
-} from "vuex";
+import { mapActions, mapMutations, mapGetters,mapState } from 'vuex';
 
 import Bcheader from "@/components/BCHeader";
 import BCFooter from "@/components/BCFooter";
@@ -42,11 +40,6 @@ export default {
     Bcheader,
     BCFooter
   },
-  created() {
-    if(this.role == "administrator"){
-      this.$store.dispatch("app/setApplicationVariables");
-    }
-  },
   data() {
       return {
         routes: Routes,
@@ -54,25 +47,25 @@ export default {
       }
   },
   computed: {
-    ...mapGetters({
-      role: "getRoles",
-      permissions: "getPermissions",
-      username: "getUsername",
-    }),
+    ...mapGetters('auth', ['isAuthenticated', 'loginError', 'isLoading']),
+    ...mapState('app', ['pageTitle']),
   },
   methods:{
-    logout(){
-      document.cookie = 'SMSESSION=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    },
-    toggleRole(){
-      if(this.role == "administrator"){
-         this.$store.dispatch("setRoles","authenticated");
-      }else if(this.role == "authenticated"){
-         this.$store.dispatch("setRoles","debug");
-      }else if(this.role == "debug"){
-         this.$store.dispatch("setRoles","administrator");
+      ...mapMutations('auth', ['setLoading']),
+      ...mapActions('auth', ['getJwtToken', 'getUserInfo', 'logout']),
+  },
+  async created() {
+    this.setLoading(true);
+    this.getJwtToken().then(() =>
+      Promise.all([this.getUserInfo()])
+    ).catch(e => {
+      if(! e.response) {
+        this.logout();
+        this.$router.replace({name: 'error', query: { message: `500_${e.data || 'ServerError'}` } });
       }
-    }
+    }).finally(() => {
+      this.setLoading(false);
+    });
   }
 }
 
