@@ -43,7 +43,7 @@ export default {
   namespaced: true,
   state: {
     acronyms: [],
-    isAuthenticated: state => state.isAuthenticated,
+    isAuthenticated: false,
     isAuthorizedUser: localStorage.getItem('isAuthorizedUser') !== null,
     userInfo: null,
     error: false,
