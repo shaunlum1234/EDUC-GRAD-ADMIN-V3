@@ -1,6 +1,6 @@
 <template>
-  <b-container class="blue-back" fluid>
-      <b-row align="center" justify="center">
+  <b-container class="blue-back fill-height" fluid>
+      <b-row align-h="center">
         <b-col xs="4" sm="4" md="4" lg="4" xl="4">
           <b-card class="error-card">
             <b-card-title class="gov-header">

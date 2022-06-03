@@ -43,7 +43,7 @@ export default {
   namespaced: true,
   state: {
     acronyms: [],
-    isAuthenticated: localStorage.getItem('jwtToken') !== null,
+    isAuthenticated: state => state.isAuthenticated,
     isAuthorizedUser: localStorage.getItem('isAuthorizedUser') !== null,
     userInfo: null,
     error: false,
@@ -54,6 +54,7 @@ export default {
   getters: {
     acronyms: state => state.acronyms,
     isAuthenticated: state => state.isAuthenticated,
+    getToken: state => state.jwtToken,
     token: state => state.jwtToken,
     userInfo: state => state.userInfo,
     loginError: state => state.loginError,
@@ -64,10 +65,12 @@ export default {
     //sets Json web token and determines whether user is authenticated
     setJwtToken: (state, token = null) => {
       if (token) {
-        state.jwtToken = token;
+        state.isAuthenticated = true;
+        // state.jwtToken = token;
         localStorage.setItem('jwtToken', token);
       } else {
-        state.jwtToken = null;
+        state.isAuthenticated = false;
+        // state.jwtToken = null;
         localStorage.removeItem('jwtToken');
       }
     },

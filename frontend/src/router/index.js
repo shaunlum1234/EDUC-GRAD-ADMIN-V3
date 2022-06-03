@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Login from '../views/Login.vue';
+import Logout from '../views/Logout.vue';
 import StudentSearch from '../views/StudentSearch.vue';
 import StudentProfile from '../views/StudentProfile.vue';
 import Assessments from '../views/Assessments.vue';
@@ -48,20 +49,22 @@ const routes = [{
   },
   {
     path: '/logout',
-    beforeEnter() {document.cookie = 'SMSESSION=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'; 
-      localStorage.removeItem('refresh');
-      localStorage.removeItem('jwt');
-      if(window.location.host == "dev.grad.gov.bc.ca" || window.location.host == "localhost:8081"){
-        location.href = 'https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + location.protocol + '//' + location.host;
-      }else{
-        location.href = 'https://soam-test.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + location.protocol + '//' + location.host;
-      }
+    name: 'logout',
+    component: Logout,
+    meta: {
+      requiresAuth: false
     }
   },
   {
     path: '/',
     name: 'student-search',
-    component: StudentSearch,
+    component: () => {
+      if(localStorage.getItem('jwtToken')) {
+        return StudentSearch
+      } else {
+        router.push({ path: '/login'})
+      }
+    },
     meta: { 
       requiresAuth: true
     }
@@ -215,11 +218,12 @@ router.beforeEach((to, _from, next) => {
       if (!authStore.state.isAuthenticated) {
         next('/token-expired');
       } else {
-        store.dispatch('auth/getUserInfo').then(() => {
-          next();
-        }).catch(() => {
-          next('error');
-        });
+        // store.dispatch('auth/getUserInfo').then(() => {
+        //   next();
+        // }).catch(() => {
+        //   next('error');
+        // });
+        next();
       }
     }).catch(() => {
       next('/token-expired');
