@@ -561,7 +561,10 @@
             this.$store.dispatch("setStudentXmlReport", response.data);
           }
         ).catch((error) => {
-          if(error.response.status){
+          if(error.response.status == 404){
+            // eslint-disable-next-line
+            console.log(error);
+          } else {
             this.$bvToast.toast("ERROR " + error.response.statusText, {
               title: "Service ERROR" + error.response.status,
               variant: 'danger',
