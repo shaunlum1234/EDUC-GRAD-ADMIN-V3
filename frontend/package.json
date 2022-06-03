@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --mode --port 8081 development",
+    "serve": "vue-cli-service serve --mode development --port 8081",
     "start": "vue-cli-service serve",
     "serve:demo": "vue-cli-service serve --mode demo",
     "build": "vue-cli-service build --dest dist/app/view",
