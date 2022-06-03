@@ -37,6 +37,7 @@ import BackendSessionExpired from '@/components/BackendSessionExpired';
 import store from '@/store/index';
 import authStore from '@/store/modules/auth';
 
+
 Vue.use(VueRouter)
 const routes = [{
     path: '/login',

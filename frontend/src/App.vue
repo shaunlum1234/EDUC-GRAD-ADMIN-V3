@@ -1,16 +1,13 @@
 <template>
   <div id="app">
     <Bcheader class="bcheader" style="margin-bottom: 15px; text-transform: capitalize">
-    <a v-b-toggle.sidebar-1>username</a>
+    <a v-b-toggle.sidebar-1>username {{ isAuthenticated }} </a>
     <b-sidebar id="sidebar-1" title="Permissions" shadow>
       <div class="px-3 py-2">
-        <h1>username</h1>
-        <p>
-          {{isAuthenticated}}
-        </p>
+ 
       </div>
     </b-sidebar>
-        (<a @click="toggleRole">{{role}}</a>) | 
+        (<a>role</a>) | 
 <!--        <router-link-->
 <!--      to="/logout"-->
 <!--      class="text-white"-->
@@ -23,7 +20,10 @@
         <transition
           name="fade"
         >
+
         <router-view />
+
+       
       </transition>
     </div>
     <BCFooter></BCFooter>
@@ -47,7 +47,7 @@ export default {
       }
   },
   computed: {
-    ...mapGetters('auth', ['isAuthenticated', 'loginError', 'isLoading']),
+    ...mapGetters('auth', ['isAuthenticated', 'loginError', 'isLoading', 'userInfo']),
     ...mapState('app', ['pageTitle']),
   },
   methods:{
@@ -57,12 +57,14 @@ export default {
   async created() {
     this.setLoading(true);
     this.getJwtToken().then(() =>
-      Promise.all([this.getUserInfo()])
+      Promise.all([this.getUserInfo()]).then(function(){
+      })
     ).catch(e => {
       if(! e.response) {
         this.logout();
         this.$router.replace({name: 'error', query: { message: `500_${e.data || 'ServerError'}` } });
       }
+    
     }).finally(() => {
       this.setLoading(false);
     });
