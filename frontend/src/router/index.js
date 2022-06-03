@@ -30,6 +30,11 @@ import RequirementTypes from '@/components/Programs/RequirementTypes.vue';
 import LetterGrades from '@/components/Programs/LetterGrades';
 import SpecialCases from '@/components/Programs/SpecialCases';
 import AlgorithmRules from '@/components/Programs/AlgorithmRules';
+import SessionExpired from '@/components/SessionExpired';
+import ErrorPage from '@/components/ErrorPage.vue';
+import BackendSessionExpired from '@/components/BackendSessionExpired';
+import store from '@/store/index';
+import authStore from '@/store/modules/auth';
 
 Vue.use(VueRouter)
 const routes = [{
@@ -39,7 +44,7 @@ const routes = [{
     meta: {
       guest: true
     }
-  },  
+  },
   {
     path: '/logout',
     beforeEnter() {document.cookie = 'SMSESSION=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'; 
@@ -150,6 +155,27 @@ const routes = [{
       requiresAuth: true
     }
   },
+  {
+    path: '/token-expired',
+    name: 'backend-session-expired',
+    component: BackendSessionExpired
+  },
+  {
+    path: '/session-expired',
+    name: 'session-expired',
+    component: SessionExpired,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/error',
+    name: 'error',
+    component: ErrorPage,
+    meta: {
+      requiresAuth: false
+    }
+  }
 ];
 
 const router = new VueRouter({
@@ -158,20 +184,47 @@ const router = new VueRouter({
   routes
 });
 
-router.beforeEach((to, from, next) => {
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-      if (localStorage.getItem('jwt') == null) {
-          next({
-              path: '/logout',
-              params: { nextUrl: to.fullPath }
-          });
-      }
-      else {
-            next();
-      }
-  } 
-   else {
-       next();
+// router.beforeEach((to, from, next) => {
+//   if(to.matched.some(record => record.meta.requiresAuth)) {
+//       if (localStorage.getItem('jwt') == null) {
+//           next({
+//               path: '/logout',
+//               params: { nextUrl: to.fullPath }
+//           });
+//       }
+//       else {
+//             next();
+//       }
+//   }
+//    else {
+//        next();
+//   }
+// })
+
+router.beforeEach((to, _from, next) => {
+  // this section is to set page title in vue store
+  if (to && to.meta) {
+    store.commit('setPageTitle',to.meta.pageTitle);
+  } else {
+    store.commit('setPageTitle','');
   }
-})
+  if (to.meta.requiresAuth && authStore.state.isAuthenticated) {
+    store.dispatch('auth/getJwtToken').then(() => {
+      if (!authStore.state.isAuthenticated) {
+        next('/token-expired');
+      } else {
+        store.dispatch('auth/getUserInfo').then(() => {
+          next();
+        }).catch(() => {
+          next('error');
+        });
+      }
+    }).catch(() => {
+      next('/token-expired');
+    });
+  }
+  else{
+    next();
+  }
+});
 export default router;

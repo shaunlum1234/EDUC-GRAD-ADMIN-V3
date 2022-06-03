@@ -1,5 +1,6 @@
   import Vue from "vue";
   import Vuex from "vuex";
+  import auth from './modules/auth';
 
   Vue.use(Vuex);
   import ProgramManagementService from '@/services/ProgramManagementService.js';
@@ -15,9 +16,11 @@
       tokenTimeout: "",
       token:"",
       refreshToken: "",
+      correlationID: "",
       roles: "unauthenticated",
       permissions: "",
       username: "",
+      pageTitle: null,
       student: {
         profile: {},
         courses: "not loaded",
@@ -52,6 +55,9 @@
 
     },
     mutations: {
+      setPageTitle: (state, pageTitle) => {
+        state.pageTitle = pageTitle;
+      },
       setTabLoading(state, payload){
         state.batchTabsLoading[payload['index']] = payload['value'];
       },
@@ -136,13 +142,17 @@
       setHasGradStatusPendingUpdates(state, payload) {
           state.student.hasGradStatusPendingUpdates = payload;
       },
-      setToken(state, payload) {
+      setToken(state, payload = null) {
         localStorage.setItem("jwt", payload);
         state.token = payload;
       },
       setRefreshToken(state, payload) {
         localStorage.setItem("refresh", payload);
         state.refreshToken = payload;
+      },
+      setCorrelationID(state, payload) {
+        localStorage.setItem("correlationID", payload);
+        state.correlationID = payload;
       },
       setStudentProfile(state, payload) {
         state.student.profile = payload;
@@ -611,5 +621,7 @@
       
         
     },
-    modules: {}
+    modules: {
+      auth: auth
+    }
   })

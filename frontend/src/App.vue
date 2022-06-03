@@ -11,11 +11,12 @@
       </div>
     </b-sidebar>
         (<a @click="toggleRole">{{role}}</a>) | 
-        <router-link
-      to="/logout"
-      class="text-white"
-      id="logout-route"
-    >Logout</router-link>
+<!--        <router-link-->
+<!--      to="/logout"-->
+<!--      class="text-white"-->
+<!--      id="logout-route"-->
+<!--    >Logout</router-link>-->
+        <a id="logout-button" :href="routes.LOGOUT" class="ma-1" dark color='#003366'>Logout</a>
         </Bcheader>
     
     <div class="container" style="height: 100%;">
@@ -35,6 +36,7 @@ import {
 
 import Bcheader from "@/components/BCHeader";
 import BCFooter from "@/components/BCFooter";
+import { Routes } from '@/utils/constants';
 export default {
   components: {
     Bcheader,
@@ -46,7 +48,8 @@ export default {
     }
   },
   data() {
-      return { 
+      return {
+        routes: Routes,
         host: location.protocol + "//" + location.host,
       }
   },
