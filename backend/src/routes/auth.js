@@ -130,6 +130,32 @@ async function generateTokens(req, res) {
   }
 }
 
+router.get('/user', passport.authenticate('jwt', {session: false}), (req, res) => {
+  const thisSession = req['session'];
+  let userToken;
+  try {
+    userToken = jsonwebtoken.verify(thisSession['passport'].user.jwt, config.get('oidc:publicKey'));
+    if (userToken === undefined || userToken.realm_access === undefined || userToken.realm_access.roles === undefined) {
+      return res.status(HttpStatus.UNAUTHORIZED).json();
+    }
+  } catch (e) {
+    log.error('error is from verify', e);
+    return res.status(HttpStatus.UNAUTHORIZED).json();
+  }
+  const userName = {
+    userName: userToken['idir_username'],
+    userGuid: userToken['idir_guid'].toUpperCase(),
+    userRoles: userToken.realm_access.roles
+  };
+
+  if (userName.userName && userName.userGuid) {
+    return res.status(HttpStatus.OK).json(userName);
+  } else {
+    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json();
+  }
+
+});
+
 router.get('/user-session-remaining-time', passport.authenticate('jwt', {session: false}), (req, res) => {
   if (req?.session?.cookie && req?.session?.passport?.user) {
     const remainingTime = req.session.cookie.maxAge;

@@ -14,6 +14,7 @@
     state: {
       advancedSearchProps:"",
       tokenTimeout: "",
+      isAuthenticated: localStorage.getItem('jwtToken') !== null,
       token:"",
       refreshToken: "",
       correlationID: "",

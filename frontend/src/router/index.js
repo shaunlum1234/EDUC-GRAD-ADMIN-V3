@@ -50,7 +50,7 @@ const routes = [{
     beforeEnter() {document.cookie = 'SMSESSION=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'; 
       localStorage.removeItem('refresh');
       localStorage.removeItem('jwt');
-      if(window.location.host == "dev.grad.gov.bc.ca" || window.location.host == "localhost:8080"){
+      if(window.location.host == "dev.grad.gov.bc.ca" || window.location.host == "localhost:8081"){
         location.href = 'https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + location.protocol + '//' + location.host;
       }else{
         location.href = 'https://soam-test.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?redirect_uri=' + location.protocol + '//' + location.host;

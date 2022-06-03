@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-content-center">
-    <div class="card col-sm-12 col-md-4 col-lg-4">
+    <div class="col-sm-12 col-md-4 col-lg-4">
       <div class="container pt-3 pb-4"> 
         <b-card>
           <b-card-title class="gov-header">
@@ -34,9 +34,7 @@ export default {
     }
   },
   computed: {
-  ...mapGetters({
-      getToken: "getToken",
-    }),
+    ...mapGetters('auth', ['isAuthenticated','token']),
   },
   methods: {
     clearStorage(){
@@ -46,7 +44,7 @@ export default {
       //       this.$store.dispatch('setToken', response.data.access_token);
       //   });
       // }
-      this.$store.dispatch('setToken', null);
+      this.$store.dispatch('auth/setJwtToken', null);
     }
   }
 }

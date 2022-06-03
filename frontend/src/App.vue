@@ -16,7 +16,7 @@
 <!--      class="text-white"-->
 <!--      id="logout-route"-->
 <!--    >Logout</router-link>-->
-        <a id="logout-button" :href="routes.LOGOUT" class="ma-1" dark color='#003366'>Logout</a>
+        <a id="logout-button" :href="routes.LOGOUT" class="ma-1">Logout</a>
         </Bcheader>
     
     <div class="container" style="height: 100%;">

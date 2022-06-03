@@ -43,7 +43,8 @@ export default {
   namespaced: true,
   state: {
     acronyms: [],
-    isAuthenticated: false,
+    isAuthenticated: localStorage.getItem('jwtToken') !== null,
+    isAuthorizedUser: localStorage.getItem('isAuthorizedUser') !== null,
     userInfo: null,
     error: false,
     isLoading: true,
@@ -53,7 +54,7 @@ export default {
   getters: {
     acronyms: state => state.acronyms,
     isAuthenticated: state => state.isAuthenticated,
-    jwtToken: state => state.jwtToken,
+    token: state => state.jwtToken,
     userInfo: state => state.userInfo,
     loginError: state => state.loginError,
     error: state => state.error,
@@ -63,11 +64,9 @@ export default {
     //sets Json web token and determines whether user is authenticated
     setJwtToken: (state, token = null) => {
       if (token) {
-        state.isAuthenticated = true;
         state.jwtToken = token;
         localStorage.setItem('jwtToken', token);
       } else {
-        state.isAuthenticated = false;
         state.jwtToken = null;
         localStorage.removeItem('jwtToken');
       }
@@ -119,7 +118,7 @@ export default {
       context.commit('setError', false);
       if (isFollowUpVisit(context.getters)) {
         await refreshToken(context);
-      } else {  //inital login and redirect
+      } else {  //initial login and redirect
         await getInitialToken(context);
       }
     },
