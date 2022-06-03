@@ -213,6 +213,7 @@ router.beforeEach((to, _from, next) => {
   } else {
     store.commit('setPageTitle','');
   }
+console.log("IS AUTHENTICATED:" + authStore.state.isAuthenticated)
   if (to.meta.requiresAuth && authStore.state.isAuthenticated) {
     store.dispatch('auth/getJwtToken').then(() => {
       if (!authStore.state.isAuthenticated) {

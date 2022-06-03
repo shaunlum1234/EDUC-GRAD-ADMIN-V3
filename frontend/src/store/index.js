@@ -129,14 +129,17 @@
 
       // TO DO ADD THIS TO AUTH
       setToken(state, payload = null) {
+ 
         localStorage.setItem("jwt", payload);
         state.token = payload;
       },
       setRefreshToken(state, payload) {
+
         localStorage.setItem("refresh", payload);
         state.refreshToken = payload;
       },
       setCorrelationID(state, payload) {
+
         localStorage.setItem("correlationID", payload);
         state.correlationID = payload;
       },
