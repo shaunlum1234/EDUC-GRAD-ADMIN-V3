@@ -1,9 +1,9 @@
 import ApiService from '@/common/apiService';
 import AuthService from '@/common/authService';
 
-function isFollowUpVisit({jwtToken}) {
-  return !!jwtToken;
-}
+// function isFollowUpVisit({jwtToken}) {
+//   return !!jwtToken;
+// }
 
 function isExpiredToken(jwtToken) {
   const now = Date.now().valueOf() / 1000;
@@ -43,7 +43,7 @@ export default {
   namespaced: true,
   state: {
     acronyms: [],
-    isAuthenticated: false,
+    isAuthenticated: localStorage.getItem('jwtToken') !== null,
     isAuthorizedUser: localStorage.getItem('isAuthorizedUser') !== null,
     userInfo: null,
     error: false,
@@ -55,7 +55,7 @@ export default {
     acronyms: state => state.acronyms,
     isAuthenticated: state => state.isAuthenticated,
     getToken: state => state.jwtToken,
-    token: state => state.jwtToken,
+    jwtToken: () => localStorage.getItem('jwtToken'),
     userInfo: state => state.userInfo,
     loginError: state => state.loginError,
     error: state => state.error,
@@ -66,11 +66,9 @@ export default {
     setJwtToken: (state, token = null) => {
       if (token) {
         state.isAuthenticated = true;
-        // state.jwtToken = token;
         localStorage.setItem('jwtToken', token);
       } else {
         state.isAuthenticated = false;
-        // state.jwtToken = null;
         localStorage.removeItem('jwtToken');
       }
     },
@@ -101,6 +99,13 @@ export default {
 
     setLoading: (state, isLoading) => {
       state.isLoading = isLoading;
+    },
+
+    //sets the token required for refreshing expired json web tokens
+    logoutState: (state) => {
+      localStorage.removeItem('jwtToken');
+      state.userInfo = false;
+      state.isAuthenticated = false;
     }
   },
   actions: {
@@ -119,7 +124,7 @@ export default {
     //retrieves the json web token from local storage. If not in local storage, retrieves it from API
     async getJwtToken(context) {
       context.commit('setError', false);
-      if (isFollowUpVisit(context.getters)) {
+      if (context.getters.isAuthenticated && !!context.getters.jwtToken) {
         await refreshToken(context);
       } else {  //initial login and redirect
         await getInitialToken(context);
