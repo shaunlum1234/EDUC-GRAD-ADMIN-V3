@@ -4,7 +4,9 @@ const config = require('../config/index');
 const passport = require('passport');
 const express = require('express');
 const auth = require('../components/auth');
+const jsonwebtoken = require('jsonwebtoken');
 const log = require('../components/logger');
+const HttpStatus = require('http-status-codes');
 const {v4: uuidv4} = require('uuid');
 const {
   body,

@@ -13,7 +13,7 @@
 <!--      class="text-white"-->
 <!--      id="logout-route"-->
 <!--    >Logout</router-link>-->
-        <a href='#'>Logout</a>
+        <a :href='routes.LOGOUT'>Logout</a>
         </Bcheader>
     
     <div class="container" style="height: 100%;">

@@ -3,7 +3,7 @@
 
     <!-- login article -->
     <article name="session-expired-banner" class="top-banner">
-      <b-row align="center" justify="center">
+      <b-row align-h="center">
         <b-col xs="10" sm="10" md="8" lg="4" xl="3">
           <b-card class="session-expired-card">
             <b-card-title class="gov-header">
@@ -11,7 +11,7 @@
             </b-card-title>
             <b-card-text id="session-expired-descriptor">
               <v-row style="margin: .3rem">Your secure session has ended as a result of inactivity.</v-row>
-              <a id="login-button" @click="clearStorage" :href="routes.LOGIN" class="ma-1" dark color='#003366'>Log In</a><span>again to continue.</span>
+              <a id="login-button" @click="clearStorage" :href="routes.LOGIN" class="ma-1" dark color='#003366'>Log In</a><span>&nbsp;again to continue.</span>
             </b-card-text>
           </b-card>
         </b-col>
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     clearStorage() {
-      this.$store.commit('auth/setJwtToken');
+      // this.$store.commit('auth/setJwtToken');
     }
   }
 };
