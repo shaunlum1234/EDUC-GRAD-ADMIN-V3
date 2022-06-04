@@ -22,7 +22,6 @@ const noCache = require('nocache');
 
 const apiRouter = express.Router();
 const authRouter = require('./routes/auth');
-const configRouter = require('./routes/config');
 const promMid = require('express-prometheus-middleware');
 
 //initialize app
@@ -138,7 +137,6 @@ app.use(morgan(config.get('server:morganFormat'), { 'stream': logStream }));
 app.use(/(\/api)?/, apiRouter);
 
 apiRouter.use('/auth', authRouter);
-apiRouter.use('/config',configRouter);
 
 //Handle 500 error
 app.use((err, _req, res, next) => {

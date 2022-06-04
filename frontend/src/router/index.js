@@ -35,6 +35,8 @@ import AlgorithmRules from '@/components/Programs/AlgorithmRules';
 import SessionExpired from '@/components/SessionExpired';
 import ErrorPage from '@/components/ErrorPage.vue';
 import BackendSessionExpired from '@/components/BackendSessionExpired';
+import UnAuthorized from '@/components/UnAuthorized';
+import UnAuthorizedPage from '@/components/UnAuthorizedPage';
 import store from '@/store/index';
 import authStore from '@/store/modules/auth';
 
@@ -60,8 +62,8 @@ const routes = [{
     path: '/',
     name: 'student-search',
     component: () => {
-      if(localStorage.getItem('jwtToken')) {
-        return StudentSearch
+      if(authStore.state.isAuthenticated) {
+        return StudentSearch;
       } else {
         router.push({ path: '/login'})
       }
@@ -175,6 +177,22 @@ const routes = [{
     }
   },
   {
+    path: '/unauthorized',
+    name: 'unauthorized',
+    component: UnAuthorized,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/unauthorized-page',
+    name: 'unauthorized-page',
+    component: UnAuthorizedPage,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
     path: '/error',
     name: 'error',
     component: ErrorPage,
@@ -208,28 +226,49 @@ const router = new VueRouter({
 // })
 
 router.beforeEach((to, _from, next) => {
-  // this section is to set page title in vue store
-  if (to && to.meta) {
-    store.commit('setPageTitle',to.meta.pageTitle);
-  } else {
-    store.commit('setPageTitle','');
-  }
-console.log("IS AUTHENTICATED:" + authStore.state.isAuthenticated)
-  if (to.meta.requiresAuth && authStore.state.isAuthenticated) {
+  function validateAndExecute(nextRouteInError) {
     store.dispatch('auth/getJwtToken').then(() => {
       if (!authStore.state.isAuthenticated) {
-        next('/token-expired');
+        next(nextRouteInError);
       } else {
+        // TODO (jsung) : getUserInfo is temporarily commented out
         // store.dispatch('auth/getUserInfo').then(() => {
-        //   next();
+        //   if (!authStore.state.isAuthorizedUser) {
+        //     next('unauthorized');
+        //   } else if (to.meta.role && !store.getters[`auth/${to.meta.role}`]) {
+        //     next('unauthorized-page');
+        //   } else {
+        //     next();
+        //   }
         // }).catch(() => {
+        //   console.log('Unable to get user info');
         //   next('error');
         // });
         next();
       }
     }).catch(() => {
-      next('/token-expired');
+      console.log('Unable to get token');
+      next(nextRouteInError);
     });
+  }
+  // this section is to set page title in vue store
+  if (to && to.meta) {
+    store.commit('app/setPageTitle',to.meta.pageTitle);
+  } else {
+    store.commit('app/setPageTitle','');
+  }
+
+  // // This section is to clear the search results when users are not on a search page
+  // if (!to.meta.saveSearch){
+  //   store.commit('studentSearch/clearStudentSearchParams');
+  //   store.commit('studentSearch/clearStudentSearchResults');
+  // }
+
+  // this section is to handle the backend session expiry, where frontend vue session is still valid.
+  if (to.meta.requiresAuth && authStore.state.isAuthenticated) {
+    validateAndExecute('/token-expired');
+  }else if (to.meta.requiresAuth) {
+    validateAndExecute('login');
   }
   else{
     next();

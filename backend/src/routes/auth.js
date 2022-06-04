@@ -62,10 +62,21 @@ router.get('/logout', async (req, res) => {
 
 });
 
-const UnauthorizedRsp = {
-  error: 'Unauthorized',
-  error_description: 'Not logged in'
-};
+async function generateTokens(req, res) {
+  const newTokens = await auth.renew(req['user'].refreshToken);
+  if (newTokens && newTokens.jwt && newTokens.refreshToken) {
+    req['user'].jwt = newTokens.jwt;
+    req['user'].refreshToken = newTokens.refreshToken;
+    req['user'].jwtFrontend = auth.generateUiToken();
+    const responseJson = {
+      jwtFrontend: req.user.jwtFrontend,
+      isAuthorizedUser: true,
+    };
+    res.status(HttpStatus.OK).json(responseJson);
+  } else {
+    res.status(HttpStatus.UNAUTHORIZED).json();
+  }
+}
 
 //refreshes jwt on refresh if refreshToken is valid
 router.post('/refresh', [
@@ -74,24 +85,25 @@ router.post('/refresh', [
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(400).json({
+    return res.status(HttpStatus.BAD_REQUEST).json({
       errors: errors.array()
     });
   }
   if (!req['user'] || !req['user'].refreshToken || !req?.user?.jwt) {
-    res.status(401).json(UnauthorizedRsp);
+    res.status(HttpStatus.UNAUTHORIZED).json();
   } else {
     if (auth.isTokenExpired(req.user.jwt)) {
       if (req?.user?.refreshToken && auth.isRenewable(req.user.refreshToken)) {
         return generateTokens(req, res);
       } else {
-        res.status(401).json(UnauthorizedRsp);
+        res.status(HttpStatus.UNAUTHORIZED).json();
       }
     } else {
       const responseJson = {
-        jwtFrontend: req.user.jwtFrontend
+        jwtFrontend: req.user.jwtFrontend,
+        isAuthorizedUser: true
       };
-      return res.status(200).json(responseJson);
+      return res.status(HttpStatus.OK).json(responseJson);
     }
   }
 });
@@ -111,26 +123,13 @@ router.get('/token', auth.refreshJWT, (req, res) => {
     const responseJson = {
       jwtFrontend: req.user.jwtFrontend
     };
-    res.status(200).json(responseJson);
+    res.status(HttpStatus.OK).json(responseJson);
   } else {
-    res.status(401).json(UnauthorizedRsp);
+    res.status(HttpStatus.UNAUTHORIZED).json({
+      message: 'Not logged in'
+    });
   }
 });
-
-async function generateTokens(req, res) {
-  const result = await auth.renew(req.user.refreshToken);
-  if (result && result.jwt && result.refreshToken) {
-    req.user.jwt = result.jwt;
-    req.user.refreshToken = result.refreshToken;
-    req.user.jwtFrontend = auth.generateUiToken();
-    const responseJson = {
-      jwtFrontend: req.user.jwtFrontend
-    };
-    res.status(200).json(responseJson);
-  } else {
-    res.status(401).json(UnauthorizedRsp);
-  }
-}
 
 router.get('/user', passport.authenticate('jwt', {session: false}), (req, res) => {
   const thisSession = req['session'];
@@ -162,9 +161,9 @@ router.get('/user-session-remaining-time', passport.authenticate('jwt', {session
   if (req?.session?.cookie && req?.session?.passport?.user) {
     const remainingTime = req.session.cookie.maxAge;
     log.info(`session remaining time is :: ${remainingTime} for user`, req.session?.passport?.user?.displayName);
-    return res.status(200).json(req.session.cookie.maxAge);
+    return res.status(HttpStatus.OK).json(req.session.cookie.maxAge);
   } else {
-    return res.sendStatus(401);
+    return res.sendStatus(HttpStatus.UNAUTHORIZED);
   }
 });
 
