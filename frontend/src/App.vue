@@ -7,13 +7,8 @@
  
       </div>
     </b-sidebar>
-        (<a>role</a>) | 
-<!--        <router-link-->
-<!--      to="/logout"-->
-<!--      class="text-white"-->
-<!--      id="logout-route"-->
-<!--    >Logout</router-link>-->
-        <a :href='routes.LOGOUT'>Logout</a>
+        (<a>role</a>) |
+        <a v-if='isAuthenticated' :href='routes.LOGOUT' class="text-white">Logout</a>
         </Bcheader>
     
     <div class="container" style="height: 100%;">
@@ -54,21 +49,22 @@ export default {
       ...mapMutations('auth', ['setLoading']),
       ...mapActions('auth', ['getJwtToken', 'getUserInfo', 'logout']),
   },
-  async created() {
-    this.setLoading(true);
-    this.getJwtToken().then(() =>
-      Promise.all([this.getUserInfo()]).then(function(){
-      })
-    ).catch(e => {
-      if(! e.response) {
-        this.logout();
-        this.$router.replace({name: 'error', query: { message: `500_${e.data || 'ServerError'}` } });
-      }
-    
-    }).finally(() => {
-      this.setLoading(false);
-    });
-  }
+  // Removed getJwtToken & getUserInfo here since it is handled in router from now on.
+  // async created() {
+  //   this.setLoading(true);
+  //   this.getJwtToken().then(() =>
+  //     Promise.all([this.getUserInfo()]).then(function(){
+  //     })
+  //   ).catch(e => {
+  //     if(! e.response) {
+  //       this.logout();
+  //       this.$router.replace({name: 'error', query: { message: `500_${e.data || 'ServerError'}` } });
+  //     }
+  //
+  //   }).finally(() => {
+  //     this.setLoading(false);
+  //   });
+  // }
 }
 
 

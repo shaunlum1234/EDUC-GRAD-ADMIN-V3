@@ -34,16 +34,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', ['isAuthenticated','token']),
+    ...mapGetters('auth', ['isAuthenticated','jwtToken']),
   },
   methods: {
     clearStorage(){
-      // e.preventDefault()
-      // if (this.password.length > 0) {
-      //   LoginService.handleSubmit(this.id, this.password).then((response) => {
-      //       this.$store.dispatch('setToken', response.data.access_token);
-      //   });
-      // }
       this.$store.dispatch('auth/setJwtToken', null);
     }
   }

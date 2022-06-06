@@ -253,9 +253,9 @@ router.beforeEach((to, _from, next) => {
   }
   // this section is to set page title in vue store
   if (to && to.meta) {
-    store.commit('app/setPageTitle',to.meta.pageTitle);
+    store.commit('setPageTitle',to.meta.pageTitle);
   } else {
-    store.commit('app/setPageTitle','');
+    store.commit('setPageTitle','');
   }
 
   // // This section is to clear the search results when users are not on a search page
