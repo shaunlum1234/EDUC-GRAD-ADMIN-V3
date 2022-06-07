@@ -1,75 +1,64 @@
-import axios from 'axios';
+import ApiService from '../common/apiService';
 
-const apiClient = axios.create({
-    baseURL: process.env.VUE_APP_BASE_URL,
-});
 
 export default {
-    getAlgorithmRules(token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token };
-        return apiClient.get('/api/v1/algo/algorithm-rules',{ headers});
+    getAlgorithmRules() {
+        return ApiService.apiAxios.get('/api/v1/algo/algorithm-rules')
     },
-    getLetterGrades(token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/lgSc/lettergrade',{ headers });
+    getLetterGrades() {
+        return ApiService.apiAxios.get('/api/v1/lgSc/lettergrade');
     },
-    getSpecialCases(token){
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/lgSc/specialcase',{ headers });
+    getSpecialCases(){
+        return ApiService.apiAxios.get('/api/v1/lgSc/specialcase');
     },
-    getGraduationPrograms(token) { 
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/program/programs',{ headers });
+    getGraduationPrograms() { 
+        return ApiService.apiAxios.get('/api/v1/program/programs');
     },
-    getProgramRules(token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/program/allprogramrules',{ headers })
+    getProgramRules() {
+        return ApiService.apiAxios.get('/api/v1/program/allprogramrules')
     },
-    getProgramRule(programCode, token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/program/programrules?programCode=' + programCode,{ headers })
+    getProgramRule(programCode) {
+        return ApiService.apiAxios.get('/api/v1/program/programrules?programCode=' + programCode)
     },
-    getAllOptionalProgramRules(token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/program/alloptionalprogramrules',{ headers })
+    getAllOptionalProgramRules() {
+        return ApiService.apiAxios.get('/api/v1/program/alloptionalprogramrules')
     },
-    getOptionalPrograms(token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/program/optionalprograms',{ headers })
+    getOptionalPrograms() {
+        return ApiService.apiAxios.get('/api/v1/program/optionalprograms')
     },
     
-    //Program CRUD
-    createProgram(program, token){
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.post('/api/v1/program/programs',program,{ headers })
-    },
-    deleteProgram(id, token){
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.delete('/api/v1/program/programs/' + id, { headers })
-    },
-    updateProgram(program, token){
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.put('/api/v1/program/programs',program,{ headers })
-    },   
-    //Optional Programs CRUD
-    createOptionalProgram(optionalProgram, token){
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.post('/api/v1/program/optionalprograms',optionalProgram,{ headers })
-    },
-    deleteOptionalProgram(id, token){
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.delete('/api/v1/program/optionalprograms/' + id, { headers })
-    },
-    updateSpecialProgram(optionalProgram, token){
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.put('/api/v1/program/optionalprograms',optionalProgram,{ headers })
-    },    
-    getCareerPrograms(token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/program/careerprogram',{ headers });
-    },
-    getRequirementTypes(token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/program/gradrequirementtype',{ headers });
-    },      
+    // //Program CRUD
+    // createProgram(program, token){
+    //     const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+    //     return apiClient.post('/api/v1/program/programs',program,{ headers })
+    // },
+    // deleteProgram(id, token){
+    //     const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+    //     return apiClient.delete('/api/v1/program/programs/' + id, { headers })
+    // },
+    // updateProgram(program, token){
+    //     const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+    //     return apiClient.put('/api/v1/program/programs',program,{ headers })
+    // },   
+    // //Optional Programs CRUD
+    // createOptionalProgram(optionalProgram, token){
+    //     const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+    //     return apiClient.post('/api/v1/program/optionalprograms',optionalProgram,{ headers })
+    // },
+    // deleteOptionalProgram(id, token){
+    //     const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+    //     return apiClient.delete('/api/v1/program/optionalprograms/' + id, { headers })
+    // },
+    // updateSpecialProgram(optionalProgram, token){
+    //     const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+    //     return apiClient.put('/api/v1/program/optionalprograms',optionalProgram,{ headers })
+    // },    
+    // getCareerPrograms(token) {
+    //     const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+    //     return ApiService.apiAxios.get('/api/v1/program/careerprogram',{ headers });
+    // },
+    // getRequirementTypes(token) {
+    //     const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+    //     return ApiService.apiAxios.get('/api/v1/program/gradrequirementtype',{ headers });
+    // },      
 };

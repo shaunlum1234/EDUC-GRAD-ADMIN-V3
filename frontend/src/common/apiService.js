@@ -45,16 +45,16 @@ const intercept = apiAxios.interceptors.response.use(config => config, error => 
   });
 });
 
-function getCodes(url) {
-  return async function getCodesHandler(query) {
-    try {
-      return await apiAxios.get(url, query);
-    } catch (e) {
-      console.log(`Failed to get from Nodejs API - ${e}`);
-      throw e;
-    }
-  };
-}
+// function getCodes(url) {
+//   return async function getCodesHandler(query) {
+//     try {
+//       return await apiAxios.get(url, query);
+//     } catch (e) {
+//       console.log(`Failed to get from Nodejs API - ${e}`);
+//       throw e;
+//     }
+//   };
+// }
 
 export default {
   apiAxios: apiAxios,
@@ -79,10 +79,10 @@ export default {
       throw e;
     }
   },
-  getGenderCodes: getCodes(Routes.student.GENDER_CODE_URL),
-  getDemogCodes: getCodes(Routes.student.DEMOG_CODE_URL),
-  getStatusCodes: getCodes(Routes.student.STATUS_CODE_URL),
-  getGradeCodes: getCodes(Routes.student.GRADE_CODE_URL),
-  getHistoryActivityCodes: getCodes(Routes.student.HISTORY_ACTIVITY_CODE_URL),
-  getMincodeSchoolNames: getCodes(Routes.SCHOOL_DATA_URL)
+
+
+
+
+
+  
 };

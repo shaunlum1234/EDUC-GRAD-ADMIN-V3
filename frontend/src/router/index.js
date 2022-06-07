@@ -62,6 +62,7 @@ const routes = [{
     path: '/',
     name: 'student-search',
     component: () => {
+      console.log("AUTHENTICATED " + authStore.state.isAuthenticated)
       if(authStore.state.isAuthenticated) {
         return StudentSearch;
       } else {

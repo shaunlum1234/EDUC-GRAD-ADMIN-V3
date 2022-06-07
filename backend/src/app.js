@@ -24,6 +24,10 @@ const apiRouter = express.Router();
 const authRouter = require('./routes/auth');
 const promMid = require('express-prometheus-middleware');
 
+//GRAD Routers
+const programsRouter = require('./routes/programs-router');
+const assessmentsRouter = require('./routes/assessments-router');
+
 //initialize app
 const app = express();
 app.set('trust proxy', 1);
@@ -137,6 +141,10 @@ app.use(morgan(config.get('server:morganFormat'), { 'stream': logStream }));
 app.use(/(\/api)?/, apiRouter);
 
 apiRouter.use('/auth', authRouter);
+
+apiRouter.use('/v1/program', programsRouter); 
+apiRouter.use('/v1/assessments', assessmentsRouter);
+
 
 //Handle 500 error
 app.use((err, _req, res, next) => {

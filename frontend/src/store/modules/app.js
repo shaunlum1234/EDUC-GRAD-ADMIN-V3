@@ -1,5 +1,9 @@
-import StudentService from '@/services/StudentService.js';
-import ProgramManagementService from '@/services/ProgramManagementService.js';
+// import StudentService from '@/services/StudentService.js';
+// import ProgramManagementService from '@/services/ProgramManagementService.js';
+import ApiService from '../../common/apiService.js';
+//import { REQUEST_TYPES } from '../../utils/constants';
+
+
 export default {
     namespaced: true,
     state: {
@@ -20,6 +24,8 @@ export default {
     },
     mutations: {
       setProgramOptions(state, payload){
+        console.log("Setting program options")
+        console.log(payload)
         state.programOptions = payload;
       },
       setStudentStatusCodesOptions(state, payload){
@@ -30,31 +36,30 @@ export default {
       },      
     },
     actions: {
-      setApplicationVariables({commit,rootState}) {
-        ProgramManagementService.getGraduationPrograms(rootState.auth.token).then(
-          (response) => {
-            commit('setProgramOptions', response.data);
-          }
-        ).catch((error) => {
-          // eslint-disable-next-line
-          console.log(error.response.status);
-        });
-        StudentService.getStudentStatusCodes(rootState.auth.token).then(
-          (response) => {
-            commit('setStudentStatusCodesOptions', response.data);
-          }
-        ).catch((error) => {
-          // eslint-disable-next-line
-          console.log(error.response.status);
-        });
-        StudentService.getUngradReasons(rootState.auth.token).then(
-          (response) => {
-            commit('setUngradReasons', response.data);
-          }
-        ).catch((error) => {
-          // eslint-disable-next-line
-          console.log(error.response.status);
-        });        
+      setApplicationVariables({commit}) {
+        //ApiService.getGraduationProgram();
+        if(localStorage.getItem('jwtToken')){
+          console.log("setting application variables")
+          
+          commit('setProgramOptions', ApiService.getGraduationPrograms());
+        }
+
+        // StudentService.getStudentStatusCodes(rootState.auth.token).then(
+        //   (response) => {
+        //     commit('setStudentStatusCodesOptions', response.data);
+        //   }
+        // ).catch((error) => {
+        //   // eslint-disable-next-line
+        //   console.log(error.response.status);
+        // });
+        // StudentService.getUngradReasons(rootState.auth.token).then(
+        //   (response) => {
+        //     commit('setUngradReasons', response.data);
+        //   }
+        // ).catch((error) => {
+        //   // eslint-disable-next-line
+        //   console.log(error.response.status);
+        // });        
       }, 
     },
   };
