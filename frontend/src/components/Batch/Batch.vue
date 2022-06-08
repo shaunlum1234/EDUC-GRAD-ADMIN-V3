@@ -267,7 +267,7 @@
 import TRAXService from "@/services/TRAXService.js";
 import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
-import GraduationCommonService from "@/services/GraduationCommonService.js";
+import GraduationReportService from "@/services/GraduationReportService.js";
 import {
   mapGetters
 } from "vuex";
@@ -324,7 +324,7 @@ export default {
       if(type == "students"){
         //remove duplicates
         this.validating = true;
-        StudentService.getStudentByPen(value,this.token).then(
+        StudentService.getStudentByPen(value).then(
         (response) => {
             if(response.data.length == 0){
               this.validationMessage = value + " is not a valid PEN"
@@ -435,7 +435,7 @@ export default {
       this.$forceUpdate();
     },
     getCertificateTypes() {
-      GraduationCommonService.getCertificateTypes(this.token)
+      GraduationReportService.getCertificateTypes(this.token)
         .then((response) => {
           this.certificateTypes = response.data;
         })
@@ -445,7 +445,7 @@ export default {
         });
     },
     getTranscriptTypes() {
-      GraduationCommonService.getTranscriptTypes(this.token)
+      GraduationReportService.getTranscriptTypes(this.token)
         .then((response) => {
           this.transcriptTypes = response.data;
         })

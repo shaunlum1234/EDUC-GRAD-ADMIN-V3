@@ -142,7 +142,7 @@ export default {
       if (this.penInput) {
         this.searchLoading = true;
         this.studentSearchResults = [];
-        StudentService.getStudentByPen(this.penInput, this.token)
+        StudentService.getStudentByPen(this.penInput)
         .then((response) => {
           if (response.data) {
             this.loadStudent(response.data);

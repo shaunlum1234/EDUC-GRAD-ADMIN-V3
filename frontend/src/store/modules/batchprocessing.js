@@ -71,9 +71,9 @@ export default {
     }             
   },
   actions: {
-    validateStudentInGrad({state}, payload){
+    validateStudentInGrad(payload){
         
-      StudentService.getStudentByPen(payload['pen'],state.token).then(
+      StudentService.getStudentByPen(payload['pen']).then(
         (response) => {
           this.$store.commit("batchprocessing/addValueToTypeInBatchId", payload);
           return response;

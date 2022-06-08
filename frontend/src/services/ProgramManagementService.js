@@ -1,7 +1,10 @@
 import ApiService from '../common/apiService';
 
-
 export default {
+    getTranscriptMessage() {
+
+        return ApiService.apiAxios.get('/api/v1/transcript/gradmessages')
+      },
     getAlgorithmRules() {
         return ApiService.apiAxios.get('/api/v1/algo/algorithm-rules')
     },
@@ -26,6 +29,9 @@ export default {
     getOptionalPrograms() {
         return ApiService.apiAxios.get('/api/v1/program/optionalprograms')
     },
+    getRequirementTypes() {
+         return ApiService.apiAxios.get('/api/v1/program/gradrequirementtype')
+    },  
     
     // //Program CRUD
     // createProgram(program, token){
@@ -57,8 +63,5 @@ export default {
     //     const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
     //     return ApiService.apiAxios.get('/api/v1/program/careerprogram',{ headers });
     // },
-    // getRequirementTypes(token) {
-    //     const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-    //     return ApiService.apiAxios.get('/api/v1/program/gradrequirementtype',{ headers });
-    // },      
+    
 };
