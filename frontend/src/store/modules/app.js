@@ -1,8 +1,4 @@
-// import StudentService from '@/services/StudentService.js';
-// import ProgramManagementService from '@/services/ProgramManagementService.js';
-// import ApiService from '../../common/apiService.js';
-//import { REQUEST_TYPES } from '../../utils/constants';
-
+import ApiService from '../../common/apiService.js';
 
 export default {
     namespaced: true,
@@ -39,27 +35,10 @@ export default {
       setApplicationVariables({commit}) {
         //ApiService.getGraduationProgram();
         if(localStorage.getItem('jwtToken')){
-          console.log("setting application variables" + commit)
-          
-          // commit('setProgramOptions', ApiService.getGraduationPrograms());
-        }
-
-        // StudentService.getStudentStatusCodes(rootState.auth.token).then(
-        //   (response) => {
-        //     commit('setStudentStatusCodesOptions', response.data);
-        //   }
-        // ).catch((error) => {
-        //   // eslint-disable-next-line
-        //   console.log(error.response.status);
-        // });
-        // StudentService.getUngradReasons(rootState.auth.token).then(
-        //   (response) => {
-        //     commit('setUngradReasons', response.data);
-        //   }
-        // ).catch((error) => {
-        //   // eslint-disable-next-line
-        //   console.log(error.response.status);
-        // });        
+          commit('setProgramOptions', ApiService.apiAxios.get('/api/v1/program/programs'));
+          commit('setStudentStatusCodesOptions', ApiService.apiAxios.get('/api/v1/student/studentstatus'));
+          commit('setUngradReasons', ApiService.apiAxios.get('/api/v1/undocompletion/undocompletionreason'));
+        }   
       }, 
     },
   };
