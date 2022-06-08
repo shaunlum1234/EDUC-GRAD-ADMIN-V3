@@ -509,7 +509,7 @@
                 this.params.append('endDate', this.advancedSearchInput.endDate.value);
               }              
             }
-            CourseService.getCoursesByAdvanceSearch(this.params,this.token)
+            CourseService.getCoursesByAdvanceSearch(this.params)
             .then((response) => {
               this.advancedSearchLoading = false;
               this.courses = response.data;
@@ -580,7 +580,7 @@
                 }   
               }
             }
-            CourseService.getCourseRequirements(this.params,this.token)
+            CourseService.getCourseRequirements(this.params)
             .then((response) => {
               this.courseRequirementLoading = false;
               this.courseRequirements = response.data;
