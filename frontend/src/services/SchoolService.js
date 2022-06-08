@@ -1,3 +1,4 @@
+import ApiService from '../common/apiService';
 import axios from 'axios';
 
 const apiClient = axios.create({
@@ -5,13 +6,8 @@ const apiClient = axios.create({
 });
 
 export default {
-    getSchoolInfo(mincode, token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/school/' + mincode,{ headers });
-    },
-    getAllSchools(token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/school/',{ headers });
+    getSchoolInfo(mincode) {
+        return ApiService.apiAxios.get('/api/v1/school/' + mincode)
     },
     searchSchools(searchInput, token) {
         
