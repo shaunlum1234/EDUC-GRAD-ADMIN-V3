@@ -143,7 +143,7 @@ app.use(/(\/api)?/, apiRouter);
 apiRouter.use('/auth', authRouter);
 
 apiRouter.use('/v1/program', programsRouter); 
-apiRouter.use('/v1/assessments', assessmentsRouter);
+apiRouter.use('/v1/assessment', assessmentsRouter);
 
 
 //Handle 500 error
