@@ -1,6 +1,6 @@
 // import StudentService from '@/services/StudentService.js';
 // import ProgramManagementService from '@/services/ProgramManagementService.js';
-import ApiService from '../../common/apiService.js';
+// import ApiService from '../../common/apiService.js';
 //import { REQUEST_TYPES } from '../../utils/constants';
 
 
@@ -39,9 +39,9 @@ export default {
       setApplicationVariables({commit}) {
         //ApiService.getGraduationProgram();
         if(localStorage.getItem('jwtToken')){
-          console.log("setting application variables")
+          console.log("setting application variables" + commit)
           
-          commit('setProgramOptions', ApiService.getGraduationPrograms());
+          // commit('setProgramOptions', ApiService.getGraduationPrograms());
         }
 
         // StudentService.getStudentStatusCodes(rootState.auth.token).then(
