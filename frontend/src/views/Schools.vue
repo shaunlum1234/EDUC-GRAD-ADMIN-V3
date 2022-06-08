@@ -286,7 +286,7 @@ mapGetters
         }else if(!isEmpty){
           this.searchLoading = true;
           this.schools = {};
-          SchoolService.searchSchools(this.search, this.token).then((res) => {
+          SchoolService.searchSchools(this.search).then((res) => {
             this.schools = res.data;
             this.searchLoading = false;
             this.totalResults = this.schools.length;
