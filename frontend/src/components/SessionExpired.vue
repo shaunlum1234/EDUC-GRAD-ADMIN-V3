@@ -10,7 +10,7 @@
               <h4 id="session-expired-text">Session Expired</h4>
             </b-card-title>
             <b-card-text id="session-expired-descriptor">
-              <v-row style="margin: .3rem">Your secure session has ended as a result of inactivity.</v-row>
+              <b-row style="margin: .3rem">Your secure session has ended as a result of inactivity.</b-row>
               <a id="login-button" @click="clearStorage" :href="routes.LOGIN" class="ma-1" dark color='#003366'>Log In</a><span>&nbsp;again to continue.</span>
             </b-card-text>
           </b-card>

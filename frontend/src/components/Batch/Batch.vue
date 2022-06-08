@@ -298,7 +298,7 @@ export default {
       this.validationMessage = "";
       if(type == "schools"){
           this.validating = true;
-          SchoolService.getSchoolInfo(value,this.token).then(
+          SchoolService.getSchoolInfo(value).then(
           (response) => {
             if(response.data.minCode){
               this.$store.commit("batchprocessing/addValueToTypeInBatchId", {id,type, value});

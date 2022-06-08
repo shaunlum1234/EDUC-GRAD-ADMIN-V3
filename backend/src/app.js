@@ -25,8 +25,10 @@ const authRouter = require('./routes/auth');
 const promMid = require('express-prometheus-middleware');
 
 //GRAD Routers
+const TRAXRouter = require('./routes/trax-router');
 const programsRouter = require('./routes/programs-router');
 const assessmentsRouter = require('./routes/assessments-router');
+const studentGraduationRouter = require('./routes/student-graduation-router');
 
 //initialize app
 const app = express();
@@ -144,7 +146,12 @@ apiRouter.use('/auth', authRouter);
 
 apiRouter.use('/v1/program', programsRouter); 
 apiRouter.use('/v1/assessment', assessmentsRouter);
-
+apiRouter.use('/v1/district', TRAXRouter);
+apiRouter.use('/v1/school', TRAXRouter);
+apiRouter.use('/v1/psi', TRAXRouter);
+apiRouter.use('/v1/algo', studentGraduationRouter);
+apiRouter.use('/v1/lgSc', studentGraduationRouter);
+apiRouter.use('/v1/undocompletion', studentGraduationRouter);
 
 //Handle 500 error
 app.use((err, _req, res, next) => {
