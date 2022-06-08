@@ -307,7 +307,7 @@
       </b-modal>
       <div>
         <b-modal id="ungraduate-student-modal" title="Undo Completion">
-          <p>Ungraduation Reason</p>
+          <p>Undo Completion Reason</p>
           <b-form-select v-model="ungradReasonSelected" :options="ungradReasons" value-field="code" text-field="label"></b-form-select>
 
           <template #modal-footer="{ok, cancel, hide}">
@@ -454,7 +454,7 @@
       ungraduateStudent(){
         this.tabLoading = true;
         let ungradCode = this.ungradReasonSelected;
-        var ungradDesc = this.ungradReasonDesc;
+        let ungradDesc = this.ungradReasonDesc;
         if(ungradCode != "OTH"){
           ungradDesc = this.ungradReasons.filter(function (reason){  
             return reason.code == ungradCode;
@@ -561,7 +561,10 @@
             this.$store.dispatch("setStudentXmlReport", response.data);
           }
         ).catch((error) => {
-          if(error.response.status){
+          if(error.response.status == 404){
+            // eslint-disable-next-line
+            console.log(error);
+          } else {
             this.$bvToast.toast("ERROR " + error.response.statusText, {
               title: "Service ERROR" + error.response.status,
               variant: 'danger',
@@ -796,7 +799,7 @@
           if(error.response.status){ 
             this.showNotification(
               "danger",
-              "There was an error with the Student Service (getting the Ungrad Reasons): " + error.response.status
+              "There was an error with the Student Service (getting the Undo Completion Reasons): " + error.response.status
             );
           }
         });    

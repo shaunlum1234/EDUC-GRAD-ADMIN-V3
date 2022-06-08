@@ -432,7 +432,7 @@ export default {
             this.schoolOfRecordWarning = false;
             this.schoolOfRecordInputWarning = false;
             this.schoolFound = false;
-            SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord, this.token)
+            SchoolService.getSchoolInfo(this.editedGradStatus.schoolOfRecord)
             .then((response) => {
               this.schoolOfRecordStatus = response.data.openFlag
               if(response.statusText == "No Content"){
@@ -489,7 +489,7 @@ export default {
             this.schoolAtGraduationWarning = false;
             this.schoolAtGraduationInputWarning = false;
             this.schoolAtGraduationFound= false;
-            SchoolService.getSchoolInfo(this.editedGradStatus.schoolAtGrad, this.token)
+            SchoolService.getSchoolInfo(this.editedGradStatus.schoolAtGrad)
             .then((response) => {         
               this.schoolAtGraduationStatus = response.data.openFlag
               if(response.statusText == "No Content"){
@@ -647,7 +647,7 @@ export default {
     },
   
     getSchoolInfo(mincode, type) {
-      SchoolService.getSchoolInfo(mincode, this.token)
+      SchoolService.getSchoolInfo(mincode)
       .then((response) => {
         if(type == 'schoolOfRecord'){
           this.schoolOfRecord = response.data;

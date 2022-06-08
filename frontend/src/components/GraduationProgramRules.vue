@@ -155,7 +155,7 @@ export default {
   },
   created() {
     
-    ProgramManagementService.getProgramRules(this.token)
+    ProgramManagementService.getProgramRules()
       .then((response) => {
         this.graduationProgramRules = response.data;
       })

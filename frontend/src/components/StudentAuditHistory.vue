@@ -48,6 +48,7 @@
           <div class="row col-12 py-2" :header="studentHistory.slice().reverse()[index].historyID">
             <div class="col-4 border-bottom">
               <p><strong>Activity Code: </strong>{{studentHistory.slice().reverse()[index].activityCode}}</p>
+              <ul><li>{{studentHistory.slice().reverse()[index].activityCodeDescription}}</li></ul>
               <p><strong>Update User: </strong>{{studentHistory.slice().reverse()[index].updateUser}}</p>
               <p><strong>Updated: </strong>{{studentHistory.slice().reverse()[index].createDate | formatTime}}</p>
             </div>
@@ -62,7 +63,9 @@
                   && v.pathTo != 'createDate' 
                   && v.pathTo != 'historyID'
                   && v.pathTo != 'studentGradData'
+                  && v.pathTo != 'studentProjectedGradData'
                   && v.pathTo != 'activityCode'
+                  && v.pathTo != 'activityCodeDescription'
                   && v.pathTo != 'studentID'
                   && v.pathTo != 'updateUser'
                   && (v.kind != 'N' || v.rhs)
@@ -224,7 +227,7 @@ export default {
       this.changeHistory = [];
 
       for (let i = 0; i < this.studentHistoryChangeCount - 1; i++) {
-          var x = DeepDiff(tempHistory[i], tempHistory[i + 1]);
+          let x = DeepDiff(tempHistory[i], tempHistory[i + 1]);
           this.changeHistory.push(x);  
       }
       for (let j = 0; j < this.changeHistory.length ; j++) {  
@@ -243,7 +246,7 @@ export default {
       this.optionalProgramChangeHistory = [];
       
       for (let i = 0; i < this.optionalProgramHistoryChangeCount - 1; i++) {
-            var z = DeepDiff(tempProgramHistory[i], tempProgramHistory[i + 1]);
+            let z = DeepDiff(tempProgramHistory[i], tempProgramHistory[i + 1]);
             this.optionalProgramChangeHistory.push(z);
       } 
       for (let j = 0; j < this.optionalProgramChangeHistory.length ; j++) {  

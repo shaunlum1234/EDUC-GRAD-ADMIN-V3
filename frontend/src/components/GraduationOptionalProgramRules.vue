@@ -122,7 +122,7 @@ export default {
     };
   },
   created() {
-    ProgramManagementService.getAllOptionalProgramRules(this.token)
+    ProgramManagementService.getAllOptionalProgramRules()
       .then((response) => {
         this.optionalProgramRules = response.data;
       })

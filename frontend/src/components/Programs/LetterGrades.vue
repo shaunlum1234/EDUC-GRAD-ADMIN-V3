@@ -25,7 +25,7 @@ export default {
   },  
   created() {
      this.showNotification = sharedMethods.showNotification; 
-     ProgramManagementService.getLetterGrades(this.token)
+     ProgramManagementService.getLetterGrades()
       .then((response) => {
         this.letterGrades = response.data;       
       })

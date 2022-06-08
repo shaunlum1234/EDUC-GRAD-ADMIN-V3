@@ -30,7 +30,7 @@ export default {
   },
   created() {
     this.showNotification = sharedMethods.showNotification;  
-    ProgramManagementService.getAlgorithmRules(this.token)
+    ProgramManagementService.getAlgorithmRules()
     .then((response) => {
       this.algorithmRules = response.data;
     })

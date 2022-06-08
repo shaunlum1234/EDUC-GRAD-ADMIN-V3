@@ -20,7 +20,7 @@ export default {
   },
   created() {
      this.showNotification = sharedMethods.showNotification; 
-     ProgramManagementService.getSpecialCases(this.token)
+     ProgramManagementService.getSpecialCases()
       .then((response) => {
         this.specialCases = response.data;
       })

@@ -1,16 +1,20 @@
+import ApiService from '../common/apiService';
 import axios from "axios";
 const apiClient = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
 });
 export default {
-  getAllAssesments(token) {
-    const headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    };
-    return apiClient.get("/api/v1/assessment", { headers });
+  getAllAssesments(){
+    return ApiService.apiAxios.get('/api/v1/assessment')
   },
+  // getAllAssesments(token) {
+  //   const headers = {
+  //     Accept: "application/json",
+  //     "Content-Type": "application/json",
+  //     Authorization: "Bearer " + token,
+  //   };
+  //   return apiClient.get("/api/v1/assessment", { headers });
+  // },
   getAssesmentByCode(assmtCode, token) {
     const headers = {
       Accept: "application/json",

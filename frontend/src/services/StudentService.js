@@ -2,7 +2,9 @@ import axios from 'axios';
 
 var apiClient = axios.create({
     baseURL: process.env.VUE_APP_BASE_URL,
-})
+});
+
+apiClient.defaults.headers.common['correlationID'] = localStorage.getItem('correlationID');
 
 export default {
     getStudentByPen(pen, token) {

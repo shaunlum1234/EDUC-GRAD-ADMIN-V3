@@ -90,9 +90,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      token: "auth/getToken",
-    }),
+
+    ...mapGetters('auth', ['token']),
+
     currentPageChange(){
       return this.userSelectedPage;
     },
