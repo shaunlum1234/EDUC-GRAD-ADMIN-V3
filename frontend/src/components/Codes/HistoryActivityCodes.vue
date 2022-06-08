@@ -33,7 +33,7 @@ export default {
     DisplayTable: DisplayTable,
   },
   created() {
-    StudentService.getStudentHistoryActivityCode(this.token)
+    StudentService.getStudentHistoryActivityCode()
     .then((response) => {
       this.historyActivityCode = response.data;
     })

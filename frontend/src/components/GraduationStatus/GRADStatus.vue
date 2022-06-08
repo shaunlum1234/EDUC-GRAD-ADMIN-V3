@@ -601,7 +601,6 @@ export default {
 
       StudentService.editGraduationStatus(
         id,
-        this.token,
         this.editedGradStatus
       )
       .then((response) => {

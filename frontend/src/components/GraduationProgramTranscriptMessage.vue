@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import TranscriptService from "@/services/TranscriptService.js";
+import ProgramManagementService from "@/services/ProgramManagementService.js";
 import DisplayTable from "@/components/DisplayTable";
 import { mapGetters } from "vuex";
 
@@ -93,7 +93,7 @@ export default {
     }
   },
   created() {
-    TranscriptService.getTranscriptMessage(this.token)
+    ProgramManagementService.getTranscriptMessage(this.token)
     .then((response) => {
       this.transcriptMessages = response.data;
     })

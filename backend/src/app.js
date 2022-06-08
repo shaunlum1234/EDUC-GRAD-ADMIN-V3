@@ -30,6 +30,8 @@ const programsRouter = require('./routes/programs-router');
 const assessmentsRouter = require('./routes/assessments-router');
 const coursesRouter = require('./routes/courses-router');
 const studentGraduationRouter = require('./routes/student-graduation-router');
+const studentRouter = require('./routes/student-router');
+const graduationReportsRouter = require('./routes/graduation-reports-router');
 
 //initialize app
 const app = express();
@@ -151,9 +153,12 @@ apiRouter.use('/v1/assessment', assessmentsRouter);
 apiRouter.use('/v1/district', TRAXRouter);
 apiRouter.use('/v1/school', TRAXRouter);
 apiRouter.use('/v1/psi', TRAXRouter);
+apiRouter.use('/v1/transcript', studentGraduationRouter);
 apiRouter.use('/v1/algo', studentGraduationRouter);
 apiRouter.use('/v1/lgSc', studentGraduationRouter);
 apiRouter.use('/v1/undocompletion', studentGraduationRouter);
+apiRouter.use('/v1/student', studentRouter);
+apiRouter.use('/v1/graduationreports', graduationReportsRouter);
 
 //Handle 500 error
 app.use((err, _req, res, next) => {

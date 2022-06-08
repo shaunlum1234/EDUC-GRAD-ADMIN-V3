@@ -141,7 +141,7 @@ export default {
     },
     findStudentByPen: function(pen) {
       if (pen) {
-        StudentService.getStudentByPen(pen, this.token)
+        StudentService.getStudentByPen(pen)
         .then((response) => {
           if (response.data) {
             this.loadStudent(response.data);
