@@ -23,13 +23,16 @@ export default {
     };
     return apiClient.get("/api/v1/assessment/" + assmtCode, { headers });
   },
-  getAllAssesmentRequirements(token) {
-    const headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    };
-    return apiClient.get("/api/v1/assessment/requirement", { headers });
+  // getAllAssesmentRequirements(token) {
+  //   const headers = {
+  //     Accept: "application/json",
+  //     "Content-Type": "application/json",
+  //     Authorization: "Bearer " + token,
+  //   };
+  //   return apiClient.get("/api/v1/assessment/requirement", { headers });
+  // },
+  getAllAssesmentRequirements() {
+    return ApiService.apiAxios.get('/api/v1/assessment/requirement')
   },
   getRuleCourseRequirements(rule, token) {
     const headers = {
