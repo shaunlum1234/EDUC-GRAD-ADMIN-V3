@@ -28,6 +28,7 @@ const promMid = require('express-prometheus-middleware');
 const TRAXRouter = require('./routes/trax-router');
 const programsRouter = require('./routes/programs-router');
 const assessmentsRouter = require('./routes/assessments-router');
+const coursesRouter = require('./routes/courses-router');
 const studentGraduationRouter = require('./routes/student-graduation-router');
 
 //initialize app
@@ -145,6 +146,7 @@ app.use(/(\/api)?/, apiRouter);
 apiRouter.use('/auth', authRouter);
 
 apiRouter.use('/v1/program', programsRouter); 
+apiRouter.use('/v1/course', coursesRouter);
 apiRouter.use('/v1/assessment', assessmentsRouter);
 apiRouter.use('/v1/district', TRAXRouter);
 apiRouter.use('/v1/school', TRAXRouter);
