@@ -1,9 +1,5 @@
 import ApiService from '../common/apiService';
-import axios from 'axios'
-  const apiClient = axios.create({
-  baseURL: process.env.VUE_APP_BASE_URL,
 
-})
 export default {
   getCoursesByAdvanceSearch(params) {
     return ApiService.apiAxios.get('/api/v1/course/coursesearch/?' + params);
@@ -29,6 +25,12 @@ export default {
   getCourseRequirements(params){
     return ApiService.apiAxios.get('/api/v1/course/courserequirementsearch?' + params);
   },
+  getStudentCourseAchievements(pen) {
+    return ApiService.apiAxios.get('/api/v1/studentcourse/pen/' + pen + '?sortForUI=true');
+  },
+  getStudentExamDetails(pen) {
+    return ApiService.apiAxios.get('/api/v1/studentexam/pen/' + pen + '?sortForUI=true');
+  }
   // getCoursesByAdvanceSearch(params, token) {
   //   const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
   //   return apiClient.get('/api/v1/course/coursesearch/?'  + params,{ headers });
@@ -61,13 +63,13 @@ export default {
   //   const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
   //   return apiClient.get('/api/v1/course/courserequirementsearch?' + params,{ headers });
   // },
-  getStudentCourseAchievements(pen, token) {
-    const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-    return apiClient.get('/api/v1/studentcourse/pen/' + pen + '?sortForUI=true',{ headers })
-  },
-  getStudentExamDetails(pen, token) {
-    const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-    return apiClient.get('/api/v1/studentexam/pen/' + pen + '?sortForUI=true',{ headers })
-  }
+  // getStudentCourseAchievements(pen, token) {
+  //   const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+  //   return apiClient.get('/api/v1/studentcourse/pen/' + pen + '?sortForUI=true',{ headers })
+  // },
+  // getStudentExamDetails(pen, token) {
+  //   const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+  //   return apiClient.get('/api/v1/studentexam/pen/' + pen + '?sortForUI=true',{ headers })
+  // }
 }
 
