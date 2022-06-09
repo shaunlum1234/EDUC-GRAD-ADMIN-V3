@@ -160,7 +160,7 @@ apiRouter.use('/v1/lgSc', studentGraduationRouter);
 apiRouter.use('/v1/undocompletion', studentGraduationRouter);
 apiRouter.use('/v1/student', studentRouter);
 apiRouter.use('/v1/graduationreports', graduationReportsRouter);
-apiRouter.use('/v1/graduation', graduationRouter);
+apiRouter.use('/v1/graduate', graduationRouter);
 
 //Handle 500 error
 app.use((err, _req, res, next) => {
