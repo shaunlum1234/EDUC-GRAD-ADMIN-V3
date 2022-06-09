@@ -191,7 +191,9 @@ async function forwardPostReq(req, res, url) {
   }
 }
 
-async function postData(token, data, url, correlationID) {
+async function postData(token, url, data, correlationID) {
+  console.log(url)
+  console.log(token)
   try {
     const postDataConfig = {
       headers: {
@@ -201,11 +203,11 @@ async function postData(token, data, url, correlationID) {
       maxContentLength: Infinity,
       maxBodyLength: Infinity
     };
-
+ 
     log.info('post Data Url', url);
     log.verbose('post Data Req', minify(data));
-    data.createUser = 'EDX';
-    data.updateUser = 'EDX';
+    data.createUser = 'GRAD';
+    data.updateUser = 'GRAD';
     const response = await axios.post(url, data, postDataConfig);
 
     log.info(`post Data Status for url ${url} :: is :: `, response.status);
