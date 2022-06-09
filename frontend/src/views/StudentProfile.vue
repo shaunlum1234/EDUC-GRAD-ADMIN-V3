@@ -592,7 +592,7 @@
       graduateStudent(){
         this.selectedTab = 0;
         this.tabLoading = true; 
-        GraduationService.graduateStudent(this.studentId, this.token).then(() => {
+        GraduationService.graduateStudent(this.studentId).then(() => {
           // this.reloadGradStatus();
           this.loadStudent(this.studentId);    
         }).catch((error) => {
@@ -609,7 +609,7 @@
       updateStudentReports(){
         this.selectedTab = 0;
         this.tabLoading = true; 
-        GraduationService.updateStudentReports(this.studentId, this.token).then(() => {
+        GraduationService.updateStudentReports(this.studentId).then(() => {
           this.getStudentReportsAndCertificates(this.studentId, this.studentPen);
           StudentService.getGraduationStatus(this.studentId).then(
             (res) => {             
@@ -640,7 +640,7 @@
       },      
       projectedGradStatusWithFinalMarks(){
         this.tabLoading = true; 
-        GraduationService.projectedGradFinalMarks(this.studentId, this.token) .then((response) => {
+        GraduationService.projectedGradFinalMarks(this.studentId) .then((response) => {
           this.projectedGradStatus = JSON.parse(response.data.graduationStudentRecord.studentGradData);
           this.projectedOptionalGradStatus = response.data.studentOptionalProgram;
           for (let i = 0; i < this.projectedOptionalGradStatus.length; i++) {
@@ -663,7 +663,7 @@
       projectedGradStatusWithFinalAndReg() {
         this.nonGradReasons = this.studentGradStatus.studentGradData.nonGradReasons;
         this.tabLoading = true; 
-        GraduationService.projectedGradStatusWithFinalAndReg(this.studentId, this.token) .then((response) => {
+        GraduationService.projectedGradStatusWithFinalAndReg(this.studentId) .then((response) => {
           this.projectedGradStatus = response.data;
           this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStudentRecord.studentGradData);
           this.projectedOptionalGradStatus = response.data.studentOptionalProgram;
