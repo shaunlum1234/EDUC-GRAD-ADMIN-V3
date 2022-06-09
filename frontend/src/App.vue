@@ -52,9 +52,7 @@ export default {
        ...mapActions('app', ['setApplicationVariables']),
   },
   created(){
-
     this.setApplicationVariables();
-
   }
   // Removed getJwtToken & getUserInfo here since it is handled in router from now on.
   // async created() {

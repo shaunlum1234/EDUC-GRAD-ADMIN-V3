@@ -3,10 +3,11 @@ const express = require('express');
 const router = express.Router();
 const config = require('../config/index');
 const auth = require('../components/auth');
-const { errorResponse, getBackendToken, getData, putData} = require('../components/utils');
+const { errorResponse, getBackendToken, getData, postData, putData} = require('../components/utils');
 
 //Program Routes
 router.get('/*',passport.authenticate('jwt', {session: false}, undefined), getStudentAPI);
+router.post('/*',passport.authenticate('jwt', {session: false}, undefined), postStudentAPI);
 
 async function getStudentAPI(req, res) {
   const token = getBackendToken(req);
@@ -14,6 +15,16 @@ async function getStudentAPI(req, res) {
   try {
     const url = `${config.get('server:studentAPIURL')}/student` + req.url;
     const data = await getData(token, url);
+    return res.status(200).json(data);
+  } catch (e) {
+      return errorResponse(res);
+  }
+}
+async function postStudentAPI(req, res) {
+  const token = getBackendToken(req);
+  try {  
+    const url = `${config.get('server:studentAPIURL')}/student` + req.url;
+    const data = await postData(token, url, req.body );
     return res.status(200).json(data);
   } catch (e) {
       return errorResponse(res);

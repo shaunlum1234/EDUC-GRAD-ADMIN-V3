@@ -33,6 +33,8 @@ const studentGraduationRouter = require('./routes/student-graduation-router');
 const studentRouter = require('./routes/student-router');
 const graduationReportsRouter = require('./routes/graduation-reports-router');
 const batchRouter = require('./routes/batch-router');
+const graduationRouter = require('./routes/graduation-router');
+
 //initialize app
 const app = express();
 app.set('trust proxy', 1);
@@ -159,6 +161,7 @@ apiRouter.use('/v1/lgSc', studentGraduationRouter);
 apiRouter.use('/v1/undocompletion', studentGraduationRouter);
 apiRouter.use('/v1/student', studentRouter);
 apiRouter.use('/v1/graduationreports', graduationReportsRouter);
+apiRouter.use('/v1/graduate', graduationRouter);
 
 //Handle 500 error
 app.use((err, _req, res, next) => {
