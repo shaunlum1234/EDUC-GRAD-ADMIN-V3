@@ -18,7 +18,7 @@
       token:"",
       refreshToken: "",
       correlationID: "",
-      roles: "unauthenticated",
+      roles: "debug",
       permissions: "",
       username: "",
       pageTitle: null,
