@@ -1,41 +1,66 @@
+import ApiService from '../common/apiService';
 import axios from 'axios'
   const apiClient = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
 
 })
 export default {
-  getCoursesByAdvanceSearch(params, token) {
-    const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-    return apiClient.get('/api/v1/course/coursesearch/?'  + params,{ headers });
-  },  
-  getCourses(courseCode, token) {
-    const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-    return apiClient.get('/api/v1/course/' + courseCode,{ headers });
-  },  
-  getAllCourses(token) {
-    const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-    return apiClient.get('/api/v1/course/',{ headers });
+  getCoursesByAdvanceSearch(params) {
+    return ApiService.apiAxios.get('/api/v1/course/coursesearch/?' + params);
   },
-  getAllCourseRequirements(token) {
-    const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-    return apiClient.get('/api/v1/course/requirement',{ headers });
+  getCourses(courseCode){
+    return ApiService.apiAxios.get('/api/v1/course/' + courseCode);
   },
-  getCourseRestrictions(token){
-    const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-    return apiClient.get('/api/v1/course/restriction',{ headers });
+  getAllCourses(){
+    return ApiService.apiAxios.get('/api/v1/course/');
   },
-  getCourseRestriction(mainCourseLevel,mainCourseCode,token){
-    const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-    return apiClient.get('/api/v1/course/courserestrictionsearch?mainCourseLevel=' + mainCourseLevel + '&mainCourseCode=' + mainCourseCode,{ headers });
+  getAllCourseRequirements(){
+    return ApiService.apiAxios.get('/api/v1/course/requirement');
   },
-  getRuleCourseRequirements(rule,token){
-    const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-    return apiClient.get('/api/v1/course/requirement/rule?rule=' + rule,{ headers });
+  getCourseRestrictions(){
+    return ApiService.apiAxios.get('/api/v1/course/restriction');
   },
-  getCourseRequirements(params, token){
-    const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-    return apiClient.get('/api/v1/course/courserequirementsearch?' + params,{ headers });
+  getCourseRestriction(mainCourseLevel,mainCourseCode){
+    return ApiService.apiAxios.get('/api/v1/course/courserestrictionsearch?mainCourseLevel=' + mainCourseLevel + '&mainCourseCode=' + mainCourseCode);
   },
+  getRuleCourseRequirements(rule){
+    return ApiService.apiAxios.get('/api/v1/course/requirement/rule?rule=' + rule);
+  },
+  getCourseRequirements(params){
+    return ApiService.apiAxios.get('/api/v1/course/courserequirementsearch?' + params);
+  },
+  // getCoursesByAdvanceSearch(params, token) {
+  //   const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+  //   return apiClient.get('/api/v1/course/coursesearch/?'  + params,{ headers });
+  // },  
+  // getCourses(courseCode, token) {
+  //   const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+  //   return apiClient.get('/api/v1/course/' + courseCode,{ headers });
+  // },  
+  // getAllCourses(token) {
+  //   const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+  //   return apiClient.get('/api/v1/course/',{ headers });
+  // },
+  // getAllCourseRequirements(token) {
+  //   const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+  //   return apiClient.get('/api/v1/course/requirement',{ headers });
+  // },
+  // getCourseRestrictions(token){
+  //   const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+  //   return apiClient.get('/api/v1/course/restriction',{ headers });
+  // },
+  // getCourseRestriction(mainCourseLevel,mainCourseCode,token){
+  //   const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+  //   return apiClient.get('/api/v1/course/courserestrictionsearch?mainCourseLevel=' + mainCourseLevel + '&mainCourseCode=' + mainCourseCode,{ headers });
+  // },
+  // getRuleCourseRequirements(rule,token){
+  //   const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+  //   return apiClient.get('/api/v1/course/requirement/rule?rule=' + rule,{ headers });
+  // },
+  // getCourseRequirements(params, token){
+  //   const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
+  //   return apiClient.get('/api/v1/course/courserequirementsearch?' + params,{ headers });
+  // },
   getStudentCourseAchievements(pen, token) {
     const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
     return apiClient.get('/api/v1/studentcourse/pen/' + pen + '?sortForUI=true',{ headers })
