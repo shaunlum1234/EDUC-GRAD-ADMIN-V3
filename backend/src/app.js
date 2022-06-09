@@ -32,6 +32,7 @@ const coursesRouter = require('./routes/courses-router');
 const studentGraduationRouter = require('./routes/student-graduation-router');
 const studentRouter = require('./routes/student-router');
 const graduationReportsRouter = require('./routes/graduation-reports-router');
+const batchRouter = require('./routes/batch-router');
 const graduationRouter = require('./routes/graduation-router');
 
 //initialize app
@@ -147,7 +148,7 @@ app.use(morgan(config.get('server:morganFormat'), { 'stream': logStream }));
 app.use(/(\/api)?/, apiRouter);
 
 apiRouter.use('/auth', authRouter);
-
+apiRouter.use('/v1/batch', batchRouter);
 apiRouter.use('/v1/program', programsRouter); 
 apiRouter.use('/v1/course', coursesRouter);
 apiRouter.use('/v1/assessment', assessmentsRouter);

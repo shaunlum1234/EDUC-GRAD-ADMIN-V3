@@ -38,6 +38,7 @@ nconf.defaults({
     },
     idirIDPHint: process.env.IDIR_IDP_HINT,
     assessmentAPIURL: process.env.ASSESSMENT_API_URL,
+    batchAPIURL: process.env.BATCH_API_URL,
     courseAPIURL: process.env.COURSE_API_URL,
     graduationAPIURL: process.env.GRADUATION_API_URL,
     graduationReportAPIURL: process.env.GRADUATION_REPORT_API_URL,
