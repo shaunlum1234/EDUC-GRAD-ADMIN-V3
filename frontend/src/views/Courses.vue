@@ -606,7 +606,7 @@
         }   
       }, 
       searchCourseByCourseCode() {
-        CourseService.getCourses(this.courseCode, this.token)
+        CourseService.getCourses(this.courseCode)
           .then((response) => {
             this.courses = response.data;
           })   
@@ -617,7 +617,7 @@
           });
       },
       getAllCourses() {
-        CourseService.getAllCourses(this.token)
+        CourseService.getAllCourses()
           .then((response) => {
             this.courses = response.data;
           })
@@ -629,7 +629,7 @@
           });
       },
       getAllCourseRequirements() {
-        CourseService.getAllCourseRequirements(this.token)
+        CourseService.getAllCourseRequirements()
           .then((response) => {
             this.courseRequirements = response.data;
           })
@@ -641,7 +641,7 @@
         });
       },
       getAllCourseRestrictions() {
-        CourseService.getCourseRestrictions(this.token)
+        CourseService.getCourseRestrictions()
           .then((response) => {
             this.courseRestrictions = response.data;
           })
@@ -653,7 +653,7 @@
         });
       },
       getAllCourseRestriction(mainCourseLevel, mainCourseCode) {
-        CourseService.getCourseRestriction(mainCourseLevel, mainCourseCode, this.token)
+        CourseService.getCourseRestriction(mainCourseLevel, mainCourseCode)
           .then((response) => {
             this.courseRestrictions = response.data;
           })

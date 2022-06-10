@@ -133,7 +133,7 @@ export default {
   },
   methods: {
     getAllAssessment() {
-      AssessmentService.getAllAssesments(this.token)
+      AssessmentService.getAllAssesments()
         .then((response) => {
           this.assessments = response.data;
         })
@@ -147,7 +147,7 @@ export default {
         });
     },
     getAllAssessmentReqs() {
-      AssessmentService.getAllAssesmentRequirements(this.token)
+      AssessmentService.getAllAssesmentRequirements()
         .then((response) => {
           this.assessmentRequirements = response.data;
         })

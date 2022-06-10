@@ -248,7 +248,7 @@ export default {
       this.url = URL.createObjectURL(file);
     },    
     getCareerPrograms() {
-      ProgramManagementService.getCareerPrograms(this.token)
+      ProgramManagementService.getCareerPrograms()
         .then((response) => {
           this.careerPrograms = response.data;
         })

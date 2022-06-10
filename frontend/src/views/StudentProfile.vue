@@ -707,7 +707,7 @@
             );
           }  
         });
-        AssessmentService.getStudentAssessment(this.pen, this.token).then((response) => {
+        AssessmentService.getStudentAssessment(this.pen).then((response) => {
           this.$store.dispatch('setStudentAssessments', response.data);
         }).catch((error) => {
           if(error.response.status){
@@ -752,7 +752,7 @@
             );
           }
         });        
-        CourseService.getStudentCourseAchievements(this.pen, this.token).then(
+        CourseService.getStudentCourseAchievements(this.pen).then(
           (response) => {
             
             this.$store.dispatch("setStudentCourses", response.data);
@@ -765,7 +765,7 @@
             );
           }
         });
-        CourseService.getStudentExamDetails(this.pen, this.token).then(
+        CourseService.getStudentExamDetails(this.pen).then(
           (response) => {           
             this.$store.dispatch("setStudentExams", response.data);
           }

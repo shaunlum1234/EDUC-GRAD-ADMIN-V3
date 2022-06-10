@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const config = require('../config/index');
 const auth = require('../components/auth');
-const { errorResponse, getBackendToken, getData, postData, putData, deleteData} = require('../components/utils');
+const { errorResponse, getBackendToken, getData} = require('../components/utils');
 
 //Course Routes
 router.get('/*',passport.authenticate('jwt', {session: false}, undefined), getCourseAPI);
