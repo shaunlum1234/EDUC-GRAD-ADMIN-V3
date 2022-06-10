@@ -59,25 +59,22 @@ export default {
       ...mapActions('auth', ['getJwtToken', 'getUserInfo', 'logout']),
        ...mapActions('app', ['setApplicationVariables']),
   },
-  created(){
-    this.setApplicationVariables();
+  async created() {
+
+    this.getJwtToken().then(() =>
+      // Promise.all([this.getUserInfo()]).then(function(){
+        this.setApplicationVariables()
+      // })
+    ).catch(e => {
+      if(! e.response) {
+        this.logout();
+        this.$router.replace({name: 'error', query: { message: `500_${e.data || 'ServerError'}` } });
+      }
+  
+    }).finally(() => {
+      
+    });
   }
-  // Removed getJwtToken & getUserInfo here since it is handled in router from now on.
-  // async created() {
-  //   this.setLoading(true);
-  //   this.getJwtToken().then(() =>
-  //     Promise.all([this.getUserInfo()]).then(function(){
-  //     })
-  //   ).catch(e => {
-  //     if(! e.response) {
-  //       this.logout();
-  //       this.$router.replace({name: 'error', query: { message: `500_${e.data || 'ServerError'}` } });
-  //     }
-  //
-  //   }).finally(() => {
-  //     this.setLoading(false);
-  //   });
-  // }
 }
 
 
