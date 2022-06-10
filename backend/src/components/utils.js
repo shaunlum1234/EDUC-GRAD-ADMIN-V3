@@ -31,6 +31,26 @@ async function getOidcDiscovery() {
   return discovery;
 }
 
+ /**
+  * This function will modify the session by changing `tempSessionExtensionIdentifier`. 
+  * Please be CAREFUL when using this with parallel api calls from UI Side, when you want to store some data in session in one of the api calls.
+  * more documentation found here https://github.com/expressjs/session#readme, look at the resave section.
+  * even though our app uses `resave:false` modifying session in parallel api calls will have race condition, which will lead to undesired outcomes based on api call finish times.
+  */
+  function extendSession() {
+    return function (req, res, next) {
+      if (req && req.session) {
+        log.debug('req.session.cookie.maxAge before is ::', req.session.cookie.maxAge);
+        req['session'].touch();
+        // NOSONAR
+        req['session'].tempSessionExtensionIdentifier = Math.random(); // DO NOT USE this key anywhere else in session.
+        log.debug('req.session.cookie.maxAge after is ::', req.session.cookie.maxAge);
+        return next();
+      } else {
+        return next(); // let the next handler deal with what to do when no session
+      }
+    };
+  }
 function getUser(req) {
   const thisSession = req.session;
   if (thisSession && thisSession['passport'] && thisSession['passport'].user && thisSession['passport'].user.jwt) {
@@ -116,7 +136,7 @@ async function getData(token, url, correlationID) {
         correlationID: correlationID || uuidv4()
       }
     };
-
+    console.log(getDataConfig)
     log.info('get Data Url', url);
     const response = await axios.get(url, getDataConfig);
     log.info(`get Data Status for url ${url} :: is :: `, response.status);
@@ -171,7 +191,9 @@ async function forwardPostReq(req, res, url) {
   }
 }
 
-async function postData(token, data, url, correlationID) {
+async function postData(token, url, data, correlationID) {
+  console.log(url)
+  console.log(token)
   try {
     const postDataConfig = {
       headers: {
@@ -181,11 +203,11 @@ async function postData(token, data, url, correlationID) {
       maxContentLength: Infinity,
       maxBodyLength: Infinity
     };
-
+ 
     log.info('post Data Url', url);
     log.verbose('post Data Req', minify(data));
-    data.createUser = 'EDX';
-    data.updateUser = 'EDX';
+    data.createUser = 'GRAD';
+    data.updateUser = 'GRAD';
     const response = await axios.post(url, data, postDataConfig);
 
     log.info(`post Data Status for url ${url} :: is :: `, response.status);
@@ -336,7 +358,10 @@ const utils = {
   errorResponse,
   getCodes,
   cacheMiddleware,
+  getBackendToken,
   getCodeTable
+  
+  
 };
 
 module.exports = utils;

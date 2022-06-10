@@ -61,13 +61,7 @@ const routes = [{
   {
     path: '/',
     name: 'student-search',
-    component: () => {
-      if(authStore.state.isAuthenticated) {
-        return StudentSearch;
-      } else {
-        router.push({ path: '/login'})
-      }
-    },
+    component: StudentSearch,
     meta: { 
       requiresAuth: true
     }

@@ -18,7 +18,7 @@
       token:"",
       refreshToken: "",
       correlationID: "",
-      roles: "unauthenticated",
+      roles: "administrator",
       permissions: "",
       username: "",
       pageTitle: null,
@@ -270,7 +270,6 @@
         });
       },   
       updateOptionalProgram({state}, payload) {
-        
         ProgramManagementService.updateOptionalProgram(payload, state.auth.token).then(
           (response) => {
             // eslint-disable-next-line
@@ -281,9 +280,9 @@
           console.log(error.response.status);
         });
       },   
-      getGraduationPrograms({state}) {
+      getGraduationPrograms() {
         
-        ProgramManagementService.getGraduationPrograms(state.auth.token).then(
+        ProgramManagementService.getGraduationPrograms().then(
           (response) => {
             return response.data;
           }

@@ -39,7 +39,7 @@
           <router-link to="/admin-graduation-programs">Programs</router-link>
         </b-nav-item>
         <b-nav-item><router-link to="/courses">Courses</router-link></b-nav-item>
-        <b-nav-item><router-link to="/assessments">Assessments</router-link></b-nav-item>
+        <b-nav-item><router-link to="/assessment">Assessments</router-link></b-nav-item>
         <b-nav-item><router-link to="/schools">Schools</router-link></b-nav-item>
         <b-nav-item><router-link to="/psi">PSI</router-link></b-nav-item>
         <b-nav-item><router-link to="/codes">Codes</router-link></b-nav-item>
@@ -142,7 +142,7 @@ export default {
       if (this.penInput) {
         this.searchLoading = true;
         this.studentSearchResults = [];
-        StudentService.getStudentByPen(this.penInput, this.token)
+        StudentService.getStudentByPen(this.penInput)
         .then((response) => {
           if (response.data) {
             this.loadStudent(response.data);

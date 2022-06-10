@@ -4,7 +4,7 @@
     <a v-b-toggle.sidebar-1>username {{ isAuthenticated }} </a>
     <b-sidebar id="sidebar-1" title="Permissions" shadow>
       <div class="px-3 py-2">
- 
+          {{getProgramOptions}}
       </div>
     </b-sidebar>
         (<a>role</a>) |
@@ -43,12 +43,17 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['isAuthenticated', 'loginError', 'isLoading', 'userInfo']),
+    ...mapGetters('app', ['getProgramOptions']),
     ...mapState('app', ['pageTitle']),
   },
   methods:{
       ...mapMutations('auth', ['setLoading']),
       ...mapActions('auth', ['getJwtToken', 'getUserInfo', 'logout']),
+       ...mapActions('app', ['setApplicationVariables']),
   },
+  created(){
+    this.setApplicationVariables();
+  }
   // Removed getJwtToken & getUserInfo here since it is handled in router from now on.
   // async created() {
   //   this.setLoading(true);

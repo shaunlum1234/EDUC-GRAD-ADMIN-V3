@@ -335,7 +335,7 @@
 <script>
   import sharedMethods from '../sharedMethods';  
   import AssessmentService from "@/services/AssessmentService.js";
-  import GraduationCommonService from "@/services/GraduationCommonService.js";
+  import GraduationReportService from "@/services/GraduationReportService.js";
   import CourseService from "@/services/CourseService.js";
   import StudentService from "@/services/StudentService.js";
   import GraduationService from "@/services/GraduationService.js"
@@ -355,7 +355,7 @@
     created() {
 
   
-        StudentService.getStudentPen(this.$route.params.studentId, this.token).then(
+        StudentService.getStudentPen(this.$route.params.studentId).then(
           (response) => {           
             this.pen = response.data.pen
             const studentIdFromURL = this.$route.params.studentId;
@@ -464,11 +464,10 @@
         StudentService.ungradStudent(
           this.studentId,
           ungradCode,
-          ungradDesc,
-          this.token
+          ungradDesc
         )
           .then(() => {
-            StudentService.getStudentUngradReasons(this.studentId, this.token).then(
+            StudentService.getStudentUngradReasons(this.studentId).then(
               (response) => {           
                 this.$store.dispatch("setStudentUngradReasons", response.data);
               }
@@ -485,7 +484,7 @@
                 );
               }
             });            
-            StudentService.getGraduationStatus(this.studentId, this.token).then(
+            StudentService.getGraduationStatus(this.studentId).then(
               (response) => {
                 this.$store.dispatch("setStudentGradStatus", response.data);
                 this.tabLoading= false;
@@ -517,7 +516,7 @@
         this.ungradReasonDesc = "";
       },
       getStudentReportsAndCertificates(id, pen){
-        GraduationCommonService.getStudentCertificates(id, this.token).then(
+        GraduationReportService.getStudentCertificates(id).then(
           (response) => {          
             this.$store.dispatch("setStudentCertificates", response.data);
           }
@@ -530,7 +529,7 @@
             });
           }
         });
-        GraduationCommonService.getStudentReports(id, this.token).then(
+        GraduationReportService.getStudentReports(id).then(
           (response) => {                     
             this.$store.dispatch("setStudentReports", response.data);
           }
@@ -543,7 +542,7 @@
             });
           }
         });        
-        GraduationCommonService.getStudentTranscripts(id, this.token).then(
+        GraduationReportService.getStudentTranscripts(id).then(
           (response) => {        
             this.$store.dispatch("setStudentTranscripts", response.data);
           }
@@ -556,7 +555,7 @@
             });
           }
         }); 
-        GraduationCommonService.getStudentXmlReport(pen, this.token).then(
+        GraduationReportService.getStudentXmlReport(pen).then(
           (response) => {        
             this.$store.dispatch("setStudentXmlReport", response.data);
           }
@@ -574,7 +573,7 @@
         });                       
       },
       reloadGradStatus(){  
-        StudentService.getGraduationStatus(this.studentId, this.token).then(
+        StudentService.getGraduationStatus(this.studentId).then(
           (res) => {
             this.$store.dispatch("setStudentGradStatus", res.data);
           }          
@@ -593,7 +592,7 @@
       graduateStudent(){
         this.selectedTab = 0;
         this.tabLoading = true; 
-        GraduationService.graduateStudent(this.studentId, this.token).then(() => {
+        GraduationService.graduateStudent(this.studentId).then(() => {
           // this.reloadGradStatus();
           this.loadStudent(this.studentId);    
         }).catch((error) => {
@@ -610,9 +609,9 @@
       updateStudentReports(){
         this.selectedTab = 0;
         this.tabLoading = true; 
-        GraduationService.updateStudentReports(this.studentId, this.token).then(() => {
+        GraduationService.updateStudentReports(this.studentId).then(() => {
           this.getStudentReportsAndCertificates(this.studentId, this.studentPen);
-          StudentService.getGraduationStatus(this.studentId, this.token).then(
+          StudentService.getGraduationStatus(this.studentId).then(
             (res) => {             
               this.$store.dispatch("setStudentGradStatus", res.data);
               this.tabLoading= false;
@@ -641,7 +640,7 @@
       },      
       projectedGradStatusWithFinalMarks(){
         this.tabLoading = true; 
-        GraduationService.projectedGradFinalMarks(this.studentId, this.token) .then((response) => {
+        GraduationService.projectedGradFinalMarks(this.studentId) .then((response) => {
           this.projectedGradStatus = JSON.parse(response.data.graduationStudentRecord.studentGradData);
           this.projectedOptionalGradStatus = response.data.studentOptionalProgram;
           for (let i = 0; i < this.projectedOptionalGradStatus.length; i++) {
@@ -664,7 +663,7 @@
       projectedGradStatusWithFinalAndReg() {
         this.nonGradReasons = this.studentGradStatus.studentGradData.nonGradReasons;
         this.tabLoading = true; 
-        GraduationService.projectedGradStatusWithFinalAndReg(this.studentId, this.token) .then((response) => {
+        GraduationService.projectedGradStatusWithFinalAndReg(this.studentId) .then((response) => {
           this.projectedGradStatus = response.data;
           this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStudentRecord.studentGradData);
           this.projectedOptionalGradStatus = response.data.studentOptionalProgram;
@@ -698,7 +697,7 @@
         }
       },
       loadStudent(studentIdFromURL) {
-        StudentService.getStudentByPen(this.pen, this.token).then((response) => {
+        StudentService.getStudentByPen(this.pen).then((response) => {
           this.$store.dispatch('setStudentProfile', response.data);
         }).catch((error) => {
           if(error.response.status){
@@ -718,7 +717,7 @@
             );
           }
         });
-        StudentService.getGraduationStatus(studentIdFromURL, this.token).then(
+        StudentService.getGraduationStatus(studentIdFromURL).then(
           (response) => {
             this.$store.dispatch("setStudentGradStatus", response.data);
           }
@@ -730,7 +729,7 @@
             );
           }
         });
-        StudentService.getGraduationStatusOptionalPrograms(studentIdFromURL, this.token).then(
+        StudentService.getGraduationStatusOptionalPrograms(studentIdFromURL).then(
           (response) => {
             this.$store.dispatch("setStudentGradStatusOptionalPrograms", response.data);
         }).catch((error) => {
@@ -741,7 +740,7 @@
             );
           }
         });
-        StudentService.getStudentCareerPrograms(studentIdFromURL, this.token).then(
+        StudentService.getStudentCareerPrograms(studentIdFromURL).then(
           (response) => {
             this.$store.dispatch("setStudentCareerPrograms", response.data);
         }
@@ -778,7 +777,7 @@
             );
           }
         });
-        StudentService.getStudentNotes(studentIdFromURL, this.token).then(
+        StudentService.getStudentNotes(studentIdFromURL).then(
           (response) => {           
             this.$store.dispatch("setStudentNotes", response.data);
           }
@@ -791,7 +790,7 @@
           }
         });
         this.getStudentReportsAndCertificates(studentIdFromURL, this.pen);
-        StudentService.getStudentUngradReasons(studentIdFromURL, this.token).then(
+        StudentService.getStudentUngradReasons(studentIdFromURL).then(
           (response) => {         
             this.$store.dispatch("setStudentUngradReasons", response.data);
           }
@@ -803,7 +802,7 @@
             );
           }
         });    
-        StudentService.getStudentHistory(studentIdFromURL, this.token).then(
+        StudentService.getStudentHistory(studentIdFromURL).then(
             (response) => {
               this.$store.dispatch("setStudentAuditHistory", response.data);
             }
@@ -815,7 +814,7 @@
             );
           }
         });
-        StudentService.getStudentOptionalProgramHistory(studentIdFromURL, this.token).then(
+        StudentService.getStudentOptionalProgramHistory(studentIdFromURL).then(
           (response) => {
   
             this.$store.dispatch("setStudentOptionalProgramsAuditHistory", response.data);

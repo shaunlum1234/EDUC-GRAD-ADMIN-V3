@@ -121,7 +121,7 @@ export default {
           page = page - 1;  
         }
       }    
-      StudentService.getBatchHistory(batchId, page, this.token).then(
+      StudentService.getBatchHistory(batchId, page).then(
         (response) => {
             this.batchData = response.data.content;
             this.rows = response.data.totalElements;
@@ -140,7 +140,7 @@ export default {
     },
     findStudentByPen: function(pen) {
       if (pen) {
-        StudentService.getStudentByPen(pen, this.token)
+        StudentService.getStudentByPen(pen)
         .then((response) => {
           if (response.data) {
             this.loadStudent(response.data);

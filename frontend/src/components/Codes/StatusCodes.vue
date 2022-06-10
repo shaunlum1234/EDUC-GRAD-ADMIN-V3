@@ -32,7 +32,7 @@ export default {
     DisplayTable: DisplayTable,
   },
   created() {
-       StudentService.getStudentStatusCodes(this.token)
+       StudentService.getStudentStatusCodes()
         .then((response) => {
           this.studentStatusCodes = response.data;
         })

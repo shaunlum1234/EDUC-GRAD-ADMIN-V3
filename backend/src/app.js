@@ -24,6 +24,17 @@ const apiRouter = express.Router();
 const authRouter = require('./routes/auth');
 const promMid = require('express-prometheus-middleware');
 
+//GRAD Routers
+const TRAXRouter = require('./routes/trax-router');
+const programsRouter = require('./routes/programs-router');
+const assessmentsRouter = require('./routes/assessments-router');
+const coursesRouter = require('./routes/courses-router');
+const studentGraduationRouter = require('./routes/student-graduation-router');
+const studentRouter = require('./routes/student-router');
+const graduationReportsRouter = require('./routes/graduation-reports-router');
+const batchRouter = require('./routes/batch-router');
+const graduationRouter = require('./routes/graduation-router');
+
 //initialize app
 const app = express();
 app.set('trust proxy', 1);
@@ -137,6 +148,20 @@ app.use(morgan(config.get('server:morganFormat'), { 'stream': logStream }));
 app.use(/(\/api)?/, apiRouter);
 
 apiRouter.use('/auth', authRouter);
+apiRouter.use('/v1/batch', batchRouter);
+apiRouter.use('/v1/program', programsRouter); 
+apiRouter.use('/v1/course', coursesRouter);
+apiRouter.use('/v1/assessment', assessmentsRouter);
+apiRouter.use('/v1/district', TRAXRouter);
+apiRouter.use('/v1/school', TRAXRouter);
+apiRouter.use('/v1/psi', TRAXRouter);
+apiRouter.use('/v1/transcript', studentGraduationRouter);
+apiRouter.use('/v1/algo', studentGraduationRouter);
+apiRouter.use('/v1/lgSc', studentGraduationRouter);
+apiRouter.use('/v1/undocompletion', studentGraduationRouter);
+apiRouter.use('/v1/student', studentRouter);
+apiRouter.use('/v1/graduationreports', graduationReportsRouter);
+apiRouter.use('/v1/graduate', graduationRouter);
 
 //Handle 500 error
 app.use((err, _req, res, next) => {

@@ -1,5 +1,5 @@
-import StudentService from '@/services/StudentService.js';
-import ProgramManagementService from '@/services/ProgramManagementService.js';
+import ApiService from '../../common/apiService.js';
+
 export default {
     namespaced: true,
     state: {
@@ -20,6 +20,8 @@ export default {
     },
     mutations: {
       setProgramOptions(state, payload){
+        console.log("Setting program options")
+        console.log(payload)
         state.programOptions = payload;
       },
       setStudentStatusCodesOptions(state, payload){
@@ -30,31 +32,15 @@ export default {
       },      
     },
     actions: {
-      setApplicationVariables({commit,rootState}) {
-        ProgramManagementService.getGraduationPrograms(rootState.auth.token).then(
-          (response) => {
-            commit('setProgramOptions', response.data);
-          }
-        ).catch((error) => {
-          // eslint-disable-next-line
-          console.log(error.response.status);
-        });
-        StudentService.getStudentStatusCodes(rootState.auth.token).then(
-          (response) => {
-            commit('setStudentStatusCodesOptions', response.data);
-          }
-        ).catch((error) => {
-          // eslint-disable-next-line
-          console.log(error.response.status);
-        });
-        StudentService.getUngradReasons(rootState.auth.token).then(
-          (response) => {
-            commit('setUngradReasons', response.data);
-          }
-        ).catch((error) => {
-          // eslint-disable-next-line
-          console.log(error.response.status);
-        });        
+      setApplicationVariables({commit}) {
+        //ApiService.getGraduationProgram();
+        console.log(localStorage.getItem('jwtToken'))
+        if(localStorage.getItem('jwtToken')){
+          console.log(localStorage.getItem('jwtToken'))
+          ApiService.apiAxios.get('/api/v1/program/programs').then(response => commit('setProgramOptions', response.data))
+          ApiService.apiAxios.get('/api/v1/student/studentstatus').then(response => commit('setStudentStatusCodesOptions', response.data))
+          ApiService.apiAxios.get('/api/v1/undocompletion/undocompletionreason').then(response => commit('setUngradReasons', response.data))
+        }   
       }, 
     },
   };
