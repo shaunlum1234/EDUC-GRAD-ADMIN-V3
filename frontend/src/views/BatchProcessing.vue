@@ -275,7 +275,7 @@ export default {
       return  value.toLocaleString('en-CA', { timeZone: 'PST' });
     },
     getAdminDashboardData(){
-      BatchProcessingService.getDashboardInfo(this.token).then(
+      BatchProcessingService.getDashboardInfo().then(
         (response) => {
             this.dashboardData = response.data;
             this.batchInfoListData = response.data.batchInfoList;
@@ -339,7 +339,7 @@ export default {
       let index= id.replace("job-","")-1;
       let value = true
       this.$store.commit("batchprocessing/setTabLoading",{index, value});
-        BatchProcessingService.runDISTRUN(this.token, request, credentialType).then(
+        BatchProcessingService.runDISTRUN(request, credentialType).then(
         (response) => {
            //update the admin dashboard
           this.getAdminDashboardData();
@@ -371,7 +371,7 @@ export default {
       let index= id.replace("job-","")-1;
       let value = true
       this.$store.commit("batchprocessing/setTabLoading",{index, value});
-        BatchProcessingService.runTVRRUN(this.token, request).then(
+        BatchProcessingService.runTVRRUN(request).then(
         (response) => {
            //update the admin dashboard
           this.getAdminDashboardData();
@@ -403,7 +403,7 @@ export default {
       let index= id.replace("job-","")-1;
       let value = true
       this.$store.commit("batchprocessing/setTabLoading",{index, value});
-        BatchProcessingService.runREGALG(this.token, request).then(
+        BatchProcessingService.runREGALG(request).then(
         (response) => {
            //update the admin dashboard
           this.getAdminDashboardData();
@@ -430,7 +430,7 @@ export default {
         setTimeout(this.getBatchProgress(requestId), 5000);
     },
     getBatchProgress(requestId){
-      BatchProcessingService.getBatchSummary(this.token).then((response) => {
+      BatchProcessingService.getBatchSummary().then((response) => {
 
             let jobDetails = response.data.batchJobList[0];
             let date = new Date();
