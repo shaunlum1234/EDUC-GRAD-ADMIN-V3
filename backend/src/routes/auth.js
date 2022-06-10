@@ -72,7 +72,7 @@ async function generateTokens(req, res) {
       jwtFrontend: req.user.jwtFrontend,
       isAuthorizedUser: true,
     };
-    res.status(HttpStatus.OK).json(responseJson);
+    return res.status(HttpStatus.OK).json(responseJson);
   } else {
     res.status(HttpStatus.UNAUTHORIZED).json();
   }
@@ -83,7 +83,6 @@ router.post('/refresh', [
   body('refreshToken').exists()
 ], async (req, res) => {
   const errors = validationResult(req);
-
   if (!errors.isEmpty()) {
     return res.status(HttpStatus.BAD_REQUEST).json({
       errors: errors.array()
@@ -110,20 +109,12 @@ router.post('/refresh', [
 
 //provides a jwt to authenticated users
 router.get('/token', auth.refreshJWT, (req, res) => {
-  if (req?.user && req.user?.jwtFrontend && req.user?.refreshToken) {
-    if (req.session?.passport?.user?._json) {
-      const correlationID = uuidv4();
-      req.session.correlationID = correlationID;
-      const correlation = {
-        user_guid: req.session?.passport?.user?._json.user_guid,
-        correlation_id: correlationID
-      };
-      log.info('created correlation id and stored in session', correlation);
-    }
+  if (req['user'] && req['user'].jwtFrontend && req['user'].refreshToken) {
     const responseJson = {
-      jwtFrontend: req.user.jwtFrontend,
+      jwtFrontend: req['user'].jwtFrontend,
       isAuthorizedUser: true
     };
+    req.session.correlationID = uuidv4();
     res.status(HttpStatus.OK).json(responseJson);
   } else {
     res.status(HttpStatus.UNAUTHORIZED).json({

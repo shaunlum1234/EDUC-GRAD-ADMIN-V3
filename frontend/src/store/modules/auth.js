@@ -1,43 +1,6 @@
 import ApiService from '@/common/apiService';
 import AuthService from '@/common/authService';
-
-// function isFollowUpVisit({jwtToken}) {
-//   return !!jwtToken;
-// }
-
-function isExpiredToken(jwtToken) {
-  const now = Date.now().valueOf() / 1000;
-  const jwtPayload = jwtToken.split('.')[1];
-  const payload = JSON.parse(window.atob(jwtPayload));
-  return payload.exp <= now;
-}
-
-async function refreshToken({getters, commit, dispatch}) {
-  if (isExpiredToken(getters.jwtToken)) {
-    dispatch('logout');
-    return;
-  }
-
-  const response = await AuthService.refreshAuthToken(getters.jwtToken);
-  if (response.jwtFrontend) {
-    commit('setJwtToken', response.jwtFrontend);
-    ApiService.setAuthHeader(response.jwtFrontend);
-  } else {
-    throw 'No jwtFrontend';
-  }
-}
-
-async function getInitialToken({commit}) {
-  const response = await AuthService.getAuthToken();
-
-  if (response.jwtFrontend) {
-    commit('setJwtToken', response.jwtFrontend);
-    commit('setAuthorizedUser', response.isAuthorizedUser);
-    ApiService.setAuthHeader(response.jwtFrontend);
-  } else {
-    throw 'No jwtFrontend';
-  }
-}
+import { Routes } from '@/utils/constants';
 
 export default {
   namespaced: true,
@@ -117,18 +80,43 @@ export default {
       context.commit('setUserInfo');
       // router.push(AuthRoutes.LOGOUT);
     },
-    async getUserInfo({commit}){
-      const userInfoRes = await ApiService.getUserInfo();
-      commit('setUserInfo', userInfoRes.data);
+
+    async getUserInfo(context) {
+      if(localStorage.getItem('jwtToken')) {
+        await ApiService.apiAxios
+          .get(Routes.USER)
+          .then(response => {
+            context.commit('setUserInfo', response.data);
+          })
+          .catch((e) => {
+            throw e;
+          });
+      }
     },
+
     //retrieves the json web token from local storage. If not in local storage, retrieves it from API
     async getJwtToken(context) {
-      context.commit('setError', false);
-      if (context.getters.isAuthenticated && !!context.getters.jwtToken) {
-        await refreshToken(context);
-      } else {  //initial login and redirect
-        await getInitialToken(context);
+      try {
+        if (context.getters.isAuthenticated && !!context.getters.jwtToken) {
+          const response = await AuthService.refreshAuthToken(context.getters.jwtToken);
+          setAuthorizations(context, response);
+        } else {
+          const response = await AuthService.getAuthToken();
+          setAuthorizations(context, response);
+        }
+      } catch (e) {
+        // Remove tokens from localStorage and update state
+        context.commit('setJwtToken');
+        throw e;
       }
     },
   }
 };
+
+function setAuthorizations(context, response) {
+  if (response.jwtFrontend) {
+    context.commit('setJwtToken', response.jwtFrontend);
+  }
+  context.commit('setAuthorizedUser', response.isAuthorizedUser);
+  ApiService.setAuthHeader(response.jwtFrontend);
+}
