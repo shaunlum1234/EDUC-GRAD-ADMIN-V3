@@ -93,7 +93,7 @@ export default {
     }
   },
   created() {
-    ProgramManagementService.getTranscriptMessage(this.token)
+    ProgramManagementService.getTranscriptMessage()
     .then((response) => {
       this.transcriptMessages = response.data;
     })

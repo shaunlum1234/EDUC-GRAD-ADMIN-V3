@@ -102,7 +102,6 @@ export default {
     if (this.$route.params.category == "A") {
       AssessmentService.getRuleCourseRequirements(
         this.$route.params.rule,
-        this.token
       ).then((response) => {
         this.fields = this.assessmentFields;
         this.graduationProgramRuleCourses = response.data;
@@ -115,7 +114,6 @@ export default {
     if (this.$route.params.category == "C") {
       CourseService.getRuleCourseRequirements(
         this.$route.params.rule,
-        this.token
       ).then((response) => {
         this.fields = this.courseFields;
         this.graduationProgramRuleCourses = response.data;

@@ -32,7 +32,7 @@ export default {
     DisplayTable: DisplayTable,
   },
   created() {
-        ProgramManagementService.getRequirementTypes(this.token)
+        ProgramManagementService.getRequirementTypes()
         .then((response) => {
         
           this.requirementTypes = response.data;

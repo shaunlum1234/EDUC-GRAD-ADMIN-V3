@@ -122,7 +122,7 @@ export default {
           page = page - 1;  
         }
       }    
-      BatchProcessingService.getBatchErrors(batchId, page, this.token).then(
+      BatchProcessingService.getBatchErrors(batchId, page).then(
         (response) => {
             this.batchData = response.data.errorList;
             this.rows = response.data.totalElements;

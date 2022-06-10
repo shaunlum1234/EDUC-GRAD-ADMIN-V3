@@ -90,7 +90,7 @@ export default {
   },
   created() {
     this.showNotification = sharedMethods.showNotification
-    ProgramManagementService.getOptionalPrograms(this.token)
+    ProgramManagementService.getOptionalPrograms()
     .then((response) => {
       this.graduationOptionalPrograms = response.data;
     })

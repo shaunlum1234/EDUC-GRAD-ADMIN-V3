@@ -32,7 +32,7 @@ export default {
     DisplayTable: DisplayTable,
   },
   created() {
-      ProgramManagementService.getCareerPrograms(this.token)
+      ProgramManagementService.getCareerPrograms()
         .then((response) => {
           this.careerPrograms = response.data;
         })

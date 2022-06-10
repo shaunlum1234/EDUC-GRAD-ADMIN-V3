@@ -435,7 +435,7 @@ export default {
       this.$forceUpdate();
     },
     getCertificateTypes() {
-      GraduationReportService.getCertificateTypes(this.token)
+      GraduationReportService.getCertificateTypes()
         .then((response) => {
           this.certificateTypes = response.data;
         })
@@ -445,7 +445,7 @@ export default {
         });
     },
     getTranscriptTypes() {
-      GraduationReportService.getTranscriptTypes(this.token)
+      GraduationReportService.getTranscriptTypes()
         .then((response) => {
           this.transcriptTypes = response.data;
         })

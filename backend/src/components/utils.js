@@ -137,6 +137,7 @@ async function getData(token, url, correlationID) {
       }
     };
     console.log(getDataConfig)
+    console.log('getData Token: ' + token)
     log.info('get Data Url', url);
     const response = await axios.get(url, getDataConfig);
     log.info(`get Data Status for url ${url} :: is :: `, response.status);
