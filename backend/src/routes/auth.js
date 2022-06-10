@@ -121,7 +121,8 @@ router.get('/token', auth.refreshJWT, (req, res) => {
       log.info('created correlation id and stored in session', correlation);
     }
     const responseJson = {
-      jwtFrontend: req.user.jwtFrontend
+      jwtFrontend: req.user.jwtFrontend,
+      isAuthorizedUser: true
     };
     res.status(HttpStatus.OK).json(responseJson);
   } else {

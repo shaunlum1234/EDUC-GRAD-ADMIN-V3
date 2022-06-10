@@ -231,20 +231,18 @@ router.beforeEach((to, _from, next) => {
       if (!authStore.state.isAuthenticated) {
         next(nextRouteInError);
       } else {
-        // TODO (jsung) : getUserInfo is temporarily commented out
-        // store.dispatch('auth/getUserInfo').then(() => {
-        //   if (!authStore.state.isAuthorizedUser) {
-        //     next('unauthorized');
-        //   } else if (to.meta.role && !store.getters[`auth/${to.meta.role}`]) {
-        //     next('unauthorized-page');
-        //   } else {
-        //     next();
-        //   }
-        // }).catch(() => {
-        //   console.log('Unable to get user info');
-        //   next('error');
-        // });
-        next();
+        store.dispatch('auth/getUserInfo').then(() => {
+          if (!authStore.state.isAuthorizedUser) {
+            next('unauthorized');
+          } else if (to.meta.role && !store.getters[`auth/${to.meta.role}`]) {
+            next('unauthorized-page');
+          } else {
+            next();
+          }
+        }).catch(() => {
+          console.log('Unable to get user info');
+          next('error');
+        });
       }
     }).catch(() => {
       console.log('Unable to get token');
