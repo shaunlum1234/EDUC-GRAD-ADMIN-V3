@@ -104,7 +104,7 @@ export default {
     //sets the token required for refreshing expired json web tokens
     logoutState: (state) => {
       localStorage.removeItem('jwtToken');
-      state.userInfo = false;
+      state.userInfo = null;
       state.isAuthenticated = false;
     }
   },

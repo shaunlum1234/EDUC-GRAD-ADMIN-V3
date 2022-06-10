@@ -1,15 +1,20 @@
 <template>
   <div id="app">
     <Bcheader class="bcheader" style="margin-bottom: 15px; text-transform: capitalize">
-    <a v-b-toggle.sidebar-1>username {{ isAuthenticated }} </a>
-    <b-sidebar id="sidebar-1" title="Permissions" shadow>
-      <div class="px-3 py-2">
-          {{getProgramOptions}}
+      <div v-if="isAuthenticated && dataReady">
+        <a v-b-toggle.sidebar-1>{{ userInfo.userName }} </a>
+        <b-sidebar id="sidebar-1" title="Permissions" shadow>
+          <div class="px-3 py-2">
+              {{getProgramOptions}}
+          </div>
+        </b-sidebar>
+            (<a>{{ userInfo.userRoles && userInfo.userRoles.length > 2? 'Admin' : 'User' }}</a>) |
+            <a :href='routes.LOGOUT' class="text-white">Logout</a>
       </div>
-    </b-sidebar>
-        (<a>role</a>) |
-        <a v-if='isAuthenticated' :href='routes.LOGOUT' class="text-white">Logout</a>
-        </Bcheader>
+      <div v-else-if="!isAuthenticated">
+        <a :href='routes.LOGIN' class="text-white">Login</a>
+      </div>
+    </Bcheader>
     
     <div class="container" style="height: 100%;">
         <transition
@@ -45,6 +50,9 @@ export default {
     ...mapGetters('auth', ['isAuthenticated', 'loginError', 'isLoading', 'userInfo']),
     ...mapGetters('app', ['getProgramOptions']),
     ...mapState('app', ['pageTitle']),
+    dataReady: function() {
+      return this.userInfo;
+    }
   },
   methods:{
       ...mapMutations('auth', ['setLoading']),
