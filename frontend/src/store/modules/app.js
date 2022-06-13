@@ -20,8 +20,6 @@ export default {
     },
     mutations: {
       setProgramOptions(state, payload){
-        console.log("Setting program options")
-        console.log(payload)
         state.programOptions = payload;
       },
       setStudentStatusCodesOptions(state, payload){

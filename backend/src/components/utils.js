@@ -136,13 +136,11 @@ async function getData(token, url, correlationID) {
         correlationID: correlationID || uuidv4()
       }
     };
-    console.log(getDataConfig)
-    console.log('getData Token: ' + token)
-    log.info('get Data Url', url);
+    // log.info('get Data Url', url);
     const response = await axios.get(url, getDataConfig);
-    log.info(`get Data Status for url ${url} :: is :: `, response.status);
-    log.info(`get Data StatusText for url ${url}  :: is :: `, response.statusText);
-    log.verbose(`get Data Response for url ${url}  :: is :: `, minify(response.data));
+    // log.info(`get Data Status for url ${url} :: is :: `, response.status);
+    // log.info(`get Data StatusText for url ${url}  :: is :: `, response.statusText);
+    // log.verbose(`get Data Response for url ${url}  :: is :: `, minify(response.data));
 
     return response.data;
   } catch (e) {
@@ -361,8 +359,6 @@ const utils = {
   cacheMiddleware,
   getBackendToken,
   getCodeTable
-  
-  
 };
 
 module.exports = utils;

@@ -45,17 +45,6 @@ const intercept = apiAxios.interceptors.response.use(config => config, error => 
   });
 });
 
-// function getCodes(url) {
-//   return async function getCodesHandler(query) {
-//     try {
-//       return await apiAxios.get(url, query);
-//     } catch (e) {
-//       console.log(`Failed to get from Nodejs API - ${e}`);
-//       throw e;
-//     }
-//   };
-// }
-
 export default {
   apiAxios: apiAxios,
   intercept: intercept,

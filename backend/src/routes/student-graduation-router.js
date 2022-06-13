@@ -11,7 +11,6 @@ router.post('*',passport.authenticate('jwt', {session: false}, undefined), postS
 
 async function getStudentGraduationAPI(req, res) {
   const token = getBackendToken(req);
-  console.log(req)
   try {
     const url = `${config.get('server:studentGraduationAPIURL')}` + req.originalUrl;
     const data = await getData(token, url);
@@ -22,7 +21,6 @@ async function getStudentGraduationAPI(req, res) {
 }
 async function postStudentGraduationAPI(req, res) {
   const token = getBackendToken(req);
-  console.log(req)
   try {
     const url = `${config.get('server:studentGraduationAPIURL')}` + req.originalUrl;
     const data = await postData(token, url);

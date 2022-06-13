@@ -22,8 +22,6 @@
         >
 
         <router-view />
-
-       
       </transition>
     </div>
     <BCFooter></BCFooter>
@@ -60,28 +58,21 @@ export default {
        ...mapActions('app', ['setApplicationVariables']),
   },
   async created() {
-
     this.getJwtToken().then(() =>
-      // Promise.all([this.getUserInfo()]).then(function(){
         this.setApplicationVariables()
-      // })
     ).catch(e => {
       if(! e.response) {
         this.logout();
         this.$router.replace({name: 'error', query: { message: `500_${e.data || 'ServerError'}` } });
       }
-  
     }).finally(() => {
       
     });
   }
 }
-
-
 </script>
 
 <style>
-
 #app {
   background: #F9F9FB;
   -webkit-font-smoothing: antialiased;

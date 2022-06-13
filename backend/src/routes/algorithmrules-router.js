@@ -10,7 +10,6 @@ router.get('*',passport.authenticate('jwt', {session: false}, undefined), getalg
 
 async function getalgorithmRulesAPI(req, res) {
   const token = getBackendToken(req);
-  console.log(req)
   try {
     const url = `${config.get('server:studentGraduationAPIURL')}` + req.originalUrl;
     const data = await getData(token, url);

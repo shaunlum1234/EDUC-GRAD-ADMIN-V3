@@ -202,23 +202,6 @@ const router = new VueRouter({
   routes
 });
 
-// router.beforeEach((to, from, next) => {
-//   if(to.matched.some(record => record.meta.requiresAuth)) {
-//       if (localStorage.getItem('jwt') == null) {
-//           next({
-//               path: '/logout',
-//               params: { nextUrl: to.fullPath }
-//           });
-//       }
-//       else {
-//             next();
-//       }
-//   }
-//    else {
-//        next();
-//   }
-// })
-
 router.beforeEach((to, _from, next) => {
   function validateAndExecute(nextRouteInError) {
     store.dispatch('auth/getJwtToken').then(() => {
