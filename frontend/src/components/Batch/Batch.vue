@@ -259,7 +259,7 @@
         <b-button v-b-modal.batch-modal size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
           Run Batch
         </b-button>
-        <b-modal id="batch-modal" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" :ok-title="Confirm" @ok="runBatch(jobId)">
+        <b-modal id="batch-modal" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
           <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }"> 
             <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Now">Run Now</b-form-radio>
             <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Later">Run Later</b-form-radio>
@@ -267,8 +267,8 @@
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="Today">Today at 6:00PM</b-form-radio>
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="Tommorow">Tommrow at 6:00PM</b-form-radio>
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="Custom" @click="showCustomDate">Custom</b-form-radio>
-                    <div v-if="batchRunSchedule == 'Custom'">
-                      <label for="batch-datepicker">Choose a date:</label>
+                    <div class="pl-4" v-if="batchRunSchedule == 'Custom'">
+                      <!-- <label for="batch-datepicker">Choose a date:</label> -->
                       <b-form-datepicker id="batch-datepicker" v-model="batchRunCustomDate" class="mb-2"></b-form-datepicker>
                       <b-form-timepicker
                         id="timepicker-buttons"
@@ -280,9 +280,6 @@
                     </div>
                 </b-form-group>
           </b-form-group>
-          <b-button v-b-modal.batch-modal size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2" @click="runBatch(jobId)">
-            Run Batch
-          </b-button>
         </b-modal>
     </div>
     </b-overlay>
@@ -317,6 +314,23 @@ export default {
     this.certificateTypes = this.getCertificateTypes();
   },
   methods: {
+    disableConfirm(){
+      if(this.batchRunTime == 'Run Now'){
+        return false
+      }else{
+        if(this.batchRunSchedule && this.batchRunSchedule == 'Custom'){
+          if(this.batchRunCustomDate && this.batchRunCustomTime){
+            return false;
+          }else{
+            return true;
+          }
+        }
+        
+      }
+        
+
+      
+    },
     resetModal(){
       this.batchRunTime = ""
       this.batchRunSchedule = ""

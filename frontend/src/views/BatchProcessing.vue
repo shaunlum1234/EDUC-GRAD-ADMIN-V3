@@ -238,6 +238,7 @@ export default {
       jobs: [],   
       selectedTab: 0,     
       searchResults: [], 
+      batchValid: false
       
       
     };
@@ -448,6 +449,49 @@ export default {
         }
       );  
     },    
+    validateBatch(id){
+      let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
+      if(this.tabContent[id].details['who'] == 'School'){
+        schools = this.tabContent[id].schools.map(this.getBatchData);  
+        schools.pop();
+        if(!schools.length){
+          this.validationMessage = "Please select a school."
+          this.batchValid = false;
+          return
+        }
+      }else if(this.tabContent[id].details['who'] == 'Student'){
+        pens = this.tabContent[id].students.map(this.getBatchData);  
+        pens.pop();
+        if(!pens.length){
+          this.validationMessage = "Please select a student."
+          this.batchValid = false;
+          return
+        }
+      }else if(this.tabContent[id].details['who'] == 'District'){
+        districts = this.tabContent[id].districts.map(this.getBatchData);  
+        districtCategoryCode = this.tabContent[id]['details'].categoryCode;
+        districts.pop();
+        if(!districtCategoryCode){
+          this.validationMessage = "Please select a district category"
+          this.batchValid = false;
+        }
+        if(!districts.length){
+          this.validationMessage = "Please select a district."
+          this.batchValid = false;
+          return
+        }
+      }else if(this.tabContent[id].details['who'] == 'Program'){
+        programs = this.tabContent[id].programs.map(this.getBatchData);  
+        programs.pop();
+        if(!programs.length){
+          this.validationMessage = "Please select a program."
+          this.batchValid = false;
+          return
+          
+        }
+      }
+      this.batchValid = true;
+    },
     runbatch(id){    
       let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
       if(this.tabContent[id].details['who'] == 'School'){
