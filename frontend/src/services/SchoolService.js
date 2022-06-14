@@ -2,7 +2,7 @@ import ApiService from '../common/apiService';
 
 export default {
     getSchoolInfo(mincode) {
-        return ApiService.apiAxios.get('/api/v1/school/' + mincode)
+        return ApiService.apiAxios.get('/api/v1/trax/school/' + mincode)
     },
     searchSchools(searchInput) {
         
@@ -21,6 +21,6 @@ export default {
             }
         }
         queryString = queryString.slice(0, -1); //remove trailing ampersand
-        return ApiService.apiAxios.get('/api/v1/school/search?' + queryString)
+        return ApiService.apiAxios.get('/api/v1/trax/school/search?' + queryString)
     }
 };

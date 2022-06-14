@@ -91,18 +91,6 @@ module.exports = {
 //         target: process.env.VUE_APP_STUDENTS_API_HOST,
 //         changeOrigin: true,
 //       },
-//       '/api/v1/algo': {
-//         target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
-//         changeOrigin: true,
-//       },
-//       '/api/v1/lgSc': {
-//         target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
-//         changeOrigin: true,
-//       },
-//       '/api/v1/undocompletion/': {
-//         target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
-//         changeOrigin: true,
-//       },
 //       '/api/v1/graduationreports': {
 //         target: process.env.VUE_APP_GRADUATION_REPORT_API_HOST,
 //         changeOrigin: true,
@@ -111,7 +99,7 @@ module.exports = {
 //         target: process.env.VUE_APP_GRADUATION_REPORT_API_HOST,
 //         changeOrigin: true,
 //       },
-//       '/api/v1/signatures': {
+//       '/api/v1/reports': {
 //         target: process.env.VUE_APP_GRAD_REPORT_API_HOST,
 //         changeOrigin: true,
 //       },      
@@ -119,18 +107,10 @@ module.exports = {
 //         target: process.env.VUE_APP_PROGRAM_API_HOST,
 //         changeOrigin: true,
 //       },
-//       '/api/v1/school': {
+//       '/api/v1/trax': {
 //         target: process.env.VUE_APP_TRAX_API_HOST,
 //         changeOrigin: true,
 //       },
-//       '/api/v1/psi': {
-//         target: process.env.VUE_APP_TRAX_API_HOST,
-//         changeOrigin: true,
-//       },    
-//       '/api/v1/district': {
-//         target: process.env.VUE_APP_TRAX_API_HOST,
-//         changeOrigin: true,
-//       },          
 //       '/api/v1/batch/dashboard': {
 //         target: process.env.VUE_APP_BATCH_GRADUATION_API_HOST,
 //         changeOrigin: true,
@@ -143,7 +123,7 @@ module.exports = {
 //         target: process.env.VUE_APP_BATCH_GRADUATION_API_HOST,
 //         changeOrigin: true,
 //       },
-//       '/api/v1/transcript/gradmessages' : {
+//       '/api/v1/studentgraduation' : {
 //         target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
 //         changeOrigin: true,
 //       }

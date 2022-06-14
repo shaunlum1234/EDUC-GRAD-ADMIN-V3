@@ -29,14 +29,12 @@ const TRAXRouter = require('./routes/trax-router');
 const programsRouter = require('./routes/programs-router');
 const assessmentsRouter = require('./routes/assessments-router');
 const coursesRouter = require('./routes/courses-router');
-const studentcoursesRouter = require('./routes/studentcourse-router');
-const studentexamsRouter = require('./routes/studentexam-router');
 const studentGraduationRouter = require('./routes/student-graduation-router');
 const studentRouter = require('./routes/student-router');
 const graduationReportsRouter = require('./routes/graduation-reports-router');
 const batchRouter = require('./routes/batch-router');
 const graduationRouter = require('./routes/graduation-router');
-const algorithmRulesRouter = require('./routes/algorithmrules-router');
+const reportsRouter = require('./routes/reports-router');
 
 //initialize app
 const app = express();
@@ -154,20 +152,14 @@ apiRouter.use('/auth', authRouter);
 apiRouter.use('/v1/batch', batchRouter);
 apiRouter.use('/v1/program', programsRouter); 
 apiRouter.use('/v1/course', coursesRouter);
-//Will be combined with course router
-apiRouter.use('/v1/studentcourse', studentcoursesRouter);
-apiRouter.use('/v1/studentexam', studentexamsRouter);
+apiRouter.use('/v1/studentgraduation', studentGraduationRouter);
 apiRouter.use('/v1/assessment', assessmentsRouter);
-apiRouter.use('/v1/district', TRAXRouter);
-apiRouter.use('/v1/school', TRAXRouter);
-apiRouter.use('/v1/psi', TRAXRouter);
-apiRouter.use('/v1/transcript', studentGraduationRouter);
-apiRouter.use('/v1/algo', algorithmRulesRouter);
-apiRouter.use('/v1/lgSc', studentGraduationRouter);
-apiRouter.use('/v1/undocompletion', studentGraduationRouter);
+apiRouter.use('/v1/trax', TRAXRouter);
 apiRouter.use('/v1/student', studentRouter);
 apiRouter.use('/v1/graduationreports', graduationReportsRouter);
 apiRouter.use('/v1/graduate', graduationRouter);
+apiRouter.use('/v1/reports', reportsRouter);
+apiRouter.use('/v1/school', TRAXRouter);
 
 //Handle 500 error
 app.use((err, _req, res, next) => {

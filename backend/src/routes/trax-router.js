@@ -11,7 +11,7 @@ router.get('*',passport.authenticate('jwt', {session: false}, undefined), getTRA
 async function getTRAXAPI(req, res) {
   const token = getBackendToken(req);
   try {
-    const url = `${config.get('server:gradTraxURL')}` + req.originalUrl;
+    const url = `${config.get('server:gradTraxAPIURL')}/trax` + req.url;
     const data = await getData(token, url);
     return res.status(200).json(data);
   } catch (e) {

@@ -56,12 +56,6 @@
     proxy /api/v1/course {$VUE_APP_COURSE_API_HOST} {
         header_upstream Cookie "SMSESSION=siteminder"
     }   
-    proxy /api/v1/studentcourse {$VUE_APP_COURSE_API_HOST} {
-        header_upstream Cookie "SMSESSION=siteminder"
-    }
-    proxy /api/v1/studentexam {$VUE_APP_COURSE_API_HOST} {
-        header_upstream Cookie "SMSESSION=siteminder"
-    }
     proxy /api/v1/assessment {$VUE_APP_ASSESSMENT_API_HOST} {
         header_upstream Cookie "SMSESSION=siteminder"
     }

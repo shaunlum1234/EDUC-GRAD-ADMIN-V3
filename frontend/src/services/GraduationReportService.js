@@ -32,10 +32,10 @@ export default {
     return ApiService.apiAxios.get('/api/v1/graduate/report/transcript/' + id + '?interim=Interim')
   }, 
   getDigitalSignatures() {
-    return ApiService.apiAxios.get('/api/v1/signatures/get/all')
+    return ApiService.apiAxios.get('/api/v1/reports/signatures/get/all')
   },
   getDigitalSignaturesBlockTypes() {
-    return ApiService.apiAxios.get('/api/v1/signatures/getSignatureBlockTypeCodes')
+    return ApiService.apiAxios.get('/api/v1/reports/signatures/getSignatureBlockTypeCodes')
   },
 
 };

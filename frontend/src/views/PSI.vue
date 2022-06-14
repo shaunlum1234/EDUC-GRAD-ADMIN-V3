@@ -324,7 +324,7 @@ export default {
       }
     },
     getAllPSI: function () {
-      TRAXService.getPSI(this.token)
+      TRAXService.getPSI()
       .then((res) => {
         this.psi = res.data;
       })
@@ -396,7 +396,7 @@ export default {
               }   
             }             
           }//if this.advanceSearchInput
-          TRAXService.getPSIByAdvanceSearch(this.params,this.token)
+          TRAXService.getPSIByAdvanceSearch(this.params)
             .then((response) => {
               this.advancedSearchLoading = false;
               this.psiResults = response.data;

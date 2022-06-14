@@ -327,9 +327,6 @@ export default {
         }
         
       }
-        
-
-      
     },
     resetModal(){
       this.batchRunTime = ""
@@ -402,7 +399,7 @@ export default {
       if(type == "districts"){
         //remove duplicates
           this.validating = true;
-          TRAXService.getDistrict(value,this.token).then(
+          TRAXService.getDistrict(value).then(
           (response) => {
             if(response.data){
               this.$store.commit("batchprocessing/addValueToTypeInBatchId", {id,type, value});

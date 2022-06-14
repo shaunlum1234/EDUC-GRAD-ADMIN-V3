@@ -3,16 +3,16 @@ import ApiService from '../common/apiService';
 export default {
     getTranscriptMessage() {
 
-        return ApiService.apiAxios.get('/api/v1/transcript/gradmessages')
+        return ApiService.apiAxios.get('/api/v1/studentgraduation/transcript/gradmessages')
       },
     getAlgorithmRules() {
-        return ApiService.apiAxios.get('/api/v1/algo/algorithm-rules')
+        return ApiService.apiAxios.get('/api/v1/studentgraduation/algo/algorithm-rules')
     },
     getLetterGrades() {
-        return ApiService.apiAxios.get('/api/v1/lgSc/lettergrade');
+        return ApiService.apiAxios.get('/api/v1/studentgraduation/lgSc/lettergrade');
     },
     getSpecialCases(){
-        return ApiService.apiAxios.get('/api/v1/lgSc/specialcase');
+        return ApiService.apiAxios.get('/api/v1/studentgraduation/lgSc/specialcase');
     },
     getGraduationPrograms() { 
         return ApiService.apiAxios.get('/api/v1/program/programs');

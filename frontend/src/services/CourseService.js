@@ -26,10 +26,10 @@ export default {
     return ApiService.apiAxios.get('/api/v1/course/courserequirementsearch?' + params);
   },
   getStudentCourseAchievements(pen) {
-    return ApiService.apiAxios.get('/api/v1/studentcourse/pen/' + pen + '?sortForUI=true');
+    return ApiService.apiAxios.get('/api/v1/course/studentcourse/pen/' + pen + '?sortForUI=true');
   },
   getStudentExamDetails(pen) {
-    return ApiService.apiAxios.get('/api/v1/studentexam/pen/' + pen + '?sortForUI=true');
+    return ApiService.apiAxios.get('/api/v1/course/studentexam/pen/' + pen + '?sortForUI=true');
   }
   // getCoursesByAdvanceSearch(params, token) {
   //   const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
