@@ -7,3 +7,7 @@ backend/.env
 frontend/.env
 frontend/.env.development
 frontend/.env.production
+
+#ignore modules
+backend/node_modules
+backend/src/config/local.json
