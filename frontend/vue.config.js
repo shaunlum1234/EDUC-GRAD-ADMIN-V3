@@ -20,14 +20,6 @@ module.exports = {
         target: process.env.VUE_APP_COURSE_API_HOST,
         changeOrigin: true,
       },
-      // '/api/v1/studentgraduation/studentcourse': {
-      //   target: process.env.VUE_APP_COURSE_API_HOST,
-      //   changeOrigin: true,
-      // },
-      // '/api/v1/studentgraduation/studentexam':{
-      //   target: process.env.VUE_APP_COURSE_API_HOST,
-      //   changeOrigin: true,
-      // },
       '/api/v1/studentgraduation/undocompletion/': {
         target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
         changeOrigin: true,
