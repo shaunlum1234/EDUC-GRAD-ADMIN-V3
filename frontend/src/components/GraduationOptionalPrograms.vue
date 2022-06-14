@@ -25,8 +25,6 @@ export default {
   props: {},
   computed: {
     ...mapGetters({
-      token: "auth/getToken",
-      role: "getRoles", 
   })},
   components: {
    DisplayTable: DisplayTable,

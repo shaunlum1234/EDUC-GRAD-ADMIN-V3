@@ -433,7 +433,6 @@
         gradInfo: "getStudentGraduationCreationAndUpdate",
         hasGradStatus: "studentHasGradStatus",
         studentGradStatus: "getStudentGradStatus",
-        token: "auth/getToken",
         studentId: "getStudentId",
         studentPen: "getStudentPen",
         studentInfo: "getStudentProfile",

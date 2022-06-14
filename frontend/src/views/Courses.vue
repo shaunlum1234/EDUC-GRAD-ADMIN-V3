@@ -191,9 +191,6 @@
 
 <script>
   import sharedMethods from '../sharedMethods'
-  import {
-    mapGetters
-  } from "vuex";
   import CourseService from '@/services/CourseService.js';
   import DisplayTable from '@/components/DisplayTable.vue';
   export default {
@@ -420,13 +417,6 @@
         displayMessage: null,
         params:""
       };
-    },
-    computed: {
-      
-      ...mapGetters({
-        token: "auth/getToken",
-        role: "getRoles"
-      }),
     },
     created() {
       this.showNotification = sharedMethods.showNotification

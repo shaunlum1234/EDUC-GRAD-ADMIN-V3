@@ -9,57 +9,68 @@
       <b-card no-body>
         <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
-            <b-card-text class="row">
-              <div :class="isBatchShowing || isErrorShowing ? 'col-12 col-md-7':'col-12'">
-                <DisplayTable title="Job/Runs" :items="batchInfoListData"
-                  v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
-                >
-                  <template #cell(jobExecutionId)="row">
-                    <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
-                      {{row.item.jobExecutionId}}   
-                    </b-btn>
-                    <b-btn v-else disabled variant='link' size="xs">  
-                      {{row.item.jobExecutionId}}   
-                    </b-btn>                  
-                    <b-popover :target="'batch-job-id-btn'+ row.item.jobExecutionId" triggers="focus" :ref="'popover'+row.item.jobExecutionId">
-                      <template #title>Search batch job</template>
-                      <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'batch')">   
-                        All results           
-                      </b-btn>
-                    </b-popover>
-                  </template>
-                  <template #cell(failedStudentsProcessed)="row">
-                    <b-btn v-if="row.item.failedStudentsProcessed != 0" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'error')">  
-                      {{row.item.failedStudentsProcessed}}   
-                    </b-btn>  
-                    <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
-                  </template>
-                </DisplayTable>
-              </div>
-              <!-- All batch results -->
-              <div v-if="isBatchShowing"  class="col-12 col-md-5 float-right pl-2 pr-0">
-                <b-card bg-variant="light" :header="'Batch Job '+ this.adminSelectedBatchId" class="text-left mb-2">
-                  <b-card-text>                
-                    <BatchJobSearchResults :selectedBatchId="adminSelectedBatchId"></BatchJobSearchResults>
-                    <b-btn variant="danger" size="xs" class="float-right" @click="isBatchShowing ^= true">  
-                      Close 
-                    </b-btn> 
+          <div>
+            <b-card no-body class="border-0">
+              <b-tabs pills class="border-0">
+                <b-tab title="Completed" active>
+                  <b-card-text class="row">
+                    <div :class="isBatchShowing || isErrorShowing ? 'col-12 col-md-7':'col-12'">
+                      <DisplayTable title="Job/Runs" :items="batchInfoListData"
+                        v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
+                      >
+                        <template #cell(jobExecutionId)="row">
+                          <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
+                            {{row.item.jobExecutionId}}   
+                          </b-btn>
+                          <b-btn v-else disabled variant='link' size="xs">  
+                            {{row.item.jobExecutionId}}   
+                          </b-btn>                  
+                          <b-popover :target="'batch-job-id-btn'+ row.item.jobExecutionId" triggers="focus" :ref="'popover'+row.item.jobExecutionId">
+                            <template #title>Search batch job</template>
+                            <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'batch')">   
+                              All results           
+                            </b-btn>
+                          </b-popover>
+                        </template>
+                        <template #cell(failedStudentsProcessed)="row">
+                          <b-btn v-if="row.item.failedStudentsProcessed != 0" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'error')">  
+                            {{row.item.failedStudentsProcessed}}   
+                          </b-btn>  
+                          <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
+                        </template>
+                      </DisplayTable>
+                    </div>
+                    <!-- All batch results -->
+                    <div v-if="isBatchShowing"  class="col-12 col-md-5 float-right pl-2 pr-0">
+                      <b-card bg-variant="light" :header="'Batch Job '+ this.adminSelectedBatchId" class="text-left mb-2">
+                        <b-card-text>                
+                          <BatchJobSearchResults :selectedBatchId="adminSelectedBatchId"></BatchJobSearchResults>
+                          <b-btn variant="danger" size="xs" class="float-right" @click="isBatchShowing ^= true">  
+                            Close 
+                          </b-btn> 
+                        </b-card-text>
+                      </b-card>
+                    </div>
+                    <!-- All error results -->
+                    <div v-if="isErrorShowing"  class="col-12 col-md-5 float-right pl-2 pr-0">
+                      <b-card bg-variant="light" :header="'Batch Job Error '+ this.adminSelectedErrorId" class="text-left mb-2">
+                        <b-card-text>                   
+                          <BatchJobErrorResults :selectedErrorId="adminSelectedErrorId"></BatchJobErrorResults>
+                          <b-btn variant="danger" size="xs" class="float-right" @click="isErrorShowing ^= true">  
+                            Close 
+                          </b-btn> 
+                        </b-card-text>
+                      </b-card>
+                    </div>
                   </b-card-text>
-                </b-card>
-              </div>
-              <!-- All error results -->
-              <div v-if="isErrorShowing"  class="col-12 col-md-5 float-right pl-2 pr-0">
-                <b-card bg-variant="light" :header="'Batch Job Error '+ this.adminSelectedErrorId" class="text-left mb-2">
-                  <b-card-text>                   
-                    <BatchJobErrorResults :selectedErrorId="adminSelectedErrorId"></BatchJobErrorResults>
-                     <b-btn variant="danger" size="xs" class="float-right" @click="isErrorShowing ^= true">  
-                      Close 
-                    </b-btn> 
-                  </b-card-text>
-                </b-card>
-              </div>
-            </b-card-text>
-         </b-tab>
+                </b-tab>
+                <b-tab title="Scheduled">
+                  <b-card-text>Scheduled</b-card-text>
+                </b-tab>
+              </b-tabs>
+            </b-card>
+          </div>
+        </b-tab>
          
          <b-tab v-for="i in tabs" :key="'dyn-tab-' + i" :title="'Request ' + i" >
            
@@ -119,7 +130,6 @@ export default {
       tabContent: "batchprocessing/getBatchDetails",
       tabs: "batchprocessing/getBatchProcessingTabs",
       spinners: "batchprocessing/getBatchTabsLoading",
-      token: "auth/getToken",
       courses: "getStudentCourses",
       gradStatusCourses: "gradStatusCourses",
       studentGradStatus: "getStudentGradStatus",

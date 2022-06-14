@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 
 import AssessmentService from "@/services/AssessmentService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
@@ -120,12 +119,6 @@ export default {
         },
       ],
     };
-  },
-  computed: {
-    ...mapGetters({
-      token: "auth/getToken",
-      role: "getRoles"
-    }),
   },
   created() {
     this.getAllAssessment();

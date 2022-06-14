@@ -19,20 +19,12 @@
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 import DisplayTable from "@/components/DisplayTable";
 import sharedMethods from '../sharedMethods';
-import {
-    mapGetters
-} from "vuex";
-
 export default {
   name: "GraduationPrograms",
   components: {
      DisplayTable: DisplayTable,
   },
   props: {},
-  computed: {...mapGetters({
-      token: "auth/getToken",
-      role: "getRoles", 
-  })},
   data: function () {
     return {   
       show: false,

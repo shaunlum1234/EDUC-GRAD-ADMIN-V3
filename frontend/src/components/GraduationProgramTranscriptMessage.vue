@@ -8,17 +8,12 @@
 <script>
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 import DisplayTable from "@/components/DisplayTable";
-import { mapGetters } from "vuex";
 
 export default {
   name: "GraduationProgramTranscriptMessage",
   components: {
     DisplayTable: DisplayTable,
   },
-  computed: {...mapGetters({
-    token: "auth/getToken",
-    role: "getRoles",
-  })},
   data: function() {
     return {
       transcriptMessages: [],

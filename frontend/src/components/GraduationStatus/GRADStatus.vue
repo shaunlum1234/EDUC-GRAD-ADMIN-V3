@@ -298,8 +298,6 @@ export default {
       return this.studentGradStatus.recalculateGradStatus; 
     },
     ...mapGetters({
-    role: "getRoles",
-    token: "auth/getToken",
     optionalPrograms: "getStudentOptionalPrograms",
     programOptions: "app/getProgramOptions",
     studentStatusOptions: "app/getStudentStatusOptions",

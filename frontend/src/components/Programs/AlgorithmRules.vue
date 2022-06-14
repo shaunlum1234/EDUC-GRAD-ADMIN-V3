@@ -16,9 +16,6 @@
 </template>
 
 <script>
-import {
-  mapGetters
-} from "vuex";
 import DisplayTable from "@/components/DisplayTable";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 import sharedMethods from '../../sharedMethods';
@@ -72,12 +69,6 @@ export default {
         }            
       ],
     };
-  },
-  computed: {
-    ...mapGetters({  
-      token: "auth/getToken",
-      role: "getRoles"
-    }),
   },
   methods: {
   },

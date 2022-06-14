@@ -137,9 +137,6 @@
 import SchoolService from '@/services/SchoolService.js';
 import DisplayTable from '@/components/DisplayTable.vue';
 import sharedMethods from '../sharedMethods';
-import {
-mapGetters
-} from "vuex";
   export default {
     name: "schools",
     components: {
@@ -248,11 +245,6 @@ mapGetters
           }
         },
       }
-    },
-    computed: {
-      ...mapGetters({
-        token: "auth/getToken"
-      }),
     },
     created() {
       this.showNotification = sharedMethods.showNotification

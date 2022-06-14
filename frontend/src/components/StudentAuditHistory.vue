@@ -168,7 +168,6 @@ export default {
   computed: {
     ...mapGetters({
         studentId: "getStudentId",
-        token: "auth/getToken",
         studentHistory: 'getStudentAuditHistory',
         optionalProgramHistory: 'getStudentOptionalProgramAuditHistory',
         studentUngradReasons: "getStudentUngradReasons",

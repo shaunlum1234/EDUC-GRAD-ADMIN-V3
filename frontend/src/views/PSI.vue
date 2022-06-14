@@ -214,7 +214,6 @@
 <script>
 import TRAXService from "@/services/TRAXService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
-import { mapGetters } from "vuex";
 import sharedMethods from '../sharedMethods'
 export default {
   name: "psi",
@@ -296,12 +295,6 @@ export default {
         },
       },
     };
-  },
-
-  computed: {
-    ...mapGetters({
-      token: "auth/getToken",
-    }),
   },
   created() {
     this.showNotification = sharedMethods.showNotification;

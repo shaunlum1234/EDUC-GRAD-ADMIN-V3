@@ -119,8 +119,6 @@ export default {
   },
    computed: {
     ...mapGetters({
-      token: "auth/getToken",
-      roles: "getRoles",
       profile: "getStudentProfile"
     }),
   },

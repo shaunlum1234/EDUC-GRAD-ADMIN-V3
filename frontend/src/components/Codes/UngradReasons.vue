@@ -19,9 +19,6 @@
 </template>
 
 <script>
-import {
-  mapGetters
-} from "vuex";
 import DisplayTable from "@/components/DisplayTable";
 import StudentService from "@/services/StudentService.js";
 
@@ -78,12 +75,6 @@ export default {
         },
       ],
     };
-  },
-  computed: {
-    ...mapGetters({  
-      token: "auth/getToken",
-      role: "getRoles"
-    }),
   },
   methods: {
   },
