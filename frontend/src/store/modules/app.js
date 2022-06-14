@@ -37,7 +37,7 @@ export default {
           console.log(localStorage.getItem('jwtToken'))
           ApiService.apiAxios.get('/api/v1/program/programs').then(response => commit('setProgramOptions', response.data))
           ApiService.apiAxios.get('/api/v1/student/studentstatus').then(response => commit('setStudentStatusCodesOptions', response.data))
-          ApiService.apiAxios.get('/api/v1/undocompletion/undocompletionreason').then(response => commit('setUngradReasons', response.data))
+          ApiService.apiAxios.get('/api/v1/studentgraduation/undocompletion/undocompletionreason').then(response => commit('setUngradReasons', response.data))
         }   
       }, 
     },

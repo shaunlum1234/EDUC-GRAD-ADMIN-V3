@@ -49,10 +49,10 @@ export default {
         return ApiService.apiAxios.delete('/api/v1/student/studentnotes/' + noteID)
     },
     getStudentUngradReasons(id) {
-        return ApiService.apiAxios.get('/api/v1/undocompletion/studentundocompletionreason/studentid/' + id)
+        return ApiService.apiAxios.get('/api/v1/studentgraduation/undocompletion/studentundocompletionreason/studentid/' + id)
     },  
     getUngradReasons() {
-        return ApiService.apiAxios.get('/api/v1/undocompletion/undocompletionreason')
+        return ApiService.apiAxios.get('/api/v1/studentgraduation/undocompletion/undocompletionreason')
     },
     getStudentHistory(id) {
         return ApiService.apiAxios.get('/api/v1/student/studentHistory/' + id)

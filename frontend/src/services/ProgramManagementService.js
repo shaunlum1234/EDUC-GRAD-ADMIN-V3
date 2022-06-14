@@ -32,7 +32,9 @@ export default {
     getRequirementTypes() {
          return ApiService.apiAxios.get('/api/v1/program/gradrequirementtype')
     },  
-    
+    getCareerPrograms() {
+        return ApiService.apiAxios.get('/api/v1/program/careerprogram')
+    },
     // //Program CRUD
     // createProgram(program, token){
     //     const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
@@ -59,9 +61,6 @@ export default {
     //     const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
     //     return apiClient.put('/api/v1/program/optionalprograms',optionalProgram,{ headers })
     // },    
-    // getCareerPrograms(token) {
-    //     const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-    //     return ApiService.apiAxios.get('/api/v1/program/careerprogram',{ headers });
-    // },
+  
     
 };
