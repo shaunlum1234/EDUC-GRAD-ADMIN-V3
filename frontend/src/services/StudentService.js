@@ -69,7 +69,9 @@ export default {
     },  
     getUngradReasons(token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/studentgraduation/undocompletion/undocompletionreason',{ headers });
+        let x = apiClient.get('/api/v1/studentgraduation/undocompletion/undocompletionreason',{ headers });
+        console.log(x);
+        return x;
     },
     getStudentHistory(id, token) {
         const headers = { Accept: 'application/json','Content-Type': 'application/json','Authorization': 'Bearer '+ token }

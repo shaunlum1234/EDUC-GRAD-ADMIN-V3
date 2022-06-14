@@ -53,7 +53,7 @@ export default {
           }
         ).catch((error) => {
           // eslint-disable-next-line
-          console.log(error.response.status);
+          console.log('Initial load error', error.response.status);
         });        
       }, 
     },
