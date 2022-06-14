@@ -1,3 +1,9 @@
 .idea/**
 # Ignore VS Code settings
 .vscode/**
+
+#ignore .env files
+backend/.env
+frontend/.env
+frontend/.env.development
+frontend/.env.production
