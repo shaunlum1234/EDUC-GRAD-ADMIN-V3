@@ -24,6 +24,18 @@ module.exports = {
         target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
         changeOrigin: true,
       },
+      '/api/v1/studentgraduation/algo/algorithm-rules': {
+        target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/studentgraduation/lgSc/lettergrade': {
+        target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/studentgraduation/lgSc/specialcase': {
+        target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
+        changeOrigin: true,
+      },
       '/api/v1/studentassessment': {
         target: process.env.VUE_APP_ASSESSMENT_API_HOST,
         changeOrigin: true,
@@ -98,6 +110,10 @@ module.exports = {
       },
       '/api/v1/batch': {
         target: process.env.VUE_APP_BATCH_GRADUATION_API_HOST,
+        changeOrigin: true,
+      },
+      '/api/v1/studentgraduation/transcript/gradmessages' : {
+        target: process.env.VUE_APP_STUDENT_GRADUATION_API_HOST,
         changeOrigin: true,
       },
     }
