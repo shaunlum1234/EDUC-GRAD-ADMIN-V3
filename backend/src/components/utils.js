@@ -18,6 +18,7 @@ axios.interceptors.request.use((axiosRequestConfig) => {
   axiosRequestConfig.headers['X-Client-Name'] = 'GRAD-ADMIN';
   return axiosRequestConfig;
 });
+
 // Returns OIDC Discovery values
 async function getOidcDiscovery() {
   if (!discovery) {
@@ -31,26 +32,6 @@ async function getOidcDiscovery() {
   return discovery;
 }
 
- /**
-  * This function will modify the session by changing `tempSessionExtensionIdentifier`. 
-  * Please be CAREFUL when using this with parallel api calls from UI Side, when you want to store some data in session in one of the api calls.
-  * more documentation found here https://github.com/expressjs/session#readme, look at the resave section.
-  * even though our app uses `resave:false` modifying session in parallel api calls will have race condition, which will lead to undesired outcomes based on api call finish times.
-  */
-  function extendSession() {
-    return function (req, res, next) {
-      if (req && req.session) {
-        log.debug('req.session.cookie.maxAge before is ::', req.session.cookie.maxAge);
-        req['session'].touch();
-        // NOSONAR
-        req['session'].tempSessionExtensionIdentifier = Math.random(); // DO NOT USE this key anywhere else in session.
-        log.debug('req.session.cookie.maxAge after is ::', req.session.cookie.maxAge);
-        return next();
-      } else {
-        return next(); // let the next handler deal with what to do when no session
-      }
-    };
-  }
 function getUser(req) {
   const thisSession = req.session;
   if (thisSession && thisSession['passport'] && thisSession['passport'].user && thisSession['passport'].user.jwt) {
