@@ -121,8 +121,8 @@ const auth = {
     if (typeof (payload['exp']) !== 'undefined' && payload['exp'] !== null) {
       return payload['exp'] === 0 || payload['exp'] > now;
     } else if (typeof (payload['iat']) !== 'undefined' && payload['iat'] !== null) {
-      const expiresIn = config.get('tokenGenerate:expiresIn') || '30m'
-      return payload['iat'] + expiresIn > now;
+      const expiresIn = config.get('tokenGenerate:expiresIn') || '1800'
+      return payload['iat'] + parseInt(expiresIn) > now;
     } else {
       return false;
     }
