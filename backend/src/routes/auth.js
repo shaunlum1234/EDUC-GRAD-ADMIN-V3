@@ -4,6 +4,7 @@ const config = require('../config/index');
 const passport = require('passport');
 const express = require('express');
 const auth = require('../components/auth');
+const roles = require('../components/roles');
 const jsonwebtoken = require('jsonwebtoken');
 const log = require('../components/logger');
 const HttpStatus = require('http-status-codes');
@@ -12,6 +13,9 @@ const {
   body,
   validationResult
 } = require('express-validator');
+
+const isValidStaffUserWithRoles = auth.isValidUserWithRoles('', [roles.Admin.StaffAdministration]);
+
 const router = express.Router();
 
 //provides a callback location for the auth service
@@ -68,9 +72,10 @@ async function generateTokens(req, res) {
     req['user'].jwt = newTokens.jwt;
     req['user'].refreshToken = newTokens.refreshToken;
     req['user'].jwtFrontend = auth.generateUiToken();
+    const isAuthorizedUser = isValidStaffUserWithRoles(req);
     const responseJson = {
       jwtFrontend: req.user.jwtFrontend,
-      isAuthorizedUser: true,
+      isAuthorizedUser: isAuthorizedUser,
     };
     return res.status(HttpStatus.OK).json(responseJson);
   } else {
@@ -98,9 +103,10 @@ router.post('/refresh', [
         res.status(HttpStatus.UNAUTHORIZED).json();
       }
     } else {
+      const isAuthorizedUser = isValidStaffUserWithRoles(req);
       const responseJson = {
         jwtFrontend: req.user.jwtFrontend,
-        isAuthorizedUser: true
+        isAuthorizedUser: isAuthorizedUser
       };
       return res.status(HttpStatus.OK).json(responseJson);
     }
@@ -109,10 +115,11 @@ router.post('/refresh', [
 
 //provides a jwt to authenticated users
 router.get('/token', auth.refreshJWT, (req, res) => {
+  const isAuthorizedUser = isValidStaffUserWithRoles(req);
   if (req['user'] && req['user'].jwtFrontend && req['user'].refreshToken) {
     const responseJson = {
       jwtFrontend: req['user'].jwtFrontend,
-      isAuthorizedUser: true
+      isAuthorizedUser: isAuthorizedUser
     };
     req.session.correlationID = uuidv4();
     res.status(HttpStatus.OK).json(responseJson);

@@ -118,8 +118,14 @@ const auth = {
     const payload = jsonwebtoken.decode(token);
 
     // Check if expiration exists, or lacks expiration
-    return (typeof (payload['exp']) !== 'undefined' && payload['exp'] !== null &&
-      payload['exp'] === 0 || payload['exp'] > now);
+    if (typeof (payload['exp']) !== 'undefined' && payload['exp'] !== null) {
+      return payload['exp'] === 0 || payload['exp'] > now;
+    } else if (typeof (payload['iat']) !== 'undefined' && payload['iat'] !== null) {
+      const expiresIn = config.get('tokenGenerate:expiresIn') || '30m'
+      return payload['iat'] + expiresIn > now;
+    } else {
+      return false;
+    }
   },
 
   // Get new JWT and Refresh tokens

@@ -3,11 +3,13 @@ const express = require('express');
 const router = express.Router();
 const config = require('../config/index');
 const auth = require('../components/auth');
+const roles = require("../components/roles");
 const { errorResponse, getBackendToken, getData, postData, putData, deleteData} = require('../components/utils');
+const isValidUiTokenWithStaffRoles = auth.isValidUiTokenWithRoles('GRAD_SYSTEM_COORDINATOR', [roles.Admin.StaffAdministration]);
 
 //Program Routes
-router.get('*',passport.authenticate('jwt', {session: false}, undefined), getStudentGraduationAPI);
-router.post('*',passport.authenticate('jwt', {session: false}, undefined), postStudentGraduationAPI);
+router.get('*',passport.authenticate('jwt', {session: false}, undefined), isValidUiTokenWithStaffRoles, getStudentGraduationAPI);
+router.post('*',passport.authenticate('jwt', {session: false}, undefined), isValidUiTokenWithStaffRoles, postStudentGraduationAPI);
 
 async function getStudentGraduationAPI(req, res) {
   const token = getBackendToken(req);

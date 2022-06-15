@@ -36,6 +36,9 @@ nconf.defaults({
     session: {
       maxAge: +process.env.SESSION_MAX_AGE
     },
+    administration: {
+      roleAdmin: process.env.GRAD_ROLE_ADMIN
+    },
     idirIDPHint: process.env.IDIR_IDP_HINT,
     assessmentAPIURL: process.env.ASSESSMENT_API_URL,
     batchAPIURL: process.env.BATCH_API_URL,
