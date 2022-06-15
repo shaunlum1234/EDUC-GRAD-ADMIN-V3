@@ -71,8 +71,67 @@
                 :value="tabContent[jobId].details['who']"     
                 @change="editBatchJob(jobId,'who', $event)"       
                 v-else
-              ></b-form-select>                    
+              ></b-form-select>   
+              <label class="font-weight-bold">Group Range</label>
+              <b-form-select
+                id="inline-form-select-audience"
+                class="mb-2 mr-sm-2 mb-sm-0"
+                :options="[{ text: 'Current Students', value: 'Current Students' }, { text: 'Date Range', value: 'Date Range' }]"
+                :value="tabContent[jobId].details['groupRange']"     
+                @change="editBatchJob(jobId,'groupRange', $event)"    
+              ></b-form-select>     
           </div>
+
+          <div class="m-0 p-0 col-12">
+            {{tabContent[jobId]}}
+              <div class="date-ranges col-12 row" v-if="tabContent[jobId].details['groupRange']=='Date Range'">            
+                <div class="float-left col-3" >
+                  <strong><label for="example-input">Start Range</label></strong>
+                  <b-input-group class="mb-3">
+                    <b-form-input
+                      id="example-input"
+                      v-model="value"
+                      type="text"
+                      placeholder="YYYY-MM-DD"
+                      autocomplete="off"
+                    ></b-form-input>
+                    <b-input-group-append>
+                      <b-form-datepicker
+                        v-model="tabContent[jobId].details['groupRangeStart']"
+                        button-only
+                        right
+                        locale="en-US"
+                        aria-controls="example-input"
+                        @context="validateDate"
+                      ></b-form-datepicker>
+                    </b-input-group-append>
+                  </b-input-group>
+                </div>
+
+                <div class="float-left col-3">
+                  <strong><label for="example-input">End Range</label></strong>
+                  <b-input-group class="mb-3">
+                    <b-form-input
+                      id="example-input"
+                      v-model="tabContent[jobId].details['groupRangeEnd']"
+                      type="text"
+                      placeholder="YYYY-MM-DD"
+                      autocomplete="off"
+                    ></b-form-input>
+                    <b-input-group-append>
+                      <b-form-datepicker
+                        v-model="value"
+                        button-only
+                        right
+                        locale="en-US"
+                        aria-controls="example-input"
+                        @context="onContext"
+                      ></b-form-datepicker>
+                    </b-input-group-append>
+                  </b-input-group>
+                </div>
+              </div>
+           </div>          
                     
           <div class="p-0 mt-3 col-3" v-if="tabContent[jobId].details['who'] == 'District'">
             <label class="font-weight-bold">District Category</label>
@@ -84,7 +143,7 @@
               @change="editBatchJob(jobId,'categoryCode', $event)"
             ></b-form-select>
           </div>
-          <div class="mt-1" v-if="tabContent[jobId].details['what'] == 'DISTRUN'">
+          <div class="mt-1 col-3" v-if="tabContent[jobId].details['what'] == 'DISTRUN'">
             <label class="font-weight-bold">Copies</label>
             <b-form-input
                 type="number"
@@ -266,7 +325,7 @@
                 <b-form-group v-if="batchRunTime == 'Run Later'" label="Schedule" v-slot="{ ariaDescribedby }">
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="Today">Today at 6:00PM</b-form-radio>
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="Tommorow">Tommrow at 6:00PM</b-form-radio>
-                  <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="Custom" @click="showCustomDate">Custom</b-form-radio>
+                  <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="Custom">Custom</b-form-radio>
                     <div class="pl-4" v-if="batchRunSchedule == 'Custom'">
                       <!-- <label for="batch-datepicker">Choose a date:</label> -->
                       <b-form-datepicker id="batch-datepicker" v-model="batchRunCustomDate" class="mb-2"></b-form-datepicker>
@@ -335,6 +394,12 @@ export default {
       this.batchRunCustomTime = ""
     },
     runBatch(id){
+      let dateTime = new Date(this.batchRunCustomDate + "T" + this.batchRunCustomTime )
+      
+      let cronTime = dateTime.getYear() + dateTime.getMonth() + " " + dateTime.getDay() + " " + dateTime.getHours() + " " + dateTime.getMinutes()
+      console.log("CRONTIME" + cronTime)
+      
+
       this.$emit("runbatch",id)
     },
     cancelBatchJob(id){

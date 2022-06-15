@@ -49,6 +49,7 @@ export default {
     },
     clearBatchDetails(state,payload){
       state.batchDetails[payload]['details'].who="Choose...";
+      state.batchDetails[payload]['details'].groupRange="Current Students";
       state.batchDetails[payload].schools=[{}];
       state.batchDetails[payload].districts=[{}];
       state.batchDetails[payload].programs=[{}];
