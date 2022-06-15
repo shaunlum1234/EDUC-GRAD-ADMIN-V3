@@ -1,7 +1,6 @@
 <template>
   <div>
-  <DisplayTable v-bind:items="algorithmRules" title="Program" v-bind:filterOn="toFilterItem" v-bind:fields="algorithmRulesFields" id="specialCase" showFilter="true"
-        v-bind:role="role">
+  <DisplayTable v-bind:items="algorithmRules" title="Program" v-bind:filterOn="toFilterItem" v-bind:fields="algorithmRulesFields" id="specialCase" showFilter="true">
         <template #cell(ruleName)="row">
           {{row.item.algorithmRuleCode.label}}
         </template>
