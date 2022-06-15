@@ -3,9 +3,11 @@ const express = require('express');
 const router = express.Router();
 const config = require('../config/index');
 const auth = require('../components/auth');
+const roles = require("../components/roles");
 const { errorResponse, getBackendToken, getData} = require('../components/utils');
+const isValidUiTokenWithStaffRoles = auth.isValidUiTokenWithRoles('GRAD_SYSTEM_COORDINATOR', [roles.Admin.StaffAdministration]);
 
-router.get('/*',passport.authenticate('jwt', {session: false}, undefined), getStudentExamAPI);
+router.get('/*',passport.authenticate('jwt', {session: false}, undefined), isValidUiTokenWithStaffRoles, getStudentExamAPI);
 
 async function getStudentExamAPI(req, res) {
     const token = getBackendToken(req);

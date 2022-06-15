@@ -28,7 +28,7 @@
                     <div class="my-4 pl-2 float-left"><a v-if="studentHasProgram == false" href="#" > PEN Student Inquiry.</a></div> 
                   </div>
                 </form>
-                <div v-if="roles == 'administrator'" class="sample-pens m-3">
+                <div class="sample-pens m-3">
                   Samples: V0.1.2
                   <div class="row col-12">
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByStudentIdSample('ac339d70-7649-1a2e-8176-4a00dfa87ff1')">Student 1</a> 1950 NOT COMPLETED</div>
