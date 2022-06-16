@@ -14,7 +14,7 @@ const {
   validationResult
 } = require('express-validator');
 
-const isValidStaffUserWithRoles = auth.isValidUserWithRoles('', [roles.Admin.StaffAdministration]);
+const isValidStaffUserWithRoles = auth.isValidUserWithRoles('GRAD_SYSTEM_COORDINATOR', [roles.Admin.StaffAdministration]);
 
 const router = express.Router();
 
