@@ -20,6 +20,7 @@ export default {
     getToken: state => state.jwtToken,
     jwtToken: () => localStorage.getItem('jwtToken'),
     userInfo: state => state.userInfo,
+    roles: state => state.userInfo.userRoles,
     loginError: state => state.loginError,
     error: state => state.error,
     isLoading: state => state.isLoading

@@ -15,12 +15,11 @@
         <a :href='routes.LOGIN' class="text-white">Login</a>
       </div>
     </Bcheader>
-    
+  
     <div class="container" style="height: 100%;">
         <transition
           name="fade"
         >
-
         <router-view />
       </transition>
     </div>
@@ -45,7 +44,8 @@ export default {
       }
   },
   computed: {
-    ...mapGetters('auth', ['isAuthenticated', 'loginError', 'isLoading', 'userInfo']),
+  
+    ...mapGetters('auth', ['roles','isAuthenticated', 'loginError', 'isLoading', 'userInfo']),
     ...mapGetters('app', ['getProgramOptions']),
     ...mapState('app', ['pageTitle']),
     dataReady: function() {
@@ -53,6 +53,7 @@ export default {
     }
   },
   methods:{
+      
       ...mapMutations('auth', ['setLoading']),
       ...mapActions('auth', ['getJwtToken', 'getUserInfo', 'logout']),
        ...mapActions('app', ['setApplicationVariables']),

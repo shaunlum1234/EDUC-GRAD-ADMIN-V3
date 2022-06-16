@@ -269,6 +269,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+
 import SchoolService from "@/services/SchoolService.js";
 import sharedMethods from '../../sharedMethods';
 import StudentService from "@/services/StudentService.js";
@@ -276,6 +277,7 @@ import StudentService from "@/services/StudentService.js";
 export default {
   name: "GRADStatus",
   computed: {
+    ...mapGetters('auth', ['roles']),
     studentGradeChange(){
       return this.editedGradStatus.studentGrade;
     },
