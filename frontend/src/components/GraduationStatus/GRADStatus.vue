@@ -5,7 +5,7 @@
       header="GRAD status"
       >
       <b-card-text class="p-3">         
-        <b-button-group v-if="this.role =='administrator'" class="gradstatus-actions float-right">
+        <b-button-group v-if="this.roles.includes('Administrator')" class="gradstatus-actions float-right">
           <div v-if="!showEdit">
             <b-link href="#" class="edit" v-on:click="editGradStatus" size="sm" variant="primary">
               Edit 

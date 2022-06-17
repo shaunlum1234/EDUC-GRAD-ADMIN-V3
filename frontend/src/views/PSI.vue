@@ -139,7 +139,7 @@
               <div v-if="psiResults">
                 <div v-if="totalResults > 0" class="row">
                   <div class="search-results-message my-3 col-12 col-md-8">
-                    <strong>{{ totalResults }}</strong> PSIs found.
+                    <strong>{{ totalResults }}</strong> Post Secondary Institutions found.
                   </div>
                 </div>
                 <div v-if="advancedSearchMessage" class="row">

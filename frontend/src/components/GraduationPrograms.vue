@@ -2,7 +2,7 @@
   <div>
     <div v-if="!selectedProgramCode">
       <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="programCode" showFilter="true"
-        v-bind:role="role" pagination="true">
+        v-bind:role="roles" pagination="true">
         <template #cell(effectiveDate)="row">
             {{ row.item.effectiveDate | formatSimpleDate }}
         </template>

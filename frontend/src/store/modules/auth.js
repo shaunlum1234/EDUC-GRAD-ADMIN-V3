@@ -20,7 +20,13 @@ export default {
     getToken: state => state.jwtToken,
     jwtToken: () => localStorage.getItem('jwtToken'),
     userInfo: state => state.userInfo,
-    roles: state => state.userInfo.userRoles,
+    roles: state => {
+      if (state.userInfo.userRoles && state.userInfo.userRoles.includes("GRAD_SYSTEM_COORDINATOR")){
+        return "Administrator"
+      }else if (state.userInfo.userRoles){
+        return "Authenticated"
+      }else return "Not Authenticated"
+    },
     loginError: state => state.loginError,
     error: state => state.error,
     isLoading: state => state.isLoading
