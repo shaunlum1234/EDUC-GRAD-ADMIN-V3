@@ -140,6 +140,7 @@
         //reset results
         this.totalResults= "";
         this.searchMessage= "";
+        this.searchLoading = true;
 
         if(!this.mincode) {
           this.totalResults = "";
