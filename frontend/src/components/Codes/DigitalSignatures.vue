@@ -67,7 +67,7 @@ export default {
         },
         {
           key: "districtName",
-          label: "District Name",
+          label: "Organization",
           sortable: true,
         },
         {
