@@ -35,10 +35,10 @@
                 <div v-if="totalResults > 0 && !searchLoading" class="row">
                   <div class="search-results-message my-3 col-12 col-md-8"><strong>{{ totalResults }}</strong> report{{ totalResults === 1 ? '' : 's'}} found.</div>
                 </div>
-                <div v-if="searchMessage" class="row">
-                  <div class="search-results-message my-2 col-12 col-md-8"><strong>{{ searchMessage }}</strong></div>
-                </div>  
               </div>
+            <div v-if="searchMessage" class="row">
+                <div class="search-results-message my-2 col-12 col-md-8"><strong>{{ searchMessage }}</strong></div>
+            </div>  
             </b-container>
 
             <DisplayTable title="Results" v-bind:items="reports" v-bind:fields="reportFields" sortKey="report" id="mincode" v-bind:showFileter=true pagination="true">schoolReportSearch
