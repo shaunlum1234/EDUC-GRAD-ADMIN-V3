@@ -89,7 +89,7 @@
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks" >Projected final marks</b-dropdown-item>
               <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg">Projected final marks and registrations</b-dropdown-item>
-                <b-dropdown-item v-on:click="updateStudentReports">Update Student Reports</b-dropdown-item>
+                <b-dropdown-item v-if="studentGradStatus.programCompletionDate" v-on:click="updateStudentReports">Update Student Reports</b-dropdown-item>
             </b-dropdown>
           </div>
       </div>
