@@ -55,6 +55,9 @@
               <template #cell(updateDate)="row">
                 {{ row.item.updateDate | formatSimpleDate }}
               </template>
+              <template #cell(createDate)="row">
+                {{ row.item.createDate | formatSimpleDate }}
+              </template>
             </DisplayTable>
           </b-card-text>
         </b-tab>
@@ -111,6 +114,13 @@
           {
             key: 'updateDate',
             label: 'Last Update Date',
+            sortable: true,
+            sortDirection: 'asc'
+          },
+          {
+            // TODO: confirm this is OK w/Kim
+            key: 'createDate',
+            label: 'Distribution Date',
             sortable: true,
             sortDirection: 'asc'
           },
