@@ -2,7 +2,7 @@
   <div>
         <div v-if="!selectedProgramCode">
           <DisplayTable v-bind:items="graduationProgramRules" title="Program" v-bind:fields="graduationProgramsFields" id="programCode"
-            v-bind:role="role" :slots="templates" showFilter=true pagination=true>
+            v-bind:role="roles" :slots="templates" showFilter=true pagination=true>
 
             <template #cell(ruleCode)="row">
                 <b-btn variant='outline primary' style="color:#666" size="xs" @click="row.toggleDetails">
@@ -11,7 +11,11 @@
               </template>
 
             <template #cell(programRequirementCode.traxReqNumber)="row">
-              {{row.item.programRequirementCode.traxReqNumber === row.item.programRequirementCode.proReqCode ? '' : row.item.programRequirementCode.traxReqNumber}}
+              {{ row.item.programRequirementCode.traxReqNumber === row.item.programRequirementCode.proReqCode ? '' : row.item.programRequirementCode.traxReqNumber }}
+            </template>
+
+            <template #cell(programRequirementCode.traxReqChar)='row'>
+              {{ row.item.programRequirementCode.traxReqChar }}
             </template>
           </DisplayTable>
         </div>
@@ -34,10 +38,8 @@ export default {
     DisplayTable: DisplayTable,
   },
   props: {},
-  computed: {...mapGetters({
-      token: "getToken",
-      role: "getRoles", 
-  })},
+  
+  computed: {...mapGetters('auth', ['roles'])},
   data: function () {
     return {
       
@@ -70,6 +72,13 @@ export default {
           {
             key: 'programRequirementCode.traxReqNumber',
             label: 'Transcript Req #',
+            sortable: true,
+            editable: true,
+            class: '',
+          },
+          {
+            key: 'programRequirementCode.traxReqChar',
+            label: 'TRAX Non-Grad Code',
             sortable: true,
             editable: true,
             class: '',
@@ -144,7 +153,7 @@ export default {
   },
   created() {
     
-    ProgramManagementService.getProgramRules(this.token)
+    ProgramManagementService.getProgramRules()
       .then((response) => {
         this.graduationProgramRules = response.data;
       })

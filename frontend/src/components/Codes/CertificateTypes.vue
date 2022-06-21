@@ -9,21 +9,21 @@
     showFilter="true"
   >
     <template #cell(effectiveDate)="row">
-      {{ row.item.effectiveDate | formatTime }}
+      {{ row.item.effectiveDate | formatSimpleDate }}
     </template>
     <template #cell(expiryDate)="row">
-      {{ row.item.expiryDate | formatTime }}
+      {{ row.item.expiryDate | formatSimpleDate }}
+    </template>
+    <template #cell(language)="row">
+        {{ row.item.language }}
     </template>
   </DisplayTable>
   </div>
 </template>
 
 <script>
-import {
-  mapGetters
-} from "vuex";
 import DisplayTable from "@/components/DisplayTable";
-import GraduationCommonService from "@/services/GraduationCommonService.js";
+import GraduationReportService from "@/services/GraduationReportService.js";
 
 
 export default {
@@ -32,7 +32,7 @@ export default {
     DisplayTable: DisplayTable,
   },
   created() {
-    GraduationCommonService.getCertificateTypes(this.token)
+    GraduationReportService.getCertificateTypes()
     .then((response) => {
     
       this.certificateTypes = response.data;
@@ -55,7 +55,7 @@ export default {
           label: "Code",
           sortable: true,
           sortDirection: "desc",
-          class: "w-15"
+          class: "w-10"
         },
         {
           key: "label",
@@ -66,6 +66,12 @@ export default {
           key: "description",
           label: "Description",
           sortable: true,
+        },
+        {
+          key: "language",
+          label: "Language",
+          sortable: true,
+          class: "w-10",
         },
         {
           key: "effectiveDate",
@@ -79,12 +85,6 @@ export default {
         }
       ],
     };
-  },
-  computed: {
-    ...mapGetters({  
-      token: "getToken",
-      role: "getRoles"
-    }),
   },
   methods: {
   },

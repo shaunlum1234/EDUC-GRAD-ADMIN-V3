@@ -1,8 +1,8 @@
 <template>
   <div>
-    <p>When a User "ungrads" a student (security permissions needed), the User must select an "ungrad" reason.  The list of Ungrad Reasons a User can choose from are maintained in this table. </p>
+    <p>When a User performs the "Undo Completion" process (security permissions needed), the User must select an "Undo Completion" reason.  The list of Undo Completion reasons are maintained in this table.</p>
   <DisplayTable
-    title="Ungrad Reasons"
+    title="Undo Completion Reasons"
     v-bind:items="ungradReasons"
     v-bind:fields="ungradReasonsFields"
     id=""
@@ -19,9 +19,6 @@
 </template>
 
 <script>
-import {
-  mapGetters
-} from "vuex";
 import DisplayTable from "@/components/DisplayTable";
 import StudentService from "@/services/StudentService.js";
 
@@ -32,7 +29,7 @@ export default {
     DisplayTable: DisplayTable,
   },
   created() {
-      StudentService.getUngradReasons(this.token)
+      StudentService.getUngradReasons()
       .then((response) => {
       
         this.ungradReasons = response.data;
@@ -78,12 +75,6 @@ export default {
         },
       ],
     };
-  },
-  computed: {
-    ...mapGetters({  
-      token: "getToken",
-      role: "getRoles"
-    }),
   },
   methods: {
   },

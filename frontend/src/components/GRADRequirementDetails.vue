@@ -6,7 +6,7 @@
             no-body
             header="Assessment Requirements"
           >
-        <b-card-text class="p-3">      
+        <b-card-text class="p-3">    
           <DisplayTable v-if="hasGradStatus" :items="gradStatusAssessments" :fields="fields2" showFilter="true" title="RequirementDetailsAssessments">
             <template #cell(gradReqMet)="row">            
               <div class="d-flex flex-column text-md-left">
@@ -29,12 +29,11 @@
             no-body
             header="Course Requirements"
           >
-        <b-card-text class="p-3">   
+        <b-card-text class="p-3">  
           <DisplayTable v-if="hasGradStatus && gradStatusCourses" :items="gradStatusCourses" :fields="fields" showFilter="true" title="RequirementDetailsCourses">
             <template #cell(gradReqMet)="row">
               <div class="d-flex flex-column text-md-left">
                 <div class="gradReqsMet">
-
                     <span v-if="row.item.used">{{row.item.gradReqMet ? row.item.gradReqMet : "" }}</span>   
                     <span v-if="!row.item.used">Not Used</span>     
                     <span v-if="row.item.notCompleted">Incomplete Course</span>     
@@ -42,7 +41,7 @@
                     <span v-if="row.item.failed">Failed</span>   
                     <span v-if="row.item.duplicate">Repeat</span>   
                     <span v-if="row.item.careerPrep">Career Prep course</span>   
-                    <span v-if="row.item.localDeveloped">Locally Developed course</span>     
+                    <span v-if="row.item.locallyDeveloped">Locally Developed course</span>     
                     <span v-if="row.item.boardAuthorityAuthorized">Board/Authority Authorized Course</span>
                     <span v-if="row.item.independentDirectedStudies">Independent Directed Studies course</span>
                     <span v-if="row.item.cutOffCourse">Course taken after Cut-off</span>
@@ -157,12 +156,18 @@ export default {
           sortable: true,
           sortDirection: "desc",
         },
-
-        { key: "completedCoursePercentage", label: "%",class: "text-md-right ",
+        {
+          key: "interimPercent",
+          label: "Interim %",
+          class: "text-md-center",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        { key: "completedCoursePercentage", label: "Completed Course %",class: "text-md-center ",
           sortable: true,
           sortDirection: "desc", 
         },
-        { key: "completedCourseLetterGrade", label: "LG",class: "text-md-left",
+        { key: "completedCourseLetterGrade", label: "LG",class: "text-md-center",
           sortable: true,
           sortDirection: "desc", 
         },

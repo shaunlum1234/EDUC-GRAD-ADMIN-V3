@@ -2,7 +2,7 @@
   <div>
     <div v-if="!selectedProgramCode">
       <DisplayTable v-bind:items="graduationPrograms" title="Program" v-bind:fields="graduationProgramsFields" id="programCode" showFilter="true"
-        v-bind:role="role" pagination="true">
+        v-bind:role="roles" pagination="true">
         <template #cell(effectiveDate)="row">
             {{ row.item.effectiveDate | formatSimpleDate }}
         </template>
@@ -19,20 +19,16 @@
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 import DisplayTable from "@/components/DisplayTable";
 import sharedMethods from '../sharedMethods';
-import {
-    mapGetters
-} from "vuex";
-
+import { mapGetters } from "vuex";
 export default {
   name: "GraduationPrograms",
   components: {
      DisplayTable: DisplayTable,
   },
   props: {},
-  computed: {...mapGetters({
-      token: "getToken",
-      role: "getRoles", 
-  })},
+  computed: {
+    ...mapGetters('auth', ['roles'])
+  },
   data: function () {
     return {   
       show: false,
@@ -65,6 +61,13 @@ export default {
           sortable: true,
         },
         {
+          key: 'associatedCredential',
+          label: 'Associated Credential',
+          sortable: true,
+          sortDirection: 'desc',
+          editable: true,
+        },   
+        {
           key: "effectiveDate",
           label: "Effective Date",
           sortable: true,
@@ -81,7 +84,7 @@ export default {
   },
   created() {  
     this.showNotification = sharedMethods.showNotification 
-    ProgramManagementService.getGraduationPrograms(this.token)
+    ProgramManagementService.getGraduationPrograms()
       .then((response) => {
         this.graduationPrograms = response.data;
       })

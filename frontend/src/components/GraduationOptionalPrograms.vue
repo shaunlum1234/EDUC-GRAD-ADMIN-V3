@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <DisplayTable v-bind:items="graduationOptionalPrograms" title="Optional Programs" v-bind:fields="graduationOptionalProgramsFields" id="id" showFilter="true" isOptionalProgram="true">
       <template #cell(effectiveDate)="row">
         {{ row.item.effectiveDate | formatSimpleDate }}
@@ -26,8 +25,6 @@ export default {
   props: {},
   computed: {
     ...mapGetters({
-      token: "getToken",
-      role: "getRoles", 
   })},
   components: {
    DisplayTable: DisplayTable,
@@ -35,9 +32,7 @@ export default {
   data: function () {
     return {
       opened: [],
-      //graduationOptionalProgramsFields:[],
       graduationOptionalPrograms:[],
-      //selectedProgramCode: "",
       selectedProgramId: "",
       selectedId:'',
       graduationOptionalProgramsFields: [
@@ -70,7 +65,14 @@ export default {
             sortDirection: 'desc',
             editable: true,
             class: 'w-1',
-          },          
+          },       
+          {
+            key: 'associatedCredential',
+            label: 'Associated Credential',
+            sortable: true,
+            sortDirection: 'desc',
+            editable: true,
+          },   
           {
             key: "effectiveDate",
             label: "Effective Date",
@@ -86,7 +88,7 @@ export default {
   },
   created() {
     this.showNotification = sharedMethods.showNotification
-    ProgramManagementService.getOptionalPrograms(this.token)
+    ProgramManagementService.getOptionalPrograms()
     .then((response) => {
       this.graduationOptionalPrograms = response.data;
     })

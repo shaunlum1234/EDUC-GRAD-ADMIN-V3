@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>A students' Transcript, Student Achievement Report (TVR) and Certificate(s) will show a status as the student progresses through the system.  The list of document statuses are maintained in this table.  Documents will show In Progress until the student graduates, once a student graduates and the final documents are created, the documents will show a status of Completed.  If, and only if, a student gets "ungraded" will a students existing documents get Archived. </p>
+    <p>A student's Transcript, Student Achievement Report (TVR) and Certificate(s) will show a status as the student progresses through the system.  The list of document statuses are maintained in this table.  Documents will show In Progress until the student graduates, once a student graduates and the final documents are created, the documents will show a status of Completed. If, and only if, the student has completed the SCCP program and the User moves the SCCP student to a graduation program will the students existing documents get Archived.</p>
     <DisplayTable
         title="Program Certificate Transcripts"
         v-bind:items="documentStatusCodes"
@@ -20,12 +20,8 @@
 
 <script>
 
-import {
-  mapGetters
-} from "vuex";
-
 import DisplayTable from "@/components/DisplayTable";
-import GraduationCommonService from "@/services/GraduationCommonService.js";
+import GraduationReportService from "@/services/GraduationReportService.js";
 
 export default {
   name: 'DocumentStatusCode',
@@ -33,7 +29,7 @@ export default {
     DisplayTable: DisplayTable,
   },
   created() {
-    GraduationCommonService.getDocumentStatusCodes(this.token)
+    GraduationReportService.getDocumentStatusCodes()
     .then((response) => {
       this.documentStatusCodes = response.data;
     })
@@ -78,12 +74,6 @@ export default {
         }
       ],
     };
-  },
-  computed: {
-    ...mapGetters({  
-      token: "getToken",
-      role: "getRoles"
-    }),
   },
   methods: {
   },

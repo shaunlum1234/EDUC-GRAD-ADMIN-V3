@@ -22,7 +22,6 @@ export default {
   name: "GraduationOptionalProgramRules",
   props: {},
   computed: {...mapGetters({
-      token: "getToken"
   })},
   components:{
     DisplayTable: DisplayTable,
@@ -122,7 +121,7 @@ export default {
     };
   },
   created() {
-    ProgramManagementService.getAllOptionalProgramRules(this.token)
+    ProgramManagementService.getAllOptionalProgramRules()
       .then((response) => {
         this.optionalProgramRules = response.data;
       })

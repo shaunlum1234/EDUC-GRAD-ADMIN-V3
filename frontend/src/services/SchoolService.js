@@ -1,21 +1,11 @@
-import axios from 'axios';
-
-const apiClient = axios.create({
-    baseURL: process.env.VUE_APP_BASE_URL,
-});
+import ApiService from '../common/apiService';
 
 export default {
-    getSchoolInfo(mincode, token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/school/' + mincode,{ headers });
+    getSchoolInfo(mincode) {
+        return ApiService.apiAxios.get('/api/v1/trax/school/' + mincode)
     },
-    getAllSchools(token) {
-        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
-        return apiClient.get('/api/v1/school/',{ headers });
-    },
-    searchSchools(searchInput, token) {
+    searchSchools(searchInput) {
         
-        const headers = { Accept: 'application/json','Content-Type': 'application/json',"Access-Control-Allow-Origin": "*",'Authorization': 'Bearer '+ token }
         let queryString = ""
         for (var key in searchInput) {
             if (searchInput.hasOwnProperty(key)) {
@@ -31,6 +21,6 @@ export default {
             }
         }
         queryString = queryString.slice(0, -1); //remove trailing ampersand
-        return apiClient.get('/api/v1/school/search?' + queryString,{ headers });
+        return ApiService.apiAxios.get('/api/v1/trax/school/search?' + queryString)
     }
 };

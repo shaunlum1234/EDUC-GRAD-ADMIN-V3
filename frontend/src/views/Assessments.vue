@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 
 import AssessmentService from "@/services/AssessmentService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
@@ -103,6 +102,11 @@ export default {
           sortable: true,
         },
         {
+          key: "traxReqNumber",
+          label: "Transcript Req #",
+          sortable: true,
+        },
+        {
           key: "requirementName",
           label: "Requirement name",
           sortable: true,
@@ -116,19 +120,13 @@ export default {
       ],
     };
   },
-  computed: {
-    ...mapGetters({
-      token: "getToken",
-      role: "getRoles"
-    }),
-  },
   created() {
     this.getAllAssessment();
     this.getAllAssessmentReqs();
   },
   methods: {
     getAllAssessment() {
-      AssessmentService.getAllAssesments(this.token)
+      AssessmentService.getAllAssesments()
         .then((response) => {
           this.assessments = response.data;
         })
@@ -142,7 +140,7 @@ export default {
         });
     },
     getAllAssessmentReqs() {
-      AssessmentService.getAllAssesmentRequirements(this.token)
+      AssessmentService.getAllAssesmentRequirements()
         .then((response) => {
           this.assessmentRequirements = response.data;
         })
