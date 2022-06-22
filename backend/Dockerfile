@@ -7,7 +7,7 @@ WORKDIR /opt/app-root/src
 RUN ln -s /logs .
 
 COPY package*.json ./
-RUN npm ci
+RUN npm i
 
 COPY . /opt/app-root/src
 EXPOSE 443 8080
