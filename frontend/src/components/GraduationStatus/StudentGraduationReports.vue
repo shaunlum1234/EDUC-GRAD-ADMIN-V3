@@ -44,7 +44,8 @@
         </div>  
         <div>
           <div v-if="xmlReports != 'not loaded'" class="px-3 w-100 float-left mt-2">
-              <a @click="downloadPDF(xmlReports,'application/pdf')" href="#">View XML Preview</a>
+              <a v-if="studentGradStatus.studentGradData.school && studentGradStatus.studentGradData.school.transcriptEligibility === 'Y'" @click="downloadPDF(xmlReports,'application/pdf')" href="#">View XML Preview</a>
+              <a v-else style="pointer-events: none">View XML Preview</a>
           </div>    
         </div>                          
       </b-card-text>
@@ -63,7 +64,8 @@ import sharedMethods from '../../sharedMethods';
       ...mapGetters({
         reports: "getStudentReports",
         transcripts: "getStudentTranscripts",
-        xmlReports: "getStudentXmlReports"
+        xmlReports: "getStudentXmlReports",
+        studentGradStatus: "getStudentGradStatus"
       })
     },
     methods: {
