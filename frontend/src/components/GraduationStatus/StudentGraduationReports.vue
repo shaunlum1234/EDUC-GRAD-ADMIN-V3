@@ -44,8 +44,8 @@
         </div>  
         <div>
           <div v-if="xmlReports != 'not loaded'" class="px-3 w-100 float-left mt-2">
-              <a v-if="studentGradStatus.studentGradData.school && studentGradStatus.studentGradData.school.transcriptEligibility === 'Y'" @click="downloadPDF(xmlReports,'application/pdf')" href="#">View XML Preview</a>
-              <a v-else style="pointer-events: none">View XML Preview</a>
+            <!-- v-if="studentGradStatus.studentGradData.school && studentGradStatus.studentGradData.school.transcriptEligibility === 'Y'" -->
+              <b-button variant="link" :disabled="!(studentGradStatus.studentGradData.school && studentGradStatus.studentGradData.school.transcriptEligibility === 'Y')" @click="downloadPDF(xmlReports,'application/pdf')" href="#">View XML Preview</b-button>
           </div>    
         </div>                          
       </b-card-text>
