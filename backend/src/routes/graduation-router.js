@@ -18,7 +18,6 @@ async function getGraduationAPI(req, res, next) {
     const data = await getData(token, url);
     return res.status(200).json(data);
   } catch (e) {
-    console.log(e);
     next(e);
   }
 }
