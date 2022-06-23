@@ -3,12 +3,6 @@ FROM docker-remote.artifacts.developer.gov.bc.ca/node:lts-alpine
 # Install the app dependencies in a full Node docker image
 FROM docker-remote.artifacts.developer.gov.bc.ca/node:lts-alpine
 
-RUN mkdir -p /logs
-RUN chmod 755 /logs
-
-WORKDIR /opt/app-root/src
-RUN ln -s /logs .
-
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
