@@ -16,7 +16,7 @@ export default {
     DisplayTable: DisplayTable,
   },
   computed: {...mapGetters({
-    token: "getToken",
+    token: "auth/getToken",
     role: "getRoles",
   })},
   data: function() {
@@ -61,13 +61,13 @@ export default {
         },
         {
           key: "adIBProgramMessage",
-          label: "ad IB Program Message",
+          label: "AD and IB Program Message",
           sortable: true,
           editable: true,
         },
         {
           key: "programCadre",
-          label: "Program Cadre",
+          label: "French Immersion",
           sortable: true,
           editable: true,
         },

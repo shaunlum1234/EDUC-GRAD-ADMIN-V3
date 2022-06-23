@@ -14,7 +14,7 @@
                   <strong>Status:</strong> {{certificate.documentStatusLabel}} 
                 </li>
                 <li>
-                  <strong>Last Updated:</strong> {{certificate.createdTimestamp |formatTime}}
+                  <strong>Last Updated:</strong> {{certificate.updateDate |formatTime}}
                 </li>
                 <li>
                   <strong>Distributed:</strong> {{certificate.distributionDate |formatTime}}
@@ -33,6 +33,7 @@ import { mapGetters } from "vuex";
 import sharedMethods from '../sharedMethods';
 
 export default {
+
   name: "CertificationDogwoods",
   props: {},
   computed: {
