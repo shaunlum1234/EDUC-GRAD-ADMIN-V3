@@ -2,7 +2,7 @@
   <div>
     <b-overlay :show='processingBatch'>
       <div class="row">
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-3 border-right">
           <div class="m-0">
             <label class="font-weight-bold">Run Type</label>
             <b-form-select
@@ -53,79 +53,77 @@
           </div>                                                      
         </div>
         <div class="col-9">
-
+            
           <div class="m-0 p-0 col-2">
-            <label class="font-weight-bold">Group</label>
+            <label class="font-weight-bold pt-1">Group</label>
             <b-form-select
-                id="inline-form-select-audience"
-                class="mb-2 mr-sm-2 mb-sm-0"
-                :options="[{ text: '', value: null }, 'Student', 'School', 'District', 'Program']"
-                :value="tabContent[jobId].details['who']"     
-                @change="editBatchJob(jobId,'who', $event)"  
-                v-if="tabContent[jobId].details['credential'] != 'Blank certificate print' && tabContent[jobId].details['credential'] != 'Blank transcript print' "     
-              ></b-form-select>
-              <b-form-select
-                id="inline-form-select-audience"
-                class="mb-2 mr-sm-2 mb-sm-0"
-                :options="[{ text: '', value: null }, 'School', 'Ministry of Advanced Education']"
-                :value="tabContent[jobId].details['who']"     
-                @change="editBatchJob(jobId,'who', $event)"       
-                v-else
-              ></b-form-select>   
-              <label class="font-weight-bold">Group Range</label>
-              <b-form-select
-                id="inline-form-select-audience"
-                class="mb-2 mr-sm-2 mb-sm-0"
-                :options="[{ text: 'Current Students', value: 'Current Students' }, { text: 'Date Range', value: 'Date Range' }]"
-                :value="tabContent[jobId].details['groupRange']"     
-                @change="editBatchJob(jobId,'groupRange', $event)"    
-              ></b-form-select>     
+              id="inline-form-select-audience"
+              class="mb-2 mr-sm-2 mb-sm-0"
+              :options="[{ text: '', value: null }, 'Student', 'School', 'District', 'Program']"
+              :value="tabContent[jobId].details['who']"     
+              @change="editBatchJob(jobId,'who', $event)"  
+              v-if="tabContent[jobId].details['credential'] != 'Blank certificate print' && tabContent[jobId].details['credential'] != 'Blank transcript print' "     
+            ></b-form-select>
+            <b-form-select
+              id="inline-form-select-audience"
+              class="mb-2 mr-sm-2 mb-sm-0"
+              :options="[{ text: '', value: null }, 'School', 'Ministry of Advanced Education']"
+              :value="tabContent[jobId].details['who']"     
+              @change="editBatchJob(jobId,'who', $event)"       
+              v-else
+            ></b-form-select>   
+            <label class="font-weight-bold pt-1">Group Range</label>
+            <b-form-select
+              id="inline-form-select-audience"
+              class="mb-2 mr-sm-2 mb-sm-0"
+              :options="[{ text: 'Current Students', value: 'Current Students' }, { text: 'Date Range', value: 'Date Range' }]"
+              :value="tabContent[jobId].details['groupRange']"     
+              @change="editBatchJob(jobId,'groupRange', $event)"    
+            ></b-form-select>     
           </div>
-
           <div class="m-0 p-0 col-12">
-            {{tabContent[jobId]}}
               <div class="date-ranges col-12 row" v-if="tabContent[jobId].details['groupRange']=='Date Range'">            
-                <div class="float-left col-3" >
-                  <strong><label for="example-input">Start Range</label></strong>
+                <div class="float-left col-3 m-0 p-0" >
+                  <strong><label class="pt-1">Start Range</label></strong>
                   <b-input-group class="mb-3">
                     <b-form-input
-                      id="example-input"
-                      v-model="value"
+                      id="startDateInput"
+                      v-model="startDate"
                       type="text"
                       placeholder="YYYY-MM-DD"
                       autocomplete="off"
                     ></b-form-input>
                     <b-input-group-append>
                       <b-form-datepicker
-                        v-model="tabContent[jobId].details['groupRangeStart']"
+                        v-model="startDate"
                         button-only
                         right
                         locale="en-US"
                         aria-controls="example-input"
-                        @context="validateDate"
+                        @change="editBatchJob(jobId,'groupRangeStart', $event)"    
                       ></b-form-datepicker>
                     </b-input-group-append>
                   </b-input-group>
                 </div>
 
                 <div class="float-left col-3">
-                  <strong><label for="example-input">End Range</label></strong>
+                  <strong><label class="pt-1">End Range</label></strong>
                   <b-input-group class="mb-3">
                     <b-form-input
-                      id="example-input"
-                      v-model="tabContent[jobId].details['groupRangeEnd']"
+                      id="endDateInput"
+                      v-model="endDate"
                       type="text"
                       placeholder="YYYY-MM-DD"
                       autocomplete="off"
                     ></b-form-input>
                     <b-input-group-append>
                       <b-form-datepicker
-                        v-model="value"
+                        v-model="endDate"
                         button-only
                         right
                         locale="en-US"
                         aria-controls="example-input"
-                        @context="onContext"
+                        @change="editBatchJob(jobId,'groupRangeEnd', $event)"    
                       ></b-form-datepicker>
                     </b-input-group-append>
                   </b-input-group>
@@ -339,6 +337,12 @@
                     </div>
                 </b-form-group>
           </b-form-group>
+          <b-card>
+            Batch Run 
+            <b-card-text>
+              {{tabContent[jobId].what}}
+            </b-card-text>
+          </b-card>
         </b-modal>
     </div>
     </b-overlay>
@@ -365,6 +369,8 @@ export default {
       validating: false,
       certificateTypes:[],
       transcriptTypes:[],
+      startDate:"",
+      endDate: ""
     }
   },
   created() {

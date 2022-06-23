@@ -87,7 +87,6 @@ function isValidUser(isUserHasRole, roleType, roleNames) {
       const thisSession = req['session'];
       if (thisSession && thisSession['passport'] && thisSession['passport'].user && thisSession['passport'].user.jwt) {
         const userToken = jsonwebtoken.verify(thisSession['passport'].user.jwt, config.get('oidc:publicKey'));
-        log.silly(`userToken is ${safeStringify(userToken)}`);
         if (userToken && userToken.realm_access && userToken.realm_access.roles
           && (isUserHasRole(roleType, roleNames, userToken.realm_access.roles))) {
           return true;

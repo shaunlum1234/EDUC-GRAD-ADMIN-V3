@@ -4,10 +4,10 @@
         <b-col xs="4" sm="4" md="4" lg="4" xl="4">
           <b-card class="error-card">
             <b-card-title class="gov-header">
-              <h4 id="error_text">System Error</h4>
+              <h4 id="error_text">Page Not found</h4>
             </b-card-title>
             <b-card-text id="error_message">
-              You have encountered a System Error. Close your Web browser, open a new session, then try again.
+                This requested URL was not found on this server.
             </b-card-text>
           </b-card>
         </b-col>

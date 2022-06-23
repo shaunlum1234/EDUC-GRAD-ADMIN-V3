@@ -8,7 +8,7 @@
               {{getProgramOptions}}
           </div>
         </b-sidebar>
-            (<a>{{ userInfo.userRoles && userInfo.userRoles.length > 2? 'Admin' : 'User' }}</a>) |
+            (<a>{{ roles }}</a>) |
             <a :href='routes.LOGOUT' class="text-white">Logout</a>
       </div>
       <div v-else-if="!isAuthenticated">
