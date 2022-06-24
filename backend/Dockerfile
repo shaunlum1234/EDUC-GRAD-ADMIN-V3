@@ -1,6 +1,6 @@
 FROM docker-remote.artifacts.developer.gov.bc.ca/node:lts-alpine3.13
 
-RUN mkdir /logs && chmod -R a+rwx /logs \
+RUN mkdir /logs && chmod -R a+rwx /logs
 
 WORKDIR /opt/app-root/src
 RUN ln -s /logs .
