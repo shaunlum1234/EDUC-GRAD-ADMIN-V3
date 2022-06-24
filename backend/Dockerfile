@@ -1,7 +1,7 @@
 FROM docker-remote.artifacts.developer.gov.bc.ca/node:lts-alpine3.13
 
 RUN mkdir -p /logs
-RUN chmod 755 /logs
+RUN chmod 775 /logs
 
 WORKDIR /opt/app-root/src
 RUN ln -s /logs .
