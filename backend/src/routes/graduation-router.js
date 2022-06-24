@@ -10,7 +10,7 @@ const isValidUiTokenWithStaffRoles = auth.isValidUiTokenWithRoles('GRAD_SYSTEM_C
 //Program Routes
 router.get('/*',passport.authenticate('jwt', {session: false}, undefined), isValidUiTokenWithStaffRoles, getGraduationAPI);
 
-async function getGraduationAPI(req, res) {
+async function getGraduationAPI(req, res, next) {
   const token = getBackendToken(req);
   
   try {
@@ -18,7 +18,7 @@ async function getGraduationAPI(req, res) {
     const data = await getData(token, url);
     return res.status(200).json(data);
   } catch (e) {
-      return errorResponse(res);
+    next(e);
   }
 }
 
