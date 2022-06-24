@@ -1,6 +1,10 @@
 FROM docker-remote.artifacts.developer.gov.bc.ca/node:lts-alpine3.13
 
+RUN mkdir -p /logs
+RUN chmod 755 /logs
+
 WORKDIR /opt/app-root/src
+RUN ln -s /logs .
 
 COPY package*.json ./
 RUN npm ci
