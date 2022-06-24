@@ -1,4 +1,4 @@
-FROM docker-remote.artifacts.developer.gov.bc.ca/node:lts-alpine3.13
+FROM docker-remote.artifacts.developer.gov.bc.ca/node:lts-alpine3.16
 
 RUN mkdir /logs && chmod -R a+rwx /logs
 
