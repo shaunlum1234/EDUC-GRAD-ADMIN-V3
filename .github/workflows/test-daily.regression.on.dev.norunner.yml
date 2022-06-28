@@ -1,4 +1,4 @@
-name: Smoke Test Default Runner
+name: Daily Regression
 on:
   workflow_dispatch:
   schedule:
@@ -7,7 +7,6 @@ on:
 jobs:
   # run test on the github runner
   DailyRegression:
-    name: Daily Regression
     runs-on: ubuntu-latest
     environment: dev
     defaults:
