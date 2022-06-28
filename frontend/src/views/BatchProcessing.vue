@@ -9,7 +9,9 @@
       <b-card no-body>
         <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
+         
           <div>
+             
             <b-card no-body class="border-0">
               <b-tabs pills class="border-0">
                 <b-tab title="Completed" active>
@@ -64,7 +66,7 @@
                     </div>
                   </b-card-text>
                 </b-tab>
-                <b-tab title="Scheduled">
+                <b-tab class="btn-sm" title="Scheduled (2)">
                   <b-card-text>Scheduled</b-card-text>
                 </b-tab>
               </b-tabs>
@@ -497,12 +499,12 @@ export default {
           this.validationMessage = "Please select a program."
           this.batchValid = false;
           return
-          
         }
       }
       this.batchValid = true;
     },
     runbatch(id){    
+      
       let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
       if(this.tabContent[id].details['who'] == 'School'){
         schools = this.tabContent[id].schools.map(this.getBatchData);  
@@ -542,14 +544,20 @@ export default {
         return;
       }
       if(this.tabContent[id].details['what'] == 'REGALG'){     
-        this.runREGALG(request, id);
+        console.log("RUNNING BATCH" + id)
+        console.log(request)   
+        //this.runREGALG(request, id);
           
       }else if(this.tabContent[id].details['what'] == 'TVRRUN'){     
-        this.runTVRRUN(request, id);
+        console.log("RUNNING BATCH" + id)
+        console.log(request)   
+        //this.runTVRRUN(request, id);
       }
       else if(this.tabContent[id].details['what'] == 'DISTRUN'){     
-        this.runDISTRUN(request, id, this.tabContent[id].details['credential']);
-      }           
+        console.log("RUNNING BATCH" + id)
+        console.log(request)   
+        //this.runDISTRUN(request, id, this.tabContent[id].details['credential']);
+      }        
     },
     displaySearchResults(value){ 
       this.searchResults = value
@@ -589,5 +597,4 @@ h6 {
 .delete-button{
   border-radius: 0px;
 }
-
 </style>

@@ -2,6 +2,7 @@
   <div>
     <b-overlay :show='processingBatch'>
       <div class="row">
+        {{tabContent[jobId]}}
         <div class="col-12 col-md-3 border-right">
           <div class="m-0">
             <label class="font-weight-bold">Run Type</label>
@@ -72,58 +73,58 @@
               @change="editBatchJob(jobId,'who', $event)"       
               v-else
             ></b-form-select>   
-            <label class="font-weight-bold pt-1">Group Range</label>
+          </div>
+          <div v-if="tabContent[jobId].details['who'] !='Student'" class="m-0 p-0">
+            <label class="font-weight-bold p-0 m-0 row">Grad Date</label>
             <b-form-select
               id="inline-form-select-audience"
-              class="mb-2 mr-sm-2 mb-sm-0"
+              class="mb-2 mr-sm-2 mb-sm-0 col-3"
               :options="[{ text: 'Current Students', value: 'Current Students' }, { text: 'Date Range', value: 'Date Range' }]"
-              :value="tabContent[jobId].details['groupRange']"     
-              @change="editBatchJob(jobId,'groupRange', $event)"    
-            ></b-form-select>     
-          </div>
-          <div class="m-0 p-0 col-12">
-              <div class="date-ranges col-12 row" v-if="tabContent[jobId].details['groupRange']=='Date Range'">            
+              :value="tabContent[jobId].details['gradDate']"     
+              @change="editBatchJob(jobId,'gradDate', $event)"    
+            ></b-form-select>    
+              <div class="date-ranges col-12 row" v-if="tabContent[jobId].details['gradDate']=='Date Range'">            
                 <div class="float-left col-3 m-0 p-0" >
-                  <strong><label class="pt-1">Start Range</label></strong>
+                  <strong><label class="pt-1">Grad Start Date</label></strong>
                   <b-input-group class="mb-3">
                     <b-form-input
-                      id="startDateInput"
-                      v-model="startDate"
+                      id="gradDateFromInput"
+                      v-model="gradDateFrom"
                       type="text"
                       placeholder="YYYY-MM-DD"
                       autocomplete="off"
                     ></b-form-input>
                     <b-input-group-append>
                       <b-form-datepicker
-                        v-model="startDate"
+                        v-model="gradDateFrom"
                         button-only
                         right
                         locale="en-US"
                         aria-controls="example-input"
-                        @change="editBatchJob(jobId,'groupRangeStart', $event)"    
+                        @change="editBatchJob(jobId,'gradDateFrom', $event)"    
                       ></b-form-datepicker>
                     </b-input-group-append>
                   </b-input-group>
                 </div>
 
                 <div class="float-left col-3">
-                  <strong><label class="pt-1">End Range</label></strong>
+                  <strong><label class="pt-1">Grad End Date</label></strong>
                   <b-input-group class="mb-3">
                     <b-form-input
-                      id="endDateInput"
-                      v-model="endDate"
+                      id="gradDateToInput"
+                      v-model="gradDateTo"
                       type="text"
                       placeholder="YYYY-MM-DD"
                       autocomplete="off"
                     ></b-form-input>
                     <b-input-group-append>
                       <b-form-datepicker
-                        v-model="endDate"
+                        v-model="gradDateTo"
                         button-only
                         right
                         locale="en-US"
                         aria-controls="example-input"
-                        @change="editBatchJob(jobId,'groupRangeEnd', $event)"    
+                        @change="editBatchJob(jobId,'gradDateTo', $event)"    
                       ></b-form-datepicker>
                     </b-input-group-append>
                   </b-input-group>
@@ -141,7 +142,7 @@
               @change="editBatchJob(jobId,'categoryCode', $event)"
             ></b-form-select>
           </div>
-          <div class="mt-1 col-3" v-if="tabContent[jobId].details['what'] == 'DISTRUN'">
+          <div class="mt-1 col-1 p-0" v-if="tabContent[jobId].details['what'] == 'DISTRUN'">
             <label class="font-weight-bold">Copies</label>
             <b-form-input
                 type="number"
@@ -340,7 +341,7 @@
           <b-card>
             Batch Run 
             <b-card-text>
-              {{tabContent[jobId].what}}
+              Schedule:
             </b-card-text>
           </b-card>
         </b-modal>
@@ -360,6 +361,8 @@ import {
 export default {
   data: function () {
     return {
+      batchRunDetails: "",
+      cronTime: "",
       batchRunTime: "Run Now",
       batchRunSchedule: "",
       batchRunCustomDate: "",
@@ -369,8 +372,8 @@ export default {
       validating: false,
       certificateTypes:[],
       transcriptTypes:[],
-      startDate:"",
-      endDate: ""
+      gradDateFrom:"",
+      gradDateTo: ""
     }
   },
   created() {
@@ -401,12 +404,11 @@ export default {
     },
     runBatch(id){
       let dateTime = new Date(this.batchRunCustomDate + "T" + this.batchRunCustomTime )
-      
-      let cronTime = dateTime.getYear() + dateTime.getMonth() + " " + dateTime.getDay() + " " + dateTime.getHours() + " " + dateTime.getMinutes()
-      console.log("CRONTIME" + cronTime)
-      
+      console.log(dateTime)
+      this.cronTime = dateTime.getYear() + " " + dateTime.getMonth() + " " + dateTime.getDay() + " " + dateTime.getHours() + " " + dateTime.getMinutes()
+      console.log("CRONTIME" + this.cronTime)
+      this.$emit("runbatch",id);
 
-      this.$emit("runbatch",id)
     },
     cancelBatchJob(id){
       //Use the parents method to close and clear a batch job by ID
