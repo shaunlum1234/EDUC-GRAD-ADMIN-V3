@@ -19,7 +19,8 @@ fixture `grad-login-admin`
         await t.useRole(studentAdmin);
         await t.maximizeWindow();
     }).afterEach(async t => {
-            log.info(apiCallsFailed(requestLogger, api_html_status_threshold));
+            // run locally for api call failure output
+            //log.info(apiCallsFailed(requestLogger, api_html_status_threshold));
             await t.useRole(Role.anonymous());
         });
 
