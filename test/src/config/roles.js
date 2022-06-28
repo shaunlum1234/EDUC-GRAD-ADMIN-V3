@@ -1,11 +1,14 @@
 import { Role } from 'testcafe';
-import { base_url, keycloakAdminCredentials } from './constants';
+import { base_url, credentials } from './constants';
+import log from "npmlog";
 
 const adminUser = Role(base_url + '/?login=noidir', async t => {
+    log.info('Inputting credentials for: ');
+    log.info(credentials.adminCredentials.username);
     await t
-        .typeText('#username', keycloakAdminCredentials.username)
-        .typeText('#password', keycloakAdminCredentials.password)
+        .typeText('#username', credentials.adminCredentials.username)
+        .typeText('#password', credentials.adminCredentials.password)
         .click('#kc-login');
 });
 
-module.exports.adminUser = adminUser;
+module.exports = adminUser;

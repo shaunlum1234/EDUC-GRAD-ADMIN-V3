@@ -1,22 +1,19 @@
 import StudentSearchPage from '../page_objects/studentSearchPage';
-import MainMenu from '../page_objects/mainMenu';
-import { base_url, credentials, test_pen, api_html_status_threshold } from '../config/constants';
+import { base_url, test_pen, api_html_status_threshold } from '../config/constants';
 import { ClientFunction, RequestLogger, Role  } from 'testcafe';
 import { apiCallsFailed } from '../helpers/requestHelper';
 
 const log = require('npmlog');
-const studentAdmin = require('../auth/Roles');
+const adminUser = require('../config/roles');
 const bad_pen = '121212121';
 const searchPage = new StudentSearchPage();
-const mainMenu = new MainMenu();
 const requestLogger = RequestLogger(/api\/v1/, {logResponseBody: true, logResponseHeaders: true});
 
 fixture `grad-login-admin`
     .requestHooks(requestLogger)
     .beforeEach(async t => {
         // log in as studentAdmin
-        log.info('Before each calling useRole');
-        await t.useRole(studentAdmin);
+        await t.useRole(adminUser);
         await t.maximizeWindow();
     }).afterEach(async t => {
         // run locally for api call failure output
@@ -30,7 +27,7 @@ test('Pen Search', async t => {
     // testing bad pen search
     log.info("Testing student does not exist");
     await searchPage.selectPenSearchTab();
-    await searchPage.studentSearch("121212121");
+    await searchPage.studentSearch(bad_pen);
     await t.expect(searchPage.searchMessage.innerText).contains('Student cannot be found', 'Student cannot be found error message did not occur', {timeout: 2000});
     
     await searchPage.clearSearchInput();
