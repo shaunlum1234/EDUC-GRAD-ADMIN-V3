@@ -49,7 +49,7 @@ export default {
     },
     clearBatchDetails(state,payload){
       state.batchDetails[payload]['details'].who="Choose...";
-      state.batchDetails[payload]['details'].groupRange="Current Students";
+      state.batchDetails[payload]['details'].gradDate="Current Students";
       state.batchDetails[payload].schools=[{}];
       state.batchDetails[payload].districts=[{}];
       state.batchDetails[payload].programs=[{}];
@@ -59,12 +59,16 @@ export default {
       state.batchDetails[payload]['details'].credential="";
       state.batchDetails[payload]['details'].categoryCode="";
       state.batchDetails[payload]['details'].copies="";
+    
+      
+
     },
     clearBatchGroupDetails(state,payload){
       state.batchDetails[payload].schools=[{}];
       state.batchDetails[payload].districts=[{}];
       state.batchDetails[payload].programs=[{}];
       state.batchDetails[payload].students=[{}];
+      
     },     
     clearBatchCredentialsDetails(state,payload){
       state.batchDetails[payload].details['blankCertificateDetails']=[{}];

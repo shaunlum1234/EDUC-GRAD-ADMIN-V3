@@ -13,3 +13,10 @@ let object = {
 
 //endpoints
 export const Routes = Object.freeze(object);
+
+//roles
+export const RolePermissions = Object.freeze(
+  {
+    ADMINISTRATOR: "GRAD_SYSTEM_COORDINATOR",
+  }
+)
