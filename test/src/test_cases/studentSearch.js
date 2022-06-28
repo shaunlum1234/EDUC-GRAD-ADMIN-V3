@@ -18,7 +18,11 @@ fixture `grad-login-admin`
     .beforeEach(async t => {
         await login.staffLogin(credentials.adminCredentials, base_url);
         await t.maximizeWindow();
-    }).afterEach(() => log.info(apiCallsFailed(requestLogger, api_html_status_threshold)));
+    }).afterEach(async t => {
+        // run locally for api call failure output
+        //log.info(apiCallsFailed(requestLogger, api_html_status_threshold));
+        await t.useRole(Role.anonymous());
+    });
 
 test('Pen Search', async t => {
     const getLocation = ClientFunction(() => document.location.href);
