@@ -40,11 +40,11 @@ objects:
     postCommit: {}
     resources:
       requests:
-        cpu: 1000m
+        cpu: 500m
         memory: 1Gi
       limits:
-        cpu: 1300m
-        memory: 3Gi
+        cpu: 1200m
+        memory: 2Gi
     runPolicy: SerialLatestOnly
     source:
       contextDir: frontend
