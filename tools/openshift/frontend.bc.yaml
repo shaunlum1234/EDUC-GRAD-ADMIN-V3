@@ -40,11 +40,11 @@ objects:
     postCommit: {}
     resources:
       requests:
-        cpu: 500m
+        cpu: 1000m
         memory: 1Gi
       limits:
-        cpu: 1000m
-        memory: 2Gi
+        cpu: 1500m
+        memory: 4Gi
     runPolicy: SerialLatestOnly
     source:
       contextDir: frontend
@@ -58,7 +58,7 @@ objects:
           name: artifactory-creds
         env:
         - name: BUILD_LOGLEVEL
-          value: '2'
+          value: '5'
         - name: NPM_CONFIG_LOGLEVEL
           value: notice
       type: Docker
