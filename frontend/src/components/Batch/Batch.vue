@@ -543,21 +543,15 @@ export default {
     editBatchJob(id,type,event){
       this.$nextTick(() => {
 
-          console.log(event)
           let batchDetail = this.tabContent[id];
-          //change the value
-
-          
+          //change the value          
           if(type == "what" && batchDetail.details[type] != event){
             this.clearBatchDetails(id)
           }
           if(type == "who" && batchDetail.details[type] != event){
-            
             this.clearBatchGroupDetails(id)
-          
           }   
           batchDetail.details[type] = event; 
-          console.log(this.tabContent[id])  
           if(type == "credential" && event == 'Blank certificate print'){
             if(batchDetail.details[type] != event){
               this.clearBatchCredentialDetails(id);

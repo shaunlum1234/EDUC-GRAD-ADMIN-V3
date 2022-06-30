@@ -317,8 +317,6 @@ export default {
         label: "Edit",
       });
     }
-    console.log(this.delete)
-    console.log(this.roles == "Administrator")
     if (this.delete && this.roles == "Administrator") {
       this.deleteAllowed = true;
  
@@ -327,8 +325,6 @@ export default {
         class: "d-none",
         label: "Delete",
       });
-           console.log("FIELDS")
-      console.log(this.fields)
     }
     this.itemToAdd = { ...this.items[0] };
     for (var i = 0; i < this.fields.length; i++) {
@@ -384,7 +380,6 @@ export default {
     },
     deleteItem(item) {
       this.$store.dispatch(this.delete, item[this.id]);
-      console.log(item[this.id])
       this.items.splice(this.items.indexOf(item), 1);
       this.$bvToast.toast("Record was deleted", {
         title: "Success",

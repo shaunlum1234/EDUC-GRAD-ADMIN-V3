@@ -638,8 +638,6 @@ export default {
         return;
       }
       if(this.tabContent[id].details['what'] == 'REGALG'){     
-        console.log("RUNNING BATCH" + id)
-        console.log(request)   
         if(cronTime){
           let scheduledRequest = {};
           scheduledRequest.cronExpression = cronTime
@@ -653,8 +651,6 @@ export default {
         
           
       }else if(this.tabContent[id].details['what'] == 'TVRRUN'){     
-        console.log("RUNNING BATCH" + id)
-        console.log(request)   
         if(cronTime){
 
           let scheduledRequest = {};
@@ -669,8 +665,6 @@ export default {
         
       }
       else if(this.tabContent[id].details['what'] == 'DISTRUN'){     
-        console.log("RUNNING BATCH" + id)
-        console.log(request)   
         if(cronTime){
           let scheduledRequest = {};
           scheduledRequest.cronExpression = cronTime

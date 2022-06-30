@@ -222,7 +222,7 @@ router.beforeEach((to, _from, next) => {
         });
       }
     }).catch(() => {
-      console.log('Unable to get token');
+      
       next(nextRouteInError);
     });
   }
