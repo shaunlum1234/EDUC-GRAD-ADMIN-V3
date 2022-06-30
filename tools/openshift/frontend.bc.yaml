@@ -58,7 +58,7 @@ objects:
           name: artifactory-creds
         env:
         - name: BUILD_LOGLEVEL
-          value: '5'
+          value: '2'
         - name: NPM_CONFIG_LOGLEVEL
           value: notice
       type: Docker
