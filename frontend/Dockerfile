@@ -1,12 +1,10 @@
-FROM docker-remote.artifacts.developer.gov.bc.ca/node:12.22.1-alpine
-
+FROM docker-remote.artifacts.developer.gov.bc.ca/node:14.19.1
 WORKDIR /opt/app-root/src
-
 COPY package*.json ./
 RUN apk --no-cache add git 
 RUN npm --version
 RUN node -v
-RUN npm ci --cache .npm  --prefer-offline --no-audit
+RUN npm install
 # --no-optional --production
 
 # Build Application
