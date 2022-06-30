@@ -9,9 +9,7 @@
       <b-card no-body>
         <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
-         
           <div>
-             
             <b-card no-body class="border-0">
               <b-tabs pills class="border-0">
                 <b-tab title="Completed" active>
@@ -66,8 +64,38 @@
                     </div>
                   </b-card-text>
                 </b-tab>
-                <b-tab class="btn-sm" title="Scheduled (2)">
-                  <b-card-text>Scheduled</b-card-text>
+                <b-tab class="btn-sm" :title="'Scheduled (' + scheduledJobs.length + ')'">
+                  <b-card-text>
+                      <div v-if="!scheduledJobs.length">
+                        No Scheduled Jobs
+                      </div>
+                     <DisplayTable title="Job/Runs" :items="scheduledJobs"
+                        v-bind:fields="scheduledJobFields" id="jobId" :showFilter=false pagination="true" create="batchprocessing/create" update="batchprocessing/update" delete="batchprocessing/removeScheduledJobs"
+                      >
+                        <template #cell(jobExecutionId)="row">
+                          <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
+                            {{row.item.jobExecutionId}}   
+                          </b-btn>
+                          <b-btn v-else disabled variant='link' size="xs">  
+                            {{row.item.jobExecutionId}}   
+                          </b-btn>                  
+                          <b-popover :target="'batch-job-id-btn'+ row.item.jobExecutionId" triggers="focus" :ref="'popover'+row.item.jobExecutionId">
+                            <template #title>Search batch job</template>
+                            <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'batch')">   
+                              All results           
+                            </b-btn>
+                          </b-popover>
+                        </template>
+                        <template #cell(failedStudentsProcessed)="row">
+                          <b-btn v-if="row.item.failedStudentsProcessed != 0" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'error')">  
+                            {{row.item.failedStudentsProcessed}}   
+                          </b-btn>  
+                          <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
+                        </template>
+                      </DisplayTable>
+
+
+                  </b-card-text>
                 </b-tab>
               </b-tabs>
             </b-card>
@@ -175,8 +203,35 @@ export default {
       isErrorShowing: false,
       isBatchShowing: false,
       batchInfoListData:[],
+      scheduledJobs:[],
       certificateTypes:[],
       transcriptTypes:[],
+      scheduledJobFields: [
+        {
+          key: 'jobId',
+          label: 'Job ID',
+          sortable: true,
+          class: 'text-left',
+        }, 
+        {
+          key: 'jobName',
+          label: 'Job Name',
+          sortable: true,
+          class: 'text-left',
+        },         
+        {
+          key: 'scheduledBy',
+          label: 'Scheduled By',
+          sortable: true,
+          class: 'text-left',
+        }, 
+        {
+          key: 'status',
+          label: 'Status',
+          sortable: true,
+          class: 'text-left',
+        },                          
+      ], 
       jobRunFields: [
          {
             key: 'jobExecutionId',
@@ -258,6 +313,7 @@ export default {
   },
   created() {
     this.getAdminDashboardData()
+    this.getScheduledJobs()
   },
   methods: { 
     cancelBatchJob(id) {
@@ -442,6 +498,42 @@ export default {
         })
         setTimeout(this.getBatchProgress(requestId), 5000);
     },
+    addScheduledJob(request, id){
+      let requestId = id.replace("job-",""); 
+      this.$set(this.spinners, id, true)
+      let index= id.replace("job-","")-1;
+      let value = true
+      this.$store.commit("batchprocessing/setTabLoading",{index, value});
+        BatchProcessingService.addScheduledJob(request).then(
+        (response) => {
+           //update the admin dashboard
+          this.getScheduledJobs();
+          // eslint-disable-next-line
+          console.log(response)
+          this.cancelBatchJob(id);
+          this.selectedTab = 0;
+          this.$bvToast.toast(requestId + "has successfully been scheduled", {
+            title: "SCHEDULING USER REQUEST",
+            variant: 'success',
+            noAutoHide: true,
+          })
+        })
+        .catch((error) => {
+          if(error){
+            this.$bvToast.toast("There was an error scheduling your request", {
+              title: "SCHEDULING ERROR",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
+        })
+        setTimeout(this.getBatchProgress(requestId), 5000);
+    },    
+    getScheduledJobs(){
+      BatchProcessingService.getScheduledJobs().then((response) => {
+        this.scheduledJobs = response.data
+      })
+    },
     getBatchProgress(requestId){
       BatchProcessingService.getBatchSummary().then((response) => {
 
@@ -503,8 +595,7 @@ export default {
       }
       this.batchValid = true;
     },
-    runbatch(id){    
-      
+    runbatch(id, cronTime=null){    
       let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
       if(this.tabContent[id].details['who'] == 'School'){
         schools = this.tabContent[id].schools.map(this.getBatchData);  
@@ -539,24 +630,59 @@ export default {
           return
         }
       }
-      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts, "schoolCategoryCodes": [districtCategoryCode], "programs":programs, "validateInput": false}
+      let gradDateFrom = this.tabContent[id].details['gradDateFrom']
+      let gradDateTo = this.tabContent[id].details['gradDateTo']
+
+      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts, "schoolCategoryCodes": [districtCategoryCode], "programs":programs, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, }
       if(this.batchHasErrors(this.tabContent[id])){
         return;
       }
       if(this.tabContent[id].details['what'] == 'REGALG'){     
         console.log("RUNNING BATCH" + id)
         console.log(request)   
-        //this.runREGALG(request, id);
+        if(cronTime){
+          let scheduledRequest = {};
+          scheduledRequest.cronExpression = cronTime
+          scheduledRequest.jobName = 'SGBJ'
+          scheduledRequest.blankPayLoad = null;
+          scheduledRequest.payload = request;
+          this.addScheduledJob(scheduledRequest, id)
+        }else{
+          this.runREGALG(request, id);  
+        }
+        
           
       }else if(this.tabContent[id].details['what'] == 'TVRRUN'){     
         console.log("RUNNING BATCH" + id)
         console.log(request)   
-        //this.runTVRRUN(request, id);
+        if(cronTime){
+
+          let scheduledRequest = {};
+          scheduledRequest.cronExpression = cronTime
+          scheduledRequest.jobName = 'STBJ'
+          scheduledRequest.blankPayLoad = null;
+          scheduledRequest.payload = request;
+          this.addScheduledJob(scheduledRequest, id)
+        }else{
+          this.runTVRRUN(request, id);
+        }
+        
       }
       else if(this.tabContent[id].details['what'] == 'DISTRUN'){     
         console.log("RUNNING BATCH" + id)
         console.log(request)   
-        //this.runDISTRUN(request, id, this.tabContent[id].details['credential']);
+        if(cronTime){
+          let scheduledRequest = {};
+          scheduledRequest.cronExpression = cronTime
+          scheduledRequest.jobName = 'URDBJ'
+          scheduledRequest.blankPayLoad = null;
+          scheduledRequest.payload = request;
+          
+          this.addScheduledJob(scheduledRequest, id)
+        }else{
+          this.runDISTRUN(request, id, this.tabContent[id].details['credential']);
+        }
+        
       }        
     },
     displaySearchResults(value){ 

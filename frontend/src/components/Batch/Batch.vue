@@ -1,8 +1,8 @@
 <template>
   <div>
+    {{tabContent[jobId]}}
     <b-overlay :show='processingBatch'>
       <div class="row">
-        {{tabContent[jobId]}}
         <div class="col-12 col-md-3 border-right">
           <div class="m-0">
             <label class="font-weight-bold">Run Type</label>
@@ -100,8 +100,7 @@
                         button-only
                         right
                         locale="en-US"
-                        aria-controls="example-input"
-                        @change="editBatchJob(jobId,'gradDateFrom', $event)"    
+                        @input="editBatchJob(jobId,'gradDateFrom', $event.replace(/-/g, '/'))"    
                       ></b-form-datepicker>
                     </b-input-group-append>
                   </b-input-group>
@@ -124,7 +123,7 @@
                         right
                         locale="en-US"
                         aria-controls="example-input"
-                        @change="editBatchJob(jobId,'gradDateTo', $event)"    
+                        @input="editBatchJob(jobId,'gradDateTo', $event.replace(/-/g, '/'))"    
                       ></b-form-datepicker>
                     </b-input-group-append>
                   </b-input-group>
@@ -315,18 +314,20 @@
           Cancel
         </b-button>
         <b-button v-b-modal.batch-modal size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
-          Run Batch
+          Schedule/Run Batch
         </b-button>
         <b-modal id="batch-modal" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
           <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }"> 
             <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Now">Run Now</b-form-radio>
             <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Later">Run Later</b-form-radio>
                 <b-form-group v-if="batchRunTime == 'Run Later'" label="Schedule" v-slot="{ ariaDescribedby }">
-                  <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="Today">Today at 6:00PM</b-form-radio>
-                  <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="Tommorow">Tommrow at 6:00PM</b-form-radio>
+                  <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="N">Tonight at 6:30PM</b-form-radio>
+                  <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="W">Weekend Batch - Saturday 12:00PM</b-form-radio>
+                  <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="M">Tommorow at 6:30AM</b-form-radio>
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="Custom">Custom</b-form-radio>
                     <div class="pl-4" v-if="batchRunSchedule == 'Custom'">
                       <!-- <label for="batch-datepicker">Choose a date:</label> -->
+
                       <b-form-datepicker id="batch-datepicker" v-model="batchRunCustomDate" class="mb-2"></b-form-datepicker>
                       <b-form-timepicker
                         id="timepicker-buttons"
@@ -335,6 +336,10 @@
                         reset-button
                         locale="en"
                       ></b-form-timepicker>
+                         <!-- <b-form-input
+                            id="bforminput"
+                            v-model="cronTime"
+                          ></b-form-input> -->
                     </div>
                 </b-form-group>
           </b-form-group>
@@ -364,9 +369,9 @@ export default {
       batchRunDetails: "",
       cronTime: "",
       batchRunTime: "Run Now",
-      batchRunSchedule: "",
       batchRunCustomDate: "",
       batchRunCustomTime: "",
+      batchRunSchedule: "",
       processingBatch: false,
       validationMessage: "",
       validating: false,
@@ -387,7 +392,7 @@ export default {
         return false
       }else{
         if(this.batchRunSchedule && this.batchRunSchedule == 'Custom'){
-          if(this.batchRunCustomDate && this.batchRunCustomTime){
+          if(this.batchRunTime && this.batchRunCustomDate){
             return false;
           }else{
             return true;
@@ -397,18 +402,21 @@ export default {
       }
     },
     resetModal(){
-      this.batchRunTime = ""
       this.batchRunSchedule = ""
+      this.cronTime = ""
+      this.batchRunTime = ""
       this.batchRunCustomDate = ""
       this.batchRunCustomTime = ""
     },
     runBatch(id){
-      let dateTime = new Date(this.batchRunCustomDate + "T" + this.batchRunCustomTime )
-      console.log(dateTime)
-      this.cronTime = dateTime.getYear() + " " + dateTime.getMonth() + " " + dateTime.getDay() + " " + dateTime.getHours() + " " + dateTime.getMinutes()
-      console.log("CRONTIME" + this.cronTime)
-      this.$emit("runbatch",id);
-
+      this.cronTime = this.getCronTime(this.batchRunCustomDate,this.batchRunCustomTime)
+      this.$emit("runbatch",id, this.cronTime);
+      
+    },
+    getCronTime(date, time){
+      let dateTime = new Date(date + "T" + time)
+      let cronString = dateTime.getSeconds() + " "  + dateTime.getMinutes()  + " " + dateTime.getHours()  + " " + dateTime.getDate()   + " " +  (dateTime.getMonth()+1)   + " *"
+      return cronString;
     },
     cancelBatchJob(id){
       //Use the parents method to close and clear a batch job by ID
@@ -533,26 +541,33 @@ export default {
         })
     },
     editBatchJob(id,type,event){
-      let batchDetail = this.tabContent[id];
-      //change the value
-      if(type == "what" && batchDetail.details[type] != event){
-        this.clearBatchDetails(id)
-      }
-      if(type == "who" && batchDetail.details[type] != event){
-        
-        this.clearBatchGroupDetails(id)
-       
-      }   
-      batchDetail.details[type] = event;   
-      if(type == "credential" && event == 'Blank certificate print'){
-        if(batchDetail.details[type] != event){
-          this.clearBatchCredentialDetails(id);
-        }
-        batchDetail.details['who'] = '';
-        
-      }
-      this.$store.commit("batchprocessing/editBatchDetails", {batchDetail, id});
-      this.$forceUpdate();
+      this.$nextTick(() => {
+
+          console.log(event)
+          let batchDetail = this.tabContent[id];
+          //change the value
+
+          
+          if(type == "what" && batchDetail.details[type] != event){
+            this.clearBatchDetails(id)
+          }
+          if(type == "who" && batchDetail.details[type] != event){
+            
+            this.clearBatchGroupDetails(id)
+          
+          }   
+          batchDetail.details[type] = event; 
+          console.log(this.tabContent[id])  
+          if(type == "credential" && event == 'Blank certificate print'){
+            if(batchDetail.details[type] != event){
+              this.clearBatchCredentialDetails(id);
+            }
+            batchDetail.details['who'] = '';
+            
+          }
+          this.$store.commit("batchprocessing/editBatchDetails", {batchDetail, id});
+          this.$forceUpdate();
+      })
     },
     getCertificateTypes() {
       GraduationReportService.getCertificateTypes()

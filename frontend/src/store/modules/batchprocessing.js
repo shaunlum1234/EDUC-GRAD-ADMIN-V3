@@ -1,4 +1,5 @@
 import StudentService from '@/services/StudentService.js';
+import BatchProcessingService from '@/services/BatchProcessingService.js';
 export default {
   namespaced: true,
   state: {
@@ -50,6 +51,8 @@ export default {
     clearBatchDetails(state,payload){
       state.batchDetails[payload]['details'].who="Choose...";
       state.batchDetails[payload]['details'].gradDate="Current Students";
+      state.batchDetails[payload]['details'].gradDateFrom="";
+      state.batchDetails[payload]['details'].gradDateTo="";
       state.batchDetails[payload].schools=[{}];
       state.batchDetails[payload].districts=[{}];
       state.batchDetails[payload].programs=[{}];
@@ -59,9 +62,6 @@ export default {
       state.batchDetails[payload]['details'].credential="";
       state.batchDetails[payload]['details'].categoryCode="";
       state.batchDetails[payload]['details'].copies="";
-    
-      
-
     },
     clearBatchGroupDetails(state,payload){
       state.batchDetails[payload].schools=[{}];
@@ -76,6 +76,7 @@ export default {
     }             
   },
   actions: {
+    
     validateStudentInGrad(payload){
         
       StudentService.getStudentByPen(payload['pen']).then(
@@ -88,6 +89,9 @@ export default {
         console.log(error.response.status);
       });
     },
+    removeScheduledJobs(jobId) {
+      return BatchProcessingService.removeScheduledJobs(jobId);
+    },    
     addStudentToBatch({commit}, payload){
       commit('addStudentToBatch', payload);
     },
