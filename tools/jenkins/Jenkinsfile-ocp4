@@ -46,7 +46,7 @@ pipeline{
     DC_URL_FRONTEND = "https://raw.githubusercontent.com/bcgov/EDUC-GRAD-ADMIN/feature/nodejs/tools/openshift/frontend-static.dc.ocp4.yaml"
   }
   options {
-      buildDiscarder(logRotator(daysToKeepStr: '', numToKeepStr: '5'))
+      buildDiscarder(logRotator(daysToKeepStr: '', numToKeepStr: '10'))
   }
   parameters {
       gitParameter(
