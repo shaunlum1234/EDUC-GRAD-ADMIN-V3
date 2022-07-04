@@ -4,7 +4,7 @@ kind: Template
 labels:
   template: "${REPO_NAME}-template"
 metadata:
-  name: "${REPO_NAME}-frontend-dc"
+  name: "${REPO_NAME}-frontend"
   creationTimestamp:
 objects:
 - apiVersion: v1
@@ -17,7 +17,7 @@ objects:
       app: "${APP_NAME}"
       app.kubernetes.io/part-of: GRAD-ADMIN
       app.openshift.io/runtime: js
-    name: "${APP_NAME}-frontend"
+    name: "${APP_NAME}-frontend-dc"
   spec:
     replicas: ${{MIN_REPLICAS}}
     selector:
