@@ -3,6 +3,8 @@ apiVersion: v1
 kind: Template
 labels:
   template: "${REPO_NAME}-template"
+  app.kubernetes.io/part-of: GRAD-ADMIN
+  app.openshift.io/runtime: js
 metadata:
   name: "${REPO_NAME}-frontend-dc"
   creationTimestamp:

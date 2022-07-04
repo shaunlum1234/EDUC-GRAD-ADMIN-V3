@@ -39,7 +39,7 @@ objects:
                   protocol: TCP
               envFrom:
                 - configMapRef:
-                    name: grad-admin-backend-config-map
+                    name: educ-grad-admin-backend-config-map
               resources: {}
       test: false
   - apiVersion: v1
