@@ -91,11 +91,11 @@ pipeline{
                       def bcFrontend = openshift.process('-f', 'https://raw.githubusercontent.com/bcgov/EDUC-GRAD-ADMIN/feature/nodejs/tools/openshift/frontend.bc.yaml', "REPO_NAME=${REPO_NAME}", "SOURCE_REPO_URL=${SOURCE_REPO_URL}", "SOURCE_REPO_REF=${SOURCE_REPO_REF}")
 
                       openshift.apply(bcFrontend).narrow('bc').startBuild('-w').logs('-f')
-                      openshift.tag("${REPO_NAME}-frontend:latest", "${REPO_NAME}-frontend:${SOURCE_REPO_REF}")
+                      openshift.tag("${REPO_NAME}-frontend:latest", "${REPO_NAME}-frontend:dev")
 
                       def bcFrontendStatic = openshift.process('-f', 'https://raw.githubusercontent.com/bcgov/EDUC-GRAD-ADMIN/feature/nodejs/tools/openshift/frontend-static.bc.yaml', "REPO_NAME=${REPO_NAME}", "NAMESPACE=${TOOLS}")
                       openshift.apply(bcFrontendStatic).narrow('bc').startBuild('-w').logs('-f')
-                      openshift.tag("${REPO_NAME}-frontend-static:latest", "${REPO_NAME}-frontend-static:${SOURCE_REPO_REF}")
+                      openshift.tag("${REPO_NAME}-frontend-static:latest", "${REPO_NAME}-frontend-static:dev")
                     } catch(e) {
                       echo "Frontend build failed"
                       throw e
