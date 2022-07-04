@@ -115,8 +115,8 @@ pipeline{
                 if(DEBUG_OUTPUT.equalsIgnoreCase('true')) {
                   echo "DEBUG - Using project: ${openshift.project()}"
                 } else {
-                  def bcFrontend = openshift.selector('bc', "${REPO_NAME}-frontend")
-                  def bcFrontendStatic = openshift.selector('bc', "${REPO_NAME}-frontend-static")
+                  def bcFrontend = openshift.selector('bc', "${REPO_NAME}-frontend-bc")
+                  def bcFrontendStatic = openshift.selector('bc', "${REPO_NAME}-frontend-static-bc")
                   if(bcFrontend.exists()) {
                     echo "Removing BuildConfig ${REPO_NAME}-frontend..."
                     bcFrontend.delete()
@@ -185,7 +185,7 @@ def deployStage(String stageEnv, String projectEnv, String hostRouteEnv, String 
       timeout(10) {
         dc.rollout().status('--watch=true')
       }
-      openshift.selector('dc', "${APP_NAME}-frontend").rollout().latest()
+      openshift.selector('dc', "${APP_NAME}-frontend-dc").rollout().latest()
     }
   }
 }
