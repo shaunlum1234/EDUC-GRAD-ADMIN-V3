@@ -1,13 +1,12 @@
-FROM docker-remote.artifacts.developer.gov.bc.ca/node:14.19.0
-WORKDIR /opt/app-root/src
-COPY package*.json ./ 
-RUN npm --version
-RUN node -v
+FROM docker-remote.artifacts.developer.gov.bc.ca/node:14.19.1 as build-stage
+WORKDIR /frontend
+COPY package*.json ./
 RUN npm install
-# --no-optional --production
-
-# Build Application
-COPY . /opt/app-root/src
-
-EXPOSE 8080 443
+COPY ./ .
 RUN npm run build
+
+FROM docker-remote.artifacts.developer.gov.bc.ca/caddy:2.5.1-alpine as caddy-stage
+
+EXPOSE 2015
+COPY Caddyfile /etc/caddy/Caddyfile
+COPY --from=build-stage /frontend/dist /srv
