@@ -21,10 +21,10 @@ objects:
       local: false
     tags:
     - annotations:
-        openshift.io/imported-from: docker-registry.default.svc:5000/bcgov/s2i-caddy:v1-stable
+        openshift.io/imported-from: docker-registry.default.svc:5000/bbe4c3-dev/caddy:v2
       from:
         kind: DockerImage
-        name: docker-registry.default.svc:5000/bcgov/s2i-caddy:v1-stable
+        name: docker-registry.default.svc:5000/bbe4c3-dev/caddy:v2
       generation:
       importPolicy: {}
       name: v1-stable
@@ -50,7 +50,7 @@ objects:
     creationTimestamp:
     labels:
       build: "${REPO_NAME}-frontend-static"
-    name: "${REPO_NAME}-frontend-static-${JOB_NAME}"
+    name: "${REPO_NAME}-frontend-static"
   spec:
     completionDeadlineSeconds: 600
     successfulBuildsHistoryLimit: 3
@@ -63,23 +63,22 @@ objects:
     postCommit: {}
     resources:
       requests:
-        cpu: 1000m
+        cpu: 500m
         memory: 1Gi
       limits:
-        cpu: 2000m
+        cpu: 1200m
         memory: 2Gi
     runPolicy: SerialLatestOnly
     source:
       dockerfile: |-
-        FROM docker-registry.default.svc:5000/bcgov/s2i-caddy:v1-stable
-        COPY /tmp/src/dist/app/view /var/www/html
-        COPY /tmp/src/Caddyfile /etc/Caddyfile
-        CMD /tmp/scripts/run
+        FROM docker-registry.default.svc:5000/bbe4c3-tools/caddy:v2
+        COPY /tmp/src/dist /srv
+        COPY /tmp/src/Caddyfile /etc/caddy/Caddyfile
       images:
       - as:
         from:
           kind: ImageStreamTag
-          name: "${REPO_NAME}-frontend:${JOB_NAME}"
+          name: "${REPO_NAME}-frontend:latest"
           namespace: "${NAMESPACE}"
         paths:
         - destinationDir: tmp
@@ -89,14 +88,11 @@ objects:
       dockerStrategy:
         from:
           kind: ImageStreamTag
-          name: s2i-caddy:v1-stable
+          name: caddy:v2
       type: Docker
 parameters:
 - name: REPO_NAME
   description: Application repository name
-  required: true
-- name: JOB_NAME
-  description: Job identifier (i.e. 'pr-5' OR 'main')
   required: true
 - name: NAMESPACE
   description: Target namespace reference (i.e. 'k8vopl-dev')

@@ -226,12 +226,13 @@ router.beforeEach((to, _from, next) => {
             next();
           }
         }).catch(() => {
+          // eslint-disable-next-line
           console.log('Unable to get user info');
           next('error');
         });
       }
     }).catch(() => {
-      console.log('Unable to get token');
+      
       next(nextRouteInError);
     });
   }
