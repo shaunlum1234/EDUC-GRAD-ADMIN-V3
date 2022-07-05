@@ -72,9 +72,8 @@ objects:
     source:
       dockerfile: |-
         FROM docker-registry.default.svc:5000/bbe4c3-tools/caddy:v2
-        COPY /tmp/src/dist/app/view /var/www/html
-        COPY /tmp/src/Caddyfile /etc/Caddyfile
-        CMD /tmp/scripts/run
+        COPY /tmp/src/dist /srv
+        COPY /tmp/src/Caddyfile /etc/caddy/Caddyfile
       images:
       - as:
         from:
