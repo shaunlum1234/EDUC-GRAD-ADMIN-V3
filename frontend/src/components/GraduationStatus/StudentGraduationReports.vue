@@ -5,8 +5,13 @@
       no-body
     >   
       <b-card-text class="py-4">
-        <div v-if="reports">
-                    
+        <div v-if="!(studentGradStatus.studentGradData.school && studentGradStatus.studentGradData.school.transcriptEligibility === 'Y')">
+          <b-alert show variant="info" class="p-3 mb-1 mx-3">
+            <h4 class="alert-heading">Ineligible for Ministry transcripts</h4>
+            <p class="locked-message">
+              This student's school is ineligible for Ministry transcripts.
+            </p>
+        </b-alert>
           <div v-for="(report, index) in reports" :key="index" class="px-3 w-100 float-left">
             <a  @click="downloadPDF(report.report,'application/pdf')" href="#" class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
             <div class="float-left col-12 pr-4 ml-1">
@@ -44,7 +49,7 @@
         </div>  
         <div>
           <div v-if="xmlReports != 'not loaded'" class="px-3 w-100 float-left mt-2">
-              <a @click="downloadPDF(xmlReports,'application/pdf')" href="#">View XML Preview</a>
+              <b-button variant="link" :disabled="!(studentGradStatus.studentGradData.school && studentGradStatus.studentGradData.school.transcriptEligibility === 'Y')" @click="downloadPDF(xmlReports,'application/pdf')" href="#">View XML Preview</b-button>
           </div>    
         </div>                          
       </b-card-text>
@@ -63,7 +68,8 @@ import sharedMethods from '../../sharedMethods';
       ...mapGetters({
         reports: "getStudentReports",
         transcripts: "getStudentTranscripts",
-        xmlReports: "getStudentXmlReports"
+        xmlReports: "getStudentXmlReports",
+        studentGradStatus: "getStudentGradStatus"
       })
     },
     methods: {

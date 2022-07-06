@@ -105,7 +105,7 @@ export default {
           },
           {
             key: 'optionalProgramRequirementCode.languageOfInstruction',
-            label: 'Language',
+            label: 'Required Language of Instruction',
             sortable: true,
             editable: true,
             class: '',
