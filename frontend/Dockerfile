@@ -5,7 +5,7 @@ RUN npm install
 COPY ./ .
 RUN npm run build
 
-FROM docker-remote.artifacts.developer.gov.bc.ca/caddy:2.5.1-alpine as caddy-stage
+FROM docker-remote.artifacts.developer.gov.bc.ca/caddy:2.4.6-alpine as caddy-stage
 
 EXPOSE 2015
 COPY Caddyfile /etc/caddy/Caddyfile
