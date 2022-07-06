@@ -1,6 +1,6 @@
 FROM docker-remote.artifacts.developer.gov.bc.ca/node:14.19.0
 WORKDIR /opt/app-root/src
-COPY package*.json ./ 
+COPY package*.json ./
 RUN npm --version
 RUN node -v
 RUN npm install
