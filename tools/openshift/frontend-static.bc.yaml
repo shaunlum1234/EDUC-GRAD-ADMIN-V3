@@ -21,10 +21,10 @@ objects:
       local: false
     tags:
     - annotations:
-        openshift.io/imported-from: docker-registry.default.svc:5000/bbe4c3-dev/caddy:v2
+        openshift.io/imported-from: docker-registry.default.svc:5000/bcgov/s2i-caddy:v1-stable
       from:
         kind: DockerImage
-        name: docker-registry.default.svc:5000/bbe4c3-dev/caddy:v2
+        name: docker-registry.default.svc:5000/bcgov/s2i-caddy:v1-stable
       generation:
       importPolicy: {}
       name: v1-stable
@@ -71,9 +71,10 @@ objects:
     runPolicy: SerialLatestOnly
     source:
       dockerfile: |-
-        FROM docker-registry.default.svc:5000/bbe4c3-tools/caddy:v2
-        COPY /tmp/src/dist /srv
-        COPY /tmp/src/Caddyfile /etc/caddy/Caddyfile
+        FROM docker-registry.default.svc:5000/bcgov/s2i-caddy:v1-stable
+        COPY /tmp/src/dist/app/view /var/www/html
+        COPY /tmp/src/Caddyfile /etc/Caddyfile
+        CMD /tmp/scripts/run
       images:
       - as:
         from:
@@ -88,7 +89,7 @@ objects:
       dockerStrategy:
         from:
           kind: ImageStreamTag
-          name: caddy:v2
+          name: s2i-caddy:v1-stable
       type: Docker
 parameters:
 - name: REPO_NAME
