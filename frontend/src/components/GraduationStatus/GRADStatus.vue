@@ -377,7 +377,8 @@ export default {
       }
       this.programEffectiveDate = this.programCompletionEffectiveDateList[0].effectiveDate
       this.programExpiryDate = this.programCompletionEffectiveDateList[0].expiryDate
-      var compareDate = new Date(this.editedGradStatus.programCompletionDate);
+      let compareDate = new Date(this.editedGradStatus.programCompletionDate);
+      let today = new Date();
       if(!this.editedGradStatus.programCompletionDate){
         if(this.editedGradStatus.program == 'SCCP'){
           this.disableButton = false;
@@ -399,12 +400,18 @@ export default {
       }
       if(this.studentGradStatus.programCompletionDate){
         if(this.editedGradStatus.program == 'SCCP'){
-          if(compareDate > this.todayDate){
+          if(compareDate > today){
             this.dateInFutureWarning = true;
             this.disableButton = true;
           }else{
             this.dateInFutureWarning = false;
+            this.disableButton = false;
+            if(!this.editedGradStatus.programCompletionDate || this.editedGradStatus.programCompletionDate == undefined){
+            this.disableButton = true;
+          } else {
+            this.disableButton = false;
           }        
+          }         
         }
       }      
     },
