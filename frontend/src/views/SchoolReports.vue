@@ -55,7 +55,7 @@
               <template #cell(updateDate)="row">
                 {{ row.item.updateDate | formatSimpleDate }}
               </template>
-              <template #cell(createDate)="row">
+              <template #cell(distributionDate)="row">
                 {{ row.item.createDate | formatSimpleDate }}
               </template>
             </DisplayTable>
@@ -118,8 +118,7 @@
             sortDirection: 'asc'
           },
           {
-            // TODO: confirm this is OK w/Kim
-            key: 'createDate',
+            key: 'distributionDate',
             label: 'Distribution Date',
             sortable: true,
             sortDirection: 'asc'
