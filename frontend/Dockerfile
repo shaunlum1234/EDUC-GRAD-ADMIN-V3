@@ -1,10 +1,9 @@
 FROM docker-remote.artifacts.developer.gov.bc.ca/node:14.19.0
-ENV NODE_OPTIONS="–max_old_space_size=2048"
 WORKDIR /opt/app-root/src
 COPY package*.json ./
 RUN npm --version
 RUN node -v
-RUN npm install
+RUN npm i --no-optional
 # --no-optional --production
 
 # Build Application
