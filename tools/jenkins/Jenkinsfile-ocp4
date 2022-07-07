@@ -5,13 +5,13 @@ pipeline{
     DEBUG_OUTPUT = 'false'
 
     extJSHelper = '';
-    NAMESPACE='bbe4c3'
+    NAMESPACE='77c02f'
     COMMON_NAMESPACE='75e61b'
     STAGING_ENV = 'Dev'
-    TOOLS = 'bbe4c3-tools'
-    DEV = 'bbe4c3-dev'
-    TEST = 'bbe4c3-test'
-    PROD = 'bbe4c3-prod'
+    TOOLS = '77c02f-tools'
+    DEV = '77c02f-dev'
+    TEST = '77c02f-test'
+    PROD = '77c02f-prod'
     REPO_NAME = 'educ-grad-admin'
     TESTS_REPO_NAME = ''
     OWNER = 'bcgov'
@@ -43,7 +43,7 @@ pipeline{
     MAX_CPU_BE = "100m"
     MIN_MEM_BE = "200Mi"
     MAX_MEM_BE = "250Mi"
-    DC_URL_FRONTEND = "https://raw.githubusercontent.com/bcgov/EDUC-GRAD-ADMIN/feature/nodejs/tools/openshift/frontend-static.dc.ocp4.yaml"
+    DC_URL_FRONTEND = "https://raw.githubusercontent.com/bcgov/EDUC-GRAD-ADMIN/nodejs-77c02f/tools/openshift/frontend-static.dc.ocp4.yaml"
   }
   options {
       buildDiscarder(logRotator(daysToKeepStr: '', numToKeepStr: '10'))
@@ -88,12 +88,12 @@ pipeline{
                   Frontend: {
                     try {
                       echo "Building frontend..."
-                      def bcFrontend = openshift.process('-f', 'https://raw.githubusercontent.com/bcgov/EDUC-GRAD-ADMIN/feature/nodejs/tools/openshift/frontend.bc.yaml', "REPO_NAME=${REPO_NAME}", "SOURCE_REPO_URL=${SOURCE_REPO_URL}", "SOURCE_REPO_REF=${SOURCE_REPO_REF}")
+                      def bcFrontend = openshift.process('-f', 'https://raw.githubusercontent.com/bcgov/EDUC-GRAD-ADMIN/nodejs-77c02f/tools/openshift/frontend.bc.yaml', "REPO_NAME=${REPO_NAME}", "SOURCE_REPO_URL=${SOURCE_REPO_URL}", "SOURCE_REPO_REF=${SOURCE_REPO_REF}")
 
                       openshift.apply(bcFrontend).narrow('bc').startBuild('-w').logs('-f')
                       openshift.tag("${REPO_NAME}-frontend:latest", "${REPO_NAME}-frontend:dev")
 
-                      def bcFrontendStatic = openshift.process('-f', 'https://raw.githubusercontent.com/bcgov/EDUC-GRAD-ADMIN/feature/nodejs/tools/openshift/frontend-static.bc.yaml', "REPO_NAME=${REPO_NAME}", "NAMESPACE=${TOOLS}")
+                      def bcFrontendStatic = openshift.process('-f', 'https://raw.githubusercontent.com/bcgov/EDUC-GRAD-ADMIN/nodejs-77c02f/tools/openshift/frontend-static.bc.yaml', "REPO_NAME=${REPO_NAME}", "NAMESPACE=${TOOLS}")
                       openshift.apply(bcFrontendStatic).narrow('bc').startBuild('-w').logs('-f')
                       openshift.tag("${REPO_NAME}-frontend-static:latest", "${REPO_NAME}-frontend-static:dev")
                     } catch(e) {
@@ -163,7 +163,7 @@ def deployStage(String stageEnv, String projectEnv, String hostRouteEnv, String 
       echo "Tagging image"
       openshift.tag("${TOOLS}/${REPO_NAME}-frontend-static:${tag}", "${REPO_NAME}-frontend-static:${tag}")
       def dcTemplate = openshift.process('-f',
-        'https://raw.githubusercontent.com/bcgov/EDUC-GRAD-ADMIN/feature/nodejs/tools/openshift/frontend-static.dc.ocp4.yaml',
+        'https://raw.githubusercontent.com/bcgov/EDUC-GRAD-ADMIN/nodejs-77c02f/tools/openshift/frontend-static.dc.ocp4.yaml',
         "REPO_NAME=${REPO_NAME}",
         "NAMESPACE=${projectEnv}",
         "APP_NAME=${APP_NAME}",
