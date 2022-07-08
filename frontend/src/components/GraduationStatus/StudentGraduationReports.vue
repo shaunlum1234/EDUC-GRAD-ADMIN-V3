@@ -3,7 +3,8 @@
     <b-card
       header="Student Transcript Reports"
       no-body
-    >   
+    > 
+
       <b-card-text class="py-4">
         <div v-if="studentGradStatus.studentGradData">
           <div v-if="!(studentGradStatus.studentGradData.schoolOfRecord && studentGradStatus.studentGradData.transcriptEligibility === 'Y')">
