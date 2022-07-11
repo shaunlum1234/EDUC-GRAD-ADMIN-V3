@@ -1,50 +1,6 @@
 <template>
   <div class="container">
-    <!-- Notes Section -->
-    <div>
-      <b-button v-b-toggle.note-collapse variant="link" v-on:click="showNotes = !showNotes" class="float-left">
-        <img v-show="!showNotes" src="../assets/images/icon-right.svg" width="14px" aria-hidden="true" alt=""/>
-        <img v-show="showNotes" src="../assets/images/icon-down.svg" height="8px" aria-hidden="true" alt=""/>
-      </b-button>
-      <h3 class="pt-2">{{'Notes ('  + studentNotes.length + ')'}}</h3>
-    </div>
-    <b-collapse id="note-collapse" class="py-2">
-      <StudentNotes />
-    </b-collapse>
-    <hr>
 
-    <!-- Undo Completion/Ungrad reasons section -->
-    <div>
-      <b-button v-b-toggle.ungrad-reasons-collapse variant="link" v-on:click="showUngradReasons = !showUngradReasons" class="float-left">
-        <img v-show="!showUngradReasons" src="../assets/images/icon-right.svg" width="14px" aria-hidden="true" alt=""/>
-        <img v-show="showUngradReasons" src="../assets/images/icon-down.svg" height="8px" aria-hidden="true" alt=""/>
-      </b-button>
-      <h3 class="pt-2">{{'Undo Completion Reasons ('  + studentUngradReasons.length + ')'}}</h3>
-    </div>
-    <b-collapse id="ungrad-reasons-collapse">
-      <div class="pb-3 px-3">
-        <DisplayTable striped :items="studentUngradReasons"
-          :fields='[
-            {key: "createDate", label: "Undo Completion Date", class:"px-0 py-2 w-15"},
-            {key: "undoCompletionReasonCode",label: "Code",class:"px-0 py-2 w-10"},
-            {key: "undoCompletionReasonDescription",label: "Reason",class:"px-0 py-2 w-80"},
-            {key: "createUser",label: "User",class:"px-0 py-2 w-80"}
-          ]'>
-        </DisplayTable>
-      </div>
-    </b-collapse>
-    <hr>
-
-    <!-- Student audit -->
-    <div>
-      <b-button v-b-toggle.student-audit-collapse variant="link" v-on:click="showStudentAudit = !showStudentAudit" class="float-left">
-        <img v-show="!showStudentAudit" src="../assets/images/icon-right.svg" width="14px" aria-hidden="true" alt=""/>
-        <img v-show="showStudentAudit" src="../assets/images/icon-down.svg" height="8px" aria-hidden="true" alt=""/>
-      </b-button>
-      <h3 class="pt-2">Student Audit</h3>
-    </div>
-    
-    <b-collapse visible id="student-audit-collapse">
       <!-- TODO: Remove counts on buttons; leaving in for debuggin purposes right now -->
       <b-button class="mx-2" v-on:click="auditTab = 'studentHistory'" :variant="auditTab == 'studentHistory' ? 'primary' : 'outline-secondary'">Student change history [DEBUG: {{this.studentHistory.length}}]</b-button>
       <b-button class="mx-2" v-on:click="auditTab = 'optionalProgramHistory'" :variant="auditTab == 'optionalProgramHistory' ? 'primary' : 'outline-secondary'">Optional program change history [DEBUG: {{this.optionalProgramHistory.length}}]</b-button>
@@ -150,8 +106,6 @@
           </div>
         </div>
       </div>
-    </b-collapse>
-    <hr>
 
 
   </div>
@@ -162,15 +116,9 @@
 import { mapGetters } from "vuex";
 import { DeepDiff } from 'deep-diff';
 import sharedMethods from '../sharedMethods';
-import StudentNotes from "@/components/StudentNotes";
-import DisplayTable from "@/components/DisplayTable.vue";
 
 export default {
   name: "StudentAuditHistory",
-  components: {
-    StudentNotes: StudentNotes,
-    DisplayTable: DisplayTable,
-  },
   props: {},
   computed: {
     ...mapGetters({

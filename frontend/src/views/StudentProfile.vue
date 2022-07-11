@@ -151,7 +151,22 @@
 
                 <b-tab :title="'Audit History'" class="py-3 px-0 m-1">
                   <b-card-text>
-                    <StudentAuditHistory></StudentAuditHistory>
+                    <b-button class="mr-2 my-1" v-on:click="auditTab ='studentAudit'" size="sm" :variant="auditTab == 'studentAudit'? 'primary':'outline-secondary'">Student Audit</b-button>
+                    <b-button class="mr-2 my-1" v-on:click="auditTab ='notes'" size="sm" :variant="auditTab == 'notes'? 'primary':'outline-secondary'">Notes</b-button>
+                    <b-button class="mr-2 my-1" v-on:click="auditTab ='undoCompletionReasons'" size="sm" :variant="auditTab == 'undoCompletionReasons'? 'primary':'outline-secondary'">Undo Completion Reasons</b-button>
+                    <StudentAuditHistory v-if="auditTab == 'studentAudit'" />
+                    <StudentNotes v-else-if="auditTab == 'notes'" />
+                    <div v-else-if="auditTab == 'undoCompletionReasons'" class="pb-3 px-3">
+                      <p v-if="studentUngradReasons.length === 0">Student has no undo completion reasons to show</p>
+                      <DisplayTable v-else striped :items="studentUngradReasons"
+                        :fields='[
+                          {key: "createDate", label: "Undo Completion Date", class:"px-0 py-2 w-15"},
+                          {key: "undoCompletionReasonCode",label: "Code",class:"px-0 py-2 w-10"},
+                          {key: "undoCompletionReasonDescription",label: "Reason",class:"px-0 py-2 w-80"},
+                          {key: "createUser",label: "User",class:"px-0 py-2 w-80"}
+                        ]'>
+                      </DisplayTable>
+                    </div>
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
                 </b-tab>
@@ -346,6 +361,8 @@
   import StudentGraduationStatus from "@/components/StudentGraduationStatus";
   import StudentOptionalPrograms from "@/components/StudentOptionalPrograms";
   import StudentAuditHistory from "@/components/StudentAuditHistory";
+  import StudentNotes from "@/components/StudentNotes";
+  import DisplayTable from "@/components/DisplayTable.vue";
 
   import {
     mapGetters
@@ -389,7 +406,9 @@
       StudentExams: StudentExams,
       StudentGraduationStatus: StudentGraduationStatus,
       StudentOptionalPrograms: StudentOptionalPrograms,
-      StudentAuditHistory: StudentAuditHistory
+      StudentAuditHistory: StudentAuditHistory,
+      StudentNotes: StudentNotes,
+      DisplayTable: DisplayTable,
     },
     props: {
 
@@ -408,6 +427,7 @@
         projectedGradStatusWithRegistrations: [],
         tabLoading: false,
         gradTab:"gradStatus",
+        auditTab: "studentAudit",
         show: false,
         opened: [],
         displayMessage: null,
