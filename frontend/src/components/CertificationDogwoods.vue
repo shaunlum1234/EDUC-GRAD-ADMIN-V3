@@ -6,7 +6,8 @@
       >
       <b-card-text class="py-4">
         <div v-if="studentGradStatus">
-          <div v-if="!(studentGradStatus.schoolOfRecord && studentGradStatus.studentGradData.school.certificateEligibility == 'Y')">
+        <div v-if="studentGradStatus.studentGradData">
+          <div v-if="studentGradStatus.studentGradData.school.certificateEligibility == 'N'">
             <b-alert show variant="info" class="p-3 mb-1 mx-3">
               <h4 class="alert-heading">Ineligible for Ministry certificates</h4>
               <p class="locked-message">
@@ -14,6 +15,7 @@
               </p>
             </b-alert>
           </div>
+        </div>
         </div>
         <div v-if="certificates">
           <div v-for="(certificate, index) in certificates" :key="index" class="px-3 w-100 float-left">        
