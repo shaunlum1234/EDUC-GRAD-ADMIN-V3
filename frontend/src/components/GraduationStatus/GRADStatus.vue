@@ -37,10 +37,10 @@
           </b-alert>
         </div>    
         <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'DEC' && showEdit">
-          <b-alert show variant="info" class="p-3 mb-1">
+          <b-alert show variant="warning" class="p-3 mb-1">
             <h4 class="alert-heading">Student status: Deceased</h4>
               <p class="locked-message">
-                This student's status is set to 'Deceased'. Their data cannot be changed.
+                Warning: This student is showing as "Deceased". 
               </p>
             </b-alert>
           </div>          
@@ -294,7 +294,7 @@ export default {
       return this.editedGradStatus.schoolAtGrad;
     },
     disableSaveButton(){
-      return this.studentGradStatus.studentStatus == "DEC" || this.disableButton
+      return this.disableButton
     },
     recalculateFlag(){
       return this.studentGradStatus.recalculateGradStatus; 
@@ -547,7 +547,7 @@ export default {
         this.disableSchoolAtGrad = true;
       }
 
-      if(this.studentGradStatus.studentStatus == 'MER' || this.studentGradStatus.studentStatus == 'DEC'){
+      if(this.studentGradStatus.studentStatus == 'MER'){
         this.disableInput = true;
         this.disableStudentStatus = true;
       }
