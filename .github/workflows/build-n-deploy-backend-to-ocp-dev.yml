@@ -154,7 +154,7 @@ jobs:
           oc tag ${{ steps.push-image-backend.outputs.registry-path }} ${{ env.REPO_NAME }}-backend:${{ env.TAG }}
 
           pwd
-          ls -lrta
+          ls -lrta tools/openshift
 
           # Process and apply deployment template
           oc process -f tools/openshift/backend.dc.yaml -p REPO_NAME=educ-grad-admin -p HOST_ROUTE=educ-grad-admin-bbe4c3-dev.apps.silver.devops.gov.bc.ca | oc apply -n bbe4c3-dev -f -
