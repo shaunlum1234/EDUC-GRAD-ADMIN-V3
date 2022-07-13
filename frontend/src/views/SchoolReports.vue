@@ -101,7 +101,13 @@
           },
           {
             key: 'schoolOfRecord',
-            label: 'School Code',
+            label: 'Mincode',
+            sortable: true,
+            sortDirection: 'asc'
+          },
+          {
+            key: 'schoolOfRecordName',
+            label: 'School Name',
             sortable: true,
             sortDirection: 'asc'
           },
