@@ -64,17 +64,17 @@ export default {
           sortable: true,
         },
         {
-          key: 'assessmentReleaseDate',
-          label: 'Do Not Report Assessments After Last Release Date',
-          sortable: true,
-        },
-        {
           key: 'associatedCredential',
           label: 'Associated Credential',
           sortable: true,
           sortDirection: 'desc',
           editable: true,
         },   
+        {
+          key: 'assessmentReleaseDate',
+          label: 'Do Not Report Assessments After Last Release Date',
+          sortable: true,
+        },
         {
           key: "effectiveDate",
           label: "Effective Date",
