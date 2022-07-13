@@ -149,9 +149,9 @@ jobs:
           || true && echo "No rollout in progress"
 
           # Create the image stream if it doesn't exist
-          oc create imagestream ${{ env.REPO_NAME }}-backend-${{ env.BRANCH }} 2> /dev/null || true && echo "Backend image stream in place"
+          oc create imagestream ${{ env.REPO_NAME }}-backend 2> /dev/null || true && echo "Backend image stream in place"
 
-          oc tag ${{ steps.push-image-backend.outputs.registry-path }} ${{ env.REPO_NAME }}-backend-${{ env.BRANCH }}:${{ env.TAG }}
+          oc tag ${{ steps.push-image-backend.outputs.registry-path }} ${{ env.REPO_NAME }}-backend:${{ env.TAG }}
 
           # Process and apply deployment template
           oc process -f tools/openshift/backend.dc.yaml -p REPO_NAME=educ-grad-admin -p HOST_ROUTE=educ-grad-admin-bbe4c3-dev.apps.silver.devops.gov.bc.ca | oc apply -n bbe4c3-dev -f -
