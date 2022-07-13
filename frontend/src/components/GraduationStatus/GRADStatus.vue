@@ -520,6 +520,9 @@ export default {
       }  
     },
   methods: {
+    getStudentReportsAndCertificates: function(){
+      this.$root.$emit('studentProfile')
+    },
     getStudentStatus(code) {
       return sharedMethods.getStudentStatus(code, this.studentStatusOptions);
     },
@@ -612,6 +615,7 @@ export default {
       )
       .then((response) => {
         this.updateStatus = response.data;
+        this.getStudentReportsAndCertificates();
         this.studentGradStatus.pen = response.data.pen;
         this.studentGradStatus.program = response.data.program;
         this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;

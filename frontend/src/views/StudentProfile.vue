@@ -445,7 +445,11 @@
         optionalProgramHistory: 'getStudentOptionalProgramAuditHistory',
       }),
     },
-    
+    mounted() {
+      this.$root.$on('studentProfile', () => {
+        this.getStudentReportsAndCertificates(this.studentId, this.pen);
+      })
+    },
     destroyed() {
       window.removeEventListener('resize', this.handleResize);
     },
@@ -472,11 +476,6 @@
               }
             ).catch((error) => {
               if(error.response.status){
-                // this.$bvToast.toast("ERROR " + error.response.statusText, {
-                //   title: "ERROR" + error.response.status,
-                //   variant: 'danger',
-                //   noAutoHide: true,
-                // });
                 this.showNotification(
                   "danger",
                   "There was an error: " + error.response.status
