@@ -48,7 +48,7 @@ nconf.defaults({
     programAPIURL: process.env.PROGRAM_API_URL,
     studentAPIURL: process.env.GRAD_STUDENT_API_URL,
     studentGraduationAPIURL: process.env.STUDENT_GRADUATION_API_URL,
-    gradTraxURL: process.env.GRAD_TRAX_API_URL,
+    gradTraxAPIURL: process.env.GRAD_TRAX_API_URL,
     reportAPIURL: process.env.GRAD_REPORT_API_URL
   },
   oidc: {
