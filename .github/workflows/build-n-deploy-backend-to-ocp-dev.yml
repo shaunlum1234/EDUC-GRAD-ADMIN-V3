@@ -167,4 +167,4 @@ jobs:
       - name: ZAP Scan
         uses: zaproxy/action-full-scan@v0.3.0
         with:
-          target: 'https://${{ env.HOST_ROUTE }}'
+          target: 'https://educ-grad-admin-bbe4c3-dev.apps.silver.devops.gov.bc.ca'
