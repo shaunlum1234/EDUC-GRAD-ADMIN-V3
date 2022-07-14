@@ -204,7 +204,7 @@ export default {
       scheduledJobFields: [
         {
           key: 'rowId',
-          label: 'Row ID',
+          label: 'ID',
           sortable: true,
           class: 'text-left',
         }, 

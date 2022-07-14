@@ -26,7 +26,6 @@ async function postBatchInfoAPI(req, res) {
   const token = getBackendToken(req);
   try {  
     const url = `${config.get('server:batchAPIURL')}/batch` + req.url;
-    console.log("URLURL " + url)
     const data = await postData(token, url, req.body );
     return res.status(200).json(data);
   } catch (e) {
