@@ -28,7 +28,12 @@ env:
   COMMON_NAMESPACE: 75e61b
   TAG: "latest"
   TARGET_ENV: "dev"
-
+  MIN_REPLICAS: "1"
+  MAX_REPLICAS: "1"
+  MIN_CPU: "50m"
+  MAX_CPU: "100m"
+  MIN_MEM: "200Mi"
+  MAX_MEM: "250Mi"
   # SITE_URL should have no scheme or port. It will be prepended with https://
   HOST_ROUTE: ${{ secrets.SITE_URL }}
 
@@ -140,7 +145,7 @@ jobs:
           oc login --token=${{ env.OPENSHIFT_TOKEN }} --server=${{ env.OPENSHIFT_SERVER }}
           oc project ${{ env.OPENSHIFT_NAMESPACE }}
           # Cancel any rollouts in progress
-          oc rollout cancel dc/${{ env.IMAGE_NAME }}-dc 2> /dev/null \
+          oc rollout cancel dc/${{ env.IMAGE_NAME }} 2> /dev/null \
           || true && echo "No rollout in progress"
 
           # Create the image stream if it doesn't exist
