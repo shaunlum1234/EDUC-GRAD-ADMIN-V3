@@ -379,10 +379,10 @@ export default {
       this.addMode = false;
     },
     deleteItem(item) {
-      console.log("item id")
-      console.log(item[this.id])
+      //console.log("item id")
+      //console.log(item[this.id])
       let id = item[this.id];
-      console.log(this.delete)
+      //console.log(this.delete)
       this.$store.dispatch(this.delete, {id});
       this.items.splice(this.items.indexOf(item), 1);
       this.$bvToast.toast("Record was deleted", {

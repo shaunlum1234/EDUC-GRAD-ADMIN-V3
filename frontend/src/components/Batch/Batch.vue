@@ -420,9 +420,9 @@ export default {
     },
     getCronTime(){
 
-      console.log(this.batchRunSchedule)
-      console.log(this.batchRunCustomDate + "T" + this.batchRunCustomTime)
-      console.log()
+      //console.log(this.batchRunSchedule)
+      //console.log(this.batchRunCustomDate + "T" + this.batchRunCustomTime)
+      //console.log()
       if(this.batchRunSchedule == 'N'){
         return null;
       }else if(this.batchRunSchedule == 'W'){
