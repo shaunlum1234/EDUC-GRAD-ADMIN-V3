@@ -28,7 +28,7 @@ export default {
   getBatchSummary() {
     return ApiService.apiAxios.get('/api/v1/batch/dashboard/summary');
   },    
-  getScheduledJobs() {
+  getScheduledBatchJobs() {
     return ApiService.apiAxios.get('/api/v1/batch/schedule/listjobs');
   },
   addScheduledJob(scheduledJob) {

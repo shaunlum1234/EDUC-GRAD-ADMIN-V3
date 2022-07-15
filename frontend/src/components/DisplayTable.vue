@@ -182,16 +182,9 @@
       </template>
       <template v-slot:cell(delete)="{ item }">
         
-         <b-btn variant="danger" size="sm" @click="deleteItem(item)">
+         <b-btn v-if="deleteMode" variant="danger" size="sm" @click="deleteItem(item)">
             Delete
           </b-btn>
-        <b-button-group
-          v-if="itemRow && itemRow[id] === item[id] && deleteMode"
-        >
-          <b-btn variant="danger" size="sm" @click="deleteItem(item)">
-            Delete
-          </b-btn>
-        </b-button-group>
 
         <b-btn
           v-else-if="roles == 'administrator' && quickEdit"
@@ -313,7 +306,7 @@ export default {
       this.updateAllowed = true;
       this.fields.push({
         key: "actions",
-        class: "d-none",
+        class: "d-block",
         label: "Edit",
       });
     }
@@ -322,7 +315,7 @@ export default {
  
       this.fields.push({
         key: "delete",
-        class: "d-none",
+        class: "d-block",
         label: "Delete",
       });
     }
@@ -379,18 +372,23 @@ export default {
       this.addMode = false;
     },
     deleteItem(item) {
-      //console.log("item id")
-      //console.log(item[this.id])
       let id = item[this.id];
-      //console.log(this.delete)
-      this.$store.dispatch(this.delete, {id});
-      this.items.splice(this.items.indexOf(item), 1);
-      this.$bvToast.toast("Record was deleted", {
-        title: "Success",
-        variant: "success",
-      });
-      this.cancelDelete();
-      this.deleteMode = false;
+      this.$store.dispatch(this.delete, {id}).then((result) =>{
+          if(result.status && result.status == '200'){
+            this.items.splice(this.items.indexOf(item), 1);     
+            this.$bvToast.toast("Record was deleted", {
+              title: "Success",
+              variant: "success",
+            }); 
+          }
+      }).catch((error) => {
+        if(error){
+          this.$bvToast.toast("There was an issue when trying to delete this record", {
+            title: "Error",
+            variant: "danger",
+          }); 
+        }
+      })
     },
     confirmDelete(item) {
       this.deleteMode = true;

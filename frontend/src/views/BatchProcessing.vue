@@ -70,7 +70,7 @@
                         No Scheduled Jobs
                       </div>
                      <DisplayTable title="Job/Runs" :items="scheduledJobs"
-                        v-bind:fields="scheduledJobFields" id="rowId" :showFilter=false pagination="true" create="batchprocessing/create" update="batchprocessing/update" delete="batchprocessing/removeScheduledJobs"
+                        v-bind:fields="scheduledJobFields" id="rowId" :showFilter=false pagination="true" delete="batchprocessing/removeScheduledJobs"
                       >
                         <template #cell(jobExecutionId)="row">
                           <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
@@ -157,6 +157,7 @@ export default {
       tabContent: "batchprocessing/getBatchDetails",
       tabs: "batchprocessing/getBatchProcessingTabs",
       spinners: "batchprocessing/getBatchTabsLoading",
+      scheduledJobs: "batchprocessing/getScheduledBatchJobs",
       courses: "getStudentCourses",
       gradStatusCourses: "gradStatusCourses",
       studentGradStatus: "getStudentGradStatus",
@@ -198,7 +199,6 @@ export default {
       isErrorShowing: false,
       isBatchShowing: false,
       batchInfoListData:[],
-      scheduledJobs:[],
       certificateTypes:[],
       transcriptTypes:[],
       scheduledJobFields: [
@@ -529,8 +529,9 @@ export default {
         setTimeout(this.getBatchProgress(requestId), 5000);
     },    
     getScheduledJobs(){
-      BatchProcessingService.getScheduledJobs().then((response) => {
-        this.scheduledJobs = response.data
+
+      BatchProcessingService.getScheduledBatchJobs().then((response) => {
+        this.setScheduledBatchJobs(response.data);
       })
     },
     getBatchProgress(requestId){
