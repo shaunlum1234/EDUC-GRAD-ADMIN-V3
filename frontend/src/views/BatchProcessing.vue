@@ -70,7 +70,7 @@
                         No Scheduled Jobs
                       </div>
                      <DisplayTable title="Job/Runs" :items="scheduledJobs"
-                        v-bind:fields="scheduledJobFields" id="rowId" :showFilter=false pagination="true" delete="batchprocessing/removeScheduledJobs"
+                        v-bind:fields="scheduledJobFields" id="rowId" :showFilter=false pagination="true" deleteLabel="Cancel" delete="batchprocessing/removeScheduledJobs"
                       >
                         <template #cell(jobExecutionId)="row">
                           <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
@@ -91,6 +91,9 @@
                             {{row.item.failedStudentsProcessed}}   
                           </b-btn>  
                           <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
+                        </template>
+                        <template #cell(job-state)="row">
+                          <b-form-checkbox switch size="lg">Large</b-form-checkbox>
                         </template>
                       </DisplayTable>
                   </b-card-text>
@@ -231,7 +234,13 @@ export default {
           label: 'Status',
           sortable: true,
           class: 'text-left',
-        },                          
+        },     
+        {
+          key: 'recurring',
+          label: 'Recurring',
+          sortable: true,
+          class: 'text-left',
+        },                                  
       ], 
       jobRunFields: [
          {

@@ -183,7 +183,8 @@
       <template v-slot:cell(delete)="{ item }">
         
          <b-btn v-if="deleteMode" variant="danger" size="sm" @click="deleteItem(item)">
-            Delete
+          
+            {{deleteLabel? deleteLabel:'Delete'}}
           </b-btn>
 
         <b-btn
@@ -227,6 +228,7 @@ export default {
     "create",
     "update",
     "delete",
+    "deleteLabel",
     "slots",
     "showFilter",
     "pagination",
