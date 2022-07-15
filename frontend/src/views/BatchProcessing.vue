@@ -234,13 +234,13 @@ export default {
           label: 'Status',
           sortable: true,
           class: 'text-left',
-        },     
+        },    
         {
-          key: 'recurring',
-          label: 'Recurring',
+          key: 'delete',
+          label: 'Delete',
           sortable: true,
-          class: 'text-left',
-        },                                  
+          class: 'w-50 text-left',
+        },                                             
       ], 
       jobRunFields: [
          {
