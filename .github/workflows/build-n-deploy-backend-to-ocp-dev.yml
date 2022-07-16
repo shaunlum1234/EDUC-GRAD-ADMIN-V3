@@ -21,7 +21,7 @@ env:
 
   APP_NAME: 'educ-grad-admin'
   REPO_NAME: "educ-grad-admin"
-  BRANCH: "feature/nodejs"
+  BRANCH: "main"
   APP_NAME_BACKEND: "educ-grad-admin-backend"
   NAMESPACE: bbe4c3
   NAMESPACE_TOOLS: bbe4c3-tools
