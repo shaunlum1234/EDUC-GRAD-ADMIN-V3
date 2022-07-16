@@ -108,7 +108,10 @@ jobs:
           || true && echo "No rollout in progress"
 
           # Process and apply deployment template
-          oc process -f tools/openshift/frontend-static.dc.ocp4.yaml -p REPO_NAME=educ-grad-admin -p HOST_ROUTE=educ-grad-admin-bbe4c3-test.apps.silver.devops.gov.bc.ca | oc apply -n bbe4c3-test -f -
+          oc process -f tools/openshift/frontend-static.dc.ocp4.yaml -p REPO_NAME=educ-grad-admin \
+          -p HOST_ROUTE=educ-grad-admin-bbe4c3-test.apps.silver.devops.gov.bc.ca -p NAMESPACE=${{ env.NAMESPACE_TOOLS }} \
+          -p APP_NAME=educ-grad-admin -p TAG=latest -p MIN_REPLICAS=2 -p MAX_REPLICAS=3 -p MIN_CPU=50m -p MAX_CPU=100m \
+          -p MIN_MEM=200Mi -p MAX_MEM=250Mi | oc apply -n bbe4c3-test -f -
 
           # Start rollout (if necessary) and follow it
           oc rollout latest dc/${{ env.IMAGE_NAME }}-dc 2> /dev/null \
