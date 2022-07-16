@@ -1,4 +1,4 @@
-name: Deploy to TEST
+name: Deploy Backend-TEST
 
 env:
   # 🖊️ EDIT your repository secrets to log into your OpenShift cluster and set up the context.
@@ -37,7 +37,7 @@ on:
 
 jobs:
   openshift-ci-cd:
-    name: Deploy to TEST
+    name: Deploy Backend to TEST
     # ubuntu-20.04 can also be used.
     runs-on: ubuntu-18.04
     environment: test
