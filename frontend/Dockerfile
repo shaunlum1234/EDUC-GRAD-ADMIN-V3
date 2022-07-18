@@ -4,11 +4,9 @@ COPY package*.json ./
 RUN npm --version
   
 RUN node -v
-RUN npm i --no-optional --production
-# --no-optional --production
+RUN npm i --no-optional
 # Build Application
 COPY . /opt/app-root/src
-
 RUN npm run build
 
 FROM zzrot/alpine-caddy:v0.9.5 as caddy-stage
