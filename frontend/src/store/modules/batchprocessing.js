@@ -4,6 +4,7 @@ export default {
   namespaced: true,
   state: {
     batchDetails: [],
+    scheduledBatchJobs: [],
     batchAutoIncrement: 1,
     batchTabsLoading: [],
     tabs: [],
@@ -73,7 +74,10 @@ export default {
     clearBatchCredentialsDetails(state,payload){
       state.batchDetails[payload].details['blankCertificateDetails']=[{}];
       state.batchDetails[payload].details['blankTranscriptDetails']=[{}];
-    }             
+    },     
+    setScheduledBatchJobs(state, payload){
+      this.scheduledBatchJobs = payload;
+    }        
   },
   actions: {
     
@@ -89,8 +93,13 @@ export default {
         console.log(error.response.status);
       });
     },
-    removeScheduledJobs(jobId) {
-      return BatchProcessingService.removeScheduledJobs(jobId);
+    setScheduledBatchJobs({commit}, payload) {
+      commit('setScheduledBatchJobs', payload);
+    },
+    removeScheduledJobs({state}, payload) {
+       // eslint-disable-next-line
+      console.log(state.batchDetails)
+      return BatchProcessingService.removeScheduledJobs(payload['id']);
     },    
     addStudentToBatch({commit}, payload){
       commit('addStudentToBatch', payload);
@@ -115,5 +124,8 @@ export default {
     getBatchProcessingTabs(state){
       return state.tabs;
     },    
+    getScheduledBatchJobs(state){
+      return state.scheduledBatchJobs;
+    },        
   },  
 };

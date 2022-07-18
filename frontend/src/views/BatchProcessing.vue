@@ -70,7 +70,7 @@
                         No Scheduled Jobs
                       </div>
                      <DisplayTable title="Job/Runs" :items="scheduledJobs"
-                        v-bind:fields="scheduledJobFields" id="jobId" :showFilter=false pagination="true" create="batchprocessing/create" update="batchprocessing/update" delete="batchprocessing/removeScheduledJobs"
+                        v-bind:fields="scheduledJobFields" id="rowId" :showFilter=false pagination="true" create="batchprocessing/create" update="batchprocessing/update" delete="batchprocessing/removeScheduledJobs"
                       >
                         <template #cell(jobExecutionId)="row">
                           <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
@@ -93,15 +93,12 @@
                           <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
                         </template>
                       </DisplayTable>
-
-
                   </b-card-text>
                 </b-tab>
               </b-tabs>
             </b-card>
           </div>
         </b-tab>
-         
          <b-tab v-for="i in tabs" :key="'dyn-tab-' + i" :title="'Request ' + i" >
            
              <template #title>
@@ -144,7 +141,7 @@ import BatchJobSearchResults from "@/components/Batch/BatchJobSearchResults.vue"
 import BatchJobErrorResults from "@/components/Batch/BatchJobErrorResults.vue";
 import BatchJobForm from "@/components/Batch/Batch.vue";
 import {
-  mapGetters
+  mapGetters, mapActions
 } from "vuex";
 export default {
   name: "test",
@@ -165,8 +162,6 @@ export default {
       studentGradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
       gradStatusPendingUpdates: "getHasGradStatusPendingUpdates"
-      
-
     }),
   },
   props: [
@@ -208,6 +203,12 @@ export default {
       transcriptTypes:[],
       scheduledJobFields: [
         {
+          key: 'rowId',
+          label: 'ID',
+          sortable: true,
+          class: 'text-left',
+        }, 
+        {
           key: 'jobId',
           label: 'Job ID',
           sortable: true,
@@ -220,7 +221,7 @@ export default {
           class: 'text-left',
         },         
         {
-          key: 'scheduledBy',
+          key: 'schedule/removedBy',
           label: 'Scheduled By',
           sortable: true,
           class: 'text-left',
@@ -306,16 +307,14 @@ export default {
       selectedTab: 0,     
       searchResults: [], 
       batchValid: false
-      
-      
     };
-    
   },
   created() {
     this.getAdminDashboardData()
     this.getScheduledJobs()
   },
   methods: { 
+    ...mapActions('batchprocessing', ['setScheduledBatchJobs']),
     cancelBatchJob(id) {
   
       for (let i = 0; i < this.tabs.length; i++) {
@@ -512,7 +511,7 @@ export default {
           console.log(response)
           this.cancelBatchJob(id);
           this.selectedTab = 0;
-          this.$bvToast.toast(requestId + "has successfully been scheduled", {
+          this.$bvToast.toast("Request " + requestId + " has successfully been scheduled", {
             title: "SCHEDULING USER REQUEST",
             variant: 'success',
             noAutoHide: true,
@@ -595,7 +594,7 @@ export default {
       }
       this.batchValid = true;
     },
-    runbatch(id, cronTime=null){    
+    runbatch(id, cronTime){    
       let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
       if(this.tabContent[id].details['who'] == 'School'){
         schools = this.tabContent[id].schools.map(this.getBatchData);  
@@ -614,6 +613,9 @@ export default {
       }else if(this.tabContent[id].details['who'] == 'District'){
         districts = this.tabContent[id].districts.map(this.getBatchData);  
         districtCategoryCode = this.tabContent[id]['details'].categoryCode;
+        if( this.tabContent[id]['details'].categoryCode == ""){
+          districtCategoryCode =  []
+        }
         districts.pop();
         if(!districtCategoryCode){
           this.validationMessage = "Please select a district category"
@@ -633,7 +635,7 @@ export default {
       let gradDateFrom = this.tabContent[id].details['gradDateFrom']
       let gradDateTo = this.tabContent[id].details['gradDateTo']
 
-      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts, "schoolCategoryCodes": [districtCategoryCode], "programs":programs, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, }
+      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts, "schoolCategoryCodes": [], "programs":programs, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, }
       if(this.batchHasErrors(this.tabContent[id])){
         return;
       }
@@ -648,11 +650,8 @@ export default {
         }else{
           this.runREGALG(request, id);  
         }
-        
-          
-      }else if(this.tabContent[id].details['what'] == 'TVRRUN'){     
+      }else if(this.tabContent[id].details['what'] == 'TVRRUN'){    
         if(cronTime){
-
           let scheduledRequest = {};
           scheduledRequest.cronExpression = cronTime
           scheduledRequest.jobName = 'STBJ'

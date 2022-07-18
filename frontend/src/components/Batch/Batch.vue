@@ -93,6 +93,7 @@
                       type="text"
                       placeholder="YYYY-MM-DD"
                       autocomplete="off"
+                      @input="editBatchJob(jobId,'gradDateFrom', $event)"    
                     ></b-form-input>
                     <b-input-group-append>
                       <b-form-datepicker
@@ -100,7 +101,7 @@
                         button-only
                         right
                         locale="en-US"
-                        @input="editBatchJob(jobId,'gradDateFrom', $event.replace(/-/g, '/'))"    
+                        @input="editBatchJob(jobId,'gradDateFrom', $event)"    
                       ></b-form-datepicker>
                     </b-input-group-append>
                   </b-input-group>
@@ -115,6 +116,7 @@
                       type="text"
                       placeholder="YYYY-MM-DD"
                       autocomplete="off"
+                      @input="editBatchJob(jobId,'gradDateTo', $event)"    
                     ></b-form-input>
                     <b-input-group-append>
                       <b-form-datepicker
@@ -123,7 +125,7 @@
                         right
                         locale="en-US"
                         aria-controls="example-input"
-                        @input="editBatchJob(jobId,'gradDateTo', $event.replace(/-/g, '/'))"    
+                        @input="editBatchJob(jobId,'gradDateTo', $event)"    
                       ></b-form-datepicker>
                     </b-input-group-append>
                   </b-input-group>
@@ -409,14 +411,34 @@ export default {
       this.batchRunCustomTime = ""
     },
     runBatch(id){
-      this.cronTime = this.getCronTime(this.batchRunCustomDate,this.batchRunCustomTime)
-      this.$emit("runbatch",id, this.cronTime);
-      
+      if(this.batchRunTime == 'Run Later'){
+        this.cronTime = this.getCronTime()
+        this.$emit("runbatch",id, this.cronTime);
+      }else{
+        this.$emit("runbatch",id);
+      }
     },
-    getCronTime(date, time){
-      let dateTime = new Date(date + "T" + time)
-      let cronString = dateTime.getSeconds() + " "  + dateTime.getMinutes()  + " " + dateTime.getHours()  + " " + dateTime.getDate()   + " " +  (dateTime.getMonth()+1)   + " *"
-      return cronString;
+    getCronTime(){
+
+      //console.log(this.batchRunSchedule)
+      //console.log(this.batchRunCustomDate + "T" + this.batchRunCustomTime)
+      //console.log()
+      if(this.batchRunSchedule == 'N'){
+        return null;
+      }else if(this.batchRunSchedule == 'W'){
+        let today = new Date();
+        return "0 0 6 " + today.getDate()  + " " +  (today.getMonth()+1)   + " *";
+      }else if(this.batchRunSchedule == 'M'){
+          const today = new Date()
+          let tomorrow = new Date(today)
+          tomorrow.setDate(tomorrow.getDate() + 1)
+          return "0 30 6 " + tomorrow.getDate()  + " " +  (tomorrow.getMonth()+1)   + " *";
+      }else if(this.batchRunSchedule == 'Custom'){
+        let dateTime = new Date(this.batchRunCustomDate + "T" + this.batchRunCustomTime)
+        return dateTime.getSeconds() + " "  + dateTime.getMinutes()  + " " + dateTime.getHours()  + " " + dateTime.getDate()   + " " +  (dateTime.getMonth()+1)   + " *"
+      }else{
+        return null
+      }
     },
     cancelBatchJob(id){
       //Use the parents method to close and clear a batch job by ID
