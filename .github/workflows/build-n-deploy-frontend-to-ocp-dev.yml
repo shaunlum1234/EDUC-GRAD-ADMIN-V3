@@ -120,8 +120,8 @@ jobs:
         id: push-image-frontend
         uses: redhat-actions/push-to-registry@v2
         with:
-          image: ${{ steps.build-image-backend.outputs.image }}
-          tags: ${{ steps.build-image-backend.outputs.tags }}
+          image: ${{ steps.build-image-frontend.outputs.image }}
+          tags: ${{ steps.build-image-frontend.outputs.tags }}
           registry: ${{ env.IMAGE_REGISTRY }}
           username: ${{ env.IMAGE_REGISTRY_USER }}
           password: ${{ env.IMAGE_REGISTRY_PASSWORD }}
