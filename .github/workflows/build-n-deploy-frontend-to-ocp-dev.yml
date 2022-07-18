@@ -131,3 +131,35 @@ jobs:
         with:
           oc: 4
 
+        # https://github.com/redhat-actions/oc-login#readme
+      - uses: actions/checkout@v2
+      - name: Deploy
+        run: |
+          set -eux
+          # Login to OpenShift and select project
+          oc login --token=${{ env.OPENSHIFT_TOKEN }} --server=${{ env.OPENSHIFT_SERVER }}
+          oc project ${{ env.OPENSHIFT_NAMESPACE }}
+          # Cancel any rollouts in progress
+          oc rollout cancel dc/${{ env.IMAGE_NAME }}-dc 2> /dev/null \
+          || true && echo "No rollout in progress"
+          # Create the image stream if it doesn't exist
+          oc create imagestream ${{ env.REPO_NAME }}-frontend-static 2> /dev/null || true && echo "Backend image stream in place"
+          oc tag ${{ steps.push-image-frontend.outputs.registry-path }} ${{ env.REPO_NAME }}-frontend-static:${{ env.TAG }}
+          
+          # Process and apply deployment template
+          oc process -f tools/openshift/frontend-static.dc.ocp4.yaml -p REPO_NAME=educ-grad-admin \
+          -p HOST_ROUTE=educ-grad-admin-bbe4c3-dev.apps.silver.devops.gov.bc.ca -p NAMESPACE=${{ env.NAMESPACE_TOOLS }} \
+          -p APP_NAME=educ-grad-admin -p TAG=latest -p MIN_REPLICAS=2 -p MAX_REPLICAS=3 -p MIN_CPU=50m -p MAX_CPU=100m \
+          -p MIN_MEM=200Mi -p MAX_MEM=250Mi | oc apply -n bbe4c3-test -f -
+          
+          # Start rollout (if necessary) and follow it
+          oc rollout latest dc/${{ env.IMAGE_NAME }}-dc 2> /dev/null \
+          || true && echo "Rollout in progress"
+          oc logs -f dc/${{ env.IMAGE_NAME }}-dc
+          # Get status, returns 0 if rollout is successful
+          oc rollout status dc/${{ env.IMAGE_NAME }}-dc
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.3.0
+        with:
+          target: 'https://educ-grad-admin-bbe4c3-dev.apps.silver.devops.gov.bc.ca'
+
