@@ -1,4 +1,4 @@
-FROM node:14.19.0 as build-stage
+FROM docker-remote.artifacts.developer.gov.bc.ca/node:14.19.0 as build-stage
 WORKDIR /opt/app-root/src
 COPY package*.json ./
 RUN npm --version
@@ -9,7 +9,7 @@ RUN npm i --no-optional
 COPY . /opt/app-root/src
 RUN npm run build
 
-FROM zzrot/alpine-caddy:v0.9.5 as caddy-stage
+FROM docker-remote.artifacts.developer.gov.bc.ca/bcgov/s2i-caddy:v1-stable as caddy-stage
 COPY --from=build-stage /opt/app-root/src/dist/app/view /var/www/html
 COPY --from=build-stage /opt/app-root/src/Caddyfile /etc/Caddyfile
 CMD /tmp/scripts/run
