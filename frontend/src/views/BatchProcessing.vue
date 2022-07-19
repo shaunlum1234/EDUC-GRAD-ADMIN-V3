@@ -64,7 +64,7 @@
                     </div>
                   </b-card-text>
                 </b-tab>
-                <b-tab class="btn-sm" :title="'Scheduled (' + scheduledJobs.length + ')'">
+                <b-tab class="btn-sm" :title="'User Scheduled (' + scheduledJobs.length + ')'">
                   <b-card-text>
                       <div v-if="!scheduledJobs.length">
                         No Scheduled Jobs
@@ -98,6 +98,11 @@
                       </DisplayTable>
                   </b-card-text>
                 </b-tab>
+                <b-tab class="btn-sm" :title="'Routines'">
+                  <b-card-text>
+                      <BatchRoutines/>
+                  </b-card-text>
+                </b-tab>                
               </b-tabs>
             </b-card>
           </div>
@@ -143,6 +148,7 @@ import DisplayTable from '@/components/DisplayTable.vue';
 import BatchJobSearchResults from "@/components/Batch/BatchJobSearchResults.vue";
 import BatchJobErrorResults from "@/components/Batch/BatchJobErrorResults.vue";
 import BatchJobForm from "@/components/Batch/Batch.vue";
+import BatchRoutines from "@/components/Batch/Routines.vue";
 import {
   mapGetters, mapActions
 } from "vuex";
@@ -175,7 +181,8 @@ export default {
       DisplayTable: DisplayTable,
       BatchJobSearchResults: BatchJobSearchResults,
       BatchJobErrorResults: BatchJobErrorResults,
-      BatchJobForm: BatchJobForm
+      BatchJobForm: BatchJobForm,
+      BatchRoutines: BatchRoutines
   },
   data() {
     return {
@@ -239,7 +246,7 @@ export default {
           key: 'delete',
           label: 'Delete',
           sortable: true,
-          class: 'w-50 text-left',
+          class: 'text-left',
         },                                             
       ], 
       jobRunFields: [
