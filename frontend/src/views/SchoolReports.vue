@@ -65,7 +65,7 @@
                 {{ row.item.updateDate | formatSimpleDate }}
               </template>
               <template #cell(distributionDate)="row">
-                {{ row.item.createDate | formatSimpleDate }}
+                {{ row.item.distributionDate | formatSimpleDate }}
               </template>
             </DisplayTable>
           </b-card-text>

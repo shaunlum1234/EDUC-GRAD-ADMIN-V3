@@ -49,6 +49,12 @@ export default {
           editable: true,
         },
         {
+          key: "graduationSchool",
+          label: "Graduation School",
+          sortable: true,
+          editable: true,
+        },
+        {
           key: "honourNote",
           label: "Honour Note",
           sortable: true,
