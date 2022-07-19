@@ -82,14 +82,14 @@
         </b-collapse>
           <div class="float-right grad-actions">
             <b-spinner v-if="tabLoading" class="px-1 my-2" ></b-spinner> 
-            <b-dropdown :disabled="tabLoading || !hasGradStatus" v-b-tooltip.hover.left id="actions" right :text="smallScreen?'':'Run Graduation Algorithm'" class="m-md-2 float-right admin-gear-w-text">
-              <b-dropdown-item v-on:click="graduateStudent" v-if="!studentGradStatus.programCompletionDate">Graduate Student</b-dropdown-item>
-              <b-dropdown-item v-on:click="graduateStudent" v-if="studentGradStatus.programCompletionDate && studentGradStatus.program == ('SCCP'||'NOPROG')">Graduate Student</b-dropdown-item>
-              <b-dropdown-item v-if="studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Undo Completion</b-dropdown-item>
+            <b-dropdown :disabled="(tabLoading || !hasGradStatus)" v-b-tooltip.hover.left id="actions" right :text="smallScreen?'':'Run Graduation Algorithm'" class="m-md-2 float-right admin-gear-w-text">
+              <b-dropdown-item :disabled="studentGradStatus.studentStatus === 'MER'" v-on:click="graduateStudent" v-if="!studentGradStatus.programCompletionDate">Graduate Student</b-dropdown-item>
+              <b-dropdown-item :disabled="studentGradStatus.studentStatus === 'MER'" v-on:click="graduateStudent" v-if="studentGradStatus.programCompletionDate && studentGradStatus.program == ('SCCP'||'NOPROG')">Graduate Student</b-dropdown-item>
+              <b-dropdown-item :disabled="studentGradStatus.studentStatus === 'MER'" v-if="studentGradStatus.programCompletionDate" v-b-modal.ungraduate-student-modal>Undo Completion</b-dropdown-item>
               <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item v-on:click="projectedGradStatusWithFinalMarks" >Projected final marks</b-dropdown-item>
-              <b-dropdown-item v-on:click="projectedGradStatusWithFinalAndReg">Projected final marks and registrations</b-dropdown-item>
-                <b-dropdown-item :disabled="!studentGradStatus.programCompletionDate" v-on:click="updateStudentReports">Update Student Reports</b-dropdown-item>
+              <b-dropdown-item :disabled="studentGradStatus.studentStatus === 'MER'" v-on:click="projectedGradStatusWithFinalMarks" >Projected final marks</b-dropdown-item>
+              <b-dropdown-item :disabled="studentGradStatus.studentStatus === 'MER'" v-on:click="projectedGradStatusWithFinalAndReg">Projected final marks and registrations</b-dropdown-item>
+              <b-dropdown-item :disabled="studentGradStatus.studentStatus === 'MER'" v-on:click="updateStudentReports">Update Student Reports</b-dropdown-item>
             </b-dropdown>
           </div>
       </div>

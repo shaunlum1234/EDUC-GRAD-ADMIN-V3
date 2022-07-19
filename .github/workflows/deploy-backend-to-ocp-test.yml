@@ -1,4 +1,4 @@
-name: Deploy to TEST
+name: Deploy Backend-TEST
 
 env:
   # 🖊️ EDIT your repository secrets to log into your OpenShift cluster and set up the context.
@@ -37,7 +37,7 @@ on:
 
 jobs:
   openshift-ci-cd:
-    name: Deploy to TEST
+    name: Deploy Backend to TEST
     # ubuntu-20.04 can also be used.
     runs-on: ubuntu-18.04
     environment: test
@@ -106,11 +106,6 @@ jobs:
           # Cancel any rollouts in progress
           oc rollout cancel dc/${{ env.IMAGE_NAME }}-dc 2> /dev/null \
           || true && echo "No rollout in progress"
-
-          # Create the image stream if it doesn't exist
-          oc create imagestream ${{ env.REPO_NAME }}-backend 2> /dev/null || true && echo "Backend image stream in place"
-
-          oc tag ${{ steps.push-image-backend.outputs.registry-path }} ${{ env.REPO_NAME }}-backend:${{ env.TAG }}
 
           # Process and apply deployment template
           oc process -f tools/openshift/backend-dc.yaml -p REPO_NAME=educ-grad-admin -p HOST_ROUTE=educ-grad-admin-bbe4c3-test.apps.silver.devops.gov.bc.ca | oc apply -n bbe4c3-test -f -
