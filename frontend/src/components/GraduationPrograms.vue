@@ -7,7 +7,10 @@
             {{ row.item.effectiveDate | formatSimpleDate }}
         </template>
         <template #cell(expiryDate)="row">
-            {{ row.item.expiryDate| formatSimpleDate }}
+            {{ row.item.expiryDate | formatSimpleDate }}
+        </template>
+        <template #cell(assessmentReleaseDate)="row">
+          {{ row.item.assessmentReleaseDate | formatSimpleDate }}
         </template>
       </DisplayTable>
     </div>
@@ -67,6 +70,11 @@ export default {
           sortDirection: 'desc',
           editable: true,
         },   
+        {
+          key: 'assessmentReleaseDate',
+          label: 'Do Not Report Assessments After Last Release Date',
+          sortable: true,
+        },
         {
           key: "effectiveDate",
           label: "Effective Date",
