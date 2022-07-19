@@ -5,7 +5,7 @@
     >
       <template #cell(enabled)="row">
           {{row.item.enabled}}
-          <b-form-checkbox @change="toggleRoutine(row.item.jobType, !row.item.enabled)" :checked="row.item.enabled=='Y'?true:false" name="check-button" switch>
+          <b-form-checkbox @change="toggleRoutine(row.item.jobType, !row.item.enabled)" :checked="row.item.enabled=='Y'?true:false" name="check-button" switch >
           </b-form-checkbox>
   
       </template>
