@@ -64,13 +64,13 @@
                     </div>
                   </b-card-text>
                 </b-tab>
-                <b-tab class="btn-sm" :title="'Scheduled (' + scheduledJobs.length + ')'">
+                <b-tab class="btn-sm" :title="'User Scheduled (' + scheduledJobs.length + ')'">
                   <b-card-text>
                       <div v-if="!scheduledJobs.length">
                         No Scheduled Jobs
                       </div>
                      <DisplayTable title="Job/Runs" :items="scheduledJobs"
-                        v-bind:fields="scheduledJobFields" id="rowId" :showFilter=false pagination="true" create="batchprocessing/create" update="batchprocessing/update" delete="batchprocessing/removeScheduledJobs"
+                        v-bind:fields="scheduledJobFields" id="rowId" :showFilter=false pagination="true" deleteLabel="Cancel" delete="batchprocessing/removeScheduledJobs"
                       >
                         <template #cell(jobExecutionId)="row">
                           <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
@@ -92,9 +92,17 @@
                           </b-btn>  
                           <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
                         </template>
+                        <template #cell(job-state)="row">
+                          <b-form-checkbox switch size="lg">Large</b-form-checkbox>
+                        </template>
                       </DisplayTable>
                   </b-card-text>
                 </b-tab>
+                <b-tab class="btn-sm" :title="'Routines'">
+                  <b-card-text>
+                      <BatchRoutines/>
+                  </b-card-text>
+                </b-tab>                
               </b-tabs>
             </b-card>
           </div>
@@ -140,6 +148,7 @@ import DisplayTable from '@/components/DisplayTable.vue';
 import BatchJobSearchResults from "@/components/Batch/BatchJobSearchResults.vue";
 import BatchJobErrorResults from "@/components/Batch/BatchJobErrorResults.vue";
 import BatchJobForm from "@/components/Batch/Batch.vue";
+import BatchRoutines from "@/components/Batch/Routines.vue";
 import {
   mapGetters, mapActions
 } from "vuex";
@@ -157,6 +166,7 @@ export default {
       tabContent: "batchprocessing/getBatchDetails",
       tabs: "batchprocessing/getBatchProcessingTabs",
       spinners: "batchprocessing/getBatchTabsLoading",
+      scheduledJobs: "batchprocessing/getScheduledBatchJobs",
       courses: "getStudentCourses",
       gradStatusCourses: "gradStatusCourses",
       studentGradStatus: "getStudentGradStatus",
@@ -171,7 +181,8 @@ export default {
       DisplayTable: DisplayTable,
       BatchJobSearchResults: BatchJobSearchResults,
       BatchJobErrorResults: BatchJobErrorResults,
-      BatchJobForm: BatchJobForm
+      BatchJobForm: BatchJobForm,
+      BatchRoutines: BatchRoutines
   },
   data() {
     return {
@@ -198,7 +209,6 @@ export default {
       isErrorShowing: false,
       isBatchShowing: false,
       batchInfoListData:[],
-      scheduledJobs:[],
       certificateTypes:[],
       transcriptTypes:[],
       scheduledJobFields: [
@@ -231,7 +241,13 @@ export default {
           label: 'Status',
           sortable: true,
           class: 'text-left',
-        },                          
+        },    
+        {
+          key: 'delete',
+          label: 'Delete',
+          sortable: true,
+          class: 'text-left',
+        },                                             
       ], 
       jobRunFields: [
          {
@@ -529,8 +545,9 @@ export default {
         setTimeout(this.getBatchProgress(requestId), 5000);
     },    
     getScheduledJobs(){
-      BatchProcessingService.getScheduledJobs().then((response) => {
-        this.scheduledJobs = response.data
+
+      BatchProcessingService.getScheduledBatchJobs().then((response) => {
+        this.setScheduledBatchJobs(response.data);
       })
     },
     getBatchProgress(requestId){

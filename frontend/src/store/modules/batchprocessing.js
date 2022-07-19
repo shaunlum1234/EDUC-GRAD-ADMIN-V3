@@ -76,7 +76,7 @@ export default {
       state.batchDetails[payload].details['blankTranscriptDetails']=[{}];
     },     
     setScheduledBatchJobs(state, payload){
-      this.scheduledBatchJobs = payload;
+      state.scheduledBatchJobs = payload;
     }        
   },
   actions: {
@@ -100,6 +100,7 @@ export default {
        // eslint-disable-next-line
       console.log(state.batchDetails)
       return BatchProcessingService.removeScheduledJobs(payload['id']);
+      
     },    
     addStudentToBatch({commit}, payload){
       commit('addStudentToBatch', payload);
