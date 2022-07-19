@@ -9,7 +9,7 @@ RUN npm i --no-optional
 COPY . /opt/app-root/src
 RUN npm run build
 
-FROM docker-remote.artifacts.developer.gov.bc.ca/bcgov/s2i-caddy:v1-stable as caddy-stage
+FROM image-registry.apps.silver.devops.gov.bc.ca/bbe4c3-tools/s2i-caddy:v1-stable as caddy-stage
 COPY --from=build-stage /opt/app-root/src/dist/app/view /var/www/html
 COPY --from=build-stage /opt/app-root/src/Caddyfile /etc/Caddyfile
 CMD /tmp/scripts/run
