@@ -5,6 +5,18 @@
       no-body            
       >
       <b-card-text class="py-4">
+        <div v-if="studentGradStatus">
+        <div v-if="studentGradStatus.studentGradData">
+          <div v-if="studentGradStatus.studentGradData.school.certificateEligibility == 'N'">
+            <b-alert show variant="info" class="p-3 mb-1 mx-3">
+              <h4 class="alert-heading">Ineligible for Ministry certificates</h4>
+              <p class="locked-message">
+                This student's school is ineligible for Ministry certificates.
+              </p>
+            </b-alert>
+          </div>
+        </div>
+        </div>
         <div v-if="certificates">
           <div v-for="(certificate, index) in certificates" :key="index" class="px-3 w-100 float-left">        
             <a @click="downloadPDF(certificate.certificate,'application/pdf')" href="#"  class="pdf-link float-left mt-2">{{certificate.gradCertificateTypeLabel}} (PDF)</a> 
@@ -14,7 +26,7 @@
                   <strong>Status:</strong> {{certificate.documentStatusLabel}} 
                 </li>
                 <li>
-                  <strong>Last Updated:</strong> {{certificate.createdTimestamp |formatTime}}
+                  <strong>Last Updated:</strong> {{certificate.updateDate |formatTime}}
                 </li>
                 <li>
                   <strong>Distributed:</strong> {{certificate.distributionDate |formatTime}}
@@ -33,11 +45,13 @@ import { mapGetters } from "vuex";
 import sharedMethods from '../sharedMethods';
 
 export default {
+
   name: "CertificationDogwoods",
   props: {},
   computed: {
     ...mapGetters({
-      certificates: "getStudentCertificates"
+      certificates: "getStudentCertificates",
+      studentGradStatus: "getStudentGradStatus"
     })
   },
   methods: {

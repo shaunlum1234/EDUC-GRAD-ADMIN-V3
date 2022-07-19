@@ -6,19 +6,14 @@
 </template>
 
 <script>
-import TranscriptService from "@/services/TranscriptService.js";
+import ProgramManagementService from "@/services/ProgramManagementService.js";
 import DisplayTable from "@/components/DisplayTable";
-import { mapGetters } from "vuex";
 
 export default {
   name: "GraduationProgramTranscriptMessage",
   components: {
     DisplayTable: DisplayTable,
   },
-  computed: {...mapGetters({
-    token: "getToken",
-    role: "getRoles",
-  })},
   data: function() {
     return {
       transcriptMessages: [],
@@ -54,6 +49,12 @@ export default {
           editable: true,
         },
         {
+          key: "graduationSchool",
+          label: "Graduation School",
+          sortable: true,
+          editable: true,
+        },
+        {
           key: "honourNote",
           label: "Honour Note",
           sortable: true,
@@ -61,13 +62,13 @@ export default {
         },
         {
           key: "adIBProgramMessage",
-          label: "ad IB Program Message",
+          label: "AD and IB Program Message",
           sortable: true,
           editable: true,
         },
         {
           key: "programCadre",
-          label: "Program Cadre",
+          label: "French Immersion",
           sortable: true,
           editable: true,
         },
@@ -93,7 +94,7 @@ export default {
     }
   },
   created() {
-    TranscriptService.getTranscriptMessage(this.token)
+    ProgramManagementService.getTranscriptMessage()
     .then((response) => {
       this.transcriptMessages = response.data;
     })

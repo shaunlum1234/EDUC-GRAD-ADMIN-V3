@@ -1,16 +1,15 @@
-FROM docker-remote.artifacts.developer.gov.bc.ca/node:12.22.1-alpine
-
+FROM node:14.19.0 as build-stage
 WORKDIR /opt/app-root/src
-
 COPY package*.json ./
-RUN apk --no-cache add git 
 RUN npm --version
+  
 RUN node -v
-RUN npm ci --cache .npm  --prefer-offline --no-audit
-# --no-optional --production
-
+RUN npm i --no-optional
 # Build Application
 COPY . /opt/app-root/src
-
-EXPOSE 8080 443
 RUN npm run build
+
+FROM zzrot/alpine-caddy:v0.9.5 as caddy-stage
+COPY --from=build-stage /opt/app-root/src/dist/app/view /var/www/html
+COPY --from=build-stage /opt/app-root/src/Caddyfile /etc/Caddyfile
+CMD /tmp/scripts/run

@@ -20,9 +20,9 @@
             <b-nav-item to="/codes/signature-blocks" :active="tab === 2" @click="tab = 2; closeDropdown('credentials-dropdown')">Signature Block</b-nav-item>
             <b-nav-item to="/codes/document-status-codes" :active="tab === 2" @click="tab = 2; closeDropdown('credentials-dropdown')">Document Status Codes</b-nav-item>
         </b-nav-item-dropdown>
-        <b-nav-item to="/codes/report-types" :active="tab === 3" @click="tab = 3">Student Level Report Types</b-nav-item>
+        <b-nav-item to="/codes/report-types" :active="tab === 3" @click="tab = 3">Report Types</b-nav-item>
         <b-nav-item to="/codes/student-status-codes" :active="tab === 4" @click="tab = 4">Student Status Codes</b-nav-item>
-        <b-nav-item to="/codes/ungrad-reasons" :active="tab === 5" @click="tab = 5">Ungrad Reason Codes</b-nav-item>
+        <b-nav-item to="/codes/ungrad-reasons" :active="tab === 5" @click="tab = 5">Undo Completion Reason Codes</b-nav-item>
         <b-nav-item to="/codes/history-activity" :active="tab === 6" @click="tab = 6">History Activity Codes</b-nav-item>
         
       </b-nav>
@@ -41,7 +41,7 @@
 <script>
 import { mapGetters } from "vuex";
 
-import GraduationCommonService from "@/services/GraduationCommonService.js";
+import GraduationReportService from "@/services/GraduationReportService.js";
 import StudentService from "@/services/StudentService.js";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 
@@ -226,7 +226,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      token: "getToken",
+      token: "auth/getToken",
       role: "getRoles"
     }),
   },
@@ -248,7 +248,7 @@ export default {
       this.url = URL.createObjectURL(file);
     },    
     getCareerPrograms() {
-      ProgramManagementService.getCareerPrograms(this.token)
+      ProgramManagementService.getCareerPrograms()
         .then((response) => {
           this.careerPrograms = response.data;
         })
@@ -262,7 +262,7 @@ export default {
         });
     },
      getCertificateTypes() {
-      GraduationCommonService.getCertificateTypes(this.token)
+      GraduationReportService.getCertificateTypes()
         .then((response) => {
         
           this.certificateTypes = response.data;
@@ -277,7 +277,7 @@ export default {
         });
     },
     getReportTypes() {
-      GraduationCommonService.getReportTypes(this.token)
+      GraduationReportService.getReportTypes()
         .then((response) => {
           this.reportTypes = response.data;
         })
@@ -291,7 +291,7 @@ export default {
         });
     },
     getRequirementTypes() {
-      ProgramManagementService.getRequirementTypes(this.token)
+      ProgramManagementService.getRequirementTypes()
         .then((response) => {
         
           this.requirementTypes = response.data;
@@ -306,7 +306,7 @@ export default {
         });
     },    
     getStudentStatusCodes() {
-      StudentService.getStudentStatusCodes(this.token)
+      StudentService.getStudentStatusCodes()
         .then((response) => {
           this.studentStatusCodes = response.data;
         })
@@ -320,7 +320,7 @@ export default {
         });
     },    
     getUngradReasons() {
-      StudentService.getUngradReasons(this.token)
+      StudentService.getUngradReasons()
         .then((response) => {
         
           this.ungradReasons = response.data;
@@ -336,7 +336,7 @@ export default {
     },   
     getReportSignatures(){
 
-       GraduationCommonService.getReportSignatures(this.token)
+       GraduationReportService.getReportSignatures()
         .then((response) => {
           this.reportSignatures = response.data;
         })
