@@ -1,15 +1,12 @@
-FROM docker-remote.artifacts.developer.gov.bc.ca/node:14.19.0 as build-stage
-WORKDIR /opt/app-root/src
+FROM docker-remote.artifacts.developer.gov.bc.ca/node:14.19.1 as build-stage
+WORKDIR /frontend
 COPY package*.json ./
-RUN npm --version
-  
-RUN node -v
-RUN npm i --no-optional
-# Build Application
-COPY . /opt/app-root/src
+RUN npm install
+COPY ./ .
 RUN npm run build
 
-FROM image-registry.apps.silver.devops.gov.bc.ca/bbe4c3-tools/s2i-caddy:v1-stable as caddy-stage
-COPY --from=build-stage /opt/app-root/src/dist/app/view /var/www/html
-COPY --from=build-stage /opt/app-root/src/Caddyfile /etc/Caddyfile
-CMD /tmp/scripts/run
+FROM docker-remote.artifacts.developer.gov.bc.ca/caddy:2.4.6-alpine as caddy-stage
+
+EXPOSE 2015
+COPY Caddyfile /etc/caddy/Caddyfile
+COPY --from=build-stage /frontend/dist /srv
