@@ -141,10 +141,6 @@ jobs:
           oc login --token=${{ env.OPENSHIFT_TOKEN }} --server=${{ env.OPENSHIFT_SERVER }}
           oc project ${{ env.NAMESPACE_TOOLS }}
 
-          # Cancel any builds in progress
-          # oc rollout cancel dc/${{ env.IMAGE_NAME }}-dc 2> /dev/null \
-          #|| true && echo "No rollout in progress"
-
           # Create the image stream if it doesn't exist
           oc create imagestream ${{ env.REPO_NAME }}-frontend 2> /dev/null || true && echo "Frontend image stream in place"
           oc tag ${{ steps.push-image-frontend.outputs.registry-path }} ${{ env.REPO_NAME }}-frontend:${{ env.TAG }}
@@ -154,7 +150,7 @@ jobs:
            | oc apply -n bbe4c3-tools -f -
 
           # Start build (if necessary) and follow it
-          oc start build bc/${{ env.IMAGE_NAME }}-static 2> /dev/null \
+          oc start-build bc/${{ env.IMAGE_NAME }}-static 2> /dev/null \
           || true && echo "Build in progress"
           oc logs -f bc/${{ env.IMAGE_NAME }}-static
 
