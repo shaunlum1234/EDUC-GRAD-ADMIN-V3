@@ -133,6 +133,20 @@ jobs:
 
         # https://github.com/redhat-actions/oc-login#readme
       - uses: actions/checkout@v2
+      - name: Build frontend static
+        id: build-image-frontend-static
+        run: |
+          set -eux
+          # Login to OpenShift and select project
+          oc login --token=${{ env.OPENSHIFT_TOKEN }} --server=${{ env.OPENSHIFT_SERVER }}
+          oc project ${{ env.NAMESPACE_TOOLS }}
+
+          # Process and apply build template
+          oc process -f tools/openshift/frontend-static.bc.yaml -p REPO_NAME=educ-grad-admin -p NAMESPACE=${{ env.NAMESPACE_TOOLS }} \
+           | oc apply -n bbe4c3-tools -f -
+
+        # https://github.com/redhat-actions/oc-login#readme
+      - uses: actions/checkout@v2
       - name: Deploy
         run: |
           set -eux
@@ -147,8 +161,8 @@ jobs:
           oc project ${{ env.NAMESPACE_TOOLS }}
           
           # Create the image stream if it doesn't exist
-          oc create imagestream ${{ env.REPO_NAME }}-frontend 2> /dev/null || true && echo "Backend image stream in place"
-          oc tag ${{ steps.push-image-frontend.outputs.registry-path }} ${{ env.REPO_NAME }}-frontend:${{ env.TAG }}
+          oc create imagestream ${{ env.REPO_NAME }}-frontend-static 2> /dev/null || true && echo "Frontend image stream in place"
+          oc tag ${{ steps.push-image-frontend.outputs.registry-path }} ${{ env.REPO_NAME }}-frontend-static:${{ env.TAG }}
           
           oc project ${{ env.OPENSHIFT_NAMESPACE }}
           
