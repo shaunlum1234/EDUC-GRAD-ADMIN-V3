@@ -3,7 +3,7 @@ WORKDIR /opt/app-root/src
 COPY package*.json ./
 RUN npm --version
 RUN node -v
-RUN npm i --no-optional --loglevel verbose
+RUN npm ci --loglevel verbose
 
 # Build Application
 COPY . /opt/app-root/src
