@@ -4,7 +4,7 @@ COPY package*.json ./
 RUN npm --version
 
 RUN node -v
-RUN npm i --no-optional
+RUN npm i --no-optional --loglevel verbose
 # Build Application
 COPY . /opt/app-root/src
 EXPOSE 8080 443
