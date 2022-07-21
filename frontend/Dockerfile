@@ -1,4 +1,4 @@
-FROM docker-remote.artifacts.developer.gov.bc.ca/node:14.19.0
+FROM docker-remote.artifacts.developer.gov.bc.ca/node:14.20
 WORKDIR /opt/app-root/src
 COPY package*.json ./
 RUN npm --version
