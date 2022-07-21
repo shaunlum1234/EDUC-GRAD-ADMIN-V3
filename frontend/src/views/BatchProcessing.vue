@@ -144,11 +144,14 @@
 <script>
 // @ is an alias to /src
 import BatchProcessingService from "@/services/BatchProcessingService.js";
+import DistributionService from "@/services/DistributionService.js";
 import DisplayTable from '@/components/DisplayTable.vue';
 import BatchJobSearchResults from "@/components/Batch/BatchJobSearchResults.vue";
 import BatchJobErrorResults from "@/components/Batch/BatchJobErrorResults.vue";
 import BatchJobForm from "@/components/Batch/Batch.vue";
 import BatchRoutines from "@/components/Batch/Routines.vue";
+import sharedMethods from '../sharedMethods';
+
 import {
   mapGetters, mapActions
 } from "vuex";
@@ -331,6 +334,10 @@ export default {
   },
   methods: { 
     ...mapActions('batchprocessing', ['setScheduledBatchJobs']),
+
+    downloadZIP: function (data, mimeType) {
+      sharedMethods.base64ToZipAndOpenWindow(data,mimeType)
+    },
     cancelBatchJob(id) {
   
       for (let i = 0; i < this.tabs.length; i++) {
@@ -436,6 +443,17 @@ export default {
             variant: 'success',
             noAutoHide: true,
           })
+          console.log("REQUEST")
+          console.log(response)
+          if(request.localDownload == 'Y'){
+            
+            let bid = response.data.batchId;
+            console.log(response.data.batchId)
+            DistributionService.downloadDISTRUN(bid).then((response) => {
+              setTimeout(this.downloadFile(response.data, 'application/zip'), 11000);
+                      
+            });
+          }
         })
         .catch((error) => {
           if(error){
@@ -613,6 +631,7 @@ export default {
     },
     runbatch(id, cronTime){    
       let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
+      
       if(this.tabContent[id].details['who'] == 'School'){
         schools = this.tabContent[id].schools.map(this.getBatchData);  
         schools.pop();
@@ -651,8 +670,8 @@ export default {
       }
       let gradDateFrom = this.tabContent[id].details['gradDateFrom']
       let gradDateTo = this.tabContent[id].details['gradDateTo']
-
-      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts, "schoolCategoryCodes": [], "programs":programs, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, }
+      let localDownload = this.tabContent[id].details['where']=='localDownload'?'Y':'N'
+      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts, "schoolCategoryCodes": [], "programs":programs, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, "localDownload": localDownload }
       if(this.batchHasErrors(this.tabContent[id])){
         return;
       }

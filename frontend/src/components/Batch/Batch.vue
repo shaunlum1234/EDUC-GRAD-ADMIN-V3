@@ -157,10 +157,10 @@
             <b-form-select
               id="inline-form-select-type"
               class="col-12 my-2"
-              :options="[{ text: 'Choose...', value: null }, 'Download', 'BC Mail']"
+              :options="[{ text: 'Choose...', value: null }, { text: 'Download', value: 'localDownload' }, 'BC Mail']"
               @change="editBatchJob(jobId,'where', $event)"
             ></b-form-select>
-          </div>          
+          </div>
 
       <div v-if="tabContent[jobId].details['who']=='District'" class="float-left col-12 px-0">
 
@@ -314,8 +314,11 @@
         <b-button size="sm" variant="danger" class="btn btn-danger float-right col-2 p-2" @click="cancelBatchJob(jobId)">
           Cancel
         </b-button>
-        <b-button v-b-modal.batch-modal size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+        <b-button v-if="tabContent[jobId].details['where'] == 'BC Mail'" v-b-modal.batch-modal size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
           Schedule/Run Batch
+        </b-button>
+        <b-button v-else @click="runBatch(jobId)" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+          Download
         </b-button>
         <b-modal id="batch-modal" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
           <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }"> 
@@ -413,9 +416,6 @@ export default {
     },
     getCronTime(){
 
-      //console.log(this.batchRunSchedule)
-      //console.log(this.batchRunCustomDate + "T" + this.batchRunCustomTime)
-      //console.log()
       if(this.batchRunSchedule == 'N'){
         let today = new Date();
         return "0 30 18 " + today.getDate()  + " " +  (today.getMonth()+1)   + " *";

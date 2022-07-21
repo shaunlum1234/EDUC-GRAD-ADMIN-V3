@@ -27,7 +27,7 @@ export default {
             autoHideDelay: delay,
         });
     },
-    base64ToPdfAndOpenWindow: function (data, mimeType) {
+    base64ToFileTypeAndOpenWindow: function (data, mimeType) {
         var byteCharacters = atob(data);
         var byteNumbers = new Array(byteCharacters.length);
         for (var i = 0; i < byteCharacters.length; i++) {
@@ -37,7 +37,7 @@ export default {
         var file = new Blob([byteArray], { type: mimeType + ';base64' });
         var fileURL = URL.createObjectURL(file);
         window.open(fileURL);
-    },
+    },   
     loadStudent: function (student) {
         this.selectedPen = student[0].pen;
         this.selectedId = student[0].studentID;
