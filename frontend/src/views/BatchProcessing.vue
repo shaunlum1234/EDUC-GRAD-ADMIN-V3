@@ -449,8 +449,9 @@ export default {
             
             let bid = response.data.batchId;
             console.log(response.data.batchId)
-            DistributionService.downloadDISTRUN(bid).then((response) => {
-              setTimeout(this.downloadFile(response.data, 'application/zip'), 11000);
+            DistributionService.downloadDISTRUN(bid).then((res) => {
+              console.log(res.data)
+              setTimeout(this.downloadZIP(res.data, 'application/zip'), 11000);
                       
             });
           }
