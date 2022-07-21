@@ -1,4 +1,4 @@
-FROM docker-remote.artifacts.developer.gov.bc.ca/node:lts-alpine3.13
+FROM docker-remote.artifacts.developer.gov.bc.ca/node:16-alpine3.16
 WORKDIR /opt/app-root/src
 COPY package*.json ./
 RUN npm --version
