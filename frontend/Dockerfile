@@ -13,5 +13,4 @@ RUN npm run build
 FROM ghcr.io/bcgov/grad-caddy:v1 as caddy-stage
 COPY --from=build-stage /opt/app-root/src/dist/app/view /var/www/html
 COPY --from=build-stage /opt/app-root/src/Caddyfile /etc/Caddyfile
-RUN chmod -R g+w /tmp/scripts
 CMD /tmp/scripts/run
