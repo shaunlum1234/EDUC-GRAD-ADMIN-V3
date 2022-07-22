@@ -18,10 +18,8 @@ export default {
     }else if(credentialType == "RC"){
       return ApiService.apiAxios.post('/api/v1/batch/userrequestdisrun/RC', users);
     }else if(credentialType == "Blank transcript print"){
-      console.log("blanktranscript")
       return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/OT', users);
     }else if(credentialType == "Blank certificate print"){
-      console.log("blankcert")
       return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/OC', users);
     }
   },      

@@ -5,7 +5,6 @@
   <div class="mt-2 row">
   <div class="col-12 float-left p-0">
     <div ref="top">
-
       <b-card no-body>
         <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
@@ -325,7 +324,7 @@ export default {
       jobs: [],   
       selectedTab: 0,     
       searchResults: [], 
-      batchValid: false
+      batchValid: false,
     };
   },
   created() {
@@ -335,8 +334,8 @@ export default {
   methods: { 
     ...mapActions('batchprocessing', ['setScheduledBatchJobs']),
 
-    downloadZIP: function (data, mimeType) {
-      sharedMethods.base64ToZipAndOpenWindow(data,mimeType)
+    getZipLink: function (data, mimeType) {
+      return sharedMethods.base64ToFileTypeData(data,mimeType)
     },
     cancelBatchJob(id) {
   
@@ -443,17 +442,18 @@ export default {
             variant: 'success',
             noAutoHide: true,
           })
-          console.log("REQUEST")
-          console.log(response)
           if(request.localDownload == 'Y'){
             
             let bid = response.data.batchId;
-            console.log(response.data.batchId)
             DistributionService.downloadDISTRUN(bid).then((res) => {
-              console.log(res.data)
-              setTimeout(this.downloadZIP(res.data, 'application/zip'), 11000);
-                      
+              this.$bvToast.toast('Download (.zip)' , {
+                title: "FILE SUCCESSFULLY CREATED",
+                href: "data:application/zip;base64," + res.data,
+                variant: 'success',
+                noAutoHide: true,
+              })
             });
+                        
           }
         })
         .catch((error) => {

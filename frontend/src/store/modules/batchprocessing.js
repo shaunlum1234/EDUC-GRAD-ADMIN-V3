@@ -59,6 +59,7 @@ export default {
       state.batchDetails[payload].districts=[{}];
       state.batchDetails[payload].programs=[{}];
       state.batchDetails[payload].students=[{}];
+      state.batchDetails[payload].psi=[{}];
       state.batchDetails[payload]['details'].blankCertificateDetails=[{}];
       state.batchDetails[payload]['details'].blankTranscriptDetails=[{}];
       state.batchDetails[payload]['details'].credential="";
@@ -70,6 +71,7 @@ export default {
       state.batchDetails[payload].districts=[{}];
       state.batchDetails[payload].programs=[{}];
       state.batchDetails[payload].students=[{}];
+      state.batchDetails[payload].psi=[{}];
       
     },     
     clearBatchCredentialsDetails(state,payload){
