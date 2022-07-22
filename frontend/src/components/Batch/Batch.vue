@@ -564,8 +564,8 @@ export default {
           (response) => {
             if(response.data){
               this.$store.commit("batchprocessing/addValueToTypeInBatchId", {id,type, value});
-              this.$refs['psiName' + id + valueIndex][0].updateValue(response.data.districtName);        
-              this.$refs['city' + id + valueIndex][0].updateValue(response.data.city);        
+              this.$refs['psiName' + id + valueIndex][0].updateValue(response.data[0].psiName);        
+              this.$refs['psiCity' + id + valueIndex][0].updateValue(response.data[0].city);        
             }else{
                this.validationMessage = value + " is not a valid District"
                this.deleteValueFromTypeInBatchId(id, type, value);
