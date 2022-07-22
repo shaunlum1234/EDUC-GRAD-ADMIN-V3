@@ -351,6 +351,7 @@ export default {
       disableSchoolAtGrad:false,
       disableInput:false,
       disableStudentStatus:false,
+      dateInFutureWarning:false,
       gradeOptions: [
         { text: "08", value: "8" },
         { text: "09", value: "9" },
@@ -466,7 +467,7 @@ export default {
               this.dateInFutureWarning = true;
             } else {
               this.disableButton = false;
-              this.dateInFutureWarning = true;
+              this.dateInFutureWarning = false;
             }        
           }         
         }
