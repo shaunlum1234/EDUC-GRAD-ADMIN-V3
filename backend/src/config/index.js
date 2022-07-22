@@ -50,6 +50,7 @@ nconf.defaults({
     studentGraduationAPIURL: process.env.STUDENT_GRADUATION_API_URL,
     gradTraxAPIURL: process.env.GRAD_TRAX_API_URL,
     reportAPIURL: process.env.GRAD_REPORT_API_URL
+    distributionAPIURL: process.env.DISTRIBUTION_API_URL
   },
   oidc: {
     publicKey: process.env.SOAM_PUBLIC_KEY,
