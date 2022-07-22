@@ -233,7 +233,7 @@ export default {
           class: 'text-left',
         },         
         {
-          key: 'schedule/removedBy',
+          key: 'scheduledBy',
           label: 'Scheduled By',
           sortable: true,
           class: 'text-left',
