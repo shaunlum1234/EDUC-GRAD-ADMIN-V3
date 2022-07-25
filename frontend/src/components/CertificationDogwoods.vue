@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     downloadFile: function (data, mimeType) {
-      sharedMethods.base64ToPdfAndOpenWindow(data,mimeType)
+      sharedMethods.base64ToFileTypeAndOpenWindow(data,mimeType)
     },
   }
 }

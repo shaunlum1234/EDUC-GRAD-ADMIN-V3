@@ -1,7 +1,6 @@
 <template>
   <div>
     <b-overlay :show='processingBatch'>
-      {{tabContent['job-1']}}
       <div class="row">
         <div class="col-12 col-md-3 border-right">
           <div class="m-0">

@@ -233,7 +233,7 @@ export default {
           class: 'text-left',
         },         
         {
-          key: 'scheduledBy',
+          key: 'schedule/removedBy',
           label: 'Scheduled By',
           sortable: true,
           class: 'text-left',
@@ -443,7 +443,7 @@ export default {
             let bid = response.data.batchId;
             DistributionService.downloadDISTRUN(bid).then((res) => {
               this.$bvToast.toast('Download (.zip)' , {
-                title: "BATCH PROCESSING COMPLETED",
+                title: "FILE SUCCESSFULLY CREATED",
                 href: "data:application/zip;base64," + res.data,
                 variant: 'success',
                 noAutoHide: true,

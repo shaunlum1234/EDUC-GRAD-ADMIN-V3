@@ -44,19 +44,19 @@ export default {
         },            
         {
           key: 'createUser',
-          label: 'Created Byr',
+          label: 'Created By',
           sortable: true,
           class: 'text-left',
         },        
         {
           key: 'updateUser',
-          label: 'Update By',
+          label: 'Updated By',
           sortable: true,
           class: 'text-left',
         },   
         {
           key: 'updateDate',
-          label: 'Update By',
+          label: 'Updated Date/Time',
           sortable: true,
           class: 'text-left',
         },                                    
