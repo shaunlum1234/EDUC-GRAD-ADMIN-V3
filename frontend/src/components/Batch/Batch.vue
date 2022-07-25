@@ -2,6 +2,7 @@
   <div>
     <b-overlay :show='processingBatch'>
       <div class="row">
+        {{tabContent['job-1']}}
         <div class="col-12 col-md-3 border-right">
           <div class="m-0">
             <label class="font-weight-bold">Run Type</label>
