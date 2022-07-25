@@ -82,7 +82,6 @@ export default {
   methods: {
     toggleRoutine(jobType){
 
-        
         this.$bvModal.msgBoxConfirm('Please confirm that you want to update.', {
           title: 'Please Confirm',
           size: 'sm',
@@ -103,8 +102,8 @@ export default {
               this.makeToast("ERROR " + error.response.statusText, "danger")
             });    
           }else{
-            console.log(this.$refs['routine' + jobType + 'Enabled'])
-            this.$refs['routine' + jobType + 'Enabled'].setLocalChecked(true)
+            let r = 'routine' + jobType + 'Enabled';
+            this.$refs[r].localChecked = true
           }
         })
         .catch(err => {
