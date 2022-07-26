@@ -3,9 +3,10 @@ import MainMenu from '../page_objects/mainMenu';
 import { base_url, credentials, test_pen, api_html_status_threshold } from '../config/constants';
 import { ClientFunction, RequestLogger, Role  } from 'testcafe';
 import { apiCallsFailed } from '../helpers/requestHelper';
+import adminUser from '../config/roles';
 
 const log = require('npmlog');
-const studentAdmin = require('../auth/Roles');
+//const adminUser = require('../config/roles');
 const bad_pen = '121212121';
 const searchPage = new StudentSearchPage();
 const mainMenu = new MainMenu();
@@ -15,9 +16,8 @@ fixture `grad-login-admin`
     .requestHooks(requestLogger)
     .beforeEach(async t => {
         // log in as studentAdmin
-        log.info('Before each calling useRole');
-        await t.useRole(studentAdmin);
-        await t.maximizeWindow();
+        await t.useRole(adminUser).navigateTo(base_url);
+        //await t.maximizeWindow();
     }).afterEach(async t => {
             // run locally for api call failure output
             //log.info(apiCallsFailed(requestLogger, api_html_status_threshold));
@@ -67,4 +67,3 @@ test('Pen Search', async t => {
     // TODO: tests adv search
 
 });
-
