@@ -87,6 +87,7 @@
                 <div class="float-left col-3 m-0 p-0" >
                   <strong><label class="pt-1">Grad Start Date</label></strong>
                   <b-input-group class="mb-3">
+                    <ValidationProvider :rules="'lessthangraddateto:'+gradDateTo" v-slot="{ errors }">
                     <b-form-input
                       id="gradDateFromInput"
                       v-model="gradDateFrom"
@@ -95,6 +96,11 @@
                       autocomplete="off"
                       @input="editBatchJob(jobId,'gradDateFrom', $event)"    
                     ></b-form-input>
+                    <span>{{ errors[0] }}</span>
+                    </ValidationProvider>
+                    
+
+
                     <b-input-group-append>
                       <b-form-datepicker
                         v-model="gradDateFrom"
@@ -110,6 +116,7 @@
                 <div class="float-left col-3">
                   <strong><label class="pt-1">Grad End Date</label></strong>
                   <b-input-group class="mb-3">
+                    <ValidationProvider :rules="'greaterthangraddateFrom:'+gradDateFrom" v-slot="{ errors }">
                     <b-form-input
                       id="gradDateToInput"
                       v-model="gradDateTo"
@@ -118,6 +125,8 @@
                       autocomplete="off"
                       @input="editBatchJob(jobId,'gradDateTo', $event)"    
                     ></b-form-input>
+                    <span>{{ errors[0] }}</span>
+                    </ValidationProvider>
                     <b-input-group-append>
                       <b-form-datepicker
                         v-model="gradDateTo"
@@ -284,7 +293,9 @@
         </div>
         <div v-for="(school, index) in tabContent[jobId].schools" :key="index" class="row pl-3 mb-1">
           <div v-if="!school.schoolName" class="row col-12">
-            <b-form-input type="number" v-model="school.value" class="col-2"/>
+            <ValidationProvider rules="mincodelength|validateschool" v-slot="{ errors }">
+              <b-form-input type="number" v-model="school.value" class="col-12"/>
+            </ValidationProvider>
             <b-form-input show=false disabled v-model="school.schoolName" :ref="'schoolName' + jobId + index" class="col-3"/>
             <b-form-input show=false disabled v-model="school.districtName" :ref="'districtName'+ jobId + index" class="col-2"/>
             <b-form-input show=false disabled v-model="school.address" :ref="'address'+ jobId + index" class="col-3"/>
@@ -390,6 +401,7 @@
   </div>
 </template>
 <script>
+import { ValidationProvider, extend } from 'vee-validate';
 import TRAXService from "@/services/TRAXService.js";
 import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
@@ -397,7 +409,67 @@ import GraduationReportService from "@/services/GraduationReportService.js";
 import {
   mapGetters
 } from "vuex";
+
+extend('minmax', {
+  validate(value, { min, max }) {
+    return value.length >= min && value.length <= max;
+  },
+  params: ['min', 'max'],
+  message: 'The {_field_} field must have at least {min} characters and {max} characters at most'
+})
+extend('mincodelength', {
+  validate(value) {
+    console.log(value.length == 8)
+    return value.length == 8
+  },
+  params: ['min'],
+  message: 'The mincode must have at least {min} characters'
+})
+extend('lessthangraddateto', {
+  validate(value, { gradDateTo }) {
+    const date1 = new Date(value);
+    const date2 = new Date(gradDateTo);
+    if(gradDateTo){
+      console.log(date1 < date2)
+      return date1 < date2
+    }else return true;
+  },
+  params: ['gradDateTo'],
+  message: 'The {_field_} field must be less than {gradDateTo}'
+})
+extend('greaterthangraddateFrom', {
+  validate(value, { gradDateFrom }) {
+    const date1 = new Date(gradDateFrom);
+    const date2 = new Date(value);
+    if(gradDateFrom){
+      console.log(date1 < date2)
+      return date1 < date2
+    }else return true;
+  },
+  params: ['gradDateFrom'],
+  message: 'The Grad Start Date field must be less than {gradDateFrom}'
+})
+extend('validateschool', {
+  validate(value) {    
+    SchoolService.getSchoolInfo(value).then(
+      (response) => {
+        console.log("RESPONSE")
+        console.log(response)
+        if(response.data.minCode){
+          console.log(response.data.minCode)
+          return true;
+        }else{
+          return false
+        }
+      })
+  },
+  message: 'School Not Valid'
+})
+
 export default {
+  components: {
+    ValidationProvider: ValidationProvider,
+  },  
   data: function () {
     return {
       batchRunDetails: "",
@@ -535,6 +607,7 @@ export default {
         });
       }
       if(type == "districts"){
+        
         //remove duplicates
           this.validating = true;
           TRAXService.getDistrict(value).then(

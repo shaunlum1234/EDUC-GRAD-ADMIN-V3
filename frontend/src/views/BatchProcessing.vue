@@ -2,9 +2,15 @@
   <div class="container">
     <h2>Batch Processing</h2>
     <div>
+      
+ <ValidationProvider rules="minmax:3,8" v-slot="{ errors }">
+  <input v-model="value" type="text">
+  <span>{{ errors[0] }}</span>
+</ValidationProvider>
   <div class="mt-2 row">
   <div class="col-12 float-left p-0">
     <div ref="top">
+
       <b-card no-body>
         <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
@@ -91,9 +97,6 @@
                           </b-btn>  
                           <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
                         </template>
-                        <template #cell(job-state)="row">
-                          <b-form-checkbox switch size="lg">Large</b-form-checkbox>
-                        </template>
                       </DisplayTable>
                   </b-card-text>
                 </b-tab>
@@ -142,6 +145,7 @@
 
 <script>
 // @ is an alias to /src
+
 import BatchProcessingService from "@/services/BatchProcessingService.js";
 import DistributionService from "@/services/DistributionService.js";
 import DisplayTable from '@/components/DisplayTable.vue';
@@ -188,6 +192,7 @@ export default {
   },
   data() {
     return {
+      value:"",
       validationMessage: "",
       validating: false,
       adminSelectedBatchId:"",
@@ -332,6 +337,9 @@ export default {
     this.getScheduledJobs()
   },
   methods: { 
+    onInputChanged(){
+      console.log("hey")
+    },
     ...mapActions('batchprocessing', ['setScheduledBatchJobs']),
 
     getZipLink: function (data, mimeType) {
