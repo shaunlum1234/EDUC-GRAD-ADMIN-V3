@@ -17,7 +17,7 @@ fixture `course-requirements`
         .navigateTo(base_url)
         .click(coursesPage.view)
         .click(coursesPage.requirementsTab);
-    })
+    });
 
     test('empty', async t => {
         await t
@@ -26,4 +26,4 @@ fixture `course-requirements`
         await t
         .expect(await searchMessage.textContent)
         .contains('Enter at least one field to search.');
-    })
+    });
