@@ -4,6 +4,7 @@ import { base_url, credentials, test_pen, api_html_status_threshold, max_accepta
 import { ClientFunction, RequestLogger, Role  } from 'testcafe';
 import { apiCallsFailed } from '../helpers/requestHelper';
 import adminUser from '../config/roles';
+import { info } from 'console';
 
 const log = require('npmlog');
 //const adminUser = require('../config/roles');
@@ -40,7 +41,15 @@ test('Pen Search', async t => {
     await t.typeText(searchPage.searchInput, test_pen)
            .click(searchPage.searchSubmit)
            //.wait(30000)
-           .expect(requestLogger.contains(r => r.response.statusCode > api_html_status_threshold), {timeout: max_acceptable_timeout}).notOk();
+           .expect(requestLogger.contains(r => {
+               if (r.response.statusCode > api_html_status_threshold) {
+                    log.info('Failed because of response status code of ' + r.response.statusCode);
+                    return true;
+                } else {
+                    //log.info(r.response.statusCode);
+                    return false;
+               }
+            }), {timeout: max_acceptable_timeout}).notOk();
            
     await t.expect(getLocation(), {timeout: max_acceptable_timeout}).contains('/student-profile');
 
