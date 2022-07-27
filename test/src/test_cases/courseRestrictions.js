@@ -58,5 +58,6 @@ fixture `course-restrictions`
     test('table filter', async t => {
         await t
         .typeText(coursesPage.courseRestrictionsFilter, "cop")
-        .expect(Selector('.table-responsive table[aria-colcount="6"] tbody').child('tr').count).eql(6, {timeout: 50000});
+        .wait(30000)
+        .expect(Selector('.table-responsive table[aria-colcount="6"] tbody').child('tr').count).eql(6);
     })

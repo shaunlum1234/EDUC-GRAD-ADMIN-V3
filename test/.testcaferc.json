@@ -6,7 +6,7 @@
     "developmentMode": true,
     "skipJsErrors": true,
     "color": true,
-    "stopOnFirstFail": true,
+    "stopOnFirstFail": false,
     "disablePageCaching": true,
     "speed": 1,
     "retryTestPages": true,
