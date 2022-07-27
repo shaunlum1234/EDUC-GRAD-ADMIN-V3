@@ -16,9 +16,9 @@ createTestCafe('localhost', 1337, 1338)
     })
     .then(failedCount => {
         log.info('Tests failed: ' + failedCount);
-        // if(failedCount !== 0)
-        // {
-        //     throw new Error("Test failed");
-        // }
+        if(failedCount !== 0)
+        {
+            throw new Error("Test failed");
+        }
         testcafe.close();
     });
