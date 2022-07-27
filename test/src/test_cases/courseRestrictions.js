@@ -1,4 +1,4 @@
-import { base_url, api_html_status_threshold } from '../config/constants';
+import { base_url, api_html_status_threshold, max_acceptable_timeout } from '../config/constants';
 import { RequestLogger, Selector } from 'testcafe';
 import { apiCallsFailed } from '../helpers/requestHelper';
 import adminUser from '../config/roles';
@@ -22,7 +22,7 @@ fixture `course-restrictions`
 
     test('table loads', async t => {
         await t
-        .expect(coursesPage.courseRestrictionsTab.exists).ok();
+        .expect(coursesPage.courseRestrictionsTab.exists, {timeout: max_acceptable_timeout}).ok();
     });
 
     test('table sorting', async t => {
@@ -58,6 +58,6 @@ fixture `course-restrictions`
     test('table filter', async t => {
         await t
         .typeText(coursesPage.courseRestrictionsFilter, "cop")
-        .wait(30000)
+        .wait(max_acceptable_timeout)
         .expect(Selector('.table-responsive table[aria-colcount="6"] tbody').child('tr').count).eql(6);
     })

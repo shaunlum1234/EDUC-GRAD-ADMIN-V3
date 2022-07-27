@@ -1,4 +1,4 @@
-import { base_url, api_html_status_threshold } from '../config/constants';
+import { base_url, api_html_status_threshold, max_acceptable_timeout } from '../config/constants';
 import { RequestLogger, Selector } from 'testcafe';
 import { apiCallsFailed } from '../helpers/requestHelper';
 import adminUser from '../config/roles';
@@ -28,9 +28,10 @@ fixture `course-search`
 
 test('empty', async t => {
     await t
-    .click(coursesPage.searchSubmit)
+    .click(coursesPage.searchSubmit);
     
     await t
+    .wait(max_acceptable_timeout)
     .expect(await searchMessage.textContent)
     .contains('Enter at least one field to search.');
 });
@@ -51,7 +52,7 @@ test('reset', async t => {
 
     await t
     .expect(await searchMessage.textContent)
-    .contains('Enter at least one field to search.', {timeout: 2000});
+    .contains('Enter at least one field to search.', {timeout: max_acceptable_timeout});
 })
 
 test('good data - all fields', async t => {
