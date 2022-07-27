@@ -11,7 +11,7 @@ createTestCafe('localhost', 1337, 1338)
             // list multiple test files
             //.src(["src/test_cases/studentSearch.js"])
             //.src(["src/test_cases/courseSearch.js"], ["src/test_cases/courseRestrictions.js"])
-            .src(["src/test_cases/courseRestrictions.js"])
+            .src(["src/test_cases/courseRequirements.js"])
             //.browsers(["chrome:headless", "firefox:headless"])
             .run();
     })

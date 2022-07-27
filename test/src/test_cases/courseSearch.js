@@ -7,7 +7,7 @@ import CoursesPage from '../page_objects/coursesPage';
 const log = require('npmlog');
 const requestLogger = RequestLogger(/api\/v1/, {logResponseBody: true, logResponseHeaders: true});
 const coursesPage = new CoursesPage();
-const searchMessage = Selector('.search-results-message > strong')
+const searchMessage = Selector('.search-results-message > strong'); //this can be moved to courses page object
 
 // test data variables
 const TRAXSartDate = '1995-01-01';
