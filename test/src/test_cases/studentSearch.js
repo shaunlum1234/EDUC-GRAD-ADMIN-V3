@@ -39,7 +39,7 @@ test('Pen Search', async t => {
     log.info("Testing search for existing student");
     await t.typeText(searchPage.searchInput, test_pen)
            .click(searchPage.searchSubmit)
-           .wait(2000)
+           .wait(30000)
            .expect(requestLogger.contains(r => r.response.statusCode > api_html_status_threshold)).notOk();
            
     await t.expect(getLocation()).contains('/student-profile');

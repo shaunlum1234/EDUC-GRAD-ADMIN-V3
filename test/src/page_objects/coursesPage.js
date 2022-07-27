@@ -36,7 +36,7 @@ class CoursesPage {
         this.ruleNumber = Selector('#rule-number-input');
         
         // form buttons
-        this.searchSubmit = Selector('button').withExactText('Search');
+        this.searchSubmit = Selector('div.active button').withExactText('Search');
         this.formReset = Selector('button').withExactText('Reset');
     }
 
