@@ -1,6 +1,6 @@
 import StudentSearchPage from '../page_objects/studentSearchPage';
 import MainMenu from '../page_objects/mainMenu';
-import { base_url, credentials, test_pen, api_html_status_threshold } from '../config/constants';
+import { base_url, credentials, test_pen, api_html_status_threshold, max_acceptable_timeout } from '../config/constants';
 import { ClientFunction, RequestLogger, Role  } from 'testcafe';
 import { apiCallsFailed } from '../helpers/requestHelper';
 import adminUser from '../config/roles';
@@ -31,7 +31,7 @@ test('Pen Search', async t => {
     log.info("Testing student does not exist");
     await searchPage.selectPenSearchTab();
     await searchPage.studentSearch("121212121");
-    await t.expect(searchPage.searchMessage.innerText).contains('Student cannot be found', 'Student cannot be found error message did not occur', {timeout: 2000});
+    await t.expect(searchPage.searchMessage.innerText).contains('Student cannot be found', 'Student cannot be found error message did not occur', {timeout: max_acceptable_timeout});
     
     await searchPage.clearSearchInput();
     
@@ -40,9 +40,9 @@ test('Pen Search', async t => {
     await t.typeText(searchPage.searchInput, test_pen)
            .click(searchPage.searchSubmit)
            //.wait(30000)
-           .expect(requestLogger.contains(r => r.response.statusCode > api_html_status_threshold), {timeout: 30000}).notOk();
+           .expect(requestLogger.contains(r => r.response.statusCode > api_html_status_threshold), {timeout: max_acceptable_timeout}).notOk();
            
-    await t.expect(getLocation(), {timeout: 20000}).contains('/student-profile');
+    await t.expect(getLocation(), {timeout: max_acceptable_timeout}).contains('/student-profile');
 
     // testing pen bad pen search from top menu
     // TODO: awaiting resolution for bugfix https://gww.jira.educ.gov.bc.ca/browse/GRAD2-874
