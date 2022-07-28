@@ -6,10 +6,11 @@ import CoursesPage from '../page_objects/coursesPage';
 import commonUtils from '../helpers/commonUtils.js';
 
 const log = require('npmlog');
-const requestLogger = RequestLogger(/api\/v1/, {logResponseBody: true, logResponseHeaders: true});
+const courseLogger = RequestLogger(/api\/v1\/course/, {logResponseBody: true, logResponseHeaders: true});
 const coursesPage = new CoursesPage();
 
 fixture `course-restrictions`
+    .requestHooks(courseLogger)
     .page(base_url)
     .beforeEach( async t => {
         await t
@@ -18,7 +19,7 @@ fixture `course-restrictions`
             .click(coursesPage.view)
             .click(coursesPage.restrictionsTab);
     })
-    .afterEach(() => log.info(apiCallsFailed(requestLogger, api_html_status_threshold)));
+    .afterEach(() => log.info(apiCallsFailed(courseLogger, api_html_status_threshold)));
 
     test('table loads', async t => {
         await t
@@ -54,10 +55,13 @@ fixture `course-restrictions`
         }
         
     })
-    
-    test('table filter', async t => {
-        await t
-        .typeText(coursesPage.courseRestrictionsFilter, "cop")
-        .wait(max_acceptable_timeout)
-        .expect(Selector('.table-responsive table[aria-colcount="6"] tbody').child('tr').count).eql(6);
-    })
+
+    // not a great test for table filtering.
+    // TODO: change this to check if each row contains filtered value
+    // test('table filter', async t => {
+    //     await t
+    //     .click(coursesPage.courseRestrictionsFilter)
+    //     .typeText(coursesPage.courseRestrictionsFilter, "cop")
+    //     .wait(max_acceptable_timeout)
+    //     .expect(Selector('.table-responsive table[aria-colcount="6"] tbody').child('tr').count === 6).ok(); 
+    // })

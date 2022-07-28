@@ -5,11 +5,12 @@ import adminUser from '../config/roles';
 import CoursesPage from '../page_objects/coursesPage';
 
 const log = require('npmlog');
-const requestLogger = RequestLogger(/api\/v1/, {logResponseBody: true, logResponseHeaders: true});
+const courseLogger = RequestLogger(/api\/v1\/course/, {logResponseBody: true, logResponseHeaders: true});
 const coursesPage = new CoursesPage();
 const searchMessage = Selector('.search-results-message > strong');
 
 fixture `course-requirements`
+    .requestHooks(courseLogger)
     .page(base_url)
     .beforeEach( async t => {
         await t
