@@ -3,6 +3,7 @@ import { RequestLogger, Selector } from 'testcafe';
 import { apiCallsFailed } from '../helpers/requestHelper';
 import adminUser from '../config/roles';
 import CoursesPage from '../page_objects/coursesPage';
+import commonUtils from '../helpers/commonUtils';
 
 const log = require('npmlog');
 const requestLogger = RequestLogger(/api\/v1/, {logResponseBody: true, logResponseHeaders: true});
@@ -25,6 +26,11 @@ fixture `course-search`
             .click(coursesPage.view);
     })
     .afterEach(() => log.info(apiCallsFailed(requestLogger, api_html_status_threshold)));
+
+// test('course-api', async t => {
+//     await t
+//     .expect(requestLogger.contains(r => commonUtils.outputStatusCode(r.response.statusCode, api_html_status_threshold)), {timeout: max_acceptable_timeout}).ok();
+// });
 
 test('empty', async t => {
     await t
