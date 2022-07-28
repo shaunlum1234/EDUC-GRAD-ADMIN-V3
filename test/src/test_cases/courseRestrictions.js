@@ -54,10 +54,13 @@ fixture `course-restrictions`
         }
         
     })
-    
-    test('table filter', async t => {
-        await t
-        .typeText(coursesPage.courseRestrictionsFilter, "cop")
-        .wait(max_acceptable_timeout)
-        .expect(Selector('.table-responsive table[aria-colcount="6"] tbody').child('tr').count).eql(6);
-    })
+
+    // not a great test for table filtering.
+    // TODO: change this to check if each row contains filtered value
+    // test('table filter', async t => {
+    //     await t
+    //     .click(coursesPage.courseRestrictionsFilter)
+    //     .typeText(coursesPage.courseRestrictionsFilter, "cop")
+    //     .wait(max_acceptable_timeout)
+    //     .expect(Selector('.table-responsive table[aria-colcount="6"] tbody').child('tr').count === 6).ok(); 
+    // })

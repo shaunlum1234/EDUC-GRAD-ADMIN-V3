@@ -51,7 +51,10 @@ test('Pen Search', async t => {
                }
             }), {timeout: max_acceptable_timeout}).notOk();
            
-    await t.expect(getLocation(), {timeout: max_acceptable_timeout}).contains('/student-profile');
+    await t
+        .wait(max_acceptable_timeout)
+        .expect(getLocation())
+        .contains('/student-profile');
 
     // testing pen bad pen search from top menu
     // TODO: awaiting resolution for bugfix https://gww.jira.educ.gov.bc.ca/browse/GRAD2-874
