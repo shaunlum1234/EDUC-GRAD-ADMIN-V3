@@ -3,10 +3,6 @@
     <h2>Batch Processing</h2>
     <div>
       
- <ValidationProvider rules="minmax:3,8" v-slot="{ errors }">
-  <input v-model="value" type="text">
-  <span>{{ errors[0] }}</span>
-</ValidationProvider>
   <div class="mt-2 row">
   <div class="col-12 float-left p-0">
     <div ref="top">
@@ -236,9 +232,16 @@ export default {
           label: 'Job Name',
           sortable: true,
           class: 'text-left',
-        },         
+        },      
         {
-          key: 'schedule/removedBy',
+          key: 'cronExpression',
+          label: 'CRON (Sec Min Hr Date Month)',
+          sortable: true,
+          class: 'text-left',
+        },            
+        
+        {
+          key: 'scheduledBy',
           label: 'Scheduled By',
           sortable: true,
           class: 'text-left',

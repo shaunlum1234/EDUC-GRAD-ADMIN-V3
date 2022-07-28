@@ -294,14 +294,14 @@
             <div class="col-3"><strong>Address</strong></div>   
         </div>
         <div v-for="(school, index) in tabContent[jobId].schools" :key="index" class="row pl-3 mb-1">
-          <div v-if="!school.schoolName" class="row col-12">
-            <ValidationProvider name="Mincode" rules="validateschool" v-slot="{ errors }">
+          <div v-if="!school.schoolName" class="row col-12 mb-3">
+            <ValidationProvider name="Mincode" :rules="'mincodelength|validateschool:' + jobId + ',' + index" v-slot="{ errors }">
               <b-form-input  type="number" v-model="school.value" class="col-12"/>
               <span>{{ errors[0] }}</span>
             </ValidationProvider>
-            <b-form-input show=false disabled v-model="school.schoolName" :ref="'schoolName' + jobId + index" class="col-3"/>
-            <b-form-input show=false disabled v-model="school.districtName" :ref="'districtName'+ jobId + index" class="col-2"/>
-            <b-form-input show=false disabled v-model="school.address" :ref="'address'+ jobId + index" class="col-3"/>
+            <b-form-input show=false disabled v-model="school.schoolName" :ref="'schoolName' + jobId + index" class="col-2"/>
+            <b-form-input show=false disabled v-model="school.districtName" :ref="'districtName'+ jobId + index" class="col-3"/>
+            <b-form-input show=false disabled v-model="school.address" :ref="'address'+ jobId + index" class="col-2"/>
             <div v-if="index == tabContent[jobId].schools.length-1" class="col-2">
               <b-button  class="btn btn-primary w-100" @click="addValueToTypeInBatchId(jobId,'schools',school.value,index)">
               <b-spinner small v-if="validating"></b-spinner> Add
@@ -314,7 +314,7 @@
             <div v-if="school.districtName" class="col-2">{{school.districtName}}</div>
             <div v-if="school.address" class="col-3"> {{school.address}}</div>   
 
-            <div v-if="index != tabContent[jobId].schools.length-1" class="col-2" ><b-button  class="btn btn-primary w-100 w-100" @click="deleteValueFromTypeInBatchId(jobId, 'schools',school.value)">
+            <div v-if="index != tabContent[jobId].schools.length-1" class="col-2" ><b-button  class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'schools',school.value)">
               Remove
             </b-button>
             </div>
@@ -413,6 +413,9 @@ import {
   mapGetters
 } from "vuex";
 
+
+
+
 extend('minmax', {
   validate(value, { min, max }) {
     return value.length >= min && value.length <= max;
@@ -450,27 +453,36 @@ extend('greaterthangraddateFrom', {
   params: ['gradDateFrom'],
   message: 'The Grad Start Date field must be less than {gradDateFrom}'
 })
-extend('validateschool', {
-  validate(value) {    
-    SchoolService.getSchoolInfo(value).then(
-          (response) => {
-            if(response.data.minCode){
-              return {
-                  valid:  true,
-                }
-            }else{
-                 return {
-                  valid: false,
-                }
-            }
-          }
-        ).catch((error) => {
-          // eslint-disable-next-line
-          console.log(error) 
-        });
-  },
-  message: 'Problem'
-})
+
+
+
+
+
+
+// extend('validateschool', {
+//   validate(value) {    
+//     new Promise(resolve => {
+//         SchoolService.getSchoolInfo(value).then(
+//           (response) => {
+//             console.log("response")
+//             if(response.data.minCode){
+//               return resolve({
+//                 valid: true
+//               });
+//             }else{
+//               return resolve({
+//                 valid: false
+//               });
+//             }
+//           }
+//         ).catch((error) => {
+//           // eslint-disable-next-line
+//           console.log(error) 
+//         });
+//     })
+//   },
+//   message: 'Problem'
+// })
 
 export default {
   components: {
@@ -493,32 +505,51 @@ export default {
       gradDateTo: ""
     }
   },
+  mounted(){
+    extend('validateschool', (value, refValues) => {
+        return SchoolService.getSchoolInfo(value).then(
+          (response) => {
+            console.log(response.data.minCode)
+            if(response.data.minCode){
+              // console.log(this.$refs['schoolNamejob-10'])
+              
+              this.$refs['schoolName' + refValues[0] + refValues[1]][0].placeholder = response.data.schoolName;        
+              this.$refs['districtName' + refValues[0] + refValues[1]][0].placeholder = response.data.districtName;        
+              this.$refs['address' + refValues[0] + refValues[1]][0].placeholder = response.data.address1;   
+              // this.$forceUpdate();
+              
+              
+              return { valid: true };
+            }else{
+              return {
+                valid: false,
+              };
+            }
+          }
+        ).catch((error) => {
+          // eslint-disable-next-line
+          console.log(error) 
+               
+          this.validating = false;
+          this.$forceUpdate();
+        });
+
+
+
+
+
+
+    }, {
+     immediate: false
+   })
+
+  },
   created() {
 
     this.transcriptTypes = this.getTranscriptTypes();
     this.certificateTypes = this.getCertificateTypes();
   },
   methods: {
-    async validateSchool(value){
-      const result = SchoolService.getSchoolInfo(value).then(
-          (response) => {
-            if(response.data.minCode){
-              return {
-                  valid:  true,
-                }
-            }else{
-                 return {
-                  valid: false,
-                }
-            }
-          }
-        ).catch((error) => {
-          // eslint-disable-next-line
-          console.log(error) 
-        });
-
-        return result;
-    },
     disableConfirm(){
       if(this.batchRunTime == 'Run Now'){
         return false
@@ -589,7 +620,7 @@ export default {
               this.$refs['districtName' + id + valueIndex][0].updateValue(response.data.districtName);        
               this.$refs['address' + id + valueIndex][0].updateValue(response.data.address1);        
             }else{
-               this.validationMessage = value + " is not a valid School"
+              this.validationMessage = value + " is not a valid School."             
                this.deleteValueFromTypeInBatchId(id, type, value);
                this.addTypeToBatchId(id, type);
             }
