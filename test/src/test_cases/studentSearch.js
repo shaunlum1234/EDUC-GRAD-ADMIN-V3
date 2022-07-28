@@ -1,6 +1,6 @@
 import StudentSearchPage from '../page_objects/studentSearchPage';
 import MainMenu from '../page_objects/mainMenu';
-import { base_url, credentials, test_pen, api_html_status_threshold, max_acceptable_timeout } from '../config/constants';
+import { base_url, credentials, test_pen, api_html_status_threshold } from '../config/constants';
 import { ClientFunction, RequestLogger, Role  } from 'testcafe';
 import { apiCallsFailed } from '../helpers/requestHelper';
 import commonUtils from '../helpers/commonUtils';
@@ -32,8 +32,8 @@ test('Pen Search - bad PEN', async t => {
     log.info('Testing search with nonexistant PEN')
     await searchPage.selectPenSearchTab();
     await searchPage.studentSearch(bad_pen);
-    await t.expect(penSearchLogger.contains(r => commonUtils.outputStatusCode(r.response.statusCode, api_html_status_threshold)), {timeout: max_acceptable_timeout}).ok();
-    await t.expect(searchPage.searchMessage.innerText).contains('Student cannot be found', 'Student cannot be found error message did not occur', {timeout: max_acceptable_timeout});
+    await t.expect(penSearchLogger.contains(r => commonUtils.outputStatusCode(r.response.statusCode, api_html_status_threshold))).ok();
+    await t.expect(searchPage.searchMessage.innerText).contains('Student cannot be found', 'Student cannot be found error message did not occur');
 });
 
 test('Pen Search - good PEN', async t => {
@@ -43,13 +43,13 @@ test('Pen Search - good PEN', async t => {
     // testing good pen search
     log.info("Testing search for existing student");
     await t.typeText(searchPage.searchInput, test_pen)
-           .click(searchPage.searchSubmit)
+           .click(searchPage.searchSubmit);
            //.wait(30000)
-           .expect(penSearchLogger.contains(r => commonUtils.outputStatusCode(r.response.statusCode, api_html_status_threshold)), {timeout: max_acceptable_timeout}).ok();
+           //.expect(penSearchLogger.contains(r => commonUtils.outputStatusCode(r.response.statusCode, api_html_status_threshold)), {timeout: max_acceptable_timeout}).ok();
            
     await t
         //.wait(max_acceptable_timeout)
-        .expect(getLocation(), {timeout: max_acceptable_timeout})
+        .expect(getLocation())
         .contains('/student-profile');
 
     // testing pen bad pen search from top menu

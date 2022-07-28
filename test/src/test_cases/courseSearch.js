@@ -4,9 +4,10 @@ import { apiCallsFailed } from '../helpers/requestHelper';
 import adminUser from '../config/roles';
 import CoursesPage from '../page_objects/coursesPage';
 import commonUtils from '../helpers/commonUtils';
+import { info } from 'console';
 
 const log = require('npmlog');
-const requestLogger = RequestLogger(/api\/v1/, {logResponseBody: true, logResponseHeaders: true});
+const courseLogger = RequestLogger(/api\/v1\/course/, {logResponseBody: true, logResponseHeaders: true});
 const coursesPage = new CoursesPage();
 const searchMessage = Selector('.search-results-message > strong'); //this can be moved to courses page object
 
@@ -18,6 +19,7 @@ const expectedResults = {
 };
 
 fixture `course-search`
+    .requestHooks(courseLogger)
     .page(base_url)
     .beforeEach( async t => {
         await t
@@ -25,19 +27,14 @@ fixture `course-search`
             .navigateTo(base_url)
             .click(coursesPage.view);
     })
-    .afterEach(() => log.info(apiCallsFailed(requestLogger, api_html_status_threshold)));
-
-// test('course-api', async t => {
-//     await t
-//     .expect(requestLogger.contains(r => commonUtils.outputStatusCode(r.response.statusCode, api_html_status_threshold)), {timeout: max_acceptable_timeout}).ok();
-// });
+    .afterEach(() => log.info(apiCallsFailed(courseLogger, api_html_status_threshold)));
 
 test('empty', async t => {
     await t
     .click(coursesPage.searchSubmit);
     
     await t
-    .wait(max_acceptable_timeout)
+    //.wait(max_acceptable_timeout)
     .expect(await searchMessage.textContent)
     .contains('Enter at least one field to search.');
 });
@@ -62,6 +59,8 @@ test('reset', async t => {
 })
 
 test('good data - all fields', async t => {
+    log.info('Testing course search with good data');
+    
     await t
     .typeText(coursesPage.TRAXCode, 'A')
     .click(coursesPage.TRAXCode.sibling('.wild-card-button'))
@@ -73,7 +72,11 @@ test('good data - all fields', async t => {
     .typeText(coursesPage.TRAXStartDate, TRAXSartDate)
     .typeText(coursesPage.TRAXEndDate, TRAXEndDate)
     //.click(coursesPage.formReset)
+    .wait(max_acceptable_timeout)
     .click(coursesPage.searchSubmit);
+
+    // await t
+    // .expect(courseLogger.contains(r => commonUtils.outputStatusCode(r.response.statusCode, api_html_status_threshold)), {timeout: max_acceptable_timeout}).ok();
 
     await t
     //.expect(await Selector('table').count)
