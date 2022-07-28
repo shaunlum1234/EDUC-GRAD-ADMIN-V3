@@ -12,7 +12,7 @@ const log = require('npmlog');
 const bad_pen = '121212121';
 const searchPage = new StudentSearchPage();
 const mainMenu = new MainMenu();
-const penSearchLogger = RequestLogger(/api\/v1\/student\/pen/, {logResponseBody: true, logResponseHeaders: true, stringifyResponseBody: true});
+const penSearchLogger = RequestLogger(/api\/v1\/student\/pen/, {logResponseBody: true, logResponseHeaders: true});
 
 fixture `grad-login-admin`
     .requestHooks(penSearchLogger)
