@@ -96,7 +96,9 @@
                       autocomplete="off"
                       @input="editBatchJob(jobId,'gradDateFrom', $event)"    
                     ></b-form-input>
-                    <span>{{ errors[0] }}</span>
+                      <ul>
+                        <li v-for="error in errors" :key="error">{{ error }}</li>
+                      </ul>
                     </ValidationProvider>
                     
 
@@ -293,8 +295,9 @@
         </div>
         <div v-for="(school, index) in tabContent[jobId].schools" :key="index" class="row pl-3 mb-1">
           <div v-if="!school.schoolName" class="row col-12">
-            <ValidationProvider rules="mincodelength|validateschool" v-slot="{ errors }">
-              <b-form-input type="number" v-model="school.value" class="col-12"/>
+            <ValidationProvider name="Mincode" rules="validateschool" v-slot="{ errors }">
+              <b-form-input  type="number" v-model="school.value" class="col-12"/>
+              <span>{{ errors[0] }}</span>
             </ValidationProvider>
             <b-form-input show=false disabled v-model="school.schoolName" :ref="'schoolName' + jobId + index" class="col-3"/>
             <b-form-input show=false disabled v-model="school.districtName" :ref="'districtName'+ jobId + index" class="col-2"/>
@@ -419,11 +422,9 @@ extend('minmax', {
 })
 extend('mincodelength', {
   validate(value) {
-    console.log(value.length == 8)
     return value.length == 8
   },
-  params: ['min'],
-  message: 'The mincode must have at least {min} characters'
+  message: 'Minimum 8 characters'
 })
 extend('lessthangraddateto', {
   validate(value, { gradDateTo }) {
@@ -452,18 +453,23 @@ extend('greaterthangraddateFrom', {
 extend('validateschool', {
   validate(value) {    
     SchoolService.getSchoolInfo(value).then(
-      (response) => {
-        console.log("RESPONSE")
-        console.log(response)
-        if(response.data.minCode){
-          console.log(response.data.minCode)
-          return true;
-        }else{
-          return false
-        }
-      })
+          (response) => {
+            if(response.data.minCode){
+              return {
+                  valid:  true,
+                }
+            }else{
+                 return {
+                  valid: false,
+                }
+            }
+          }
+        ).catch((error) => {
+          // eslint-disable-next-line
+          console.log(error) 
+        });
   },
-  message: 'School Not Valid'
+  message: 'Problem'
 })
 
 export default {
@@ -493,6 +499,26 @@ export default {
     this.certificateTypes = this.getCertificateTypes();
   },
   methods: {
+    async validateSchool(value){
+      const result = SchoolService.getSchoolInfo(value).then(
+          (response) => {
+            if(response.data.minCode){
+              return {
+                  valid:  true,
+                }
+            }else{
+                 return {
+                  valid: false,
+                }
+            }
+          }
+        ).catch((error) => {
+          // eslint-disable-next-line
+          console.log(error) 
+        });
+
+        return result;
+    },
     disableConfirm(){
       if(this.batchRunTime == 'Run Now'){
         return false
