@@ -340,9 +340,6 @@ export default {
     this.getScheduledJobs()
   },
   methods: { 
-    onInputChanged(){
-      console.log("hey")
-    },
     ...mapActions('batchprocessing', ['setScheduledBatchJobs']),
 
     getZipLink: function (data, mimeType) {
@@ -453,8 +450,6 @@ export default {
             
             let bid = response.data.batchId;
             DistributionService.downloadDISTRUN(bid).then((res) => {
-              console.log("DOWNLOAD")
-              console.log(res.data)
               this.$bvToast.toast('Download (.zip)' , {
                 title: "FILE SUCCESSFULLY CREATED",
                 href: "data:application/zip;base64," + res.data,

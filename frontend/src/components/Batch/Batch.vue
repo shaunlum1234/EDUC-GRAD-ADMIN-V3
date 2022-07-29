@@ -2,7 +2,6 @@
   <div>
     <b-overlay :show='processingBatch'>
       <div class="row">
-        {{tabContent['job-1']}}
         <div class="col-12 col-md-3 border-right">
           <div class="m-0">
             <label class="font-weight-bold">Run Type</label>
@@ -96,7 +95,7 @@
                       autocomplete="off"
                       @input="editBatchJob(jobId,'gradDateFrom', $event)"    
                     ></b-form-input>
-                      <ul>
+                      <ul class="position-absolute form-validation-message text-danger">
                         <li v-for="error in errors" :key="error">{{ error }}</li>
                       </ul>
                     </ValidationProvider>
@@ -115,7 +114,7 @@
                   </b-input-group>
                 </div>
 
-                <div class="float-left col-3">
+                <div class="float-left col-4">
                   <strong><label class="pt-1">Grad End Date</label></strong>
                   <b-input-group class="mb-3">
                     <ValidationProvider :rules="'greaterthangraddateFrom:'+gradDateFrom" v-slot="{ errors }">
@@ -127,7 +126,7 @@
                       autocomplete="off"
                       @input="editBatchJob(jobId,'gradDateTo', $event)"    
                     ></b-form-input>
-                    <span>{{ errors[0] }}</span>
+                    <span class="position-absolute form-validation-message text-danger">{{ errors[0] }}</span>
                     </ValidationProvider>
                     <b-input-group-append>
                       <b-form-datepicker
@@ -297,7 +296,7 @@
           <div v-if="!school.schoolName" class="row col-12 mb-3">
             <ValidationProvider name="Mincode" :rules="'mincodelength|validateschool:' + jobId + ',' + index" v-slot="{ errors }">
               <b-form-input  type="number" v-model="school.value" class="col-12"/>
-              <span>{{ errors[0] }}</span>
+              <span class="position-absolute form-validation-message text-danger">{{ errors[0] }}</span>
             </ValidationProvider>
             <b-form-input show=false disabled v-model="school.schoolName" :ref="'schoolName' + jobId + index" class="col-2"/>
             <b-form-input show=false disabled v-model="school.districtName" :ref="'districtName'+ jobId + index" class="col-3"/>
@@ -364,12 +363,13 @@
         <b-button size="sm" variant="danger" class="btn btn-danger float-right col-2 p-2" @click="cancelBatchJob(jobId)">
           Cancel
         </b-button>
-        <b-button v-if="tabContent[jobId].details['where'] == 'BC Mail' || tabContent[jobId].details['where'] == 'User'" v-b-modal.batch-modal size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
-          Schedule/Run Batch
-        </b-button>
-        <b-button v-else @click="runBatch(jobId)" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+        <b-button v-if="tabContent[jobId].details['where'] == 'localDownload'" @click="runBatch(jobId)" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
           Download
         </b-button>
+        <b-button v-else v-b-modal.batch-modal size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+          Schedule/Run Batch
+        </b-button>
+        
         <b-modal id="batch-modal" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
           <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }"> 
             <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Now">Run Now</b-form-radio>
@@ -439,7 +439,7 @@ extend('lessthangraddateto', {
     }else return true;
   },
   params: ['gradDateTo'],
-  message: 'The {_field_} field must be less than {gradDateTo}'
+  message: 'The Grad Start Date field must be less than {gradDateTo}'
 })
 extend('greaterthangraddateFrom', {
   validate(value, { gradDateFrom }) {
@@ -451,38 +451,8 @@ extend('greaterthangraddateFrom', {
     }else return true;
   },
   params: ['gradDateFrom'],
-  message: 'The Grad Start Date field must be less than {gradDateFrom}'
+  message: 'The Grad End Date field must be less than {gradDateFrom}'
 })
-
-
-
-
-
-
-// extend('validateschool', {
-//   validate(value) {    
-//     new Promise(resolve => {
-//         SchoolService.getSchoolInfo(value).then(
-//           (response) => {
-//             console.log("response")
-//             if(response.data.minCode){
-//               return resolve({
-//                 valid: true
-//               });
-//             }else{
-//               return resolve({
-//                 valid: false
-//               });
-//             }
-//           }
-//         ).catch((error) => {
-//           // eslint-disable-next-line
-//           console.log(error) 
-//         });
-//     })
-//   },
-//   message: 'Problem'
-// })
 
 export default {
   components: {
@@ -533,12 +503,6 @@ export default {
           this.validating = false;
           this.$forceUpdate();
         });
-
-
-
-
-
-
     }, {
      immediate: false
    })

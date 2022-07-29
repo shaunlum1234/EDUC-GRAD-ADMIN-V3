@@ -103,7 +103,7 @@ export default {
             });    
           }else{
             let r = 'routine' + jobType + 'Enabled';
-            this.$refs[r].localChecked = true
+            this.$refs[r].localChecked = !this.$refs[r].localChecked
           }
         })
         .catch(err => {
