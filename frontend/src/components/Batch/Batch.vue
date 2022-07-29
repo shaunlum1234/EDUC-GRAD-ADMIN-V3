@@ -434,7 +434,6 @@ extend('lessthangraddateto', {
     const date1 = new Date(value);
     const date2 = new Date(gradDateTo);
     if(gradDateTo){
-      console.log(date1 < date2)
       return date1 < date2
     }else return true;
   },
@@ -446,7 +445,6 @@ extend('greaterthangraddateFrom', {
     const date1 = new Date(gradDateFrom);
     const date2 = new Date(value);
     if(gradDateFrom){
-      console.log(date1 < date2)
       return date1 < date2
     }else return true;
   },
@@ -479,16 +477,10 @@ export default {
     extend('validateschool', (value, refValues) => {
         return SchoolService.getSchoolInfo(value).then(
           (response) => {
-            console.log(response.data.minCode)
             if(response.data.minCode){
-              // console.log(this.$refs['schoolNamejob-10'])
-              
               this.$refs['schoolName' + refValues[0] + refValues[1]][0].placeholder = response.data.schoolName;        
               this.$refs['districtName' + refValues[0] + refValues[1]][0].placeholder = response.data.districtName;        
               this.$refs['address' + refValues[0] + refValues[1]][0].placeholder = response.data.address1;   
-              // this.$forceUpdate();
-              
-              
               return { valid: true };
             }else{
               return {
