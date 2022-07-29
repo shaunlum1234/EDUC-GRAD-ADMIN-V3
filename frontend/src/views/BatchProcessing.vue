@@ -2,9 +2,11 @@
   <div class="container">
     <h2>Batch Processing</h2>
     <div>
+      
   <div class="mt-2 row">
   <div class="col-12 float-left p-0">
     <div ref="top">
+
       <b-card no-body>
         <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
@@ -91,9 +93,6 @@
                           </b-btn>  
                           <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
                         </template>
-                        <template #cell(job-state)="row">
-                          <b-form-checkbox switch size="lg">Large</b-form-checkbox>
-                        </template>
                       </DisplayTable>
                   </b-card-text>
                 </b-tab>
@@ -142,6 +141,7 @@
 
 <script>
 // @ is an alias to /src
+
 import BatchProcessingService from "@/services/BatchProcessingService.js";
 import DistributionService from "@/services/DistributionService.js";
 import DisplayTable from '@/components/DisplayTable.vue';
@@ -188,6 +188,7 @@ export default {
   },
   data() {
     return {
+      value:"",
       validationMessage: "",
       validating: false,
       adminSelectedBatchId:"",
@@ -231,9 +232,16 @@ export default {
           label: 'Job Name',
           sortable: true,
           class: 'text-left',
-        },         
+        },      
         {
-          key: 'schedule/removedBy',
+          key: 'cronExpression',
+          label: 'CRON (Sec Min Hr Date Month)',
+          sortable: true,
+          class: 'text-left',
+        },            
+        
+        {
+          key: 'scheduledBy',
           label: 'Scheduled By',
           sortable: true,
           class: 'text-left',
@@ -443,7 +451,7 @@ export default {
             let bid = response.data.batchId;
             DistributionService.downloadDISTRUN(bid).then((res) => {
               this.$bvToast.toast('Download (.zip)' , {
-                title: "BATCH PROCESSING COMPLETED",
+                title: "FILE SUCCESSFULLY CREATED",
                 href: "data:application/zip;base64," + res.data,
                 variant: 'success',
                 noAutoHide: true,
