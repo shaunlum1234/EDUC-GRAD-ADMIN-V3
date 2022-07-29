@@ -9,8 +9,9 @@ createTestCafe('localhost', 1337, 1338)
         const runner = testcafe.createRunner();
         return runner
             // list multiple test files
-            .src(["src/test_cases/studentSearch.js"])
+            .src(["src/test_cases/studentSearch.js"], ["src/test_cases/courseSearch.js"], ["src/test_cases/courseRestrictions.js"], ["src/test_cases/courseRequirements.js"], ["src/test_cases/schoolReports.js"])
             //.browsers(["chrome:headless", "firefox:headless"])
+            .concurrency(5)
             .run();
     })
     .then(failedCount => {
