@@ -64,11 +64,18 @@
             <b-alert show variant="warning" class="p-3 mb-1">
               <h4 class="alert-heading">Grad Status can't be updated</h4>
               <p class="locked-message">
-                If a student has completed SCCP. You can MODIFY the completion date to a different date - but <strong>not in the future</strong> & you <strong>cannot blank out</strong> the completion date.<br>
-                Please use Undo Completion from the Run Graduation Algorithm dropdown.   
+                Program Completion date cannot be in the future if a student has completed SCCP. 
               </p>
             </b-alert>
-          </div>    
+          </div>   
+          <div v-if="dateBlankWarning">
+            <b-alert show variant="warning" class="p-3 mb-1">
+              <h4 class="alert-heading">Grad Status can't be updated</h4>
+              <p class="locked-message">
+                Program Completion date cannot be blank. Please use Undo Completion from the Run Graduation Algorithm dropdown. 
+              </p>
+            </b-alert>
+          </div>     
         <table  role="presentation" aria-label="edit grad status" class="table  table-hover table-sm" >
                 <tbody>
                   <tr v-if="!showEdit">
@@ -337,6 +344,7 @@ export default {
       schoolOfRecordWarning: false,
       schoolNotFoundWarning: false,
       schoolOfRecordInputWarning: false,
+      dateBlankWarning: false,
       schoolFound: false,
       schoolAtGradProgramCompletionDateMessage: false,
       schoolAtGraduation: "",
@@ -464,10 +472,10 @@ export default {
             this.disableButton = false;
             if(!this.editedGradStatus.programCompletionDate || this.editedGradStatus.programCompletionDate == undefined){
               this.disableButton = true;
-              this.dateInFutureWarning = true;
+              this.dateBlankWarning = true;
             } else {
               this.disableButton = false;
-              this.dateInFutureWarning = false;
+              this.dateBlankWarning = false;
             }        
           }         
         }
