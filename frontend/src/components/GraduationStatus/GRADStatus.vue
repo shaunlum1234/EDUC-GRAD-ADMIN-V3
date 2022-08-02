@@ -646,6 +646,10 @@ export default {
     cancelGradStatus() {
       this.showEdit = false;
       this.studentUngradReason = "";   
+      this.schoolOfRecordWarning = false;
+      this.schoolNotFoundWarning = false;
+      this.dateBlankWarning = false;
+      this.dateInFutureWarning = false;
     },
 
     saveGraduationStatus(id) {
