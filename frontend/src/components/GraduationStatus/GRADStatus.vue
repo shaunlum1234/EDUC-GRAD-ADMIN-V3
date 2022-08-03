@@ -372,6 +372,13 @@ export default {
         { text: "OT - Other", value: "OT" },
         { text: "AD - Adult expected to graduate", value: "AD" },
         { text: "AN - Adult not expected to graduate", value: "AN" },     
+      ], 
+      programsWithExpiry: [
+        '1986-EN',
+        '1996-EN',
+        '1996-PF',
+        '2004-EN',
+        '2004-PF'
       ]
     }
   },
@@ -417,6 +424,7 @@ export default {
       }
     },
     programChange:function(){
+      this.programChangeWarning = true;
       if(this.editedGradStatus.program == '1950'){
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = false;
@@ -431,21 +439,15 @@ export default {
         }
       }
       if(this.studentGradStatus.program == '2018'|| this.studentGradStatus.program == 'SCCP' || this.studentGradStatus.program == '1950'){
-        if( this.editedGradStatus.program == '1986-EN' || 
-            this.editedGradStatus.program == '1996-EN' ||
-            this.editedGradStatus.program == '1996-PF' ||
-            this.editedGradStatus.program == '2004-EN'||
-            this.editedGradStatus.program == '2004-PF')
-        {
+        if(this.ifProgramsWithExpiry(this.editedGradStatus.program)){
           this.closedProgramWarning = true;
-        }else{
+        } else {
           this.closedProgramWarning = false;
         }
-      }
-      this.programChangeWarning = true;
+      }     
     },
     programCompletionDateChange:function(){
-      var programNameSearch = this.editedGradStatus.program;
+      let programNameSearch = this.editedGradStatus.program;
       for (var i=0 ; i < this.programOptions.length ; i++)
       {
           if (this.programOptions[i].programCode == programNameSearch) {
@@ -606,12 +608,12 @@ export default {
     },
 
     dateFormatYYYYMM(){
-      var value = this.editedGradStatus.programCompletionDate;    
+      let value = this.editedGradStatus.programCompletionDate;    
       this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})$/,"$1/$2");        
     },
 
     dateFormatYYYYMMDD(){
-      var value = this.editedGradStatus.programCompletionDate;    
+      let value = this.editedGradStatus.programCompletionDate;    
       this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})([\d]{2})$/,"$1/$2/$3");     
     },
 
@@ -675,7 +677,7 @@ export default {
       }
       if(this.editedGradStatus.programCompletionDate != null){
         this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("/", "-");
-        var date;
+        let date;
         try{
           date = new Date(this.editedGradStatus.programCompletionDate);
           this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
@@ -752,6 +754,11 @@ export default {
         // eslint-disable-next-line
         console.log("There was an error:" + error.response);
       });
+    },
+    ifProgramsWithExpiry(program){
+      for(let p of this.programsWithExpiry) {
+        return program == p
+      }
     }
   }
 }
