@@ -1,7 +1,5 @@
 <template>
   <div class="graduation-status">
-    Original Grad {{studentGradStatus.program}} <br>
-    Edited Grad{{editedGradStatus.program}}
     <b-card
       no-body
       header="GRAD status"
@@ -425,9 +423,7 @@ export default {
         }else{
           this.disableButton = true;
         }
-      }
-  
-      if(this.editedGradStatus.program != '1950'){
+      }else {
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = true;
         }else{
