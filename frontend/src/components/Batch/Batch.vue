@@ -1,7 +1,6 @@
 <template>
   <div>
     <b-overlay :show='processingBatch'>
-      {{tabContent['job-1']}}
       <div class="row">
         <div class="col-12 col-md-3 border-right">
           <div class="m-0">
@@ -87,6 +86,7 @@
                 <div class="float-left col-3 m-0 p-0" >
                   <strong><label class="pt-1">Grad Start Date</label></strong>
                   <b-input-group class="mb-3">
+                    <ValidationProvider :rules="'lessthangraddateto:'+gradDateTo" v-slot="{ errors }">
                     <b-form-input
                       id="gradDateFromInput"
                       v-model="gradDateFrom"
@@ -95,6 +95,13 @@
                       autocomplete="off"
                       @input="editBatchJob(jobId,'gradDateFrom', $event)"    
                     ></b-form-input>
+                      <ul class="position-absolute form-validation-message text-danger">
+                        <li v-for="error in errors" :key="error">{{ error }}</li>
+                      </ul>
+                    </ValidationProvider>
+                    
+
+
                     <b-input-group-append>
                       <b-form-datepicker
                         v-model="gradDateFrom"
@@ -107,9 +114,10 @@
                   </b-input-group>
                 </div>
 
-                <div class="float-left col-3">
+                <div class="float-left col-4">
                   <strong><label class="pt-1">Grad End Date</label></strong>
                   <b-input-group class="mb-3">
+                    <ValidationProvider :rules="'greaterthangraddateFrom:'+gradDateFrom" v-slot="{ errors }">
                     <b-form-input
                       id="gradDateToInput"
                       v-model="gradDateTo"
@@ -118,6 +126,8 @@
                       autocomplete="off"
                       @input="editBatchJob(jobId,'gradDateTo', $event)"    
                     ></b-form-input>
+                    <span class="position-absolute form-validation-message text-danger">{{ errors[0] }}</span>
+                    </ValidationProvider>
                     <b-input-group-append>
                       <b-form-datepicker
                         v-model="gradDateTo"
@@ -283,11 +293,14 @@
             <div class="col-3"><strong>Address</strong></div>   
         </div>
         <div v-for="(school, index) in tabContent[jobId].schools" :key="index" class="row pl-3 mb-1">
-          <div v-if="!school.schoolName" class="row col-12">
-            <b-form-input type="number" v-model="school.value" class="col-2"/>
-            <b-form-input show=false disabled v-model="school.schoolName" :ref="'schoolName' + jobId + index" class="col-3"/>
-            <b-form-input show=false disabled v-model="school.districtName" :ref="'districtName'+ jobId + index" class="col-2"/>
-            <b-form-input show=false disabled v-model="school.address" :ref="'address'+ jobId + index" class="col-3"/>
+          <div v-if="!school.schoolName" class="row col-12 mb-3">
+            <ValidationProvider name="Mincode" :rules="'mincodelength|validateschool:' + jobId + ',' + index" v-slot="{ errors }">
+              <b-form-input  type="number" v-model="school.value" class="col-12"/>
+              <span class="position-absolute form-validation-message text-danger">{{ errors[0] }}</span>
+            </ValidationProvider>
+            <b-form-input show=false disabled v-model="school.schoolName" :ref="'schoolName' + jobId + index" class="col-2"/>
+            <b-form-input show=false disabled v-model="school.districtName" :ref="'districtName'+ jobId + index" class="col-3"/>
+            <b-form-input show=false disabled v-model="school.address" :ref="'address'+ jobId + index" class="col-2"/>
             <div v-if="index == tabContent[jobId].schools.length-1" class="col-2">
               <b-button  class="btn btn-primary w-100" @click="addValueToTypeInBatchId(jobId,'schools',school.value,index)">
               <b-spinner small v-if="validating"></b-spinner> Add
@@ -300,7 +313,7 @@
             <div v-if="school.districtName" class="col-2">{{school.districtName}}</div>
             <div v-if="school.address" class="col-3"> {{school.address}}</div>   
 
-            <div v-if="index != tabContent[jobId].schools.length-1" class="col-2" ><b-button  class="btn btn-primary w-100 w-100" @click="deleteValueFromTypeInBatchId(jobId, 'schools',school.value)">
+            <div v-if="index != tabContent[jobId].schools.length-1" class="col-2" ><b-button  class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'schools',school.value)">
               Remove
             </b-button>
             </div>
@@ -350,12 +363,13 @@
         <b-button size="sm" variant="danger" class="btn btn-danger float-right col-2 p-2" @click="cancelBatchJob(jobId)">
           Cancel
         </b-button>
-        <b-button v-if="tabContent[jobId].details['where'] == 'BC Mail' || tabContent[jobId].details['where'] == 'User'" v-b-modal.batch-modal size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
-          Schedule/Run Batch
-        </b-button>
-        <b-button v-else @click="runBatch(jobId)" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+        <b-button v-if="tabContent[jobId].details['where'] == 'localDownload'" @click="runBatch(jobId)" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
           Download
         </b-button>
+        <b-button v-else v-b-modal.batch-modal size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+          Schedule/Run Batch
+        </b-button>
+        
         <b-modal id="batch-modal" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
           <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }"> 
             <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Now">Run Now</b-form-radio>
@@ -390,6 +404,7 @@
   </div>
 </template>
 <script>
+import { ValidationProvider, extend } from 'vee-validate';
 import TRAXService from "@/services/TRAXService.js";
 import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
@@ -397,7 +412,50 @@ import GraduationReportService from "@/services/GraduationReportService.js";
 import {
   mapGetters
 } from "vuex";
+
+
+
+
+extend('minmax', {
+  validate(value, { min, max }) {
+    return value.length >= min && value.length <= max;
+  },
+  params: ['min', 'max'],
+  message: 'The {_field_} field must have at least {min} characters and {max} characters at most'
+})
+extend('mincodelength', {
+  validate(value) {
+    return value.length == 8
+  },
+  message: 'Minimum 8 characters'
+})
+extend('lessthangraddateto', {
+  validate(value, { gradDateTo }) {
+    const date1 = new Date(value);
+    const date2 = new Date(gradDateTo);
+    if(gradDateTo){
+      return date1 < date2
+    }else return true;
+  },
+  params: ['gradDateTo'],
+  message: 'The Grad Start Date field must be less than {gradDateTo}'
+})
+extend('greaterthangraddateFrom', {
+  validate(value, { gradDateFrom }) {
+    const date1 = new Date(gradDateFrom);
+    const date2 = new Date(value);
+    if(gradDateFrom){
+      return date1 < date2
+    }else return true;
+  },
+  params: ['gradDateFrom'],
+  message: 'The Grad End Date field must be less than {gradDateFrom}'
+})
+
 export default {
+  components: {
+    ValidationProvider: ValidationProvider,
+  },  
   data: function () {
     return {
       batchRunDetails: "",
@@ -414,6 +472,33 @@ export default {
       gradDateFrom:"",
       gradDateTo: ""
     }
+  },
+  mounted(){
+    extend('validateschool', (value, refValues) => {
+        return SchoolService.getSchoolInfo(value).then(
+          (response) => {
+            if(response.data.minCode){
+              this.$refs['schoolName' + refValues[0] + refValues[1]][0].placeholder = response.data.schoolName;        
+              this.$refs['districtName' + refValues[0] + refValues[1]][0].placeholder = response.data.districtName;        
+              this.$refs['address' + refValues[0] + refValues[1]][0].placeholder = response.data.address1;   
+              return { valid: true };
+            }else{
+              return {
+                valid: false,
+              };
+            }
+          }
+        ).catch((error) => {
+          // eslint-disable-next-line
+          console.log(error) 
+               
+          this.validating = false;
+          this.$forceUpdate();
+        });
+    }, {
+     immediate: false
+   })
+
   },
   created() {
 
@@ -491,7 +576,7 @@ export default {
               this.$refs['districtName' + id + valueIndex][0].updateValue(response.data.districtName);        
               this.$refs['address' + id + valueIndex][0].updateValue(response.data.address1);        
             }else{
-               this.validationMessage = value + " is not a valid School"
+              this.validationMessage = value + " is not a valid School."             
                this.deleteValueFromTypeInBatchId(id, type, value);
                this.addTypeToBatchId(id, type);
             }
@@ -535,6 +620,7 @@ export default {
         });
       }
       if(type == "districts"){
+        
         //remove duplicates
           this.validating = true;
           TRAXService.getDistrict(value).then(

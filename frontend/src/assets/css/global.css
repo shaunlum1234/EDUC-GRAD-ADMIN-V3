@@ -94,3 +94,7 @@
 button.collapsed, button.not-collapsed, button.more-button {
   box-shadow: none !important;
 }
+
+.form-validation-message{
+  font-size: 11px;
+}

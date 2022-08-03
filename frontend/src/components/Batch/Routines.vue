@@ -4,7 +4,7 @@
       v-bind:fields="scheduledRoutinesFields" id="id" :showFilter=false pagination="true"
     >
       <template #cell(enabled)="row">
-          <b-form-checkbox @change="toggleRoutine(row.item.jobType, !row.item.enabled)" :checked="row.item.enabled=='Y'?true:false" name="check-button" switch >
+          <b-form-checkbox @change="toggleRoutine(row.item.jobType, !row.item.enabled)" :ref="'routine' + row.item.jobType + 'Enabled'" :checked="row.item.enabled=='Y'?true:false" name="check-button" switch >
           </b-form-checkbox>
       </template>
     </DisplayTable>
@@ -44,19 +44,19 @@ export default {
         },            
         {
           key: 'createUser',
-          label: 'Created Byr',
+          label: 'Created By',
           sortable: true,
           class: 'text-left',
         },        
         {
           key: 'updateUser',
-          label: 'Update By',
+          label: 'Updated By',
           sortable: true,
           class: 'text-left',
         },   
         {
           key: 'updateDate',
-          label: 'Update By',
+          label: 'Updated Date/Time',
           sortable: true,
           class: 'text-left',
         },                                    
@@ -81,12 +81,35 @@ export default {
   },
   methods: {
     toggleRoutine(jobType){
-      BatchProcessingService.batchProcessingToggleRoutine(jobType).then(
-      () => {
-        this.makeToast("Job Updated", "success")
-      }).catch((error) => {
-        this.makeToast("ERROR " + error.response.statusText, "danger")
-      });        
+
+        this.$bvModal.msgBoxConfirm('Please confirm that you want to update.', {
+          title: 'Please Confirm',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          okTitle: 'Confirm',
+          cancelTitle: 'Cancel',
+          footerClass: 'p-2',
+          hideHeaderClose: false,
+          centered: true
+        })
+        .then(confirm => {
+          if(confirm){
+            BatchProcessingService.batchProcessingToggleRoutine(jobType).then(
+            () => {
+              this.makeToast("Job Updated", "success")
+            }).catch((error) => {
+              this.makeToast("ERROR " + error.response.statusText, "danger")
+            });    
+          }else{
+            let r = 'routine' + jobType + 'Enabled';
+            this.$refs[r].localChecked = !this.$refs[r].localChecked
+          }
+        })
+        .catch(err => {
+            // eslint-disable-next-line
+            console.log(err);
+        })      
     },
     makeToast(message, variant){
       this.$bvToast.toast(message, {
