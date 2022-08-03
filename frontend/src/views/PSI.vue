@@ -65,7 +65,7 @@
                   />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
-                  <label>Open Flag</label>
+                  <label>Active</label>
                   <b-form-select v-model="advancedSearchInput.openFlag.value" :options="options"  tabindex="4"></b-form-select>
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
@@ -87,7 +87,7 @@
                     tabindex="5"
                   />
                 </div>
-                <div class="advanced-search-field col-12 col-md-2">
+                <!-- <div class="advanced-search-field col-12 col-md-2">
                   <label>PSI Grouping</label>
                   <div
                     href="#"
@@ -105,7 +105,7 @@
                     placeholder=""
                     tabindex="6"
                   />
-                </div>
+                </div> -->
               </div>
               <div class="row">
                 <div class="advanced-search-button">
@@ -252,8 +252,14 @@ export default {
           class: 'text-center'
         },
         {
+          key: 'psisCode',
+          label: 'PSIS Code',
+          sortable: true,
+          class: 'text-center'
+        },
+        {
           key: 'openFlag',
-          label: 'Open Flag',
+          label: 'Active',
           sortable: true,
           class: 'text-center'
         },
@@ -262,11 +268,11 @@ export default {
           label: 'Transmission Mode',
           sortable: true,
         },
-        {
-          key: 'psiGrouping',
-          label: 'PSI Grouping',
-          sortable: true,
-        },
+        // {
+        //   key: 'psiGrouping',
+        //   label: 'PSI Grouping',
+        //   sortable: true,
+        // },
       ],
       advancedSearchInput: {
         psiCode: {
