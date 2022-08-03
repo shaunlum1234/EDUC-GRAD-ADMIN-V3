@@ -87,25 +87,6 @@
                     tabindex="5"
                   />
                 </div>
-                <!-- <div class="advanced-search-field col-12 col-md-2">
-                  <label>PSI Grouping</label>
-                  <div
-                    href="#"
-                    v-on:click="advancedSearchInput.psiGrouping.contains = !advancedSearchInput.psiGrouping.contains"
-                    v-bind:class="{active: advancedSearchInput.psiGrouping.contains}"
-                    class="wild-card-button"
-                    v-b-tooltip.hover
-                    title="PSI Grouping mode starts with"
-                  >
-                    [.*]
-                  </div>
-                  <b-input
-                    class="form__input"
-                    v-model="advancedSearchInput.psiGrouping.value"
-                    placeholder=""
-                    tabindex="6"
-                  />
-                </div> -->
               </div>
               <div class="row">
                 <div class="advanced-search-button">
@@ -268,11 +249,6 @@ export default {
           label: 'Transmission Mode',
           sortable: true,
         },
-        // {
-        //   key: 'psiGrouping',
-        //   label: 'PSI Grouping',
-        //   sortable: true,
-        // },
       ],
       advancedSearchInput: {
         psiCode: {
