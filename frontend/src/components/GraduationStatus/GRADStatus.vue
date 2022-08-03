@@ -434,9 +434,8 @@ export default {
           this.disableButton = false;
         }
       }
-      if(this.studentGradStatus.program == '2018'|| this.studentGradStatus.program == 'SCCP'){
-        if( this.editedGradStatus.program == '1950' ||
-            this.editedGradStatus.program == '1986-EN' || 
+      if(this.studentGradStatus.program == '2018'|| this.studentGradStatus.program == 'SCCP' || this.studentGradStatus.program == '1950'){
+        if( this.editedGradStatus.program == '1986-EN' || 
             this.editedGradStatus.program == '1996-EN' ||
             this.editedGradStatus.program == '1996-PF' ||
             this.editedGradStatus.program == '2004-EN'||
