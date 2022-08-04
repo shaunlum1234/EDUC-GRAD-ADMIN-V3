@@ -149,9 +149,6 @@ h5.modal-title {
 .edit {
   padding: 10px;
 }
-.form-validation-message{
-  font-size: 11px;
-}
 .form-control:disabled{
     color: #6c757d;
     background-color: #e9ecef;

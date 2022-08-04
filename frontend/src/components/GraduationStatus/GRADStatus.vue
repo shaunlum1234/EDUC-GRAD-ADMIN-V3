@@ -62,13 +62,20 @@
           </div>
           <div v-if="dateInFutureWarning">
             <b-alert show variant="warning" class="p-3 mb-1">
-              <h4 class="alert-heading">Grad Status can't be updated</h4>
+              <h4 class="alert-heading">Warning</h4>
               <p class="locked-message">
-                If a student has completed SCCP. You can MODIFY the completion date to a different date - but <strong>not in the future</strong> & you <strong>cannot blank out</strong> the completion date.<br>
-                Please use Undo Completion from the Run Graduation Algorithm dropdown.   
+                Program Completion date cannot be in the future if a student has completed SCCP. 
               </p>
             </b-alert>
-          </div>    
+          </div>   
+          <div v-if="dateBlankWarning">
+            <b-alert show variant="warning" class="p-3 mb-1">
+              <h4 class="alert-heading">Warning</h4>
+              <p class="locked-message">
+                Program Completion date cannot be blank. Please use Undo Completion from the Run Graduation Algorithm dropdown. 
+              </p>
+            </b-alert>
+          </div>
         <table  role="presentation" aria-label="edit grad status" class="table  table-hover table-sm" >
                 <tbody>
                   <tr v-if="!showEdit">
@@ -82,7 +89,8 @@
                       </div> 
                       <div v-if="editedGradStatus.program != studentGradStatus.program">
                         <div v-if="programChangeWarning" class="form-validation-message text-danger">Warning, any optional programs associated with the original program will be <strong>deleted</strong>. You must add back in any pertinent optional programs once you have saved the changes to Program.</div>
-                      </div>   
+                      </div>
+                      <div v-if="closedProgramWarning" class="form-validation-message text-warning">Warning: This program is closed.</div>     
                     </td>
                     <td class="w-50"><b-form-select :disabled="disableInput" size="sm" v-model="editedGradStatus.program" :options="programOptions" value-field="programCode" text-field="programCode"></b-form-select></td>                   
                   </tr>
@@ -337,6 +345,7 @@ export default {
       schoolOfRecordWarning: false,
       schoolNotFoundWarning: false,
       schoolOfRecordInputWarning: false,
+      dateBlankWarning: false,
       schoolFound: false,
       schoolAtGradProgramCompletionDateMessage: false,
       schoolAtGraduation: "",
@@ -352,6 +361,7 @@ export default {
       disableInput:false,
       disableStudentStatus:false,
       dateInFutureWarning:false,
+      closedProgramWarning:false,
       gradeOptions: [
         { text: "08", value: "8" },
         { text: "09", value: "9" },
@@ -407,19 +417,29 @@ export default {
       }
     },
     programChange:function(){
-       if(this.editedGradStatus.program == '1950'){
+      if(this.editedGradStatus.program == '1950'){
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = false;
         }else{
           this.disableButton = true;
         }
-      }
-  
-      if(this.editedGradStatus.program != '1950'){
+      }else {
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = true;
         }else{
           this.disableButton = false;
+        }
+      }
+      if(this.studentGradStatus.program == '2018'|| this.studentGradStatus.program == 'SCCP' || this.studentGradStatus.program == '1950'){
+        if( this.editedGradStatus.program == '1986-EN' || 
+            this.editedGradStatus.program == '1996-EN' ||
+            this.editedGradStatus.program == '1996-PF' ||
+            this.editedGradStatus.program == '2004-EN'||
+            this.editedGradStatus.program == '2004-PF')
+        {
+          this.closedProgramWarning = true;
+        }else{
+          this.closedProgramWarning = false;
         }
       }
       this.programChangeWarning = true;
@@ -464,10 +484,10 @@ export default {
             this.disableButton = false;
             if(!this.editedGradStatus.programCompletionDate || this.editedGradStatus.programCompletionDate == undefined){
               this.disableButton = true;
-              this.dateInFutureWarning = true;
+              this.dateBlankWarning = true;
             } else {
               this.disableButton = false;
-              this.dateInFutureWarning = false;
+              this.dateBlankWarning = false;
             }        
           }         
         }
@@ -638,6 +658,10 @@ export default {
     cancelGradStatus() {
       this.showEdit = false;
       this.studentUngradReason = "";   
+      this.schoolOfRecordWarning = false;
+      this.schoolNotFoundWarning = false;
+      this.dateBlankWarning = false;
+      this.dateInFutureWarning = false;
     },
 
     saveGraduationStatus(id) {
