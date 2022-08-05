@@ -6,6 +6,8 @@ class AssessmentsPage {
         this.view = Selector('#assessments-route');
 
         this.assessmentTab = Selector('a.nav-link').withExactText('Assessment');
+        this.assessmentTable = Selector('#assessment-table');
+
         this.assessmentRequirementsTab = Selector('a.nav-link').withExactText('Assessment requirements');
 
     }

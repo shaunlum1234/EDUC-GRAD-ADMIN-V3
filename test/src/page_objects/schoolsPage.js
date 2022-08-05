@@ -16,6 +16,9 @@ class SchoolsPage {
         this.searchSubmit = Selector('div.active button').withExactText('Search');
         this.formReset = Selector('button').withExactText('Reset');
 
+        // search message
+        this.searchMessage = Selector('div.search-results-message strong');
+
     }
 }
 
