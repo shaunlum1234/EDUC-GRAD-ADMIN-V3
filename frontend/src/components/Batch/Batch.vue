@@ -8,7 +8,7 @@
             <b-form-select
               id="inline-form-select-type"
               class="mb-2 mr-sm-2 mb-sm-0"
-              :options="[{ text: 'Choose...', value: null },{ text: 'TVRRUN', value: 'TVRRUN' },{ text: 'REGALG', value: 'REGALG' },{ text: 'DISTRUN', value: 'DISTRUN' }]"
+              :options="[{ text: 'Choose...', value: null },{ text: 'TVRRUN', value: 'TVRRUN' },{ text: 'REGALG', value: 'REGALG' },{ text: 'DISTRUN', value: 'DISTRUN' },{ text: 'PSITRUN', value: 'PSIRUN' }]"
               :value="tabContent[jobId].details['what']"     
               @change="editBatchJob(jobId,'what', $event)"       
             ></b-form-select>
