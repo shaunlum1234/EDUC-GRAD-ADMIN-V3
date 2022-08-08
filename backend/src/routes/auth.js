@@ -143,6 +143,7 @@ router.get('/user', passport.authenticate('jwt', {session: false}), (req, res) =
     return res.status(HttpStatus.UNAUTHORIZED).json();
   }
   const userName = {
+    userFullName: userToken['name'],
     userName: userToken['idir_username'],
     userGuid: userToken['idir_guid'].toUpperCase(),
     userRoles: userToken.realm_access.roles

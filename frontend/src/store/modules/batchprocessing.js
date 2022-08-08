@@ -130,6 +130,6 @@ export default {
     },    
     getScheduledBatchJobs(state){
       return state.scheduledBatchJobs;
-    },        
+    },       
   },  
 };
