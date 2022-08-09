@@ -8,10 +8,12 @@
             <b-form-select
               id="inline-form-select-type"
               class="mb-2 mr-sm-2 mb-sm-0"
-              :options="[{ text: 'Choose...', value: null },{ text: 'TVRRUN', value: 'TVRRUN' },{ text: 'REGALG', value: 'REGALG' },{ text: 'DISTRUN', value: 'DISTRUN' },{ text: 'PSITRUN', value: 'PSIRUN' }]"
+              :options="[{ text: 'Choose...', value: null },{ text: 'TVRRUN', value: 'TVRRUN' },{ text: 'REGALG', value: 'REGALG' },{ text: 'PSIRUN', value: 'PSIRUN' },{ text: 'DISTRUN', value: 'DISTRUN' },{ text: '-----------------------', value: '' }, { text: 'DISTRUN-YEAREND', value: 'DISTRUN-YEAREND' }]"
               :value="tabContent[jobId].details['what']"     
               @change="editBatchJob(jobId,'what', $event)"       
-            ></b-form-select>
+            >
+
+            </b-form-select>
           </div>
           <div class="mt-2" v-if="tabContent[jobId].details['what'] == 'DISTRUN'">
             <label class="font-weight-bold">Credential Type</label>
@@ -54,7 +56,7 @@
         </div>
         <div class="col-9">
             
-          <div class="m-0 p-0 col-3">
+          <div class="m-0 p-0 col-3" v-if="tabContent[jobId].details['what'] != 'DISTRUN-YEAREND'">
             <label class="font-weight-bold pt-1">Group</label>
             <b-form-select
               id="inline-form-select-audience"
@@ -73,7 +75,7 @@
               v-else
             ></b-form-select>   
           </div>
-          <div v-if="tabContent[jobId].details['who'] !='Student'" class="p-0 mt-3 ">
+          <div v-if="tabContent[jobId].details['who'] !='Student' && tabContent[jobId].details['what'] !='DISTRUN-YEAREND'" class="p-0 mt-3 ">
             <label class="font-weight-bold p-0 m-0 row">Grad Date</label>
             <b-form-select
               id="inline-form-select-audience"
@@ -175,21 +177,25 @@
             <div v-if="tabContent[jobId].details['where'] == 'User'" class="pt-3">
               <b-card bg-variant="light" header="Mailing Address" class="overflow-hidden">
                 <b-card-text>
-                  <pre>
-                    Ministry of Education and Child Care
-                    Attn: {{userFullName}}
-                    4TH FLOOR 620 SUPERIOR
-                    PO BOX 9886 STN PROV GOVT
-                    VICTORIA
-                    BC BRITISH COLUMBIA
-                    V8W9T6
-                  </pre>
+                  <div>
+                    Ministry of Education and Child Care<br>
+                    Attn: {{userFullName}}<br>
+                    4TH FLOOR 620 SUPERIOR<br>
+                    PO BOX 9886 STN PROV GOVT<br>
+                    VICTORIA<br>
+                    BC BRITISH COLUMBIA<br>
+                    V8W9T6<br>
+                  </div>
                 </b-card-text>
               </b-card>
               
             </div>  
 
-
+          <div class="p-0 mt-3" v-if="tabContent[jobId].details['what'] == 'DISTRUN-YEAREND'">
+            <b-alert show variant="info">
+                You are running a year end distribution run. Click the run button and confirm.
+            </b-alert>
+          </div>
       <div v-if="tabContent[jobId].details['who']=='District'" class="float-left col-12 px-0">
 
 
@@ -381,13 +387,18 @@
         <b-button size="sm" variant="danger" class="btn btn-danger float-right col-2 p-2" @click="cancelBatchJob(jobId)">
           Cancel
         </b-button>
-        <b-button v-if="tabContent[jobId].details['where'] == 'localDownload'" @click="runBatch(jobId)" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+        <b-button v-if="tabContent[jobId].details['what'] == 'DISTRUN-YEAREND'" v-b-modal="'distrun-yearend-modal'" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+          Run
+        </b-button>
+        <b-button v-else-if="tabContent[jobId].details['where'] == 'localDownload'" @click="runBatch(jobId)" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
           Download
         </b-button>
-        <b-button v-else v-b-modal.batch-modal size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+        <b-button v-else v-b-modal="'batch-modal'" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
           Schedule/Run Batch
         </b-button>
-        
+
+
+
         <b-modal id="batch-modal" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
           <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }"> 
             <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Now">Run Now</b-form-radio>
@@ -416,6 +427,9 @@
                 </b-form-group>
           </b-form-group>
         </b-modal>
+                <b-modal id="distrun-yearend-modal" :title="'RUN ' + jobId" ok-title="Confirm" @ok="runBatch(jobId)">
+          You have selected to run the year end distribution, please confirm you want to perform this action.
+        </b-modal>  
     </div>
     </b-overlay>
     
@@ -510,7 +524,7 @@ export default {
             if(response.data.minCode){
               this.$refs['schoolName' + refValues[0] + refValues[1]][0].placeholder = response.data.schoolName;        
               this.$refs['districtName' + refValues[0] + refValues[1]][0].placeholder = response.data.districtName;        
-              this.$refs['address' + refValues[0] + refValues[1]][0].placeholder = response.data.address1;   
+              this.$refs['address' + refValues[0] + refValues[1]][0].placeholder = response.data.addrss1;   
               return { valid: true };
             }else{
               return {
