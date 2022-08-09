@@ -431,6 +431,34 @@ export default {
         return item;
       }
     },
+    runDISTRUNYearEnd(id){
+      let requestId = id.replace("job-",""); 
+      this.$set(this.spinners, id, true)
+      let index= id.replace("job-","")-1;
+      let value = true
+      this.$store.commit("batchprocessing/setTabLoading",{index, value});
+        BatchProcessingService.runDISTRUNYearEnd().then(
+        (response) => {
+          if(response){
+            this.$bvToast.toast("Batch run has completed for request " + requestId , {
+              title: "BATCH PROCESSING COMPLETED",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
+        })
+        .catch((error) => {
+          if(error){
+            this.cancelBatchJob(id);
+            this.$bvToast.toast("Batch run is still in progress for request" + requestId + " and will run in the background" , {
+              title: "BATCH PROCESSING UPDATE",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
+        })  
+        setTimeout(this.getBatchProgress(requestId), 5000);
+    },
     runDISTRUN(request, id, credentialType){
       let requestId = id.replace("job-",""); 
       this.$set(this.spinners, id, true)
@@ -718,7 +746,9 @@ export default {
         }
         
       }
-      else if(this.tabContent[id].details['what'] == 'DISTRUN'){     
+      else if(this.tabContent[id].details['what'] == 'DISTRUN-YEAREND'){     
+        this.runDISTRUNYearEnd(id);
+      }else if(this.tabContent[id].details['what'] == 'DISTRUN'){     
         if(cronTime){
           let scheduledRequest = {};
           scheduledRequest.cronExpression = cronTime
