@@ -24,7 +24,8 @@ export default {
     }
   },     
   runDISTRUNYearEnd(){
-    return "running DIST RUN YEAR END";
+    return ApiService.apiAxios.get('/api/v1/batch/executeyearlydisrunbatchjob');
+    
   },
   getBatchErrors(id, page) {
     return ApiService.apiAxios.get('/api/v1/batch/dashboard/errors/'  + id + '?pageNumber=' + page);
@@ -47,5 +48,4 @@ export default {
   batchProcessingToggleRoutine(jobType){
     return ApiService.apiAxios.get('/api/v1/batch/processing/toggle/' + jobType);
   },
- 
 }

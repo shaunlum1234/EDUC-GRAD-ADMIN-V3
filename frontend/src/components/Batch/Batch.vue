@@ -316,22 +316,30 @@
             <div class="col-2"><strong>District Name</strong></div>
             <div class="col-3"><strong>Address</strong></div>   
         </div>
-        <div v-for="(school, index) in tabContent[jobId].schools" :key="index" class="row pl-3 mb-1">
-          <div v-if="!school.schoolName" class="row col-12 mb-3">
-            <ValidationProvider name="Mincode" :rules="'mincodelength|validateschool:' + jobId + ',' + index + ',' + tabContent[jobId].details['credential']" v-slot="{ errors }">
-              <b-form-input  type="number" v-model="school.value" class="col-12"/>
-              <span class="position-absolute form-validation-message text-danger">{{ errors[0] }}</span>
-            </ValidationProvider>
-            <b-form-input show=false disabled v-model="school.schoolName" :ref="'schoolName' + jobId + index" class="col-2"/>
-            <b-form-input show=false disabled v-model="school.districtName" :ref="'districtName'+ jobId + index" class="col-3"/>
-            <b-form-input show=false disabled v-model="school.address" :ref="'address'+ jobId + index" class="col-2"/>
-            <div v-if="index == tabContent[jobId].schools.length-1" class="col-2">
-              <b-button  class="btn btn-primary w-100" @click="addValueToTypeInBatchId(jobId,'schools',school.value,index)">
-              <b-spinner small v-if="validating"></b-spinner> Add
-              </b-button>   
-            </div>
+        <div v-for="(school, index) in tabContent[jobId].schools" :key="index" class="">
+          <div v-if="!school.schoolName" class="mb-3">
+
+
+            <ValidationObserver v-slot="{passes, invalid}">
+            <form @submit.prevent="passes(addValueToTypeInBatchId(jobId,'schools',school.value,index))" class="row col-12">
+              <div class="col-2 p-0 m-0">
+              <ValidationProvider name="Mincode" :rules="'mincodelength|validateschool:' + jobId + ',' + index + ',' + tabContent[jobId].details['credential']" v-slot="{ errors }">
+                <b-form-input type="number" v-model="school.value"/>
+                <span class="position-absolute w-100 form-validation-message text-danger">{{ errors[0] }}</span>
+              </ValidationProvider>
+              </div>
+                <b-form-input show=false disabled v-model="school.schoolName" :ref="'schoolName' + jobId + index" class="col-3"/>
+                <b-form-input show=false disabled v-model="school.districtName" :ref="'districtName'+ jobId + index" class="col-2"/>
+                <b-form-input show=false disabled v-model="school.address" :ref="'address'+ jobId + index" class="col-3"/>
+                <div v-if="index == tabContent[jobId].schools.length-1" class="col-2">
+                  <button :disabled="invalid" class="btn btn-primary w-100">
+                  <b-spinner small v-if="validating"></b-spinner> Add
+                  </button>   
+                </div>
+              </form>
+            </ValidationObserver>
           </div>
-          <div class="row col-12">
+          <div class="row col-12 mb-2">
             <div v-if="school.schoolName" class="col-2">{{school.value}}</div>
             <div v-if="school.schoolName" class="col-3">{{school.schoolName}}</div>
             <div v-if="school.districtName" class="col-2">{{school.districtName}}</div>
@@ -343,7 +351,7 @@
             </div>
           </div>
         </div>
-      <pre>TEST Schools: 04343000 04399143 02222022 06161064 06161049 03596573</pre>
+      <pre class="mt-5">TEST Schools: 04343000 04399143 02222022 06161064 06161049 03596573</pre>
 
       </b-card>            
       <b-card v-if="tabContent[jobId].details['who']=='Program'" class="mt-3 px-0" header="Include Programs">
@@ -436,7 +444,7 @@
   </div>
 </template>
 <script>
-import { ValidationProvider, extend } from 'vee-validate';
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import TRAXService from "@/services/TRAXService.js";
 import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
@@ -446,7 +454,13 @@ import {
 } from "vuex";
 
 
-
+extend('password', {
+  params: ['target'],
+  validate(value, { target }) {
+    return value === target;
+  },
+  message: 'Password confirmation does not match'
+});
 
 extend('minmax', {
   validate(value, { min, max }) {
@@ -487,6 +501,7 @@ extend('greaterthangraddateFrom', {
 export default {
   components: {
     ValidationProvider: ValidationProvider,
+    ValidationObserver: ValidationObserver
   },  
   data: function () {
     return {
@@ -512,19 +527,15 @@ export default {
           (response) => {
             let credential = refValues[2]
             if((credential == "Blank certificate print" || credential == 'OT') && response.data.certificateEligibility == 'N'){ 
-                 return {
-                valid: false,
-              };
+                 return "This school is not eligible to print blank certificates."
             }
             if((credential == "Blank certificate print" || credential == 'OC' || credential =='RC' ) && response.data.certificateEligibility == 'N'){ 
-                 return {
-                valid: false,
-              };
+                 return "This school is not eligible to print blank transcripts."
             }
             if(response.data.minCode){
               this.$refs['schoolName' + refValues[0] + refValues[1]][0].placeholder = response.data.schoolName;        
               this.$refs['districtName' + refValues[0] + refValues[1]][0].placeholder = response.data.districtName;        
-              this.$refs['address' + refValues[0] + refValues[1]][0].placeholder = response.data.addrss1;   
+              this.$refs['address' + refValues[0] + refValues[1]][0].placeholder = response.data.address1;   
               return { valid: true };
             }else{
               return {
@@ -550,6 +561,9 @@ export default {
     this.certificateTypes = this.getCertificateTypes();
   },
   methods: {
+    onSubmit(values) {
+      alert(JSON.stringify(values, null, 2));
+    },
     disableConfirm(){
       if(this.batchRunTime == 'Run Now'){
         return false
