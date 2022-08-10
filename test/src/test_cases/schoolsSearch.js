@@ -64,6 +64,20 @@ fixture `schools-page`
         .expect(await Selector('div.table-responsive td[data-label="School Name"] div').textContent)
         .contains(testData.school1.name);
 
+        log.info(" - testing search with valid school name on Schools view");
+        await t
+        .click(schoolsPage.formReset)
+        .typeText(schoolsPage.schoolNameInput, testData.school1.name)
+        .click(schoolsPage.searchSubmit);
+
+        await t
+        .expect(await schoolsPage.searchMessage.textContent)
+        .contains('1');
+
+        await t
+        .expect(await Selector('div.table-responsive td[data-label="Mincode"] div').textContent)
+        .contains(testData.school1.mincode);
+
     });
 
     test('valid wildcard search', async t => {

@@ -15,6 +15,8 @@ createTestCafe('localhost', 1337, 1338)
                 ["src/test_cases/courseRestrictions.js"],
                 ["src/test_cases/courseRequirements.js"],
                 ["src/test_cases/assessments.js"],
+                ["src/test_cases/schoolsSearch.js"],
+                ["src/test_cases/codes.js"],
                 ["src/test_cases/schoolReports.js"])
             //.browsers(["chrome:headless", "firefox:headless"])
             .concurrency(5)
