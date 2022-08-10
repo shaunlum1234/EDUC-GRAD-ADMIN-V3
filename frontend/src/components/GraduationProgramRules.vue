@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id=graduation-program-rules>
         <div v-if="!selectedProgramCode">
           <DisplayTable v-bind:items="graduationProgramRules" title="Program" v-bind:fields="graduationProgramsFields" id="programCode"
             v-bind:role="roles" :slots="templates" showFilter=true pagination=true>
