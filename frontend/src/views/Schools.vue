@@ -283,11 +283,11 @@ import sharedMethods from '../sharedMethods';
             this.searchLoading = false;
             this.totalResults = this.schools.length;
             if(this.schools.length == 0){
-              this.searchMessage = "School cannnot be found.";
+              this.searchMessage = "School cannot be found.";
             }
           }).catch((error) => {
             this.searchLoading = false;
-            this.searchMessage = "School cannnot be found.";
+            this.searchMessage = "School cannot be found.";
             this.showNotification("danger", "There was an error with the web service." + error.response);
           });  
         }

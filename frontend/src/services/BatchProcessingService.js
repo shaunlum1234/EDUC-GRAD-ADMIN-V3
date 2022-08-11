@@ -22,7 +22,11 @@ export default {
     }else if(credentialType == "Blank certificate print"){
       return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/OC', users);
     }
-  },      
+  },     
+  runDISTRUNYearEnd(){
+    return ApiService.apiAxios.get('/api/v1/batch/executeyearlydisrunbatchjob');
+    
+  },
   getBatchErrors(id, page) {
     return ApiService.apiAxios.get('/api/v1/batch/dashboard/errors/'  + id + '?pageNumber=' + page);
   },
@@ -44,5 +48,4 @@ export default {
   batchProcessingToggleRoutine(jobType){
     return ApiService.apiAxios.get('/api/v1/batch/processing/toggle/' + jobType);
   },
- 
 }

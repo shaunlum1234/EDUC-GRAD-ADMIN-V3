@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id=transcript-message>
     <DisplayTable v-bind:items="transcriptMessages" title="Transcript Message" v-bind:fields="transcriptMessageFields" id="transcriptMessage" v-bind:role="role" :slots="templates" showFilter=true pagnation=true>
     </DisplayTable>
   </div>
