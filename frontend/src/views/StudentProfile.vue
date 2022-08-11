@@ -149,7 +149,7 @@
                   <b-card-text class="text-center">Loading Student Courses and Assesments</b-card-text>
                 </b-tab>
 
-                <b-tab :title="'Audit History'" class="py-3 px-0 m-1">
+                <b-tab :title="'Audit History'" class="audit-history-tabs py-3 px-0 m-1">
                   <b-card-text>
                     <b-button class="mr-2 my-1" v-on:click="auditTab ='studentAudit'" size="sm" :variant="auditTab == 'studentAudit'? 'primary':'outline-secondary'">Student Audit</b-button>
                     <b-button class="mr-2 my-1" v-on:click="auditTab ='notes'" size="sm" :variant="auditTab == 'notes'? 'primary':'outline-secondary'">Notes</b-button>

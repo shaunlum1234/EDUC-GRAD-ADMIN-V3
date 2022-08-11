@@ -1,61 +1,67 @@
 <template>
   <div class="container">
 
-      <!-- TODO: Remove counts on buttons; leaving in for debuggin purposes right now -->
-      <b-button class="mx-2" v-on:click="auditTab = 'studentHistory'" :variant="auditTab == 'studentHistory' ? 'primary' : 'outline-secondary'">Student change history [DEBUG: {{this.studentHistory.length}}]</b-button>
-      <b-button class="mx-2" v-on:click="auditTab = 'optionalProgramHistory'" :variant="auditTab == 'optionalProgramHistory' ? 'primary' : 'outline-secondary'">Optional program change history [DEBUG: {{this.optionalProgramHistory.length}}]</b-button>
+      <b-card no-body header="Student Change History">
+        <b-card-text class="p-3">
+          <DisplayTable :items="studentHistory" :fields="studentChangeFields" showFilter=false title="Student Change History">
+            <template #cell(more)="row">
+              <b-btn
+                variant="outline primary"
+                style="color: #666"
+                size="sm"
+                @click="row.toggleDetails"
+                class="more-button">
+                <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
+                <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
+              </b-btn>
+            </template>
 
+            <template #row-details="row">
+              <b-card class="px-0 mt-0">
+                <pre>
+                  {{JSON.stringify(row.item, null, '\t')}}
+                </pre>
+              </b-card>
+            </template>
+
+            <template #cell(createDate)="row">
+              {{row.item.createDate | formatTime}}
+            </template>
+          </DisplayTable>
+        </b-card-text>
+      </b-card>
+
+      <b-card no-body header="Optional Program Change History">
+        <b-card-text class="p-3">
+          <DisplayTable :items="optionalProgramHistory" :fields="optionalProgramChangeFields" showFilter=false title="Optional Program Change History">
+            <template #cell(more)="row">
+              <b-btn
+                variant="outline primary"
+                style="color: #666"
+                size="sm"
+                @click="row.toggleDetails"
+                class="more-button">
+                <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
+                <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
+              </b-btn>
+            </template>
+
+            <template #row-details="row">
+              <b-card class="px-0 mt-0">
+                <pre>
+                  {{JSON.stringify(row.item, null, '\t')}}
+                </pre>
+              </b-card>
+            </template>
+
+            <template #cell(createDate)="row">
+              {{row.item.createDate | formatTime}}
+            </template>
+          </DisplayTable>
+        </b-card-text>
+      </b-card>
     <!-- Student change history -->
       <div v-if="auditTab === 'studentHistory'">
-        <div class="col-12" v-for="(value, index) in changeHistory.slice().reverse()" :key="value.historyID">
-          <div class="row col-12 py-2" :header="studentHistory.slice().reverse()[index].historyID">
-            <div class="col-4 border-bottom">
-              <p><strong>Activity Code: </strong>{{studentHistory.slice().reverse()[index].activityCode}}</p>
-              <ul><li>{{studentHistory.slice().reverse()[index].activityCodeDescription}}</li></ul>
-              <p><strong>Update User: </strong>{{studentHistory.slice().reverse()[index].updateUser}}</p>
-              <p><strong>Updated: </strong>{{studentHistory.slice().reverse()[index].createDate | formatTime}}</p>
-            </div>
-            <div class="float-left col-8 border-bottom">
-              <div class="float-right w-25">
-                <b-button v-b-toggle="'collapse-'+ studentHistory.slice().reverse()[index].historyID" variant="primary">
-                  View
-                </b-button>
-              </div>
-              <div v-for="v in value" :key="v.historyID" class="">
-                <div class="" v-if="v.pathTo != 'updateDate' 
-                  && v.pathTo != 'createDate' 
-                  && v.pathTo != 'historyID'
-                  && v.pathTo != 'studentGradData'
-                  && v.pathTo != 'studentProjectedGradData'
-                  && v.pathTo != 'activityCode'
-                  && v.pathTo != 'activityCodeDescription'
-                  && v.pathTo != 'studentID'
-                  && v.pathTo != 'updateUser'
-                  && (v.kind != 'N' || v.rhs)
-                  ">
-                  <div class="w-25 float-left"> <strong>{{v.pathTo | formatSetenceCase}}</strong>:</div>
-                  <div class="w-50 float-left" v-if="v.kind != 'N'">
-                    {{v.lhs==null?"blank":v.lhs}}
-                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
-                    {{v.rhs == null?"blank":v.rhs}}
-                  </div>
-                  <div class="w-50 float-left" v-else-if="v.rhs != null">
-                    {{v.rhs}}
-                  </div>
-                  <!-- This empty div is just a temporary spacer; need to implement more elegant solution -->
-                  <div class="w-100 float-left"></div>
-                </div>  
-              </div> 
-              <div class="w-100 float-left">
-                <b-collapse :id="'collapse-' + studentHistory.slice().reverse()[index].historyID" class="mt-2">
-                  <pre>
-                    {{JSON.stringify(studentHistory.slice().reverse()[index], null, '\t')}}
-                  </pre>
-                </b-collapse>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Optional Program history -->
@@ -116,9 +122,13 @@
 import { mapGetters } from "vuex";
 import { DeepDiff } from 'deep-diff';
 import sharedMethods from '../sharedMethods';
+import DisplayTable from "@/components/DisplayTable.vue";
 
 export default {
   name: "StudentAuditHistory",
+  components: {
+    DisplayTable: DisplayTable,
+  },
   props: {},
   computed: {
     ...mapGetters({
@@ -139,18 +149,136 @@ export default {
         changeHistory:[],
         optionalProgramChangeHistory:[],
         testHistory:[],
-        fields: [
+        studentChangeFields: [
           {
-            key: "change",
-            label: "Change",
+            key: "more",
+            label: "",
+          },
+          {
+            key: "createDate",
+            label: "Date",
             sortable: true,
             sortDirection: "desc"
           },
           {
-            key: "createDate",
-            label: "Create date",
+            key: "activityCode",
+            label: "Change = LABEL from History Activity Code table",
             sortable: true,
-            sortDirection: "desc"
+            sortDirection: "asc"
+          },
+          {
+            key: "program",
+            label: "Program",
+            sortable: true,
+            sortDirection: "asc"
+          },
+          {
+            key: "programCompletionDate",
+            label: "Program Completion Date",
+            sortable: true,
+            sortDirection: "asc"
+          },
+          {
+            key: "studentStatus",
+            label: "Status",
+            sortable: true,
+            sortDirection: "asc"
+          },
+          {
+            key: "studentGrade",
+            label: "Grade",
+            sortable: true,
+            sortDirection: "asc"
+          },
+          {
+            key: "schoolOfRecord",
+            label: "School of Record",
+            sortable: true,
+            sortDirection: "asc"
+          },
+          {
+            key: "schoolAtGrad",
+            label: "School at Graduation",
+            sortable: true,
+            sortDirection: "asc"
+          },
+          {
+            key: "consumerEducationRequirementMet",
+            label: "Consumer Ed",
+            sortable: true,
+            sortDirection: "asc"
+          },
+          {
+            key: "honoursStanding",
+            label: "Honours",
+            sortable: true,
+            sortDirection: "asc"
+          },
+          {
+            key: "gpa",
+            label: "GPA",
+            sortable: true,
+            sortDirection: "asc"
+          },
+          {
+            key: "recalculateProjectedGrad",
+            label: "Recalc Projected Grad",
+            sortable: true,
+            sortDirection: "asc"
+          },
+          {
+            key: "recalculateGradStatus",
+            label: "Recalc Grad",
+            sortable: true,
+            sortDirection: "asc"
+          },
+          {
+            key: "batchId",
+            label: "Batch ID",
+            sortable: true,
+            sortDirection: "asc"
+          },
+        ],
+        optionalProgramChangeFields: [
+          {
+            key: "more",
+            label: "",
+          },
+          {
+            key: "createDate",
+            label: "Date",
+            sortable: true,
+            sortDirection: "desc",
+          },
+          {
+            key: "activityCode",
+            label: "Change = LABEL from History Activity Code table",
+            sortable: true,
+            sortDirection: "desc",
+          },
+          {
+            key: "programCode",
+            label: "Program Code",
+            sortable: true,
+            sortDirection: "desc",
+          },
+          {
+            key: "optionalProgramCode",
+            label: "Optional Program Code",
+            sortable: true,
+            sortDirection: "desc",
+          },
+          {
+            key: "optionalProgramName",
+            label: "Optional Program Name",
+            sortable: true,
+            sortDirection: "desc",
+          },
+          {
+            key: "optionalProgramCompletionDate",
+            label: "Program Completion Date",
+            sortable: true,
+            sortDirection: "desc",
           },
         ],
         showNotes: false,
@@ -225,6 +353,14 @@ export default {
 
 .highlight {
   background: aliceblue !important;
+}
+
+.audit-history-tabs .card-header {
+  font-weight: 700 !important;
+}
+
+.audit-history-tabs .card{
+  margin-top:70px;
 }
 
 </style>
