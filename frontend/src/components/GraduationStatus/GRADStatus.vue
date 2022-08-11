@@ -435,12 +435,15 @@ export default {
           this.disableButton = false;
         }
       }
-      if(this.studentGradStatus.program == '2018'|| this.studentGradStatus.program == 'SCCP' || this.studentGradStatus.program == '1950'){
-        if(this.ifProgramsWithExpiry(this.editedGradStatus.program)){
-          this.closedProgramWarning = true;
-        } else {
-          this.closedProgramWarning = false;
-        }
+      if(this.studentGradStatus.program == '2018-EN'|| 
+        this.studentGradStatus.program == '2018-PF'|| 
+        this.studentGradStatus.program == 'SCCP' || 
+        this.studentGradStatus.program == '1950') {
+          if(this.ifProgramsWithExpiry(this.editedGradStatus.program)){
+            this.closedProgramWarning = true;
+          } else {
+            this.closedProgramWarning = false;
+          }
       }     
     },
     programCompletionDateChange:function(){
@@ -754,7 +757,9 @@ export default {
     },
     ifProgramsWithExpiry(program){
       for(let p of this.programsWithExpiry) {
-        return program == p
+        if(program == p){
+          return true
+        }
       }
     }
   }
