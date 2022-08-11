@@ -504,9 +504,10 @@ extend('greaterthangraddateFrom', {
 })
 extend('adultdogwoodpublicrestrictedtoministryofadvancededgroup', {
   validate(value, { group }) {
+    // eslint-disable-next-line
     console.log(value)
     if(group == "Ministry of Advanced Education"){
-      console.log("this is not allowed")
+      return false;
     }
   },
   params: ['gradDateFrom'],
