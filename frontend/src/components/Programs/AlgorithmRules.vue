@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id=algorithm-rules>
   <DisplayTable v-bind:items="algorithmRules" title="Program" v-bind:filterOn="toFilterItem" v-bind:fields="algorithmRulesFields" id="specialCase" showFilter="true">
         <template #cell(ruleName)="row">
           {{row.item.algorithmRuleCode.label}}

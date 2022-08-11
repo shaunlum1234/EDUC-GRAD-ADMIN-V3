@@ -2,6 +2,7 @@
   <div class="container">
     <h2>Batch Processing</h2>
     <div>
+      
   <div class="mt-2 row">
   <div class="col-12 float-left p-0">
     <div ref="top">
@@ -64,13 +65,13 @@
                     </div>
                   </b-card-text>
                 </b-tab>
-                <b-tab class="btn-sm" :title="'Scheduled (' + scheduledJobs.length + ')'">
+                <b-tab class="btn-sm" :title="'User Scheduled (' + scheduledJobs.length + ')'">
                   <b-card-text>
                       <div v-if="!scheduledJobs.length">
                         No Scheduled Jobs
                       </div>
                      <DisplayTable title="Job/Runs" :items="scheduledJobs"
-                        v-bind:fields="scheduledJobFields" id="jobId" :showFilter=false pagination="true" create="batchprocessing/create" update="batchprocessing/update" delete="batchprocessing/removeScheduledJobs"
+                        v-bind:fields="scheduledJobFields" id="rowId" :showFilter=false pagination="true" deleteLabel="Cancel" delete="batchprocessing/removeScheduledJobs"
                       >
                         <template #cell(jobExecutionId)="row">
                           <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
@@ -93,15 +94,17 @@
                           <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
                         </template>
                       </DisplayTable>
-
-
                   </b-card-text>
                 </b-tab>
+                <b-tab class="btn-sm" :title="'Routines'">
+                  <b-card-text>
+                      <BatchRoutines/>
+                  </b-card-text>
+                </b-tab>                
               </b-tabs>
             </b-card>
           </div>
         </b-tab>
-         
          <b-tab v-for="i in tabs" :key="'dyn-tab-' + i" :title="'Request ' + i" >
            
              <template #title>
@@ -138,13 +141,18 @@
 
 <script>
 // @ is an alias to /src
+
 import BatchProcessingService from "@/services/BatchProcessingService.js";
+import DistributionService from "@/services/DistributionService.js";
 import DisplayTable from '@/components/DisplayTable.vue';
 import BatchJobSearchResults from "@/components/Batch/BatchJobSearchResults.vue";
 import BatchJobErrorResults from "@/components/Batch/BatchJobErrorResults.vue";
 import BatchJobForm from "@/components/Batch/Batch.vue";
+import BatchRoutines from "@/components/Batch/Routines.vue";
+import sharedMethods from '../sharedMethods';
+
 import {
-  mapGetters
+  mapGetters, mapActions
 } from "vuex";
 export default {
   name: "test",
@@ -160,13 +168,12 @@ export default {
       tabContent: "batchprocessing/getBatchDetails",
       tabs: "batchprocessing/getBatchProcessingTabs",
       spinners: "batchprocessing/getBatchTabsLoading",
+      scheduledJobs: "batchprocessing/getScheduledBatchJobs",
       courses: "getStudentCourses",
       gradStatusCourses: "gradStatusCourses",
       studentGradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
       gradStatusPendingUpdates: "getHasGradStatusPendingUpdates"
-      
-
     }),
   },
   props: [
@@ -176,10 +183,12 @@ export default {
       DisplayTable: DisplayTable,
       BatchJobSearchResults: BatchJobSearchResults,
       BatchJobErrorResults: BatchJobErrorResults,
-      BatchJobForm: BatchJobForm
+      BatchJobForm: BatchJobForm,
+      BatchRoutines: BatchRoutines
   },
   data() {
     return {
+      value:"",
       validationMessage: "",
       validating: false,
       adminSelectedBatchId:"",
@@ -203,10 +212,15 @@ export default {
       isErrorShowing: false,
       isBatchShowing: false,
       batchInfoListData:[],
-      scheduledJobs:[],
       certificateTypes:[],
       transcriptTypes:[],
       scheduledJobFields: [
+        {
+          key: 'rowId',
+          label: 'ID',
+          sortable: true,
+          class: 'text-left',
+        }, 
         {
           key: 'jobId',
           label: 'Job ID',
@@ -218,7 +232,14 @@ export default {
           label: 'Job Name',
           sortable: true,
           class: 'text-left',
-        },         
+        },      
+        {
+          key: 'cronExpression',
+          label: 'CRON (Sec Min Hr Date Month)',
+          sortable: true,
+          class: 'text-left',
+        },            
+        
         {
           key: 'scheduledBy',
           label: 'Scheduled By',
@@ -230,7 +251,13 @@ export default {
           label: 'Status',
           sortable: true,
           class: 'text-left',
-        },                          
+        },    
+        {
+          key: 'delete',
+          label: 'Delete',
+          sortable: true,
+          class: 'text-left',
+        },                                             
       ], 
       jobRunFields: [
          {
@@ -305,17 +332,19 @@ export default {
       jobs: [],   
       selectedTab: 0,     
       searchResults: [], 
-      batchValid: false
-      
-      
+      batchValid: false,
     };
-    
   },
   created() {
     this.getAdminDashboardData()
     this.getScheduledJobs()
   },
   methods: { 
+    ...mapActions('batchprocessing', ['setScheduledBatchJobs']),
+
+    getZipLink: function (data, mimeType) {
+      return sharedMethods.base64ToFileTypeData(data,mimeType)
+    },
     cancelBatchJob(id) {
   
       for (let i = 0; i < this.tabs.length; i++) {
@@ -402,6 +431,34 @@ export default {
         return item;
       }
     },
+    runDISTRUNYearEnd(id){
+      let requestId = id.replace("job-",""); 
+      this.$set(this.spinners, id, true)
+      let index= id.replace("job-","")-1;
+      let value = true
+      this.$store.commit("batchprocessing/setTabLoading",{index, value});
+        BatchProcessingService.runDISTRUNYearEnd().then(
+        (response) => {
+          if(response){
+            this.$bvToast.toast("Batch run has completed for request " + requestId , {
+              title: "BATCH PROCESSING COMPLETED",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
+        })
+        .catch((error) => {
+          if(error){
+            this.cancelBatchJob(id);
+            this.$bvToast.toast("Batch run is still in progress for request" + requestId + " and will run in the background" , {
+              title: "BATCH PROCESSING UPDATE",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
+        })  
+        setTimeout(this.getBatchProgress(requestId), 5000);
+    },
     runDISTRUN(request, id, credentialType){
       let requestId = id.replace("job-",""); 
       this.$set(this.spinners, id, true)
@@ -416,11 +473,26 @@ export default {
           console.log(response)
           this.cancelBatchJob(id);
           this.selectedTab = 0;
-          this.$bvToast.toast("Batch run has completed for request " + requestId , {
-            title: "BATCH PROCESSING COMPLETED",
-            variant: 'success',
-            noAutoHide: true,
-          })
+     
+          if(request.localDownload == 'Y'){
+            
+            let bid = response.data.batchId;
+            DistributionService.downloadDISTRUN(bid).then((res) => {
+              this.$bvToast.toast('Download (.zip)' , {
+                title: "FILE SUCCESSFULLY CREATED",
+                href: "data:application/zip;base64," + res.data,
+                variant: 'success',
+                noAutoHide: true,
+              })
+            });
+                        
+          }else{
+            this.$bvToast.toast("Batch run has completed for request " + requestId , {
+              title: "BATCH PROCESSING COMPLETED",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
         })
         .catch((error) => {
           if(error){
@@ -512,7 +584,7 @@ export default {
           console.log(response)
           this.cancelBatchJob(id);
           this.selectedTab = 0;
-          this.$bvToast.toast(requestId + "has successfully been scheduled", {
+          this.$bvToast.toast("Request " + requestId + " has successfully been scheduled", {
             title: "SCHEDULING USER REQUEST",
             variant: 'success',
             noAutoHide: true,
@@ -530,8 +602,9 @@ export default {
         setTimeout(this.getBatchProgress(requestId), 5000);
     },    
     getScheduledJobs(){
-      BatchProcessingService.getScheduledJobs().then((response) => {
-        this.scheduledJobs = response.data
+
+      BatchProcessingService.getScheduledBatchJobs().then((response) => {
+        this.setScheduledBatchJobs(response.data);
       })
     },
     getBatchProgress(requestId){
@@ -595,8 +668,9 @@ export default {
       }
       this.batchValid = true;
     },
-    runbatch(id, cronTime=null){    
-      let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
+    runbatch(id, cronTime){    
+      let pens = [], schools = [], districts = [], programs = [], psi = [], districtCategoryCode="";
+      
       if(this.tabContent[id].details['who'] == 'School'){
         schools = this.tabContent[id].schools.map(this.getBatchData);  
         schools.pop();
@@ -614,6 +688,9 @@ export default {
       }else if(this.tabContent[id].details['who'] == 'District'){
         districts = this.tabContent[id].districts.map(this.getBatchData);  
         districtCategoryCode = this.tabContent[id]['details'].categoryCode;
+        if( this.tabContent[id]['details'].categoryCode == ""){
+          districtCategoryCode =  []
+        }
         districts.pop();
         if(!districtCategoryCode){
           this.validationMessage = "Please select a district category"
@@ -622,6 +699,14 @@ export default {
           this.validationMessage = "Please select a district."
           return
         }
+      }else if(this.tabContent[id].details['who'] == 'PSI'){
+        psi = this.tabContent[id].psi.map(this.getBatchData);  
+        psi.pop();
+        if(!psi.length){
+          this.validationMessage = "Please select a Post Secondary Institution."
+          return
+        }        
+        
       }else if(this.tabContent[id].details['who'] == 'Program'){
         programs = this.tabContent[id].programs.map(this.getBatchData);  
         programs.pop();
@@ -632,8 +717,8 @@ export default {
       }
       let gradDateFrom = this.tabContent[id].details['gradDateFrom']
       let gradDateTo = this.tabContent[id].details['gradDateTo']
-
-      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts, "schoolCategoryCodes": [districtCategoryCode], "programs":programs, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, }
+      let localDownload = this.tabContent[id].details['where']=='localDownload'?'Y':'N'
+      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts, "schoolCategoryCodes": [], "programs":programs, "psi": psi, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, "localDownload": localDownload }
       if(this.batchHasErrors(this.tabContent[id])){
         return;
       }
@@ -648,11 +733,8 @@ export default {
         }else{
           this.runREGALG(request, id);  
         }
-        
-          
-      }else if(this.tabContent[id].details['what'] == 'TVRRUN'){     
+      }else if(this.tabContent[id].details['what'] == 'TVRRUN'){    
         if(cronTime){
-
           let scheduledRequest = {};
           scheduledRequest.cronExpression = cronTime
           scheduledRequest.jobName = 'STBJ'
@@ -664,7 +746,9 @@ export default {
         }
         
       }
-      else if(this.tabContent[id].details['what'] == 'DISTRUN'){     
+      else if(this.tabContent[id].details['what'] == 'DISTRUN-YEAREND'){     
+        this.runDISTRUNYearEnd(id);
+      }else if(this.tabContent[id].details['what'] == 'DISTRUN'){     
         if(cronTime){
           let scheduledRequest = {};
           scheduledRequest.cronExpression = cronTime

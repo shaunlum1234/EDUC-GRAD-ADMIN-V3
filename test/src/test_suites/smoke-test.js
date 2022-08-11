@@ -9,7 +9,9 @@ createTestCafe('localhost', 1337, 1338)
         const runner = testcafe.createRunner();
         return runner
             // list multiple test files
-            .src(["src/test_cases/studentSearch.js"])
+            //.src(["src/test_cases/studentSearch.js"])
+            .src(["src/test_cases/codes.js"])
+            //.src(["src/test_cases/schoolReports.js"])
             //.browsers(["chrome:headless", "firefox:headless"])
             .run();
     })
@@ -21,3 +23,4 @@ createTestCafe('localhost', 1337, 1338)
         }
         testcafe.close();
     });
+    

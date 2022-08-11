@@ -111,7 +111,7 @@
           </form>
           <b-card-text >
             <DisplayTable title="Courses" v-bind:items="courses" v-bind:fields="courseFields" id="courseCode" :showFilter=true pagination="true"
-              v-bind:role="role"></DisplayTable>
+            ></DisplayTable>
           </b-card-text>
           </b-tab>
           <b-tab title="Course restrictions">

@@ -60,7 +60,22 @@
               </p>
             </b-alert>
           </div>
-              
+          <div v-if="dateInFutureWarning">
+            <b-alert show variant="warning" class="p-3 mb-1">
+              <h4 class="alert-heading">Warning</h4>
+              <p class="locked-message">
+                Program Completion date cannot be in the future if a student has completed SCCP. 
+              </p>
+            </b-alert>
+          </div>   
+          <div v-if="dateBlankWarning">
+            <b-alert show variant="warning" class="p-3 mb-1">
+              <h4 class="alert-heading">Warning</h4>
+              <p class="locked-message">
+                Program Completion date cannot be blank. Please use Undo Completion from the Run Graduation Algorithm dropdown. 
+              </p>
+            </b-alert>
+          </div>
         <table  role="presentation" aria-label="edit grad status" class="table  table-hover table-sm" >
                 <tbody>
                   <tr v-if="!showEdit">
@@ -74,9 +89,10 @@
                       </div> 
                       <div v-if="editedGradStatus.program != studentGradStatus.program">
                         <div v-if="programChangeWarning" class="form-validation-message text-danger">Warning, any optional programs associated with the original program will be <strong>deleted</strong>. You must add back in any pertinent optional programs once you have saved the changes to Program.</div>
-                      </div>   
+                      </div>
+                      <div v-if="closedProgramWarning" class="form-validation-message text-warning">Warning: This program is closed.</div>     
                     </td>
-                    <td class="w-50"><b-form-select :disabled="disableInput || studentGradStatus.programCompletionDate !== null" size="sm" v-model="editedGradStatus.program" :options="programOptions" value-field="programCode" text-field="programCode"></b-form-select></td>                   
+                    <td class="w-50"><b-form-select :disabled="disableInput" size="sm" v-model="editedGradStatus.program" :options="programOptions" value-field="programCode" text-field="programCode"></b-form-select></td>                   
                   </tr>
                   <tr v-if="!showEdit">
                     <td><strong>Program completion date: </strong></td>
@@ -307,6 +323,58 @@ export default {
     studentGradStatus: "getStudentGradStatus"
   })
   },
+  data() {
+    return {
+      programCompletionEffectiveDateList:[],
+      programCompletionDateRangeError:false,
+      programChangeWarning:false,
+      programEffectiveDate: "",
+      programExpiryDate: "", 
+      errorMessage:"",
+      dismissSecs: 3,
+      dismissCountDown: 0,
+      showModal: false,
+      showTop: false,
+      showEdit: false,
+      show: false,
+      projectedStudentGradStatus: [],
+      updateStatus: [],
+      schoolOfRecord: "",
+      schoolOfRecordStatus:"",
+      schoolOfRecordMissing: false,
+      schoolOfRecordWarning: false,
+      schoolNotFoundWarning: false,
+      schoolOfRecordInputWarning: false,
+      dateBlankWarning: false,
+      schoolFound: false,
+      schoolAtGradProgramCompletionDateMessage: false,
+      schoolAtGraduation: "",
+      schoolAtGraduationStatus:"",
+      schoolAtGraduationWarning: false,
+      schoolAtGraduationNotFoundWarning:false,
+      schoolAtGraduationInputWarning:false,
+      schoolAtGraduationFound: false,
+      editedGradStatus: {},
+      studentUngradReason: "",
+      disableButton:false,
+      disableSchoolAtGrad:false,
+      disableInput:false,
+      disableStudentStatus:false,
+      dateInFutureWarning:false,
+      closedProgramWarning:false,
+      gradeOptions: [
+        { text: "08", value: "8" },
+        { text: "09", value: "9" },
+        { text: "10", value: "10" },
+        { text: "11", value: "11" },
+        { text: "12", value: "12" },
+        { text: "HS - Homeschool", value: "HS" },
+        { text: "OT - Other", value: "OT" },
+        { text: "AD - Adult expected to graduate", value: "AD" },
+        { text: "AN - Adult not expected to graduate", value: "AN" },     
+      ]
+    }
+  },
   created() {
     this.showNotification = sharedMethods.showNotification;
   },
@@ -349,19 +417,29 @@ export default {
       }
     },
     programChange:function(){
-       if(this.editedGradStatus.program == '1950'){
+      if(this.editedGradStatus.program == '1950'){
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = false;
         }else{
           this.disableButton = true;
         }
-      }
-  
-      if(this.editedGradStatus.program != '1950'){
+      }else {
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = true;
         }else{
           this.disableButton = false;
+        }
+      }
+      if(this.studentGradStatus.program == '2018'|| this.studentGradStatus.program == 'SCCP' || this.studentGradStatus.program == '1950'){
+        if( this.editedGradStatus.program == '1986-EN' || 
+            this.editedGradStatus.program == '1996-EN' ||
+            this.editedGradStatus.program == '1996-PF' ||
+            this.editedGradStatus.program == '2004-EN'||
+            this.editedGradStatus.program == '2004-PF')
+        {
+          this.closedProgramWarning = true;
+        }else{
+          this.closedProgramWarning = false;
         }
       }
       this.programChangeWarning = true;
@@ -382,11 +460,9 @@ export default {
       if(!this.editedGradStatus.programCompletionDate){
         if(this.editedGradStatus.program == 'SCCP'){
           this.disableButton = false;
-          this.dateInFutureWarning = false;
         } else {
           this.disableSchoolAtGrad = true;
           this.disableButton = false;
-          this.dateInFutureWarning = false;
         }       
       } else {
         if(this.editedGradStatus.programCompletionDate > this.programExpiryDate || this.editedGradStatus.programCompletionDate < this.programEffectiveDate)
@@ -407,10 +483,12 @@ export default {
             this.dateInFutureWarning = false;
             this.disableButton = false;
             if(!this.editedGradStatus.programCompletionDate || this.editedGradStatus.programCompletionDate == undefined){
-            this.disableButton = true;
-          } else {
-            this.disableButton = false;
-          }        
+              this.disableButton = true;
+              this.dateBlankWarning = true;
+            } else {
+              this.disableButton = false;
+              this.dateBlankWarning = false;
+            }        
           }         
         }
       }      
@@ -520,6 +598,9 @@ export default {
       }  
     },
   methods: {
+    getStudentReportsAndCertificates: function(){
+      this.$root.$emit('studentProfile')
+    },
     getStudentStatus(code) {
       return sharedMethods.getStudentStatus(code, this.studentStatusOptions);
     },
@@ -577,6 +658,10 @@ export default {
     cancelGradStatus() {
       this.showEdit = false;
       this.studentUngradReason = "";   
+      this.schoolOfRecordWarning = false;
+      this.schoolNotFoundWarning = false;
+      this.dateBlankWarning = false;
+      this.dateInFutureWarning = false;
     },
 
     saveGraduationStatus(id) {
@@ -612,6 +697,7 @@ export default {
       )
       .then((response) => {
         this.updateStatus = response.data;
+        this.getStudentReportsAndCertificates();
         this.studentGradStatus.pen = response.data.pen;
         this.studentGradStatus.program = response.data.program;
         this.studentGradStatus.programCompletionDate = response.data.programCompletionDate;
@@ -666,55 +752,6 @@ export default {
         // eslint-disable-next-line
         console.log("There was an error:" + error.response);
       });
-    }
-  },
-  data() {
-    return {
-      programCompletionEffectiveDateList:[],
-      programCompletionDateRangeError:false,
-      programChangeWarning:false,
-      programEffectiveDate: "",
-      programExpiryDate: "", 
-      errorMessage:"",
-      dismissSecs: 3,
-      dismissCountDown: 0,
-      showModal: false,
-      showTop: false,
-      showEdit: false,
-      show: false,
-      projectedStudentGradStatus: [],
-      updateStatus: [],
-      schoolOfRecord: "",
-      schoolOfRecordStatus:"",
-      schoolOfRecordMissing: false,
-      schoolOfRecordWarning: false,
-      schoolNotFoundWarning: false,
-      schoolOfRecordInputWarning: false,
-      schoolFound: false,
-      schoolAtGradProgramCompletionDateMessage: false,
-      schoolAtGraduation: "",
-      schoolAtGraduationStatus:"",
-      schoolAtGraduationWarning: false,
-      schoolAtGraduationNotFoundWarning:false,
-      schoolAtGraduationInputWarning:false,
-      schoolAtGraduationFound: false,
-      editedGradStatus: {},
-      studentUngradReason: "",
-      disableButton:false,
-      disableSchoolAtGrad:false,
-      disableInput:false,
-      disableStudentStatus:false,
-      gradeOptions: [
-        { text: "08", value: "8" },
-        { text: "09", value: "9" },
-        { text: "10", value: "10" },
-        { text: "11", value: "11" },
-        { text: "12", value: "12" },
-        { text: "HS - Homeschool", value: "HS" },
-        { text: "OT - Other", value: "OT" },
-        { text: "AD - Adult expected to graduate", value: "AD" },
-        { text: "AN - Adult not expected to graduate", value: "AN" },     
-      ]
     }
   }
 }

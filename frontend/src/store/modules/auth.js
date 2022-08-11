@@ -20,6 +20,7 @@ export default {
     getToken: state => state.jwtToken,
     jwtToken: () => localStorage.getItem('jwtToken'),
     userInfo: state => state.userInfo,
+    userFullName: state => state.userInfo.userFullName,
     roles: state => { 
       if (state.userInfo.userRoles && state.userInfo.userRoles.includes(RolePermissions.ADMINISTRATOR)){
         return "Administrator"

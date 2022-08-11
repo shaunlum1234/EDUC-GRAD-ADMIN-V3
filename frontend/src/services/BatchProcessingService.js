@@ -17,24 +17,35 @@ export default {
       return ApiService.apiAxios.post('/api/v1/batch/userrequestdisrun/OC', users);
     }else if(credentialType == "RC"){
       return ApiService.apiAxios.post('/api/v1/batch/userrequestdisrun/RC', users);
+    }else if(credentialType == "Blank transcript print"){
+      return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/OT', users);
+    }else if(credentialType == "Blank certificate print"){
+      return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/OC', users);
     }
   },     
-  runOriginalCertificateDISTRUN(users) {
-    return ApiService.apiAxios.post('/api/v1/batch/userrequestdisrun/OC', users);
-  },   
+  runDISTRUNYearEnd(){
+    return ApiService.apiAxios.get('/api/v1/batch/executeyearlydisrunbatchjob');
+    
+  },
   getBatchErrors(id, page) {
     return ApiService.apiAxios.get('/api/v1/batch/dashboard/errors/'  + id + '?pageNumber=' + page);
   },
   getBatchSummary() {
     return ApiService.apiAxios.get('/api/v1/batch/dashboard/summary');
   },    
-  getScheduledJobs() {
+  getScheduledBatchJobs() {
     return ApiService.apiAxios.get('/api/v1/batch/schedule/listjobs');
   },
   addScheduledJob(scheduledJob) {
     return ApiService.apiAxios.post('/api/v1/batch/schedule/add', scheduledJob);
   },
-  removeScheduledJobs(jobId) {
-    return ApiService.apiAxios.get('/api/v1/batch/schedule/remove/' + jobId);
-  }
+  removeScheduledJobs(id) {
+    return ApiService.apiAxios.delete('/api/v1/batch/schedule/remove/' + id);
+  },
+  batchProcessingRoutines() {
+    return ApiService.apiAxios.get('/api/v1/batch/processing/all/');
+  },
+  batchProcessingToggleRoutine(jobType){
+    return ApiService.apiAxios.get('/api/v1/batch/processing/toggle/' + jobType);
+  },
 }

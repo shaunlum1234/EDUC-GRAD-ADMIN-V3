@@ -15,8 +15,17 @@
 
               <b-row align-v="stretch" class="row-eq-height">
                 <b-col>
-                  <b-input class="col-6" v-model="mincode" v-on:keyup="keyHandler" placeholder="" id="mincode" />
+                  <div href="#"
+                    v-on:click="mincode.contains = !mincode.contains"
+                    v-bind:class="{active: mincode.contains}"
+                    class="wild-card-button"
+                    v-b-tooltip.hover title="Mincode contains"
+                  >
+                    [.*]
+                    </div>
+                  <b-input v-model="mincode.value" v-on:keyup="keyHandler" placeholder="" id="mincode" />
                 </b-col>
+                <b-col class="col-6" />
               </b-row>
 
               <b-row class="p-3">
@@ -44,7 +53,7 @@
             <DisplayTable title="Results" v-bind:items="reports" v-bind:fields="reportFields" sortKey="report" id="mincode" v-bind:showFileter=true pagination="true">schoolReportSearch
               <template #cell(report)="row">
                 <a
-                  @click="downloadPDF(row.item.report,'application/pdf')"
+                  @click="downloadFile(row.item.report,'application/pdf')"
                   href="#"
                   class="pdf-link float-left mt-2"
                   >
@@ -56,7 +65,7 @@
                 {{ row.item.updateDate | formatSimpleDate }}
               </template>
               <template #cell(distributionDate)="row">
-                {{ row.item.createDate | formatSimpleDate }}
+                {{ row.item.distributionDate | formatSimpleDate }}
               </template>
             </DisplayTable>
           </b-card-text>
@@ -81,7 +90,10 @@
       return {
         url: null,
         file: [],
-        mincode: "",
+        mincode: {
+          value: "",
+          contains: false,
+        },
         totalResults: "",
         searchMessage: "",
         searchLoading: false,
@@ -101,7 +113,13 @@
           },
           {
             key: 'schoolOfRecord',
-            label: 'School Code',
+            label: 'Mincode',
+            sortable: true,
+            sortDirection: 'asc'
+          },
+          {
+            key: 'schoolOfRecordName',
+            label: 'School Name',
             sortable: true,
             sortDirection: 'asc'
           },
@@ -151,12 +169,12 @@
         this.searchMessage= "";
         this.searchLoading = true;
 
-        if(!this.mincode) {
+        if(!this.mincode.value) {
           this.totalResults = "";
           this.searchLoading = false;
           this.searchMessage = "Enter a school mincode to view reports."
         } else {
-          GraduationCommonService.getAllReportsForSchool(this.mincode, this.token)
+          GraduationCommonService.getAllReportsForSchool(this.mincode.value + (this.mincode.contains ? "*" : ""), this.token)
           .then(
             (response) => {
               this.reports = response.data;
@@ -175,10 +193,11 @@
       },
       clearInput: function () {
         this.reports = "";
-        this.mincode = "";
+        this.mincode.value = "";
+        this.mincode.contains = false;
       },
-      downloadPDF: function (data, mimeType) {
-        sharedMethods.base64ToPdfAndOpenWindow(data,mimeType)
+      downloadFile: function (data, mimeType) {
+        sharedMethods.base64ToFileTypeAndOpenWindow(data,mimeType)
       },
     },
   }
@@ -188,4 +207,26 @@
 .table th, .table td{
   border-top: none !important;
 }
+.wild-card-button:hover{
+    cursor: pointer;
+
+  }
+  .wild-card-button {
+    color: #DEE2EB;
+    position: absolute;
+    right: 21px;
+    top: 10px;
+    z-index: 10;
+    text-decoration: none;
+  
+  }
+
+  .wild-card-button:visited {
+    color: #DEE2EB;
+    text-decoration: none;
+  }
+
+  .wild-card-button.active {
+    color: green
+  }
 </style>
