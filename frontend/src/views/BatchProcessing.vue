@@ -459,6 +459,54 @@ export default {
         })  
         setTimeout(this.getBatchProgress(requestId), 5000);
     },
+    runBlankDISTRUNUserRequest(request, id){
+      let requestId = id.replace("job-",""); 
+      this.$set(this.spinners, id, true)
+      let index= id.replace("job-","")-1;
+      let value = true
+      this.$store.commit("batchprocessing/setTabLoading",{index, value});
+      console.log(request)
+        // BatchProcessingService.runBlankDistRunUserRequest(request).then(
+        // (response) => {
+        //    //update the admin dashboard
+        //   this.getAdminDashboardData();
+        //   // eslint-disable-next-line
+        //   console.log(response)
+        //   this.cancelBatchJob(id);
+        //   this.selectedTab = 0;
+     
+        //   if(request.localDownload == 'Y'){
+            
+        //     let bid = response.data.batchId;
+        //     DistributionService.downloadDISTRUN(bid).then((res) => {
+        //       this.$bvToast.toast('Download (.zip)' , {
+        //         title: "FILE SUCCESSFULLY CREATED",
+        //         href: "data:application/zip;base64," + res.data,
+        //         variant: 'success',
+        //         noAutoHide: true,
+        //       })
+        //     });
+                        
+        //   }else{
+        //     this.$bvToast.toast("Batch run has completed for request " + requestId , {
+        //       title: "BATCH PROCESSING COMPLETED",
+        //       variant: 'success',
+        //       noAutoHide: true,
+        //     })
+        //   }
+        //   })
+        // .catch((error) => {
+        //   if(error){
+        //     this.cancelBatchJob(id);
+        //     this.$bvToast.toast("Batch run is still in progress for request" + requestId + " and will run in the background" , {
+        //       title: "BATCH PROCESSING UPDATE",
+        //       variant: 'success',
+        //       noAutoHide: true,
+        //     })
+        //   }
+        // })  
+        setTimeout(this.getBatchProgress(requestId), 5000);
+    },
     runDISTRUN(request, id, credentialType){
       let requestId = id.replace("job-",""); 
       this.$set(this.spinners, id, true)
@@ -757,6 +805,8 @@ export default {
           scheduledRequest.payload = request;
           
           this.addScheduledJob(scheduledRequest, id)
+        }else if(this.tabContent[id].details['where'] == 'User'){     
+          this.runBlankDISTRUNUserRequest(request,id);
         }else{
           this.runDISTRUN(request, id, this.tabContent[id].details['credential']);
         }
