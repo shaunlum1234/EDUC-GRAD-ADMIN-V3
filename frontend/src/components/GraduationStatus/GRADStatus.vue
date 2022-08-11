@@ -61,8 +61,7 @@
             </b-alert>
           </div>
           <div v-if="dateInFutureWarning">
-            <b-alert show variant="warning" class="p-3 mb-1">
-              <h4 class="alert-heading">Warning</h4>
+            <b-alert show variant="warning" class="p-3 mb-1">            
               <p class="locked-message">
                 Program Completion date cannot be in the future if a student has completed SCCP. 
               </p>
@@ -70,7 +69,6 @@
           </div>   
           <div v-if="dateBlankWarning">
             <b-alert show variant="warning" class="p-3 mb-1">
-              <h4 class="alert-heading">Warning</h4>
               <p class="locked-message">
                 Program Completion date cannot be blank. Please use Undo Completion from the Run Graduation Algorithm dropdown. 
               </p>
@@ -310,7 +308,7 @@ export default {
       return this.editedGradStatus.schoolAtGrad;
     },
     disableSaveButton(){
-      return this.disableButton
+      return this.disableButton;
     },
     recalculateFlag(){
       return this.studentGradStatus.recalculateGradStatus; 
@@ -397,12 +395,11 @@ export default {
             this.disableButton = false;
           }
         }
-        if(this.editedGradStatus.program != '1950'){
+        else{
           this.disableButton = true;
         }
       }
       if(this.editedGradStatus.studentGrade != 'AD' && this.editedGradStatus.studentGrade != 'AN'){
-
         if(this.editedGradStatus.program == '1950'){
           this.disableButton = true;
         } else {
@@ -509,10 +506,10 @@ export default {
             return;
         }
         if(this.editedGradStatus.schoolOfRecord == this.studentGradStatus.schoolOfRecord){  
-        this.schoolOfRecordWarning = false;
-        this.schoolNotFoundWarning = false;
-        this.schoolOfRecordInputWarning = false;
-        this.schoolFound = false;
+          this.schoolOfRecordWarning = false;
+          this.schoolNotFoundWarning = false;
+          this.schoolOfRecordInputWarning = false;
+          this.schoolFound = false;
         } else {
           if(this.editedGradStatus.schoolOfRecord.length == 8) {
             this.schoolNotFoundWarning = false;
