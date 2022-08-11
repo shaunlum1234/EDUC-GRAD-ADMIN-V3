@@ -71,7 +71,8 @@
                         No Scheduled Jobs
                       </div>
                      <DisplayTable title="Job/Runs" :items="scheduledJobs"
-                        v-bind:fields="scheduledJobFields" id="rowId" :showFilter=false pagination="true" deleteLabel="Cancel" delete="batchprocessing/removeScheduledJobs"
+                        v-bind:fields="scheduledJobFields" id="id" sortBy='status' :sortDesc=true :showFilter=false pagination="true" disableDeletefield="status"
+    disableDeleteIfValue="COMPLETED" deleteLabel="Cancel" delete="batchprocessing/removeScheduledJobs"
                       >
                         <template #cell(jobExecutionId)="row">
                           <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
@@ -93,6 +94,25 @@
                           </b-btn>  
                           <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
                         </template>
+                        <template #cell(jobParameters)="row">
+                          <div>
+                            <b-btn
+                              variant="outline primary"
+                              style="color: #666"
+                              size="sm"
+                              @click="row.toggleDetails"
+                              class="more-button"
+                            >
+                              <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
+                              <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
+                            </b-btn>
+                          </div>       
+                        </template>
+                        <template #row-details="row">   
+                          <b-card class="px-0">
+                            <pre> {{row.item.jobParameters.payload}}</pre>
+                          </b-card>
+                        </template>                                         
                       </DisplayTable>
                   </b-card-text>
                 </b-tab>
@@ -216,14 +236,14 @@ export default {
       transcriptTypes:[],
       scheduledJobFields: [
         {
-          key: 'rowId',
-          label: 'ID',
+          key: 'jobParameters',
+          label: '',
           sortable: true,
           class: 'text-left',
         }, 
         {
-          key: 'jobId',
-          label: 'Job ID',
+          key: 'id',
+          label: 'ID',
           sortable: true,
           class: 'text-left',
         }, 
@@ -241,7 +261,7 @@ export default {
         },            
         
         {
-          key: 'scheduledBy',
+          key: 'createUser',
           label: 'Scheduled By',
           sortable: true,
           class: 'text-left',
@@ -465,47 +485,7 @@ export default {
       let index= id.replace("job-","")-1;
       let value = true
       this.$store.commit("batchprocessing/setTabLoading",{index, value});
-      console.log(request)
-        // BatchProcessingService.runBlankDistRunUserRequest(request).then(
-        // (response) => {
-        //    //update the admin dashboard
-        //   this.getAdminDashboardData();
-        //   // eslint-disable-next-line
-        //   console.log(response)
-        //   this.cancelBatchJob(id);
-        //   this.selectedTab = 0;
-     
-        //   if(request.localDownload == 'Y'){
-            
-        //     let bid = response.data.batchId;
-        //     DistributionService.downloadDISTRUN(bid).then((res) => {
-        //       this.$bvToast.toast('Download (.zip)' , {
-        //         title: "FILE SUCCESSFULLY CREATED",
-        //         href: "data:application/zip;base64," + res.data,
-        //         variant: 'success',
-        //         noAutoHide: true,
-        //       })
-        //     });
-                        
-        //   }else{
-        //     this.$bvToast.toast("Batch run has completed for request " + requestId , {
-        //       title: "BATCH PROCESSING COMPLETED",
-        //       variant: 'success',
-        //       noAutoHide: true,
-        //     })
-        //   }
-        //   })
-        // .catch((error) => {
-        //   if(error){
-        //     this.cancelBatchJob(id);
-        //     this.$bvToast.toast("Batch run is still in progress for request" + requestId + " and will run in the background" , {
-        //       title: "BATCH PROCESSING UPDATE",
-        //       variant: 'success',
-        //       noAutoHide: true,
-        //     })
-        //   }
-        // })  
-        setTimeout(this.getBatchProgress(requestId), 5000);
+      setTimeout(this.getBatchProgress(requestId), 5000);
     },
     runDISTRUN(request, id, credentialType){
       let requestId = id.replace("job-",""); 
