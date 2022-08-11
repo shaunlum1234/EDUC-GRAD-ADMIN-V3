@@ -39,19 +39,24 @@
             ></b-form-checkbox-group>
           </b-card>  
           <b-card v-if="tabContent[jobId].details['credential']=='Blank certificate print'" class="mt-3 px-0" header="Blank Certificate Details">
-            <b-form-checkbox-group
-                multiple
-                stacked
-                :select-size="10"
-                id="inline-form-select-audience"
-                class="mb-2 mr-sm-2 mb-sm-0"
-                :options="certificateTypes"
-                value-field="code"
-                text-field="label"
-                :value="tabContent[jobId].details['credentialDetails']"     
-                @change="editBatchJob(jobId,'blankCertificateDetails', $event)"      
-              ></b-form-checkbox-group>
-            </b-card>                       
+            
+            <ValidationProvider name="Blank certificate details" :rules="'adultdogwoodpublicrestrictedtoministryofadvancededgroup:'+tabContent[jobId].details['who']" v-slot="{ errors }">
+                <b-form-checkbox-group
+                    multiple
+                    stacked
+                    :select-size="10"
+                    id="inline-form-select-audience"
+                    class="mb-2 mr-sm-2 mb-sm-0"
+                    :options="certificateTypes"
+                    value-field="code"
+                    text-field="label"
+                    :value="tabContent[jobId].details['credentialDetails']"     
+                    @change="editBatchJob(jobId,'blankCertificateDetails', $event)"      
+                  ></b-form-checkbox-group>
+                <span>{{ errors }}</span>    
+              </ValidationProvider> 
+            </b-card>      
+                    
           </div>                                                      
         </div>
         <div class="col-9">
@@ -497,6 +502,16 @@ extend('greaterthangraddateFrom', {
   params: ['gradDateFrom'],
   message: 'The Grad End Date field must be less than {gradDateFrom}'
 })
+extend('adultdogwoodpublicrestrictedtoministryofadvancededgroup', {
+  validate(value, { group }) {
+    console.log(value)
+    if(group == "Ministry of Advanced Education"){
+      console.log("this is not allowed")
+    }
+  },
+  params: ['gradDateFrom'],
+  message: 'The Grad End Date field must be less than {gradDateFrom}'
+})
 
 export default {
   components: {
@@ -527,10 +542,10 @@ export default {
           (response) => {
             let credential = refValues[2]
             if((credential == "Blank certificate print" || credential == 'OT') && response.data.certificateEligibility == 'N'){ 
-                 return "This school is not eligible to print blank certificates."
+                 return "This school is not eligible for certificates."
             }
             if((credential == "Blank certificate print" || credential == 'OC' || credential =='RC' ) && response.data.certificateEligibility == 'N'){ 
-                 return "This school is not eligible to print blank transcripts."
+                 return "This school is not eligible for transcripts."
             }
             if(response.data.minCode){
               this.$refs['schoolName' + refValues[0] + refValues[1]][0].placeholder = response.data.schoolName;        

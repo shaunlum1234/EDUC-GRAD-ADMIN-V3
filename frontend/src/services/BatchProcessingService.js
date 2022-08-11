@@ -25,7 +25,9 @@ export default {
   },     
   runDISTRUNYearEnd(){
     return ApiService.apiAxios.get('/api/v1/batch/executeyearlydisrunbatchjob');
-    
+  },
+  runBlankDistRunUserRequest(){
+    return ApiService.apiAxios.get('/api/v1/batch/userrequestblankdisrun');
   },
   getBatchErrors(id, page) {
     return ApiService.apiAxios.get('/api/v1/batch/dashboard/errors/'  + id + '?pageNumber=' + page);
