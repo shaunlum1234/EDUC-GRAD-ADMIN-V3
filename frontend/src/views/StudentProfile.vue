@@ -151,9 +151,11 @@
 
                 <b-tab :title="'Audit History'" class="audit-history-tabs py-3 px-0 m-1">
                   <b-card-text>
-                    <b-button class="mr-2 my-1" v-on:click="auditTab ='studentAudit'" size="sm" :variant="auditTab == 'studentAudit'? 'primary':'outline-secondary'">Student Audit</b-button>
-                    <b-button class="mr-2 my-1" v-on:click="auditTab ='notes'" size="sm" :variant="auditTab == 'notes'? 'primary':'outline-secondary'">Notes</b-button>
-                    <b-button class="mr-2 my-1" v-on:click="auditTab ='undoCompletionReasons'" size="sm" :variant="auditTab == 'undoCompletionReasons'? 'primary':'outline-secondary'">Undo Completion Reasons</b-button>
+                    <div class="ml-3">
+                      <b-button class="mr-2 my-1" v-on:click="auditTab ='studentAudit'" size="sm" :variant="auditTab == 'studentAudit'? 'primary':'outline-secondary'">Student Audit</b-button>
+                      <b-button class="mr-2 my-1" v-on:click="auditTab ='notes'" size="sm" :variant="auditTab == 'notes'? 'primary':'outline-secondary'">Notes</b-button>
+                      <b-button class="mr-2 my-1" v-on:click="auditTab ='undoCompletionReasons'" size="sm" :variant="auditTab == 'undoCompletionReasons'? 'primary':'outline-secondary'">Undo Completion Reasons</b-button>
+                    </div>
                     <StudentAuditHistory v-if="auditTab == 'studentAudit'" />
                     <StudentNotes v-else-if="auditTab == 'notes'" />
                     <div v-else-if="auditTab == 'undoCompletionReasons'" class="pb-3 px-3">
