@@ -116,7 +116,7 @@
       :per-page="perPage"
       :filter="filter"
       :filter-included-fields="filterOn"
-      :sort-by.sync="sortBy"
+      :sort-by="sortBy"
       :sort-desc.sync="sortDesc"
       :sort-direction="sortDirection"
       :sort-compare-options="{ numeric: true, sensitivity: 'base' }"
@@ -181,9 +181,7 @@
         <slot :name="slotName" v-bind="scope" />
       </template>
       <template v-slot:cell(delete)="{ item }">
-        
-         <b-btn v-if="deleteMode" variant="danger" size="sm" @click="deleteItem(item)">
-          
+         <b-btn v-if="deleteMode && item[disableDeletefield]!=disableDeleteIfValue" variant="danger" size="sm" @click="deleteItem(item)">
             {{deleteLabel? deleteLabel:'Delete'}}
           </b-btn>
 
@@ -229,10 +227,15 @@ export default {
     "update",
     "delete",
     "deleteLabel",
+    "disableDeletefield",
+    "disableDeleteIfValue",
     "slots",
     "showFilter",
     "pagination",
-    "filterOn"
+    "filterOn",
+    "sortBy",
+    "sortByField",
+    "sortDesc"
   ],
   data() {
     return {
@@ -262,8 +265,6 @@ export default {
           text: "Show a lot",
         },
       ],
-      sortBy: "",
-      sortDesc: false,
       sortDirection: "asc",
       filter: null,
       totalRows: 0,

@@ -80,6 +80,10 @@ export default {
     },     
     setScheduledBatchJobs(state, payload){
       state.scheduledBatchJobs = payload;
+
+      for (let value of state.scheduledBatchJobs) {
+        value.jobParameters = JSON.parse(value.jobParameters); 
+      }
     }        
   },
   actions: {
