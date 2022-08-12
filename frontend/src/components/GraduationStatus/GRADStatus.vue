@@ -435,7 +435,11 @@ export default {
           this.disableButton = false;
         }
       }  
-      this.ifProgramsWithExpiry(this.editedGradStatus.program) ? this.closedProgramWarning = true : this.closedProgramWarning = false;
+      if(this.ifProgramsWithExpiry(this.editedGradStatus.program)) {
+        this.closedProgramWarning = true
+      } else {
+        this.closedProgramWarning = false
+      } 
     },
     programCompletionDateChange:function(){
       let programNameSearch = this.editedGradStatus.program;
