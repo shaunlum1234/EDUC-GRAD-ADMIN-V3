@@ -425,26 +425,17 @@ export default {
       if(this.editedGradStatus.program == '1950'){
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = false;
-        }else{
+        } else {
           this.disableButton = true;
         }
-      }else {
+      } else {
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = true;
         }else{
           this.disableButton = false;
         }
-      }
-      if(this.studentGradStatus.program == '2018-EN'|| 
-        this.studentGradStatus.program == '2018-PF'|| 
-        this.studentGradStatus.program == 'SCCP' || 
-        this.studentGradStatus.program == '1950') {
-          if(this.ifProgramsWithExpiry(this.editedGradStatus.program)){
-            this.closedProgramWarning = true;
-          } else {
-            this.closedProgramWarning = false;
-          }
-      }     
+      }  
+      this.ifProgramsWithExpiry(this.editedGradStatus.program) ? this.closedProgramWarning = true : this.closedProgramWarning = false;
     },
     programCompletionDateChange:function(){
       let programNameSearch = this.editedGradStatus.program;
