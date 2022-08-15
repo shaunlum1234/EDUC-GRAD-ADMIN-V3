@@ -19,6 +19,10 @@
             <template #row-details="row">
               <b-card class="px-0 mt-0">
                 <pre>
+                Row: {{JSON.stringify(row, null, '\t')}}
+                </pre>
+                <p><strong>Changed By {{row.item.updateUser}} on {{row.item.updateDate | formatTime}}</strong></p>
+                <pre>
                   {{JSON.stringify(row.item, null, '\t')}}
                 </pre>
               </b-card>
@@ -26,6 +30,114 @@
 
             <template #cell(createDate)="row">
               {{row.item.createDate | formatTime}}
+            </template>
+
+            <template #cell(program)="row">
+              <strong v-if="studentChangeHighlight[row.index].program">
+              {{row.item.program}}
+              </strong>
+              <div v-else>
+                {{row.item.program}}
+              </div>
+            </template>
+
+            <template #cell(programCompletionDate)="row">
+              <strong v-if="studentChangeHighlight[row.index].programCompletionDate">
+              {{row.item.programCompletionDate}}
+              </strong>
+              <div v-else>
+                {{row.item.programCompletionDate}}
+              </div>
+            </template>
+
+            <template #cell(studentStatus)="row">
+              <strong v-if="studentChangeHighlight[row.index].studentStatus">
+              {{row.item.studentStatus}}
+              </strong>
+              <div v-else>
+                {{row.item.studentStatus}}
+              </div>
+            </template>
+
+            <template #cell(studentGrade)="row">
+              <strong v-if="studentChangeHighlight[row.index].studentGrade">
+              {{row.item.studentGrade}}
+              </strong>
+              <div v-else>
+                {{row.item.studentGrade}}
+              </div>
+            </template>
+
+            <template #cell(schoolOfRecord)="row">
+              <strong v-if="studentChangeHighlight[row.index].schoolOfRecord">
+              {{row.item.schoolOfRecord}}
+              </strong>
+              <div v-else>
+                {{row.item.schoolOfRecord}}
+              </div>
+            </template>
+
+            <template #cell(schoolAtGrad)="row">
+              <strong v-if="studentChangeHighlight[row.index].schoolAtGrad">
+              {{row.item.schoolAtGrad}}
+              </strong>
+              <div v-else>
+                {{row.item.schoolAtGrad}}
+              </div>
+            </template>
+
+            <template #cell(consumerEducationRequirementMet)="row">
+              <strong v-if="studentChangeHighlight[row.index].consumerEducationRequirementMet">
+              {{row.item.consumerEducationRequirementMet}}
+              </strong>
+              <div v-else>
+                {{row.item.consumerEducationRequirementMet}}
+              </div>
+            </template>
+
+            <template #cell(honoursStanding)="row">
+              <strong v-if="studentChangeHighlight[row.index].honoursStanding">
+              {{row.item.honoursStanding}}
+              </strong>
+              <div v-else>
+                {{row.item.honoursStanding}}
+              </div>
+            </template>
+
+            <template #cell(gpa)="row">
+              <strong v-if="studentChangeHighlight[row.index].gpa">
+              {{row.item.gpa}}
+              </strong>
+              <div v-else>
+                {{row.item.gpa}}
+              </div>
+            </template>
+
+            <template #cell(recalculateProjectedGrad)="row">
+              <strong v-if="studentChangeHighlight[row.index].recalculateProjectedGrad">
+              {{row.item.recalculateProjectedGrad}}
+              </strong>
+              <div v-else>
+                {{row.item.recalculateProjectedGrad}}
+              </div>
+            </template>
+
+            <template #cell(recalculateGradStatus)="row">
+              <strong v-if="studentChangeHighlight[row.index].recalculateGradStatus">
+              {{row.item.recalculateGradStatus}}
+              </strong>
+              <div v-else>
+                {{row.item.recalculateGradStatus}}
+              </div>
+            </template>
+
+            <template #cell(batchId)="row">
+              <strong v-if="studentChangeHighlight[row.index].batchId">
+              {{row.item.batchId}}
+              </strong>
+              <div v-else>
+                {{row.item.batchId}}
+              </div>
             </template>
           </DisplayTable>
         </b-card-text>
@@ -48,6 +160,7 @@
 
             <template #row-details="row">
               <b-card class="px-0 mt-0">
+                <p><strong>Changed By {{row.item.updateUser}} on {{row.item.updateDate | formatTime}}</strong></p>
                 <pre>
                   {{JSON.stringify(row.item, null, '\t')}}
                 </pre>
@@ -57,6 +170,43 @@
             <template #cell(createDate)="row">
               {{row.item.createDate | formatTime}}
             </template>
+
+            <template #cell(programCode)="row">
+              <strong v-if="optionalProgramChangeHighlight[row.index].programCode">
+              {{row.item.programCode}}
+              </strong>
+              <div v-else>
+                {{row.item.programCode}}
+              </div>
+            </template>
+            
+            <template #cell(optionalProgramCode)="row">
+              <strong v-if="optionalProgramChangeHighlight[row.index].optionalProgramCode">
+              {{row.item.optionalProgramCode}}
+              </strong>
+              <div v-else>
+                {{row.item.optionalProgramCode}}
+              </div>
+            </template>
+            
+            <template #cell(optionalProgramName)="row">
+              <strong v-if="optionalProgramChangeHighlight[row.index].optionalProgramCode">
+              {{row.item.optionalProgramName}}
+              </strong>
+              <div v-else>
+                {{row.item.optionalProgramName}}
+              </div>
+            </template>
+            
+            <template #cell(optionalProgramCompletionDate)="row">
+              <strong v-if="optionalProgramChangeHighlight[row.index].optionalProgramCompletionDate">
+              {{row.item.optionalProgramCompletionDate}}
+              </strong>
+              <div v-else>
+                {{row.item.optionalProgramCompletionDate}}
+              </div>
+            </template>
+            
           </DisplayTable>
         </b-card-text>
       </b-card>
@@ -66,7 +216,7 @@
 
       <!-- Optional Program history -->
 
-      <div v-if="auditTab === 'optionalProgramHistory'">
+      <!-- <div v-if="auditTab === 'optionalProgramHistory'">
         <div class="col-12" v-for="(value, index) in optionalProgramChangeHistory.slice().reverse()" :key="value.historyID">
           <div class="row col-12 py-2" :header="optionalProgramHistory.slice().reverse()[index].historyID">
             <div class="col-4 border-bottom">
@@ -99,7 +249,6 @@
                   <div class="w-50 float-left"  v-else-if="v.rhs != null">
                     {{v.rhs}}
                   </div>
-                  <!-- This empty div is just a temporary spacer; need to implement more elegant solution -->
                   <div class="w-100 float-left"></div>
                 </div>  
               </div> 
@@ -111,7 +260,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
 
   </div>
@@ -239,6 +388,7 @@ export default {
             sortDirection: "asc"
           },
         ],
+        studentChangeHighlight: [],
         optionalProgramChangeFields: [
           {
             key: "more",
@@ -281,6 +431,7 @@ export default {
             sortDirection: "desc",
           },
         ],
+        optionalProgramChangeHighlight: [],
         showNotes: false,
         showUngradReasons: false,
         showStudentAudit: true,
@@ -289,16 +440,97 @@ export default {
   },
   mounted() {
     this.showNotification = sharedMethods.showNotification
+    //this.studentChangeHighlight = this.highlightHistoryChanges(this.studentHistory, this.historyFields);
+    this.highlightStudentHistoryChanges();
+    this.highlightOptionalProgramHistoryChanges();
   },
   watch: {
     studentHistory: function () {
-      this.loadStudentHistory();
+      //this.loadStudentHistory();
+      this.highlightStudentHistoryChanges();
+      //this.studentChangeHighlight = this.highlightHistoryChanges(this.studentHistory, this.historyFields);
     },
     optionalProgramHistory: function () {
-      this.loadStudentOptionalProgramHistory();
+      //this.loadStudentOptionalProgramHistory();
+      this.highlightOptionalProgramHistoryChanges();
     }    
   },
   methods: {
+    highlightHistoryChanges(historyArray, historyFields) {
+      const changes = [];
+
+      for (const [index, value] of historyArray.entries()) {
+        // temp entry to build our change highlight
+        let tempEntry = {};
+        if (index > 0) {
+          for (const field of historyFields) {
+            tempEntry[field.key] = value[field.key] !== historyArray[index - 1][field.key];
+          }
+        }
+        //this.studentChangeHighlight.push(tempEntry);
+        changes.push(tempEntry);
+      }
+
+      return changes;
+    },
+    highlightStudentHistoryChanges(){
+      // Option 2
+      // reset studnet change highlight
+      //this.studentChangeHighlight = [];
+      const changes = [];
+
+      for (const [index, value] of this.studentHistory.entries()) {
+        // temp entry to build our change highlight
+        let tempEntry = {};
+        for (const field of this.studentChangeFields) {
+          if (index > 0) {
+            tempEntry[field.key] = value[field.key] !== this.studentHistory[index - 1][field.key];
+          } else {
+            tempEntry[field.key] = false;
+          }
+        }
+        //this.studentChangeHighlight.push(tempEntry);
+        changes.push(tempEntry);
+      }
+
+      this.studentChangeHighlight = changes;
+
+
+      // Option 1
+      //const tempChanges = [];
+
+      // find changes
+      // for (const [index, value] of studentHistory) {
+      //   if (index > 0) {
+      //     tempChanges.push(DeepDiff(value, studentHistory[index - 1]));
+      //   }
+      // }
+
+      // for (change in tempChanges) {
+      //   for (item of change) {
+
+      //   }
+      // }
+
+
+    },
+    highlightOptionalProgramHistoryChanges() {
+      const changes = [];
+
+      for (const [index, value] of this.optionalProgramHistory.entries()) {
+        // temp entry to build our change highlight
+        let tempEntry = {};
+        if (index > 0) {
+          for (const field of this.optionalProgramChangeFields) {
+            tempEntry[field.key] = value[field.key] !== this.optionalProgramHistory[index - 1][field.key];
+          }
+        }
+        //this.studentChangeHighlight.push(tempEntry);
+        changes.push(tempEntry);
+      }
+
+      this.optionalProgramChangeHighlight = changes;
+    },
     loadStudentHistory(){  
       
       this.studentHistoryChangeCount = this.studentHistory.length + 1
@@ -361,6 +593,10 @@ export default {
 
 .audit-history-tabs .card{
   margin-top:70px;
+}
+
+.card-body p strong {
+  font-size: 87.5%;
 }
 
 </style>
