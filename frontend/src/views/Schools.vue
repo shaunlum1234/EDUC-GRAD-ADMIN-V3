@@ -9,14 +9,30 @@
             <b-container class="p-3">
               <b-row align-v="stretch" class="row-eq-height">
                 <b-col>
-                  <label class="col-6 p-0">Mincode</label>
+                  <label class="col-6 p-0">District</label>
                 </b-col>
+                <b-col>
+                  <label class="col-6 p-0">Mincode</label>
+                </b-col>             
                 <b-col>
                     <label class="col-6 p-0">School name</label>
                 </b-col>
-                
+                <b-col>
+                    <label class="col-6 p-0">Authority number</label>
+                </b-col>
               </b-row>
               <b-row align-v="stretch" class="row-eq-height">
+                <b-col>
+                  <div href="#"
+                    v-on:click="search.districts.contains = !search.districts.contains"
+                    v-bind:class="{active: search.districts.contains}"
+                    class="wild-card-button"
+                    v-b-tooltip.hover title="District contains"
+                  >
+                    [.*]
+                    </div>
+                  <b-input v-model="search.districts.value" v-on:keyup="keyHandler" placeholder="" id="districts"/> 
+                </b-col>
                 <b-col>
                   <div href="#"
                     v-on:click="search.mincode.contains = !search.mincode.contains"
@@ -26,8 +42,7 @@
                   >
                     [.*]
                     </div>
-                  <b-input v-model="search.mincode.value" v-on:keyup="keyHandler" placeholder="" id="mincode"/>
-                  
+                  <b-input v-model="search.mincode.value" v-on:keyup="keyHandler" placeholder="" id="mincode"/> 
                 </b-col>
                 <b-col>
                   <div href="#"
@@ -39,6 +54,17 @@
                     [.*]
                   </div>
                   <b-input v-model="search.schoolName.value" v-on:keyup="keyHandler" placeholder="" id="schoolName"/>
+                </b-col>
+                <b-col>
+                  <div href="#"
+                    v-on:click="search.authorityNumber.contains = !search.authorityNumber.contains"
+                    v-bind:class="{active: search.authorityNumber.contains}"
+                    class="wild-card-button"
+                    v-b-tooltip.hover title="Authority number contains"
+                  >
+                    [.*]
+                    </div>
+                  <b-input v-model="search.authorityNumber.value" v-on:keyup="keyHandler" placeholder="" id="authorityNumber"/> 
                 </b-col>
               </b-row>
               <b-row class="p-3">
@@ -153,8 +179,13 @@ import sharedMethods from '../sharedMethods';
             label: ''        
           },
           {
+            key: 'districtNumber',
+            label: 'SPM District Number',
+            sortable: true,
+          },
+          {
             key: 'minCode',
-            label: 'Mincode',
+            label: 'SPM School Code',
             sortable: true,
             sortDirection: 'asc'
           },
@@ -162,37 +193,11 @@ import sharedMethods from '../sharedMethods';
             key: 'schoolName',
             label: 'School Name',
             sortable: true,
-            //sortDirection: 'desc'
           },
           {
-            key: 'districtName',
-            label: 'District',
+            key: 'schoolType',
+            label: 'School Type',
             sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'openFlag',
-            label: 'Open',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: '',
-            label: 'Schl Org',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: '',
-            label: 'Indep Type',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'independentAffiliation',
-            label: 'Indep Affil',
-            sortable: true,
-            class: 'text-center'
           },
           {
             key: 'transcriptEligibility',
@@ -207,34 +212,110 @@ import sharedMethods from '../sharedMethods';
             class: 'text-center'
           },
           {
-            key: '',
-            label: 'Marks Display',
+            key: 'reportingFlag',
+            label: 'Reporting Flag',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: 'openDate',
+            label: 'Open Date',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: 'closedDate',
+            label: 'Closed Date',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: 'authorityNumber',
+            label: 'Authority Number',
             sortable: true,
             class: 'text-center'
           },
           {
             key: '',
-            label: 'Append Trans',
+            label: 'Grade Range',
             sortable: true,
             class: 'text-center'
           },
           {
-            key: 'signatureDistrict',
-            label: 'Sig Distno',
+            key: 'schoolCategory',
+            label: 'School Category',
             sortable: true,
             class: 'text-center'
           },
           {
             key: '',
-            label: 'New School Code',
+            label: 'Funding Group',
             sortable: true,
             class: 'text-center'
           },
+          // {
+          //   key: 'districtName',
+          //   label: 'District',
+          //   sortable: true,
+          //   class: 'text-center'
+          // },
+          // {
+          //   key: 'openFlag',
+          //   label: 'Open',
+          //   sortable: true,
+          //   class: 'text-center'
+          // },
+          // {
+          //   key: '',
+          //   label: 'Schl Org',
+          //   sortable: true,
+          //   class: 'text-center'
+          // },
+          // {
+          //   key: '',
+          //   label: 'Indep Type',
+          //   sortable: true,
+          //   class: 'text-center'
+          // },
+          // {
+          //   key: 'independentAffiliation',
+          //   label: 'Indep Affil',
+          //   sortable: true,
+          //   class: 'text-center'
+          // },
+          // {
+          //   key: '',
+          //   label: 'Marks Display',
+          //   sortable: true,
+          //   class: 'text-center'
+          // },
+          // {
+          //   key: '',
+          //   label: 'Append Trans',
+          //   sortable: true,
+          //   class: 'text-center'
+          // },
+          // {
+          //   key: 'signatureDistrict',
+          //   label: 'Sig Distno',
+          //   sortable: true,
+          //   class: 'text-center'
+          // },
+          // {
+          //   key: '',
+          //   label: 'New School Code',
+          //   sortable: true,
+          //   class: 'text-center'
+          // },
         ],
         totalResults: "",
         searchMessage: "",
         searchLoading: false,
         search: {
+          districts:{
+            value:"",
+            contains:false
+          },
           schoolName:{
             value:"",
             contains:false
@@ -242,7 +323,11 @@ import sharedMethods from '../sharedMethods';
           mincode:{
             value:"",
             contains:false
-          }
+          },
+          authorityNumber:{
+            value:"",
+            contains:false
+          },
         },
       }
     },
