@@ -62,7 +62,7 @@
               <template #cell(gradReqMetDetail)="row2">
                     <div class="p-2">
                       <strong>{{row2.item.gradReqMetDetail}}</strong><br/>
-                      {{row2.item.assessmentCode}} - {{row2.item.sessionDate | formatTime}} ({{row2.item.assessmentName}})
+                      {{row2.item.assessmentCode}} - {{row2.item.sessionDate | formatSimpleDate}} ({{row2.item.assessmentName}})
                     </div>
                     
               </template>
