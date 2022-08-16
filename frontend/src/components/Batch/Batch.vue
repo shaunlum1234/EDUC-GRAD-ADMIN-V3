@@ -542,11 +542,11 @@ export default {
         return SchoolService.getSchoolInfo(value).then(
           (response) => {
             let credential = refValues[2]
-            if((credential == "Blank certificate print" || credential == 'OT') && response.data.certificateEligibility == 'N'){ 
-                 return "This school is not eligible for certificates."
+            if((credential == "Blank certificate print" || credential == 'OT') && response.data.transcriptEligibility == 'N'){ 
+                 return "This school is not eligible for trasncripts."
             }
             if((credential == "Blank certificate print" || credential == 'OC' || credential =='RC' ) && response.data.certificateEligibility == 'N'){ 
-                 return "This school is not eligible for transcripts."
+                 return "This school is not eligible for certificates."
             }
             if(response.data.minCode){
               this.$refs['schoolName' + refValues[0] + refValues[1]][0].placeholder = response.data.schoolName;        
