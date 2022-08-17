@@ -266,7 +266,6 @@ export default {
       for (const [index, value] of this.studentHistory.entries()) {
         // temp entry to build our change highlight
         let tempEntry = {};
-        console.log(value);
         for (const field of this.studentChangeFields) {
           if (index > 0 && field.key != 'createDate' && field.key != 'activityCode') {
             tempEntry[field.key] = {
