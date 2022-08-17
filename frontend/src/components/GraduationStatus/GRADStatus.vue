@@ -61,8 +61,7 @@
             </b-alert>
           </div>
           <div v-if="dateInFutureWarning">
-            <b-alert show variant="warning" class="p-3 mb-1">
-              <h4 class="alert-heading">Warning</h4>
+            <b-alert show variant="warning" class="p-3 mb-1">            
               <p class="locked-message">
                 Program Completion date cannot be in the future if a student has completed SCCP. 
               </p>
@@ -70,7 +69,6 @@
           </div>   
           <div v-if="dateBlankWarning">
             <b-alert show variant="warning" class="p-3 mb-1">
-              <h4 class="alert-heading">Warning</h4>
               <p class="locked-message">
                 Program Completion date cannot be blank. Please use Undo Completion from the Run Graduation Algorithm dropdown. 
               </p>
@@ -310,7 +308,7 @@ export default {
       return this.editedGradStatus.schoolAtGrad;
     },
     disableSaveButton(){
-      return this.disableButton
+      return this.disableButton;
     },
     recalculateFlag(){
       return this.studentGradStatus.recalculateGradStatus; 
@@ -372,6 +370,13 @@ export default {
         { text: "OT - Other", value: "OT" },
         { text: "AD - Adult expected to graduate", value: "AD" },
         { text: "AN - Adult not expected to graduate", value: "AN" },     
+      ], 
+      programsWithExpiry: [
+        '1986-EN',
+        '1996-EN',
+        '1996-PF',
+        '2004-EN',
+        '2004-PF'
       ]
     }
   },
@@ -390,12 +395,11 @@ export default {
             this.disableButton = false;
           }
         }
-        if(this.editedGradStatus.program != '1950'){
+        else{
           this.disableButton = true;
         }
       }
       if(this.editedGradStatus.studentGrade != 'AD' && this.editedGradStatus.studentGrade != 'AN'){
-
         if(this.editedGradStatus.program == '1950'){
           this.disableButton = true;
         } else {
@@ -417,35 +421,28 @@ export default {
       }
     },
     programChange:function(){
+      this.programChangeWarning = true;
       if(this.editedGradStatus.program == '1950'){
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = false;
-        }else{
+        } else {
           this.disableButton = true;
         }
-      }else {
+      } else {
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = true;
         }else{
           this.disableButton = false;
         }
-      }
-      if(this.studentGradStatus.program == '2018'|| this.studentGradStatus.program == 'SCCP' || this.studentGradStatus.program == '1950'){
-        if( this.editedGradStatus.program == '1986-EN' || 
-            this.editedGradStatus.program == '1996-EN' ||
-            this.editedGradStatus.program == '1996-PF' ||
-            this.editedGradStatus.program == '2004-EN'||
-            this.editedGradStatus.program == '2004-PF')
-        {
-          this.closedProgramWarning = true;
-        }else{
-          this.closedProgramWarning = false;
-        }
-      }
-      this.programChangeWarning = true;
+      }  
+      if(this.ifProgramsWithExpiry(this.editedGradStatus.program)) {
+        this.closedProgramWarning = true
+      } else {
+        this.closedProgramWarning = false
+      } 
     },
     programCompletionDateChange:function(){
-      var programNameSearch = this.editedGradStatus.program;
+      let programNameSearch = this.editedGradStatus.program;
       for (var i=0 ; i < this.programOptions.length ; i++)
       {
           if (this.programOptions[i].programCode == programNameSearch) {
@@ -507,10 +504,10 @@ export default {
             return;
         }
         if(this.editedGradStatus.schoolOfRecord == this.studentGradStatus.schoolOfRecord){  
-        this.schoolOfRecordWarning = false;
-        this.schoolNotFoundWarning = false;
-        this.schoolOfRecordInputWarning = false;
-        this.schoolFound = false;
+          this.schoolOfRecordWarning = false;
+          this.schoolNotFoundWarning = false;
+          this.schoolOfRecordInputWarning = false;
+          this.schoolFound = false;
         } else {
           if(this.editedGradStatus.schoolOfRecord.length == 8) {
             this.schoolNotFoundWarning = false;
@@ -606,12 +603,12 @@ export default {
     },
 
     dateFormatYYYYMM(){
-      var value = this.editedGradStatus.programCompletionDate;    
+      let value = this.editedGradStatus.programCompletionDate;    
       this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})$/,"$1/$2");        
     },
 
     dateFormatYYYYMMDD(){
-      var value = this.editedGradStatus.programCompletionDate;    
+      let value = this.editedGradStatus.programCompletionDate;    
       this.editedGradStatus.programCompletionDate = value.replace(/^([\d]{4})([\d]{2})([\d]{2})$/,"$1/$2/$3");     
     },
 
@@ -675,7 +672,7 @@ export default {
       }
       if(this.editedGradStatus.programCompletionDate != null){
         this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("/", "-");
-        var date;
+        let date;
         try{
           date = new Date(this.editedGradStatus.programCompletionDate);
           this.editedGradStatus.programCompletionDate = date.toISOString().split('T')[0];
@@ -752,6 +749,13 @@ export default {
         // eslint-disable-next-line
         console.log("There was an error:" + error.response);
       });
+    },
+    ifProgramsWithExpiry(program){
+      for(let p of this.programsWithExpiry) {
+        if(program == p){
+          return true
+        }
+      }
     }
   }
 }
