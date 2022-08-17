@@ -190,11 +190,6 @@
                         <b-input id="usual-middle-input" v-model="advancedSearchInput.usualMiddleNames.value" placeholder=""
                           v-on:keyup=" keyHandler" tabindex="9" />
                       </div>                    
-                      <div class="advanced-search-field col-12 col-md-2">
-                        <label>Local ID</label>
-                        <b-input id="local-id-input" v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
-                          tabindex="10" />
-                      </div>
                     </div>
                     <div class="row">                              
                       <div class="advanced-search-button">
