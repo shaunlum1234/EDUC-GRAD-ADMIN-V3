@@ -38,29 +38,33 @@
               @change="editBatchJob(jobId,'blankTranscriptDetails', $event)"      
             ></b-form-checkbox-group>
           </b-card>  
+
+          
           <b-card v-if="tabContent[jobId].details['credential']=='Blank certificate print'" class="mt-3 px-0" header="Blank Certificate Details">
-            
-            <ValidationProvider name="Blank certificate details" :rules="'adultdogwoodpublicrestrictedtoministryofadvancededgroup:'+tabContent[jobId].details['who']" v-slot="{ errors }">
+            <ValidationProvider name="blankcert" rules="adultdogwoodpublicrestrictedtoministryofadvancededgroup" v-slot="{ errors }">
+              <b-form-group label="Blank Certificate Details" v-slot="{ blankCertificateDetailsOptions }">
                 <b-form-checkbox-group
                     multiple
                     stacked
                     :select-size="10"
                     id="inline-form-select-audience"
                     class="mb-2 mr-sm-2 mb-sm-0"
-                    :options="certificateTypes"
                     value-field="code"
                     text-field="label"
-                    :value="tabContent[jobId].details['credentialDetails']"     
-                    @change="editBatchJob(jobId,'blankCertificateDetails', $event)"      
+                    name="blankCertificateDetailsOptions"
+                    :options="certificateTypes"
+                    :aria-describedby="blankCertificateDetailsOptions"
+                    :value="tabContent[jobId].details['credentials']" 
+                    @change="editBatchJob(jobId,'blankCertificateDetails', $event)"  
                   ></b-form-checkbox-group>
-                
-              </ValidationProvider> 
-            </b-card>      
+                </b-form-group>
+            </ValidationProvider>
+          </b-card>  
+             
                     
           </div>                                                      
-        </div>
+        </div>{{tabContent[jobId].details}}
         <div class="col-9">
-            
           <div class="m-0 p-0 col-3" v-if="tabContent[jobId].details['what'] != 'DISTRUN-YEAREND'">
             <label class="font-weight-bold pt-1">Group</label>
             <b-form-select
@@ -78,7 +82,7 @@
               :value="tabContent[jobId].details['who']"     
               @change="editBatchJob(jobId,'who', $event)"       
               v-else
-            ></b-form-select>   
+            ></b-form-select>  
           </div>
           <div v-if="tabContent[jobId].details['who'] !='Student' && tabContent[jobId].details['what'] !='DISTRUN-YEAREND' && tabContent[jobId].details['credential'] != 'Blank certificate print' && tabContent[jobId].details['credential'] != 'Blank transcript print'" class="p-0 mt-3 ">
             <label class="font-weight-bold p-0 m-0 row">Grad Date</label>
@@ -106,9 +110,6 @@
                         <li v-for="error in errors" :key="error">{{ error }}</li>
                       </ul>
                     </ValidationProvider>
-                    
-
-
                     <b-input-group-append>
                       <b-form-datepicker
                         v-model="gradDateFrom"
@@ -239,6 +240,17 @@
         </b-card> 
       </div>
       <div v-if="tabContent[jobId].details['who']=='PSI'" class="float-left col-12 px-0">
+
+         <label class="font-weight-bold">Transmission Mode</label>
+          <b-form-select
+            id="inline-form-select-type"
+            class="col-12 my-2"
+            :options="[{ text: 'Choose...', value: null }, { text: 'Paper', value: 'Paper' }, { text: 'FTP', value: 'FTP' }]"
+            :value="tabContent[jobId].districts['categoryCode']"
+            @change="editBatchJob(jobId,'psiTransmissionMode', $event)"
+          ></b-form-select>
+          <label class="font-weight-bold p-0 m-0 row">PSI Year</label>
+        <b-form-input type="number" :value="getCurrentPSIYear()" @change="editBatchJob(jobId,'psiYear', $event)" class="col-2"/>
         <b-card class="mt-3 px-0" header="Include Post Secondary Institutions">
             <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
 
@@ -459,14 +471,6 @@ import {
 } from "vuex";
 
 
-extend('password', {
-  params: ['target'],
-  validate(value, { target }) {
-    return value === target;
-  },
-  message: 'Password confirmation does not match'
-});
-
 extend('minmax', {
   validate(value, { min, max }) {
     return value.length >= min && value.length <= max;
@@ -503,15 +507,16 @@ extend('greaterthangraddateFrom', {
   message: 'The Grad End Date field must be less than {gradDateFrom}'
 })
 extend('adultdogwoodpublicrestrictedtoministryofadvancededgroup', {
-  validate(value, { group }) {
+  
+  validate(value, args) {
     // eslint-disable-next-line
-    console.log(value)
-    if(group == "Ministry of Advanced Education"){
-      return false;
-    }
+
+    if(value == "Ministry of Advanced Education" && args[0] == 'Blank certificate print'){
+     console.log(this.tabContent)
+     //this.tabContent['job-1'].details['blankCertificateDetails'] = ["E"]
+      return "You can only print for public Adult Dogwood for Ministry of Advanced Education";
+    }else return true;
   },
-  params: ['gradDateFrom'],
-  message: 'The Grad End Date field must be less than {gradDateFrom}'
 })
 
 export default {
@@ -521,6 +526,7 @@ export default {
   },  
   data: function () {
     return {
+      testselect: [],
       batchRunDetails: "",
       cronTime: "",
       batchRunTime: "Run Now",
@@ -580,6 +586,14 @@ export default {
     onSubmit(values) {
       alert(JSON.stringify(values, null, 2));
     },
+    getCurrentPSIYear(){
+      let date = new Date();
+      if(date.getMonth()+1 >= 8){
+        return date.getFullYear()+1;
+      }else{
+          return date.getFullYear();
+      }
+    },    
     disableConfirm(){
       if(this.batchRunTime == 'Run Now'){
         return false
@@ -791,14 +805,13 @@ export default {
           if(type == "who" && batchDetail.details[type] != event){
             this.clearBatchGroupDetails(id)
           }   
-          batchDetail.details[type] = event; 
-          if(type == "credential" && event == 'Blank certificate print'){
-            if(batchDetail.details[type] != event){
-              this.clearBatchCredentialDetails(id);
-            }
-            batchDetail.details['who'] = '';
+          if(type == "credential" && batchDetail.details[type] != event){
+              batchDetail.details['blankCertificateDetails'] = []
+              batchDetail.details['blankTranscriptDetails'] = []
           }
+          batchDetail.details[type] = event; 
           this.$store.commit("batchprocessing/editBatchDetails", {batchDetail, id});
+
           this.$forceUpdate();
       })
     },

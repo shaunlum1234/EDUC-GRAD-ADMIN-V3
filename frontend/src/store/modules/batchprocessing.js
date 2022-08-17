@@ -60,6 +60,8 @@ export default {
       state.batchDetails[payload].programs=[{}];
       state.batchDetails[payload].students=[{}];
       state.batchDetails[payload].psi=[{}];
+      state.batchDetails[payload].psiYear=new Date().getFullYear();
+      state.batchDetails[payload].psiTransmissionMode="";
       state.batchDetails[payload]['details'].blankCertificateDetails=[{}];
       state.batchDetails[payload]['details'].blankTranscriptDetails=[{}];
       state.batchDetails[payload]['details'].credential="";

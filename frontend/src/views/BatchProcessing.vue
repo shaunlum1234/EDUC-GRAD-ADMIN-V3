@@ -655,7 +655,7 @@ export default {
       );  
     },    
     validateBatch(id){
-      let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
+      let pens = [], schools = [], psi = [], districts = [], programs = [], districtCategoryCode="";
       if(this.tabContent[id].details['who'] == 'School'){
         schools = this.tabContent[id].schools.map(this.getBatchData);  
         schools.pop();
@@ -669,6 +669,14 @@ export default {
         pens.pop();
         if(!pens.length){
           this.validationMessage = "Please select a student."
+          this.batchValid = false;
+          return
+        }
+      }else if(this.tabContent[id].details['who'] == 'Psi'){
+        psi = this.tabContent[id].psi.map(this.getBatchData);  
+        psi.pop();
+        if(!psi.length){
+          this.validationMessage = "Please select a PSI."
           this.batchValid = false;
           return
         }
@@ -773,8 +781,19 @@ export default {
           this.runTVRRUN(request, id);
         }
         
-      }
-      else if(this.tabContent[id].details['what'] == 'DISTRUN-YEAREND'){     
+      }else if(this.tabContent[id].details['what'] == 'PSIRUN'){    
+        if(cronTime){
+          let scheduledRequest = {};
+          scheduledRequest.cronExpression = cronTime
+          scheduledRequest.jobName = 'URPDBJ'
+          scheduledRequest.psiPayLoad = null;
+          scheduledRequest.payload = request;
+          this.addScheduledJob(scheduledRequest, id)
+        }else{
+          this.runPSIRUN(request, id);
+        }
+        
+      }else if(this.tabContent[id].details['what'] == 'DISTRUN-YEAREND'){     
         this.runDISTRUNYearEnd(id);
       }else if(this.tabContent[id].details['what'] == 'DISTRUN'){     
         if(cronTime){
