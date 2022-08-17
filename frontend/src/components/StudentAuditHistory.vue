@@ -216,13 +216,11 @@ export default {
             key: "activityCode",
             label: "Change",
             sortable: true,
-            //sortDirection: "desc",
           },
           {
             key: "programCode",
             label: "Program Code",
             sortable: true,
-            //sortDirection: "desc",
           },
           {
             key: "optionalProgramCode",
@@ -234,13 +232,11 @@ export default {
             key: "optionalProgramName",
             label: "Optional Program Name",
             sortable: true,
-            //sortDirection: "desc",
           },
           {
             key: "optionalProgramCompletionDate",
             label: "Program Completion Date",
             sortable: true,
-            //sortDirection: "desc",
           },
         ],
         optionalProgramChangeHighlight: [],
@@ -285,9 +281,7 @@ export default {
           }
           tempEntry['data'] = value;
         }
-        //console.log('tempEntry - ', tempEntry);
         changes.push(tempEntry);
-        //console.log('changes - ', changes);
       }
 
       this.studentChangeHighlight = changes;
@@ -319,7 +313,6 @@ export default {
           }
           tempEntry['data'] = value;
         }
-        //this.studentChangeHighlight.push(tempEntry);
         changes.push(tempEntry);
       }
 
