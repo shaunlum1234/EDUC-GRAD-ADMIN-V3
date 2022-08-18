@@ -63,7 +63,7 @@
              
                     
           </div>                                                      
-        </div>{{tabContent[jobId].details}}
+        </div>{{tabContent[jobId]}}
         <div class="col-9">
           <div class="m-0 p-0 col-3" v-if="tabContent[jobId].details['what'] != 'DISTRUN-YEAREND'">
             <label class="font-weight-bold pt-1">Group</label>

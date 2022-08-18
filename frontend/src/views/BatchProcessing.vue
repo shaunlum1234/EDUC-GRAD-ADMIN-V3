@@ -754,7 +754,7 @@ export default {
       let gradDateFrom = this.tabContent[id].details['gradDateFrom']
       let gradDateTo = this.tabContent[id].details['gradDateTo']
       let localDownload = this.tabContent[id].details['where']=='localDownload'?'Y':'N'
-      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts, "schoolCategoryCodes": [], "programs":programs, "psi": psi, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, "localDownload": localDownload }
+      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts, "schoolCategoryCodes": [this.tabContent[id].details['categoryCode']], "programs":programs, "psi": psi, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, "localDownload": localDownload }
       if(this.batchHasErrors(this.tabContent[id])){
         return;
       }
