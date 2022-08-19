@@ -24,14 +24,14 @@
               <b-row align-v="stretch" class="row-eq-height">
                 <b-col>
                   <div href="#"
-                    v-on:click="search.districts.contains = !search.districts.contains"
-                    v-bind:class="{active: search.districts.contains}"
+                    v-on:click="search.district.contains = !search.district.contains"
+                    v-bind:class="{active: search.district.contains}"
                     class="wild-card-button"
                     v-b-tooltip.hover title="District contains"
                   >
                     [.*]
                     </div>
-                  <b-input v-model="search.districts.value" v-on:keyup="keyHandler" placeholder="" id="districts"/> 
+                  <b-input v-model="search.district.value" v-on:keyup="keyHandler" placeholder="" id="district"/> 
                 </b-col>
                 <b-col>
                   <div href="#"
@@ -87,9 +87,7 @@
                   <div class="search-results-message my-2 col-12 col-md-8"><strong>{{ searchMessage }}</strong></div>
                 </div>  
               </div>
-              
             </b-container> 
-
             <DisplayTable title="Results" v-bind:items="schools"
               v-bind:fields="schoolFields" sortKey="schoolName" id="mincode" v-bind:showFilter=true pagination="true"
             >advancedSchoolSearch
@@ -105,6 +103,7 @@
                     <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
                   </b-btn>
                 </template>
+
                 <template #row-details="row">
                   <b-card class="px-0 col-12">
                     <div class="col-12 col-md-5 float-left p-0">
@@ -189,130 +188,101 @@ import sharedMethods from '../sharedMethods';
             sortable: true,
             sortDirection: 'asc'
           },
+             {
+            key: 'schoolType',
+            label: 'SPM School Type',
+            sortable: true,
+            class: 'text-center'
+          },
           {
             key: 'schoolName',
-            label: 'School Name',
+            label: 'TRAX School Name',
             sortable: true,
-          },
-          {
-            key: 'schoolType',
-            label: 'School Type',
-            sortable: true,
-          },
+          },     
           {
             key: 'transcriptEligibility',
-            label: 'Tran Elig',
+            label: 'TRAX Transcript Eligible',
             sortable: true,
             class: 'text-center'
           },
           {
             key: 'certificateEligibility',
-            label: 'Cert Elig',
+            label: 'TRAX Certificate Eligible',
             sortable: true,
             class: 'text-center'
           },
           {
             key: 'reportingFlag',
-            label: 'Reporting Flag',
+            label: 'TRAX Reporting Flag',
             sortable: true,
             class: 'text-center'
           },
           {
             key: 'openDate',
-            label: 'Open Date',
+            label: 'SPM Open Date',
             sortable: true,
             class: 'text-center'
           },
           {
             key: 'closedDate',
-            label: 'Closed Date',
+            label: 'SPM Closed Date',
             sortable: true,
             class: 'text-center'
           },
           {
             key: 'authorityNumber',
-            label: 'Authority Number',
+            label: 'SPM Authority Number',
             sortable: true,
             class: 'text-center'
           },
           {
-            key: '',
+            key: 'gradeRange',
             label: 'Grade Range',
             sortable: true,
             class: 'text-center'
           },
           {
             key: 'schoolCategory',
-            label: 'School Category',
+            label: 'SPM School Category',
             sortable: true,
             class: 'text-center'
           },
           {
-            key: '',
+            key: 'fundingGroups',
             label: 'Funding Group',
             sortable: true,
             class: 'text-center'
           },
-          // {
-          //   key: 'districtName',
-          //   label: 'District',
-          //   sortable: true,
-          //   class: 'text-center'
-          // },
-          // {
-          //   key: 'openFlag',
-          //   label: 'Open',
-          //   sortable: true,
-          //   class: 'text-center'
-          // },
-          // {
-          //   key: '',
-          //   label: 'Schl Org',
-          //   sortable: true,
-          //   class: 'text-center'
-          // },
-          // {
-          //   key: '',
-          //   label: 'Indep Type',
-          //   sortable: true,
-          //   class: 'text-center'
-          // },
-          // {
-          //   key: 'independentAffiliation',
-          //   label: 'Indep Affil',
-          //   sortable: true,
-          //   class: 'text-center'
-          // },
-          // {
-          //   key: '',
-          //   label: 'Marks Display',
-          //   sortable: true,
-          //   class: 'text-center'
-          // },
-          // {
-          //   key: '',
-          //   label: 'Append Trans',
-          //   sortable: true,
-          //   class: 'text-center'
-          // },
-          // {
-          //   key: 'signatureDistrict',
-          //   label: 'Sig Distno',
-          //   sortable: true,
-          //   class: 'text-center'
-          // },
-          // {
-          //   key: '',
-          //   label: 'New School Code',
-          //   sortable: true,
-          //   class: 'text-center'
-          // },
+          {
+            key: 'enrolmentAsOf',
+            label: 'Enrolment As Of',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: 'grade10Enrolment',
+            label: 'Grade 10 Enrolment',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: 'grade11Enrolment',
+            label: 'Grade 11 Enrolment',
+            sortable: true,
+            class: 'text-center'
+          },
+          {
+            key: 'grade12Enrolment',
+            label: 'Grade 12 Enrolment',
+            sortable: true,
+            class: 'text-center'
+          }
         ],
         totalResults: "",
         searchMessage: "",
         searchLoading: false,
         search: {
-          districts:{
+          district:{
             value:"",
             contains:false
           },

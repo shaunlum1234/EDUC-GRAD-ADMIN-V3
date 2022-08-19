@@ -31,7 +31,12 @@ async function postStudentAPI(req, res) {
     const data = await postData(token, url, req.body );
     return res.status(200).json(data);
   } catch (e) {
+    if(e.data.messages){
+      return errorResponse(res, e.data.messages[0].message, e.status);
+    } else {
       return errorResponse(res);
+    }
+    
   }
 }
 async function deleteStudentAPI(req, res) {
