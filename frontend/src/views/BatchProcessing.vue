@@ -672,7 +672,7 @@ export default {
           this.batchValid = false;
           return
         }
-      }else if(this.tabContent[id].details['who'] == 'Psi'){
+      }else if(this.tabContent[id].details['who'] == 'PSI'){
         psi = this.tabContent[id].psi.map(this.getBatchData);  
         psi.pop();
         if(!psi.length){
@@ -801,8 +801,16 @@ export default {
           scheduledRequest.cronExpression = cronTime
           scheduledRequest.jobName = 'URDBJ'
           scheduledRequest.blankPayLoad = null;
-          scheduledRequest.payload = request;
-          
+          scheduledRequest.payload = null;
+          scheduledRequest.psiPayLoad = null;
+
+          if(this.tabContent[id].details['credential'] == "Blank certificate print" || this.tabContent[id].details['credential'] =="Blank transcript print"){
+            scheduledRequest.blankPayLoad = request;
+          }else if(this.tabContent[id].details['credential'] == "Transcript" && this.tabContent[id].details['who']=='PSI' ){
+            scheduledRequest.psiPayLoad = request;
+          }else{
+            scheduledRequest.payload = request;
+          }
           this.addScheduledJob(scheduledRequest, id)
         }else if(this.tabContent[id].details['where'] == 'User'){     
           this.runBlankDISTRUNUserRequest(request,id);

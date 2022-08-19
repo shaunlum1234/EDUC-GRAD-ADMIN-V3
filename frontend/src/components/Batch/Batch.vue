@@ -78,13 +78,21 @@
             <b-form-select
               id="inline-form-select-audience"
               class="mb-2 mr-sm-2 mb-sm-0"
-              :options="[{ text: '', value: null }, 'School', 'Ministry of Advanced Education']"
+              :options="[{ text: '', value: null },{ text: 'School', value: 'School' }, {text: 'Ministry of Advanced Education', value: 'Ministry of Advanced Education'}]"
               :value="tabContent[jobId].details['who']"     
-              @change="editBatchJob(jobId,'who', $event)"       
+              @change="editBatchJob(jobId,'who', $event)"
+              v-else-if="tabContent[jobId].details['credential'] == 'Blank certificate print'  && tabContent[jobId].details['blankCertificateDetails'] && tabContent[jobId].details['blankCertificateDetails'].length == 1 && tabContent[jobId].details['blankCertificateDetails'][0] == 'E'"
+            ></b-form-select>       
+            <b-form-select
+              id="inline-form-select-audience"
+              class="mb-2 mr-sm-2 mb-sm-0"
+              :options="[{ text: '', value: null },{ text: 'School', value: 'School' },{text: 'Ministry of Advanced Education - Select only Dogwood (Public)', disabled: true}]"
+              :value="tabContent[jobId].details['who']"     
+              @change="editBatchJob(jobId,'who', $event)"
               v-else
-            ></b-form-select>  
+            ></b-form-select>     
           </div>
-          <div v-if="tabContent[jobId].details['who'] !='Student' && tabContent[jobId].details['what'] !='DISTRUN-YEAREND' && tabContent[jobId].details['credential'] != 'Blank certificate print' && tabContent[jobId].details['credential'] != 'Blank transcript print'" class="p-0 mt-3 ">
+          <div v-if="tabContent[jobId].details['who'] !='Student' && tabContent[jobId].details['what'] !='DISTRUN-YEAREND'" class="p-0 mt-3 ">
             <label class="font-weight-bold p-0 m-0 row">Grad Date</label>
             <b-form-select
               id="inline-form-select-audience"
