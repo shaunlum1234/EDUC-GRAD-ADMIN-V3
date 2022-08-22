@@ -19,7 +19,7 @@ fixture `course-requirements`
         .click(coursesPage.view)
         .click(coursesPage.requirementsTab);
     })
-    .afterEach( () => log.info(apiCallsFailed(codesLogger, api_html_status_threshold)));
+    .afterEach( () => log.info(apiCallsFailed(courseLogger, api_html_status_threshold)));
 
     test('empty', async t => {
         await t

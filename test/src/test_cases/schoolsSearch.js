@@ -75,7 +75,7 @@ fixture `schools-page`
         .contains('1');
 
         await t
-        .expect(await Selector('div.table-responsive td[data-label="Mincode"] div').textContent)
+        .expect(await Selector('div.table-responsive td[data-label="SPM School Code"] div').textContent)
         .contains(testData.school1.mincode);
 
     });
