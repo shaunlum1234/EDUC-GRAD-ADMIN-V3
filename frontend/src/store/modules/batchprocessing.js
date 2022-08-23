@@ -55,13 +55,15 @@ export default {
       state.batchDetails[payload]['details'].gradDate="Current Students";
       state.batchDetails[payload]['details'].gradDateFrom="";
       state.batchDetails[payload]['details'].gradDateTo="";
+      state.batchDetails[payload]['details'].psiYear="";
+      state.batchDetails[payload]['details'].psiTransmissionMode="";      
       state.batchDetails[payload].schools=[{}];
       state.batchDetails[payload].districts=[{}];
       state.batchDetails[payload].programs=[{}];
       state.batchDetails[payload].students=[{}];
       state.batchDetails[payload].psi=[{}];
-      state.batchDetails[payload].psiYear=new Date().getFullYear();
-      state.batchDetails[payload].psiTransmissionMode="";
+      
+      
       state.batchDetails[payload]['details'].blankCertificateDetails=[{}];
       state.batchDetails[payload]['details'].blankTranscriptDetails=[{}];
       state.batchDetails[payload]['details'].credential="";
