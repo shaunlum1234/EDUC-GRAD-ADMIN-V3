@@ -19,7 +19,6 @@
             </b-button-group>
           </div>
         </b-button-group>
-
         <div v-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
           <b-alert show variant="warning" class="p-3 mb-1">
             <h4 class="alert-heading">Student status: Not active</h4>
@@ -409,19 +408,27 @@ export default {
           } else {
             this.schoolOfRecordMissing = false;
             this.disableButton = false;
-          }        
+          } 
+          if(this.editedGradStatus.schoolOfRecord == ""){
+            this.schoolOfRecordMissing = true;
+            this.disableButton = true;
+          } else {
+            this.schoolOfRecordMissing = false;
+            this.disableButton = false;
+          }       
         }
-        if(this.editedGradStatus.schoolOfRecord == ""){
-          this.schoolOfRecordMissing = true;
-          this.disableButton = true;
-        } else {
-          this.schoolOfRecordMissing = false;
-          this.disableButton = false;
-        }
+        
       }
     },
     programChange:function(){
       this.programChangeWarning = true;
+      if(this.studentGradStatus.programCompletionDate){
+        this.disableInput = true;
+        this.disableButton = true;
+      }else{
+        this.disableInput = false;
+        this.disableButton = false;
+      }
       if(this.editedGradStatus.program == '1950'){
         if(this.editedGradStatus.studentGrade == 'AD' || this.editedGradStatus.studentGrade == 'AN'){
           this.disableButton = false;
@@ -488,6 +495,9 @@ export default {
             }        
           }         
         }
+        if(this.editedGradStatus.programCompletionDate == ""){
+          this.disableButton = true;
+        }
       }      
     },
     schoolOfRecordChange:function(){
@@ -529,7 +539,9 @@ export default {
               }    
             })
             .catch((error) => {
-              this.showNotification("danger", error.response);
+              if(error.response.data.code == '404'){
+                this.showNotification("danger", 'School cannot be found');
+              }      
             });
           } else {
               this.schoolNotFoundWarning = true;
@@ -586,7 +598,9 @@ export default {
               }
             })
             .catch((error) => {
-              this.showNotification("danger", error.response);        
+              if(error.response.data.code == '404'){
+                this.showNotification("danger", 'School cannot be found');
+              }                     
             });
           } else {
             this.schoolAtGraduationInputWarning = true;
@@ -723,10 +737,10 @@ export default {
         if(this.editedGradStatus.programCompletionDate != null){
           this.editedGradStatus.programCompletionDate = this.editedGradStatus.programCompletionDate.replace("-", "/").substring(0, 7);
         }         
-        if(error.response.data){
-          if(error.response.data.messages){
-            this.errorMessage = error.response.data.messages[0].message;
-          }
+        if(error.response){
+          if(error.response.data){
+            this.errorMessage = error.response.data.message;
+          } 
         }
         this.showNotification(
           "danger",
