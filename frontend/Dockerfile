@@ -1,4 +1,4 @@
-FROM docker-remote.artifacts.developer.gov.bc.ca/node:16.16.0 as build-stage
+FROM artifacts.developer.gov.bc.ca/docker-remote/node:16.16.0 as build-stage
 WORKDIR /opt/app-root/src
 COPY package*.json ./
 RUN npm --version
