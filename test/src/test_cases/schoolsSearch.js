@@ -37,7 +37,7 @@ fixture `schools-page`
         await t
         .expect(await schoolsPage.searchMessage.textContent).contains(searchMessageResults.emptySearch);
 
-        log.info(' - testing empty search after form reset on Schools ivew');
+        log.info(' - testing empty search after form reset on Schools view');
         await t
         .typeText(schoolsPage.mincodeInput, testData.school1.mincode)
         .click(schoolsPage.mincodeWildcard)

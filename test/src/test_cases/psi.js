@@ -9,7 +9,16 @@ const psiLogger = RequestLogger(/api\/v1\/trax\/psi/, {logResponseBody: true, lo
 const psiPage = new PSIPage();
 
 const testData = {
-    psi1: {name: '', psiCode: '', cslCode: '', active: '', transmissionMode: ''},
+    psi0: {name: 'No PSIs found', psiCode: '000', cslCode: '0000', active: 'Y', transmissionMode: 'XML'},
+    psi1: {name: 'CAMOSUN COLLEGE', psiCode: '271', cslCode: 'AJAA', active: 'Y', transmissionMode: 'XML'},
+    psi2: {name: 'CAMOSUN COLLEGE INTERURBAN', psiCode: 'Q75', cslCode: 'AJAA', active: 'N', transmissionMode: 'PAPER'},
+    psi3: {name: 'UNIVERSITY OF VICTORIA', psiCode: '201', cslCode: 'AUAF', active: 'Y', transmissionMode: 'XML'},
+    psi4: {name: 'VICTORIA CONSERVATORY OF MUSIC', psiCode: '658', cslCode: 'APAR', active: 'Y', transmissionMode: 'PAPER'},
+}
+
+const searchMessageResults = {
+    notFound: 'No PSIs found',
+    emptySearch: 'Enter at least one field to search.',
 }
 
 fixture `psi-page`
@@ -21,4 +30,43 @@ fixture `psi-page`
         .navigateTo(base_url)
         .click(psiPage.view);
     })
-    .afterEach(() => log.ingo(apiCallsFailed(psiLogger, api_html_status_threshold)));
+    .afterEach(() => log.info(apiCallsFailed(psiLogger, api_html_status_threshold)));
+
+    test('empty', async t => {
+        log.info(' - testing empty search on PSI view');
+
+        await t
+        .click(psiPage.searchSubmit);
+
+        await t
+        .expect(await psiPage.searchMessage.textContent).contains(searchMessageResults.emptySearch);
+        
+        log.info(' - testing empty search after form reset on PSI view');
+        
+        await t
+        .click(psiPage.psiCode)
+        .typeText(psiPage.psiCode, testData.psi0.psiCode)
+        .click(psiPage.psiName)
+        .typeText(psiPage.psiName, testData.psi0.name);
+        
+        await t
+        .click(psiPage.formReset)
+        .expect(await psiPage.searchMessage.textContent).contains(searchMessageResults.emptySearch);
+
+    });
+
+    test('valid search', async t => {
+        log.info(' - testing search with valid PSI Code in PSI view');
+        await t
+        .click(psiPage.psiCode)
+        .typeText(psiPage.psiCode, testData.psi1.psiCode)
+        .click(psiPage.searchSubmit);
+
+        await t
+        .expect(await psiPage.searchMessage.textContent)
+        .contains('1')
+        
+        await t
+        .expect(Selector('div.table-responsive td[data-label="PSI Name"] div').textContent)
+        .contains(testData.psi1.name);
+    })
