@@ -138,6 +138,18 @@ export default {
     },    
     getScheduledBatchJobs(state){
       return state.scheduledBatchJobs;
-    },       
+    },     
+    getBatchDetailsTypeById(state){
+    
+      return function(args){
+        return state.batchDetails[args].details['what']
+        
+      }
+    },
+    getbatchDetailsGroupById(state){
+      return function(args){
+        return state.batchDetails[args].details['who']    
+      }
+    }
   },  
 };

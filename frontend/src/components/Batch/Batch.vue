@@ -1,8 +1,9 @@
 <template>
   <div>
+
+    
     <b-overlay :show='processingBatch'>
       <div class="row">
-        <!-- <pre>{{tabContent[jobId]}}</pre> -->
         <div class="col-12 col-md-3 border-right">
           <div class="m-0">
             
@@ -43,7 +44,7 @@
 
           
           <b-card v-if="tabContent[jobId].details['credential']=='Blank certificate print'" class="mt-3 px-0" header="Blank Certificate Details">
-            <ValidationProvider name="blankcert" rules="adultdogwoodpublicrestrictedtoministryofadvancededgroup" v-slot="{ errors }">
+            
               <b-form-group label="Blank Certificate Details" v-slot="{ blankCertificateDetailsOptions }">
                 <b-form-checkbox-group
                     multiple
@@ -60,7 +61,7 @@
                     @change="editBatchJob(jobId,'blankCertificateDetails', $event)"  
                   ></b-form-checkbox-group>
                 </b-form-group>
-            </ValidationProvider>
+          
           </b-card>        
           </div>                                                      
         </div>
@@ -70,7 +71,7 @@
             <b-form-select
               id="inline-form-select-audience"
               class="mb-2 mr-sm-2 mb-sm-0"
-              :options="[{ text: '', value: null }, {text:'Student',value:'Student', disabled:true},{text:'School',value:'School', disabled:true},{text:'District',value:'District', disabled:true},{text:'Program',value:'Program', disabled:true},{text:'PSI',value:'PSI'}]"
+              :options="[{ text: '', value: null }, {text:'Student - N/A',value:'Student', disabled:true},{text:'School - N/A',value:'School', disabled:true},{text:'District - N/A',value:'District', disabled:true},{text:'Program - N/A',value:'Program', disabled:true},{text:'PSI',value:'PSI'}]"
               :value="tabContent[jobId].details['who']"     
               @change="editBatchJob(jobId,'who', $event)"  
               v-if="tabContent[jobId].details['what'] == 'PSIRUN' "     
@@ -100,7 +101,9 @@
               v-else
             ></b-form-select>     
           </div>
-          <div v-if="tabContent[jobId].details['who'] !='Student' && tabContent[jobId].details['what'] !='DISTRUN-YEAREND'" class="p-0 mt-3 ">
+          
+
+          <div v-if="this.formElements[userRequestType(jobId)]['gradDate']" class="p-0 mt-3 ">
             <label class="font-weight-bold p-0 m-0 row">Grad Date</label>
             <b-form-select
               id="inline-form-select-audience"
@@ -541,8 +544,6 @@ extend('adultdogwoodpublicrestrictedtoministryofadvancededgroup', {
     // eslint-disable-next-line
 
     if(value == "Ministry of Advanced Education" && args[0] == 'Blank certificate print'){
-     console.log(this.tabContent)
-     //this.tabContent['job-1'].details['blankCertificateDetails'] = ["E"]
       return "You can only print for public Adult Dogwood for Ministry of Advanced Education";
     }else return true;
   },
@@ -555,7 +556,6 @@ export default {
   },  
   data: function () {
     return {
-      testselect: [],
       batchRunDetails: "",
       cronTime: "",
       batchRunTime: "Run Now",
@@ -568,7 +568,20 @@ export default {
       certificateTypes:[],
       transcriptTypes:[],
       gradDateFrom:"",
-      gradDateTo: ""
+      gradDateTo: "",
+      formElements: {
+       'PSIRUN':
+          {
+            'gradDate': true,
+            'gradEnd': true,
+          }
+        ,
+        'DISTRUN':
+          {
+            'gradDate': true,
+            'gradEnd': true
+          }
+      }
     }
   },
   mounted(){
@@ -608,6 +621,7 @@ export default {
   },
   created() {
 
+    this.formElements = Object.assign({}, this.formElements)
     this.transcriptTypes = this.getTranscriptTypes();
     this.certificateTypes = this.getCertificateTypes();
   },
@@ -885,6 +899,8 @@ export default {
     ...mapGetters({  
       tabCounter: "batchprocessing/getBatchCounter",
       tabContent: "batchprocessing/getBatchDetails",
+      userRequestType: "batchprocessing/getBatchDetailsTypeById",
+      userRequestGroup: "batchprocessing/getbatchDetailsGroupById",
       programOptions: "app/getProgramOptions",      
       userFullName: "auth/userFullName",
 
