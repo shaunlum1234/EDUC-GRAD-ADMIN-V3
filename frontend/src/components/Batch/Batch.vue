@@ -103,7 +103,8 @@
           </div>
           
 
-          <div v-if="this.formElements[userRequestType(jobId)]['gradDate']" class="p-0 mt-3 ">
+          <!-- <div v-if="this.formElements[userRequestType(jobId)]['gradDate']" class="p-0 mt-3 "> -->
+          <div v-if="tabContent[jobId].details['who'] !='Student' && tabContent[jobId].details['what'] !='DISTRUN-YEAREND' && tabContent[jobId].details['who'] !='PSI' && tabContent[jobId].details['credential'] !='Blank transcript print' && tabContent[jobId].details['credential'] !='Blank certificate print'" class="p-0 mt-3 ">
             <label class="font-weight-bold p-0 m-0 row">Grad Date</label>
             <b-form-select
               id="inline-form-select-audience"
