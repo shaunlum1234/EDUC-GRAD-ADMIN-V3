@@ -2,7 +2,6 @@
   <div class="container">
     <h2>Batch Processing</h2>
     <div>
-      
   <div class="mt-2 row">
   <div class="col-12 float-left p-0">
     <div ref="top">
@@ -65,7 +64,7 @@
                     </div>
                   </b-card-text>
                 </b-tab>
-                <b-tab class="btn-sm" :title="'User Scheduled (' + scheduledJobs.length + ')'">
+                <b-tab class="btn-sm" :title="'User Scheduled (' + queueScheduledJobs.length + ' Queued)'">
                   <b-card-text>
                       <div v-if="!scheduledJobs.length">
                         No Scheduled Jobs
@@ -132,7 +131,7 @@
               </template>
             <b-alert v-if="validationMessage" show>{{validationMessage}}</b-alert>
             <b-overlay :show="spinners[i]">
-              <BatchJobForm :jobId="i" @runbatch="runbatch" @cancelBatchJob="cancelBatchJob"></BatchJobForm>
+              <BatchJobForm :jobId="i" @runbatch="runbatch" @cancelBatchJob="cancelBatchJob" :currentPSIYear="getCurrentPSIYear()"></BatchJobForm>
             </b-overlay>
         </b-tab>
 
@@ -177,6 +176,10 @@ import {
 export default {
   name: "test",
   computed:{
+    queueScheduledJobs(){
+      let queuedJobs = this.scheduledJobs;
+      return queuedJobs.filter(queuedJobs => queuedJobs.status == 'QUEUED');  
+    },
     results(){
       return this.searchResults;
     },
@@ -365,6 +368,14 @@ export default {
     getZipLink: function (data, mimeType) {
       return sharedMethods.base64ToFileTypeData(data,mimeType)
     },
+    getCurrentPSIYear(){
+      let date = new Date();
+      if(date.getMonth()+1 >= 8){
+        return date.getFullYear()+1;
+      }else{
+          return date.getFullYear();
+      }
+    },   
     cancelBatchJob(id) {
   
       for (let i = 0; i < this.tabs.length; i++) {
@@ -379,7 +390,7 @@ export default {
     },      
     
     newBatchJob() {
-      let batchDetail = { details: {what: "", who: "", credential: ""}, students: [{}], schools:[{}], districts: [{}], programs:[{}],blankTranscriptDetails:[{}],blankCertificateDetails:[{}]};
+      let batchDetail = { details: {what: "", who: "", credential: "", psiYear: this.getCurrentPSIYear()}, students: [{}], schools:[{}], districts: [{}], programs:[{}],blankTranscriptDetails:[{}],blankCertificateDetails:[{}]};
       
       let id = "job-" + this.tabCounter;
       this.$set(this.spinners, id, false)
@@ -479,12 +490,51 @@ export default {
         })  
         setTimeout(this.getBatchProgress(requestId), 5000);
     },
-    runBlankDISTRUNUserRequest(request, id){
+    runBlankDISTRUNUserRequest(request, id, credentialType){
       let requestId = id.replace("job-",""); 
       this.$set(this.spinners, id, true)
       let index= id.replace("job-","")-1;
       let value = true
       this.$store.commit("batchprocessing/setTabLoading",{index, value});
+        BatchProcessingService.runDISTRUN(request, credentialType).then(
+        (response) => {
+           //update the admin dashboard
+          this.getAdminDashboardData();
+          // eslint-disable-next-line
+          console.log(response)
+          this.cancelBatchJob(id);
+          this.selectedTab = 0;
+     
+          if(request.localDownload == 'Y'){
+            
+            let bid = response.data.batchId;
+            DistributionService.downloadDISTRUN(bid).then((res) => {
+              this.$bvToast.toast('Download (.zip)' , {
+                title: "FILE SUCCESSFULLY CREATED",
+                href: "data:application/zip;base64," + res.data,
+                variant: 'success',
+                noAutoHide: true,
+              })
+            });
+                        
+          }else{
+            this.$bvToast.toast("Batch run has completed for request " + requestId , {
+              title: "BATCH PROCESSING COMPLETED",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
+        })
+        .catch((error) => {
+          if(error){
+            this.cancelBatchJob(id);
+            this.$bvToast.toast("Batch run is still in progress for request" + requestId + " and will run in the background" , {
+              title: "BATCH PROCESSING UPDATE",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
+        })       
       setTimeout(this.getBatchProgress(requestId), 5000);
     },
     runDISTRUN(request, id, credentialType){
@@ -494,6 +544,53 @@ export default {
       let value = true
       this.$store.commit("batchprocessing/setTabLoading",{index, value});
         BatchProcessingService.runDISTRUN(request, credentialType).then(
+        (response) => {
+           //update the admin dashboard
+          this.getAdminDashboardData();
+          // eslint-disable-next-line
+          console.log(response)
+          this.cancelBatchJob(id);
+          this.selectedTab = 0;
+     
+          if(request.localDownload == 'Y'){
+            
+            let bid = response.data.batchId;
+            DistributionService.downloadDISTRUN(bid).then((res) => {
+              this.$bvToast.toast('Download (.zip)' , {
+                title: "FILE SUCCESSFULLY CREATED",
+                href: "data:application/zip;base64," + res.data,
+                variant: 'success',
+                noAutoHide: true,
+              })
+            });
+                        
+          }else{
+            this.$bvToast.toast("Batch run has completed for request " + requestId , {
+              title: "BATCH PROCESSING COMPLETED",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
+        })
+        .catch((error) => {
+          if(error){
+            this.cancelBatchJob(id);
+            this.$bvToast.toast("Batch run is still in progress for request" + requestId + " and will run in the background" , {
+              title: "BATCH PROCESSING UPDATE",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
+        })  
+        setTimeout(this.getBatchProgress(requestId), 5000);
+    },
+    runPSIRUN(request, id, transmissionType){
+      let requestId = id.replace("job-",""); 
+      this.$set(this.spinners, id, true)
+      let index= id.replace("job-","")-1;
+      let value = true
+      this.$store.commit("batchprocessing/setTabLoading",{index, value});
+        BatchProcessingService.runPSIRUN(request, transmissionType).then(
         (response) => {
            //update the admin dashboard
           this.getAdminDashboardData();
@@ -655,7 +752,7 @@ export default {
       );  
     },    
     validateBatch(id){
-      let pens = [], schools = [], districts = [], programs = [], districtCategoryCode="";
+      let pens = [], schools = [], psi = [], districts = [], programs = [], districtCategoryCode="";
       if(this.tabContent[id].details['who'] == 'School'){
         schools = this.tabContent[id].schools.map(this.getBatchData);  
         schools.pop();
@@ -669,6 +766,14 @@ export default {
         pens.pop();
         if(!pens.length){
           this.validationMessage = "Please select a student."
+          this.batchValid = false;
+          return
+        }
+      }else if(this.tabContent[id].details['who'] == 'PSI'){
+        psi = this.tabContent[id].psi.map(this.getBatchData);  
+        psi.pop();
+        if(!psi.length){
+          this.validationMessage = "Please select a PSI."
           this.batchValid = false;
           return
         }
@@ -746,7 +851,7 @@ export default {
       let gradDateFrom = this.tabContent[id].details['gradDateFrom']
       let gradDateTo = this.tabContent[id].details['gradDateTo']
       let localDownload = this.tabContent[id].details['where']=='localDownload'?'Y':'N'
-      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts, "schoolCategoryCodes": [], "programs":programs, "psi": psi, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, "localDownload": localDownload }
+      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts, "schoolCategoryCodes": [this.tabContent[id].details['categoryCode']], "programs":programs, "psiCodes": psi, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, "localDownload": localDownload }
       if(this.batchHasErrors(this.tabContent[id])){
         return;
       }
@@ -768,13 +873,29 @@ export default {
           scheduledRequest.jobName = 'STBJ'
           scheduledRequest.blankPayLoad = null;
           scheduledRequest.payload = request;
+          scheduledRequest.psiPayload = null;
           this.addScheduledJob(scheduledRequest, id)
         }else{
           this.runTVRRUN(request, id);
         }
         
-      }
-      else if(this.tabContent[id].details['what'] == 'DISTRUN-YEAREND'){     
+      }else if(this.tabContent[id].details['what'] == 'PSIRUN'){    
+        
+        if(cronTime){
+          let scheduledRequest = {};
+          scheduledRequest.cronExpression = cronTime
+          scheduledRequest.jobName = 'URPDBJ'
+          scheduledRequest.blankPayLoad = null;
+          scheduledRequest.payload = null;
+          scheduledRequest.psiPayLoad = request;
+          scheduledRequest.psiYear = this.tabContent[id].details['psiYear']
+          this.addScheduledJob(scheduledRequest, id)
+        }else{
+          request.psiYear = this.tabContent[id].details['psiYear']
+          this.runPSIRUN(request, id, this.tabContent[id].details['psiTransmissionMode']);
+        }
+        
+      }else if(this.tabContent[id].details['what'] == 'DISTRUN-YEAREND'){     
         this.runDISTRUNYearEnd(id);
       }else if(this.tabContent[id].details['what'] == 'DISTRUN'){     
         if(cronTime){
@@ -782,11 +903,19 @@ export default {
           scheduledRequest.cronExpression = cronTime
           scheduledRequest.jobName = 'URDBJ'
           scheduledRequest.blankPayLoad = null;
-          scheduledRequest.payload = request;
-          
+          scheduledRequest.payload = null;
+          scheduledRequest.psiPayLoad = null;
+
+          if(this.tabContent[id].details['credential'] == "Blank certificate print" || this.tabContent[id].details['credential'] =="Blank transcript print"){
+            scheduledRequest.blankPayLoad = request;
+          }else if(this.tabContent[id].details['credential'] == "Transcript" && this.tabContent[id].details['who']=='PSI' ){
+            scheduledRequest.psiPayLoad = request;
+          }else{
+            scheduledRequest.payload = request;
+          }
           this.addScheduledJob(scheduledRequest, id)
         }else if(this.tabContent[id].details['where'] == 'User'){     
-          this.runBlankDISTRUNUserRequest(request,id);
+          this.runBlankDISTRUNUserRequest(request,id, this.tabContent[id].details['credential']);
         }else{
           this.runDISTRUN(request, id, this.tabContent[id].details['credential']);
         }
