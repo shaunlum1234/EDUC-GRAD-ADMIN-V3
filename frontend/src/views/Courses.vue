@@ -142,8 +142,11 @@
                     </div>
                     <div class="advanced-search-field col-12 col-md-2">
                       <label >Course level</label>
-                      <b-input class="form__input" v-model="requirementsSearchInput.courseLevel.value" placeholder=""
-                        tabindex="2" />
+                      <b-input class="form__input" 
+                               v-model="requirementsSearchInput.courseLevel.value" 
+                               placeholder=""
+                               tabindex="2"
+                               trim />
                     </div>
                     <div class="advanced-search-field col-12 col-md-2">
                       <label >Rule#</label>
@@ -155,8 +158,11 @@
                       >
                         [.*]
                       </div>
-                      <b-input class="form__input" v-model="requirementsSearchInput.rule.value" placeholder=""
-                        tabindex="3" />
+                      <b-input class="form__input" 
+                               v-model="requirementsSearchInput.rule.value" 
+                               placeholder=""
+                               tabindex="3"
+                               trim />
                     </div>               
                   </div>
                   <div class="row">                                

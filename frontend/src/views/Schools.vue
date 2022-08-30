@@ -31,7 +31,7 @@
                   >
                     [.*]
                     </div>
-                  <b-input v-model="search.district.value" v-on:keyup="keyHandler" placeholder="" id="district"/> 
+                  <b-input v-model="search.district.value" v-on:keyup="keyHandler" placeholder="" id="district" trim/> 
                 </b-col>
                 <b-col>
                   <div href="#"
@@ -42,7 +42,7 @@
                   >
                     [.*]
                     </div>
-                  <b-input v-model="search.mincode.value" v-on:keyup="keyHandler" placeholder="" id="mincode"/> 
+                  <b-input v-model="search.mincode.value" v-on:keyup="keyHandler" placeholder="" minlength = 3 id="mincode" trim/> 
                 </b-col>
                 <b-col>
                   <div href="#"
@@ -64,7 +64,7 @@
                   >
                     [.*]
                     </div>
-                  <b-input v-model="search.authorityNumber.value" v-on:keyup="keyHandler" placeholder="" id="authorityNumber"/> 
+                  <b-input v-model="search.authorityNumber.value" v-on:keyup="keyHandler" placeholder="" id="authorityNumber" trim/> 
                 </b-col>
               </b-row>
               <b-row class="p-3">

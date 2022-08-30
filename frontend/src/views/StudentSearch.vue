@@ -13,8 +13,17 @@
                     <!-- Pen Input -->
                     <div class="search w-100">
                       <label for="search-by-pen" class="float-left w-100">Search by PEN:</label>                   
-                      <b-form-input id="search-by-pen" type="search" maxlength=9 minlength=9 v-model="penInput" placeholder=""
-                        ref="penSearch" v-on:keyup="keyHandler" tabindex="1" class="w-50 float-left">
+                      <b-form-input id="search-by-pen" 
+                                    type="search" 
+                                    maxlength = 9 
+                                    minlength = 9 
+                                    v-model="penInput" 
+                                    placeholder=""
+                                    ref="penSearch" 
+                                    v-on:keyup="keyHandler" 
+                                    tabindex="1" 
+                                    class="w-50 float-left"
+                                    trim>
                       </b-form-input>
                       <button id="search-submit" v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary ml-2 float-left">
                         <i class="fas fa-search" aria-hidden="true"></i> Search
