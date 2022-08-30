@@ -553,7 +553,6 @@ export default {
           this.selectedTab = 0;
      
           if(request.localDownload == 'Y'){
-            
             let bid = response.data.batchId;
             DistributionService.downloadDISTRUN(bid).then((res) => {
               this.$bvToast.toast('Download (.zip)' , {
@@ -838,13 +837,14 @@ export default {
       let gradDateTo = this.tabContent[id].details['gradDateTo']
       let localDownload = this.tabContent[id].details['where']=='localDownload'?'Y':'N'
       let credentialTypeCode = [];
+      let quantity = this.tabContent[id].details['copies'];
       if(this.tabContent[id].details['blankCertificateDetails'].length){
         credentialTypeCode = this.tabContent[id].details['blankCertificateDetails']
       }
       if(this.tabContent[id].details['blankTranscriptDetails'].length){
         credentialTypeCode = this.tabContent[id].details['blankTranscriptDetails']
       }
-      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts,"credentialTypeCode":credentialTypeCode, "schoolCategoryCodes": [this.tabContent[id].details['categoryCode']], "programs":programs, "psiCodes": psi, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, "localDownload": localDownload }
+      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts,"credentialTypeCode":credentialTypeCode, "schoolCategoryCodes": [this.tabContent[id].details['categoryCode']], "programs":programs, "psiCodes": psi, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, "quantity":quantity, "localDownload": localDownload }
       if(this.batchHasErrors(this.tabContent[id])){
         return;
       }
