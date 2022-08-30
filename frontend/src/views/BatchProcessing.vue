@@ -598,26 +598,12 @@ export default {
           console.log(response)
           this.cancelBatchJob(id);
           this.selectedTab = 0;
-     
-          if(request.localDownload == 'Y'){
-            
-            let bid = response.data.batchId;
-            DistributionService.downloadDISTRUN(bid).then((res) => {
-              this.$bvToast.toast('Download (.zip)' , {
-                title: "FILE SUCCESSFULLY CREATED",
-                href: "data:application/zip;base64," + res.data,
-                variant: 'success',
-                noAutoHide: true,
-              })
-            });
-                        
-          }else{
-            this.$bvToast.toast("Batch run has completed for request " + requestId , {
-              title: "BATCH PROCESSING COMPLETED",
-              variant: 'success',
-              noAutoHide: true,
-            })
-          }
+
+          this.$bvToast.toast("Batch run has completed for request " + requestId , {
+            title: "BATCH PROCESSING COMPLETED",
+            variant: 'success',
+            noAutoHide: true,
+          })
         })
         .catch((error) => {
           if(error){
@@ -851,7 +837,14 @@ export default {
       let gradDateFrom = this.tabContent[id].details['gradDateFrom']
       let gradDateTo = this.tabContent[id].details['gradDateTo']
       let localDownload = this.tabContent[id].details['where']=='localDownload'?'Y':'N'
-      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts, "schoolCategoryCodes": [this.tabContent[id].details['categoryCode']], "programs":programs, "psiCodes": psi, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, "localDownload": localDownload }
+      let credentialTypeCode = [];
+      if(this.tabContent[id].details['blankCertificateDetails'].length){
+        credentialTypeCode = this.tabContent[id].details['blankCertificateDetails']
+      }
+      if(this.tabContent[id].details['blankTranscriptDetails'].length){
+        credentialTypeCode = this.tabContent[id].details['blankTranscriptDetails']
+      }
+      let request = {"pens": pens, "schoolOfRecords":schools,"districts":districts,"credentialTypeCode":credentialTypeCode, "schoolCategoryCodes": [this.tabContent[id].details['categoryCode']], "programs":programs, "psiCodes": psi, "gradDateFrom":gradDateFrom, "gradDateTo":gradDateTo,"validateInput": false, "localDownload": localDownload }
       if(this.batchHasErrors(this.tabContent[id])){
         return;
       }

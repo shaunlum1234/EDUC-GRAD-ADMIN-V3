@@ -65,7 +65,7 @@
           </b-card>        
           </div>                                                      
         </div>
-        <div class="col-9">
+        <div class="col-12 col-md-9">
           <div class="m-0 p-0 col-3" v-if="tabContent[jobId].details['what'] != 'DISTRUN-YEAREND'">
             <label class="font-weight-bold pt-1">Group</label>
             <b-form-select
@@ -250,7 +250,7 @@
             <div v-if="district.districtName" class="col-4">{{district.districtName}}</div>
             <div v-if="district.districtName" class="col-4">{{district.city}}</div>
 
-            <div v-if="index != tabContent[jobId].districts.length-1" class="col-2" ><b-button  class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'districts',district.value)">
+            <div v-if="index != tabContent[jobId].districts.length-1" class="col-2" ><b-button class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'districts',district.value)">
               Remove
             </b-button>
             </div>
