@@ -23,7 +23,12 @@
                   >
                     [.*]
                     </div>
-                  <b-input v-model="mincode.value" v-on:keyup="keyHandler" placeholder="" id="mincode" />
+                  <b-input v-model="mincode.value" 
+                           v-on:keyup="keyHandler" 
+                           placeholder="" 
+                           id="mincode"
+                           minlength = 3
+                           trim/>
                 </b-col>
                 <b-col class="col-6" />
               </b-row>
