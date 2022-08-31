@@ -40,7 +40,7 @@
                     v-on:click="advancedSearchInput.courseName.contains = !advancedSearchInput.courseName.contains"
                     v-bind:class="{active: advancedSearchInput.courseName.contains}"
                     class="wild-card-button"
-                    v-b-tooltip.hover title="Course name starts with"
+                    v-b-tooltip.hover title="Course name contains"
                   >
                     [.*]
                   </div>
