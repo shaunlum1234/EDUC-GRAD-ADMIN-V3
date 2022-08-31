@@ -30,6 +30,9 @@
                             <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'batch')">   
                               All results           
                             </b-btn>
+                            <b-btn v-if="row.item.jobType='DISTRUNUSER'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="downloadDISTRUN(row.item.jobExecutionId)">   
+                              Download
+                            </b-btn>                            
                           </b-popover>
                         </template>
                         <template #cell(failedStudentsProcessed)="row">
@@ -364,7 +367,16 @@ export default {
   },
   methods: { 
     ...mapActions('batchprocessing', ['setScheduledBatchJobs']),
-
+    downloadDISTRUN(bid){
+      DistributionService.downloadDISTRUN(bid).then((res) => {
+        this.$bvToast.toast('Download (.zip)' , {
+          title: "FILE SUCCESSFULLY CREATED",
+          href: "data:application/zip;base64," + res.data,
+          variant: 'success',
+          noAutoHide: true,
+        })
+      });
+    },
     getZipLink: function (data, mimeType) {
       return sharedMethods.base64ToFileTypeData(data,mimeType)
     },
