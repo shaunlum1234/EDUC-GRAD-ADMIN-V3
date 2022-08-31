@@ -34,6 +34,12 @@ test('Pen Search - bad PEN', async t => {
     await searchPage.studentSearch(bad_pen);
     await t.expect(penSearchLogger.contains(r => commonUtils.outputStatusCode(r.response.statusCode, api_html_status_threshold))).ok();
     await t.expect(searchPage.searchMessage.innerText).contains('Student cannot be found', 'Student cannot be found error message did not occur');
+})
+.meta({
+    testSuites: {
+        smoke: false,
+        regression: true,
+    }
 });
 
 test('Pen Search - good PEN', async t => {
@@ -74,4 +80,10 @@ test('Pen Search - good PEN', async t => {
 
     // TODO: tests adv search
 
+})
+.meta({
+    testSuites: {
+        smoke: true,
+        regression: true,
+    }
 });

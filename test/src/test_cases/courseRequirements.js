@@ -28,4 +28,10 @@ fixture `course-requirements`
         await t
         .expect(await searchMessage.textContent)
         .contains('Enter at least one field to search.');
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });

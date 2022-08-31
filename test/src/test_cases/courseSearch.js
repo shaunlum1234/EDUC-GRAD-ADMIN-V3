@@ -37,6 +37,12 @@ test('empty', async t => {
     //.wait(max_acceptable_timeout)
     .expect(await searchMessage.textContent)
     .contains('Enter at least one field to search.');
+})
+.meta({
+    testSuites: {
+        smoke: false,
+        regression: true,
+    }
 });
 
 test('reset', async t => {
@@ -57,6 +63,12 @@ test('reset', async t => {
     .expect(await searchMessage.textContent)
     .contains('Enter at least one field to search.', {timeout: max_acceptable_timeout});
 })
+.meta({
+    testSuites: {
+        smoke: false,
+        regression: true,
+    }
+});
 
 test('good data - all fields', async t => {
     log.info('Testing course search with good data');
@@ -85,6 +97,12 @@ test('good data - all fields', async t => {
     //.notContains('Enter at least one field to search.');
 
 })
+.meta({
+    testSuites: {
+        smoke: true,
+        regression: true,
+    }
+});
 
 test('no courses', async t => {
     await t
@@ -95,6 +113,12 @@ test('no courses', async t => {
     await t
     .expect(await coursesPage.courseResults.exists).notOk();
 })
+.meta({
+    testSuites: {
+        smoke: false,
+        regression: true,
+    }
+});
 
 // test('validation', async t => {
 //     // test the form validations

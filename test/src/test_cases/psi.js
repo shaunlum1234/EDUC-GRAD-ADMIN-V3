@@ -53,6 +53,12 @@ fixture `psi-page`
         .click(psiPage.formReset)
         .expect(await psiPage.searchMessage.textContent).contains(searchMessageResults.emptySearch);
 
+    })
+    .meta({
+        testSuites: {
+            smoke: false,
+            regression: true,
+        }
     });
 
     test('valid search', async t => {
@@ -70,3 +76,9 @@ fixture `psi-page`
         .expect(Selector('div.table-responsive td[data-label="PSI Name"] div').textContent)
         .contains(testData.psi1.name);
     })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
+    });

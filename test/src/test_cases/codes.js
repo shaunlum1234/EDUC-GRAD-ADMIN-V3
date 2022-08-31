@@ -26,6 +26,12 @@ fixture `codes-page`
         .click(codesPage.careerProgramCodesTab)
         .expect(codesPage.testRowExists.exists)
         .ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });
 
     test('credentials > certificate types', async t => {
@@ -36,6 +42,12 @@ fixture `codes-page`
         .click(codesPage.certificateTypesTab)
         .expect(codesPage.testRowExists.exists)
         .ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });
 
     test('credentials > transcript types', async t => {
@@ -46,6 +58,12 @@ fixture `codes-page`
         .click(codesPage.transcriptTypesTab)
         .expect(codesPage.testRowExists.exists)
         .ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });
 
     test('credentials > program certificate transcript', async t => {
@@ -56,6 +74,12 @@ fixture `codes-page`
         .click(codesPage.programCertificateTranscriptTab)
         .expect(codesPage.testRowExists.exists)
         .ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });
 
     test('credentials > digital signature', async t => {
@@ -66,6 +90,12 @@ fixture `codes-page`
         .click(codesPage.digitalSignatureTab)
         .expect(codesPage.testRowExists.exists)
         .ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });
 
     test('credentials > signature block', async t => {
@@ -76,6 +106,12 @@ fixture `codes-page`
         .click(codesPage.signatureBlockTab)
         .expect(codesPage.testRowExists.exists)
         .ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });
 
     test('credentials > document status codes', async t => {
@@ -86,6 +122,12 @@ fixture `codes-page`
         .click(codesPage.documentStatusCodesTab)
         .expect(codesPage.testRowExists.exists)
         .ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });
 
     test('report types', async t => {
@@ -95,6 +137,12 @@ fixture `codes-page`
         .click(codesPage.reportTypesTab)
         .expect(codesPage.testRowExists.exists)
         .ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });
 
     test('student status codes', async t => {
@@ -104,6 +152,12 @@ fixture `codes-page`
         .click(codesPage.studentStatusCodesTab)
         .expect(codesPage.testRowExists.exists)
         .ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });
 
     test('undo completion reason codes', async t => {
@@ -113,6 +167,12 @@ fixture `codes-page`
         .click(codesPage.undoCompletionReasonCodesTab)
         .expect(codesPage.testRowExists.exists)
         .ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });
 
     test('history activity codes', async t => {
@@ -122,4 +182,10 @@ fixture `codes-page`
         .click(codesPage.historyActivityCodesTab)
         .expect(codesPage.testRowExists.exists)
         .ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });

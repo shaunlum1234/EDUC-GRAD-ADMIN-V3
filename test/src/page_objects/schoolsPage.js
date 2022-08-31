@@ -19,6 +19,10 @@ class SchoolsPage {
         // search message
         this.searchMessage = Selector('div.search-results-message strong');
 
+        // column selectors
+        this.spmCode = Selector('div.table-responsive td[data-label="SPM School Code"] div');
+        this.schoolName = Selector('div.table-responsive td[data-label="TRAX School Name"] div');
+
     }
 }
 
