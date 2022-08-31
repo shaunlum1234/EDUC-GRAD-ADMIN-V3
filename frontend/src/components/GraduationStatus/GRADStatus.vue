@@ -631,10 +631,11 @@ export default {
       this.schoolOfRecordWarning = false;
       this.schoolNotFoundWarning = false;
       if(this.studentGradStatus.programCompletionDate != null){
-        this.disableInput = false;
+        this.disableInput = true;
         this.disableSchoolAtGrad = false;
         this.disableStudentStatus = false;
       }else{
+        this.disableInput = false;
         this.disableStudentStatus = false;
         this.disableSchoolAtGrad = true;
       }
