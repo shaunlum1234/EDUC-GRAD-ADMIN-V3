@@ -7,16 +7,21 @@
       v-bind:fields="digitalSignaturesFields"
       showFilter="true"
       id="signatureId"
-    >         
-    <template #cell(signatureContent)="row">
-            <b-card header="" class="overflow-hidden">
-                  <b-row no-gutters>
-                    <b-col md="6">
-                      <b-card-img :src="'data:image/png;base64, ' + row.item.signatureContent"></b-card-img>         
-                    </b-col>
-                  </b-row>
-                </b-card>
+    >
+      <template #cell(signatureContent)="row">
+        <b-card header="" class="overflow-hidden">
+          <b-row no-gutters>
+            <b-col md="6">
+              <b-card-img :src="'data:image/png;base64, ' + row.item.signatureContent"></b-card-img>         
+            </b-col>
+          </b-row>
+        </b-card>
       </template>
+
+      <template #cell(updatedTimestamp)="row">
+        {{ row.item.updatedTimestamp | formatSimpleDate }}
+      </template>
+
     </DisplayTable>
   </div>
 </template>
