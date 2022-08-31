@@ -61,7 +61,7 @@ fixture `schools-page`
         .contains('1');
 
         await t
-        .expect(await Selector('div.table-responsive td[data-label="School Name"] div').textContent)
+        .expect(await Selector('div.table-responsive td[data-label="TRAX School Name"] div').textContent)
         .contains(testData.school1.name);
 
         log.info(" - testing search with valid school name on Schools view");
@@ -89,7 +89,7 @@ fixture `schools-page`
         .click(schoolsPage.searchSubmit);
 
         await t
-        .expect(await Selector('div.table-responsive td[data-label="School Name"]').exists)
+        .expect(await Selector('div.table-responsive td[data-label="TRAX School Name"]').exists)
         .ok();
     });
 
