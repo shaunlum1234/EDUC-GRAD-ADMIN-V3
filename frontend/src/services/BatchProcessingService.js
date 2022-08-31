@@ -4,30 +4,33 @@ export default {
   getDashboardInfo() {
     return ApiService.apiAxios.get('/api/v1/batch/dashboard');
   },
-  runREGALG(users) {
-    return ApiService.apiAxios.post('/api/v1/batch/specialrun', users);
+  runREGALG(request) {
+    return ApiService.apiAxios.post('/api/v1/batch/specialrun', request);
   },
-  runTVRRUN(users) {
-    return ApiService.apiAxios.post('/api/v1/batch/tvrspecialrun', users);
+  runTVRRUN(request) {
+    return ApiService.apiAxios.post('/api/v1/batch/tvrspecialrun', request);
   },
-  runDISTRUN(users,credentialType) {
+  runDISTRUN(request,credentialType) {
     if(credentialType == "OT"){
-      return ApiService.apiAxios.post('/api/v1/batch/userrequestdisrun/OT', users);
+      return ApiService.apiAxios.post('/api/v1/batch/userrequestdisrun/OT', request);
     }else if(credentialType == "OC"){
-      return ApiService.apiAxios.post('/api/v1/batch/userrequestdisrun/OC', users);
+      return ApiService.apiAxios.post('/api/v1/batch/userrequestdisrun/OC', request);
     }else if(credentialType == "RC"){
-      return ApiService.apiAxios.post('/api/v1/batch/userrequestdisrun/RC', users);
+      return ApiService.apiAxios.post('/api/v1/batch/userrequestdisrun/RC', request);
     }else if(credentialType == "Blank transcript print"){
-      return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/OT', users);
+      return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/OT', request);
     }else if(credentialType == "Blank certificate print"){
-      return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/OC', users);
+      return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/OC', request);
     }
   },     
   runDISTRUNYearEnd(){
     return ApiService.apiAxios.get('/api/v1/batch/executeyearlydisrunbatchjob');
   },
-  runBlankDistRunUserRequest(){
-    return ApiService.apiAxios.get('/api/v1/batch/userrequestblankdisrun');
+  runBlankDistRunUserRequest(request, credentialType){
+    return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/'+ credentialType, request);
+  },
+  runPSIRUN(request, transmissionType){
+    return ApiService.apiAxios.post('/api/v1/batch/executepsireportbatchjob/' + transmissionType, request);
   },
   getBatchErrors(id, page) {
     return ApiService.apiAxios.get('/api/v1/batch/dashboard/errors/'  + id + '?pageNumber=' + page);

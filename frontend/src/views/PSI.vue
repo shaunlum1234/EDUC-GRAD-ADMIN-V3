@@ -24,6 +24,7 @@
                     v-model="advancedSearchInput.psiCode.value"
                     placeholder=""
                     tabindex="1"
+                    trim
                   />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
@@ -62,6 +63,7 @@
                     v-model="advancedSearchInput.cslCode.value"
                     placeholder=""
                     tabindex="3"
+                    trim
                   />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
@@ -219,7 +221,7 @@ export default {
           key: 'psiCode',
           label: 'PSI Code',
           sortable: true,
-          class: 'text-center'
+          class: 'text-left'
         },
         {
           key: 'psiName',
@@ -230,7 +232,7 @@ export default {
           key: 'cslCode',
           label: 'CSL Code',
           sortable: true,
-          class: 'text-center'
+          class: 'text-left'
         },
         {
           key: 'psisCode',
