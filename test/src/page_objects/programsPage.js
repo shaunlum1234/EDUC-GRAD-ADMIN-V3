@@ -6,6 +6,9 @@ class ProgramsPage {
 
         this.view = Selector('#programs-route');
 
+        // selectors for assertions
+        this.testRowExists = Selector('tr[role="row"][aria-rowindex="2"]');
+
         //tabs
         this.algorithmRulesTab = Selector('a.nav-link').withExactText('Algorithm rules');
 
