@@ -55,14 +55,33 @@ class CoursesPage {
 
     // course search
     async courseSearch(code, grade, title, lang, start, end) {
-        await t
-        .typeText(this.TRAXCode, code)
-        .typeText(this.gradeLevel, grade)
-        .typeText(this.courseTitle, title)
-        .click(this.instructionLanguage)
-        .click(this.instructionLanguage.child('option').withExactText(lang))
-        .typeText(this.TRAXStartDate, start)
-        .typeText(this.TRAXEndDate, end);
+
+        if (code) {
+            await t.typeText(this.TRAXCode, code);
+        }
+        
+        if (grade) {
+            await t.typeText(this.gradeLevel, grade);
+        }
+        
+        if (title) {
+            await t.typeText(this.courseTitle, title);
+        }
+        
+        if (lang) {
+            await t.click(this.instructionLanguage)
+            .click(this.instructionLanguage.child('option').withExactText(lang));
+        }
+        
+        if(start) {
+            await t.typeText(this.TRAXStartDate, start);
+        }
+        
+        if (end) {
+            await t.typeText(this.TRAXEndDate, end);
+        }
+        
+        await t.click(this.searchSubmit);
     }
 
     // course restrictions table
