@@ -563,7 +563,6 @@ export default {
           console.log(response)
           this.cancelBatchJob(id);
           this.selectedTab = 0;
-     
           if(request.localDownload == 'Y'){
             let bid = response.data.batchId;
             DistributionService.downloadDISTRUN(bid).then((res) => {
