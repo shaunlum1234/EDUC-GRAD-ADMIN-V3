@@ -18,7 +18,7 @@ class PSIPage {
         this.openFlag = Selector('.advanced-search-field > label').withExactText('Open Flag').sibling('select');
         
         this.transmissionMode = Selector('.advanced-search-field > label').withExactText('Transmission Mode').sibling('input');
-        this.transmissionModeWildcard = Selector();
+        //this.transmissionModeWildcard = Selector();
 
         this.psiGrouping = Selector('.advanced-search-field > label').withExactText('PSI Grouping').sibling('input');
         this.psiGroupingWildcard = Selector('.advanced-search-field > label').withExactText('PSI Grouping').sibling('input');
@@ -26,6 +26,8 @@ class PSIPage {
          // form buttons
          this.searchSubmit = Selector('div.active button').withExactText('Search');
          this.formReset = Selector('button').withExactText('Reset');
+
+         this.searchMessage = Selector('.search-results-message strong');
 
     }
 }
