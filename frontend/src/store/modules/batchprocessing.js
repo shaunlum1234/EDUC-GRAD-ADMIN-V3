@@ -55,11 +55,15 @@ export default {
       state.batchDetails[payload]['details'].gradDate="Current Students";
       state.batchDetails[payload]['details'].gradDateFrom="";
       state.batchDetails[payload]['details'].gradDateTo="";
+      state.batchDetails[payload]['details'].psiYear="";
+      state.batchDetails[payload]['details'].psiTransmissionMode="";      
       state.batchDetails[payload].schools=[{}];
       state.batchDetails[payload].districts=[{}];
       state.batchDetails[payload].programs=[{}];
       state.batchDetails[payload].students=[{}];
       state.batchDetails[payload].psi=[{}];
+      
+      
       state.batchDetails[payload]['details'].blankCertificateDetails=[{}];
       state.batchDetails[payload]['details'].blankTranscriptDetails=[{}];
       state.batchDetails[payload]['details'].credential="";
@@ -134,6 +138,18 @@ export default {
     },    
     getScheduledBatchJobs(state){
       return state.scheduledBatchJobs;
-    },       
+    },     
+    getBatchDetailsTypeById(state){
+    
+      return function(args){
+        return state.batchDetails[args].details['what']
+        
+      }
+    },
+    getbatchDetailsGroupById(state){
+      return function(args){
+        return state.batchDetails[args].details['who']    
+      }
+    }
   },  
 };

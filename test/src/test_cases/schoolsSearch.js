@@ -37,7 +37,7 @@ fixture `schools-page`
         await t
         .expect(await schoolsPage.searchMessage.textContent).contains(searchMessageResults.emptySearch);
 
-        log.info(' - testing empty search after form reset on Schools ivew');
+        log.info(' - testing empty search after form reset on Schools view');
         await t
         .typeText(schoolsPage.mincodeInput, testData.school1.mincode)
         .click(schoolsPage.mincodeWildcard)
@@ -61,7 +61,7 @@ fixture `schools-page`
         .contains('1');
 
         await t
-        .expect(await Selector('div.table-responsive td[data-label="School Name"] div').textContent)
+        .expect(await Selector('div.table-responsive td[data-label="TRAX School Name"] div').textContent)
         .contains(testData.school1.name);
 
         log.info(" - testing search with valid school name on Schools view");
@@ -75,7 +75,7 @@ fixture `schools-page`
         .contains('1');
 
         await t
-        .expect(await Selector('div.table-responsive td[data-label="Mincode"] div').textContent)
+        .expect(await Selector('div.table-responsive td[data-label="SPM School Code"] div').textContent)
         .contains(testData.school1.mincode);
 
     });
@@ -89,7 +89,7 @@ fixture `schools-page`
         .click(schoolsPage.searchSubmit);
 
         await t
-        .expect(await Selector('div.table-responsive td[data-label="School Name"]').exists)
+        .expect(await Selector('div.table-responsive td[data-label="TRAX School Name"]').exists)
         .ok();
     });
 
