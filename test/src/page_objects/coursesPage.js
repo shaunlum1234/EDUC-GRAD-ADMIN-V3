@@ -56,7 +56,13 @@ class CoursesPage {
     // course search
     async courseSearch(code, grade, title, lang, start, end) {
         await t
-        .typeText('test');
+        .typeText(this.TRAXCode, code)
+        .typeText(this.gradeLevel, grade)
+        .typeText(this.courseTitle, title)
+        .click(this.instructionLanguage)
+        .click(this.instructionLanguage.child('option').withExactText(lang))
+        .typeText(this.TRAXStartDate, start)
+        .typeText(this.TRAXEndDate, end);
     }
 
     // course restrictions table

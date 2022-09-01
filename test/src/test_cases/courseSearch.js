@@ -83,8 +83,7 @@ test('good data - all fields', async t => {
     .click(coursesPage.instructionLanguage.child('option').withExactText('EN'))
     .typeText(coursesPage.TRAXStartDate, TRAXSartDate)
     .typeText(coursesPage.TRAXEndDate, TRAXEndDate)
-    //.click(coursesPage.formReset)
-    .wait(max_acceptable_timeout)
+    //.wait(max_acceptable_timeout)
     .click(coursesPage.searchSubmit);
 
     // await t
@@ -101,12 +100,13 @@ test('good data - all fields', async t => {
     testSuites: {
         smoke: true,
         regression: true,
+        qa: false
     }
 });
 
 test('no courses', async t => {
     await t
-    .typeText(coursesPage.TRAXCode, 'A')
+    .typeText(coursesPage.TRAXCode, 'XX')
     .click(coursesPage.searchSubmit);
 
     // do not expect table to load since we have no courses with a code of 'A'
@@ -117,8 +117,23 @@ test('no courses', async t => {
     testSuites: {
         smoke: false,
         regression: true,
+        qa: true,
     }
 });
+
+test('good data - course code and level', async t => {
+    await t
+    .typeText(coursesPage.TRAXCode, 'ACL*')
+    .typeText(coursesPage.gradeLevel, '12')
+    .click(coursesPage.searchSubmit);
+})
+.meta({
+    testSuites: {
+        smoke: false,
+        regression: true,
+        qa: true
+    }
+})
 
 // test('validation', async t => {
 //     // test the form validations
