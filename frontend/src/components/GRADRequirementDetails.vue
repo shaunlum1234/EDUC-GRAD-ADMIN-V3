@@ -15,9 +15,9 @@
                       {{row.item.gradReqMet ? row.item.gradReqMet : "" }}
                     </span>                            
                     <span v-if="!row.item.used">Not Used</span>
-                    <span v-if="row.item.notCompleted">Not Completed</span>     
+                    <span v-if="row.item.notCompleted">No Attempt</span>     
                     <span v-if="row.item.projected">Registration</span>   
-                    <span v-if="row.item.failed">Failed</span>   
+                    <span v-if="row.item.failed">Not Completed</span>   
                     <span v-if="row.item.duplicate">Duplicate</span>  
                   </div>
                 </div>
@@ -44,7 +44,7 @@
                     <span v-if="row.item.locallyDeveloped">Locally Developed course</span>     
                     <span v-if="row.item.boardAuthorityAuthorized">Board/Authority Authorized Course</span>
                     <span v-if="row.item.independentDirectedStudies">Independent Directed Studies course</span>
-                    <span v-if="row.item.cutOffCourse">Course taken after Cut-off</span>
+                    <span v-if="row.item.cutOffCourse">Course taken after Program Expiry Date</span>
                     <span v-if="row.item.grade10Course">Grade 10 ineligible (1995 program)</span>
                     <span v-if="row.item.lessCreditCourse">Courses with credits &lt; 4 ineligible</span>
                     <span v-if="row.item.restricted">Course restricted against another course</span>
