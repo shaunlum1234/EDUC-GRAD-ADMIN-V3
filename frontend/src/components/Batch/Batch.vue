@@ -1,6 +1,6 @@
 <template>
   <div>
-<BatchGroupInput :jobId="this.jobId" label="Students" group="students" :fields="['mincode', 'schoolName', 'districtName', 'address']" :items="batch['students']">
+<BatchGroupInput :jobId="this.jobId" label="Schools" group="schools" :fields="['mincode', 'schoolName', 'districtName', 'address']" :items="batch['schools']">
       </BatchGroupInput>
     <b-overlay :show='processingBatch'>
       <div class="row">
@@ -578,16 +578,16 @@ export default {
           }
         ,
         'DISTRUN':{
-          'group': [{ text: '', value: null }, 'Student', 'School', 'District', 'Program', 'PSI'],
+          'group': [{ text: '', value: null }, 'Student', 'School', 'District', 'Program'],
           'copies': true,
           'where': true
           }
         ,
         'TVRRUN': {
-          'group': [{ text: '', value: null }, 'Student', 'School', 'District', 'Program', 'PSI']
+          'group': [{ text: '', value: null }, 'Student', 'School', 'District', 'Program']
           },    
         'REGALG': {
-          'group': [{ text: '', value: null }, 'Student', 'School', 'District', 'Program', 'PSI']
+          'group': [{ text: '', value: null }, 'Student', 'School', 'District', 'Program']
       }, 
         'DISTRUN-YEAREND': {
           'message': "You are running a year end distribution run. Click the run button and confirm."
@@ -607,7 +607,9 @@ export default {
             if((credential == "Blank certificate print" || credential == 'OC' || credential =='RC' ) && response.data.certificateEligibility == 'N'){ 
                  return "This school is not eligible for certificates."
             }
+
             if(response.data.minCode){
+           
               this.$refs['schoolName' + refValues[0] + refValues[1]][0].placeholder = response.data.schoolName;        
               this.$refs['districtName' + refValues[0] + refValues[1]][0].placeholder = response.data.districtName;        
               this.$refs['address' + refValues[0] + refValues[1]][0].placeholder = response.data.address1;   

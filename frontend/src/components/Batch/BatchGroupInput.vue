@@ -10,21 +10,22 @@
           </div>
         </div>
 
-        <div class="row col-12 border-bottom mb-3">
+        <!-- <div class="row col-12 border-bottom mb-3">
             <div class="col-2"><strong>Mincode</strong></div>
             <div class="col-3"><strong>School Name</strong></div>
             <div class="col-2"><strong>District Name</strong></div>
             <div class="col-3"><strong>Address</strong></div>   
-        </div>
+        </div> -->
 
         
-        <div v-for="(school, index) in batch.schools" :key="index" class="">
-          <div v-if="!school.schoolName" class="mb-3">
+        <div v-for="(school, index) in batch[group]" :key="index" class="">
+          <div v-if="!school['schoolName']" class="mb-3">
 
 
             <ValidationObserver v-slot="{passes, invalid}">
-            <form @submit.prevent="passes(addValueToTypeInBatchId(jobId,'schools',school.value,index))" class="row col-12">
+            <form @submit.prevent="passes(addValueToTypeInBatchId(jobId,group,school.value,index))" class="row col-12">
               <div class="col-2 p-0 m-0">
+                {{jobId}} {{index}} {{ batch.details['credential']}}
               <ValidationProvider name="Mincode" :rules="'mincodelength|validateschool:' + jobId + ',' + index + ',' + batch.details['credential']" v-slot="{ errors }">
                 <b-form-input type="number" v-model="school.value"/>
                 <span class="position-absolute w-100 form-validation-message text-danger">{{ errors[0] }}</span>
@@ -33,24 +34,31 @@
                 <b-form-input show=false disabled v-model="school.schoolName" :ref="'schoolName' + jobId + index" class="col-3"/>
                 <b-form-input show=false disabled v-model="school.districtName" :ref="'districtName'+ jobId + index" class="col-2"/>
                 <b-form-input show=false disabled v-model="school.address" :ref="'address'+ jobId + index" class="col-3"/>
-                <div v-if="index == batch.schools.length-1" class="col-2">
+                <div v-if="index == batch[group].length-1" class="col-2">
                   <button :disabled="invalid" class="btn btn-primary w-100">
+                  
                   <b-spinner small v-if="validating"></b-spinner> Add
                   </button>   
                 </div>
               </form>
             </ValidationObserver>
           </div>
-          <div class="row col-12 mb-2">
-            <div v-if="school.schoolName" class="col-2">{{school.value}}</div>
-            <div v-if="school.schoolName" class="col-3">{{school.schoolName}}</div>
-            <div v-if="school.districtName" class="col-2">{{school.districtName}}</div>
-            <div v-if="school.address" class="col-3"> {{school.address}}</div>   
+          <div class="row col-12 mb-2" >
+            {{batch[group][index]['value']}}
+              <div v-for="(field) in fields" :key="field" class="col-2">
+                {{batch[group][index][field]}}
+              </div>
+            
+              <!-- <div v-if="school.schoolName" class="col-2">{{ school.value}}</div>
+              <div v-if="school.schoolName" class="col-3">{{school.schoolName}}</div>
+              <div v-if="school.districtName" class="col-2">{{school.districtName}}</div>
+              <div v-if="school.address" class="col-3"> {{school.address}}</div>    -->
 
-            <div v-if="index != batch.schools.length-1" class="col-2" ><b-button  class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'schools',school.value)">
-              Remove
-            </b-button>
-            </div>
+              <div v-if="index != batch.schools.length-1" class="col-2" >
+                <b-button  class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'schools',school.value)">
+                  Remove
+                </b-button>
+              </div>
           </div>
         </div>
       <pre class="mt-5">TEST Schools: 04343000 04399143 02222022 06161064 06161049 03596573</pre>
@@ -168,14 +176,18 @@ export default {
     extend('validateschool', (value, refValues) => {
         return SchoolService.getSchoolInfo(value).then(
           (response) => {
-            let credential = refValues[2]
-            if((credential == "Blank certificate print" || credential == 'OT') && response.data.transcriptEligibility == 'N'){ 
-                 return "This school is not eligible for trasncripts."
-            }
-            if((credential == "Blank certificate print" || credential == 'OC' || credential =='RC' ) && response.data.certificateEligibility == 'N'){ 
-                 return "This school is not eligible for certificates."
+            if(refValues[2]){
+              let credential = refValues[2]
+              if((credential == "Blank certificate print" || credential == 'OT') && response.data.transcriptEligibility == 'N'){ 
+                  return "This school is not eligible for trasncripts."
+              }
+              if((credential == "Blank certificate print" || credential == 'OC' || credential =='RC' ) && response.data.certificateEligibility == 'N'){ 
+                  return "This school is not eligible for certificates."
+              }
             }
             if(response.data.minCode){
+              console.log(this.$refs)
+              console.log(this.$refs['schoolName' + refValues[0] + refValues[1]])
               this.$refs['schoolName' + refValues[0] + refValues[1]][0].placeholder = response.data.schoolName;        
               this.$refs['districtName' + refValues[0] + refValues[1]][0].placeholder = response.data.districtName;        
               this.$refs['address' + refValues[0] + refValues[1]][0].placeholder = response.data.address1;   
@@ -500,8 +512,8 @@ export default {
     jobId: String,
     label: String,
     group: String,
-    fields: Object,
-    items: Object
+    fields: Array,
+    items: Array
   },  
   computed: {
     ...mapGetters({  
