@@ -1,7 +1,6 @@
 <template>
   <div>
-<BatchGroupInput :jobId="this.jobId" label="Schools" group="schools" :fields="['mincode', 'schoolName', 'districtName', 'address']" :items="batch['schools']">
-      </BatchGroupInput>
+
     <b-overlay :show='processingBatch'>
       <div class="row">
         <div class="col-12 col-md-3 border-right">
@@ -356,7 +355,7 @@
         </div>
       <pre>Test PENS: 106900004     124304700      126604461       101005700</pre>
       </b-card>            
-      <b-card v-if="batch.details['who']=='School'" class="mt-3 px-0" header="Include Schools">
+      <!-- <b-card v-if="batch.details['who']=='School'" class="mt-3 px-0" header="Include Schools">
         <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
         <div class="row col-12 border-bottom mb-3">
             <div class="col-2"><strong>Mincode</strong></div>
@@ -437,7 +436,9 @@
             </div>
           </div>
         </div>
-      </b-card>
+      </b-card> -->
+      <BatchGroupInput :jobId="this.jobId" label="Schools" group="schools" :fields="[{key:'mincode', isInput: true}, {key:'schoolName'}, {key: 'districtName'}, {key:'address1'}]" :items="batch['schools']">
+      </BatchGroupInput>
       </div>       
       </div>
       <div class="my-3">
@@ -491,7 +492,8 @@
   </div>
 </template>
 <script>
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
+// import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
+import { ValidationProvider, extend } from 'vee-validate';
 import TRAXService from "@/services/TRAXService.js";
 import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
@@ -552,7 +554,7 @@ export default {
   components: {
     BatchGroupInput: BatchGroupInput,    
     ValidationProvider: ValidationProvider,
-    ValidationObserver: ValidationObserver
+    // ValidationObserver: ValidationObserver
   },  
   data: function () {
     return {
@@ -597,39 +599,7 @@ export default {
   },
   mounted(){
     
-    extend('validateschool', (value, refValues) => {
-        return SchoolService.getSchoolInfo(value).then(
-          (response) => {
-            let credential = refValues[2]
-            if((credential == "Blank certificate print" || credential == 'OT') && response.data.transcriptEligibility == 'N'){ 
-                 return "This school is not eligible for trasncripts."
-            }
-            if((credential == "Blank certificate print" || credential == 'OC' || credential =='RC' ) && response.data.certificateEligibility == 'N'){ 
-                 return "This school is not eligible for certificates."
-            }
-
-            if(response.data.minCode){
-           
-              this.$refs['schoolName' + refValues[0] + refValues[1]][0].placeholder = response.data.schoolName;        
-              this.$refs['districtName' + refValues[0] + refValues[1]][0].placeholder = response.data.districtName;        
-              this.$refs['address' + refValues[0] + refValues[1]][0].placeholder = response.data.address1;   
-              return { valid: true };
-            }else{
-              return {
-                valid: false,
-              };
-            }
-          }
-        ).catch((error) => {
-          // eslint-disable-next-line
-          console.log(error) 
-               
-          this.validating = false;
-          this.$forceUpdate();
-        });
-    }, {
-     immediate: false
-   })
+    
 
   },
   created() {
