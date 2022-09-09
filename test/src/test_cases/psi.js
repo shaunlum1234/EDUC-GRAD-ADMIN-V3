@@ -80,5 +80,99 @@ fixture `psi-page`
         testSuites: {
             smoke: true,
             regression: true,
+            qa: false,
         }
     });
+
+    test('PSI doesn\'t exist', async t => {
+        await t
+        .click(psiPage.psiCode)
+        .typeText(psiPage.psiCode, 'XXX')
+        .click(psiPage.searchSubmit);
+
+        await t
+        .expect(psiPage.searchMessage.textContent)
+        .contains('No PSIs found');
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+            qa: true,
+        }
+    });
+
+    test('Search on PSI Code', async t => {
+        await t
+        .click(psiPage.psiCode)
+        .typeText(psiPage.psiCode, '00*')
+        .click(psiPage.searchSubmit);
+
+        await t
+        .expect(psiPage.searchMessage.textContent)
+        .contains('9');
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+            qa: true,
+        }
+    });
+    
+    test('Search on PSI Name', async t => {
+        await t
+        .click(psiPage.psiName)
+        .typeText(psiPage.psiName, 'alberta college*')
+        .click(psiPage.searchSubmit);
+
+        await t
+        .expect(psiPage.searchMessage.textContent)
+        .contains('4');
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+            qa: true,
+        }
+    });
+    
+    test('Search on CSL Code', async t => {
+        await t
+        .click(psiPage.cslCode)
+        .typeText(psiPage.cslCode, 'DU*')
+        .click(psiPage.searchSubmit);
+
+        await t
+        .expect(psiPage.searchMessage.textContent)
+        .contains('5');
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+            qa: true,
+        }
+    });
+    
+    test('Search on Active flag and transmission mode', async t => {
+        await t
+        .click(psiPage.openFlag)
+        .click(psiPage.optionY)
+        .click(psiPage.transmissionMode)
+        .typeText(psiPage.transmissionMode, 'FTP')
+        .click(psiPage.searchSubmit);
+
+        await t
+        .expect(psiPage.searchMessage.textContent)
+        .contains('8');
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+            qa: true,
+        }
+    });
+

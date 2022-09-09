@@ -15,7 +15,9 @@ class PSIPage {
         this.cslCode = Selector('.advanced-search-field > label').withExactText('CSL Code').sibling('input');
         this.cslCodeWildcard = Selector('.advanced-search-field > label').withExactText('CSL Code').sibling('div.wild-card-button');
 
-        this.openFlag = Selector('.advanced-search-field > label').withExactText('Open Flag').sibling('select');
+        this.openFlag = Selector('.advanced-search-field > label').withExactText('Active').sibling('select');
+        this.optionY = this.openFlag.child('option').withExactText('Y');
+        this.optionN = this.openFlag.child('option').withExactText('N');
         
         this.transmissionMode = Selector('.advanced-search-field > label').withExactText('Transmission Mode').sibling('input');
         //this.transmissionModeWildcard = Selector();
