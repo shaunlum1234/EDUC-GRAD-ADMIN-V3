@@ -30,6 +30,7 @@ fixture `assesments-page`
         testSuites: {
             smoke: true,
             regression: true,
+            qa: true,
         }
     });
 
@@ -44,5 +45,6 @@ fixture `assesments-page`
         testSuites: {
             smoke: true,
             regression: true,
+            qa: true,
         }
     });

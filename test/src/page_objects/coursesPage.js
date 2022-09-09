@@ -9,6 +9,8 @@ class CoursesPage {
         this.restrictionsTab = Selector('a[role=tab]').withExactText('Course restrictions');
         this.requirementsTab = Selector('a[role=tab]').withExactText('Course requirements');
 
+        this.searchMessage = Selector('.active .search-results-message > strong');
+
         // course search elements
         //this.TRAXCode = Selector('#trax-code-input');
         // this.gradeLevel = Selector('#grade-level-input');
@@ -31,9 +33,9 @@ class CoursesPage {
         //this.courseCodeMain = Selector('th[role=columnheader][aria-colindex="1"]');
 
         // course requirements search elements
-        this.courseCode = Selector('#course-code-input');
-        this.courseLevel = Selector('#course-level-input');
-        this.ruleNumber = Selector('#rule-number-input');
+        this.courseCode = Selector('.advanced-search-field > label').withExactText('Course code').sibling('input');
+        this.courseLevel = Selector('.advanced-search-field > label').withExactText('Course level').sibling('input');
+        this.ruleNumber = Selector('.advanced-search-field > label').withExactText('Rule#').sibling('input');
         
         // form buttons
         this.searchSubmit = Selector('div.active button').withExactText('Search');
