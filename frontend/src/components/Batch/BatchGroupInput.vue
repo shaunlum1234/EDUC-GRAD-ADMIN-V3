@@ -35,9 +35,10 @@
             </ValidationObserver>
           </div>
           <div class="row col-12 mb-2" >
-              <div class="col-2">{{batch[group][index]['value']}}</div>
+
               <div v-for="(field) in fields" :key="field" class="col-2">
-                {{batch[group][index][field.key]}}
+                <span v-if="field.isInput">{{batch[group][index]['value']}}</span>
+                <span v-else>{{batch[group][index][field.key]}}</span>
               </div>
 
               <div v-if="index != batch.schools.length-1" class="col-2" >
@@ -171,18 +172,12 @@ export default {
                  return "This school is not eligible for certificates."
             }
 
-            if(response.data.minCode){
-
-              console.log(refValues)
-              
+            if(response.data.minCode){              
               for(let field of this.fields){
                 if(this.$refs[field.key + refValues[0] + refValues[1]]){
                   this.$refs[field.key + refValues[0] + refValues[1]][0].placeholder = response.data[field.key]; 
                 }
               }
-              // this.$refs['schoolName' + refValues[0] + refValues[1]][0].placeholder = response.data.schoolName;        
-              // this.$refs['districtName' + refValues[0] + refValues[1]][0].placeholder = response.data.districtName;        
-              // this.$refs['address' + refValues[0] + refValues[1]][0].placeholder = response.data.address1;   
               return { valid: true };
             }else{
               return {
