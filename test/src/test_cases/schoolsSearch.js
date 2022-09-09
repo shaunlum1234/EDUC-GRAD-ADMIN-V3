@@ -47,6 +47,12 @@ fixture `schools-page`
         await t
         .click(schoolsPage.formReset)
         .expect(await schoolsPage.searchMessage.textContent).contains(searchMessageResults.emptySearch)
+    })
+    .meta({
+        testSuites: {
+            smoke: false,
+            regression: true,
+        }
     });
 
     test('valid search', async t => {
@@ -61,7 +67,7 @@ fixture `schools-page`
         .contains('1');
 
         await t
-        .expect(await Selector('div.table-responsive td[data-label="TRAX School Name"] div').textContent)
+        .expect(await schoolsPage.schoolName.textContent)
         .contains(testData.school1.name);
 
         log.info(" - testing search with valid school name on Schools view");
@@ -75,10 +81,17 @@ fixture `schools-page`
         .contains('1');
 
         await t
-        .expect(await Selector('div.table-responsive td[data-label="SPM School Code"] div').textContent)
+        .expect(await schoolsPage.spmCode.textContent)
         .contains(testData.school1.mincode);
 
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });
+
 
     test('valid wildcard search', async t => {
         log.info(' - testing search with wildcard on Schools view');
@@ -89,9 +102,16 @@ fixture `schools-page`
         .click(schoolsPage.searchSubmit);
 
         await t
-        .expect(await Selector('div.table-responsive td[data-label="TRAX School Name"]').exists)
+        .expect(await schoolsPage.schoolName.exists)
         .ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: false,
+            regression: true,
+        }
     });
+
 
     test('invalid search', async t => {
         log.info(' - testing search with invalid mincode on Schools view');
@@ -103,3 +123,10 @@ fixture `schools-page`
         await t
         .expect(schoolsPage.searchMessage.textContent).contains(searchMessageResults.notFound);
     })
+    .meta({
+        testSuites: {
+            smoke: false,
+            regression: true,
+        }
+    });
+

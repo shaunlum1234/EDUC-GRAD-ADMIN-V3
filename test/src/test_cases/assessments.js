@@ -25,6 +25,13 @@ fixture `assesments-page`
 
         await t
         .expect(Selector('div.active table[aria-colcount="5"]').exists).ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+            qa: true,
+        }
     });
 
     test('assessments requirements table loads', async t => {
@@ -34,3 +41,10 @@ fixture `assesments-page`
         await t
         .expect(Selector('div.active table[aria-colcount="6"]').exists).ok();
     })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+            qa: true,
+        }
+    });
