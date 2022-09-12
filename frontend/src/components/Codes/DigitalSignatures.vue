@@ -19,7 +19,7 @@
       </template>
 
       <template #cell(updatedTimestamp)="row">
-        {{ row.item.updatedTimestamp | formatSimpleDate }}
+        {{ row.item.updatedTimestamp | formatTime }}
       </template>
 
     </DisplayTable>

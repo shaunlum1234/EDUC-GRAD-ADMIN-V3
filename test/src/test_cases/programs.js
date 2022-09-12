@@ -26,6 +26,12 @@ fixture `programs-page`
         .click(programsPage.algorithmRulesTab)
         .expect(programsPage.testRowExists.exists)
         .ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });
 
     test('letter grades', async t => {
@@ -35,4 +41,10 @@ fixture `programs-page`
         .click(programsPage.letterGradesTab)
         .expect(programsPage.testRowExists.exists)
         .ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });

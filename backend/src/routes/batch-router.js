@@ -11,6 +11,7 @@ const isValidUiTokenWithStaffRoles = auth.isValidUiTokenWithRoles('GRAD_SYSTEM_C
 router.get('/*',passport.authenticate('jwt', {session: false}, undefined), isValidUiTokenWithStaffRoles, getBatchInfoAPI);
 router.post('/*',passport.authenticate('jwt', {session: false}, undefined), isValidUiTokenWithStaffRoles, postBatchInfoAPI);
 router.delete('/*',passport.authenticate('jwt', {session: false}, undefined), isValidUiTokenWithStaffRoles, deleteBatchInfoAPI);
+router.put('/*',passport.authenticate('jwt', {session: false}, undefined), isValidUiTokenWithStaffRoles, putBatchInfoAPI);
 
 async function getBatchInfoAPI(req, res) {
   const token = getBackendToken(req);
@@ -51,5 +52,18 @@ async function deleteBatchInfoAPI(req, res) {
     return errorResponse(res);
   }
 }
-
+async function putBatchInfoAPI(req, res) {
+  const token = putBackendToken(req);
+  try {
+    const url = `${config.get('server:batchAPIURL')}/batch` + req.url;
+    const data = await putData(token, url);
+    return res.status(200).json(data);
+  } catch (e) {
+    if(e.data.message){
+      return errorResponse(res, e.data.message, e.status);
+    } else {
+      return errorResponse(res);
+    }
+  }
+}
 module.exports = router;

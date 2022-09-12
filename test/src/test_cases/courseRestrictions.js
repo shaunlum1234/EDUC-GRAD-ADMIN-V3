@@ -24,6 +24,12 @@ fixture `course-restrictions`
     test('table loads', async t => {
         await t
         .expect(coursesPage.courseRestrictionsTab.exists, {timeout: max_acceptable_timeout}).ok();
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });
 
     test('table sorting', async t => {
@@ -55,6 +61,12 @@ fixture `course-restrictions`
         }
         
     })
+    .meta({
+        testSuites: {
+            smoke: false,
+            regression: true,
+        }
+    });
 
     // not a great test for table filtering.
     // TODO: change this to check if each row contains filtered value

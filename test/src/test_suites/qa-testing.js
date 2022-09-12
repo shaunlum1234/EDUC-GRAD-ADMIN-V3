@@ -10,7 +10,9 @@ createTestCafe('localhost', 1337, 1338)
         return runner
             // list multiple test files
             .src(["./src/test_cases"])
-            .filter(async(testName, fixtureName, fixturePath, testMeta, fixtureMeta) =>  testMeta.testSuites?.smoke)
+            .filter(async(testName, fixtureName, fixturePath, testMeta, fixtureMeta) =>  testMeta.testSuites?.qa)
+            //.browsers(["chrome:headless", "firefox:headless"])
+            .concurrency(5)
             .run();
     })
     .then(failedCount => {
@@ -21,4 +23,3 @@ createTestCafe('localhost', 1337, 1338)
         }
         testcafe.close();
     });
-    
