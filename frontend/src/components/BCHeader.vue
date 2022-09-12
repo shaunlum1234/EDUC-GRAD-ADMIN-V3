@@ -73,22 +73,20 @@
            <li><router-link to="/batch-processing">Batch Processing</router-link></li>
           <li v-if="!profile.pen" class="disabled"><a id="profile-route" class="text-decoration-none text-disabled" :disabled=true>Profile (Student not loaded)</a></li>
           <li v-else><router-link :to="`/student-profile/${this.profile.studentID}`" id="profile-route">Profile ({{profile.pen? profile.pen : 'Student not loaded'}})</router-link></li>
-
           <li>
              <form v-on:submit.prevent>
               <div class="form-group top-search">
                 <!-- Pen Input -->
                 <div>                
-                    <b-form-input maxlength=9 minlength=9 size="sm" id="search-by-pen-header" type="search" v-model="penInput" placeholder="PEN"
-                      ref="penSearch" v-on:keyup="keyHandler" class="w-75 float-left m-1">
-                    </b-form-input>
-                    <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary float-left">
-                      <i class="fas fa-search" aria-hidden="true"></i>
-                    </button>
-                    <button v-if="searchLoading" class="btn btn-success ml-2 float-left">
-                      <i class="fas fa-search" aria-hidden="true"></i>
-                    </button>  
-                    
+                  <b-form-input maxlength=9 minlength=9 size="sm" id="search-by-pen-header" type="search" v-model="penInput" placeholder="PEN"
+                    ref="penSearch" v-on:keyup="keyHandler" class="w-75 float-left m-1">
+                  </b-form-input>
+                  <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary float-left">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                  </button>
+                  <button v-if="searchLoading" class="btn btn-success ml-2 float-left">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                  </button>  
                 </div>
               </div>
             </form>
@@ -96,12 +94,9 @@
         </ul>     
       </div>
     </nav>
-    
   </div>
 </template>
-
 <script>
-
 import StudentService from "@/services/StudentService.js";
 import sharedMethods from '../sharedMethods';
 import { mapGetters } from "vuex";
@@ -117,7 +112,7 @@ export default {
   },
   created() {
     this.loadStudent = sharedMethods.loadStudent;
-    this.showNotification = sharedMethods.showNotification    
+    this.showNotification = sharedMethods.showNotification;     
   },
    computed: {
     ...mapGetters({
