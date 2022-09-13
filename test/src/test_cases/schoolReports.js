@@ -22,3 +22,9 @@ fixture `school-reports`
         await t
             .expect(await schoolReportsPage.mincode.exists).ok();
     })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
+    });

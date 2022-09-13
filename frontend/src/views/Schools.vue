@@ -17,9 +17,6 @@
                 <b-col>
                     <label class="col-6 p-0">School name</label>
                 </b-col>
-                <b-col>
-                    <label class="col-6 p-0">Authority number</label>
-                </b-col>
               </b-row>
               <b-row align-v="stretch" class="row-eq-height">
                 <b-col>
@@ -54,17 +51,6 @@
                     [.*]
                   </div>
                   <b-input v-model="search.schoolName.value" v-on:keyup="keyHandler" placeholder="" id="schoolName"/>
-                </b-col>
-                <b-col>
-                  <div href="#"
-                    v-on:click="search.authorityNumber.contains = !search.authorityNumber.contains"
-                    v-bind:class="{active: search.authorityNumber.contains}"
-                    class="wild-card-button"
-                    v-b-tooltip.hover title="Authority number contains"
-                  >
-                    [.*]
-                    </div>
-                  <b-input v-model="search.authorityNumber.value" v-on:keyup="keyHandler" placeholder="" id="authorityNumber" trim/> 
                 </b-col>
               </b-row>
               <b-row class="p-3">
@@ -116,27 +102,17 @@
                             <li v-if="row.item.city">
                               <strong>City:</strong> {{ row.item.city }}
                             </li>                
-                            <li v-if="row.item.provinceCode">
+                            <li v-if="row.item.provCode">
                               <strong>Province Code:</strong> {{ row.item.provCode }}
                             </li>                      
-                            <li v-if="row.item.provinceName">
-                              <strong>Province Name:</strong> {{ row.item.provinceName}}
-                            </li>
-                            <li v-if="row.item.countryCode">
-                              <strong>Country Code:</strong> {{ row.item.countryCode }}
-                            </li>
-                            <li v-if="row.item.countryName">
-                              <strong>Country Name:</strong> {{ row.item.provinceName}}
-                            </li>
                             <li v-if="row.item.postal">
                               <strong>Postal Code:</strong> {{ row.item.postal }}
                             </li>
                             <li v-if="row.item.schoolEmail">
                               <strong>Email:</strong> {{ row.item.schoolEmail }}
-                            </li>
-                            
-                            <li v-if="row.item.ministryContact">
-                              <strong>Ministry Contact:</strong> {{ row.item.ministryContact }}
+                            </li> 
+                            <li v-if="row.item.principalName">
+                              <strong>Principal:</strong> {{ row.item.principalName }}
                             </li>
                             <li v-if="row.item.schoolPhone">
                               <strong>Phone:</strong> {{ row.item.schoolPhone }}
@@ -178,21 +154,10 @@ import sharedMethods from '../sharedMethods';
             label: ''        
           },
           {
-            key: 'districtNumber',
-            label: 'SPM District Number',
-            sortable: true,
-          },
-          {
             key: 'minCode',
-            label: 'SPM School Code',
+            label: 'TRAX School Code',
             sortable: true,
             sortDirection: 'asc'
-          },
-             {
-            key: 'schoolType',
-            label: 'SPM School Type',
-            sortable: true,
-            class: 'text-center'
           },
           {
             key: 'schoolName',
@@ -218,65 +183,11 @@ import sharedMethods from '../sharedMethods';
             class: 'text-center'
           },
           {
-            key: 'openDate',
-            label: 'SPM Open Date',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'closedDate',
-            label: 'SPM Closed Date',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'authorityNumber',
-            label: 'SPM Authority Number',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'gradeRange',
-            label: 'Grade Range',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
             key: 'schoolCategory',
             label: 'SPM School Category',
             sortable: true,
             class: 'text-center'
           },
-          {
-            key: 'fundingGroups',
-            label: 'Funding Group',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'enrolmentAsOf',
-            label: 'Enrolment As Of',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'grade10Enrolment',
-            label: 'Grade 10 Enrolment',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'grade11Enrolment',
-            label: 'Grade 11 Enrolment',
-            sortable: true,
-            class: 'text-center'
-          },
-          {
-            key: 'grade12Enrolment',
-            label: 'Grade 12 Enrolment',
-            sortable: true,
-            class: 'text-center'
-          }
         ],
         totalResults: "",
         searchMessage: "",
@@ -291,10 +202,6 @@ import sharedMethods from '../sharedMethods';
             contains:false
           },
           mincode:{
-            value:"",
-            contains:false
-          },
-          authorityNumber:{
             value:"",
             contains:false
           },

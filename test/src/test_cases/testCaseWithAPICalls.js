@@ -47,4 +47,10 @@ test('get_Token_Load_From_API_Then_Hit_Main_Page', async t => {
     // hit the login screen and see if it loads
     await t.click(screen.getByText('Graduation Records and Achievement Data'));
     log.info("GRAD page loaded successfully!");
+})
+.meta({
+    testSuites: {
+        smoke: false,
+        regression: false,
+    }
 });

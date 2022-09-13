@@ -19,7 +19,11 @@ async function getReportsAPI(req, res) {
     const data = await getData(token, url);
     return res.status(200).json(data);
   } catch (e) {
+    if(e.data.message){
+      return errorResponse(res, e.data.message, e.status);
+    } else {
       return errorResponse(res);
+    }
   }
 }
 

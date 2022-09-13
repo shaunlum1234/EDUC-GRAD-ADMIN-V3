@@ -28,4 +28,49 @@ fixture `course-requirements`
         await t
         .expect(await searchMessage.textContent)
         .contains('Enter at least one field to search.');
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+        }
     });
+
+    test('Search on Course Code and Course Level', async t => {
+        await t
+        .click(coursesPage.courseCode)
+        .typeText(coursesPage.courseCode, 'EN')
+        .click(coursesPage.courseLevel)
+        .typeText(coursesPage.courseLevel, '12')
+        .click(coursesPage.searchSubmit);
+
+        await t
+        .expect(coursesPage.searchMessage.textContent)
+        .contains('7');
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+            qa: true,
+        }
+    });
+
+    test('Search on Rule #', async t => {
+        await t
+        .click(coursesPage.ruleNumber)
+        .typeText(coursesPage.ruleNumber, '103')
+        .click(coursesPage.searchSubmit);
+
+        await t
+        .expect(coursesPage.searchMessage.textContent)
+        .contains('19');
+    })
+    .meta({
+        testSuites: {
+            smoke: true,
+            regression: true,
+            qa: true,
+        }
+    });
+    
