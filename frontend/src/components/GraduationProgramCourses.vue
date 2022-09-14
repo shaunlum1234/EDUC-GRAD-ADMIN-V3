@@ -87,7 +87,6 @@ export default {
     };
   },
   created() {
-    //console.log("RULE" + this.$route.params.rule)
     this.selectedRule = this.$route.params.rule;
     this.category = this.$route.params.category;
     this.ruleName = this.$route.params.ruleName;
