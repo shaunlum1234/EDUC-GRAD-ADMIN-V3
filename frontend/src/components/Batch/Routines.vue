@@ -4,7 +4,7 @@
       v-bind:fields="scheduledRoutinesFields" id="id" :showFilter=false pagination="true"
     >
       <template #cell(enabled)="row">
-          <b-form-checkbox @change="toggleRoutine(row.item.jobType, !row.item.enabled)" :ref="'routine' + row.item.jobType + 'Enabled'" :checked="row.item.enabled=='Y'?true:false" name="check-button" switch >
+          <b-form-checkbox @change="toggleRoutine(row.item.jobType, row.item.id)" :ref="'routine' + row.item.jobType + 'Enabled'" :checked="row.item.enabled=='Y'?true:false" name="check-button" switch >
           </b-form-checkbox>
       </template>
     </DisplayTable>
@@ -80,7 +80,7 @@ export default {
 
   },
   methods: {
-    toggleRoutine(jobType){
+    toggleRoutine(jobType, processingId){
 
         this.$bvModal.msgBoxConfirm('Please confirm that you want to update.', {
           title: 'Please Confirm',
@@ -95,7 +95,7 @@ export default {
         })
         .then(confirm => {
           if(confirm){
-            BatchProcessingService.batchProcessingToggleRoutine(jobType).then(
+            BatchProcessingService.batchProcessingToggleRoutine(jobType, processingId).then(
             () => {
               this.makeToast("Job Updated", "success")
             }).catch((error) => {

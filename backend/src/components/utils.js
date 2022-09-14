@@ -220,8 +220,8 @@ async function putData(token, data, url, correlationID) {
 
     log.info('put Data Url', url);
     log.verbose('put Data Req', data);
-    data.updateUser = 'EDX';
-    const response = await axios.put(url, data, putDataConfig);
+    data.updateUser = 'GRAD';
+    const response = await axios.put(url, {}, putDataConfig);
 
     log.info(`put Data Status for url ${url} :: is :: `, response.status);
     log.info(`put Data StatusText for url ${url}  :: is :: `, response.statusText);
