@@ -4,13 +4,13 @@
       <b-card class="mt-3 px-0" :header="'Include ' + label ">
         <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
         <div class="row col-12 border-bottom mb-3">
-          <div v-for="(item) in fields" :key="item" class="col-2">
-              <strong> {{item.key}}</strong>
+          <div v-for="(field) in fields" :key="field.key" class="col-2">
+              <strong> {{field.label}}</strong>
           </div>
         </div>
         
         <div v-for="(school, index) in batch[group]" :key="index" class="">
-          <div v-if="!school['schoolName']" class="mb-3">
+          <div v-if="!school[fields[1].key]" class="mb-3">
 
 
             <ValidationObserver v-slot="{passes, invalid}">

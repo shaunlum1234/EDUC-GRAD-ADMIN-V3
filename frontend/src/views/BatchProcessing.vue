@@ -30,9 +30,9 @@
                             <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'batch')">   
                               All results           
                             </b-btn>
-                            <b-btn v-if="row.item.jobType='DISTRUNUSER'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="downloadDISTRUN(row.item.jobExecutionId)">   
+                            <!-- <b-btn v-if="row.item.jobType='DISTRUNUSER'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="downloadDISTRUN(row.item.jobExecutionId)">   
                               Download
-                            </b-btn>                            
+                            </b-btn>                             -->
                           </b-popover>
                         </template>
                         <template #cell(failedStudentsProcessed)="row">
@@ -382,7 +382,7 @@ export default {
     },
     getCurrentPSIYear(){
       let date = new Date();
-      if(date.getMonth()+1 >= 8){
+      if(date.getMonth()+1 > 8){
         return date.getFullYear()+1;
       }else{
           return date.getFullYear();

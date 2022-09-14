@@ -174,7 +174,7 @@
            </div>          
                     
           <div class="p-0 mt-3 col-3" v-if="batch.details['who'] == 'District'">
-            <label class="font-weight-bold">District Category</label>
+            <label class="font-weight-bold">School Category</label>
             <b-form-select
               id="inline-form-select-type"
               class="col-12 my-2"
@@ -222,7 +222,7 @@
       <div v-if="batch.details['who']=='District'" class="float-left col-12 px-0">
 
 
-        <b-card class="mt-3 px-0" header="Include Districts">
+        <b-card class="mt-3 px-0" header="Include Geographic Districts">
             <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
 
         <div class="row col-12">
@@ -355,7 +355,7 @@
         </div>
       <pre>Test PENS: 106900004     124304700      126604461       101005700</pre>
       </b-card>            
-      <!-- <b-card v-if="batch.details['who']=='School'" class="mt-3 px-0" header="Include Schools">
+      <b-card v-if="batch.details['who']=='School'" class="mt-3 px-0" header="Include Schools">
         <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
         <div class="row col-12 border-bottom mb-3">
             <div class="col-2"><strong>Mincode</strong></div>
@@ -436,9 +436,9 @@
             </div>
           </div>
         </div>
-      </b-card> -->
-      <BatchGroupInput :jobId="this.jobId" label="Schools" group="schools" :fields="[{key:'mincode', isInput: true}, {key:'schoolName'}, {key: 'districtName'}, {key:'address1'}]" :items="batch['schools']">
-      </BatchGroupInput>
+      </b-card>
+      <!-- <BatchGroupInput :jobId="this.jobId" label="Schools" group="schools" :fields="[{key:'mincode', label: 'Mincode', isInput: true}, {key:'schoolName', label: 'School Name'}, {key: 'districtName', label: 'District Name'}, {key:'address1', label: 'Address'}]" :items="batch['schools']">
+      </BatchGroupInput> -->
       </div>       
       </div>
       <div class="my-3">
@@ -492,13 +492,12 @@
   </div>
 </template>
 <script>
-// import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { ValidationProvider, extend } from 'vee-validate';
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import TRAXService from "@/services/TRAXService.js";
 import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
 import GraduationReportService from "@/services/GraduationReportService.js";
-import BatchGroupInput from "@/components/Batch/BatchGroupInput.vue";
+//import BatchGroupInput from "@/components/Batch/BatchGroupInput.vue";
 import {
   mapGetters
 } from "vuex";
@@ -551,10 +550,9 @@ extend('adultdogwoodpublicrestrictedtoministryofadvancededgroup', {
 })
 
 export default {
-  components: {
-    BatchGroupInput: BatchGroupInput,    
+  components: {   
     ValidationProvider: ValidationProvider,
-    // ValidationObserver: ValidationObserver
+    ValidationObserver: ValidationObserver
   },  
   data: function () {
     return {
@@ -574,22 +572,22 @@ export default {
       formElements: {
        'PSIRUN':
           {
-            'group': [{ text: '', value: null }, {text:'Student - N/A',value:'Student', disabled:true},{text:'School - N/A',value:'School', disabled:true},{text:'District - N/A',value:'District', disabled:true},{text:'Program - N/A',value:'Program', disabled:true},{text:'PSI',value:'PSI'}],
+            'group': [{ text: '', value: null }, {text:'Student - N/A',value:'Student', disabled:true},{text:'School - N/A',value:'School', disabled:true},{text:'District - N/A',value:'Geographic District', disabled:true},{text:'Program - N/A',value:'Program', disabled:true},{text:'PSI',value:'PSI'}],
             'psiYear': true,
             'psiTransmissionMode': true,
           }
         ,
         'DISTRUN':{
-          'group': [{ text: '', value: null }, 'Student', 'School', 'District', 'Program'],
+          'group': [{ text: '', value: null }, 'Student', 'School', { text: 'Geographic District', value: 'District' }, 'Program'],
           'copies': true,
           'where': true
           }
         ,
         'TVRRUN': {
-          'group': [{ text: '', value: null }, 'Student', 'School', 'District', 'Program']
+          'group': [{ text: '', value: null }, 'Student', 'School', { text: 'Geographic District', value: 'District' }, 'Program']
           },    
         'REGALG': {
-          'group': [{ text: '', value: null }, 'Student', 'School', 'District', 'Program']
+          'group': [{ text: '', value: null }, 'Student', 'School', { text: 'Geographic District', value: 'District' }, 'Program']
       }, 
         'DISTRUN-YEAREND': {
           'message': "You are running a year end distribution run. Click the run button and confirm."
@@ -598,9 +596,7 @@ export default {
     }
   },
   mounted(){
-    
-    
-
+  
   },
   created() {
 
@@ -611,7 +607,6 @@ export default {
 
   methods: {
     groupFormValues(runType){
-      console.log(runType)
       if(runType == ""){
         return
       }
@@ -627,7 +622,6 @@ export default {
     },
     hasFormElement(runType, inputName){
       if(runType in this.formElements && inputName in this.formElements[runType]){
-        console.log(this.formElements[runType][inputName])
         return this.formElements[runType][inputName]
       }else{
         return false;
