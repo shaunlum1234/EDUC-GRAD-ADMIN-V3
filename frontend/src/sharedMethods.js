@@ -48,16 +48,20 @@ export default {
       var file = new Blob([byteArray], { type: mimeType + ';base64' });
       return file;
     }, 
+    getStudentID: function (pen){
+      StudentService.getStudentByPen(pen).then((response) => {
+        return response.data[0].studentID;
+      }).catch((error) => {
+        // eslint-disable-next-line
+        console.log(error)
+      });            
+    },
     getStudentPen: function (studentID){
       StudentService.getStudentPen(studentID).then((response) => {
         return response.data.pen;
       }).catch((error) => {
-        if(error.response.status){
-          this.showNotification(
-            "danger",
-            "There was an error with the Student Service (getting the Student using PEN): " + error.response.status
-          );
-        }  
+        // eslint-disable-next-line
+        console.log(error);
       });
     },      
     loadStudent: function (student) {
