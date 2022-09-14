@@ -206,7 +206,6 @@ export default {
 
   methods: {
     groupFormValues(runType){
-      console.log(runType)
       if(runType == ""){
         return
       }
@@ -222,7 +221,6 @@ export default {
     },
     hasFormElement(runType, inputName){
       if(runType in this.formElements && inputName in this.formElements[runType]){
-        console.log(this.formElements[runType][inputName])
         return this.formElements[runType][inputName]
       }else{
         return false;

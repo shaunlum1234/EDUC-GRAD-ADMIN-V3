@@ -172,8 +172,6 @@ async function forwardPostReq(req, res, url) {
 }
 
 async function postData(token, url, data, correlationID) {
-  console.log(url)
-  console.log(token)
   try {
     const postDataConfig = {
       headers: {
