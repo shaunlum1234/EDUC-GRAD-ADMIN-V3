@@ -55,7 +55,6 @@ async function deleteBatchInfoAPI(req, res) {
 }
 async function putBatchInfoAPI(req, res) {
   const token = getBackendToken(req);
-  console.log(req)
   try {
     const url = `${config.get('server:batchAPIURL')}/batch` + req.url;
     const data = await putData(token, {}, url);
