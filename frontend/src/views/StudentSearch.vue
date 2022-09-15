@@ -488,22 +488,18 @@ export default {
     },
     findStudentByStudentIdSample: function (studentId) {
       StudentService.getStudentPen(studentId).then(
-          (response) => {           
-            this.penInput = response.data.pen;
-            this.findStudentByPen();
-          }
-        ).catch((error) => {
-          if(error.response.status){
-
-            this.showNotification(
-              "danger",
-              "There was an error: " + error.response.status
-            );
-          }
-        })       
-      
-     
-      
+        (response) => {           
+          this.penInput = response.data.pen;
+          this.findStudentByPen();
+        }
+      ).catch((error) => {
+        if(error.response.status){
+          this.showNotification(
+            "danger",
+            "There was an error: " + error.response.status
+          );
+        }
+      })           
     },
     findStudentByPen: function () {
       if (this.penInput) {
