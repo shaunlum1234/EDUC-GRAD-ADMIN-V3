@@ -40,10 +40,7 @@
                 @change="editBatchJob('blankTranscriptDetails', $event)"      
               ></b-form-checkbox-group>
             </b-card>  
-
-          
             <b-card v-if="batch.details['credential']=='Blank certificate print'" class="mt-3 px-0" header="Blank Certificate Details">
-            
               <b-form-group label="Blank Certificate Details" v-slot="{ blankCertificateDetailsOptions }">
                 <b-form-checkbox-group
                     multiple
@@ -345,7 +342,7 @@
             <div v-if="pen.dob" class="col-3">{{pen.name}}</div>
             <div v-if="pen.dob" class="col-2">{{pen.dob}}</div>
             <div v-if="pen.dob" class="col-1">{{pen.studentStatus}}</div>
-            <div v-if="pen.dob" class="col-2"> {{pen.school}}</div>   
+            <div v-if="pen.dob" class="col-2">{{pen.school}}</div>   
 
             <div v-if="index != batch.students.length-1" class="col-2" ><b-button  class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'students',pen.value)">
               Remove
@@ -453,13 +450,11 @@
         <b-button v-else-if="batch.details['where'] == 'localDownload'" @click="runBatch(jobId)" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
           Download
         </b-button>
-        <b-button v-else v-b-modal="'batch-modal'" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+        <b-button v-else v-b-modal="'batch-modal-'+jobId" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
           Schedule/Run Batch
         </b-button>
-
-
         <!-- Modal Dialogs --> 
-        <b-modal id="batch-modal" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
+        <b-modal :id="'batch-modal-' + jobId" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
           <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }"> 
             <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Now">Run Now</b-form-radio>
             <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Later">Run Later</b-form-radio>
@@ -617,7 +612,6 @@ export default {
       }
       if(this.batch.details['credential'] == 'Blank certificate print' || this.batch.details['credential'] == 'Blank transcript print'){
         return [{ text: '', value: null },{ text: 'School', value: 'School' },{text: 'Ministry of Advanced Education - Select only Adult Dogwood (Public)',disabled:true}]
-        
       }
     },
     hasFormElement(runType, inputName){
