@@ -40,7 +40,7 @@ const reportsRouter = require('./routes/reports-router');
 //initialize app
 const app = express();
 app.set('trust proxy', 1);
-//sets security measures (headers, etc)
+//sets security measures (headers, etc) 
 app.use(cors());
 app.use(helmet());
 app.use(noCache());

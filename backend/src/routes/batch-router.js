@@ -4,7 +4,8 @@ const router = express.Router();
 const config = require('../config/index');
 const auth = require('../components/auth');
 const roles = require("../components/roles");
-const { errorResponse, getBackendToken, getData, postData, deleteData} = require('../components/utils');
+const { errorResponse, getBackendToken, getData, postData, deleteDatam, putData} = require('../components/utils');
+const { request } = require('../app');
 const isValidUiTokenWithStaffRoles = auth.isValidUiTokenWithRoles('GRAD_SYSTEM_COORDINATOR', [roles.Admin.StaffAdministration]);
 
 //Batch Routes
@@ -53,10 +54,10 @@ async function deleteBatchInfoAPI(req, res) {
   }
 }
 async function putBatchInfoAPI(req, res) {
-  const token = putBackendToken(req);
+  const token = getBackendToken(req);
   try {
     const url = `${config.get('server:batchAPIURL')}/batch` + req.url;
-    const data = await putData(token, url);
+    const data = await putData(token, {}, url);
     return res.status(200).json(data);
   } catch (e) {
     if(e.data.message){

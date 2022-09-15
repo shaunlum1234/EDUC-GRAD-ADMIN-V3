@@ -1,7 +1,6 @@
 <template>
   <div>
 
-    
     <b-overlay :show='processingBatch'>
       <div class="row">
         <div class="col-12 col-md-3 border-right">
@@ -11,39 +10,39 @@
             <b-form-select
               id="inline-form-select-type"
               class="mb-2 mr-sm-2 mb-sm-0"
-              :options="[{ text: 'Choose...', value: null },{ text: 'TVRRUN', value: 'TVRRUN' },{ text: 'REGALG', value: 'REGALG' },{ text: 'PSIRUN', value: 'PSIRUN' },{ text: 'DISTRUN', value: 'DISTRUN' },{ text: '-----------------------', value: '' }, { text: 'DISTRUN-YEAREND', value: 'DISTRUN-YEAREND' }]"
-              :value="tabContent[jobId].details['what']"     
-              @change="editBatchJob(jobId,'what', $event)"       
+              :options="[{ text: 'TVRRUN', value: 'TVRRUN' },{ text: 'REGALG', value: 'REGALG' },{ text: 'PSIRUN', value: 'PSIRUN' },{ text: 'DISTRUN', value: 'DISTRUN' },{ text: '-----------------------', value: '' }, { text: 'DISTRUN-YEAREND', value: 'DISTRUN-YEAREND' }]"
+              :value="batch.details['what']"     
+              @change="editBatchJob('what', $event)"       
             >
             </b-form-select>
             
           </div>
-          <div class="mt-2" v-if="tabContent[jobId].details['what'] == 'DISTRUN'">
+          <div class="mt-2" v-if="batch.details['what'] == 'DISTRUN'">
             <label class="font-weight-bold">Credential Type</label>
             <b-form-select
                 id="inline-form-select-audience"
                 class="mb-2 mr-sm-2 mb-sm-0"
                 :options="[{ text: 'Choose...', value: null }, { text: 'Blank certificate print', value: 'Blank certificate print' }, { text: 'Reprint certificate – no principal signature block', value: 'RC' },{ text: 'Original certificate – with principal signature block', value: 'OC' },{ text: 'Blank transcript print', value: 'Blank transcript print' },{ text: 'Transcript', value: 'OT' }]"
-                :value="tabContent[jobId].details['credential']"     
-                @change="editBatchJob(jobId,'credential', $event)"       
+                :value="batch.details['credential']"     
+                @change="editBatchJob('credential', $event)"       
               ></b-form-select>
-          <b-card v-if="tabContent[jobId].details['credential']=='Blank transcript print'" class="mt-3 px-0" header="Blank Transcript Details">
-            <b-form-checkbox-group
-              multiple
-              stacked
-              :select-size="10"
-              id="inline-form-select-audience"
-              class="mb-2 mr-sm-2 mb-sm-0"
-              :options="transcriptTypes"
-              value-field="code"
-              text-field="description"
-              :value="tabContent[jobId].details['credentialDetails']"     
-              @change="editBatchJob(jobId,'blankTranscriptDetails', $event)"      
-            ></b-form-checkbox-group>
-          </b-card>  
+            <b-card v-if="batch.details['credential']=='Blank transcript print'" class="mt-3 px-0" header="Blank Transcript Details">
+              <b-form-checkbox-group
+                multiple
+                stacked
+                :select-size="10"
+                id="inline-form-select-audience"
+                class="mb-2 mr-sm-2 mb-sm-0"
+                :options="transcriptTypes"
+                value-field="code"
+                text-field="description"
+                :value="batch.details['credentialDetails']"     
+                @change="editBatchJob('blankTranscriptDetails', $event)"      
+              ></b-form-checkbox-group>
+            </b-card>  
 
           
-          <b-card v-if="tabContent[jobId].details['credential']=='Blank certificate print'" class="mt-3 px-0" header="Blank Certificate Details">
+            <b-card v-if="batch.details['credential']=='Blank certificate print'" class="mt-3 px-0" header="Blank Certificate Details">
             
               <b-form-group label="Blank Certificate Details" v-slot="{ blankCertificateDetailsOptions }">
                 <b-form-checkbox-group
@@ -57,8 +56,8 @@
                     name="blankCertificateDetailsOptions"
                     :options="certificateTypes"
                     :aria-describedby="blankCertificateDetailsOptions"
-                    :value="tabContent[jobId].details['credentials']" 
-                    @change="editBatchJob(jobId,'blankCertificateDetails', $event)"  
+                    :value="batch.details['credentials']" 
+                    @change="editBatchJob('blankCertificateDetails', $event)"  
                   ></b-form-checkbox-group>
                 </b-form-group>
           
@@ -66,54 +65,57 @@
           </div>                                                      
         </div>
         <div class="col-12 col-md-9">
-          <div class="m-0 p-0 col-3" v-if="tabContent[jobId].details['what'] != 'DISTRUN-YEAREND'">
+           <div class="p-0 mt-3" v-if="batch.details['what'] && formElements[batch.details['what']].message">
+            <b-alert show variant="info">
+                {{formElements[batch.details['what']].message}}
+            </b-alert>
+          </div>
+          <div class="m-0 p-0 col-3" v-if="batch.details['what'] && formElements[batch.details['what']].group">
             <label class="font-weight-bold pt-1">Group</label>
             <b-form-select
               id="inline-form-select-audience"
               class="mb-2 mr-sm-2 mb-sm-0"
-              :options="[{ text: '', value: null }, {text:'Student - N/A',value:'Student', disabled:true},{text:'School - N/A',value:'School', disabled:true},{text:'District - N/A',value:'District', disabled:true},{text:'Program - N/A',value:'Program', disabled:true},{text:'PSI',value:'PSI'}]"
-              :value="tabContent[jobId].details['who']"     
-              @change="editBatchJob(jobId,'who', $event)"  
-              v-if="tabContent[jobId].details['what'] == 'PSIRUN' "     
+              :options="groupFormValues(batch.details['what'])"
+              :value="batch.details['who']"     
+              @change="editBatchJob('who', $event)"  
             ></b-form-select>            
-            <b-form-select
+            <!-- <b-form-select
               id="inline-form-select-audience"
               class="mb-2 mr-sm-2 mb-sm-0"
               :options="[{ text: '', value: null }, 'Student', 'School', 'District', 'Program', 'PSI']"
-              :value="tabContent[jobId].details['who']"     
-              @change="editBatchJob(jobId,'who', $event)"  
-              v-else-if="tabContent[jobId].details['credential'] != 'Blank certificate print' && tabContent[jobId].details['credential'] != 'Blank transcript print' "     
+              :value="batch.details['who']"     
+              @change="editBatchJob('who', $event)"  
+              v-else-if="batch.details['credential'] != 'Blank certificate print' && batch.details['credential'] != 'Blank transcript print' "     
             ></b-form-select>
             <b-form-select
               id="inline-form-select-audience"
               class="mb-2 mr-sm-2 mb-sm-0"
               :options="[{ text: '', value: null },{ text: 'School', value: 'School' }, {text: 'Ministry of Advanced Education', value: 'Ministry of Advanced Education'}]"
-              :value="tabContent[jobId].details['who']"     
-              @change="editBatchJob(jobId,'who', $event)"
-              v-else-if="tabContent[jobId].details['credential'] == 'Blank certificate print'  && tabContent[jobId].details['blankCertificateDetails'] && tabContent[jobId].details['blankCertificateDetails'].length == 1 && tabContent[jobId].details['blankCertificateDetails'][0] == 'E'"
+              :value="batch.details['who']"     
+              @change="editBatchJob('who', $event)"
+              v-else-if="batch.details['credential'] == 'Blank certificate print'  && batch.details['blankCertificateDetails'] && batch.details['blankCertificateDetails'].length == 1 && batch.details['blankCertificateDetails'][0] == 'E'"
             ></b-form-select>       
             <b-form-select
               id="inline-form-select-audience"
               class="mb-2 mr-sm-2 mb-sm-0"
               :options="[{ text: '', value: null },{ text: 'School', value: 'School' },{text: 'Ministry of Advanced Education - Select only Dogwood (Public)', disabled: true}]"
-              :value="tabContent[jobId].details['who']"     
-              @change="editBatchJob(jobId,'who', $event)"
+              :value="batch.details['who']"     
+              @change="editBatchJob('who', $event)"
               v-else
-            ></b-form-select>     
+            ></b-form-select>      -->
           </div>
-          
+   
 
-          <!-- <div v-if="this.formElements[userRequestType(jobId)]['gradDate']" class="p-0 mt-3 "> -->
-          <div v-if="tabContent[jobId].details['who'] !='Student' && tabContent[jobId].details['what'] !='DISTRUN-YEAREND' && tabContent[jobId].details['who'] !='PSI' && tabContent[jobId].details['credential'] !='Blank transcript print' && tabContent[jobId].details['credential'] !='Blank certificate print'" class="p-0 mt-3 ">
+          <div v-if="batch.details['who'] !='Student' && batch.details['what'] !='DISTRUN-YEAREND' && batch.details['who'] !='PSI' && batch.details['credential'] !='Blank transcript print' && batch.details['credential'] !='Blank certificate print'" class="p-0 mt-3 ">
             <label class="font-weight-bold p-0 m-0 row">Grad Date</label>
             <b-form-select
               id="inline-form-select-audience"
               class="mb-2 mr-sm-2 mb-sm-0 col-3"
               :options="[{ text: 'Current Students', value: 'Current Students' }, { text: 'Date Range', value: 'Date Range' }]"
-              :value="tabContent[jobId].details['gradDate']"     
-              @change="editBatchJob(jobId,'gradDate', $event)"    
+              :value="batch.details['gradDate']"     
+              @change="editBatchJob('gradDate', $event)"    
             ></b-form-select>    
-              <div class="date-ranges col-12 row" v-if="tabContent[jobId].details['gradDate']=='Date Range'">            
+              <div class="date-ranges col-12 row" v-if="batch.details['gradDate']=='Date Range'">            
                 <div class="float-left col-3 m-0 p-0" >
                   <strong><label class="pt-1">Grad Start Date</label></strong>
                   <b-input-group class="mb-3">
@@ -124,7 +126,7 @@
                       type="text"
                       placeholder="YYYY-MM-DD"
                       autocomplete="off"
-                      @input="editBatchJob(jobId,'gradDateFrom', $event)"    
+                      @input="editBatchJob('gradDateFrom', $event)"    
                     ></b-form-input>
                       <ul class="position-absolute form-validation-message text-danger">
                         <li v-for="error in errors" :key="error">{{ error }}</li>
@@ -136,7 +138,7 @@
                         button-only
                         right
                         locale="en-US"
-                        @input="editBatchJob(jobId,'gradDateFrom', $event)"    
+                        @input="editBatchJob('gradDateFrom', $event)"    
                       ></b-form-datepicker>
                     </b-input-group-append>
                   </b-input-group>
@@ -152,7 +154,7 @@
                       type="text"
                       placeholder="YYYY-MM-DD"
                       autocomplete="off"
-                      @input="editBatchJob(jobId,'gradDateTo', $event)"    
+                      @input="editBatchJob('gradDateTo', $event)"    
                     ></b-form-input>
                     <span class="position-absolute form-validation-message text-danger">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -163,7 +165,7 @@
                         right
                         locale="en-US"
                         aria-controls="example-input"
-                        @input="editBatchJob(jobId,'gradDateTo', $event)"    
+                        @input="editBatchJob('gradDateTo', $event)"    
                       ></b-form-datepicker>
                     </b-input-group-append>
                   </b-input-group>
@@ -171,36 +173,36 @@
               </div>
            </div>          
                     
-          <div class="p-0 mt-3 col-3" v-if="tabContent[jobId].details['who'] == 'District'">
-            <label class="font-weight-bold">District Category</label>
+          <div class="p-0 mt-3 col-3" v-if="batch.details['who'] == 'District'">
+            <label class="font-weight-bold">School Category</label>
             <b-form-select
               id="inline-form-select-type"
               class="col-12 my-2"
               :options="[{ text: 'Choose...', value: null }, { text: '01 Public', value: '01' }, { text: '02 Independent', value: '02' }, { text: '03 Federally Operated Band School', value: '03' }, { text: '04 Yukon School', value: '04' },{ text: '09 Offshore', value: '09' }]"
-              :value="tabContent[jobId].districts['categoryCode']"
-              @change="editBatchJob(jobId,'categoryCode', $event)"
+              :value="batch.districts['categoryCode']"
+              @change="editBatchJob('categoryCode', $event)"
             ></b-form-select>
           </div>
-          <div class="p-0 mt-3 col-3" v-if="tabContent[jobId].details['what'] == 'DISTRUN'">
+          <div class="p-0 mt-3 col-3" v-if="batch.details['what'] == 'DISTRUN'">
             <label class="font-weight-bold">Copies</label>
             <b-form-input
                 type="number"
                 id="inline-form-select-audience"
                 class="mb-2 mr-sm-2 mb-sm-0"
                 :value="1"     
-                @change="editBatchJob(jobId,'copies', $event)"       
+                @change="editBatchJob('copies', $event)"       
               ></b-form-input>
           </div>  
-          <div class="mt-1 col-3 p-0" v-if="tabContent[jobId].details['what'] == 'DISTRUN'">
+          <div class="mt-1 col-3 p-0" v-if="batch.details['what'] == 'DISTRUN'">
             <label class="font-weight-bold">Where</label>
             <b-form-select
               id="inline-form-select-type"
               class="mb-2 mr-sm-2 mb-sm-0"
               :options="[{ text: 'Download', value: 'localDownload' }, 'BC Mail', { text: 'User: ' + userFullName, value: 'User'}]"
-              @change="editBatchJob(jobId,'where', $event)"
+              @change="editBatchJob('where', $event)"
             ></b-form-select>
           </div>
-            <div v-if="tabContent[jobId].details['where'] == 'User'" class="pt-3">
+            <div v-if="batch.details['where'] == 'User'" class="pt-3">
               <b-card bg-variant="light" header="Mailing Address" class="overflow-hidden">
                 <b-card-text>
                   <div>
@@ -217,15 +219,10 @@
               
             </div>  
 
-          <div class="p-0 mt-3" v-if="tabContent[jobId].details['what'] == 'DISTRUN-YEAREND'">
-            <b-alert show variant="info">
-                You are running a year end distribution run. Click the run button and confirm.
-            </b-alert>
-          </div>
-      <div v-if="tabContent[jobId].details['who']=='District'" class="float-left col-12 px-0">
+      <div v-if="batch.details['who']=='District'" class="float-left col-12 px-0">
 
 
-        <b-card class="mt-3 px-0" header="Include Districts">
+        <b-card class="mt-3 px-0" header="Include Geographic Districts">
             <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
 
         <div class="row col-12">
@@ -234,12 +231,12 @@
             <div class="col-4 p-2"><strong>City</strong></div>
 
         </div>
-        <div v-for="(district, index) in tabContent[jobId].districts" :key="index" class="row pl-3 mb-1">
+        <div v-for="(district, index) in batch.districts" :key="index" class="row pl-3 mb-1">
           <div v-if="!district.districtName" class="row col-12">
             <b-form-input type="number" v-model="district.value" class="col-2"/>
             <b-form-input show=false disabled v-model="district.districtName" :ref="'districtName' + jobId + index" class="col-4"/>
             <b-form-input show=false disabled v-model="district.city" :ref="'districtCity' + jobId + index" class="col-4"/>
-            <div v-if="index == tabContent[jobId].districts.length-1" class="col-2">
+            <div v-if="index == batch.districts.length-1" class="col-2">
               <b-button  class="btn btn-primary w-100" @click="addValueToTypeInBatchId(jobId,'districts',district.value,index)">
               <b-spinner small v-if="validating"></b-spinner> Add
               </b-button>   
@@ -250,7 +247,7 @@
             <div v-if="district.districtName" class="col-4">{{district.districtName}}</div>
             <div v-if="district.districtName" class="col-4">{{district.city}}</div>
 
-            <div v-if="index != tabContent[jobId].districts.length-1" class="col-2" ><b-button class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'districts',district.value)">
+            <div v-if="index != batch.districts.length-1" class="col-2" ><b-button class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'districts',district.value)">
               Remove
             </b-button>
             </div>
@@ -262,29 +259,29 @@
 
   
 
-      <div v-if="tabContent[jobId].details['who']=='PSI'" class="float-left col-12 px-0">
+      <div v-if="batch.details['who']=='PSI'" class="float-left col-12 px-0">
 
          <label class="font-weight-bold row mt-3 ml-0 px-0">Transmission Mode</label>
           <b-form-select
             id="inline-form-select-type"
             class="col-3"
             :options="[{ text: 'Choose...', value: null }, { text: 'Paper', value: 'PAPER' }, { text: 'FTP', value: 'FTP' }]"
-            :value="tabContent[jobId].details['psiTransmissionMode']"
-            @change="editBatchJob(jobId,'psiTransmissionMode', $event)"
+            :value="batch.details['psiTransmissionMode']"
+            @change="editBatchJob('psiTransmissionMode', $event)"
           ></b-form-select>
           <label class="font-weight-bold row mt-3 ml-0 px-0">PSI Year</label>
         
-        <b-form-input type="number" :value="currentPSIYear" @change="editBatchJob(jobId,'psiYear', $event)" class="col-2"/>
+        <b-form-input type="number" :value="currentPSIYear" @change="editBatchJob('psiYear', $event)" class="col-2"/>
         <b-card class="mt-3 px-0" header="Include Post Secondary Institutions">
             <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
         <b-form-checkbox
           name="allpsi"
-          :checked="tabContent[jobId].details['allPsi']"
-          @change="editBatchJob(jobId,'allPsi', $event)"
+          :checked="batch.details['allPsi']"
+          @change="editBatchJob('allPsi', $event)"
         >
           All Post Secondary Institutes
         </b-form-checkbox>
-        <div v-if="!tabContent[jobId].details['allPsi']">
+        <div v-if="!batch.details['allPsi']">
           <div class="row col-12">
               <div class="col-2 p-2"><strong>Code</strong></div>
               <div class="col-4 p-2"><strong>Name</strong></div>
@@ -293,12 +290,12 @@
           </div>
           
 
-          <div v-for="(psi, index) in tabContent[jobId].psi" :key="index" class="row pl-3 mb-1">
+          <div v-for="(psi, index) in batch.psi" :key="index" class="row pl-3 mb-1">
             <div v-if="!psi.psiName" class="row col-12">
               <b-form-input type="number" v-model="psi.value" class="col-2"/>
               <b-form-input show=false disabled v-model="psi.psiName" :ref="'psiName' + jobId + index" class="col-4"/>
               <b-form-input show=false disabled v-model="psi.city" :ref="'psiCity' + jobId + index" class="col-4"/>
-              <div v-if="index == tabContent[jobId].psi.length-1" class="col-2">
+              <div v-if="index == batch.psi.length-1" class="col-2">
                 <b-button  class="btn btn-primary w-100" @click="addValueToTypeInBatchId(jobId,'psi',psi.value,index)">
                 <b-spinner small v-if="validating"></b-spinner> Add
                 </b-button>   
@@ -309,7 +306,7 @@
               <div v-if="psi.psiName" class="col-4">{{psi.psiName}}</div>
               <div v-if="psi.city" class="col-4">{{psi.city}}</div>
 
-              <div v-if="index != tabContent[jobId].psi.length-1" class="col-2" ><b-button  class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'psi',psi.value)">
+              <div v-if="index != batch.psi.length-1" class="col-2" ><b-button  class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'psi',psi.value)">
                 Remove
               </b-button>
               </div>
@@ -321,7 +318,7 @@
         </b-card> 
       </div>      
       
-        <b-card v-if="tabContent[jobId].details['who']=='Student'" class="mt-3 px-0" header="Include Students">
+        <b-card v-if="batch.details['who']=='Student'" class="mt-3 px-0" header="Include Students">
         <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
         <div class="row col-12 border-bottom mb-3">
           <div class="col-2"><strong>PEN</strong></div>
@@ -330,14 +327,14 @@
           <div class="col-1"><strong>Status</strong></div>
           <div class="col-2"><strong>School of Record</strong></div>   
         </div>
-        <div v-for="(pen, index) in tabContent[jobId].students" :key="index" class="row pl-3 mb-1">
+        <div v-for="(pen, index) in batch.students" :key="index" class="row pl-3 mb-1">
           <div v-if="!pen.dob" class="row col-12">
             <b-form-input type="number" v-model="pen.value" class="col-2"/>
             <b-form-input show=false disabled v-model="pen.name" :ref="'pen'+ jobId + index" class="col-3"/>
             <b-form-input show=false disabled v-model="pen.dob" :ref="'dob'+ jobId + index" class="col-2"/>
             <b-form-input show=false disabled v-model="pen.studentStatus" :ref="'student-status'+ jobId + index" class="col-1"/>            
             <b-form-input show=false disabled v-model="pen.school" :ref="'school'+ jobId + index" class="col-2"/>
-            <div v-if="index == tabContent[jobId].students.length-1" class="col-2">
+            <div v-if="index == batch.students.length-1" class="col-2">
               <b-button  class="btn btn-primary w-100" @click="addValueToTypeInBatchId(jobId,'students',pen.value,index)">
               <b-spinner small v-if="validating"></b-spinner> Add
               </b-button>   
@@ -350,7 +347,7 @@
             <div v-if="pen.dob" class="col-1">{{pen.studentStatus}}</div>
             <div v-if="pen.dob" class="col-2"> {{pen.school}}</div>   
 
-            <div v-if="index != tabContent[jobId].students.length-1" class="col-2" ><b-button  class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'students',pen.value)">
+            <div v-if="index != batch.students.length-1" class="col-2" ><b-button  class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'students',pen.value)">
               Remove
             </b-button>
             </div>
@@ -358,7 +355,7 @@
         </div>
       <pre>Test PENS: 106900004     124304700      126604461       101005700</pre>
       </b-card>            
-      <b-card v-if="tabContent[jobId].details['who']=='School'" class="mt-3 px-0" header="Include Schools">
+      <b-card v-if="batch.details['who']=='School'" class="mt-3 px-0" header="Include Schools">
         <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
         <div class="row col-12 border-bottom mb-3">
             <div class="col-2"><strong>Mincode</strong></div>
@@ -366,14 +363,15 @@
             <div class="col-2"><strong>District Name</strong></div>
             <div class="col-3"><strong>Address</strong></div>   
         </div>
-        <div v-for="(school, index) in tabContent[jobId].schools" :key="index" class="">
+        
+        <div v-for="(school, index) in batch.schools" :key="index" class="">
           <div v-if="!school.schoolName" class="mb-3">
 
 
             <ValidationObserver v-slot="{passes, invalid}">
             <form @submit.prevent="passes(addValueToTypeInBatchId(jobId,'schools',school.value,index))" class="row col-12">
               <div class="col-2 p-0 m-0">
-              <ValidationProvider name="Mincode" :rules="'mincodelength|validateschool:' + jobId + ',' + index + ',' + tabContent[jobId].details['credential']" v-slot="{ errors }">
+              <ValidationProvider name="Mincode" :rules="'mincodelength|validateschool:' + jobId + ',' + index + ',' + batch.details['credential']" v-slot="{ errors }">
                 <b-form-input type="number" v-model="school.value"/>
                 <span class="position-absolute w-100 form-validation-message text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
@@ -381,7 +379,7 @@
                 <b-form-input show=false disabled v-model="school.schoolName" :ref="'schoolName' + jobId + index" class="col-3"/>
                 <b-form-input show=false disabled v-model="school.districtName" :ref="'districtName'+ jobId + index" class="col-2"/>
                 <b-form-input show=false disabled v-model="school.address" :ref="'address'+ jobId + index" class="col-3"/>
-                <div v-if="index == tabContent[jobId].schools.length-1" class="col-2">
+                <div v-if="index == batch.schools.length-1" class="col-2">
                   <button :disabled="invalid" class="btn btn-primary w-100">
                   <b-spinner small v-if="validating"></b-spinner> Add
                   </button>   
@@ -395,7 +393,7 @@
             <div v-if="school.districtName" class="col-2">{{school.districtName}}</div>
             <div v-if="school.address" class="col-3"> {{school.address}}</div>   
 
-            <div v-if="index != tabContent[jobId].schools.length-1" class="col-2" ><b-button  class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'schools',school.value)">
+            <div v-if="index != batch.schools.length-1" class="col-2" ><b-button  class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'schools',school.value)">
               Remove
             </b-button>
             </div>
@@ -404,13 +402,13 @@
       <pre class="mt-5">TEST Schools: 04343000 04399143 02222022 06161064 06161049 03596573</pre>
 
       </b-card>            
-      <b-card v-if="tabContent[jobId].details['who']=='Program'" class="mt-3 px-0" header="Include Programs">
+      <b-card v-if="batch.details['who']=='Program'" class="mt-3 px-0" header="Include Programs">
       <b-alert v-if="validationMessage" show variant="danger">{{validationMessage}}</b-alert>
       <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
         <div class="row col-12 border-bottom mb-3">
             <div class="col-2"><strong>Program</strong></div>
         </div>
-        <div v-for="(program, index) in tabContent[jobId].programs" :key="index" class="row pl-3 mb-1">
+        <div v-for="(program, index) in batch.programs" :key="index" class="row pl-3 mb-1">
           <div v-if="!program.value" class="row col-12">
             <b-form-select
               id="inline-form-select-type"
@@ -420,7 +418,7 @@
               text-field="programCode"
               v-model="program.value"
             ></b-form-select>
-            <div v-if="index == tabContent[jobId].programs.length-1" class="col-2">
+            <div v-if="index == batch.programs.length-1" class="col-2">
               <b-button :disabled='validating' class="btn btn-primary w-100" @click="addValueToTypeInBatchId(jobId,'programs',program.value,index)">
               <b-spinner small v-if="validating"></b-spinner> Add
               </b-button>   
@@ -432,23 +430,27 @@
             <div v-if="program.districtName" class="col-2">{{program.districtName}}</div>
             <div v-if="program.address" class="col-3"> {{program.address}}</div>   
 
-            <div v-if="index != tabContent[jobId].programs.length-1" class="col-2" ><b-button  class="btn btn-primary w-100 w-100" @click="deleteValueFromTypeInBatchId(jobId, 'programs',program.value)">
+            <div v-if="index != batch.programs.length-1" class="col-2" ><b-button  class="btn btn-primary w-100 w-100" @click="deleteValueFromTypeInBatchId(jobId, 'programs',program.value)">
               Remove
             </b-button>
             </div>
           </div>
         </div>
       </b-card>
+      <!-- <BatchGroupInput :jobId="this.jobId" label="Schools" group="schools" :fields="[{key:'mincode', label: 'Mincode', isInput: true}, {key:'schoolName', label: 'School Name'}, {key: 'districtName', label: 'District Name'}, {key:'address1', label: 'Address'}]" :items="batch['schools']">
+      </BatchGroupInput> -->
       </div>       
       </div>
       <div class="my-3">
+
+        <!-- Batch control buttons -->
         <b-button size="sm" variant="danger" class="btn btn-danger float-right col-2 p-2" @click="cancelBatchJob(jobId)">
           Cancel
         </b-button>
-        <b-button v-if="tabContent[jobId].details['what'] == 'DISTRUN-YEAREND'" v-b-modal="'distrun-yearend-modal'" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+        <b-button v-if="batch.details['what'] == 'DISTRUN-YEAREND'" v-b-modal="'distrun-yearend-modal'" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
           Run
         </b-button>
-        <b-button v-else-if="tabContent[jobId].details['where'] == 'localDownload'" @click="runBatch(jobId)" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+        <b-button v-else-if="batch.details['where'] == 'localDownload'" @click="runBatch(jobId)" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
           Download
         </b-button>
         <b-button v-else v-b-modal="'batch-modal'" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
@@ -456,7 +458,7 @@
         </b-button>
 
 
-
+        <!-- Modal Dialogs --> 
         <b-modal id="batch-modal" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
           <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }"> 
             <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Now">Run Now</b-form-radio>
@@ -477,15 +479,11 @@
                         reset-button
                         locale="en"
                       ></b-form-timepicker>
-                         <!-- <b-form-input
-                            id="bforminput"
-                            v-model="cronTime"
-                          ></b-form-input> -->
                     </div>
                 </b-form-group>
           </b-form-group>
         </b-modal>
-                <b-modal id="distrun-yearend-modal" :title="'RUN ' + jobId" ok-title="Confirm" @ok="runBatch(jobId)">
+        <b-modal id="distrun-yearend-modal" :title="'RUN ' + jobId" ok-title="Confirm" @ok="runBatch(jobId)">
           You have selected to run the year end distribution, please confirm you want to perform this action.
         </b-modal>  
     </div>
@@ -499,6 +497,7 @@ import TRAXService from "@/services/TRAXService.js";
 import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
 import GraduationReportService from "@/services/GraduationReportService.js";
+//import BatchGroupInput from "@/components/Batch/BatchGroupInput.vue";
 import {
   mapGetters
 } from "vuex";
@@ -551,7 +550,7 @@ extend('adultdogwoodpublicrestrictedtoministryofadvancededgroup', {
 })
 
 export default {
-  components: {
+  components: {   
     ValidationProvider: ValidationProvider,
     ValidationObserver: ValidationObserver
   },  
@@ -573,52 +572,31 @@ export default {
       formElements: {
        'PSIRUN':
           {
-            'gradDate': true,
-            'gradEnd': true,
+            'group': [{ text: '', value: null }, {text:'Student - N/A',value:'Student', disabled:true},{text:'School - N/A',value:'School', disabled:true},{text:'District - N/A',value:'Geographic District', disabled:true},{text:'Program - N/A',value:'Program', disabled:true},{text:'PSI',value:'PSI'}],
+            'psiYear': true,
+            'psiTransmissionMode': true,
           }
         ,
-        'DISTRUN':
-          {
-            'gradDate': true,
-            'gradEnd': true
+        'DISTRUN':{
+          'group': [{ text: '', value: null }, 'Student', 'School', { text: 'Geographic District', value: 'District' }, 'Program'],
+          'copies': true,
+          'where': true
           }
+        ,
+        'TVRRUN': {
+          'group': [{ text: '', value: null }, 'Student', 'School', { text: 'Geographic District', value: 'District' }, 'Program']
+          },    
+        'REGALG': {
+          'group': [{ text: '', value: null }, 'Student', 'School', { text: 'Geographic District', value: 'District' }, 'Program']
+      }, 
+        'DISTRUN-YEAREND': {
+          'message': "You are running a year end distribution run. Click the run button and confirm."
+        }                 
       }
     }
   },
   mounted(){
-    
-    extend('validateschool', (value, refValues) => {
-        return SchoolService.getSchoolInfo(value).then(
-          (response) => {
-            let credential = refValues[2]
-            if((credential == "Blank certificate print" || credential == 'OT') && response.data.transcriptEligibility == 'N'){ 
-                 return "This school is not eligible for trasncripts."
-            }
-            if((credential == "Blank certificate print" || credential == 'OC' || credential =='RC' ) && response.data.certificateEligibility == 'N'){ 
-                 return "This school is not eligible for certificates."
-            }
-            if(response.data.minCode){
-              this.$refs['schoolName' + refValues[0] + refValues[1]][0].placeholder = response.data.schoolName;        
-              this.$refs['districtName' + refValues[0] + refValues[1]][0].placeholder = response.data.districtName;        
-              this.$refs['address' + refValues[0] + refValues[1]][0].placeholder = response.data.address1;   
-              return { valid: true };
-            }else{
-              return {
-                valid: false,
-              };
-            }
-          }
-        ).catch((error) => {
-          // eslint-disable-next-line
-          console.log(error) 
-               
-          this.validating = false;
-          this.$forceUpdate();
-        });
-    }, {
-     immediate: false
-   })
-
+  
   },
   created() {
 
@@ -626,7 +604,29 @@ export default {
     this.transcriptTypes = this.getTranscriptTypes();
     this.certificateTypes = this.getCertificateTypes();
   },
+
   methods: {
+    groupFormValues(runType){
+      if(runType == ""){
+        return
+      }
+      if(this.batch.details['credential'] != 'Blank certificate print' && this.batch.details['credential'] != 'Blank transcript print'){
+        return this.formElements[runType].group
+      }else if(this.batch.details['credential'] == 'Blank certificate print' && this.batch.details['blankCertificateDetails'] && this.batch.details['blankCertificateDetails'].length == 1 && this.batch.details['blankCertificateDetails'][0] == 'A'){
+          return [{ text: '', value: null },{ text: 'School', value: 'School' },{text: 'Ministry of Advanced Education', value: 'Ministry of Advanced Education'}]
+      }
+      if(this.batch.details['credential'] == 'Blank certificate print' || this.batch.details['credential'] == 'Blank transcript print'){
+        return [{ text: '', value: null },{ text: 'School', value: 'School' },{text: 'Ministry of Advanced Education - Select only Adult Dogwood (Public)',disabled:true}]
+        
+      }
+    },
+    hasFormElement(runType, inputName){
+      if(runType in this.formElements && inputName in this.formElements[runType]){
+        return this.formElements[runType][inputName]
+      }else{
+        return false;
+      }
+    },
     onSubmit(values) {
       alert(JSON.stringify(values, null, 2));
     },  
@@ -830,10 +830,10 @@ export default {
     //     })
     //     console.log("new batch")
     // },
-    editBatchJob(id,type,event){
+    editBatchJob(type,event){
       this.$nextTick(() => {
-
-          let batchDetail = this.tabContent[id];
+          let id =this.jobId;
+          let batchDetail = this.batch;
           //change the value     
           if(type == "what" && batchDetail.details[type] != event){
             this.clearBatchDetails(id)
@@ -898,14 +898,13 @@ export default {
   },  
   computed: {
     ...mapGetters({  
-      tabCounter: "batchprocessing/getBatchCounter",
       tabContent: "batchprocessing/getBatchDetails",
-      userRequestType: "batchprocessing/getBatchDetailsTypeById",
-      userRequestGroup: "batchprocessing/getbatchDetailsGroupById",
       programOptions: "app/getProgramOptions",      
       userFullName: "auth/userFullName",
-
     }),
+    batch() {
+      return this.tabContent[this.jobId]
+    }
   },
 };
 </script>

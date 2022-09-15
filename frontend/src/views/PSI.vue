@@ -321,7 +321,6 @@ export default {
       let isEmpty = true;
       for (var key in this.advancedSearchInput) {
         if (this.advancedSearchInput.hasOwnProperty(key)) {
-          //console.log(obj[key])
           if (this.advancedSearchInput[key].value != "") {
             isEmpty = false;   
           }
