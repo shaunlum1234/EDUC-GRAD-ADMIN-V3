@@ -127,6 +127,12 @@ export default {
             sortDirection: "asc"
           },
           {
+            key: "updateUser",
+            label: "Update User",
+            sortable: true,
+            sortDirection: "asc"
+          },
+          {
             key: "program",
             label: "Program",
             sortable: true,
@@ -216,6 +222,12 @@ export default {
             key: "activityCode",
             label: "Change",
             sortable: true,
+          },
+          {
+            key: "updateUser",
+            label: "Update User",
+            sortable: true,
+            sortDirection: "asc"
           },
           {
             key: "programCode",
