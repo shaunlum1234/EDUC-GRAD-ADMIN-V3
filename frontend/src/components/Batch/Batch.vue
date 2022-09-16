@@ -79,30 +79,6 @@
               :value="batch.details['who']"     
               @change="editBatchJob('who', $event)"  
             ></b-form-select>            
-            <!-- <b-form-select
-              id="inline-form-select-audience"
-              class="mb-2 mr-sm-2 mb-sm-0"
-              :options="[{ text: '', value: null }, 'Student', 'School', 'District', 'Program', 'PSI']"
-              :value="batch.details['who']"     
-              @change="editBatchJob('who', $event)"  
-              v-else-if="batch.details['credential'] != 'Blank certificate print' && batch.details['credential'] != 'Blank transcript print' "     
-            ></b-form-select>
-            <b-form-select
-              id="inline-form-select-audience"
-              class="mb-2 mr-sm-2 mb-sm-0"
-              :options="[{ text: '', value: null },{ text: 'School', value: 'School' }, {text: 'Ministry of Advanced Education', value: 'Ministry of Advanced Education'}]"
-              :value="batch.details['who']"     
-              @change="editBatchJob('who', $event)"
-              v-else-if="batch.details['credential'] == 'Blank certificate print'  && batch.details['blankCertificateDetails'] && batch.details['blankCertificateDetails'].length == 1 && batch.details['blankCertificateDetails'][0] == 'E'"
-            ></b-form-select>       
-            <b-form-select
-              id="inline-form-select-audience"
-              class="mb-2 mr-sm-2 mb-sm-0"
-              :options="[{ text: '', value: null },{ text: 'School', value: 'School' },{text: 'Ministry of Advanced Education - Select only Dogwood (Public)', disabled: true}]"
-              :value="batch.details['who']"     
-              @change="editBatchJob('who', $event)"
-              v-else
-            ></b-form-select>      -->
           </div>
    
 
@@ -256,11 +232,7 @@
           <pre>TEST districts: 061 062 063</pre>     
         </b-card> 
       </div>
-
-  
-
       <div v-if="batch.details['who']=='PSI'" class="float-left col-12 px-0">
-
          <label class="font-weight-bold row mt-3 ml-0 px-0">Transmission Mode</label>
           <b-form-select
             id="inline-form-select-type"
@@ -371,7 +343,7 @@
             <ValidationObserver v-slot="{passes, invalid}">
             <form @submit.prevent="passes(addValueToTypeInBatchId(jobId,'schools',school.value,index))" class="row col-12">
               <div class="col-2 p-0 m-0">
-              <ValidationProvider name="Mincode" :rules="'mincodelength|validateschool:' + jobId + ',' + index + ',' + batch.details['credential']" v-slot="{ errors }">
+               <ValidationProvider name="Mincode" :rules="'mincodelength|validateschool:' + jobId + ',' + index + ',' + batch.details['credential']" v-slot="{ errors }">
                 <b-form-input type="number" v-model="school.value"/>
                 <span class="position-absolute w-100 form-validation-message text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
@@ -501,8 +473,7 @@ import GraduationReportService from "@/services/GraduationReportService.js";
 import {
   mapGetters
 } from "vuex";
-
-
+  
 extend('minmax', {
   validate(value, { min, max }) {
     return value.length >= min && value.length <= max;
@@ -596,7 +567,37 @@ export default {
     }
   },
   mounted(){
-  
+  extend('validateschool', (value, refValues) => {
+      return SchoolService.getSchoolInfo(value).then(
+        (response) => {
+          let credential = refValues[2]
+          if((credential == "Blank certificate print" || credential == 'OT') && response.data.transcriptEligibility == 'N'){ 
+                return "This school is not eligible for trasncripts."
+          }
+          if((credential == "Blank certificate print" || credential == 'OC' || credential =='RC' ) && response.data.certificateEligibility == 'N'){ 
+                return "This school is not eligible for certificates."
+          }
+          if(response.data.minCode){
+            this.$refs['schoolName' + refValues[0] + refValues[1]][0].placeholder = response.data.schoolName;    
+            this.$refs['districtName' + refValues[0] + refValues[1]][0].placeholder = response.data.districtName;
+            this.$refs['address' + refValues[0] + refValues[1]][0].placeholder = response.data.address1;
+            return { valid: true };
+          }else{
+            return {
+              valid: false,
+            };
+          }
+        }
+      ).catch((error) => {
+        // eslint-disable-next-line
+        console.log(error) 
+        return {
+          valid: false,
+        };
+      });
+  }, {
+    immediate: false
+  })
   },
   created() {
 
@@ -708,9 +709,12 @@ export default {
             this.validating = false;  
           }
         ).catch((error) => {
-          // eslint-disable-next-line
-          console.log(error) 
-               
+          if(error.response.statusText){
+            this.makeToast("ERROR " + error.response.statusText, "danger")
+          }else{
+            this.makeToast("ERROR " + "error with webservervice", "danger")
+          }
+          
           this.validating = false;
           this.$forceUpdate();
         });
@@ -785,8 +789,11 @@ export default {
             this.validating = false;  
           }
         ).catch((error) => {
-          // eslint-disable-next-line
-          console.log(error)      
+          if(error.response.statusText){
+            this.makeToast("ERROR " + error.response.statusText, "danger")
+          }else{
+            this.makeToast("ERROR " + "error with webservervice", "danger")
+          }
           this.validating = false;
         });
       }         
@@ -871,7 +878,11 @@ export default {
         })
         // eslint-disable-next-line
         .catch((error) => {
-          this.makeToast("ERROR " + error.response.statusText, "danger")
+          if(error.response.statusText){
+            this.makeToast("ERROR " + error.response.statusText, "danger")
+          }else{
+            this.makeToast("ERROR " + "error with webservervice", "danger")
+          }
         });
     },
     getTranscriptTypes() {
@@ -881,7 +892,11 @@ export default {
         })
         // eslint-disable-next-line
         .catch((error) => {
-          this.makeToast("ERROR " + error.response.statusText, "danger")
+          if(error.response.statusText){
+            this.makeToast("ERROR " + error.response.statusText, "danger")
+          }else{
+            this.makeToast("ERROR " + "error with webservervice", "danger")
+          }
         });
     },    
     makeToast(message, variant){
