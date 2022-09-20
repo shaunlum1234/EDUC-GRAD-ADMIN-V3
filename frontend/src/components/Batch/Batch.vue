@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <b-overlay :show='processingBatch'>
       <div class="row">
         <div class="col-12 col-md-3 border-right">
@@ -10,7 +9,9 @@
             <b-form-select
               id="inline-form-select-type"
               class="mb-2 mr-sm-2 mb-sm-0"
-              :options="[{ text: 'TVRRUN', value: 'TVRRUN' },{ text: 'REGALG', value: 'REGALG' },{ text: 'PSIRUN', value: 'PSIRUN' },{ text: 'DISTRUN', value: 'DISTRUN' },{ text: '-----------------------', value: '' }, { text: 'DISTRUN-YEAREND', value: 'DISTRUN-YEAREND' }]"
+              :options="batchTypes"
+              value-field="code"
+              text-field="label"
               :value="batch.details['what']"     
               @change="editBatchJob('what', $event)"       
             >
@@ -79,7 +80,7 @@
           </div>
    
 
-          <div v-if="batch.details['who'] !='Student' && batch.details['what'] !='DISTRUN-YEAREND' && batch.details['who'] !='PSI' && batch.details['credential'] !='Blank transcript print' && batch.details['credential'] !='Blank certificate print'" class="p-0 mt-3 ">
+          <div v-if="batch.details['who'] !='Student' && batch.details['what'] !='DISTRUNYEAREND' && batch.details['who'] !='PSI' && batch.details['credential'] !='Blank transcript print' && batch.details['credential'] !='Blank certificate print'" class="p-0 mt-3 ">
             <label class="font-weight-bold p-0 m-0 row">Grad Date</label>
             <b-form-select
               id="inline-form-select-audience"
@@ -410,13 +411,13 @@
       </BatchGroupInput> -->
       </div>       
       </div>
-      <div class="my-3">
+      <div class="my-2">
 
         <!-- Batch control buttons -->
         <b-button size="sm" variant="danger" class="btn btn-danger float-right col-2 p-2" @click="cancelBatchJob(jobId)">
           Cancel
         </b-button>
-        <b-button v-if="batch.details['what'] == 'DISTRUN-YEAREND'" v-b-modal="'distrun-yearend-modal'" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+        <b-button v-if="batch.details['what'] == 'DISTRUNYEAREND'" v-b-modal="'DISTRUNYEAREND-modal'" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
           Run
         </b-button>
         <b-button v-else-if="batch.details['where'] == 'localDownload'" @click="runBatch(jobId)" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
@@ -450,7 +451,7 @@
                 </b-form-group>
           </b-form-group>
         </b-modal>
-        <b-modal id="distrun-yearend-modal" :title="'RUN ' + jobId" ok-title="Confirm" @ok="runBatch(jobId)">
+        <b-modal id="DISTRUNYEAREND-modal" :title="'RUN ' + jobId" ok-title="Confirm" @ok="runBatch(jobId)">
           You have selected to run the year end distribution, please confirm you want to perform this action.
         </b-modal>  
     </div>
@@ -464,7 +465,7 @@ import TRAXService from "@/services/TRAXService.js";
 import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
 import GraduationReportService from "@/services/GraduationReportService.js";
-//import BatchGroupInput from "@/components/Batch/BatchGroupInput.vue";
+import BatchProcessingService from "@/services/BatchProcessingService.js";
 import {
   mapGetters
 } from "vuex";
@@ -522,6 +523,7 @@ export default {
   },  
   data: function () {
     return {
+      batchTypes: [],
       batchRunDetails: "",
       cronTime: "",
       batchRunTime: "Run Now",
@@ -555,7 +557,7 @@ export default {
         'REGALG': {
           'group': [{ text: '', value: null }, 'Student', 'School', { text: 'Geographic District', value: 'District' }, 'Program']
       }, 
-        'DISTRUN-YEAREND': {
+        'DISTRUNYEAREND': {
           'message': "You are running a year end distribution run. Click the run button and confirm."
         }                 
       }
@@ -599,9 +601,23 @@ export default {
     this.formElements = Object.assign({}, this.formElements)
     this.transcriptTypes = this.getTranscriptTypes();
     this.certificateTypes = this.getCertificateTypes();
+    this.batchTypes = this.getBatchJobTypes();
   },
 
   methods: {
+    getBatchJobTypes(){
+      BatchProcessingService.getBatchJobTypes().then(
+      (response) => {
+        this.batchTypes = response.data;
+      }) 
+      .catch((error) => {
+        this.$bvToast.toast("ERROR " + error.response.statusText, {
+          title: "ERROR" + error.response.status,
+          variant: "danger",
+          noAutoHide: true,
+        });
+      });
+    },    
     groupFormValues(runType){
       if(runType == ""){
         return

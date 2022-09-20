@@ -119,8 +119,8 @@
       },
       setStudentGradStatusOptionalPrograms(state, payload) {
         state.student.optionalPrograms = payload;
-        for (let i = 0; i < state.student.optionalPrograms.length; i++) {
-          state.student.optionalPrograms[i].studentOptionalProgramData = JSON.parse(state.student.optionalPrograms[i].studentOptionalProgramData); 
+        for (let optionalProgram of state.student.optionalPrograms) {
+          optionalProgram.studentOptionalProgramData = JSON.parse(optionalProgram.studentOptionalProgramData); 
         }
       },
       setHasGradStatusPendingUpdates(state, payload) {

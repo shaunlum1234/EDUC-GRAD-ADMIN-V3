@@ -364,6 +364,10 @@ export default {
   created() {
     this.getAdminDashboardData()
     this.getScheduledJobs()
+    BatchProcessingService.getBatchJobTypes().then(
+    (response) => {
+      console.log(response)
+    })
   },
   methods: { 
     ...mapActions('batchprocessing', ['setScheduledBatchJobs']),
@@ -389,7 +393,6 @@ export default {
       }
     },   
     cancelBatchJob(id) {
-  
       for (let i = 0; i < this.tabs.length; i++) {
         if (this.tabs[i] == id) {
           this.tabs.splice(i, 1);
@@ -398,7 +401,6 @@ export default {
           return;
         }
       }
-      
     },      
     
     newBatchJob() {
@@ -899,7 +901,7 @@ export default {
           this.runPSIRUN(request, id, this.tabContent[id].details['psiTransmissionMode']);
         }
         
-      }else if(this.tabContent[id].details['what'] == 'DISTRUN-YEAREND'){     
+      }else if(this.tabContent[id].details['what'] == 'DISTRUNYEAREND'){     
         this.runDISTRUNYearEnd(id);
       }else if(this.tabContent[id].details['what'] == 'DISTRUN'){     
         if(cronTime){

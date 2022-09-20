@@ -663,9 +663,9 @@
         GraduationService.projectedGradFinalMarks(this.studentId) .then((response) => {
           this.projectedGradStatus = JSON.parse(response.data.graduationStudentRecord.studentGradData);
           this.projectedOptionalGradStatus = response.data.studentOptionalProgram;
-          for (let i = 0; i < this.projectedOptionalGradStatus.length; i++) {
-            this.projectedOptionalGradStatus[i].studentOptionalProgramData = JSON.parse(this.projectedOptionalGradStatus[i].studentOptionalProgramData);
-          } 
+          for (let projectedOptGradStatus of  this.projectedOptionalGradStatus) {
+            projectedOptGradStatus.studentOptionalProgramData = JSON.parse(projectedOptGradStatus.studentOptionalProgramData);
+          }
           this.$refs['projectedGradStatusWithFinalMarks'].show();
           this.tabLoading = false; 
           this.getStudentReportsAndCertificates(this.studentId, this.studentPen);
@@ -687,8 +687,8 @@
           this.projectedGradStatus = response.data;
           this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStudentRecord.studentGradData);
           this.projectedOptionalGradStatus = response.data.studentOptionalProgram;
-          for (let i = 0; i < this.projectedOptionalGradStatus.length; i++) {
-            this.projectedOptionalGradStatus[i].studentOptionalProgramData = JSON.parse(this.projectedOptionalGradStatus[i].studentOptionalProgramData);
+          for (let projectedOptGradStatus of this.projectedOptionalGradStatus) {
+            this.projectedOptGradStatus.studentOptionalProgramData = JSON.parse(projectedOptGradStatus.studentOptionalProgramData);
           } 
           this.projectedrequirementsMet = this.projectedGradStatus.requirementsMet;
           this.$refs['projectedGradStatusWithFinalAndReg'].show();

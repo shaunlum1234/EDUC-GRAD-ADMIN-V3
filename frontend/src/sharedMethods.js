@@ -2,9 +2,9 @@ import StudentService from "@/services/StudentService.js";
 
 export default {
     getStudentStatus(code, studentStatusOptions) {
-        for (var i = 0; i <= studentStatusOptions.length; i++) {
-          if (studentStatusOptions[i].code == code) {
-            return studentStatusOptions[i].label;
+        for (let studentStatusOption of studentStatusOptions) {
+          if (studentStatusOption.code == code) {
+            return studentStatusOption.label;
           }
         }
         return "";
@@ -125,7 +125,7 @@ export default {
         this.studentGradStatus.updatedTimestamp = response.data.updatedTimestamp;
         this.studentGradStatus.studentStatusName = this.getStudentStatus(
           response.data.studentStatus
-        );         
+        );    
         this.showTop = !this.showTop;
         this.showEdit = false;
         //Update the student audit history

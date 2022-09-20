@@ -22,6 +22,7 @@ import ProgramCertificateTranscripts from '../components/Codes/ProgramCertificat
 import DigitialSignatures from '../components/Codes/DigitalSignatures.vue';
 import SignatureBlockType from '../components/Codes/SignatureBlockType.vue';
 import DocumentStatusCode from '../components/Codes/DocumentStatusCode.vue';
+import BatchTypes from '../components/Codes/BatchTypes.vue';
 import GraduationPrograms from '../components/GraduationPrograms.vue';
 import GraduationProgramCourses from '../components/GraduationProgramCourses.vue';
 import GraduationProgramRules from '../components/GraduationProgramRules.vue';
@@ -121,6 +122,7 @@ const routes = [{
       { path: '/codes/ungrad-reasons', component: UngradReasons },
       { path: '/codes/history-activity', component: HistoryActivityCodes },
       { path: '/codes/document-status-codes', component: DocumentStatusCode },
+      { path: '/codes/batch-types', component: BatchTypes },
     ],    
     meta: {
       requiresAuth: true
