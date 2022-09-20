@@ -323,8 +323,8 @@ export default {
       });
     }
     this.itemToAdd = { ...this.items[0] };
-    for (var i = 0; i < this.fields.length; i++) {
-      this.itemToAdd[this.fields[i].key] = "";
+    for (let field of this.fields) {
+      this.itemToAdd[field.key] = "";
     }
   },
   methods: {

@@ -53,4 +53,7 @@ export default {
   batchProcessingToggleRoutine(jobType){
     return ApiService.apiAxios.put('/api/v1/batch/processing/toggle/' + jobType );
   },
+  getBatchJobTypes(){
+    return ApiService.apiAxios.get('/api/v1/batch/batchjobtype');
+  },  
 }

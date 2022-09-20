@@ -24,6 +24,7 @@
         <b-nav-item to="/codes/student-status-codes" :active="tab === 4" @click="tab = 4">Student Status Codes</b-nav-item>
         <b-nav-item to="/codes/ungrad-reasons" :active="tab === 5" @click="tab = 5">Undo Completion Reason Codes</b-nav-item>
         <b-nav-item to="/codes/history-activity" :active="tab === 6" @click="tab = 6">History Activity Codes</b-nav-item>
+        <b-nav-item to="/codes/batch-types" :active="tab === 7" @click="tab = 6">Batch Type Codes</b-nav-item>
         
       </b-nav>
     </b-card-header>
@@ -44,6 +45,7 @@ import { mapGetters } from "vuex";
 import GraduationReportService from "@/services/GraduationReportService.js";
 import StudentService from "@/services/StudentService.js";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
+import BatchProcessingService from "@/services/BatchProcessingService.js";
 
 export default {
   name: "codes",
@@ -57,6 +59,19 @@ export default {
       
       certificateTypes: [],
       reportSignatures: [],
+      batchTypes: [],
+      batchTypesFields:[
+        {
+          key: "code",
+          label: "Code",
+          sortable: true,
+        },
+        {
+          key: "label",
+          label: "Label",
+          sortable: true,
+        },
+      ],
       reportSignaturesFields: [
         {
           key: "signatureContent",
@@ -237,6 +252,7 @@ export default {
     this.getReportTypes();
     this.getStudentStatusCodes();
     this.getUngradReasons();
+    this.getBatchJobTypes();
     
   },
   methods: {
@@ -319,6 +335,19 @@ export default {
           });
         });
     },    
+    getBatchJobTypes(){
+        BatchProcessingService.getBatchJobTypes().then(
+        (response) => {
+          this.batchTypes = response.data;  
+        }) 
+        .catch((error) => {
+          this.$bvToast.toast("ERROR " + error.response.statusText, {
+            title: "ERROR" + error.response.status,
+            variant: "danger",
+            noAutoHide: true,
+          });
+        });
+    },
     getUngradReasons() {
       StudentService.getUngradReasons()
         .then((response) => {

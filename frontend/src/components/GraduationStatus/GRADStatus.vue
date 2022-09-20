@@ -450,10 +450,10 @@ export default {
     },
     programCompletionDateChange:function(){
       let programNameSearch = this.editedGradStatus.program;
-      for (var i=0 ; i < this.programOptions.length ; i++)
+      for (let programOpt of this.programOptions)
       {
-          if (this.programOptions[i].programCode == programNameSearch) {
-              this.programCompletionEffectiveDateList.push(this.programOptions[i]);
+          if (programOpt.programCode == programNameSearch) {
+              this.programCompletionEffectiveDateList.push(programOpt);
           }
           
       }
