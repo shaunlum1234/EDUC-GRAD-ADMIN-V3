@@ -364,10 +364,6 @@ export default {
   created() {
     this.getAdminDashboardData()
     this.getScheduledJobs()
-    BatchProcessingService.getBatchJobTypes().then(
-    (response) => {
-      console.log(response)
-    })
   },
   methods: { 
     ...mapActions('batchprocessing', ['setScheduledBatchJobs']),
