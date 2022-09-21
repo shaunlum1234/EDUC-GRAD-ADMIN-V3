@@ -24,6 +24,7 @@
                     v-model="advancedSearchInput.psiCode.value"
                     placeholder=""
                     tabindex="1"
+                    trim
                   />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
@@ -62,10 +63,11 @@
                     v-model="advancedSearchInput.cslCode.value"
                     placeholder=""
                     tabindex="3"
+                    trim
                   />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
-                  <label>Open Flag</label>
+                  <label>Active</label>
                   <b-form-select v-model="advancedSearchInput.openFlag.value" :options="options"  tabindex="4"></b-form-select>
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
@@ -85,25 +87,6 @@
                     v-model="advancedSearchInput.transmissionMode.value"
                     placeholder=""
                     tabindex="5"
-                  />
-                </div>
-                <div class="advanced-search-field col-12 col-md-2">
-                  <label>PSI Grouping</label>
-                  <div
-                    href="#"
-                    v-on:click="advancedSearchInput.psiGrouping.contains = !advancedSearchInput.psiGrouping.contains"
-                    v-bind:class="{active: advancedSearchInput.psiGrouping.contains}"
-                    class="wild-card-button"
-                    v-b-tooltip.hover
-                    title="PSI Grouping mode starts with"
-                  >
-                    [.*]
-                  </div>
-                  <b-input
-                    class="form__input"
-                    v-model="advancedSearchInput.psiGrouping.value"
-                    placeholder=""
-                    tabindex="6"
                   />
                 </div>
               </div>
@@ -139,7 +122,7 @@
               <div v-if="psiResults">
                 <div v-if="totalResults > 0" class="row">
                   <div class="search-results-message my-3 col-12 col-md-8">
-                    <strong>{{ totalResults }}</strong> PSIs found.
+                    <strong>{{ totalResults }}</strong> Post Secondary Institutions found.
                   </div>
                 </div>
                 <div v-if="advancedSearchMessage" class="row">
@@ -214,7 +197,6 @@
 <script>
 import TRAXService from "@/services/TRAXService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
-import { mapGetters } from "vuex";
 import sharedMethods from '../sharedMethods'
 export default {
   name: "psi",
@@ -239,7 +221,7 @@ export default {
           key: 'psiCode',
           label: 'PSI Code',
           sortable: true,
-          class: 'text-center'
+          class: 'text-left'
         },
         {
           key: 'psiName',
@@ -250,22 +232,23 @@ export default {
           key: 'cslCode',
           label: 'CSL Code',
           sortable: true,
+          class: 'text-left'
+        },
+        {
+          key: 'psisCode',
+          label: 'PSIS Code',
+          sortable: true,
           class: 'text-center'
         },
         {
           key: 'openFlag',
-          label: 'Open Flag',
+          label: 'Active',
           sortable: true,
           class: 'text-center'
         },
         {
           key: 'transmissionMode',
           label: 'Transmission Mode',
-          sortable: true,
-        },
-        {
-          key: 'psiGrouping',
-          label: 'PSI Grouping',
           sortable: true,
         },
       ],
@@ -297,12 +280,6 @@ export default {
       },
     };
   },
-
-  computed: {
-    ...mapGetters({
-      token: "getToken",
-    }),
-  },
   created() {
     this.showNotification = sharedMethods.showNotification;
   },
@@ -324,7 +301,7 @@ export default {
       }
     },
     getAllPSI: function () {
-      TRAXService.getPSI(this.token)
+      TRAXService.getPSI()
       .then((res) => {
         this.psi = res.data;
       })
@@ -344,7 +321,6 @@ export default {
       let isEmpty = true;
       for (var key in this.advancedSearchInput) {
         if (this.advancedSearchInput.hasOwnProperty(key)) {
-          //console.log(obj[key])
           if (this.advancedSearchInput[key].value != "") {
             isEmpty = false;   
           }
@@ -396,7 +372,7 @@ export default {
               }   
             }             
           }//if this.advanceSearchInput
-          TRAXService.getPSIByAdvanceSearch(this.params,this.token)
+          TRAXService.getPSIByAdvanceSearch(this.params)
             .then((response) => {
               this.advancedSearchLoading = false;
               this.psiResults = response.data;

@@ -1,24 +1,19 @@
 <template>
-  <div>
+  <div id=transcript-message>
     <DisplayTable v-bind:items="transcriptMessages" title="Transcript Message" v-bind:fields="transcriptMessageFields" id="transcriptMessage" v-bind:role="role" :slots="templates" showFilter=true pagnation=true>
     </DisplayTable>
   </div>
 </template>
 
 <script>
-import TranscriptService from "@/services/TranscriptService.js";
+import ProgramManagementService from "@/services/ProgramManagementService.js";
 import DisplayTable from "@/components/DisplayTable";
-import { mapGetters } from "vuex";
 
 export default {
   name: "GraduationProgramTranscriptMessage",
   components: {
     DisplayTable: DisplayTable,
   },
-  computed: {...mapGetters({
-    token: "getToken",
-    role: "getRoles",
-  })},
   data: function() {
     return {
       transcriptMessages: [],
@@ -50,6 +45,12 @@ export default {
         {
           key: "gradDateMessage",
           label: "Date Message",
+          sortable: true,
+          editable: true,
+        },
+        {
+          key: "graduationSchool",
+          label: "Graduation School",
           sortable: true,
           editable: true,
         },
@@ -93,7 +94,7 @@ export default {
     }
   },
   created() {
-    TranscriptService.getTranscriptMessage(this.token)
+    ProgramManagementService.getTranscriptMessage()
     .then((response) => {
       this.transcriptMessages = response.data;
     })

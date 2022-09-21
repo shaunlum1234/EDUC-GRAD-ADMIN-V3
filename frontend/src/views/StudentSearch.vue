@@ -13,8 +13,17 @@
                     <!-- Pen Input -->
                     <div class="search w-100">
                       <label for="search-by-pen" class="float-left w-100">Search by PEN:</label>                   
-                      <b-form-input id="search-by-pen" type="search" maxlength=9 minlength=9 v-model="penInput" placeholder=""
-                        ref="penSearch" v-on:keyup="keyHandler" tabindex="1" class="w-50 float-left">
+                      <b-form-input id="search-by-pen" 
+                                    type="search" 
+                                    maxlength = 9 
+                                    minlength = 9 
+                                    v-model="penInput" 
+                                    placeholder=""
+                                    ref="penSearch" 
+                                    v-on:keyup="keyHandler" 
+                                    tabindex="1" 
+                                    class="w-50 float-left"
+                                    trim>
                       </b-form-input>
                       <button id="search-submit" v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary ml-2 float-left">
                         <i class="fas fa-search" aria-hidden="true"></i> Search
@@ -28,7 +37,7 @@
                     <div class="my-4 pl-2 float-left"><a v-if="studentHasProgram == false" href="#" > PEN Student Inquiry.</a></div> 
                   </div>
                 </form>
-                <div v-if="roles == 'debug'" class="sample-pens m-3">
+                <div class="sample-pens m-3">
                   Samples: V0.1.2
                   <div class="row col-12">
                     <div class="px-3 col-4"><a href="#" v-on:click="findStudentByStudentIdSample('ac339d70-7649-1a2e-8176-4a00dfa87ff1')">Student 1</a> 1950 NOT COMPLETED</div>
@@ -190,11 +199,6 @@
                         <b-input id="usual-middle-input" v-model="advancedSearchInput.usualMiddleNames.value" placeholder=""
                           v-on:keyup=" keyHandler" tabindex="9" />
                       </div>                    
-                      <div class="advanced-search-field col-12 col-md-2">
-                        <label>Local ID</label>
-                        <b-input id="local-id-input" v-model="advancedSearchInput.localId.value" placeholder="" v-on:keyup=" keyHandler"
-                          tabindex="10" />
-                      </div>
                     </div>
                     <div class="row">                              
                       <div class="advanced-search-button">
@@ -465,8 +469,6 @@ export default {
       exams: "getStudentExams",
       gradStatus: "getStudentGradStatus",
       hasGradStatus: "studentHasGradStatus",
-      token: "getToken",
-      roles: "getRoles",
     }),
   },
   methods: {
@@ -485,23 +487,19 @@ export default {
       }
     },
     findStudentByStudentIdSample: function (studentId) {
-      StudentService.getStudentPen(studentId, this.token).then(
-          (response) => {           
-            this.penInput = response.data.pen;
-            this.findStudentByPen();
-          }
-        ).catch((error) => {
-          if(error.response.status){
-
-            this.showNotification(
-              "danger",
-              "There was an error: " + error.response.status
-            );
-          }
-        })       
-      
-     
-      
+      StudentService.getStudentPen(studentId).then(
+        (response) => {           
+          this.penInput = response.data.pen;
+          this.findStudentByPen();
+        }
+      ).catch((error) => {
+        if(error.response.status){
+          this.showNotification(
+            "danger",
+            "There was an error: " + error.response.status
+          );
+        }
+      })           
     },
     findStudentByPen: function () {
       if (this.penInput) {
@@ -509,7 +507,7 @@ export default {
         this.searchByPenMessage = "";
         this.searchLoading = true;
         this.studentSearchResults = [];
-        StudentService.getStudentByPen(this.penInput, this.token)
+        StudentService.getStudentByPen(this.penInput)
           .then((response) => {
             if (response.data.length != 0) {
               var studentLastName = response.data[0].legalLastName;
@@ -552,7 +550,7 @@ export default {
           this.advancedSearchInput.birthdateTo.value = this.advancedSearchInput.birthdateFrom.value;
         }
         try {
-          StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput,this.token)
+          StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput)
             .then((response) => {
               this.advancedSearchLoading = false;
               this.searchResults = response.data;

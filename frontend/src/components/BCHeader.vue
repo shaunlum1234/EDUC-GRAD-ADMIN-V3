@@ -39,10 +39,11 @@
           <router-link to="/programs">Programs</router-link>
         </b-nav-item>
         <b-nav-item><router-link to="/courses">Courses</router-link></b-nav-item>
-        <b-nav-item><router-link to="/assessments">Assessments</router-link></b-nav-item>
+        <b-nav-item><router-link to="/assessment">Assessments</router-link></b-nav-item>
         <b-nav-item><router-link to="/schools">Schools</router-link></b-nav-item>
         <b-nav-item><router-link to="/psi">PSI</router-link></b-nav-item>
         <b-nav-item><router-link to="/codes">Codes</router-link></b-nav-item>
+        <b-nav-item><router-link to="/school-reports">School Reports</router-link></b-nav-item>
         <b-nav-item><router-link to="/batch-processing">Batch Processing</router-link></b-nav-item>
         <b-nav-item v-if="!profile.pen" class="disabled"><a id="profile-route" class="text-decoration-none text-disabled" :disabled=true>Profile (Student not loaded)</a></b-nav-item>
         <b-nav-item v-else><router-link :to="`/student-profile/${this.profile.studentID}`" id="profile-route">Profile ({{profile.pen? profile.pen : 'Student not loaded'}})</router-link></b-nav-item>
@@ -68,25 +69,24 @@
           <li><router-link to="/schools" id="schools-route">Schools</router-link></li>
           <li><router-link to="/psi" id="psi-route">PSI</router-link></li>
           <li><router-link to="/codes" id="codes-route">Codes</router-link></li>
+          <li><router-link to="/school-reports">School Reports</router-link></li>
            <li><router-link to="/batch-processing">Batch Processing</router-link></li>
           <li v-if="!profile.pen" class="disabled"><a id="profile-route" class="text-decoration-none text-disabled" :disabled=true>Profile (Student not loaded)</a></li>
           <li v-else><router-link :to="`/student-profile/${this.profile.studentID}`" id="profile-route">Profile ({{profile.pen? profile.pen : 'Student not loaded'}})</router-link></li>
-
           <li>
              <form v-on:submit.prevent>
               <div class="form-group top-search">
                 <!-- Pen Input -->
                 <div>                
-                    <b-form-input maxlength=9 minlength=9 size="sm" id="search-by-pen-header" type="search" v-model="penInput" placeholder="PEN"
-                      ref="penSearch" v-on:keyup="keyHandler" class="w-75 float-left m-1">
-                    </b-form-input>
-                    <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary float-left">
-                      <i class="fas fa-search" aria-hidden="true"></i>
-                    </button>
-                    <button v-if="searchLoading" class="btn btn-success ml-2 float-left">
-                      <i class="fas fa-search" aria-hidden="true"></i>
-                    </button>  
-                    
+                  <b-form-input maxlength=9 minlength=9 size="sm" id="search-by-pen-header" type="search" v-model="penInput" placeholder="PEN"
+                    ref="penSearch" v-on:keyup="keyHandler" class="w-75 float-left m-1">
+                  </b-form-input>
+                  <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary float-left">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                  </button>
+                  <button v-if="searchLoading" class="btn btn-success ml-2 float-left">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                  </button>  
                 </div>
               </div>
             </form>
@@ -94,12 +94,9 @@
         </ul>     
       </div>
     </nav>
-    
   </div>
 </template>
-
 <script>
-
 import StudentService from "@/services/StudentService.js";
 import sharedMethods from '../sharedMethods';
 import { mapGetters } from "vuex";
@@ -115,12 +112,10 @@ export default {
   },
   created() {
     this.loadStudent = sharedMethods.loadStudent;
-    this.showNotification = sharedMethods.showNotification    
+    this.showNotification = sharedMethods.showNotification;     
   },
    computed: {
     ...mapGetters({
-      token: "getToken",
-      roles: "getRoles",
       profile: "getStudentProfile"
     }),
   },
@@ -142,7 +137,7 @@ export default {
       if (this.penInput) {
         this.searchLoading = true;
         this.studentSearchResults = [];
-        StudentService.getStudentByPen(this.penInput, this.token)
+        StudentService.getStudentByPen(this.penInput)
         .then((response) => {
           if (response.data) {
             this.loadStudent(response.data);

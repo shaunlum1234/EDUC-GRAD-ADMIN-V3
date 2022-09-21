@@ -9,19 +9,16 @@
       showFilter="true"
     >
       <template #cell(effectiveDate)="row">
-        {{ row.item.effectiveDate | formatTime }}
+        {{ row.item.effectiveDate | formatSimpleDate }}
       </template>
       <template #cell(expiryDate)="row">
-        {{ row.item.expiryDate | formatTime }}
+        {{ row.item.expiryDate | formatSimpleDate }}
       </template>
     </DisplayTable>
   </div>
 </template>
 
 <script>
-import {
-  mapGetters
-} from "vuex";
 import DisplayTable from "@/components/DisplayTable";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 
@@ -32,7 +29,7 @@ export default {
     DisplayTable: DisplayTable,
   },
   created() {
-      ProgramManagementService.getCareerPrograms(this.token)
+      ProgramManagementService.getCareerPrograms()
         .then((response) => {
           this.careerPrograms = response.data;
         })
@@ -73,12 +70,6 @@ export default {
         },
       ]
     };
-  },
-  computed: {
-    ...mapGetters({  
-      token: "getToken",
-      role: "getRoles"
-    }),
   },
   methods: {
   },

@@ -13,14 +13,14 @@
               <span v-if="row.item.studentOptionalProgramData.optionalRequirementsMet.length != 0">All requirements have been met</span>
             </div>
             <div v-else>
-              <div class="p-2" v-if="row.item.studentOptionalProgramData.optionalNonGradReasons.length == 0 && 
+              <div class="p-2" v-if="row.item.studentOptionalProgramData.optionalNonGradReasons && row.item.studentOptionalProgramData.optionalNonGradReasons.length == 0 && 
                                      row.item.studentOptionalProgramData.optionalRequirementsMet.length > 0"
               >All requirements have been met</div>
             </div>
             <span v-if="row.item.studentOptionalProgramData.optionalNonGradReasons && row.item.studentOptionalProgramData.optionalNonGradReasons.length == 0 && 
                         row.item.studentOptionalProgramData.optionalRequirementsMet && row.item.studentOptionalProgramData.optionalRequirementsMet.length == 0">n/a</span>
           </div> 
-          <ul v-if="row.item.studentOptionalProgramData.optionalNonGradReasons != null" id="optionalNonGradReasons">
+          <ul v-if="row.item.studentOptionalProgramData && row.item.studentOptionalProgramData.optionalNonGradReasons != null" id="optionalNonGradReasons">
             <li v-for="optionalNonGradReasons in row.item.studentOptionalProgramData.optionalNonGradReasons" :key="optionalNonGradReasons.rule">
               <strong>{{ optionalNonGradReasons.rule }} - {{ optionalNonGradReasons.description }}</strong>
             </li>
@@ -62,7 +62,7 @@
               <template #cell(gradReqMetDetail)="row2">
                     <div class="p-2">
                       <strong>{{row2.item.gradReqMetDetail}}</strong><br/>
-                      {{row2.item.assessmentCode}} - {{row2.item.sessionDate | formatTime}} ({{row2.item.assessmentName}})
+                      {{row2.item.assessmentCode}} - {{row2.item.sessionDate | formatSimpleDate}} ({{row2.item.assessmentName}})
                     </div>
                     
               </template>

@@ -36,8 +36,7 @@
 
 <script>
 
-import { mapGetters } from "vuex";
-import sharedMethods from '../../sharedMethods.js';
+import sharedMethods from '../../sharedMethods';
 import StudentService from "@/services/StudentService.js";
 import DisplayTable from '@/components/DisplayTable.vue';
 export default {
@@ -89,9 +88,6 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      token: "getToken",
-    }),
     currentPageChange(){
       return this.userSelectedPage;
     },
@@ -121,7 +117,7 @@ export default {
           page = page - 1;  
         }
       }    
-      StudentService.getBatchHistory(batchId, page, this.token).then(
+      StudentService.getBatchHistory(batchId, page).then(
         (response) => {
             this.batchData = response.data.content;
             this.rows = response.data.totalElements;
@@ -140,7 +136,7 @@ export default {
     },
     findStudentByPen: function(pen) {
       if (pen) {
-        StudentService.getStudentByPen(pen, this.token)
+        StudentService.getStudentByPen(pen)
         .then((response) => {
           if (response.data) {
             this.loadStudent(response.data);
