@@ -36,7 +36,7 @@
           <router-link to="/">Select Student</router-link>
         </b-nav-item>
         <b-nav-item>
-          <router-link to="/admin-graduation-programs">Programs</router-link>
+          <router-link to="/programs">Programs</router-link>
         </b-nav-item>
         <b-nav-item><router-link to="/courses">Courses</router-link></b-nav-item>
         <b-nav-item><router-link to="/assessment">Assessments</router-link></b-nav-item>
@@ -60,7 +60,7 @@
             <router-link to="/" id="select-student-route">Select Student</router-link>
           </li>
           <li>
-            <router-link to="/admin-graduation-programs" id="programs-route"
+            <router-link to="/programs" id="programs-route"
               >Programs</router-link
             >
           </li>

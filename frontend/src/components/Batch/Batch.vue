@@ -434,7 +434,7 @@
                 <b-form-group v-if="batchRunTime == 'Run Later'" label="Schedule" v-slot="{ ariaDescribedby }">
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="N">Tonight at 6:30PM</b-form-radio>
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="W">Weekend Batch - Saturday 12:00PM</b-form-radio>
-                  <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="M">Tommorow at 6:30AM</b-form-radio>
+                  <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="M">Tomorrow at 6:30AM</b-form-radio>
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="Custom">Custom</b-form-radio>
                     <div class="pl-4" v-if="batchRunSchedule == 'Custom'">
                       <!-- <label for="batch-datepicker">Choose a date:</label> -->
