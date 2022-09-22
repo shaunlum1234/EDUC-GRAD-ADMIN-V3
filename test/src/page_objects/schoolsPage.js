@@ -6,6 +6,9 @@ class SchoolsPage {
         this.view = Selector('#schools-route');
 
         // search inputs
+        this.districtInput = Selector('input#district');
+        this.districtWildCard = Selector('input#district').sibling('div.wild-card-button');
+
         this.mincodeInput = Selector('input#mincode');
         this.mincodeWildcard = Selector('input#mincode').sibling('div.wild-card-button');
 
@@ -20,7 +23,7 @@ class SchoolsPage {
         this.searchMessage = Selector('div.search-results-message strong');
 
         // column selectors
-        this.spmCode = Selector('div.table-responsive td[data-label="SPM School Code"] div');
+        this.spmCode = Selector('div.table-responsive td[data-label="TRAX School Code"] div');
         this.schoolName = Selector('div.table-responsive td[data-label="TRAX School Name"] div');
 
     }
