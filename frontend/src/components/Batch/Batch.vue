@@ -18,7 +18,7 @@
             </b-form-select>
             
           </div>
-          <div class="mt-2" v-if="batch.details['what'] == 'DISTRUN'">
+          <div class="mt-2" v-if="batch.details['what'] == 'DISTRUNUSER'">
             <label class="font-weight-bold">Credential Type</label>
             <b-form-select
                 id="inline-form-select-audience"
@@ -157,7 +157,7 @@
               @change="editBatchJob('categoryCode', $event)"
             ></b-form-select>
           </div>
-          <div class="p-0 mt-3 col-3" v-if="batch.details['what'] == 'DISTRUN'">
+          <div class="p-0 mt-3 col-3" v-if="batch.details['what'] == 'DISTRUNUSER'">
             <label class="font-weight-bold">Copies</label>
             <b-form-input
                 type="number"
@@ -167,7 +167,7 @@
                 @change="editBatchJob('copies', $event)"       
               ></b-form-input>
           </div>  
-          <div class="mt-1 col-3 p-0" v-if="batch.details['what'] == 'DISTRUN'">
+          <div class="mt-1 col-3 p-0" v-if="batch.details['what'] == 'DISTRUNUSER'">
             <label class="font-weight-bold">Where</label>
             <b-form-select
               id="inline-form-select-type"
@@ -545,7 +545,7 @@ export default {
             'psiTransmissionMode': true,
           }
         ,
-        'DISTRUN':{
+        'DISTRUNUSER':{
           'group': [{ text: '', value: null }, 'Student', 'School', { text: 'Geographic District', value: 'District' }, 'Program'],
           'copies': true,
           'where': true
@@ -609,6 +609,7 @@ export default {
       BatchProcessingService.getBatchJobTypes().then(
       (response) => {
         this.batchTypes = response.data;
+
       }) 
       .catch((error) => {
         this.$bvToast.toast("ERROR " + error.response.statusText, {
