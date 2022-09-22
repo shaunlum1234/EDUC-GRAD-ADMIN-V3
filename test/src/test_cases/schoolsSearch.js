@@ -52,6 +52,7 @@ fixture `schools-page`
         testSuites: {
             smoke: false,
             regression: true,
+            qa: false,
         }
     });
 
@@ -89,6 +90,7 @@ fixture `schools-page`
         testSuites: {
             smoke: true,
             regression: true,
+            qa: false,
         }
     });
 
@@ -109,6 +111,7 @@ fixture `schools-page`
         testSuites: {
             smoke: false,
             regression: true,
+            qa: false,
         }
     });
 
@@ -127,6 +130,44 @@ fixture `schools-page`
         testSuites: {
             smoke: false,
             regression: true,
+            qa: false,
         }
     });
+
+    test('search on district', async t => {
+        log.info(' - testing search with district field');
+        await t
+        .click(schoolsPage.districtInput)
+        .typeText(schoolsPage.districtInput, '001')
+        .click(schoolsPage.searchSubmit);
+
+        await t
+        .expect(schoolsPage.searchMessage.textContent).contains('4');
+    })
+    .meta({
+        testSuites: {
+            smoke: false,
+            regression: true,
+            qa: true,
+        }
+    })
+
+    test('search on school name', async t => {
+        log.info(' - testing search on school name');
+
+        await t
+        .click(schoolsPage.schoolNameInput)
+        .typeText(schoolsPage.schoolNameInput, 'patrick*')
+        .click(schoolsPage.searchSubmit);
+
+        await t
+        .expect(schoolsPage.searchMessage.textContent).contains('1');
+    })
+    .meta({
+        testSuites: {
+            smoke: false,
+            regression: true,
+            qa: true,
+        }
+    })
 
