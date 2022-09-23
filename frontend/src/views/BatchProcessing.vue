@@ -30,7 +30,7 @@
                             <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'batch')">   
                               All results           
                             </b-btn>
-                            <!-- <b-btn v-if="row.item.jobType='DISTRUNUSER'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="downloadDISTRUN(row.item.jobExecutionId)">   
+                            <!-- <b-btn v-if="row.item.jobType='DISTRUNUSERUSER'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="downloadDISTRUNUSER(row.item.jobExecutionId)">   
                               Download
                             </b-btn>                             -->
                           </b-popover>
@@ -367,8 +367,8 @@ export default {
   },
   methods: { 
     ...mapActions('batchprocessing', ['setScheduledBatchJobs']),
-    downloadDISTRUN(bid){
-      DistributionService.downloadDISTRUN(bid).then((res) => {
+    downloadDISTRUNUSER(bid){
+      DistributionService.downloadDISTRUNUSER(bid).then((res) => {
         this.$bvToast.toast('Download (.zip)' , {
           title: "FILE SUCCESSFULLY CREATED",
           href: "data:application/zip;base64," + res.data,
@@ -472,13 +472,13 @@ export default {
         return item;
       }
     },
-    runDISTRUNYearEnd(id){
+    runDISTRUNYEAREND(id){
       let requestId = id.replace("job-",""); 
       this.$set(this.spinners, id, true)
       let index= id.replace("job-","")-1;
       let value = true
       this.$store.commit("batchprocessing/setTabLoading",{index, value});
-        BatchProcessingService.runDISTRUNYearEnd().then(
+        BatchProcessingService.runDISTRUNYEAREND().then(
         (response) => {
           if(response){
             this.$bvToast.toast("Batch run has completed for request " + requestId , {
@@ -500,13 +500,13 @@ export default {
         })  
         setTimeout(this.getBatchProgress(requestId), 5000);
     },
-    runBlankDISTRUNUserRequest(request, id, credentialType){
+    runBlankDISTRUNUSERUserRequest(request, id, credentialType){
       let requestId = id.replace("job-",""); 
       this.$set(this.spinners, id, true)
       let index= id.replace("job-","")-1;
       let value = true
       this.$store.commit("batchprocessing/setTabLoading",{index, value});
-        BatchProcessingService.runDISTRUN(request, credentialType).then(
+        BatchProcessingService.runDISTRUNUSER(request, credentialType).then(
         (response) => {
            //update the admin dashboard
           this.getAdminDashboardData();
@@ -518,7 +518,7 @@ export default {
           if(request.localDownload == 'Y'){
             
             let bid = response.data.batchId;
-            DistributionService.downloadDISTRUN(bid).then((res) => {
+            DistributionService.downloadDISTRUNUSER(bid).then((res) => {
               this.$bvToast.toast('Download (.zip)' , {
                 title: "FILE SUCCESSFULLY CREATED",
                 href: "data:application/zip;base64," + res.data,
@@ -547,13 +547,13 @@ export default {
         })       
       setTimeout(this.getBatchProgress(requestId), 5000);
     },
-    runDISTRUN(request, id, credentialType){
+    runDISTRUNUSER(request, id, credentialType){
       let requestId = id.replace("job-",""); 
       this.$set(this.spinners, id, true)
       let index= id.replace("job-","")-1;
       let value = true
       this.$store.commit("batchprocessing/setTabLoading",{index, value});
-        BatchProcessingService.runDISTRUN(request, credentialType).then(
+        BatchProcessingService.runDISTRUNUSER(request, credentialType).then(
         (response) => {
            //update the admin dashboard
           this.getAdminDashboardData();
@@ -563,7 +563,7 @@ export default {
           this.selectedTab = 0;
           if(request.localDownload == 'Y'){
             let bid = response.data.batchId;
-            DistributionService.downloadDISTRUN(bid).then((res) => {
+            DistributionService.downloadDISTRUNUSER(bid).then((res) => {
               this.$bvToast.toast('Download (.zip)' , {
                 title: "FILE SUCCESSFULLY CREATED",
                 href: "data:application/zip;base64," + res.data,
@@ -898,8 +898,8 @@ export default {
         }
         
       }else if(this.tabContent[id].details['what'] == 'DISTRUNYEAREND'){     
-        this.runDISTRUNYearEnd(id);
-      }else if(this.tabContent[id].details['what'] == 'DISTRUN'){     
+        this.runDISTRUNYEAREND(id);
+      }else if(this.tabContent[id].details['what'] == 'DISTRUNUSER'){     
         if(cronTime){
           let scheduledRequest = {};
           scheduledRequest.cronExpression = cronTime
@@ -917,9 +917,9 @@ export default {
           }
           this.addScheduledJob(scheduledRequest, id)
         }else if(this.tabContent[id].details['where'] == 'User'){     
-          this.runBlankDISTRUNUserRequest(request,id, this.tabContent[id].details['credential']);
+          this.runBlankDISTRUNUSERUserRequest(request,id, this.tabContent[id].details['credential']);
         }else{
-          this.runDISTRUN(request, id, this.tabContent[id].details['credential']);
+          this.runDISTRUNUSER(request, id, this.tabContent[id].details['credential']);
         }
         
       }        

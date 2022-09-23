@@ -140,7 +140,7 @@ export default {
             'psiTransmissionMode': true,
           }
         ,
-        'DISTRUN':{
+        'DISTRUNUSER':{
           'group': [{ text: '', value: null }, 'Student', 'School', 'District', 'Program', 'PSI'],
           'copies': true,
           'where': true
