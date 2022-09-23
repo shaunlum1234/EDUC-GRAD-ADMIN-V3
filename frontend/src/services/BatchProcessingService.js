@@ -10,7 +10,7 @@ export default {
   runTVRRUN(request) {
     return ApiService.apiAxios.post('/api/v1/batch/tvrspecialrun', request);
   },
-  runDISTRUN(request,credentialType) {
+  runDISTRUNUSER(request,credentialType) {
     if(credentialType == "OT"){
       return ApiService.apiAxios.post('/api/v1/batch/userrequestdisrun/OT', request);
     }else if(credentialType == "OC"){
@@ -23,10 +23,10 @@ export default {
       return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/OC', request);
     }
   },     
-  runDISTRUNYearEnd(){
+  runDISTRUNYEAREND(){
     return ApiService.apiAxios.get('/api/v1/batch/executeyearlydisrunbatchjob');
   },
-  runBlankDistRunUserRequest(request, credentialType){
+  runBlankDISTRUNUSERUserRequest(request, credentialType){
     return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/'+ credentialType, request);
   },
   runPSIRUN(request, transmissionType){

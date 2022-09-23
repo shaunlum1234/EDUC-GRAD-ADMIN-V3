@@ -51,6 +51,11 @@ export default {
           label: "Label",
           sortable: true,
         },
+        {
+          key: "description",
+          label: "Description",
+          sortable: true,
+        },        
       ],
     };
   },
