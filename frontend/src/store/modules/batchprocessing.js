@@ -68,7 +68,7 @@ export default {
       state.batchDetails[payload]['details'].blankTranscriptDetails=[{}];
       state.batchDetails[payload]['details'].credential="";
       state.batchDetails[payload]['details'].categoryCode="";
-      state.batchDetails[payload]['details'].copies="";
+      state.batchDetails[payload]['details'].copies="1";
     },
     clearBatchGroupDetails(state,payload){
       state.batchDetails[payload].schools=[{}];
