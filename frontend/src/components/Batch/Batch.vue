@@ -546,7 +546,7 @@ export default {
           }
         ,
         'DISTRUN':{
-           'message': "This distribution run option is not available to run manually by users"
+           'message': "This is the monthly distribution run and is not currently available for Users to run manually."
           }
         ,        
         'DISTRUNUSER':{
