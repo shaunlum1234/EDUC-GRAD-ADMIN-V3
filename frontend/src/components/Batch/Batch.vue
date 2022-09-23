@@ -80,7 +80,7 @@
           </div>
    
 
-          <div v-if="batch.details['who'] !='Student' && batch.details['what'] !='DISTRUNYEAREND' && batch.details['who'] !='PSI' && batch.details['credential'] !='Blank transcript print' && batch.details['credential'] !='Blank certificate print'" class="p-0 mt-3 ">
+          <div v-if="batch.details['who'] !='Student' && batch.details['what'] !='DISTRUNYEAREND' && batch.details['what'] !='DISTRUN' && batch.details['who'] !='PSI' && batch.details['credential'] !='Blank transcript print' && batch.details['credential'] !='Blank certificate print'" class="p-0 mt-3 ">
             <label class="font-weight-bold p-0 m-0 row">Grad Date</label>
             <b-form-select
               id="inline-form-select-audience"
@@ -545,6 +545,10 @@ export default {
             'psiTransmissionMode': true,
           }
         ,
+        'DISTRUN':{
+           'message': "This distribution run option is not available to run manually by users"
+          }
+        ,        
         'DISTRUNUSER':{
           'group': [{ text: '', value: null }, 'Student', 'School', { text: 'Geographic District', value: 'District' }, 'Program'],
           'copies': true,
