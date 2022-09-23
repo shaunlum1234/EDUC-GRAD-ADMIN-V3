@@ -18,7 +18,7 @@
             </b-form-select>
             
           </div>
-          <div class="mt-2" v-if="batch.details['what'] == 'DISTRUN'">
+          <div class="mt-2" v-if="batch.details['what'] == 'DISTRUNUSER'">
             <label class="font-weight-bold">Credential Type</label>
             <b-form-select
                 id="inline-form-select-audience"
@@ -80,7 +80,7 @@
           </div>
    
 
-          <div v-if="batch.details['who'] !='Student' && batch.details['what'] !='DISTRUNYEAREND' && batch.details['who'] !='PSI' && batch.details['credential'] !='Blank transcript print' && batch.details['credential'] !='Blank certificate print'" class="p-0 mt-3 ">
+          <div v-if="batch.details['who'] !='Student' && batch.details['what'] !='DISTRUNYEAREND' && batch.details['what'] !='DISTRUN' && batch.details['who'] !='PSI' && batch.details['credential'] !='Blank transcript print' && batch.details['credential'] !='Blank certificate print'" class="p-0 mt-3 ">
             <label class="font-weight-bold p-0 m-0 row">Grad Date</label>
             <b-form-select
               id="inline-form-select-audience"
@@ -157,7 +157,7 @@
               @change="editBatchJob('categoryCode', $event)"
             ></b-form-select>
           </div>
-          <div class="p-0 mt-3 col-3" v-if="batch.details['what'] == 'DISTRUN'">
+          <div class="p-0 mt-3 col-3" v-if="batch.details['what'] == 'DISTRUNUSER'">
             <label class="font-weight-bold">Copies</label>
             <b-form-input
                 type="number"
@@ -167,7 +167,7 @@
                 @change="editBatchJob('copies', $event)"       
               ></b-form-input>
           </div>  
-          <div class="mt-1 col-3 p-0" v-if="batch.details['what'] == 'DISTRUN'">
+          <div class="mt-1 col-3 p-0" v-if="batch.details['what'] == 'DISTRUNUSER'">
             <label class="font-weight-bold">Where</label>
             <b-form-select
               id="inline-form-select-type"
@@ -435,7 +435,7 @@
                 <b-form-group v-if="batchRunTime == 'Run Later'" label="Schedule" v-slot="{ ariaDescribedby }">
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="N">Tonight at 6:30PM</b-form-radio>
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="W">Weekend Batch - Saturday 12:00PM</b-form-radio>
-                  <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="M">Tommorow at 6:30AM</b-form-radio>
+                  <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="M">Tomorrow at 6:30AM</b-form-radio>
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="Custom">Custom</b-form-radio>
                     <div class="pl-4" v-if="batchRunSchedule == 'Custom'">
                       <!-- <label for="batch-datepicker">Choose a date:</label> -->
@@ -549,6 +549,10 @@ export default {
           }
         ,
         'DISTRUN':{
+           'message': "This distribution run option is not available to run manually by users"
+          }
+        ,        
+        'DISTRUNUSER':{
           'group': [{ text: '', value: null }, 'Student', 'School', { text: 'Geographic District', value: 'District' }, 'Program'],
           'copies': true,
           'where': true
@@ -612,6 +616,7 @@ export default {
       BatchProcessingService.getBatchJobTypes().then(
       (response) => {
         this.batchTypes = response.data;
+
       }) 
       .catch((error) => {
         this.$bvToast.toast("ERROR " + error.response.statusText, {
