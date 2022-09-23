@@ -428,6 +428,7 @@
         </b-button>
         <!-- Modal Dialogs --> 
         <b-modal :id="'batch-modal-' + jobId" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
+          <BatchConfirmInfo :items="batch"></BatchConfirmInfo>
           <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }"> 
             <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Now">Run Now</b-form-radio>
             <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Later">Run Later</b-form-radio>
@@ -466,6 +467,7 @@ import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
 import GraduationReportService from "@/services/GraduationReportService.js";
 import BatchProcessingService from "@/services/BatchProcessingService.js";
+import BatchConfirmInfo from '@/components/Batch/BatchConfimInfo.vue';
 import {
   mapGetters
 } from "vuex";
@@ -519,7 +521,8 @@ extend('adultdogwoodpublicrestrictedtoministryofadvancededgroup', {
 export default {
   components: {   
     ValidationProvider: ValidationProvider,
-    ValidationObserver: ValidationObserver
+    ValidationObserver: ValidationObserver,
+    BatchConfirmInfo: BatchConfirmInfo
   },  
   data: function () {
     return {
