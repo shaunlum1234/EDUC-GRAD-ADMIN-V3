@@ -29,6 +29,10 @@
               {{row.value.value | formatTime}}
             </template>
 
+            <template #cell(activityCode)="row">
+              {{row.item.data.activityCodeDescription}}
+            </template>
+
             <template #cell()="row">
               <div :class="row.value.changed ? 'value-changed' : ''">
                 {{row.value.value}}
@@ -65,6 +69,10 @@
 
             <template #cell(createDate)="row">
               {{row.value.value | formatTime}}
+            </template>
+
+            <template #cell(activityCode)="row">
+              {{row.item.data.activityCodeDescription}}
             </template>
 
             <template #cell()="row">

@@ -8,6 +8,12 @@
     id=""
     showFilter="true"
   >
+  <template #cell(effectiveDate)="row">
+    {{ row.item.effectiveDate | formatSimpleDate}}
+  </template>
+  <template #cell(expiryDate)="row">
+    {{ row.item.expiryDate | formatSimpleDate}}
+  </template>
   </DisplayTable>
   </div>
 </template>
@@ -55,7 +61,17 @@ export default {
           key: "description",
           label: "Description",
           sortable: true,
-        },        
+        },
+        {
+          key: "effectiveDate",
+          label: "Effective Date",
+          sortable: true,
+        },
+        {
+          key: "expiryDate",
+          label: "Expiry Date",
+          sortable: true,
+        },
       ],
     };
   },
