@@ -19,7 +19,7 @@
               alt="B.C. Government Logo"
             />
           </a>
-          <h1>Graduation Records and Achievement Data TOOLS</h1>
+          <h1>Graduation Records and Achievement Data</h1>
         </div>
         <div class="float-right user-profile">
           <slot></slot>
