@@ -18,7 +18,7 @@ class CoursesPage {
         // this.instructionLanguage = Selector('#instruction-lang-select');
 
         this.TRAXCode = Selector('.advanced-search-field > label').withExactText('TRAX Code').sibling('input');
-        this.gradeLevel = Selector('.advanced-search-field > label').withExactText('Grade Level').sibling('input');
+        this.gradeLevel = Selector('.advanced-search-field > label').withExactText('TRAX Grade Level').sibling('input');
         this.courseTitle = Selector('.advanced-search-field > label').withExactText('Course Title').sibling('input');
         this.instructionLanguage = Selector('.advanced-search-field > label').withExactText('Instruction Language').sibling('select');
         this.TRAXStartDate = Selector('#datepicker-startDate');
