@@ -22,14 +22,8 @@
             <div class="float-left col-12 pr-4 ml-1">
               <ul>
                 <li>
-                  <strong>Status:</strong> {{report.documentStatusLabel}} 
-                </li>
-                <li>
                   <strong>Last Updated:</strong> {{report.updateDate | formatTime}} 
                 </li>
-                <!-- <li>
-                  <strong>Distributed:</strong> {{report.distributionDate | formatTime}}
-                </li> -->
               </ul>
             </div>
           </div>
@@ -39,9 +33,6 @@
             <a  @click="downloadFile(transcript.transcript,'application/pdf')" href="#"  class="pdf-link float-left ">{{transcript.transcriptTypeLabel}} (PDF)</a> 
             <div class="float-left col-12 pr-4 ml-1">
               <ul>
-                <li>
-                  <strong>Status:</strong> {{transcript.documentStatusLabel}} 
-                </li>
                 <li>
                   <strong>Last Updated:</strong> {{transcript.updateDate | formatTime}} 
                 </li>

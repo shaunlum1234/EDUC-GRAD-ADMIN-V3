@@ -22,7 +22,7 @@
                     tabindex="1" />
                 </div>
                 <div class="advanced-search-field col-12 col-md-2">
-                  <label >Grade Level</label>
+                  <label >TRAX Grade Level</label>
                    <div href="#"
                     v-on:click="advancedSearchInput.courseLevel.contains = !advancedSearchInput.courseLevel.contains"
                     v-bind:class="{active: advancedSearchInput.courseLevel.contains}"
