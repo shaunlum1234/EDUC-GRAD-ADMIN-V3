@@ -428,7 +428,7 @@
         </b-button>
         <!-- Modal Dialogs --> 
         <b-modal :id="'batch-modal-' + jobId" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
-          <BatchConfirmInfo :items="batch"></BatchConfirmInfo>
+          <BatchConfirmInfo :items="batch" :batchTypes="batchTypes"></BatchConfirmInfo>
           <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }"> 
             <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Now">Run Now</b-form-radio>
             <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Later">Run Later</b-form-radio>
