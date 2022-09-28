@@ -47,13 +47,6 @@ export default {
   data: function () {
     return {
       details: "",
-      students: [],
-      schools: [],
-      districts: [],
-      programs: [],
-      blankTranscriptDetails: [],
-      blankCertificateDetails: [],
-      psi: [],
       limitWarning: false,
     };
   },
@@ -61,13 +54,6 @@ export default {
   created() {
     this.showNotification = sharedMethods.showNotification;
     this.details = this.items.details;
-    this.students = this.items.students;
-    this.schools = this.items.schools;
-    this.districts = this.items.districts;
-    this.programs = this.items.programs;
-    this.blankTranscriptDetails = this.items.blankTranscriptDetails;
-    this.blankCertificateDetails = this.items.blankCertificateDetails;
-    this.psi = this.items.psi;
     this.convertBatchCodes();
     this.checkRunData();
   },
@@ -95,4 +81,4 @@ export default {
   computed: {},
 };
 </script>
-<style scoped></style>
+
