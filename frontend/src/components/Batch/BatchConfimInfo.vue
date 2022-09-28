@@ -16,7 +16,6 @@
         <li v-if="details.gradDate">
           <strong>Grad Date: </strong>{{ details.gradDate }}
         </li>
-        <!-- Grad Date -->
         <ul>
           <li v-if="details.gradDateFrom">
             <strong>Grad Start Date: </strong>{{ details.gradDateFrom }}
@@ -25,7 +24,6 @@
             <strong>Grad End Date: </strong>{{ details.gradDateTo }}
           </li>
         </ul>
-        <!-- End Grad Date  -->
         <li v-if="details.categoryCode">
           <strong>School Category: </strong>{{ details.categoryCode }}
         </li>
