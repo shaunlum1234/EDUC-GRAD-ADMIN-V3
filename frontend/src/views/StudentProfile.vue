@@ -695,7 +695,6 @@
           this.tabLoading = false; 
           this.getStudentReportsAndCertificates(this.studentId,this.studentPen);
         }).catch((error) => {
-          console.log(error);
           if(error.response.status){
             this.tabLoading = false; 
             this.showNotification(
