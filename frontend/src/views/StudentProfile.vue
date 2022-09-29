@@ -688,13 +688,14 @@
           this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStudentRecord.studentGradData);
           this.projectedOptionalGradStatus = response.data.studentOptionalProgram;
           for (let projectedOptGradStatus of this.projectedOptionalGradStatus) {
-            this.projectedOptGradStatus.studentOptionalProgramData = JSON.parse(projectedOptGradStatus.studentOptionalProgramData);
+            projectedOptGradStatus.studentOptionalProgramData = JSON.parse(projectedOptGradStatus.studentOptionalProgramData);
           } 
           this.projectedrequirementsMet = this.projectedGradStatus.requirementsMet;
           this.$refs['projectedGradStatusWithFinalAndReg'].show();
           this.tabLoading = false; 
           this.getStudentReportsAndCertificates(this.studentId,this.studentPen);
         }).catch((error) => {
+          console.log(error);
           if(error.response.status){
             this.tabLoading = false; 
             this.showNotification(
