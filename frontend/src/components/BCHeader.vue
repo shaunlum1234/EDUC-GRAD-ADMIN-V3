@@ -329,7 +329,7 @@ header .nav-btn {
     }
     .top-search{
       position: absolute;
-      top: 55px;
+      top: -78px;
       right: 20px;
     }
     .burgernav {
