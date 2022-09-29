@@ -181,7 +181,11 @@ export default {
   computed:{
     queueScheduledJobs(){
       let queuedJobs = this.scheduledJobs;
-      return queuedJobs.filter(queuedJobs => queuedJobs.status == 'QUEUED');  
+      if(queuedJobs){
+        return queuedJobs.filter(queuedJobs => queuedJobs.status == 'QUEUED'); 
+      } else {
+        return []
+      }      
     },
     results(){
       return this.searchResults;
@@ -721,7 +725,6 @@ export default {
         setTimeout(this.getBatchProgress(requestId), 5000);
     },    
     getScheduledJobs(){
-
       BatchProcessingService.getScheduledBatchJobs().then((response) => {
         this.setScheduledBatchJobs(response.data);
       })
