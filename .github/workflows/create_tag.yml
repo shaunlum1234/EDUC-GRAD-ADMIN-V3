@@ -46,8 +46,8 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             ref: 'refs/tags/${{ github.event.inputs.version }}',
-            sha: context.sha,
-            force: true
+            force: true,
+            sha: context.sha
           })
 
     - name: Install oc
