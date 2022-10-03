@@ -24,10 +24,10 @@ export default {
     }
   },     
   runDISTRUNYEAREND(){
-    return ApiService.apiAxios.post('/api/v1/batch/executeyearlydisrunbatchjob');
+    return ApiService.apiAxios.get('/api/v1/batch/executeyearlydisrunbatchjob');
   },
   runBlankDISTRUNUSERUserRequest(request, credentialType){
-    return ApiService.apiAxios.('/api/v1/batch/userrequestblankdisrun/'+ credentialType, request);
+    return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/'+ credentialType, request);
   },
   runPSIRUN(request, transmissionType){
     return ApiService.apiAxios.post('/api/v1/batch/executepsireportbatchjob/' + transmissionType, request);

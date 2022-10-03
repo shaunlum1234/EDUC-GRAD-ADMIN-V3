@@ -423,7 +423,7 @@
         <b-button v-else-if="batch.details['where'] == 'localDownload'" @click="runBatch(jobId)" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
           Download
         </b-button>
-        <b-button v-else v-b-modal="'batch-modal-'+jobId" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+        <b-button v-else v-b-modal="'batch-modal-'+jobId" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2" :disabled="batch.details['what'] == 'DISTRUN'">
           Schedule/Run Batch
         </b-button>
         <!-- Modal Dialogs --> 
