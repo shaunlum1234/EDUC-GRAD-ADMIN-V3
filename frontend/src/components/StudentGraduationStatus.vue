@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <div v-if="role == 'administrator'">
+    <div v-if="role == 'administrator' && isEnvLocalHost()">
       <b-button v-b-toggle.collapse-1 variant="primary">DEBUG</b-button>
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
@@ -88,6 +88,9 @@ export default {
   methods: {
     getStudentStatus(code) {
       return sharedMethods.getStudentStatus(code, this.studentStatusOptions);
+    },
+    isEnvLocalHost() {
+      return sharedMethods.isEnvLocalHost();
     },
   },
 };

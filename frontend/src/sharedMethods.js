@@ -1,7 +1,10 @@
 import StudentService from "@/services/StudentService.js";
 
 export default {
-    getStudentStatus(code, studentStatusOptions) {
+  isEnvLocalHost() {
+    return location.host.includes("localhost");
+  },  
+  getStudentStatus(code, studentStatusOptions) {
         for (let studentStatusOption of studentStatusOptions) {
           if (studentStatusOption.code == code) {
             return studentStatusOption.label;
