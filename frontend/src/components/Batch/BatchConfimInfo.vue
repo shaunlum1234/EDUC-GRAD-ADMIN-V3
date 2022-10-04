@@ -36,7 +36,6 @@
       </ul>
       <li v-if="details.where"><strong>Where: </strong>{{ details.where }}</li>
     </ul>
-    {{items}}
   </div>
 </template>
 <script>
