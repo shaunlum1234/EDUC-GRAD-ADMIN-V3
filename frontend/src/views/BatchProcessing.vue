@@ -404,7 +404,7 @@ export default {
     },      
     
     newBatchJob() {
-      let batchDetail = { details: {what: "", who: "", credential: "", psiYear: this.getCurrentPSIYear()}, students: [{}], schools:[{}], districts: [{}], programs:[{}],blankTranscriptDetails:[{}],blankCertificateDetails:[{}]};
+      let batchDetail = { details: {what: "", who: "", credential: "", where: "BC Mail", copies: "1", psiYear: this.getCurrentPSIYear()}, students: [{}], schools:[{}], districts: [{}], programs:[{}],blankTranscriptDetails:[{}],blankCertificateDetails:[{}]};
       
       let id = "job-" + this.tabCounter;
       this.$set(this.spinners, id, false)
