@@ -24,6 +24,7 @@ env:
   BRANCH: "main"
   APP_NAME_BACKEND: "educ-grad-admin-backend"
   NAMESPACE: bbe4c3
+  APP_DOMAIN: ${{ secrets.APP_DOMAIN }}
   NAMESPACE_TOOLS: bbe4c3-tools
   COMMON_NAMESPACE: 75e61b
   TAG: "latest"
@@ -71,10 +72,10 @@ jobs:
           oc rollout cancel dc/${{ env.IMAGE_NAME }}-dc 2> /dev/null \
           || true && echo "No rollout in progress"
 
-          oc tag ${{ env.NAMESPACE }}-dev/${{ env.REPO_NAME }}-backend:${{ steps.get-latest-tag.outputs.tag }} ${{ env.NAMESPACE }}-test/${{ env.REPO_NAME }}-backend:${{ steps.get-latest-tag.outputs.tag }}
+          oc tag ${{ env.NAMESPACE }}-dev/${{ env.APP_NAME_BACKEND }}:${{ steps.get-latest-tag.outputs.tag }} ${{ env.NAMESPACE }}-test/${{ env.APP_NAME_BACKEND }}-backend:${{ steps.get-latest-tag.outputs.tag }}
 
           # Process and apply deployment template
-          oc process -f tools/openshift/backend-dc.yaml -p IS_NAMESPACE=${{ env.OPENSHIFT_NAMESPACE }} -p REPO_NAME=${{ env.REPO_NAME }} -p TAG_NAME=${{ steps.get-latest-tag.outputs.tag }} -p HOST_ROUTE=${{ env.REPO_NAME }}-${{ env.OPENSHIFT_NAMESPACE }}.${{ env.APP_DOMAIN }} | oc apply -f -
+          oc process -f tools/openshift/backend-dc.yaml -p IS_NAMESPACE=${{ env.OPENSHIFT_NAMESPACE }} -p REPO_NAME=${{ env.REPO_NAME }} -p TAG_NAME=${{ steps.get-latest-tag.outputs.tag }} -p HOST_ROUTE=${{ env.APP_NAME_BACKEND }}-${{ env.OPENSHIFT_NAMESPACE }}.${{ env.APP_DOMAIN }} | oc apply -f -
 
           # Start rollout (if necessary) and follow it
           oc rollout latest dc/${{ env.IMAGE_NAME }}-dc 2> /dev/null \
