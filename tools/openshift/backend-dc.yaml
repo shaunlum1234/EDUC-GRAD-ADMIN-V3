@@ -98,4 +98,4 @@ parameters:
   - name: HOST_PATH
     description: The path appended to the HOST_ROUTE where the root of this project will be served
     required: false
-    value: "/"
+    value: "/api"
