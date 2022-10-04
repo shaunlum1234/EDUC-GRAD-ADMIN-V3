@@ -157,7 +157,7 @@
               @change="editBatchJob('categoryCode', $event)"
             ></b-form-select>
           </div>
-          <div class="p-0 mt-3 col-3" v-if="batch.details['what'] == 'DISTRUNUSER'">
+          <div class="p-0 mt-3 col-3" v-if="batch.details['what'] == 'DISTRUNUSER' || batch.details['what'] == 'DISTRUNYEAREND'">
             <label class="font-weight-bold">Copies</label>
             <b-form-input
                 type="number"
@@ -167,7 +167,7 @@
                 @change="editBatchJob('copies', $event)"       
               ></b-form-input>
           </div>  
-          <div class="mt-1 col-3 p-0" v-if="batch.details['what'] == 'DISTRUNUSER'">
+          <div class="mt-1 col-3 p-0" v-if="batch.details['what'] == 'DISTRUNUSER' || batch.details['what'] == 'DISTRUNYEAREND'">
             <label class="font-weight-bold">Where</label>
             <b-form-select
               id="inline-form-select-type"
@@ -417,13 +417,13 @@
         <b-button size="sm" variant="danger" class="btn btn-danger float-right col-2 p-2" @click="cancelBatchJob(jobId)">
           Cancel
         </b-button>
-        <b-button v-if="batch.details['what'] == 'DISTRUNYEAREND'" v-b-modal="'DISTRUNYEAREND-modal'" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+        <b-button v-if="batch.details['what'] == 'DISTRUNYEAREND'" v-b-modal="'DISTRUNYEAREND-modal-' + jobId" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
           Run
         </b-button>
         <b-button v-else-if="batch.details['where'] == 'localDownload'" @click="runBatch(jobId)" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
           Download
         </b-button>
-        <b-button v-else v-b-modal="'batch-modal-'+jobId" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2">
+        <b-button v-else v-b-modal="'batch-modal-'+jobId" size="sm" variant="primary" class="btn btn-primary w-100 float-right col-2 p-2" :disabled="batch.details['what'] == 'DISTRUN'">
           Schedule/Run Batch
         </b-button>
         <!-- Modal Dialogs --> 
@@ -452,7 +452,7 @@
                 </b-form-group>
           </b-form-group>
         </b-modal>
-        <b-modal id="DISTRUNYEAREND-modal" :title="'RUN ' + jobId" ok-title="Confirm" @ok="runBatch(jobId)">
+        <b-modal :id="'DISTRUNYEAREND-modal-' + jobId" :title="'RUN ' + jobId" ok-title="Confirm" @ok="runBatch(jobId)">
           You have selected to run the year end distribution, please confirm you want to perform this action.
         </b-modal>  
     </div>
@@ -565,6 +565,8 @@ export default {
           'group': [{ text: '', value: null }, 'Student', 'School', { text: 'Geographic District', value: 'District' }, 'Program']
       }, 
         'DISTRUNYEAREND': {
+          'copies': true,
+          'where': true,
           'message': "You are running a year end distribution run. Click the run button and confirm."
         }                 
       }
