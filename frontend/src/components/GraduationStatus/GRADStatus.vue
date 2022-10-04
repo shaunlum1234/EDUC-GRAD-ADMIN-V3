@@ -251,9 +251,20 @@
               </td>
               <td><b-input :disabled="disableSchoolAtGrad" size="sm" type="text" maxlength="8" v-model='editedGradStatus.schoolAtGrad'></b-input></td>        
             </tr>
-            <tr>
+            <tr v-if="showEdit">
               <td><strong>Consumer education requirement met:</strong></td>
-              <td><span v-if="studentGradStatus.consumerEducationRequirementMet"> {{ studentGradStatus.consumerEducationRequirementMet }}</span></td>
+              <td> <b-form-select 
+                      size="sm"
+                      v-model="editedGradStatus.consumerEducationRequirementMet"
+                      :options="consumerEducRecMet">
+                </b-form-select>
+              </td>
+            </tr>
+            <tr v-if="!showEdit">
+              <td><strong>Consumer education requirement met:</strong></td>
+              <td> 
+                <span v-if="studentGradStatus.consumerEducationRequirementMet"> {{ studentGradStatus.consumerEducationRequirementMet }}</span>
+              </td>
             </tr>
             <tr>
               <td><strong>Honours standing:</strong></td>
@@ -369,6 +380,10 @@ export default {
         { text: "OT - Other", value: "OT" },
         { text: "AD - Adult expected to graduate", value: "AD" },
         { text: "AN - Adult not expected to graduate", value: "AN" },     
+      ],
+      consumerEducRecMet: [
+        { text: "Y", value: "Y" },
+        { text: "N", value: "N" },
       ], 
       programsWithExpiry: [
         '1986-EN',
@@ -665,6 +680,7 @@ export default {
       this.$set(this.editedGradStatus, 'studentID', this.studentGradStatus.studentID);
       this.$set(this.editedGradStatus, 'gpa', this.studentGradStatus.gpa);
       this.$set(this.editedGradStatus, 'honoursStanding', this.studentGradStatus.honoursStanding);
+      this.$set(this.editedGradStatus, 'consumerEducationRequirementMet', this.studentGradStatus.consumerEducationRequirementMet);
     },
 
     cancelGradStatus() {
@@ -702,7 +718,6 @@ export default {
       if(this.editedGradStatus.schoolAtGrad == ''){
         this.editedGradStatus.schoolAtGrad = null;
       }
-
       StudentService.editGraduationStatus(
         id,
         this.editedGradStatus
