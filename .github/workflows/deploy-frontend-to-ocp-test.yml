@@ -74,7 +74,7 @@ jobs:
           oc tag ${{ env.NAMESPACE }}-dev/${{ env.REPO_NAME }}-frontend:${{ steps.get-latest-tag.outputs.tag }} ${{ env.NAMESPACE }}-test/${{ env.REPO_NAME }}-frontend:${{ steps.get-latest-tag.outputs.tag }}
 
           # Process and apply deployment template
-          oc process -f tools/openshift/frontend-static.dc.ocp4.yaml -p REPO_NAME=educ-grad-admin \
+          oc process -f tools/openshift/frontend-dc.yaml -p REPO_NAME=educ-grad-admin \
           -p HOST_ROUTE=educ-grad-admin-bbe4c3-test.apps.silver.devops.gov.bc.ca -p NAMESPACE=${{ env.OPENSHIFT_NAMESPACE }} \
           -p APP_NAME=educ-grad-admin -p TAG=latest -p MIN_REPLICAS=2 -p MAX_REPLICAS=3 -p MIN_CPU=50m -p MAX_CPU=100m \
           -p MIN_MEM=200Mi -p MAX_MEM=250Mi | oc apply -n bbe4c3-test -f -
