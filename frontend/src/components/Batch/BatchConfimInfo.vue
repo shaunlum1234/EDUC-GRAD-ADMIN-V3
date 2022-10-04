@@ -36,6 +36,7 @@
       </ul>
       <li v-if="details.where"><strong>Where: </strong>{{ details.where }}</li>
     </ul>
+    {{items}}
   </div>
 </template>
 <script>
@@ -65,9 +66,9 @@ export default {
     },
     checkRunData() {
       if (
-        this.items.districts.length >= 1 ||
-        this.items.schools.length >= 1 ||
-        this.items.programs >= 1
+        this.items.districts.length > 1 ||
+        this.items.schools.length > 1 ||
+        this.items.programs.length > 1
       ) {
         this.limitWarning = true;
       } else {
