@@ -18,7 +18,7 @@
                     <span v-if="row.item.notCompleted">No Attempt</span>     
                     <span v-if="row.item.projected">Registration</span>   
                     <span v-if="row.item.failed">Not Completed</span>   
-                    <span v-if="row.item.duplicate">Duplicate</span>  
+                    <span v-if="row.item.duplicate">Repeat</span>  
                   </div>
                 </div>
             </template>
