@@ -197,7 +197,7 @@
                     <div v-if="schoolOfRecordInputWarning" class="form-validation-message text-danger" >Please enter at least 8 digits&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                     <div v-if="schoolFound" class="form-validation-message text-success" >{{editedGradStatus.schoolName}} found.</div>                      
                   </td>
-                  <td><b-input :disabled="disableInput" size="sm" type="text" maxlength="8" minength="8" v-model='editedGradStatus.schoolOfRecord'></b-input></td>                  
+                  <td><b-input size="sm" type="text" maxlength="8" minength="8" v-model='editedGradStatus.schoolOfRecord'></b-input></td>                  
               </tr>
               <tr v-if="!showEdit">
                 <td><strong>School at graduation: </strong></td>
