@@ -63,7 +63,11 @@
           </div>                                                      
         </div>
         <div class="col-12 col-md-9">
-         
+          <div class="p-0 mt-3" v-if="batch.details['what'] && formElements[batch.details['what']].message">
+            <b-alert show variant="info">
+                {{formElements[batch.details['what']].message}}
+            </b-alert>
+          </div>
           <div class="m-0 p-0 col-3" v-if="batch.details['what'] && formElements[batch.details['what']].group">
             <label class="font-weight-bold pt-1">Group</label>
             <b-form-select
