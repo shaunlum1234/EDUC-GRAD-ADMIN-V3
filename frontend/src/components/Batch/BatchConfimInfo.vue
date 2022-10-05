@@ -4,7 +4,7 @@
       >There will be more than 250 records processed</b-alert
     >
     <ul>
-      <li v-if="details.what"><strong>Run Type: </strong>{{ details.what }}</li>
+      <li v-if="typeLabel"><strong>Run Type: </strong>{{ typeLabel }}</li>
       <li v-if="details.copies">
         <strong>Copies: </strong>{{ details.copies }}
       </li>
@@ -45,21 +45,26 @@ export default {
   data: function () {
     return {
       details: "",
+      typeLabel:"",
       limitWarning: false,
     };
   },
   mounted() {},
   created() {
     this.showNotification = sharedMethods.showNotification;
-    this.details = this.items.details;
-    this.convertBatchCodes();
+    if(this.items){
+      this.details = this.items.details;
+    } else {
+      this.details = "";
+    }
+    this.getBatchTypeLabel();
     this.checkRunData();
   },
   methods: {
-    convertBatchCodes() {
+    getBatchTypeLabel() {
       for (let x in this.batchTypes) {
         if (this.details.what == this.batchTypes[x].code) {
-          this.details.what = this.batchTypes[x].label;
+          this.typeLabel = this.batchTypes[x].label;
         }
       }
     },
