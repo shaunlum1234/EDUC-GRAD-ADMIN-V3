@@ -63,11 +63,7 @@
           </div>                                                      
         </div>
         <div class="col-12 col-md-9">
-           <div class="p-0 mt-3" v-if="batch.details['what'] && formElements[batch.details['what']].message">
-            <b-alert show variant="info">
-                {{formElements[batch.details['what']].message}}
-            </b-alert>
-          </div>
+         
           <div class="m-0 p-0 col-3" v-if="batch.details['what'] && formElements[batch.details['what']].group">
             <label class="font-weight-bold pt-1">Group</label>
             <b-form-select
@@ -323,7 +319,6 @@
             </div>
           </div>
         </div>
-      <pre>Test PENS: 106900004     124304700      126604461       101005700</pre>
       </b-card>            
       <b-card v-if="batch.details['who']=='School'" class="mt-3 px-0" header="Include Schools">
         <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
