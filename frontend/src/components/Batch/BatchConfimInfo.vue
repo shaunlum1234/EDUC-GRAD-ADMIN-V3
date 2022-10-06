@@ -3,6 +3,10 @@
     <b-alert show variant="info" v-if="limitWarning"
       >There will be more than 250 records processed</b-alert
     >
+    <b-alert show variant="warning" v-if="docWarning"
+      >Warning: You have selected a large volume of documents to be
+      printed</b-alert
+    >
     <ul>
       <li v-if="typeLabel"><strong>Run Type: </strong>{{ typeLabel }}</li>
       <li v-if="details.copies">
@@ -45,14 +49,15 @@ export default {
   data: function () {
     return {
       details: "",
-      typeLabel:"",
+      typeLabel: "",
       limitWarning: false,
+      docWarning: false,
     };
   },
   mounted() {},
   created() {
     this.showNotification = sharedMethods.showNotification;
-    if(this.items){
+    if (this.items) {
       this.details = this.items.details;
     } else {
       this.details = "";
@@ -78,10 +83,25 @@ export default {
       } else {
         this.limitWarning = false;
       }
+      if (
+        (this.typeLabel == "User Request Distribution Run" ||
+          this.typeLabel == "Distrubution Run Year-End") &&
+        (this.details.who == "School" ||
+        this.details.who == "District" ||
+        this.details.who == "Program")
+      ) {
+        this.docWarning = true;
+      } else {
+        this.docWarning = false;
+      }
+      if (this.typeLabel == "PSI Run FTP / Paper" && this.details.psiTransmissionMode == "PAPER"){
+        this.docWarning = true;
+      } else {
+        this.docWarning = false;
+      }
     },
   },
   props: ["items", "batchTypes"],
   computed: {},
 };
 </script>
-
