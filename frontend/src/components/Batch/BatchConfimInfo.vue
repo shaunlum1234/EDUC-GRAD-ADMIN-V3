@@ -3,7 +3,7 @@
     <b-alert show variant="info" v-if="limitWarning"
       >There will be more than 250 records processed</b-alert
     >
-    <b-alert show variant="warning" v-if="docWarning"
+    <b-alert show variant="warning" v-if="docWarning || paperWarning"
       >Warning: You have selected a large volume of documents to be
       printed</b-alert
     >
@@ -52,6 +52,7 @@ export default {
       typeLabel: "",
       limitWarning: false,
       docWarning: false,
+      paperWarning: false,
     };
   },
   mounted() {},
@@ -85,19 +86,19 @@ export default {
       }
       if (
         (this.typeLabel == "User Request Distribution Run" ||
-          this.typeLabel == "Distrubution Run Year-End") &&
+          this.typeLabel == "Distribution Run Year-End") &&
         (this.details.who == "School" ||
         this.details.who == "District" ||
-        this.details.who == "Program")
+        this.details.who == "Program") 
       ) {
         this.docWarning = true;
       } else {
         this.docWarning = false;
       }
       if (this.typeLabel == "PSI Run FTP / Paper" && this.details.psiTransmissionMode == "PAPER"){
-        this.docWarning = true;
+        this.paperWarning = true;
       } else {
-        this.docWarning = false;
+        this.paperWarning = false;
       }
     },
   },

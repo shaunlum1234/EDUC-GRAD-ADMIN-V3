@@ -448,6 +448,9 @@
           </b-form-group>
         </b-modal>
         <b-modal :id="'DISTRUNYEAREND-modal-' + jobId" :title="'RUN ' + jobId" ok-title="Confirm" @ok="runBatch(jobId)">
+          <b-alert show variant="info">
+            There will be more than 250 records processed
+          </b-alert>
           You have selected to run the year end distribution, please confirm you want to perform this action.
         </b-modal>  
     </div>
