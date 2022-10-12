@@ -738,6 +738,7 @@ export default {
         this.studentGradStatus.studentStatus = response.data.studentStatus;
         this.studentGradStatus.recalculateGradStatus = response.data.recalculateGradStatus;
         this.studentGradStatus.updatedTimestamp = response.data.updatedTimestamp;
+        this.studentGradStatus.consumerEducationRequirementMet = response.data.consumerEducationRequirementMet;
         this.studentGradStatus.studentStatusName = this.getStudentStatus(
           response.data.studentStatus
         );         
