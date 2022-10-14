@@ -42,7 +42,7 @@ export default {
     return ApiService.apiAxios.get('/api/v1/batch/schedule/listjobs');
   },
   addScheduledJob(scheduledJob) {
-    return ApiService.apiAxios.post('/api/v1/batch/schedule/add', scheduledJob);
+    return ApiService.apiAxios.post('/api/v1/batch/schedule/add?batchJobTypeCode=' + scheduledJob.jobName, scheduledJob);
   },
   removeScheduledJobs(id) {
     return ApiService.apiAxios.delete('/api/v1/batch/schedule/remove/' + id);
