@@ -273,7 +273,8 @@
               <td> <b-form-select 
                       size="sm"
                       v-model="editedGradStatus.consumerEducationRequirementMet"
-                      :options="consumerEducRecMet">
+                      :options="consumerEducRecMet"
+                      :disabled="disableConsumerEdReqMet">
                 </b-form-select>
               </td>
             </tr>
@@ -367,6 +368,7 @@ export default {
       disableButton:false,
       disableSchoolAtGrad:false,
       disableInput:false,
+      disableConsumerEdReqMet: false,
       disableStudentStatus:false,
       dateInFutureWarning:false,
       closedProgramWarning:false,
@@ -645,6 +647,11 @@ export default {
       //If the student has a programCompletionDate disable input fields
       this.schoolOfRecordWarning = false;
       this.schoolNotFoundWarning = false;
+      if(this.studentGradStatus.program != "1986-EN"){
+        this.disableConsumerEdReqMet = true;          
+      } else {
+        this.disableConsumerEdReqMet = false;
+      }
       if(this.studentGradStatus.programCompletionDate != null){
         this.disableInput = true;
         this.disableSchoolAtGrad = false;
