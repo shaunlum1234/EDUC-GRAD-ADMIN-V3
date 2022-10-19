@@ -240,7 +240,7 @@ export default {
   data() {
     return {
       responsive: true,
-      quickEdit: true,
+      quickEdit: false,
       isAdmin: false,
       updateAllowed: false,
       deleteAllowed: false,
