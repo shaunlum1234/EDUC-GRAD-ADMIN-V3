@@ -32,7 +32,7 @@
             <b-nav-item to="/programs/optional-program-rules" :active="tab === 3" @click="tab = 3; closeDropdown('optional-programs-dropdown')">Optional program rules</b-nav-item>
           </b-nav-item-dropdown>
         <b-nav-item to="/programs/letter-grades" :active="tab === 4" @click="tab = 4">Letter grades</b-nav-item>
-        <b-nav-item to="/programs/special-cases" :active="tab === 5" @click="tab = 5">Special cases</b-nav-item>
+        <b-nav-item to="/programs/special-cases" :active="tab === 5" @click="tab = 5">Assessment Special case codes</b-nav-item>
         <b-nav-item to="/programs/requirement-types" :active="tab === 6" @click="tab = 6">Requirement type code</b-nav-item>
       </b-nav>
     </b-card-header>
