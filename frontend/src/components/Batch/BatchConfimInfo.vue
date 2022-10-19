@@ -1,8 +1,5 @@
 <template>
   <div>
-    <b-alert show variant="info" v-if="limitWarning"
-      >There will be more than 250 records processed</b-alert
-    >
     <b-alert show variant="warning" v-if="docWarning || paperWarning"
       >Warning: You have selected a large volume of documents to be
       printed</b-alert
