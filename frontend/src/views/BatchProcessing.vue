@@ -523,7 +523,7 @@ export default {
      
           if(request.localDownload == 'Y'){
             let bid = response.data.batchId;
-            setTimeout(this.downloadDISTRUNUSER, 10000, bid)
+            setTimeout(this.downloadDISTRUNUSER, 3000, bid)
             
           }else{
             this.$bvToast.toast("Batch run has completed for request " + requestId , {
@@ -561,7 +561,7 @@ export default {
           this.selectedTab = 0;
           if(request.localDownload == 'Y'){
             let bid = response.data.batchId;
-            setTimeout(this.downloadDISTRUNUSER, 10000, bid)
+            setTimeout(this.downloadDISTRUNUSER, 3000, bid)
           }else{
             this.$bvToast.toast("Batch run has completed for request " + requestId , {
               title: "BATCH PROCESSING COMPLETED",
