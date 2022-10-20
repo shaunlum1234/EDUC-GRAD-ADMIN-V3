@@ -37,7 +37,7 @@
                   <strong>Last Updated:</strong> {{transcript.updateDate | formatTime}} 
                 </li>
                 <li>
-                  <strong>Distributed:</strong> {{transcript.distributionDate | formatTime}}
+                  <strong>Last Distributed:</strong> {{transcript.distributionDate | formatTime}}
                 </li>
               </ul>
             </div>
