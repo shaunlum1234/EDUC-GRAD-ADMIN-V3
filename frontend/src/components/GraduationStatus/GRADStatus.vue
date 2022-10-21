@@ -1,6 +1,5 @@
 <template>
   <div class="graduation-status">
-    {{disableInput}}
     <b-card
       no-body
       header="GRAD status"
