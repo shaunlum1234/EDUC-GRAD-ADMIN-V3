@@ -373,8 +373,7 @@
     name: "studentProfile",
     created() {
 
-  
-        StudentService.getStudentPen(this.$route.params.studentId).then(
+      StudentService.getStudentPen(this.$route.params.studentId).then(
           (response) => {           
             this.pen = response.data.pen
             const studentIdFromURL = this.$route.params.studentId;
@@ -387,8 +386,9 @@
               "danger",
               "There was an error: " + error.response.status
             );
-          }
-        })       
+        }
+      })       
+       
 
       this.showNotification = sharedMethods.showNotification;
 
@@ -463,8 +463,9 @@
         ungradReasons: "app/getUngradReasons",      
         studentUngradReasons: "getStudentUngradReasons",
         gradCourses: "gradStatusCourses",
-        studentHistory: 'getStudentAuditHistory',
-        optionalProgramHistory: 'getStudentOptionalProgramAuditHistory',
+        studentHistory: "getStudentAuditHistory",
+        optionalProgramHistory: "getStudentOptionalProgramAuditHistory",
+        quickSearchPen: "getQuickSearchPen"
       }),
     },
     mounted() {
@@ -474,6 +475,25 @@
     },
     destroyed() {
       window.removeEventListener('resize', this.handleResize);
+    },
+    beforeRouteUpdate (to, from, next) {
+      // react to route changes...
+      this.loadStudent(this.quickSearchPen);
+      StudentService.getStudentPen(this.quickSearchPen).then(
+          (response) => {           
+            this.pen = response.data.pen
+            this.loadStudent(this.quickSearchPen)
+          }
+        ).catch((error) => {
+          if(error.response.status){
+
+            this.showNotification(
+              "danger",
+              "There was an error: " + error.response.status
+            );
+        }
+      })       
+      next()
     },
     methods: {
       ungraduateStudent(){

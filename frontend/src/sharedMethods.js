@@ -70,16 +70,9 @@ export default {
     loadStudent: function (student) {
       this.selectedPen = student[0].pen;
       this.selectedId = student[0].studentID;
-      let path = 'student-profile';
-      var currentRoute =  this.$route.path.split("/").slice(1)[0];
-
       this.$router.push({
         path: `/student-profile/${this.selectedId}`
       });
-      //Used for reloading if on the same Student Profile page  
-      if(path == currentRoute){
-        location.reload();
-      }
     },
     saveGraduationStatus(id) {
       //add the user info

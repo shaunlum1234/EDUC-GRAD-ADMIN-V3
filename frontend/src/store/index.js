@@ -22,6 +22,7 @@
       permissions: "",
       username: "",
       pageTitle: null,
+      quickSearchPen: "",
       student: {
         profile: {},
         courses: "not loaded",
@@ -113,6 +114,9 @@
       },      
       setUsername(state, payload){
         state.username = payload;
+      },
+      setQuickSearchPen(state, payload){
+        state.quickSearchPen = payload;
       },
       setPermissions(state, payload){
         state.permissions = payload;
@@ -207,6 +211,9 @@
     actions: {
       setUsername({commit}, payload){
         commit('setUsername', payload);
+      },
+      setQuickSearchPen({commit}, payload){
+        commit('setQuickSearchPen', payload);
       },
       setPermissions({commit}, payload){
         commit('setPermissions', payload);
@@ -485,6 +492,9 @@
       },
       getUsername(state){
         return state.username;
+      },
+      getQuickSearchPen(state){
+        return state.quickSearchPen;
       },
       getRequirementsMet(state){
         return state.student.gradStatus.studentGradData.requirementsMet;
