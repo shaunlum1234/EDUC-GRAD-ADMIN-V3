@@ -23,6 +23,7 @@
                                     v-on:keyup="keyHandler" 
                                     tabindex="1" 
                                     class="w-50 float-left"
+                                    lazy
                                     trim>
                       </b-form-input>
                       <button id="search-submit" v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary ml-2 float-left">
