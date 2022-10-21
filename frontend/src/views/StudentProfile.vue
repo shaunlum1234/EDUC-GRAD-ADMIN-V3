@@ -1,85 +1,8 @@
 <template>
   <div class="student-profile">
-    <div class="row m-0 py-3">    
-      <div class="px-0">   
-          <table v-if="!smallScreen" class="profile-name" aria-label="student information">
-            <tr>
-              <th class="align-top profile-name-header" scope="col"></th>
-              <th class="align-top profile-name-header" scope="col"><label>PEN</label></th>
-              <th class="align-top profile-name-header" scope="col"><label>Legal surname</label></th>
-              <th class="align-top profile-name-header" scope="col"><label>Legal given</label></th>
-              <th class="align-top profile-name-header" scope="col"><label>Legal middle</label></th>
-              <th class="align-top profile-name-header" scope="col"><label>Birthdate (yyyy-mm-dd)</label></th>
-            </tr>
-            <tr>
-              <td>
-                <b-button  v-b-toggle.student-accordion variant="link" v-on:click="moreStudentInfo = !moreStudentInfo">
-                  <img v-show="!moreStudentInfo" src="../assets/images/icon-right.svg" width="14px" aria-hidden="true" alt=""/>
-                  <img v-show="moreStudentInfo" src="../assets/images/icon-down.svg" height="8px" aria-hidden="true" alt=""/>
-                </b-button>
-              </td>
-              <td class="align-top profile-name-data px-0" v-if="studentFullName.pen"><strong><p class="profile-info">{{ studentFullName.pen }}</p></strong></td>
-              <td class="align-top profile-name-data" v-if="studentFullName.legalLastName"><p class="profile-info">{{ studentFullName.legalLastName }}</p></td>
-              <td class="align-top profile-name-data" v-if="studentFullName.legalFirstName"><p class="profile-info">{{ studentFullName.legalFirstName }}</p></td>
-              <td class="align-top profile-name-data" v-if="studentFullName.legalMiddleNames"><p class="profile-info">{{ studentFullName.legalMiddleNames }}</p></td>
-              <td class="align-top profile-name-data" v-if="!studentFullName.legalMiddleNames"><p class="profile-info"> </p></td>
-              <td class="align-top profile-name-data" v-if="studentInfo.dob"><p class="profile-info">{{ studentInfo.dob }}</p></td>
-            </tr>
-          </table>
-          <div v-if="smallScreen" class="profile-name">
-            <div v-if="studentFullName.pen" class="p-0 profile-name-data">
-              <label>PEN</label>
-              <h2 class="px-0">{{ studentFullName.pen }}</h2>
-            </div>
-            <div v-if="studentFullName.legalLastName" class="p-0 profile-name-data">
-              <label>Legal surname</label>
-              <h2 class="px-0">{{ studentFullName.legalLastName }}</h2>
-            </div>
-            <div v-if="studentFullName.legalFirstName" class="p-0 profile-name-data">
-              <label>Legal given</label>
-              <h2 class="px-0">{{ studentFullName.legalFirstName }}</h2>
-              
-            </div>
-            <div v-if="studentFullName.legalMiddleNames" class="p-0 profile-name-data">
-              <label>Legal middle</label>
-              <h2 class="px-0">{{ studentFullName.legalMiddleNames }}</h2>
-            </div>
-            <div v-if="studentInfo.dob" class="p-0 profile-name-data">
-              <label>Birthdate(yyyy-mm-dd)</label>
-              <h2 class="px-0">{{ studentInfo.dob }}</h2>
-            </div>
-            <b-button class="text-decoration-none" v-b-toggle.student-accordion variant="link" v-on:click="moreStudentInfo = !moreStudentInfo">
-              <img v-show="!moreStudentInfo" src="../assets/images/icon-right.svg" height="14px" aria-hidden="true" alt=""/>
-              <img v-show="moreStudentInfo" src="../assets/images/icon-down.svg" height="8px" aria-hidden="true" alt=""/>
-              &nbsp;{{moreStudentInfo? 'Hide ' : 'Show '}}Student Details
-            </b-button>
-          </div>
-      </div>
-
+    <div class="row m-0 py-3">  
+    <StudentInformation></StudentInformation>
       <div class="col-12 px-3">
-        <b-collapse id="student-accordion" class="">
-          <b-card no-body class="border-0">
-            <b-table-simple striped hover small stacked="lg" role="presentation" aria-label="student details">
-              <b-tbody>
-                <b-tr>
-                  <b-td class="px-2"><strong>Usual surname:</strong> {{studentInfo.usualLastName}}</b-td>
-                  <b-td class="px-2"><strong>Usual given:</strong> {{studentInfo.usualFirstName}} </b-td>
-                  <b-td class="px-2"><strong>Usual middle:</strong> {{studentInfo.usualMiddleNames}} </b-td>
-                </b-tr>
-                <b-tr>
-                  <b-td class="px-2"><strong>Gender:</strong> {{studentInfo.genderCode}}</b-td>
-                  <b-td class="px-2"><strong>True student ID:</strong> {{studentInfo.trueStudentID}}</b-td>
-                  <b-td class="px-2"><strong>Local ID:</strong> {{studentInfo.localID}}</b-td>
-                </b-tr>
-                <b-tr>     
-                  <b-td class="px-2"><strong>PEN Status Code:</strong> {{studentInfo.statusCode}}</b-td>
-                  <b-td class="px-2"><strong>Postal code:</strong> {{studentInfo.postalCode}}</b-td>
-                  <b-td class="px-2" v-if="studentInfo.studentStatus == 'D'"><strong>Deceased date:</strong> {{studentInfo.deceasedDate}}</b-td>
-                </b-tr>
-              </b-tbody>
-            </b-table-simple>
-          </b-card>
-        </b-collapse>
           <div class="float-right grad-actions">
             <b-spinner v-if="tabLoading" class="px-1 my-2" ></b-spinner> 
             <b-dropdown :disabled="(tabLoading || !hasGradStatus)" v-b-tooltip.hover.left id="actions" right :text="smallScreen?'':'Run Graduation Algorithm'" class="m-md-2 float-right admin-gear-w-text">
@@ -357,6 +280,7 @@
   import StudentService from "@/services/StudentService.js";
   import GraduationService from "@/services/GraduationService.js"
   import GRADRequirementDetails from "@/components/GRADRequirementDetails";
+  import StudentInformation from "@/components/StudentInformation";
   import StudentCourses from "@/components/StudentCourses";
   import StudentAssessments from "@/components/StudentAssessments";
   import StudentExams from "@/components/StudentExams";
@@ -372,7 +296,6 @@
   export default {
     name: "studentProfile",
     created() {
-
       StudentService.getStudentPen(this.$route.params.studentId).then(
           (response) => {           
             this.pen = response.data.pen
@@ -388,10 +311,7 @@
             );
         }
       })       
-       
-
       this.showNotification = sharedMethods.showNotification;
-
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
       if (this.window.width < 768) {
@@ -399,9 +319,9 @@
       }
       window.addEventListener('resize', this.handleResize);
       this.handleResize();
-
     },
     components: {
+      StudentInformation: StudentInformation,
       StudentCourses: StudentCourses,
       GRADRequirementDetails: GRADRequirementDetails,
       StudentAssessments: StudentAssessments,
@@ -446,7 +366,6 @@
       ...mapGetters({
         profile: "getStudentProfile",
         courses: "getStudentCourses",
-        studentFullName: "getStudentFullName",
         assessments: "getStudentAssessments",
         exams: "getStudentExams",
         studentHasCourses: "studentHasCourses",
