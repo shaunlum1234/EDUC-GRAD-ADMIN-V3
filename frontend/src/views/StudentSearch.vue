@@ -518,7 +518,7 @@ export default {
               var studentLastName = response.data[0].legalLastName;
               if(response.data[0].program == null || ""){
                 this.studentHasProgram = false;
-                this.searchByPenMessage = "Student " + studentLastName + " has a PEN but does not have a GRAD system record."
+                this.searchByPenMessage = "Student " + studentLastName + " has a PEN but does not have a GRAD system record. Use TRAX to conduct a PEN student inquiry."
                 this.searchLoading = false
               } else {
                 this.studentHasProgram = true;
