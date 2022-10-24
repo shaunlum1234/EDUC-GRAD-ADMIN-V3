@@ -5,7 +5,6 @@
   <div class="mt-2 row">
   <div class="col-12 float-left p-0">
     <div ref="top">
-
       <b-card no-body>
         <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
@@ -30,7 +29,7 @@
                             <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'batch')">   
                               All results           
                             </b-btn>
-                             <b-btn v-if="row.item.jobType='DISTRUNUSERUSER'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="downloadDISTRUNUSER(row.item.jobExecutionId)">   
+                             <b-btn v-if="row.item.jobType == 'DISTRUNUSERUSER'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="downloadDISTRUNUSER(row.item.jobExecutionId)">   
                               Download
                             </b-btn>                             
                           </b-popover>
