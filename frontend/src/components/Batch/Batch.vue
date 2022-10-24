@@ -172,7 +172,9 @@
             <b-form-select
               id="inline-form-select-type"
               class="mb-2 mr-sm-2 mb-sm-0"
+              :value = "batch.details['where']"
               :options="[{ text: 'Download', value: 'localDownload' }, 'BC Mail', { text: 'User: ' + userFullName, value: 'User'}]"
+              :disabled="batch.details['who'] == 'Ministry of Advanced Education'"              
               @change="editBatchJob('where', $event)"
             ></b-form-select>
           </div>
@@ -872,9 +874,11 @@ export default {
           }
           if(type == "who" && batchDetail.details[type] != event){
             this.clearBatchGroupDetails(id)
-           
-        
-          }   
+          }
+          if(type == "who" && event == 'Ministry of Advanced Education'){
+            this.batch.details['where'] = 'User';
+            batchDetail.details['where'] = 'User';        
+          }             
           if(type == "credential" && batchDetail.details[type] != event){
               batchDetail.details['blankCertificateDetails'] = []
               batchDetail.details['blankTranscriptDetails'] = []

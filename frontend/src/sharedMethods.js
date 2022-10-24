@@ -4,7 +4,7 @@ export default {
   isEnvLocalHost() {
     return location.host.includes("localhost");
   },  
-  getStudentStatus(code, studentStatusOptions) {
+    getStudentStatus(code, studentStatusOptions) {
         for (let studentStatusOption of studentStatusOptions) {
           if (studentStatusOption.code == code) {
             return studentStatusOption.label;
@@ -142,5 +142,10 @@ export default {
           this.errorMessage
         );
       });
+    },
+    //
+    sanitizePen: function (pen) {
+      let exp = /[0-9]/g;
+      return pen.match(exp).join('');
     },
 }

@@ -33,7 +33,7 @@
     <b-collapse id="navbarSmallScreen" is-nav>
       <b-navbar-nav class="mr-auto">
         <b-nav-item>
-          <router-link to="/">Select Student</router-link>
+          <router-link to="/">Student Search</router-link>
         </b-nav-item>
         <b-nav-item>
           <router-link to="/programs">Programs</router-link>
@@ -57,7 +57,7 @@
       <div class="container">
         <ul>
           <li>
-            <router-link to="/" id="select-student-route">Select Student</router-link>
+            <router-link to="/" id="select-student-route">Student Search</router-link>
           </li>
           <li>
             <router-link to="/programs" id="programs-route"
