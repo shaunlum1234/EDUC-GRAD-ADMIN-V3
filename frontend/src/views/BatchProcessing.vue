@@ -91,7 +91,7 @@
                         </template>
                         <template #cell(failedStudentsProcessed)="row">
                           <b-btn v-if="row.item.failedStudentsProcessed != 0" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'error')">  
-                            {{row.item.failedStudentsProcessed}}   
+                            {{row.item.failedStudentsProcessed}} 
                           </b-btn>  
                           <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
                         </template>
@@ -110,7 +110,7 @@
                           </div>       
                         </template>
                         <template #row-details="row">   
-                          <b-card class="px-0">          
+                          <b-card class="px-0">        
                               <div v-for="(value, key) in row.item.jobParameters.payload" :key="key">
                                 <span v-if="value != null"><span v-if="value.length != 0">{{key}} : {{value}}</span></span>
                               </div>
