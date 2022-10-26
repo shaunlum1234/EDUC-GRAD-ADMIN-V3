@@ -1,5 +1,6 @@
 <template>
   <div class="graduation-status">
+    {{recalculateFlag}}
     <b-card
       no-body
       header="GRAD status"
@@ -21,7 +22,7 @@
         </b-button-group>
         <div v-if="studentGradStatus">
           <!-- If grad recalc flag = “Y” and tvr recalc flag = “Y” -->
-          <div v-if="studentGradStatus.recalculateGradStatus == 'Y' && studentGradStatus.recalculateProjectedGrad == 'Y'">
+          <div v-if="recalculateFlag && recalculateProjectedGradFlag">
             <b-alert show variant="info" class="p-3 mb-1">
               <h4 class="alert-heading">Gradution data has changed for this student</h4>
               <p class="locked-message">
@@ -37,7 +38,7 @@
             </b-alert>
           </div> 
           <!-- If grad recalc flag = “Y” and tvr recalc flag = blank or “N” -->
-          <div v-if="studentGradStatus.recalculateGradStatus == 'Y' && studentGradStatus.recalculateProjectedGrad != 'Y'">
+          <div v-if="recalculateFlag && !recalculateProjectedGradFlag">
             <b-alert show variant="info" class="p-3 mb-1">
               <h4 class="alert-heading">Gradution data has changed for this student</h4>
               <p class="locked-message">
@@ -52,7 +53,7 @@
             </b-alert>
           </div> 
           <!-- If grad recalc flag = blank or “N” and tvr recalc flag = “Y” -->
-          <div v-if="studentGradStatus.recalculateGradStatus != 'Y' && studentGradStatus.recalculateProjectedGrad == 'Y'">
+          <div v-if="!recalculateFlag && recalculateProjectedGradFlag">
             <b-alert show variant="info" class="p-3 mb-1">
               <h4 class="alert-heading">Graduation data has changed for this student and has been updated, however, the students' TVR is not up-to-date.</h4>
               <p class="locked-message">
@@ -65,7 +66,7 @@
                 NOTE: this message will remain until the student gets run through the nightly batch processes to ensure the projected graduation report is updated for the School Secure WEB (TSW).
               </p>
             </b-alert>
-          </div>   
+          </div>  
         </div>
         
         <div v-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
@@ -361,6 +362,12 @@ export default {
     },
     disableSaveButton(){
       return this.disableButton;
+    },
+    recalculateFlag(){
+      return this.studentGradStatus.recalculateGradStatus; 
+    },
+    recalculateProjectedGradFlag(){
+      return this.studentGradStatus.recalculateProjectedGrad; 
     },
     ...mapGetters({
     optionalPrograms: "getStudentOptionalPrograms",
