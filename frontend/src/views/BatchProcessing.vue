@@ -5,7 +5,6 @@
   <div class="mt-2 row">
   <div class="col-12 float-left p-0">
     <div ref="top">
-
       <b-card no-body>
         <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
@@ -30,9 +29,9 @@
                             <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'batch')">   
                               All results           
                             </b-btn>
-                            <!-- <b-btn v-if="row.item.jobType='DISTRUNUSERUSER'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="downloadDISTRUNUSER(row.item.jobExecutionId)">   
+                             <b-btn v-if="row.item.jobType == 'DISTRUNUSERUSER'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="downloadDISTRUNUSER(row.item.jobExecutionId)">   
                               Download
-                            </b-btn>                             -->
+                            </b-btn>                             
                           </b-popover>
                         </template>
                         <template #cell(failedStudentsProcessed)="row">
@@ -184,7 +183,7 @@ export default {
     queueScheduledJobs(){
       let queuedJobs = this.scheduledJobs;
       if(queuedJobs){
-        return queuedJobs.filter(queuedJobs => queuedJobs.status == 'QUEUED'); 
+        return queuedJobs.filter(queuedJobs => queuedJobs.status == 'QUEUED' || queuedJobs.status == 'PROCESSING' ); 
       } else {
         return []
       }      
@@ -522,17 +521,9 @@ export default {
           this.selectedTab = 0;
      
           if(request.localDownload == 'Y'){
-            
             let bid = response.data.batchId;
-            DistributionService.downloadDISTRUNUSER(bid).then((res) => {
-              this.$bvToast.toast('Download (.zip)' , {
-                title: "FILE SUCCESSFULLY CREATED",
-                href: "data:application/zip;base64," + res.data,
-                variant: 'success',
-                noAutoHide: true,
-              })
-            });
-                        
+            setTimeout(this.downloadDISTRUNUSER, 3000, bid)
+            
           }else{
             this.$bvToast.toast("Batch run has completed for request " + requestId , {
               title: "BATCH PROCESSING COMPLETED",
@@ -569,15 +560,7 @@ export default {
           this.selectedTab = 0;
           if(request.localDownload == 'Y'){
             let bid = response.data.batchId;
-            DistributionService.downloadDISTRUNUSER(bid).then((res) => {
-              this.$bvToast.toast('Download (.zip)' , {
-                title: "FILE SUCCESSFULLY CREATED",
-                href: "data:application/zip;base64," + res.data,
-                variant: 'success',
-                noAutoHide: true,
-              })
-            });
-                        
+            setTimeout(this.downloadDISTRUNUSER, 3000, bid)
           }else{
             this.$bvToast.toast("Batch run has completed for request " + requestId , {
               title: "BATCH PROCESSING COMPLETED",

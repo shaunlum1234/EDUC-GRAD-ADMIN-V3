@@ -35,7 +35,6 @@
                       &nbsp;&nbsp;<b-spinner v-if="searchLoading" label="Loading">Loading</b-spinner>    
                     </div>
                     <div class="search-results-message my-4 float-left"><strong><span id="search-results-message" v-if="searchByPenMessage">{{ searchByPenMessage }}</span></strong></div>
-                    <div class="my-4 pl-2 float-left"><a v-if="studentHasProgram == false" href="#" > PEN Student Inquiry.</a></div> 
                   </div>
                 </form>
                 <div v-if="isEnvLocalHost()" class="sample-pens m-3">
@@ -518,7 +517,7 @@ export default {
               var studentLastName = response.data[0].legalLastName;
               if(response.data[0].program == null || ""){
                 this.studentHasProgram = false;
-                this.searchByPenMessage = "Student " + studentLastName + " has a PEN but does not have a GRAD system record."
+                this.searchByPenMessage = "Student " + studentLastName + " has a PEN but does not have a GRAD system record. Use TRAX to conduct a PEN student inquiry."
                 this.searchLoading = false
               } else {
                 this.studentHasProgram = true;

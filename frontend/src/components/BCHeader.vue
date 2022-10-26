@@ -108,6 +108,7 @@ export default {
       penInput: "",
       studentSearchResults: [],
       host: location.protocol + "//" + location.host,
+      studentUrlID:""
     };
   },
   created() {
@@ -141,6 +142,7 @@ export default {
         .then((response) => {
           if (response.data) {
             this.loadStudent(response.data);
+            this.$store.dispatch("setQuickSearchPen", response.data[0].studentID);
             this.searchLoading = false;
           }
         })

@@ -19,6 +19,60 @@
             </b-button-group>
           </div>
         </b-button-group>
+        <div v-if="studentGradStatus">
+        <div v-if="studentGradStatus.studentGradData">
+        <div v-if="studentGradStatus.studentGradData.gradStatus"> 
+          <!-- If grad recalc flag = “Y” and tvr recalc flag = “Y” -->
+          <div v-if="studentGradStatus.studentGradData.gradStatus.recalculateGradStatus == 'Y' && studentGradStatus.recalculateProjectedGrad == 'Y'">
+            <b-alert show variant="info" class="p-3 mb-1">
+              <h4 class="alert-heading">Gradution data has changed for this student</h4>
+              <p class="locked-message">
+                The students' data will get updated tonight via the batch processes. However you can also immediately update the students' data as follows:
+              </p>
+              <ul class="locked-message">
+                <li>Run the Graduate Student to update the student graduation status and credentials or the Update Student Reports if the student has graduated</li>
+                <li>Run the Projected final marks and registrations to ensure the students’ TVR report is up-to-date.</li>
+              </ul>
+              <p class="locked-message">
+                NOTE: this message will remain until the student gets run through the nightly batch processes to ensure the projected graduation report, the graduation report and the non-graduate report are updated for the School Secure WEB (TSW).
+              </p>
+            </b-alert>
+          </div> 
+          <!-- If grad recalc flag = “Y” and tvr recalc flag = blank or “N” -->
+          <div v-if="studentGradStatus.studentGradData.gradStatus.recalculateGradStatus == 'Y' && studentGradStatus.recalculateProjectedGrad != 'Y'">
+            <b-alert show variant="info" class="p-3 mb-1">
+              <h4 class="alert-heading">Gradution data has changed for this student</h4>
+              <p class="locked-message">
+                The students' data will get updated tonight via the batch processes. However you can also immediately update the students' data as follows:
+              </p>
+              <ul class="locked-message">
+                <li>Run the Graduate Student to update the student graduation status and credentials or run Update Student Reports if the student has graduated</li>
+              </ul>
+              <p class="locked-message">
+                NOTE: this message will remain until the student gets run through the nightly batch processes to ensure the graduation report and the non-graduate report are updated for the School Secure WEB (TSW).
+              </p>
+            </b-alert>
+          </div> 
+          <!-- If grad recalc flag = blank or “N” and tvr recalc flag = “Y” -->
+          <div v-if="studentGradStatus.studentGradData.gradStatus.recalculateGradStatus != 'Y' && studentGradStatus.recalculateProjectedGrad == 'Y'">
+            <b-alert show variant="info" class="p-3 mb-1">
+              <h4 class="alert-heading">Graduation data has changed for this student and has been updated, however, the students' TVR is not up-to-date.</h4>
+              <p class="locked-message">
+                The students' TVR data will get updated tonight via the batch processes.  However you can also immediately update the students' data as follows:
+              </p>
+              <ul class="locked-message">
+                <li>Run the Projected final marks and registrations to ensure the students’ TVR report is up-to-date.</li>
+              </ul>
+              <p class="locked-message">
+                NOTE: this message will remain until the student gets run through the nightly batch processes to ensure the projected graduation report is updated for the School Secure WEB (TSW).
+              </p>
+            </b-alert>
+          </div> 
+        <!-- gradStatus checked -->
+        </div>      
+        </div>  
+        </div>
+        
         <div v-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
           <b-alert show variant="warning" class="p-3 mb-1">
             <h4 class="alert-heading">Student status: Not active</h4>
@@ -439,7 +493,7 @@ export default {
     },
     programChange:function(){
       this.programChangeWarning = true;
-      if(this.studentGradStatus.programCompletionDate){
+      if(this.studentGradStatus.programCompletionDate && this.studentGradStatus.program != 'SCCP'){
         this.disableInput = true;
         this.disableButton = true;
       }else{
