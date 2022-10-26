@@ -110,8 +110,7 @@
                           </div>       
                         </template>
                         <template #row-details="row">   
-                          <b-card class="px-0"> 
-                            {{ scheduledJobs}}         
+                          <b-card class="px-0">        
                               <div v-for="(value, key) in row.item.jobParameters.payload" :key="key">
                                 <span v-if="value != null"><span v-if="value.length != 0">{{key}} : {{value}}</span></span>
                               </div>
