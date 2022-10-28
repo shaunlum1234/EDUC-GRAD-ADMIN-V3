@@ -27,7 +27,7 @@
               </ul>
             </div>
           </div>
-          </div>        
+        </div>        
         <div v-if="transcripts">
           <div  v-for="transcript in transcripts" :key="transcript.id" class="px-3 w-100 float-left mt-2">
             <a  @click="downloadFile(transcript.transcript,'application/pdf')" href="#"  class="pdf-link float-left ">{{transcript.transcriptTypeLabel}} (PDF)</a> 
@@ -71,10 +71,10 @@ import sharedMethods from '../../sharedMethods';
       })
     },
     methods: {
-      downloadFile: function (data, mimeType) {
-        sharedMethods.base64ToFileTypeAndOpenWindow(data,mimeType)
-      }
-  }
+        downloadFile: function (data, mimeType) {
+          sharedMethods.base64ToFileTypeAndOpenWindow(data,mimeType)
+        }
+    }
   }
 </script>
 
@@ -89,4 +89,11 @@ border-bottom: 1px solid #ccc;
 .card-header {
   font-weight: 700;
 }
+.active {
+  opacity: 20%;
+}
+.fade-leave-to {
+  opacity: 0;
+}
+
 </style>

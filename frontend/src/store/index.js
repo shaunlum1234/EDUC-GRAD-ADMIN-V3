@@ -37,10 +37,10 @@
         hasGradStatus: false,
         hasgradStatusPendingUpdates: false,
         hasNotes: false,
-        certificates: "not loaded",
-        reports: "not loaded",
-        transcripts: "not loaded",
-        xmlReports: "not loaded",
+        certificates: [],
+        reports: [],
+        transcripts: [],
+        xmlReports: [],
         ungradReasons: "",
         careerPrograms: [],
         auditHistory:[],
@@ -197,10 +197,10 @@
         state.student.hasNotes = false;
         state.student.hasGradStatus = false;
         state.student.hasgradStatusPendingUpdates = false;
-        state.student.certificates = "not loaded";
-        state.student.reports = "not loaded";
-        state.student.transcripts = "not loaded";
-        state.student.xmlReports = "not loaded";
+        state.student.certificates = [];
+        state.student.reports = [];
+        state.student.transcripts = [];
+        state.student.xmlReports = [];
         state.student.ungradReasons = [];
         state.student.careerPrograms = [];
       },
