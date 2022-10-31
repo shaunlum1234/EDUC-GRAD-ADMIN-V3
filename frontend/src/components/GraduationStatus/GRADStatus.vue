@@ -1,6 +1,5 @@
 <template>
   <div class="graduation-status">
-    {{recalculateFlag}}
     <b-card
       no-body
       header="GRAD status"
