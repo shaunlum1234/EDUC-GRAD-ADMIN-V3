@@ -792,8 +792,10 @@ export default {
         );         
         this.showTop = !this.showTop;
         this.showEdit = false;
-        //Update the student audit history
+        //Update other views
         this.$store.dispatch("updateStudentAuditHistory");
+        this.$store.dispatch("updateStudentOptionalPrograms");
+
         this.showNotification("success", "GRAD Status Saved");
       })
       .catch((error) => {
