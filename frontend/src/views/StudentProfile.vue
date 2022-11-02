@@ -390,14 +390,14 @@
     mounted() {
       this.$root.$on('studentProfile', () => {
         this.getStudentReportsAndCertificates(this.studentId, this.pen);
-      }),
+      });
       this.$root.$on('refreshStudentGraduationOptionalPrograms', () => {
         this.loadOptionalPrograms(this.studentId);
-      }),
+      });
       this.$root.$on('refreshStudentHistory', ()=> {
         this.loadStudentHistory(this.studentId);
         this.loadStudentOptionalProgramHistory(this.studentId);
-      })
+      });
     },
     destroyed() {
       window.removeEventListener('resize', this.handleResize);
