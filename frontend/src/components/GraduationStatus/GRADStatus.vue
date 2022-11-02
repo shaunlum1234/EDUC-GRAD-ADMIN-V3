@@ -1,5 +1,8 @@
 <template>
   <div class="graduation-status">
+    <div>
+      <p>DEBUG<br>&nbsp;recalc: {{recalculateFlag}}<br>&nbsp;recalc projected grad: {{recalculateProjectedGradFlag}}</p>
+    </div>
     <b-card
       no-body
       header="GRAD status"
@@ -527,14 +530,16 @@ export default {
           this.disableButton = false;
         }       
       } else {
-        if(this.editedGradStatus.programCompletionDate > this.programExpiryDate || this.editedGradStatus.programCompletionDate < this.programEffectiveDate)
-        {
-          this.disableButton = true;
-          this.programCompletionDateRangeError = true;
-        } else {
-          this.programCompletionDateRangeError = false;
-          this.disableButton = false;
-        }
+        if(this.editedGradStatus.program != 'SCCP'){
+          if(this.editedGradStatus.programCompletionDate > this.programExpiryDate || this.editedGradStatus.programCompletionDate < this.programEffectiveDate)
+          {
+            this.disableButton = true;
+            this.programCompletionDateRangeError = true;
+          } else {
+            this.programCompletionDateRangeError = false;
+            this.disableButton = false;
+          }
+        }       
       }
       if(this.studentGradStatus.programCompletionDate){
         if(this.editedGradStatus.program == 'SCCP'){
@@ -543,10 +548,12 @@ export default {
             this.disableButton = true;
           }else{
             this.dateInFutureWarning = false;
-            this.disableButton = false;
-            if(!this.editedGradStatus.programCompletionDate || this.editedGradStatus.programCompletionDate == undefined){
+            this.disableButton = true;
+            if(this.editedGradStatus.programCompletionDate == undefined || this.editedGradStatus.programCompletionDate < this.programEffectiveDate){
               this.disableButton = true;
-              this.dateBlankWarning = true;
+              if(!this.editedGradStatus.programCompletionDate){
+                this.dateBlankWarning = true;
+              }
             } else {
               this.disableButton = false;
               this.dateBlankWarning = false;
