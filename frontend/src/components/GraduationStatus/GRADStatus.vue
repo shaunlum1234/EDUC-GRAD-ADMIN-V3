@@ -784,7 +784,6 @@ export default {
         this.editedGradStatus
       )
       .then((response) => {
-        console.log('DEBUG', response);
         this.updateStatus = response.data;
         this.getStudentReportsAndCertificates();
         this.studentGradStatus.pen = response.data.pen;
