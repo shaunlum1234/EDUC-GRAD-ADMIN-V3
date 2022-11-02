@@ -1,5 +1,8 @@
 <template>
   <div class="graduation-status">
+    <div>
+      <p>DEBUG<br>&nbsp;recalc: {{recalculateFlag}}<br>&nbsp;recalc projected grad: {{recalculateProjectedGradFlag}}</p>
+    </div>
     <b-card
       no-body
       header="GRAD status"
