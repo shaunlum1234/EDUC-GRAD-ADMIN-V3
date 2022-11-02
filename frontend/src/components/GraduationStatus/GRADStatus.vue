@@ -327,7 +327,7 @@
 
       </b-card-text>
     </b-card>       
-  </div> 
+  </div>
 </template>
 
 <script>
@@ -670,6 +670,12 @@ export default {
     getStudentReportsAndCertificates: function(){
       this.$root.$emit('studentProfile')
     },
+    getStudentGraduationOptionalPrograms: function() {
+      this.$root.$emit('refreshStudentGraduationOptionalPrograms')
+    },
+    refreshStudentHistory: function() {
+      this.$root.$emit('refreshStudentHistory')
+    },
     getStudentStatus(code) {
       return sharedMethods.getStudentStatus(code, this.studentStatusOptions);
     },
@@ -771,6 +777,7 @@ export default {
         this.editedGradStatus
       )
       .then((response) => {
+        console.log('DEBUG', response);
         this.updateStatus = response.data;
         this.getStudentReportsAndCertificates();
         this.studentGradStatus.pen = response.data.pen;
@@ -787,14 +794,14 @@ export default {
         this.studentGradStatus.recalculateGradStatus = response.data.recalculateGradStatus;
         this.studentGradStatus.updatedTimestamp = response.data.updatedTimestamp;
         this.studentGradStatus.consumerEducationRequirementMet = response.data.consumerEducationRequirementMet;
+        this.getStudentGraduationOptionalPrograms();
+        this.refreshStudentHistory();
         this.studentGradStatus.studentStatusName = this.getStudentStatus(
           response.data.studentStatus
         );         
         this.showTop = !this.showTop;
         this.showEdit = false;
-        //Update other views
-        this.$store.dispatch("updateStudentAuditHistory");
-        this.$store.dispatch("updateStudentOptionalPrograms");
+
 
         this.showNotification("success", "GRAD Status Saved");
       })

@@ -16,15 +16,15 @@
     <!-- GRAD Status View -->
     <div class="row px-2">
       <div class="col-12 col-xl-4 col-lg-12 px-2 pb-2">
-        <GRADStatus></GRADStatus>
+          <GRADStatus />
       </div>
       <div class="row col-12 col-xl-8 col-lg-12 px-0 m-0">
         <div class="col-12 col-lg-6 px-2"> 
-          <NoncompletionReasons></NoncompletionReasons>
+            <NoncompletionReasons />
         </div>
         <div class="col-12 col-lg-6 px-2"> 
-          <StudentGraduationReports></StudentGraduationReports>         
-          <CertificationDogwoods></CertificationDogwoods>
+            <StudentGraduationReports />       
+            <CertificationDogwoods />
         </div>
       </div>
     </div>
