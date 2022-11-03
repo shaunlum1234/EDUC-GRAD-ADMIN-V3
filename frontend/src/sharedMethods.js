@@ -124,8 +124,7 @@ export default {
         );    
         this.showTop = !this.showTop;
         this.showEdit = false;
-        //Update the student audit history
-        this.$store.dispatch("updateStudentAuditHistory");
+
         this.showNotification("success", "GRAD Status Saved");
       })
       .catch((error) => {
