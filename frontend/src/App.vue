@@ -12,7 +12,7 @@
             <a :href='routes.LOGOUT' class="text-white">Logout</a>
       </div>
       <div v-else-if="!isAuthenticated">
-        <a :href='routes.LOGIN' class="text-white">Login</a>
+        <a :href='loginUrl' class="text-white">Login</a>
       </div>
     </Bcheader>
   
@@ -44,13 +44,16 @@ export default {
       }
   },
   computed: {
-  
+
     ...mapGetters('auth', ['roles','isAuthenticated', 'loginError', 'isLoading', 'userInfo']),
     ...mapGetters('app', ['getProgramOptions']),
     ...mapState('app', ['pageTitle']),
     dataReady: function() {
       return this.userInfo;
-    }
+    },
+    loginUrl: function(){
+      return this.routes.LOGIN;
+    }   
   },
   methods:{
       
