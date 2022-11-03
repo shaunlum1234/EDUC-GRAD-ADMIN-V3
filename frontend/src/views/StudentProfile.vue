@@ -462,8 +462,6 @@
           })
           .catch((error) => {
             this.tabLoading= false;
-            // eslint-disable-next-line
-            console.log(error.response);
             this.showNotification(
               "danger",
               "There was an error: " + error.response.data.messages[0].message

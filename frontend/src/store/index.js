@@ -232,9 +232,9 @@
       deleteProgram({state}, payload) {
         
         ProgramManagementService.deleteProgram(payload, state.auth.token).then(
-          (response) => {
+          () => {
             // eslint-disable-next-line
-            console.log(response);
+           
           }
         ).catch((error) => {
           // eslint-disable-next-line
@@ -244,9 +244,8 @@
       updateProgram({state}, payload) {
         
         ProgramManagementService.updateProgram(payload, state.auth.token).then(
-          (response) => {
-            // eslint-disable-next-line
-            console.log(response);
+          () => {
+            
           }
         ).catch((error) => {
           // eslint-disable-next-line
@@ -256,9 +255,7 @@
        // Optional Programs
        createOptionalProgram({state}, payload) {
         ProgramManagementService.createOptionalProgram(payload, state.auth.token).then(
-          (response) => {
-            return "STORE REspsonse to display table" + response;
-          }
+          () => {}
         ).catch((error) => {
           // eslint-disable-next-line
           console.log(error.response.status);
@@ -267,10 +264,7 @@
       deleteOptionalProgram({state}, payload) {
         
         ProgramManagementService.deleteOptionalProgram(payload, state.auth.token).then(
-          (response) => {
-            // eslint-disable-next-line
-            console.log(response);
-          }
+          () => {}
         ).catch((error) => {
           // eslint-disable-next-line
           console.log(error.response.status);
@@ -278,9 +272,7 @@
       },   
       updateOptionalProgram({state}, payload) {
         ProgramManagementService.updateOptionalProgram(payload, state.auth.token).then(
-          (response) => {
-            // eslint-disable-next-line
-            console.log(response);
+          () => {
           }
         ).catch((error) => {
           // eslint-disable-next-line

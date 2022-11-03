@@ -602,7 +602,7 @@ export default {
       clearInput: function () {
         this.penInput = "";
         this.studentSearchResults = "";
-        for (var key in this.advancedSearchInput) {
+        for (const key in this.advancedSearchInput) {
           if (this.advancedSearchInput.hasOwnProperty(key)) {
             this.advancedSearchInput[key].value = "";
             this.advancedSearchInput[key].contains = false;
@@ -615,7 +615,7 @@ export default {
         //check if all inputs are empty
         let isValid = true;
         let isEmpty = true;
-        for (var key in obj) {
+        for (const key in obj) {
           if (obj.hasOwnProperty(key)) {
             if (obj[key].value != "") {
               isEmpty = false;
@@ -641,7 +641,7 @@ export default {
       },
       isEmpty(obj) {
         let isEmpty = true;
-        for (var key in obj) {
+        for (const key in obj) {
           if (obj.hasOwnProperty(key)) {
             if (obj[key] != "" ) {
               isEmpty = false;

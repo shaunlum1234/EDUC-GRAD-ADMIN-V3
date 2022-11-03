@@ -33,7 +33,7 @@ export default {
     base64ToFileTypeAndOpenWindow: function (data, mimeType) {
         var byteCharacters = atob(data);
         var byteNumbers = new Array(byteCharacters.length);
-        for (var i = 0; i < byteCharacters.length; i++) {
+        for (let i = 0; i < byteCharacters.length; i++) {
             byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
         var byteArray = new Uint8Array(byteNumbers);
@@ -44,7 +44,7 @@ export default {
     base64ToFileTypeData: function (data, mimeType) {
       var byteCharacters = atob(data);
       var byteNumbers = new Array(byteCharacters.length);
-      for (var i = 0; i < byteCharacters.length; i++) {
+      for (let i = 0; i < byteCharacters.length; i++) {
           byteNumbers[i] = byteCharacters.charCodeAt(i);
       }
       var byteArray = new Uint8Array(byteNumbers);
