@@ -330,7 +330,7 @@
 
       </b-card-text>
     </b-card>       
-  </div> 
+  </div>
 </template>
 
 <script>
@@ -530,14 +530,16 @@ export default {
           this.disableButton = false;
         }       
       } else {
-        if(this.editedGradStatus.programCompletionDate > this.programExpiryDate || this.editedGradStatus.programCompletionDate < this.programEffectiveDate)
-        {
-          this.disableButton = true;
-          this.programCompletionDateRangeError = true;
-        } else {
-          this.programCompletionDateRangeError = false;
-          this.disableButton = false;
-        }
+        if(this.editedGradStatus.program != 'SCCP'){
+          if(this.editedGradStatus.programCompletionDate > this.programExpiryDate || this.editedGradStatus.programCompletionDate < this.programEffectiveDate)
+          {
+            this.disableButton = true;
+            this.programCompletionDateRangeError = true;
+          } else {
+            this.programCompletionDateRangeError = false;
+            this.disableButton = false;
+          }
+        }       
       }
       if(this.studentGradStatus.programCompletionDate){
         if(this.editedGradStatus.program == 'SCCP'){
@@ -546,10 +548,12 @@ export default {
             this.disableButton = true;
           }else{
             this.dateInFutureWarning = false;
-            this.disableButton = false;
-            if(!this.editedGradStatus.programCompletionDate || this.editedGradStatus.programCompletionDate == undefined){
+            this.disableButton = true;
+            if(this.editedGradStatus.programCompletionDate == undefined || this.editedGradStatus.programCompletionDate < this.programEffectiveDate){
               this.disableButton = true;
-              this.dateBlankWarning = true;
+              if(!this.editedGradStatus.programCompletionDate){
+                this.dateBlankWarning = true;
+              }
             } else {
               this.disableButton = false;
               this.dateBlankWarning = false;
@@ -673,6 +677,12 @@ export default {
     getStudentReportsAndCertificates: function(){
       this.$root.$emit('studentProfile')
     },
+    getStudentGraduationOptionalPrograms: function() {
+      this.$root.$emit('refreshStudentGraduationOptionalPrograms')
+    },
+    refreshStudentHistory: function() {
+      this.$root.$emit('refreshStudentHistory')
+    },
     getStudentStatus(code) {
       return sharedMethods.getStudentStatus(code, this.studentStatusOptions);
     },
@@ -790,13 +800,15 @@ export default {
         this.studentGradStatus.recalculateGradStatus = response.data.recalculateGradStatus;
         this.studentGradStatus.updatedTimestamp = response.data.updatedTimestamp;
         this.studentGradStatus.consumerEducationRequirementMet = response.data.consumerEducationRequirementMet;
+        this.getStudentGraduationOptionalPrograms();
+        this.refreshStudentHistory();
         this.studentGradStatus.studentStatusName = this.getStudentStatus(
           response.data.studentStatus
         );         
         this.showTop = !this.showTop;
         this.showEdit = false;
-        //Update the student audit history
-        this.$store.dispatch("updateStudentAuditHistory");
+
+
         this.showNotification("success", "GRAD Status Saved");
       })
       .catch((error) => {

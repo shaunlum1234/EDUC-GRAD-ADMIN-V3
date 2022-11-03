@@ -3,7 +3,7 @@
 
       <b-card no-body header="Student Change History">
         <b-card-text class="p-3">
-          <DisplayTable :items="studentChangeHighlight" :fields="studentChangeFields" showFilter=false title="Student Change History" :sortDesc="true" :sortBy="'createDate'">
+          <DisplayTable :items="studentChangeHighlight" :fields="studentChangeFields" showFilter=false title="Student Change History" :sortDesc="sortDesc" :sortBy="'createDate'">
             <template #cell(more)="row">
               <b-btn
                 variant="outline primary"
@@ -116,6 +116,7 @@ export default {
         changeHistory:[],
         optionalProgramChangeHistory:[],
         testHistory:[],
+        sortDesc: true,
         studentChangeFields: [
           {
             key: "more",

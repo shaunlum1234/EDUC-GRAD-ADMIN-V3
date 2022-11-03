@@ -390,7 +390,14 @@
     mounted() {
       this.$root.$on('studentProfile', () => {
         this.getStudentReportsAndCertificates(this.studentId, this.pen);
-      })
+      });
+      this.$root.$on('refreshStudentGraduationOptionalPrograms', () => {
+        this.loadOptionalPrograms(this.studentId);
+      });
+      this.$root.$on('refreshStudentHistory', ()=> {
+        this.loadStudentHistory(this.studentId);
+        this.loadStudentOptionalProgramHistory(this.studentId);
+      });
     },
     destroyed() {
       window.removeEventListener('resize', this.handleResize);
@@ -664,6 +671,20 @@
             );
           }  
         });
+        this.loadAssessments();
+        this.loadGraduationStatus(studentIdFromURL);
+        this.loadOptionalPrograms(studentIdFromURL);
+        this.loadCareerPrograms(studentIdFromURL);
+        this.loadStudentCourseAchievements();
+        this.loadStudentExamDetails();
+        this.loadStudentNotes(studentIdFromURL);
+        this.getStudentReportsAndCertificates(studentIdFromURL, this.pen);
+        this.loadStudentUngradReasons(studentIdFromURL);
+        this.loadStudentHistory(studentIdFromURL);
+        this.loadStudentOptionalProgramHistory(studentIdFromURL);
+        this.tabLoading = false;
+      }, //loadStudent
+      loadAssessments() {
         AssessmentService.getStudentAssessment(this.pen).then((response) => {
           this.$store.dispatch('setStudentAssessments', response.data);
         }).catch((error) => {
@@ -674,6 +695,8 @@
             );
           }
         });
+      },
+      loadGraduationStatus(studentIdFromURL) {
         StudentService.getGraduationStatus(studentIdFromURL).then(
           (response) => {
             this.$store.dispatch("setStudentGradStatus", response.data);
@@ -686,6 +709,8 @@
             );
           }
         });
+      },
+      loadOptionalPrograms(studentIdFromURL) {
         StudentService.getGraduationStatusOptionalPrograms(studentIdFromURL).then(
           (response) => {
             this.$store.dispatch("setStudentGradStatusOptionalPrograms", response.data);
@@ -697,6 +722,8 @@
             );
           }
         });
+      },
+      loadCareerPrograms(studentIdFromURL) {
         StudentService.getStudentCareerPrograms(studentIdFromURL).then(
           (response) => {
             this.$store.dispatch("setStudentCareerPrograms", response.data);
@@ -708,7 +735,9 @@
               "There was an error with the Student Service (getting the Student Career Programs): " + error.response.status
             );
           }
-        });        
+        });
+      },
+      loadStudentCourseAchievements() {
         CourseService.getStudentCourseAchievements(this.pen).then(
           (response) => {
             
@@ -722,6 +751,8 @@
             );
           }
         });
+      },
+      loadStudentExamDetails() {
         CourseService.getStudentExamDetails(this.pen).then(
           (response) => {           
             this.$store.dispatch("setStudentExams", response.data);
@@ -734,6 +765,8 @@
             );
           }
         });
+      },
+      loadStudentNotes(studentIdFromURL) {
         StudentService.getStudentNotes(studentIdFromURL).then(
           (response) => {           
             this.$store.dispatch("setStudentNotes", response.data);
@@ -746,7 +779,8 @@
             );
           }
         });
-        this.getStudentReportsAndCertificates(studentIdFromURL, this.pen);
+      },
+      loadStudentUngradReasons(studentIdFromURL) {
         StudentService.getStudentUngradReasons(studentIdFromURL).then(
           (response) => {         
             this.$store.dispatch("setStudentUngradReasons", response.data);
@@ -758,7 +792,9 @@
               "There was an error with the Student Service (getting the Undo Completion Reasons): " + error.response.status
             );
           }
-        });    
+        });
+      },
+      loadStudentHistory(studentIdFromURL) {
         StudentService.getStudentHistory(studentIdFromURL).then(
             (response) => {
               this.$store.dispatch("setStudentAuditHistory", response.data);
@@ -771,6 +807,8 @@
             );
           }
         });
+      },
+      loadStudentOptionalProgramHistory(studentIdFromURL) {
         StudentService.getStudentOptionalProgramHistory(studentIdFromURL).then(
           (response) => {
   
@@ -783,8 +821,7 @@
             );
           }
         });
-        this.tabLoading = false;
-      },//loadStudent
+      }
     },
   };
 </script>
