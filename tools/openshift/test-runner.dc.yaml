@@ -13,13 +13,6 @@ spec:
         app: ${RUNNER_ID}
     spec:
       containers:
-        - resources:
-            requests:
-              cpu: 100m
-              memory: 2Gi
-            limits:
-              cpu: 500m
-              memory: 4Gi
         - name: ${RUNNER_ID}
           image: >-
             image-registry.apps.silver.devops.gov.bc.ca/${OPENSHIFT_NAMESPACE}/gh-runner-ubuntu-18:latest
