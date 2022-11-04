@@ -3,7 +3,10 @@ import StudentService from "@/services/StudentService.js";
 export default {
   isEnvLocalHost() {
     return location.host.includes("localhost");
-  },  
+  }, 
+    containsAnyLetters(str) {
+      return /[a-zA-Z]/.test(str);
+    }, 
     getStudentStatus(code, studentStatusOptions) {
         for (let studentStatusOption of studentStatusOptions) {
           if (studentStatusOption.code == code) {

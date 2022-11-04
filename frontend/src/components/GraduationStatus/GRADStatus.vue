@@ -114,6 +114,13 @@
               </p>
             </b-alert>
           </div>
+          <div v-if="notANumberWarning">
+            <b-alert show variant="warning" class="p-3 mb-1">
+              <p class="locked-message">
+                Program Completion date be letters. Please follow dateFormat YYYY/MM/DD for SCCP or YYYY/MM for other Programs.  
+              </p>
+            </b-alert>
+          </div>
         <table  role="presentation" aria-label="edit grad status" class="table  table-hover table-sm" >
                 <tbody>
                   <tr v-if="!showEdit">
@@ -410,6 +417,7 @@ export default {
       editedGradStatus: {},
       studentUngradReason: "",
       disableButton:false,
+      notANumberWarning: false,
       disableSchoolAtGrad:false,
       disableInput:false,
       disableConsumerEdReqMet: false,
@@ -442,6 +450,7 @@ export default {
   },
   created() {
     this.showNotification = sharedMethods.showNotification;
+    this.containsAnyLetters = sharedMethods.containsAnyLetters;
   },
   watch: {
     studentGradeChange:function(){
@@ -522,6 +531,7 @@ export default {
       this.programExpiryDate = this.programCompletionEffectiveDateList[0].expiryDate
       let compareDate = new Date(this.editedGradStatus.programCompletionDate);
       let today = new Date();
+      
       if(!this.editedGradStatus.programCompletionDate){
         if(this.editedGradStatus.program == 'SCCP'){
           this.disableButton = false;
@@ -530,36 +540,48 @@ export default {
           this.disableButton = false;
         }       
       } else {
-        if(this.editedGradStatus.program != 'SCCP'){
-          if(this.editedGradStatus.programCompletionDate > this.programExpiryDate || this.editedGradStatus.programCompletionDate < this.programEffectiveDate)
-          {
-            this.disableButton = true;
-            this.programCompletionDateRangeError = true;
-          } else {
-            this.programCompletionDateRangeError = false;
-            this.disableButton = false;
-          }
-        }       
+        if (this.containsAnyLetters(this.editedGradStatus.programCompletionDate)){
+          this.notANumberWarning = true;
+          this.disableButton = true;
+        } else {
+          this.notANumberWarning = false;
+          if(this.editedGradStatus.program != 'SCCP'){
+            if(this.editedGradStatus.programCompletionDate > this.programExpiryDate || this.editedGradStatus.programCompletionDate < this.programEffectiveDate)
+            {
+              this.disableButton = true;
+              this.programCompletionDateRangeError = true;
+            } else {
+              this.programCompletionDateRangeError = false;
+              this.disableButton = false;
+            }
+          }       
+        }        
       }
       if(this.studentGradStatus.programCompletionDate){
-        if(this.editedGradStatus.program == 'SCCP'){
-          if(compareDate > today){
-            this.dateInFutureWarning = true;
-            this.disableButton = true;
-          }else{
-            this.dateInFutureWarning = false;
-            this.disableButton = true;
-            if(this.editedGradStatus.programCompletionDate == undefined || this.editedGradStatus.programCompletionDate < this.programEffectiveDate){
+        if (this.containsAnyLetters(this.editedGradStatus.programCompletionDate)){
+          this.disableButton = true;
+          this.notANumberWarning = true;
+        } else {
+          this.notANumberWarning = false;
+          if(this.editedGradStatus.program == 'SCCP'){
+            if(compareDate > today){
+              this.dateInFutureWarning = true;
               this.disableButton = true;
-              if(!this.editedGradStatus.programCompletionDate){
-                this.dateBlankWarning = true;
-              }
             } else {
-              this.disableButton = false;
-              this.dateBlankWarning = false;
-            }        
-          }         
-        }
+              this.dateInFutureWarning = false;
+              this.disableButton = true;
+              if(this.editedGradStatus.programCompletionDate == undefined || this.editedGradStatus.programCompletionDate < this.programEffectiveDate){
+                this.disableButton = true;
+                if(!this.editedGradStatus.programCompletionDate){
+                  this.dateBlankWarning = true;
+                }
+              } else {
+                this.disableButton = false;
+                this.dateBlankWarning = false;
+              }        
+            }         
+          }
+        } 
         if(this.editedGradStatus.programCompletionDate == ""){
           this.disableButton = true;
         }
@@ -752,7 +774,6 @@ export default {
       this.dateBlankWarning = false;
       this.dateInFutureWarning = false;
     },
-
     saveGraduationStatus(id) {
       //add the user info
       this.editedGradStatus.updatedBy = this.username;
