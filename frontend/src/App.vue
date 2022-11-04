@@ -9,10 +9,13 @@
           </div>
         </b-sidebar>
             (<a>{{ roles }}</a>) |
-            <a :href='routes.LOGOUT' class="text-white">Logout</a>
+            <a :href='logoutURL' class="text-white">Logout</a>
       </div>
       <div v-else-if="!isAuthenticated">
-        <a :href='loginUrl' class="text-white">Login</a>
+        <a :href='loginUrl'  
+          v-bind:style="{
+          color: 'white'
+        }">Login</a>
       </div>
     </Bcheader>
   
@@ -53,7 +56,10 @@ export default {
     },
     loginUrl: function(){
       return this.routes.LOGIN;
-    }   
+    },  
+    logoutUrl: function(){
+      return this.routes.LOGOUT;
+    }       
   },
   methods:{
       
