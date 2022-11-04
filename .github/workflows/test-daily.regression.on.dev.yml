@@ -45,7 +45,7 @@ jobs:
       - run: npm install
       - run: npm run daily-regression
         if: ${{ always() }}
-        #env:
+        env:
           #BASE_URL: ${{ secrets.BASE_URL }}
           TEST_ADMIN_USERNAME: ${{ secrets.TEST_ADMIN_USERNAME }}
           TEST_ADMIN_PASSWORD: ${{ secrets.TEST_ADMIN_PASSWORD }}
