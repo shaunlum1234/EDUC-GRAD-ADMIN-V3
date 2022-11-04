@@ -9,9 +9,6 @@
         <template #cell(expiryDate)="row">
             {{ row.item.expiryDate | formatSimpleDate }}
         </template>
-        <template #cell(assessmentReleaseDate)="row">
-          {{ row.item.assessmentReleaseDate | formatSimpleDate }}
-        </template>
       </DisplayTable>
     </div>
     <router-view v-bind:key="$route.fullPath"></router-view>    
@@ -70,11 +67,6 @@ export default {
           sortDirection: 'desc',
           editable: true,
         },   
-        {
-          key: 'assessmentReleaseDate',
-          label: 'Do Not Report Assessments After Last Release Date',
-          sortable: true,
-        },
         {
           key: "effectiveDate",
           label: "Effective Date",
