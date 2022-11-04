@@ -72,6 +72,8 @@ runs:
         oc create imagestream ${{ inputs.registry-path }} 2> /dev/null || true && echo "Runner image stream in place"
         # Tag it
         oc tag ${{ inputs.registry-path }} ${{ inputs.runner-is-name }}:${{ inputs.image-tags }}
+        echo "here is the config:"
+        cat $DEPLOYMENT_CONFIG_FILE
         # Deploy runner
         oc apply -f $DEPLOYMENT_CONFIG_FILE
       shell: bash
