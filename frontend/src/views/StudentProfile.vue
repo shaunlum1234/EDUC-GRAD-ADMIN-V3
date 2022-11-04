@@ -33,7 +33,9 @@
                   <b-card-text>              
                     <StudentGraduationStatus v-if="gradTab=='gradStatus'"></StudentGraduationStatus>
                     <GRADRequirementDetails v-if="gradTab=='gradCourses'">
-                      <b-alert variant="info" :show="!studentGradStatus.recalculateGradStatus">{{studentGradStatus.studentGradData.gradMessage}}</b-alert>
+                      <div v-if="studentGradStatus.studentGradData">
+                        <b-alert variant="info" v-if="studentGradStatus.studentGradData.gradMessage" :show="!studentGradStatus.recalculateGradStatus">{{studentGradStatus.studentGradData.gradMessage}}</b-alert>
+                      </div>                 
                     </GRADRequirementDetails>
                     <b-overlay :show="tabLoading" rounded="sm" no-wrap></b-overlay>
                   </b-card-text>
@@ -487,39 +489,54 @@
             this.$store.dispatch("setStudentCertificates", response.data);
           }
         ).catch((error) => {
-          if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
-          }
+          if(error.response.data.code == '404'){
+            // eslint-disable-next-line
+            console.log(error);
+          } else {
+            if(error.response.status){
+              this.$bvToast.toast("ERROR " + error.response.statusText, {
+                title: "ERROR" + error.response.status,
+                variant: 'danger',
+                noAutoHide: true,
+              });
+            }
+          }         
         });
         GraduationReportService.getStudentReports(id).then(
           (response) => {                     
             this.$store.dispatch("setStudentReports", response.data);
           }
         ).catch((error) => {
-          if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
-          }
+          if(error.response.data.code == '404'){
+            // eslint-disable-next-line
+            console.log(error);
+          } else {
+            if(error.response.status){
+              this.$bvToast.toast("ERROR " + error.response.statusText, {
+                title: "ERROR" + error.response.status,
+                variant: 'danger',
+                noAutoHide: true,
+              });
+            }
+          }       
         });        
         GraduationReportService.getStudentTranscripts(id).then(
           (response) => {        
             this.$store.dispatch("setStudentTranscripts", response.data);
           }
         ).catch((error) => {
-          if(error.response.status){
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "Service ERROR" + error.response.status,
-              variant: 'danger',
-              noAutoHide: true,
-            });
-          }
+          if(error.response.data.code == '404'){
+            // eslint-disable-next-line
+            console.log(error);
+          } else {
+            if(error.response.status){
+              this.$bvToast.toast("ERROR " + error.response.statusText, {
+                title: "Service ERROR" + error.response.status,
+                variant: 'danger',
+                noAutoHide: true,
+              });
+            }
+          }      
         }); 
         GraduationReportService.getStudentXmlReport(pen).then(
           (response) => {        
@@ -559,7 +576,6 @@
         this.selectedTab = 0;
         this.tabLoading = true; 
         GraduationService.graduateStudent(this.studentId).then(() => {
-          // this.reloadGradStatus();
           this.loadStudent(this.studentId);    
         }).catch((error) => {
           this.tabLoading = false; 
