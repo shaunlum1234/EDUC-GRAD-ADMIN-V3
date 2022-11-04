@@ -59,7 +59,7 @@ export default {
         },
         {
           key: "schoolCategoryCode",
-          label: "Category Code",
+          label: "School Category Code",
           sortable: true,
         },
         {
