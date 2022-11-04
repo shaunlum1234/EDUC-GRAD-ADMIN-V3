@@ -3,7 +3,7 @@
     "browsers": ["chrome:headless --disable-dev-shm-usage -incognito"],
     "reporter": "list",
     "quarantineMode": true,
-    "developmentMode": true,
+    "developmentMode": false,
     "skipJsErrors": true,
     "color": true,
     "stopOnFirstFail": false,
