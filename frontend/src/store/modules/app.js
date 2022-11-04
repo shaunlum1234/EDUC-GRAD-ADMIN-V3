@@ -37,7 +37,6 @@ export default {
           //ApiService.apiAxios.get('/api/v1/program/programs').then(response => commit('setProgramOptions', response.data))
 
           ApiService.apiAxios.get('/api/v1/program/programs').then(response => {
-            console.log('DEBUG', response.data)
             // filters out the "No Program" option until business is ready to implement
             const programs = response.data.filter(obj => {
               return obj.programCode !== "NOPROG";
