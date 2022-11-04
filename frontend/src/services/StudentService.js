@@ -6,7 +6,7 @@ export default {
     },
     getStudentsByAdvancedSearch(advancedSearchInput){
         let queryString = ""
-        for (var key in advancedSearchInput) {
+        for (const key in advancedSearchInput) {
             if (advancedSearchInput.hasOwnProperty(key)) {
                 if(advancedSearchInput[key].value){
                     let contains = (advancedSearchInput[key].contains) ? "*":"";

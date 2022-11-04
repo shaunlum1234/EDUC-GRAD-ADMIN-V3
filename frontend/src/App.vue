@@ -9,10 +9,10 @@
           </div>
         </b-sidebar>
             (<a>{{ roles }}</a>) |
-            <a :href='routes.LOGOUT' class="text-white">Logout</a>
+            <a :href='logoutURL' class="text-white">Logout</a>
       </div>
       <div v-else-if="!isAuthenticated">
-        <a :href='routes.LOGIN' class="text-white">Login</a>
+        <a :href='loginUrl'>Login</a>
       </div>
     </Bcheader>
   
@@ -39,18 +39,19 @@ export default {
   },
   data() {
       return {
-        routes: Routes,
+        loginUrl: Routes.LOGIN,
+        logoutUrl: Routes.LOGOUT,
         host: location.protocol + "//" + location.host,
       }
   },
   computed: {
-  
+
     ...mapGetters('auth', ['roles','isAuthenticated', 'loginError', 'isLoading', 'userInfo']),
     ...mapGetters('app', ['getProgramOptions']),
     ...mapState('app', ['pageTitle']),
     dataReady: function() {
       return this.userInfo;
-    }
+    },   
   },
   methods:{
       

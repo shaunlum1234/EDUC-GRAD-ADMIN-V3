@@ -86,7 +86,11 @@ export default {
     this.showNotification = sharedMethods.showNotification 
     ProgramManagementService.getGraduationPrograms()
       .then((response) => {
-        this.graduationPrograms = response.data;
+        // filters out the "No Program" option until business is ready to implement
+            const gradPrograms = response.data.filter(obj => {
+              return obj.programCode !== "NOPROG";
+            })
+        this.graduationPrograms = gradPrograms;
       })
       .catch((error) => {
         this.showNotification("danger", "There was an error: "+ error.response);
