@@ -7,13 +7,15 @@
       <b-card-text class="py-4">
         <div v-if="studentGradStatus">
         <div v-if="studentGradStatus.studentGradData">
-          <div v-if="studentGradStatus.studentGradData.school.certificateEligibility == 'N'">
-            <b-alert show variant="info" class="p-3 mb-1 mx-3">
-              <h4 class="alert-heading">Ineligible for Ministry certificates</h4>
-              <p class="locked-message">
-                This student's school is ineligible for Ministry certificates.
-              </p>
-            </b-alert>
+          <div v-if="studentGradStatus.studentGradData.school">
+            <div v-if="studentGradStatus.studentGradData.school.certificateEligibility == 'N'">
+              <b-alert show variant="info" class="p-3 mb-1 mx-3">
+                <h4 class="alert-heading">Ineligible for Ministry certificates</h4>
+                <p class="locked-message">
+                  This student's school is ineligible for Ministry certificates.
+                </p>
+              </b-alert>
+          </div>
           </div>
         </div>
         </div>
