@@ -28,7 +28,7 @@ runs:
            echo "Runner does not exist. Doing nothing."
         else
           echo "Deleting runner deployment..."
-          oc delete deployment ${{ inputs.runner-deployment-name }}
+          oc delete dc ${{ inputs.runner-deployment-name }}
         fi
 
       shell: bash
