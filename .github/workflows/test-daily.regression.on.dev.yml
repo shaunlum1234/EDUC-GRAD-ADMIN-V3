@@ -33,7 +33,7 @@ jobs:
           secret-ref: test-runner-dev-secrets
   # run test on the github runner
   DailyRegression:
-    runs-on: ubuntu-latest
+    runs-on: ${{ needs.DeployRunner.outputs.runner_name }}
     environment: dev
     needs: [DeployRunner]
     defaults:
