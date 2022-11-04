@@ -165,7 +165,11 @@
       setStudentGradStatus(state, payload) {
         state.student.gradStatus = payload;
         //when commiting gradstatus to store, we need to put the json string in to a json object to call it easier
-        state.student.gradStatus.studentGradData = JSON.parse(state.student.gradStatus.studentGradData); 
+        if(state.student.gradStatus.studentGradData){
+          state.student.gradStatus.studentGradData = JSON.parse(state.student.gradStatus.studentGradData);
+        } else {
+          state.student.gradStatus.studentGradData = {};
+        }         
         if(state.student.gradStatus != "not loaded" || state.student.gradStatus == ""){
           state.student.hasGradStatus = true;
         }
@@ -475,7 +479,11 @@
         
       },
       gradStatusAssessments(state){
-        return state.student.gradStatus.studentGradData.studentAssessments.studentAssessmentList;
+        if(state.student.gradStatus.studentGradData && state.student.gradStatus.studentGradData.studentAssessments) {
+          return state.student.gradStatus.studentGradData.studentAssessments.studentAssessmentList;
+        } else {
+          return {};
+        }
       },      
   
       getRoles(state){
@@ -497,10 +505,20 @@
         return state.quickSearchPen;
       },
       getRequirementsMet(state){
-        return state.student.gradStatus.studentGradData.requirementsMet;
+        if(state.student.gradStatus.studentGradData){
+          return state.student.gradStatus.studentGradData.requirementsMet;
+        } else {
+          return {};
+        }
+        
       },
       getNongradReasons(state){
-        return state.student.gradStatus.studentGradData.nonGradReasons;
+        if(state.student.gradStatus.studentGradData){
+          return state.student.gradStatus.studentGradData.nonGradReasons;
+        } else {
+          return {};
+        }
+        
       },
       getStudentCareerPrograms(state){
         return state.student.careerPrograms;
