@@ -515,8 +515,6 @@ export default {
         (response) => {
            //update the admin dashboard
           this.getAdminDashboardData();
-          // eslint-disable-next-line
-          console.log(response)
           this.cancelBatchJob(id);
           this.selectedTab = 0;
      
@@ -554,8 +552,6 @@ export default {
         (response) => {
            //update the admin dashboard
           this.getAdminDashboardData();
-          // eslint-disable-next-line
-          console.log(response)
           this.cancelBatchJob(id);
           this.selectedTab = 0;
           if(request.localDownload == 'Y'){
@@ -588,11 +584,9 @@ export default {
       let value = true
       this.$store.commit("batchprocessing/setTabLoading",{index, value});
         BatchProcessingService.runPSIRUN(request, transmissionType).then(
-        (response) => {
+        () => {
            //update the admin dashboard
           this.getAdminDashboardData();
-          // eslint-disable-next-line
-          console.log(response)
           this.cancelBatchJob(id);
           this.selectedTab = 0;
 
@@ -621,11 +615,9 @@ export default {
       let value = true
       this.$store.commit("batchprocessing/setTabLoading",{index, value});
         BatchProcessingService.runTVRRUN(request).then(
-        (response) => {
+        () => {
            //update the admin dashboard
           this.getAdminDashboardData();
-          // eslint-disable-next-line
-          console.log(response)
           this.cancelBatchJob(id);
           this.selectedTab = 0;
           this.$bvToast.toast("Batch run has completed for request " + requestId , {
@@ -653,11 +645,9 @@ export default {
       let value = true
       this.$store.commit("batchprocessing/setTabLoading",{index, value});
         BatchProcessingService.runREGALG(request).then(
-        (response) => {
+        () => {
            //update the admin dashboard
           this.getAdminDashboardData();
-          // eslint-disable-next-line
-          console.log(response)
           this.cancelBatchJob(id);
           this.selectedTab = 0;
           this.$bvToast.toast("Batch run has completed for request " + requestId , {
@@ -685,11 +675,9 @@ export default {
       let value = true
       this.$store.commit("batchprocessing/setTabLoading",{index, value});
         BatchProcessingService.addScheduledJob(request).then(
-        (response) => {
+        () => {
            //update the admin dashboard
           this.getScheduledJobs();
-          // eslint-disable-next-line
-          console.log(response)
           this.cancelBatchJob(id);
           this.selectedTab = 0;
           this.$bvToast.toast("Request " + requestId + " has successfully been scheduled", {

@@ -108,9 +108,8 @@ export default {
       commit('setScheduledBatchJobs', payload);
     },
     removeScheduledJobs({state}, payload) {
-       // eslint-disable-next-line
-      console.log(state.batchDetails)
-      return BatchProcessingService.removeScheduledJobs(payload['id']);
+      if(state.scheduledBatchJobs)
+       return BatchProcessingService.removeScheduledJobs(payload['id']);
       
     },    
     addStudentToBatch({commit}, payload){

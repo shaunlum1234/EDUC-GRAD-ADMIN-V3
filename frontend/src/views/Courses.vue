@@ -436,13 +436,13 @@
         } else {
           this.courses = "";
         }        
-        for (var key in this.advancedSearchInput) {
+        for (const key in this.advancedSearchInput) {
           if (this.advancedSearchInput.hasOwnProperty(key)) {
             this.advancedSearchInput[key].value = "";
             this.advancedSearchInput[key].contains = false;
           }
         }
-        for (var reqKey in this.requirementsSearchInput) {
+        for (const reqKey in this.requirementsSearchInput) {
           if (this.requirementsSearchInput.hasOwnProperty(reqKey)) {
             this.requirementsSearchInput[reqKey].value = "";
             this.requirementsSearchInput[reqKey].contains = false;
@@ -456,7 +456,7 @@
         this.params = new URLSearchParams();
         this.courses = [];
         let isEmpty = true;
-        for (var key in this.advancedSearchInput) {
+        for (const key in this.advancedSearchInput) {
           if (this.advancedSearchInput.hasOwnProperty(key)) {
             if (this.advancedSearchInput[key].value != "") {
               isEmpty = false;   
@@ -540,7 +540,7 @@
         this.params = new URLSearchParams();
         this.courseRequirements = [];
         let isEmpty = true;
-        for (var key in this.requirementsSearchInput) {
+        for (const key in this.requirementsSearchInput) {
           if (this.requirementsSearchInput.hasOwnProperty(key)) {
             if (this.requirementsSearchInput[key].value != "") {
               isEmpty = false;   

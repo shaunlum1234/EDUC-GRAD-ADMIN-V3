@@ -226,7 +226,7 @@ import sharedMethods from '../sharedMethods';
         this.totalResults = "";
         this.searchMessage = "";
         let isEmpty = true;
-        for (var key in this.search) {
+        for (const key in this.search) {
           if (this.search.hasOwnProperty(key)) {
             if (this.search[key].value != "") {
               isEmpty = false;   
@@ -256,7 +256,7 @@ import sharedMethods from '../sharedMethods';
       },
       clearInput: function () {
         this.schools = "";
-        for (var key in this.search) {
+        for (const key in this.search) {
           if (this.search.hasOwnProperty(key)) {
             this.search[key].value = "";
             this.search[key].contains = false;

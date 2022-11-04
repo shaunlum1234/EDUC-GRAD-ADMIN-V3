@@ -165,7 +165,11 @@
       setStudentGradStatus(state, payload) {
         state.student.gradStatus = payload;
         //when commiting gradstatus to store, we need to put the json string in to a json object to call it easier
-        state.student.gradStatus.studentGradData = JSON.parse(state.student.gradStatus.studentGradData); 
+        if(state.student.gradStatus.studentGradData){
+          state.student.gradStatus.studentGradData = JSON.parse(state.student.gradStatus.studentGradData);
+        } else {
+          state.student.gradStatus.studentGradData = {};
+        }         
         if(state.student.gradStatus != "not loaded" || state.student.gradStatus == ""){
           state.student.hasGradStatus = true;
         }
@@ -232,9 +236,9 @@
       deleteProgram({state}, payload) {
         
         ProgramManagementService.deleteProgram(payload, state.auth.token).then(
-          (response) => {
+          () => {
             // eslint-disable-next-line
-            console.log(response);
+           
           }
         ).catch((error) => {
           // eslint-disable-next-line
@@ -244,9 +248,8 @@
       updateProgram({state}, payload) {
         
         ProgramManagementService.updateProgram(payload, state.auth.token).then(
-          (response) => {
-            // eslint-disable-next-line
-            console.log(response);
+          () => {
+            
           }
         ).catch((error) => {
           // eslint-disable-next-line
@@ -256,9 +259,7 @@
        // Optional Programs
        createOptionalProgram({state}, payload) {
         ProgramManagementService.createOptionalProgram(payload, state.auth.token).then(
-          (response) => {
-            return "STORE REspsonse to display table" + response;
-          }
+          () => {}
         ).catch((error) => {
           // eslint-disable-next-line
           console.log(error.response.status);
@@ -267,10 +268,7 @@
       deleteOptionalProgram({state}, payload) {
         
         ProgramManagementService.deleteOptionalProgram(payload, state.auth.token).then(
-          (response) => {
-            // eslint-disable-next-line
-            console.log(response);
-          }
+          () => {}
         ).catch((error) => {
           // eslint-disable-next-line
           console.log(error.response.status);
@@ -278,9 +276,7 @@
       },   
       updateOptionalProgram({state}, payload) {
         ProgramManagementService.updateOptionalProgram(payload, state.auth.token).then(
-          (response) => {
-            // eslint-disable-next-line
-            console.log(response);
+          () => {
           }
         ).catch((error) => {
           // eslint-disable-next-line
@@ -475,7 +471,11 @@
         
       },
       gradStatusAssessments(state){
-        return state.student.gradStatus.studentGradData.studentAssessments.studentAssessmentList;
+        if(state.student.gradStatus.studentGradData && state.student.gradStatus.studentGradData.studentAssessments) {
+          return state.student.gradStatus.studentGradData.studentAssessments.studentAssessmentList;
+        } else {
+          return {};
+        }
       },      
   
       getRoles(state){
@@ -497,10 +497,20 @@
         return state.quickSearchPen;
       },
       getRequirementsMet(state){
-        return state.student.gradStatus.studentGradData.requirementsMet;
+        if(state.student.gradStatus.studentGradData){
+          return state.student.gradStatus.studentGradData.requirementsMet;
+        } else {
+          return {};
+        }
+        
       },
       getNongradReasons(state){
-        return state.student.gradStatus.studentGradData.nonGradReasons;
+        if(state.student.gradStatus.studentGradData){
+          return state.student.gradStatus.studentGradData.nonGradReasons;
+        } else {
+          return {};
+        }
+        
       },
       getStudentCareerPrograms(state){
         return state.student.careerPrograms;
