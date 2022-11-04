@@ -12,10 +12,7 @@
             <a :href='logoutURL' class="text-white">Logout</a>
       </div>
       <div v-else-if="!isAuthenticated">
-        <a :href='loginUrl'  
-          v-bind:style="{
-          color: 'white'
-        }">Login</a>
+        <a :href='loginUrl'>Login</a>
       </div>
     </Bcheader>
   
@@ -42,7 +39,8 @@ export default {
   },
   data() {
       return {
-        routes: Routes,
+        loginUrl: Routes.LOGIN,
+        logoutUrl: Routes.LOGOUT,
         host: location.protocol + "//" + location.host,
       }
   },
@@ -53,13 +51,7 @@ export default {
     ...mapState('app', ['pageTitle']),
     dataReady: function() {
       return this.userInfo;
-    },
-    loginUrl: function(){
-      return this.routes.LOGIN;
-    },  
-    logoutUrl: function(){
-      return this.routes.LOGOUT;
-    }       
+    },   
   },
   methods:{
       
