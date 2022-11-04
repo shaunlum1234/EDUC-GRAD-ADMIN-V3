@@ -22,11 +22,11 @@ spec:
                 name: ${SECRET_REF}
           resources:
             requests:
-              cpu: "100m"
-              memory: "2Gi"
+              cpu: 100m
+              memory: 2Gi
             limits:
-              cpu: "500m"
-              memory: "4Gi"
+              cpu: 500m
+              memory: 4Gi
           env:
             - name: REPO
               value: ${GITHUB_REPO}
