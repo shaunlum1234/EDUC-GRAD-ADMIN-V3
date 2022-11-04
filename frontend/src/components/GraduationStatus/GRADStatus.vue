@@ -1,8 +1,5 @@
 <template>
   <div class="graduation-status">
-    <div>
-      <p>DEBUG<br>&nbsp;recalc: {{recalculateFlag}}<br>&nbsp;recalc projected grad: {{recalculateProjectedGradFlag}}</p>
-    </div>
     <b-card
       no-body
       header="GRAD status"
@@ -324,10 +321,14 @@
               <td> 
                 <span v-if="studentGradStatus.consumerEducationRequirementMet"> {{ studentGradStatus.consumerEducationRequirementMet }}</span>
               </td>
-            </tr>            
+            </tr>
+            <tr>
+            </tr>           
           </tbody>
         </table>
-
+        <b-alert show variant="info" class="p-3 mb-1">
+          <p><strong>DEBUG</strong><br>&nbsp;recalc grad: {{String(recalculateFlag)}}<br>&nbsp;recalc projected grad: {{String(recalculateProjectedGradFlag)}}</p>
+        </b-alert>
       </b-card-text>
     </b-card>       
   </div>
@@ -804,7 +805,7 @@ export default {
         this.refreshStudentHistory();
         this.studentGradStatus.studentStatusName = this.getStudentStatus(
           response.data.studentStatus
-        );         
+        );
         this.showTop = !this.showTop;
         this.showEdit = false;
 

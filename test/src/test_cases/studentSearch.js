@@ -22,7 +22,7 @@ fixture `grad-login-admin`
         //await t.maximizeWindow();
     }).afterEach(async t => {
             // run locally for api call failure output
-            log.info(apiCallsFailed(penSearchLogger, api_html_status_threshold));
+            //log.info(apiCallsFailed(penSearchLogger, api_html_status_threshold));
             await t.useRole(Role.anonymous());
         });
 
