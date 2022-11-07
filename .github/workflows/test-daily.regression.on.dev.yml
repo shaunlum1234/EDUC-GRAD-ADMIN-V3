@@ -54,6 +54,15 @@ jobs:
           #TOKEN_CLIENT_ID: ${{ secrets.TOKEN_CLIENT_ID }}
           #TOKEN_CLIENT_SECRET: ${{ secrets.TOKEN_CLIENT_SECRET }}
           #TOKEN_ENDPOINT: ${{ secrets.TOKEN_ENDPOINT }}
+      - name: Rocket.Chat Notification
+        uses: RocketChat/Rocket.Chat.GitHub.Action.Notification@1.1.1
+        if: failure()
+        with:
+          type: ${{ job.status }}
+          job_name: "Grad Daily Regression - DEV --->"
+          icon_emoji: ":bell:"
+          channel: "grad-project"
+          url: ${{ secrets.ROCKETCHAT_WEBHOOK_FAILURES }}
   # now burn it all down!!
   TearDown:
     runs-on: ubuntu-latest
