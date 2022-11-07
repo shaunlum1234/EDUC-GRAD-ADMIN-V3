@@ -168,14 +168,14 @@
           </template>
       </b-modal>
       <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalAndReg" centered title="Projected Grad Status with Final Marks and Registrations">
-            <b-alert variant="info" show>{{projectedGradStatus.gradMessage}}</b-alert>
+            <b-alert variant="info" show>{{projectedGradStatusWithRegistrations.gradMessage}}</b-alert>
 
-            <b-card-group deck v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus">
+            <b-card-group deck v-if="this.projectedGradStatusWithRegistrations && this.projectedGradStatusWithRegistrations.gradStatus">
             <b-card
               header="Requirements met"
             >
               <b-card-text>
-                <b-table small :items="this.projectedGradStatus.requirementsMet" :fields='[{ key: "rule",label: "Rule",class:"px-0 py-2"},{key: "description",label: "Description",class:"px-0 py-2"}]'>
+                <b-table small :items="this.projectedGradStatusWithRegistrations.requirementsMet" :fields='[{ key: "rule",label: "Rule",class:"px-0 py-2"},{key: "description",label: "Description",class:"px-0 py-2"}]'>
                   <template #cell(rule)="row">
                     <div v-if="row.item.projected" style="background-color:#eaf2fa; width:100% ">
                       {{row.item.rule}}
@@ -199,8 +199,8 @@
             <b-card
               header="Noncompletion reasons"
             >
-              <div v-if="projectedGradStatus && projectedGradStatus.nonGradReasons">
-                <b-card-text><b-table small :items="this.projectedGradStatus.nonGradReasons"></b-table></b-card-text>
+              <div v-if="projectedGradStatusWithRegistrations && projectedGradStatusWithRegistrations.nonGradReasons">
+                <b-card-text><b-table small :items="this.projectedGradStatusWithRegistrations.nonGradReasons"></b-table></b-card-text>
               </div>
               <div v-else>
                 <b-card-text>All program requirements have been met</b-card-text>
@@ -644,13 +644,13 @@
         this.nonGradReasons = this.studentGradStatus.studentGradData.nonGradReasons;
         this.tabLoading = true; 
         GraduationService.projectedGradStatusWithFinalAndReg(this.studentId) .then((response) => {
-          this.projectedGradStatus = response.data;
-          this.projectedGradStatus = JSON.parse(this.projectedGradStatus.graduationStudentRecord.studentGradData);
+          this.projectedGradStatusWithRegistrations = response.data;
+          this.projectedGradStatusWithRegistrations = JSON.parse(this.projectedGradStatusWithRegistrations.graduationStudentRecord.studentGradData);
           this.projectedOptionalGradStatus = response.data.studentOptionalProgram;
           for (let projectedOptGradStatus of this.projectedOptionalGradStatus) {
             projectedOptGradStatus.studentOptionalProgramData = JSON.parse(projectedOptGradStatus.studentOptionalProgramData);
           } 
-          this.projectedrequirementsMet = this.projectedGradStatus.requirementsMet;
+          this.projectedrequirementsMet = this.projectedGradStatusWithRegistrations.requirementsMet;
           this.$refs['projectedGradStatusWithFinalAndReg'].show();
           this.tabLoading = false; 
           this.getStudentReportsAndCertificates(this.studentId,this.studentPen);
