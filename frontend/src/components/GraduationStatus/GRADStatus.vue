@@ -8,7 +8,7 @@
         <b-button-group v-if="this.roles.includes('Administrator')" class="gradstatus-actions float-right">
           <div v-if="!showEdit">
             <b-link href="#" class="edit" disabled v-if="studentGradStatus.studentStatus === 'MER'" v-on:click="editGradStatus" size="sm" variant="primary">
-              Cannot edit a student with a status of Merged
+              Edit
             </b-link>
             <b-link href="#" class="edit" v-else v-on:click="editGradStatus" size="sm" variant="primary">
               Edit 
@@ -68,6 +68,15 @@
           </div>  
         </div> -->
         
+        <div v-if="studentGradStatus && studentGradStatus.studentStatus == 'MER'">
+          <b-alert show variant="info" class="p-3 mb-1">
+            <h4 class="alert-heading">Student status: Merged</h4>
+            <p class="locked-message">
+              This student's status is set to 'Merged'. Their data cannot be changed.
+            </p>
+          </b-alert>
+        </div>
+
         <div v-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
           <b-alert show variant="warning" class="p-3 mb-1">
             <h4 class="alert-heading">Student status: Not active</h4>
@@ -91,15 +100,7 @@
                 Warning: This student is showing as "Deceased". 
               </p>
             </b-alert>
-          </div>          
-          <!-- <div v-else-if="studentGradStatus && studentGradStatus.studentStatus == 'MER' && showEdit">
-            <b-alert show variant="info" class="p-3 mb-1">
-              <h4 class="alert-heading">Student status: Merged</h4>
-              <p class="locked-message">
-                This student's status is set to 'Merged'. Their data cannot be changed.
-              </p>
-            </b-alert>
-          </div>           -->
+          </div>                   
           <div v-if="dateInFutureWarning">
             <b-alert show variant="warning" class="p-3 mb-1">            
               <p class="locked-message">
@@ -907,7 +908,6 @@ export default {
 }
 a.disabled {
   color: #6c757d;
-  text-decoration: none;
   pointer-events: none;
 }
 </style>
