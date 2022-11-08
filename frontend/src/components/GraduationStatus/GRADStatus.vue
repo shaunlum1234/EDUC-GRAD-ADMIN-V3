@@ -134,8 +134,8 @@
                       </div>
                       <div v-if="closedProgramWarning" class="form-validation-message text-warning">Warning: This program is closed.</div>     
                     </td>
-                    <td class="w-50"><b-form-select :disabled="disableInput" size="sm" v-model="editedGradStatus.program" :options="programOptions" value-field="programCode" text-field="programCode"></b-form-select></td>                   
-                  </tr>
+                    <td class="w-50"><b-form-select :disabled="disableProgramInput" size="sm" v-model="editedGradStatus.program" :options="programOptions" value-field="programCode" text-field="programCode"></b-form-select></td>                   
+                  </tr> <!-- END program edit -->
                   <tr v-if="!showEdit">
                     <td><strong>Program completion date: </strong></td>
                     <td>{{ studentGradStatus.programCompletionDate }}</td>
@@ -149,9 +149,9 @@
                       <strong>Program completion date: (YYYY/MM/DD)</strong><br>
                       <div v-if="programCompletionDateRangeError" class="form-validation-message text-danger" >The program completion date is out of date range&nbsp;&nbsp;<i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
                     </td>
-                    <td v-if="editedGradStatus.program != 'SCCP'"><b-input :disabled="studentGradStatus.programCompletionDate != null" size="sm" type="text" maxLength="7" @keyup="dateFormatYYYYMM()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
+                    <td v-if="editedGradStatus.program != 'SCCP'"><b-input :disabled="studentGradStatus.programCompletionDate != null || studentGradStatus.program !== 'SCCP'" size="sm" type="text" maxLength="7" @keyup="dateFormatYYYYMM()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
                     <td v-if="editedGradStatus.program == 'SCCP'"><b-input  size="sm" type="text" maxLength="10" @keyup="dateFormatYYYYMMDD()" v-model='editedGradStatus.programCompletionDate'></b-input></td>
-                  </tr>
+                  </tr> <!-- END program completion date edit -->
                   
                   <tr v-if="!showEdit">
                     <td><strong>Student status: </strong></td>
@@ -184,7 +184,7 @@
                       size="sm"
                       v-model="editedGradStatus.studentGrade"
                       :options="gradeOptions"
-                      :disabled="disableInput || studentGradStatus.programCompletionDate !== null"
+                      :disabled="disableProgramInput || studentGradStatus.programCompletionDate !== null"
                     >
                     </b-form-select>
                   </td>
@@ -420,7 +420,7 @@ export default {
       disableButton:false,
       notANumberWarning: false,
       disableSchoolAtGrad:false,
-      disableInput:false,
+      disableProgramInput:false,
       disableConsumerEdReqMet: false,
       disableStudentStatus:false,
       dateInFutureWarning:false,
@@ -494,10 +494,10 @@ export default {
     programChange:function(){
       this.programChangeWarning = true;
       if(this.studentGradStatus.programCompletionDate && this.studentGradStatus.program != 'SCCP'){
-        this.disableInput = true;
+        this.disableProgramInput = true;
         this.disableButton = true;
       }else{
-        this.disableInput = false;
+        this.disableProgramInput = false;
         this.disableButton = false;
       }
       if(this.editedGradStatus.program == '1950'){
@@ -729,22 +729,22 @@ export default {
       } else {
         this.disableConsumerEdReqMet = false;
       }
-      if(this.studentGradStatus.programCompletionDate != null){
-        this.disableInput = true;
+      if(this.studentGradStatus.programCompletionDate != null && this.studentGradStatus.program !== "SCCP"){
+        this.disableProgramInput = true;
         this.disableSchoolAtGrad = false;
         this.disableStudentStatus = false;
-      }else{
-        this.disableInput = false;
+      } else {
+        this.disableProgramInput = false;
         this.disableStudentStatus = false;
         this.disableSchoolAtGrad = true;
       }
 
       if(this.studentGradStatus.studentStatus == 'MER'){
-        this.disableInput = true;
+        this.disableProgramInput = true;
         this.disableStudentStatus = true;
       }
       else if(this.studentGradStatus.studentStatus == 'TER' || this.studentGradStatus.studentStatus == 'N'){
-        this.disableInput = false;
+        this.disableProgramInput = false;
         this.disableStudentStatus = false;
       }
       this.showEdit = true;  
