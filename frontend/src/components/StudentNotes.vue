@@ -13,7 +13,8 @@
               <b-form-textarea
                 id="comment"
                 v-model="newNote.note"
-                placeholder=""
+                placeholder="Max 255 Characters"
+                :state="newNote.note.length <= 255"
                 required
               ></b-form-textarea>
             </b-form-group>
@@ -37,7 +38,8 @@
                   id="textarea"
                   v-if="showEditForm == studentNote.id"
                   v-model="editedNote.note"
-                  placeholder="Enter something..."
+                  placeholder="Max 255 Characters"
+                  :state="editedNote.note.length <= 255"
                   rows="3"
                   max-rows="6"
                 ></b-form-textarea>
@@ -117,7 +119,8 @@ export default {
   },
   methods: {
     onSaveEditedNote(studentNoteIndex, editedNote){
-      StudentService.addStudentNotes(editedNote)
+      if(this.editedNote.note.length <= 255) {
+        StudentService.addStudentNotes(editedNote)
         .then((response) => {
           this.showNotification('success','Student note saved')
           if(response.data && response.data.value){
@@ -129,26 +132,30 @@ export default {
           // eslint-disable-next-line
           console.log('There was an error:' + error);
           this.showNotification("danger", "There was an error with the web service.");
-        });       
-      },
-      onEditNote(note){
-        this.showSave = true;
-        this.showEditForm = note.id;
-        this.editedNote.note = note.note;
-        this.editedNote.id = note.id;
-        this.editedNote.studentID = note.studentID;
-      },
-      cancelEdit(){
-        this.showSave = false;
-        this.showEditForm = "";
-        this.editedNote = {};
-      },
-      showSubmitForm() {
-        this.showForm = !this.showForm; 
-        this.showAddButton = !this.showAddButton;
-      },
-      onSubmit(event) {
-        event.preventDefault()
+        });      
+      } else {
+        this.showNotification("danger", "Max character 255 limit exceeded.");
+      }      
+    },
+    onEditNote(note){
+      this.showSave = true;
+      this.showEditForm = note.id;
+      this.editedNote.note = note.note;
+      this.editedNote.id = note.id;
+      this.editedNote.studentID = note.studentID;
+    },
+    cancelEdit(){
+      this.showSave = false;
+      this.showEditForm = "";
+      this.editedNote = {};
+    },
+    showSubmitForm() {
+      this.showForm = !this.showForm; 
+      this.showAddButton = !this.showAddButton;
+    },
+    onSubmit(event) {
+      event.preventDefault()
+      if(this.newNote.note.length <= 255) {
         this.showAddButton = true;
         this.showForm = true;
         var current = new Date().toISOString().slice(0, 10)
@@ -168,30 +175,33 @@ export default {
             console.log('There was an error:' + error);
             this.showNotification("danger", "There was an error with the web service.");
           }); 
-      },
-      onReset(event) {
-        event.preventDefault()
-        // Reset our form values
-        this.newNote.note = '';
-      },
-      onDelete(noteID) {
-        StudentService.deleteStudentNotes(noteID)  
-          var removeIndex = this.studentNotes.map(function(item) { return item.id; }).indexOf(noteID); 
-          this.studentNotes.splice(removeIndex, 1);
-          this.showNotification('success','Student note deleted')
-      },
-      getNotes(){
-        StudentService.getStudentNotes(this.$route.params.studentid).then(
-          (response) => {           
-            this.studentNotes = response.data
-          }
-        ).catch((error) => {
-          // eslint-disable-next-line
-          console.log('There was an error:' + error);
-          this.showNotification("danger", "There was an error with the web service.");
-        });
-      }
+      } else {
+        this.showNotification("danger", "Max character 255 limit exceeded.");
+      }  
+    },
+    onReset(event) {
+      event.preventDefault()
+      // Reset our form values
+      this.newNote.note = '';
+    },
+    onDelete(noteID) {
+      StudentService.deleteStudentNotes(noteID)  
+        var removeIndex = this.studentNotes.map(function(item) { return item.id; }).indexOf(noteID); 
+        this.studentNotes.splice(removeIndex, 1);
+        this.showNotification('success','Student note deleted')
+    },
+    getNotes(){
+      StudentService.getStudentNotes(this.$route.params.studentid).then(
+        (response) => {           
+          this.studentNotes = response.data
+        }
+      ).catch((error) => {
+        // eslint-disable-next-line
+        console.log('There was an error:' + error);
+        this.showNotification("danger", "There was an error with the web service.");
+      });
     }
+  }
 }
 
 </script>
