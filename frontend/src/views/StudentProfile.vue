@@ -111,7 +111,7 @@
               header="Requirements met"
             >
               <b-card-text>
-                <b-table small :items="this.projectedGradStatus.requirementsMet" :fields='[{ key: "rule",label: "Rule",class:"px-0 py-2"},{key: "description",label: "Description",class:"px-0 py-2"}]'>
+                <b-table small :items="this.projectedGradStatus.requirementsMet" :fields="requirementsMetFields">
                     
                 </b-table>
               </b-card-text>
@@ -120,7 +120,7 @@
               header="Noncompletion reasons"
             >
               <div v-if="projectedGradStatus && projectedGradStatus.nonGradReasons">
-                <b-card-text><b-table small :items="this.projectedGradStatus.nonGradReasons" ></b-table></b-card-text>
+                <b-card-text><b-table small :items="this.projectedGradStatus.nonGradReasons" :fields="noncompletionReasonsFields" ></b-table></b-card-text>
               </div>
               <div v-else>
                 <b-card-text>All program requirements have been met</b-card-text>
@@ -167,6 +167,7 @@
             </b-button>
           </template>
       </b-modal>
+      <!-- Projected Grad status and registrations Modal -->
       <b-modal no-close-on-backdrop size="xl" ref="projectedGradStatusWithFinalAndReg" centered title="Projected Grad Status with Final Marks and Registrations">
             <b-alert variant="info" show>{{projectedGradStatusWithRegistrations.gradMessage}}</b-alert>
 
@@ -175,7 +176,7 @@
               header="Requirements met"
             >
               <b-card-text>
-                <b-table small :items="this.projectedGradStatusWithRegistrations.requirementsMet" :fields='[{ key: "rule",label: "Rule",class:"px-0 py-2"},{key: "description",label: "Description",class:"px-0 py-2"}]'>
+                <b-table small :items="this.projectedGradStatusWithRegistrations.requirementsMet" :fields="requirementsMetFields">
                   <template #cell(rule)="row">
                     <div v-if="row.item.projected" style="background-color:#eaf2fa; width:100% ">
                       {{row.item.rule}}
@@ -200,7 +201,7 @@
               header="Noncompletion reasons"
             >
               <div v-if="projectedGradStatusWithRegistrations && projectedGradStatusWithRegistrations.nonGradReasons">
-                <b-card-text><b-table small :items="this.projectedGradStatusWithRegistrations.nonGradReasons"></b-table></b-card-text>
+                <b-card-text><b-table small :items="this.projectedGradStatusWithRegistrations.nonGradReasons" :fields="noncompletionReasonsFields"></b-table></b-card-text>
               </div>
               <div v-else>
                 <b-card-text>All program requirements have been met</b-card-text>
@@ -362,6 +363,40 @@
         },
         courseViewMode: "showAllCourses",
         moreStudentInfo: false,
+        noncompletionReasonsFields: [
+          { 
+            key: "rule",
+            label: "Rule",
+            class:"pl-0 pr-2 py-2" 
+          },
+          { 
+            key: "description",
+            label: "Description",
+            class:"px-0 py-2"
+          },
+          { 
+            key: "transcriptRule",
+            label: "Transcript Rule",
+            class:"py-2"
+          }
+          ],
+        requirementsMetFields: [
+          { 
+            key: "rule",
+            label: "Rule",
+            class:"px-0 py-2"
+          },
+          { 
+            key: "description",
+            label: "Description",
+            class:"px-0 py-2"
+          },
+          { 
+            key: "transcriptRule",
+            label: "Transcript Rule",
+            class:"py-2"
+          }
+        ],
       };
     },
     computed: {
