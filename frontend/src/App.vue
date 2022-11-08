@@ -9,10 +9,10 @@
           </div>
         </b-sidebar>
             (<a>{{ roles }}</a>) |
-            <a :href='logoutURL' class="text-white">Logout</a>
+            <a :href='logout' class="text-white">Logout</a>
       </div>
       <div v-else-if="!isAuthenticated">
-        <a :href='loginUrl'>Login</a>
+        <a :href='login'>Login</a>
       </div>
     </Bcheader>
   
@@ -31,7 +31,7 @@ import { mapActions, mapMutations, mapGetters,mapState } from 'vuex';
 
 import Bcheader from "@/components/BCHeader";
 import BCFooter from "@/components/BCFooter";
-import { Routes } from '@/utils/constants';
+import { Routes} from '@/utils/constants';
 export default {
   components: {
     Bcheader,
@@ -39,8 +39,8 @@ export default {
   },
   data() {
       return {
-        loginUrl: Routes.LOGIN,
-        logoutUrl: Routes.LOGOUT,
+        login: Routes.LOGIN,
+        logout: Routes.LOGOUT,
         host: location.protocol + "//" + location.host,
       }
   },
