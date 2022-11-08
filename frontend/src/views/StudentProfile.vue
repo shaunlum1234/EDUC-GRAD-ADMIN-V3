@@ -120,7 +120,7 @@
               header="Noncompletion reasons"
             >
               <div v-if="projectedGradStatus && projectedGradStatus.nonGradReasons">
-                <b-card-text><b-table small :items="this.projectedGradStatus.nonGradReasons" ></b-table></b-card-text>
+                <b-card-text><b-table small :items="this.projectedGradStatus.nonGradReasons" :fields='[{ key: "rule",label: "Rule",class:"px-0 py-2"},{key: "description",label: "Description",class:"px-0 py-2"}]' ></b-table></b-card-text>
               </div>
               <div v-else>
                 <b-card-text>All program requirements have been met</b-card-text>
