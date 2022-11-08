@@ -535,7 +535,6 @@ export default {
       this.programEffectiveDate = this.programCompletionEffectiveDateList[0].effectiveDate
       this.programExpiryDate = this.programCompletionEffectiveDateList[0].expiryDate
       let compareDate = new Date(this.editedGradStatus.programCompletionDate);
-      //let oldDate = new Date(this.studentGradStatus.programCompletionDate)
       let today = new Date();
       
       if(!this.editedGradStatus.programCompletionDate){
