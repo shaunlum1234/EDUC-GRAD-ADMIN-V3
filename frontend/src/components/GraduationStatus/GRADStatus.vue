@@ -118,7 +118,7 @@
           <div v-if="notANumberWarning">
             <b-alert show variant="warning" class="p-3 mb-1">
               <p class="locked-message">
-                Program Completion date be letters. Please follow dateFormat YYYY/MM/DD for SCCP or YYYY/MM for other Programs.  
+                Program Completion format invalid. Please follow date format YYYY/MM/DD for SCCP or YYYY/MM for other Programs.  
               </p>
             </b-alert>
           </div>
@@ -535,6 +535,7 @@ export default {
       this.programEffectiveDate = this.programCompletionEffectiveDateList[0].effectiveDate
       this.programExpiryDate = this.programCompletionEffectiveDateList[0].expiryDate
       let compareDate = new Date(this.editedGradStatus.programCompletionDate);
+      //let oldDate = new Date(this.studentGradStatus.programCompletionDate)
       let today = new Date();
       
       if(!this.editedGradStatus.programCompletionDate){
@@ -559,7 +560,15 @@ export default {
               this.programCompletionDateRangeError = false;
               this.disableButton = false;
             }
-          }       
+          } else {
+            if (this.editedGradStatus.programCompletionDate < this.programEffectiveDate) {
+              this.disableButton = true;
+              this.programCompletionDateRangeError = true;
+            } else {
+              this.disableButton = false;
+              this.programCompletionDateRangeError = false;
+            }
+          }
         }        
       }
       if(this.studentGradStatus.programCompletionDate){
