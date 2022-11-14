@@ -757,7 +757,7 @@ export default {
             }else{
               //valid student
               this.$store.commit("batchprocessing/addValueToTypeInBatchId", {id,type, value});
-              this.$refs['pen' + id + valueIndex][0].updateValue(response.data[0].usualFirstName + " " + (response.data[0].usualMiddleNames?response.data[0].usualMiddleNames+ " ":"") + response.data[0].usualLastName);        
+              this.$refs['pen' + id + valueIndex][0].updateValue(response.data[0].legalFirstName + " " + (response.data[0].legalMiddleNames?response.data[0].legalMiddleNames+ " ":"") + response.data[0].legalLastName);        
               this.$refs['dob' + id + valueIndex][0].updateValue(response.data[0].dob);        
               this.$refs['school' + id + valueIndex][0].updateValue(response.data[0].schoolOfRecordName);   
               this.$refs['student-status' + id + valueIndex][0].updateValue(response.data[0].studentStatus);   
