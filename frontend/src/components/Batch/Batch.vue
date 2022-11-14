@@ -93,7 +93,7 @@
                 <div class="float-left col-3 m-0 p-0" >
                   <strong><label class="pt-1">Grad Start Date</label></strong>
                   <b-input-group class="mb-3">
-                    <ValidationProvider :rules="'lessthangraddateto:'+gradDateTo" v-slot="{ errors }">
+                    <ValidationProvider :rules="'validDate|lessthangraddateto:'+gradDateTo" v-slot="{ errors }">
                     <b-form-input
                       id="gradDateFromInput"
                       v-model="gradDateFrom"
@@ -121,7 +121,7 @@
                 <div class="float-left col-4">
                   <strong><label class="pt-1">Grad End Date</label></strong>
                   <b-input-group class="mb-3">
-                    <ValidationProvider :rules="'greaterthangraddateFrom:'+gradDateFrom" v-slot="{ errors }">
+                    <ValidationProvider :rules="'validDate|greaterthangraddateFrom:'+gradDateFrom" v-slot="{ errors }">
                     <b-form-input
                       id="gradDateToInput"
                       v-model="gradDateTo"
@@ -482,6 +482,15 @@ extend('minmax', {
   },
   params: ['min', 'max'],
   message: 'The {_field_} field must have at least {min} characters and {max} characters at most'
+})
+extend('validDate', {
+  validate(value) {
+    if((value.match(/-/g) || []).length != 2 ){
+        return false
+    }else return true;
+  },
+  params: ['gradDateFrom'],
+  message: 'Format: YYYY-MM-DD'
 })
 extend('mincodelength', {
   validate(value) {
