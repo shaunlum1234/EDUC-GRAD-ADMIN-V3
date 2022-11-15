@@ -5,7 +5,8 @@
           header="Noncompletion Reasons"
           class="w-100"
         >
-          <b-card-text v-if="studentGradStatus.studentGradData">
+          <b-card-text v-if="studentGradStatus.studentGradData && Object.keys(studentGradStatus.studentGradData).length > 0">
+            {{studentGradStatus.studentGradData ? true : false}}
             <div v-if="!nongradReasons || !nongradReasons.length">
               <ul>
                 <li>All program requirements have been met</li>
@@ -16,10 +17,17 @@
                 :fields='[{ key: "rule",label: "Rule", sortable: true},{key: "description",label:"Description", sortable: true}]' 
                 small
                 striped>
-            </b-table> 
-       
-          </div>
-        </b-card-text>
+              </b-table>
+            </div>
+          </b-card-text>
+          <b-card-text v-else>
+            <b-alert show variant="info" class="p-3 mb-1">
+              <h4 class="alert-heading">No student graduation data</h4>
+              <p class="locked-message">
+                DECIDE: do we want this alert?
+              </p>
+            </b-alert>
+          </b-card-text>
       </b-card>
     </div>
     
