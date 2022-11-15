@@ -90,6 +90,15 @@ extend('lessthangraddateto', {
   params: ['gradDateTo'],
   message: 'The Grad Start Date field must be less than {gradDateTo}'
 })
+extend('validDate', {
+  validate(value) {
+    if((value.match(/is/g) || []).length != 3 ){
+        return false
+    }else return true;
+  },
+  params: ['gradDateFrom'],
+  message: 'The Grad End Date field must be less than {gradDateFrom}'
+})
 extend('greaterthangraddateFrom', {
   validate(value, { gradDateFrom }) {
     const date1 = new Date(gradDateFrom);
