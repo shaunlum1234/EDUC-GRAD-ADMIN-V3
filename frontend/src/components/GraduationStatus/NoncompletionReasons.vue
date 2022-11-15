@@ -20,21 +20,13 @@
               </b-table>
             </div>
           </b-card-text>
-          <b-card-text v-else>
-            <b-alert show variant="info" class="p-3 mb-1">
-              <h4 class="alert-heading">No student graduation data</h4>
-              <p class="locked-message">
-                DECIDE: do we want this alert?
-              </p>
-            </b-alert>
-          </b-card-text>
       </b-card>
     </div>
     
     <div class="requirements-met pb-2">  
       <b-card
         header="Requirements met"
-        v-if="studentGradStatus.studentGradData"
+        v-if="studentGradStatus.studentGradData && Object.keys(studentGradStatus.studentGradData).length > 0"
         no-body
         class="w-100"
       >
