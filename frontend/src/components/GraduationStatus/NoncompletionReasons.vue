@@ -6,7 +6,6 @@
           class="w-100"
         >
           <b-card-text v-if="studentGradStatus.studentGradData && Object.keys(studentGradStatus.studentGradData).length > 0">
-            {{studentGradStatus.studentGradData ? true : false}}
             <div v-if="!nongradReasons || !nongradReasons.length">
               <ul>
                 <li>All program requirements have been met</li>
