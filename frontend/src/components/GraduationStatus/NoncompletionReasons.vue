@@ -5,7 +5,7 @@
           header="Noncompletion Reasons"
           class="w-100"
         >
-          <b-card-text v-if="studentGradStatus.studentGradData">
+          <b-card-text v-if="studentGradStatus.studentGradData && Object.keys(studentGradStatus.studentGradData).length > 0">
             <div v-if="!nongradReasons || !nongradReasons.length">
               <ul>
                 <li>All program requirements have been met</li>
@@ -16,17 +16,16 @@
                 :fields='[{ key: "rule",label: "Rule", sortable: true},{key: "description",label:"Description", sortable: true}]' 
                 small
                 striped>
-            </b-table> 
-       
-          </div>
-        </b-card-text>
+              </b-table>
+            </div>
+          </b-card-text>
       </b-card>
     </div>
     
     <div class="requirements-met pb-2">  
       <b-card
         header="Requirements met"
-        v-if="studentGradStatus.studentGradData"
+        v-if="studentGradStatus.studentGradData && Object.keys(studentGradStatus.studentGradData).length > 0"
         no-body
         class="w-100"
       >

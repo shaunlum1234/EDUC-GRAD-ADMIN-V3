@@ -12,7 +12,7 @@
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item :disabled="studentGradStatus.studentStatus === 'MER'" v-on:click="projectedGradStatusWithFinalMarks" >Projected final marks</b-dropdown-item>
               <b-dropdown-item :disabled="studentGradStatus.studentStatus === 'MER'" v-on:click="projectedGradStatusWithFinalAndReg">Projected final marks and registrations</b-dropdown-item>
-              <b-dropdown-item :disabled="studentGradStatus.studentStatus === 'MER'" v-on:click="updateStudentReports">Update Student Reports</b-dropdown-item>
+              <b-dropdown-item :disabled="studentGradStatus.studentStatus === 'MER' || !studentGradStatus.programCompletionDate" v-on:click="updateStudentReports">Update Student Reports</b-dropdown-item>
             </b-dropdown>
           </div>
       </div>

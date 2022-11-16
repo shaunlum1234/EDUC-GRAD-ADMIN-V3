@@ -22,7 +22,7 @@
             <div class="float-left col-12 pr-4 ml-1">
               <ul>
                 <li>
-                  <strong>Last Updated:</strong> {{report.updateDate | formatTime}} 
+                  <strong>Last Updated:</strong> {{report.reportUpdateDate | formatTime}} 
                 </li>
               </ul>
             </div>
@@ -34,7 +34,7 @@
             <div class="float-left col-12 pr-4 ml-1">
               <ul>
                 <li>
-                  <strong>Last Updated:</strong> {{transcript.updateDate | formatTime}} 
+                  <strong>Last Updated:</strong> {{transcript.transcriptUpdateDate | formatTime}} 
                 </li>
                 <li>
                   <strong>Last Distributed:</strong> {{transcript.distributionDate | formatTime}}
