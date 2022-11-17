@@ -319,6 +319,7 @@ export default {
             sortable: true,
             class: 'text-left',
             editable: true
+          },
           {
             key: 'updateDate',
             label: 'Update date',
