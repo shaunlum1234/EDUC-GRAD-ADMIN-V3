@@ -81,11 +81,11 @@
                   <b-form-input maxlength=9 minlength=9 size="sm" id="search-by-pen-header" type="search" v-model="penInput" placeholder="PEN"
                     ref="penSearch" v-on:keyup="keyHandler" class="w-75 float-left m-1">
                   </b-form-input>
-                  <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary float-left">
-                    <i class="fas fa-search" aria-hidden="true"></i>
+                  <button v-if="!searchLoading" v-on:click="findStudentByPen" class="btn btn-primary float-left" style="padding: 0.35em 0.65em">
+                    <img src="../assets/images/icon-search.svg" width="24px" aria-hidden="true" alt=""/>
                   </button>
-                  <button v-if="searchLoading" class="btn btn-success ml-2 float-left">
-                    <i class="fas fa-search" aria-hidden="true"></i>
+                  <button v-else label="Searching" class="btn btn-success ml-2 float-left">
+                    <b-spinner small></b-spinner>
                   </button>  
                 </div>
               </div>
@@ -141,9 +141,11 @@ export default {
         StudentService.getStudentByPen(this.penInput)
         .then((response) => {
           if (response.data) {
+            this.$store.commit("unsetStudent");
             this.loadStudent(response.data);
             this.$store.dispatch("setQuickSearchPen", response.data[0].studentID);
             this.searchLoading = false;
+            this.penInput = '';
           }
         })
         .catch((error) => {
