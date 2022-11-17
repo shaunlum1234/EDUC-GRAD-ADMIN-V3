@@ -7,7 +7,7 @@
       <b-card-text class="py-4">
         <div v-if="studentGradStatus.studentGradData">
           <div v-if="studentGradStatus.studentGradData.school">
-            <div v-if="studentGradStatus.studentGradData.school.transcriptEligibility === 'N'">
+            <div v-if="!isTranscriptEligible()">
               <b-alert show variant="info" class="p-3 mb-1 mx-3">
                 <h4 class="alert-heading">Ineligible for Ministry transcripts</h4>
                 <p class="locked-message">
@@ -45,7 +45,7 @@
         </div>  
         <div>
           <div class="px-3 w-100 float-left mt-2">
-              <b-button variant="link" :disabled="studentGradStatus.studentGradData.school.transcriptEligibility === 'N'" @click="downloadFile(xmlReports,'application/pdf')" href="#">View XML Preview</b-button>
+              <b-button variant="link" v-if="showXMLPreview()" @click="downloadFile(xmlReports,'application/pdf')" href="#">View XML Preview</b-button>
           </div>    
         </div> 
       </div>                          
@@ -67,12 +67,19 @@ import sharedMethods from '../../sharedMethods';
         transcripts: "getStudentTranscripts",
         reports: "getStudentReports",
         xmlReports: "getStudentXmlReports",
-        studentGradStatus: "getStudentGradStatus"
+        studentGradStatus: "getStudentGradStatus",
+        optionalPrograms: "getStudentOptionalPrograms",
       })
     },
     methods: {
         downloadFile: function (data, mimeType) {
           sharedMethods.base64ToFileTypeAndOpenWindow(data,mimeType)
+        },
+        isTranscriptEligible: function() {
+          return this.studentGradStatus.studentGradData.school.transcriptEligibility === 'Y';
+        },
+        showXMLPreview: function () {
+          return this.studentGradStatus && (this.studentGradStatus.studentAssessments && this.studentGradStatus.studentAssessments.length || this.studentGradStatus.studentCourses && this.studentGradStatus.studentCourses.length || this.studentGradStatus.studentExams && this.studentGradStatus.studentExams.length || this.optionalPrograms && this.optionalPrograms.length) && this.isTranscriptEligible();
         }
     }
   }

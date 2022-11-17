@@ -8,7 +8,7 @@
         <div v-if="studentGradStatus">
         <div v-if="studentGradStatus.studentGradData">
           <div v-if="studentGradStatus.studentGradData.school">
-            <div v-if="studentGradStatus.studentGradData.school.certificateEligibility == 'N'">
+            <div v-if="!isCertificateEligible()">
               <b-alert show variant="info" class="p-3 mb-1 mx-3">
                 <h4 class="alert-heading">Ineligible for Ministry certificates</h4>
                 <p class="locked-message">
@@ -59,6 +59,9 @@ export default {
   methods: {
     downloadFile: function (data, mimeType) {
       sharedMethods.base64ToFileTypeAndOpenWindow(data,mimeType)
+    },
+    isCertificateEligible: function () {
+      return this.studentGradStatus.studentGradData.school.certificateEligibility == 'Y';
     },
   }
 }
