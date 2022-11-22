@@ -1,88 +1,88 @@
 <template>
   <div class="container">
 
-      <b-card no-body header="Student Change History">
-        <b-card-text class="p-3">
-          <DisplayTable :items="studentChangeHighlight" :fields="studentChangeFields" showFilter=false title="Student Change History" :sortDesc="sortDesc" :sortBy="'createDate'">
-            <template #cell(more)="row">
-              <b-btn
-                variant="outline primary"
-                style="color: #666"
-                size="sm"
-                @click="row.toggleDetails"
-                class="more-button">
-                <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
-                <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
-              </b-btn>
-            </template>
+      <b-card no-body>
+        <b-tabs :pills="smallScreen" v-model="selectedTab" card>
+          <b-tab title="Student Change History">
+            <DisplayTable :items="studentChangeHighlight" :fields="studentChangeFields" showFilter=false title="Student Change History" :sortDesc="sortDesc" :sortBy="'createDate'">
+              <template #cell(more)="row">
+                <b-btn
+                  variant="outline primary"
+                  style="color: #666"
+                  size="sm"
+                  @click="row.toggleDetails"
+                  class="more-button">
+                  <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
+                  <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
+                </b-btn>
+              </template>
 
-            <template #row-details="row">
-              <b-card class="px-0 mt-0">
-                <p><strong>Changed By {{row.item.data.updateUser}} on {{row.item.data.updateDate| formatTime}}</strong></p>
-                <pre>
-                  {{JSON.stringify(row.item.data, null, '\t')}}
-                </pre>
-              </b-card>
-            </template>
+              <template #row-details="row">
+                <b-card class="px-0 mt-0">
+                  <p><strong>Changed By {{row.item.data.updateUser}} on {{row.item.data.updateDate| formatTime}}</strong></p>
+                  <pre>
+                    {{JSON.stringify(row.item.data, null, '\t')}}
+                  </pre>
+                </b-card>
+              </template>
 
-            <template #cell(createDate)="row">
-              {{row.value.value | formatTime}}
-            </template>
+              <template #cell(createDate)="row">
+                {{row.value.value | formatTime}}
+              </template>
 
-            <template #cell(activityCode)="row">
-              {{row.item.data.activityCodeDescription}}
-            </template>
+              <template #cell(activityCode)="row">
+                {{row.item.data.activityCodeDescription}}
+              </template>
 
-            <template #cell()="row">
-              <div :class="row.value.changed ? 'value-changed' : ''">
-                {{row.value.value}}
-              </div>
-            </template>
+              <template #cell()="row">
+                <div :class="row.value.changed ? 'value-changed' : ''">
+                  {{row.value.value}}
+                </div>
+              </template>
 
-          </DisplayTable>
-        </b-card-text>
-      </b-card>
+            </DisplayTable>
+          </b-tab>
 
-      <b-card no-body header="Optional Program Change History">
-        <b-card-text class="p-3">
-          <DisplayTable :items="optionalProgramChangeHighlight" :fields="optionalProgramChangeFields" showFilter=false title="Optional Program Change History" :sort-desc="true" :sortBy="'createDate'">
-            <template #cell(more)="row">
-              <b-btn
-                variant="outline primary"
-                style="color: #666"
-                size="sm"
-                @click="row.toggleDetails"
-                class="more-button">
-                <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
-                <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
-              </b-btn>
-            </template>
+          <b-tab title="Optional Program Change History">
+            <DisplayTable :items="optionalProgramChangeHighlight" :fields="optionalProgramChangeFields" showFilter=false title="Optional Program Change History" :sort-desc="true" :sortBy="'createDate'">
+              <template #cell(more)="row">
+                <b-btn
+                  variant="outline primary"
+                  style="color: #666"
+                  size="sm"
+                  @click="row.toggleDetails"
+                  class="more-button">
+                  <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
+                  <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
+                </b-btn>
+              </template>
 
-            <template #row-details="row">
-              <b-card class="px-0 mt-0">
-                <p><strong>Changed By {{row.item.data.updateUser}} on {{row.item.data.updateDate | formatTime}}</strong></p>
-                <pre>
-                  {{JSON.stringify(row.item.data, null, '\t')}}
-                </pre>
-              </b-card>
-            </template>
+              <template #row-details="row">
+                <b-card class="px-0 mt-0">
+                  <p><strong>Changed By {{row.item.data.updateUser}} on {{row.item.data.updateDate | formatTime}}</strong></p>
+                  <pre>
+                    {{JSON.stringify(row.item.data, null, '\t')}}
+                  </pre>
+                </b-card>
+              </template>
 
-            <template #cell(createDate)="row">
-              {{row.value.value | formatTime}}
-            </template>
+              <template #cell(createDate)="row">
+                {{row.value.value | formatTime}}
+              </template>
 
-            <template #cell(activityCode)="row">
-              {{row.item.data.activityCodeDescription}}
-            </template>
+              <template #cell(activityCode)="row">
+                {{row.item.data.activityCodeDescription}}
+              </template>
 
-            <template #cell()="row">
-              <div :class="row.value.changed ? 'value-changed' : ''">
-                {{row.value.value}}
-              </div>
-            </template>
+              <template #cell()="row">
+                <div :class="row.value.changed ? 'value-changed' : ''">
+                  {{row.value.value}}
+                </div>
+              </template>
             
-          </DisplayTable>
-        </b-card-text>
+            </DisplayTable>
+          </b-tab>
+        </b-tabs>
       </b-card>
   </div>
 </template>
@@ -354,10 +354,6 @@ export default {
 
 .highlight {
   background: aliceblue !important;
-}
-
-.audit-history-tabs .card-header {
-  font-weight: 700 !important;
 }
 
 .audit-history-tabs .card{

@@ -67,7 +67,7 @@
             </b-alert>
           </div>  
         </div> -->
-        
+
         <div v-if="studentGradStatus && studentGradStatus.studentStatus == 'MER'">
           <b-alert show variant="info" class="p-3 mb-1">
             <h4 class="alert-heading">Student status: Merged</h4>
@@ -76,7 +76,6 @@
             </p>
           </b-alert>
         </div>
-
         <div v-if="studentGradStatus && studentGradStatus.studentStatus == 'N' && showEdit">
           <b-alert show variant="warning" class="p-3 mb-1">
             <h4 class="alert-heading">Student status: Not active</h4>
