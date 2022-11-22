@@ -1,62 +1,75 @@
 <template>
   <div class="requirements-met-and-not-met">
     <div class="requirements-not-met pb-2">
-        <b-card
-          header="Noncompletion Reasons"
-          class="w-100"
+      <b-card header="Noncompletion Reasons" class="w-100">
+        <b-card-text
+          v-if="
+            studentGradStatus.studentGradData &&
+            Object.keys(studentGradStatus.studentGradData).length > 0
+          "
         >
-          <b-card-text v-if="studentGradStatus.studentGradData && Object.keys(studentGradStatus.studentGradData).length > 0">
-            <div v-if="!nongradReasons || !nongradReasons.length">
-              <ul>
-                <li>All program requirements have been met</li>
-              </ul>
-            </div>
-            <div v-else>
-              <b-table :items="nongradReasons" 
-                :fields='[{ key: "rule",label: "Rule", sortable: true},{key: "description",label:"Description", sortable: true}]' 
-                small
-                striped>
-              </b-table>
-            </div>
-          </b-card-text>
+          <div v-if="!nongradReasons || !nongradReasons.length">
+            <ul>
+              <li>All program requirements have been met</li>
+            </ul>
+          </div>
+          <div v-else>
+            <b-table
+              :items="nongradReasons"
+              :fields="[
+                { key: 'rule', label: 'Rule', sortable: true },
+                { key: 'description', label: 'Description', sortable: true },
+              ]"
+              small
+              striped
+            >
+            </b-table>
+          </div>
+        </b-card-text>
       </b-card>
     </div>
-    
-    <div class="requirements-met pb-2">  
+
+    <div class="requirements-met pb-2">
       <b-card
         header="Requirements met"
-        v-if="studentGradStatus.studentGradData && Object.keys(studentGradStatus.studentGradData).length > 0"
+        v-if="
+          studentGradStatus.studentGradData &&
+          Object.keys(studentGradStatus.studentGradData).length > 0
+        "
         no-body
         class="w-100"
       >
-        <b-card-text class=" m-3">
-          <b-table :items="requirementsMet"
-            :fields='[{ key: "rule",label: "Rule", sortable: true},{key: "description",label:"Description", sortable: true}]'   
+        <b-card-text class="m-3">
+          <b-table
+            :items="requirementsMet"
+            :fields="[
+              { key: 'rule', label: 'Rule', sortable: true },
+              { key: 'description', label: 'Description', sortable: true },
+            ]"
             small
-            striped></b-table>                 
-          </b-card-text>
-        </b-card>
+            striped
+          ></b-table>
+        </b-card-text>
+      </b-card>
     </div>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
-  export default {
-    name: "NoncompletionReasons",
-    props: {},
-    computed: {
-      ...mapGetters({
-        studentGradStatus: "getStudentGradStatus",
-        requirementsMet: "getRequirementsMet",
-        nongradReasons: "getNongradReasons"
-      })
-    },
-    methods: {
-
-    }
-  }
+export default {
+  name: "NoncompletionReasons",
+  props: {},
+  computed: {
+    ...mapGetters({
+      studentGradStatus: "getStudentGradStatus",
+      requirementsMet: "getRequirementsMet",
+      nongradReasons: "getNongradReasons",
+    }),
+  },
+  methods: {},
+};
 </script>
 
 <style scoped>

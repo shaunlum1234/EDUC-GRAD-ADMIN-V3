@@ -3,14 +3,21 @@
     <div class="table-responsive">
       <div v-if="!courses" class="container">
         This student does not have any courses.
-      </div> 
-      <DisplayTable v-if="courses" :items="courses" v-bind:filterOn="toFilterItem" :fields="fields"  showFilter="true" title="studentCourse">
+      </div>
+      <DisplayTable
+        v-if="courses"
+        :items="courses"
+        v-bind:filterOn="toFilterItem"
+        :fields="fields"
+        showFilter="true"
+        title="studentCourse"
+      >
         <template #thead-top="">
           <b-tr class="table-row-header-group top-row">
             <b-th colspan="1" class="table-header-group text-center"></b-th>
             <b-th colspan="3" class="table-header-group text-center">
-              <div></div></b-th
-            >
+              <div></div
+            ></b-th>
             <b-th colspan="2" class="table-header-group text-center">
               <div>Interim</div>
             </b-th>
@@ -24,41 +31,70 @@
         </template>
         <template #cell(courseName)="row">
           <div class="d-flex flex-column text-md-left">
-              <div class="">
-                <b-button
-                  :id="
-                    'popover-button-event' +
-                    row.item.courseCode +
-                    row.item.courseLevel +
-                    row.item.sessionDate
-                  "
-                  variant="link"
-                  class="m-0 p-0 text-left"
-                  >
-                    {{row.item.courseName}}
-                  </b-button
-                >
-              </div>
-              <b-popover
-                :ref="'popover'+row.item.courseCode +
-                  row.item.courseLevel + row.item.sessionDate"
-                triggers="focus"
-                :target="
+            <div class="">
+              <b-button
+                :id="
                   'popover-button-event' +
                   row.item.courseCode +
                   row.item.courseLevel +
                   row.item.sessionDate
                 "
-                :title="row.item.courseName"
+                variant="link"
+                class="m-0 p-0 text-left"
               >
-                    <div class="row py-1"><div class="col-6"><strong>Instruction Language:</strong></div><div class="col-6">{{ row.item.courseDetails.language }}</div></div>                     
-                    <div class="row py-1"><div class="col-6"><strong>Start Date:</strong></div><div class="col-6">{{ row.item.courseDetails.startDate | formatSimpleDate}}</div></div>                     
-                    <div class="row py-1"><div class="col-6"><strong>End Date:</strong></div><div class="col-6">{{ row.item.courseDetails.endDate | formatSimpleDate}}</div></div>                        
-                    <div class="row py-1"><div class="col-6"><strong>Credits:</strong></div><div class="col-6">{{ row.item.courseDetails.numCredits}}</div></div>
-                    <div class="row py-1"><div class="col-6"><strong>Work Experience:</strong></div><div class="col-6">{{ row.item.courseDetails.workExpFlag }}</div></div>                   
-                    <div class="row py-1"><div class="col-6"><strong>Generic Course Type:</strong></div><div class="col-6">{{ row.item.courseDetails.genericCourseType }}</div></div>
-              </b-popover>
+                {{ row.item.courseName }}
+              </b-button>
             </div>
+            <b-popover
+              :ref="
+                'popover' +
+                row.item.courseCode +
+                row.item.courseLevel +
+                row.item.sessionDate
+              "
+              triggers="focus"
+              :target="
+                'popover-button-event' +
+                row.item.courseCode +
+                row.item.courseLevel +
+                row.item.sessionDate
+              "
+              :title="row.item.courseName"
+            >
+              <div class="row py-1">
+                <div class="col-6"><strong>Instruction Language:</strong></div>
+                <div class="col-6">{{ row.item.courseDetails.language }}</div>
+              </div>
+              <div class="row py-1">
+                <div class="col-6"><strong>Start Date:</strong></div>
+                <div class="col-6">
+                  {{ row.item.courseDetails.startDate | formatSimpleDate }}
+                </div>
+              </div>
+              <div class="row py-1">
+                <div class="col-6"><strong>End Date:</strong></div>
+                <div class="col-6">
+                  {{ row.item.courseDetails.endDate | formatSimpleDate }}
+                </div>
+              </div>
+              <div class="row py-1">
+                <div class="col-6"><strong>Credits:</strong></div>
+                <div class="col-6">{{ row.item.courseDetails.numCredits }}</div>
+              </div>
+              <div class="row py-1">
+                <div class="col-6"><strong>Work Experience:</strong></div>
+                <div class="col-6">
+                  {{ row.item.courseDetails.workExpFlag }}
+                </div>
+              </div>
+              <div class="row py-1">
+                <div class="col-6"><strong>Generic Course Type:</strong></div>
+                <div class="col-6">
+                  {{ row.item.courseDetails.genericCourseType }}
+                </div>
+              </div>
+            </b-popover>
+          </div>
         </template>
         <template #cell(more)="row">
           <b-btn
@@ -69,40 +105,59 @@
             @click="row.toggleDetails"
             class="more-button"
           >
-            <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
-            <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
+            <img
+              v-show="!row.detailsShowing"
+              src="../assets/images/icon-right.svg"
+              width="9px"
+              aria-hidden="true"
+              alt=""
+            />
+            <img
+              v-show="row.detailsShowing"
+              src="../assets/images/icon-down.svg"
+              height="5px"
+              aria-hidden="true"
+              alt=""
+            />
           </b-btn>
         </template>
         <template #row-details="row">
           <b-card class="px-0">
-            <ul>        
-                <li v-if="row.item.customizedCourseName">
-                  <strong>Customized Course Title:</strong> {{ row.item.customizedCourseName }}
-                </li>
-                <li v-if="row.item.relatedCourse">
-                  <strong>Related Course:</strong> {{ row.item.relatedCourse }}
-                </li>
-                <li v-if="row.item.relatedLevel">
-                  <strong>Related Course Level:</strong> {{ row.item.relatedLevel }}
-                </li>                
-                <li v-if="row.item.relatedCourseName">
-                  <strong>Related Course name:</strong> {{ row.item.relatedCourseName }}
-                </li>                      
-                <li v-if="row.item.alternateCourseName">
-                  <strong>Alternate Course name:</strong> {{ row.item.alternateCourseName}}
-                </li>
-                <li v-if="row.item.bestSchoolPercent">
-                  <strong>Best School Percent:</strong> {{ row.item.bestSchoolPercent }}
-                </li>
-                <li v-if="row.item.bestExamPercent">
-                  <strong>Best Exam Percent:</strong> {{ row.item.bestExamPercent }}
-                </li>
-                <li v-if="row.item.metLitNumRequirement">
-                  <strong>Assessment Equivalent:</strong> {{ row.item.metLitNumRequirement }}
-                </li>
-                 <li v-if="row.item.specialCase">
-                  <strong>Special case:</strong> {{ row.item.specialCase }}
-                </li>
+            <ul>
+              <li v-if="row.item.customizedCourseName">
+                <strong>Customized Course Title:</strong>
+                {{ row.item.customizedCourseName }}
+              </li>
+              <li v-if="row.item.relatedCourse">
+                <strong>Related Course:</strong> {{ row.item.relatedCourse }}
+              </li>
+              <li v-if="row.item.relatedLevel">
+                <strong>Related Course Level:</strong>
+                {{ row.item.relatedLevel }}
+              </li>
+              <li v-if="row.item.relatedCourseName">
+                <strong>Related Course name:</strong>
+                {{ row.item.relatedCourseName }}
+              </li>
+              <li v-if="row.item.alternateCourseName">
+                <strong>Alternate Course name:</strong>
+                {{ row.item.alternateCourseName }}
+              </li>
+              <li v-if="row.item.bestSchoolPercent">
+                <strong>Best School Percent:</strong>
+                {{ row.item.bestSchoolPercent }}
+              </li>
+              <li v-if="row.item.bestExamPercent">
+                <strong>Best Exam Percent:</strong>
+                {{ row.item.bestExamPercent }}
+              </li>
+              <li v-if="row.item.metLitNumRequirement">
+                <strong>Assessment Equivalent:</strong>
+                {{ row.item.metLitNumRequirement }}
+              </li>
+              <li v-if="row.item.specialCase">
+                <strong>Special case:</strong> {{ row.item.specialCase }}
+              </li>
             </ul>
           </b-card>
         </template>
@@ -130,19 +185,14 @@ export default {
   },
   data: function () {
     return {
-      toFilterItem:[
-        "courseCode",
-        "courseLevel",
-        "sessionDate",
-        "courseName"
-      ],
+      toFilterItem: ["courseCode", "courseLevel", "sessionDate", "courseName"],
       fields: [
         { key: "more", label: "" },
         {
           key: "courseCode",
           label: "Code",
           sortable: true,
-          sortDirection: "desc"
+          sortDirection: "desc",
         },
         {
           key: "courseLevel",
@@ -161,21 +211,29 @@ export default {
           label: "%",
           sortable: true,
           sortDirection: "desc",
-          class: "text-md-right"
+          class: "text-md-right",
         },
         {
           key: "interimLetterGrade",
           label: "LG",
           sortable: true,
           sortDirection: "desc",
-          class: "text-md-left"
+          class: "text-md-left",
         },
-        { key: "completedCoursePercentage", label: "%",class: "text-md-right ",
+        {
+          key: "completedCoursePercentage",
+          label: "%",
+          class: "text-md-right ",
           sortable: true,
-          sortDirection: "desc", },
-        { key: "completedCourseLetterGrade", label: "LG",class: "text-md-left",
+          sortDirection: "desc",
+        },
+        {
+          key: "completedCourseLetterGrade",
+          label: "LG",
+          class: "text-md-left",
           sortable: true,
-          sortDirection: "desc", },
+          sortDirection: "desc",
+        },
         {
           key: "equivOrChallenge",
           label: "Ch",
@@ -215,7 +273,6 @@ export default {
           keys: ["courseCode"],
         },
       },
-
     };
   },
   methods: {
@@ -228,7 +285,6 @@ export default {
       }
     },
     checkForPendingUpdates() {
-      
       if (this.hasGradStatus) {
         for (let i = 0; i < this.courses.length; i++) {
           this.courses[i].gradReqMet = this.getProgramCode(this.courses[i]);
@@ -322,7 +378,7 @@ export default {
   background: aliceblue !important;
 }
 
-.top-row{
+.top-row {
   border-bottom-style: hidden;
 }
 </style>

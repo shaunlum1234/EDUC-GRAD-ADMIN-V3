@@ -3,7 +3,7 @@
     <div v-if="graduationProgramRuleCourses == 'not applicable'">
       Not applicable
     </div>
-    
+
     <div v-else>
       <DisplayTable
         v-bind:items="graduationProgramRuleCourses"
@@ -18,7 +18,6 @@
 </template>
 
 <script>
-
 import AssessmentService from "@/services/AssessmentService.js";
 import CourseService from "@/services/CourseService.js";
 import DisplayTable from "@/components/DisplayTable";
@@ -34,7 +33,7 @@ export default {
       selectedRule: "",
       category: "",
       ruleName: "",
-      programCode:"",
+      programCode: "",
       isOptionalProgram: "",
       graduationProgramRuleCourses: [],
       fields: [],
@@ -93,28 +92,28 @@ export default {
     this.programCode = this.$route.params.programCode;
     this.isOptionalProgram = this.$route.params.isOptionalProgram;
     if (this.$route.params.category == "A") {
-      AssessmentService.getRuleCourseRequirements(
-        this.$route.params.rule,
-      ).then((response) => {
-        this.fields = this.assessmentFields;
-        this.graduationProgramRuleCourses = response.data;
+      AssessmentService.getRuleCourseRequirements(this.$route.params.rule).then(
+        (response) => {
+          this.fields = this.assessmentFields;
+          this.graduationProgramRuleCourses = response.data;
 
-        if (!this.graduationProgramRuleCourses.length) {
-          this.graduationProgramRuleCourses = "not applicable";
+          if (!this.graduationProgramRuleCourses.length) {
+            this.graduationProgramRuleCourses = "not applicable";
+          }
         }
-      });
+      );
     }
     if (this.$route.params.category == "C") {
-      CourseService.getRuleCourseRequirements(
-        this.$route.params.rule,
-      ).then((response) => {
-        this.fields = this.courseFields;
-        this.graduationProgramRuleCourses = response.data;
-  
-        if (!this.graduationProgramRuleCourses.length) {
-          this.graduationProgramRuleCourses = "not applicable";
+      CourseService.getRuleCourseRequirements(this.$route.params.rule).then(
+        (response) => {
+          this.fields = this.courseFields;
+          this.graduationProgramRuleCourses = response.data;
+
+          if (!this.graduationProgramRuleCourses.length) {
+            this.graduationProgramRuleCourses = "not applicable";
+          }
         }
-      });
+      );
     }
   },
   methods: {},

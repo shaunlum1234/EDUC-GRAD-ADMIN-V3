@@ -1,6 +1,15 @@
 <template>
-  <div id=transcript-message>
-    <DisplayTable v-bind:items="transcriptMessages" title="Transcript Message" v-bind:fields="transcriptMessageFields" id="transcriptMessage" v-bind:role="role" :slots="templates" showFilter=true pagnation=true>
+  <div id="transcript-message">
+    <DisplayTable
+      v-bind:items="transcriptMessages"
+      title="Transcript Message"
+      v-bind:fields="transcriptMessageFields"
+      id="transcriptMessage"
+      v-bind:role="role"
+      :slots="templates"
+      showFilter="true"
+      pagnation="true"
+    >
     </DisplayTable>
   </div>
 </template>
@@ -14,14 +23,14 @@ export default {
   components: {
     DisplayTable: DisplayTable,
   },
-  data: function() {
+  data: function () {
     return {
       transcriptMessages: [],
       templates: [
         {
           name: "transcriptMessage",
           field: "transcriptMessage",
-        }
+        },
       ],
       transcriptMessageFields: [
         {
@@ -90,18 +99,18 @@ export default {
           sortable: true,
           editable: true,
         },
-      ]
-    }
+      ],
+    };
   },
   created() {
     ProgramManagementService.getTranscriptMessage()
-    .then((response) => {
-      this.transcriptMessages = response.data;
-    })
-    .catch((error) => {
-      //eslint-disable-next-line
-      console.log('There was an error:', error.response);
-    });
-  }
-}
+      .then((response) => {
+        this.transcriptMessages = response.data;
+      })
+      .catch((error) => {
+        //eslint-disable-next-line
+        console.log("There was an error:", error.response);
+      });
+  },
+};
 </script>

@@ -1,5 +1,5 @@
 <template>
-<div>
+  <div>
     <footer class="footer">
       <nav class="navbar navbar-expand-lg navbar-dark">
         <!-- Navbar content -->
@@ -44,26 +44,21 @@
         </div>
       </nav>
     </footer>
-</div>
+  </div>
 </template>
 
 <script>
-
-
-export default {
-
-   
-}
+export default {};
 </script>
 <style scoped>
- #sticky-footer {
-    flex-shrink: none;
-    width: 100%;
-    float: left;
-    position: fixed;
-    left: 0;
-    bottom: 2%;
-    height: 4%;
-    z-index: 100;
-  }
+#sticky-footer {
+  flex-shrink: none;
+  width: 100%;
+  float: left;
+  position: fixed;
+  left: 0;
+  bottom: 2%;
+  height: 4%;
+  z-index: 100;
+}
 </style>

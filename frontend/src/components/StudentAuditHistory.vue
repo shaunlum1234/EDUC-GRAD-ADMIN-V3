@@ -1,96 +1,144 @@
 <template>
   <div class="container">
-
-      <b-card no-body header="Student Change History">
-        <b-card-text class="p-3">
-          <DisplayTable :items="studentChangeHighlight" :fields="studentChangeFields" showFilter=false title="Student Change History" :sortDesc="sortDesc" :sortBy="'createDate'">
+    <b-card no-body>
+      <b-tabs :pills="smallScreen" v-model="selectedTab" card>
+        <b-tab title="Student Change History">
+          <DisplayTable
+            :items="studentChangeHighlight"
+            :fields="studentChangeFields"
+            showFilter="false"
+            title="Student Change History"
+            :sortDesc="sortDesc"
+            :sortBy="'createDate'"
+          >
             <template #cell(more)="row">
               <b-btn
                 variant="outline primary"
                 style="color: #666"
                 size="sm"
                 @click="row.toggleDetails"
-                class="more-button">
-                <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
-                <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
+                class="more-button"
+              >
+                <img
+                  v-show="!row.detailsShowing"
+                  src="../assets/images/icon-right.svg"
+                  width="9px"
+                  aria-hidden="true"
+                  alt=""
+                />
+                <img
+                  v-show="row.detailsShowing"
+                  src="../assets/images/icon-down.svg"
+                  height="5px"
+                  aria-hidden="true"
+                  alt=""
+                />
               </b-btn>
             </template>
 
             <template #row-details="row">
               <b-card class="px-0 mt-0">
-                <p><strong>Changed By {{row.item.data.updateUser}} on {{row.item.data.updateDate| formatTime}}</strong></p>
+                <p>
+                  <strong
+                    >Changed By {{ row.item.data.updateUser }} on
+                    {{ row.item.data.updateDate | formatTime }}</strong
+                  >
+                </p>
                 <pre>
-                  {{JSON.stringify(row.item.data, null, '\t')}}
-                </pre>
+                    {{ JSON.stringify(row.item.data, null, "\t") }}
+                  </pre
+                >
               </b-card>
             </template>
 
             <template #cell(createDate)="row">
-              {{row.value.value | formatTime}}
+              {{ row.value.value | formatTime }}
             </template>
 
             <template #cell(activityCode)="row">
-              {{row.item.data.activityCodeDescription}}
+              {{ row.item.data.activityCodeDescription }}
             </template>
 
             <template #cell()="row">
               <div :class="row.value.changed ? 'value-changed' : ''">
-                {{row.value.value}}
+                {{ row.value.value }}
               </div>
             </template>
-
           </DisplayTable>
-        </b-card-text>
-      </b-card>
+        </b-tab>
 
-      <b-card no-body header="Optional Program Change History">
-        <b-card-text class="p-3">
-          <DisplayTable :items="optionalProgramChangeHighlight" :fields="optionalProgramChangeFields" showFilter=false title="Optional Program Change History" :sort-desc="true" :sortBy="'createDate'">
+        <b-tab title="Optional Program Change History">
+          <DisplayTable
+            :items="optionalProgramChangeHighlight"
+            :fields="optionalProgramChangeFields"
+            showFilter="false"
+            title="Optional Program Change History"
+            :sort-desc="true"
+            :sortBy="'createDate'"
+          >
             <template #cell(more)="row">
               <b-btn
                 variant="outline primary"
                 style="color: #666"
                 size="sm"
                 @click="row.toggleDetails"
-                class="more-button">
-                <img v-show="!row.detailsShowing" src="../assets/images/icon-right.svg" width="9px" aria-hidden="true" alt=""/>
-                <img v-show="row.detailsShowing" src="../assets/images/icon-down.svg" height="5px" aria-hidden="true" alt=""/>
+                class="more-button"
+              >
+                <img
+                  v-show="!row.detailsShowing"
+                  src="../assets/images/icon-right.svg"
+                  width="9px"
+                  aria-hidden="true"
+                  alt=""
+                />
+                <img
+                  v-show="row.detailsShowing"
+                  src="../assets/images/icon-down.svg"
+                  height="5px"
+                  aria-hidden="true"
+                  alt=""
+                />
               </b-btn>
             </template>
 
             <template #row-details="row">
               <b-card class="px-0 mt-0">
-                <p><strong>Changed By {{row.item.data.updateUser}} on {{row.item.data.updateDate | formatTime}}</strong></p>
+                <p>
+                  <strong
+                    >Changed By {{ row.item.data.updateUser }} on
+                    {{ row.item.data.updateDate | formatTime }}</strong
+                  >
+                </p>
                 <pre>
-                  {{JSON.stringify(row.item.data, null, '\t')}}
-                </pre>
+                    {{ JSON.stringify(row.item.data, null, "\t") }}
+                  </pre
+                >
               </b-card>
             </template>
 
             <template #cell(createDate)="row">
-              {{row.value.value | formatTime}}
+              {{ row.value.value | formatTime }}
             </template>
 
             <template #cell(activityCode)="row">
-              {{row.item.data.activityCodeDescription}}
+              {{ row.item.data.activityCodeDescription }}
             </template>
 
             <template #cell()="row">
               <div :class="row.value.changed ? 'value-changed' : ''">
-                {{row.value.value}}
+                {{ row.value.value }}
               </div>
             </template>
-            
           </DisplayTable>
-        </b-card-text>
-      </b-card>
+        </b-tab>
+      </b-tabs>
+    </b-card>
   </div>
 </template>
 
-
 <script>
 import { mapGetters } from "vuex";
-import sharedMethods from '../sharedMethods';
+import sharedMethods from "../sharedMethods";
 import DisplayTable from "@/components/DisplayTable.vue";
 
 export default {
@@ -101,174 +149,174 @@ export default {
   props: {},
   computed: {
     ...mapGetters({
-        studentId: "getStudentId",
-        studentHistory: 'getStudentAuditHistory',
-        optionalProgramHistory: 'getStudentOptionalProgramAuditHistory',
-        studentUngradReasons: "getStudentUngradReasons",
-        studentNotes: "getStudentNotes",
+      studentId: "getStudentId",
+      studentHistory: "getStudentAuditHistory",
+      optionalProgramHistory: "getStudentOptionalProgramAuditHistory",
+      studentUngradReasons: "getStudentUngradReasons",
+      studentNotes: "getStudentNotes",
     }),
   },
   data: function () {
     return {
-        isEdit:false,
-        isDelete:false,
-        isAdd:false,
-        changeHistory:[],
-        optionalProgramChangeHistory:[],
-        testHistory:[],
-        sortDesc: true,
-        studentChangeFields: [
-          {
-            key: "more",
-            label: "",
-            sortable: true,
-          },
-          {
-            key: "createDate",
-            label: "Date",
-            sortable: true,
-            sortDirection: "desc"
-          },
-          {
-            key: "activityCode",
-            label: "Change",
-            sortable: true,
-            sortDirection: "asc"
-          },
-          {
-            key: "updateUser",
-            label: "Update User",
-            sortable: true,
-            sortDirection: "asc"
-          },
-          {
-            key: "program",
-            label: "Program",
-            sortable: true,
-            sortDirection: "asc"
-          },
-          {
-            key: "programCompletionDate",
-            label: "Program Completion Date",
-            sortable: true,
-            sortDirection: "asc"
-          },
-          {
-            key: "studentStatus",
-            label: "Status",
-            sortable: true,
-            sortDirection: "asc"
-          },
-          {
-            key: "studentGrade",
-            label: "Grade",
-            sortable: true,
-            sortDirection: "asc"
-          },
-          {
-            key: "schoolOfRecord",
-            label: "School of Record",
-            sortable: true,
-            sortDirection: "asc"
-          },
-          {
-            key: "schoolAtGrad",
-            label: "School at Graduation",
-            sortable: true,
-            sortDirection: "asc"
-          },
-          {
-            key: "consumerEducationRequirementMet",
-            label: "Consumer Ed",
-            sortable: true,
-            sortDirection: "asc"
-          },
-          {
-            key: "honoursStanding",
-            label: "Honours",
-            sortable: true,
-            sortDirection: "asc"
-          },
-          {
-            key: "gpa",
-            label: "GPA",
-            sortable: true,
-            sortDirection: "asc"
-          },
-          {
-            key: "recalculateProjectedGrad",
-            label: "Recalc Projected Grad",
-            sortable: true,
-            sortDirection: "asc"
-          },
-          {
-            key: "recalculateGradStatus",
-            label: "Recalc Grad",
-            sortable: true,
-            sortDirection: "asc"
-          },
-          {
-            key: "batchId",
-            label: "Batch ID",
-            sortable: true,
-            sortDirection: "asc"
-          },
-        ],
-        studentChangeHighlight: [],
-        optionalProgramChangeFields: [
-          {
-            key: "more",
-            label: "",
-            sortable: true,
-          },
-          {
-            key: "createDate",
-            label: "Date",
-            sortable: true,
-            sortDirection: "desc",
-          },
-          {
-            key: "activityCode",
-            label: "Change",
-            sortable: true,
-          },
-          {
-            key: "updateUser",
-            label: "Update User",
-            sortable: true,
-            sortDirection: "asc"
-          },
-          {
-            key: "programCode",
-            label: "Program Code",
-            sortable: true,
-          },
-          {
-            key: "optionalProgramCode",
-            label: "Optional Program Code",
-            sortable: true,
-            sortDirection: "asc",
-          },
-          {
-            key: "optionalProgramName",
-            label: "Optional Program Name",
-            sortable: true,
-          },
-          {
-            key: "optionalProgramCompletionDate",
-            label: "Program Completion Date",
-            sortable: true,
-          },
-        ],
-        optionalProgramChangeHighlight: [],
-        showNotes: false,
-        showUngradReasons: false,
-        showStudentAudit: true,
-        auditTab: "studentHistory",
+      isEdit: false,
+      isDelete: false,
+      isAdd: false,
+      changeHistory: [],
+      optionalProgramChangeHistory: [],
+      testHistory: [],
+      sortDesc: true,
+      studentChangeFields: [
+        {
+          key: "more",
+          label: "",
+          sortable: true,
+        },
+        {
+          key: "createDate",
+          label: "Date",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        {
+          key: "activityCode",
+          label: "Change",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "updateUser",
+          label: "Update User",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "program",
+          label: "Program",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "programCompletionDate",
+          label: "Program Completion Date",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "studentStatus",
+          label: "Status",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "studentGrade",
+          label: "Grade",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "schoolOfRecord",
+          label: "School of Record",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "schoolAtGrad",
+          label: "School at Graduation",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "consumerEducationRequirementMet",
+          label: "Consumer Ed",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "honoursStanding",
+          label: "Honours",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "gpa",
+          label: "GPA",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "recalculateProjectedGrad",
+          label: "Recalc Projected Grad",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "recalculateGradStatus",
+          label: "Recalc Grad",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "batchId",
+          label: "Batch ID",
+          sortable: true,
+          sortDirection: "asc",
+        },
+      ],
+      studentChangeHighlight: [],
+      optionalProgramChangeFields: [
+        {
+          key: "more",
+          label: "",
+          sortable: true,
+        },
+        {
+          key: "createDate",
+          label: "Date",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        {
+          key: "activityCode",
+          label: "Change",
+          sortable: true,
+        },
+        {
+          key: "updateUser",
+          label: "Update User",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "programCode",
+          label: "Program Code",
+          sortable: true,
+        },
+        {
+          key: "optionalProgramCode",
+          label: "Optional Program Code",
+          sortable: true,
+          sortDirection: "asc",
+        },
+        {
+          key: "optionalProgramName",
+          label: "Optional Program Name",
+          sortable: true,
+        },
+        {
+          key: "optionalProgramCompletionDate",
+          label: "Program Completion Date",
+          sortable: true,
+        },
+      ],
+      optionalProgramChangeHighlight: [],
+      showNotes: false,
+      showUngradReasons: false,
+      showStudentAudit: true,
+      auditTab: "studentHistory",
     };
   },
   mounted() {
-    this.showNotification = sharedMethods.showNotification
+    this.showNotification = sharedMethods.showNotification;
     this.highlightStudentHistoryChanges();
     this.highlightOptionalProgramHistoryChanges();
   },
@@ -278,34 +326,38 @@ export default {
     },
     optionalProgramHistory: function () {
       this.highlightOptionalProgramHistoryChanges();
-    }    
+    },
   },
   methods: {
-    highlightStudentHistoryChanges(){
+    highlightStudentHistoryChanges() {
       const changes = [];
 
       for (const [index, value] of this.studentHistory.entries()) {
         // temp entry to build our change highlight
         let tempEntry = {};
         for (const field of this.studentChangeFields) {
-          if (index > 0 && field.key != 'createDate' && field.key != 'activityCode') {
+          if (
+            index > 0 &&
+            field.key != "createDate" &&
+            field.key != "activityCode"
+          ) {
             tempEntry[field.key] = {
               value: value[field.key],
-              changed: value[field.key] !== this.studentHistory[index - 1][field.key]
-            }
+              changed:
+                value[field.key] !== this.studentHistory[index - 1][field.key],
+            };
           } else {
             tempEntry[field.key] = {
               value: value[field.key],
-              changed: true
-            }
+              changed: true,
+            };
           }
-          tempEntry['data'] = value;
+          tempEntry["data"] = value;
         }
         changes.push(tempEntry);
       }
 
       this.studentChangeHighlight = changes;
-
     },
     highlightOptionalProgramHistoryChanges() {
       const changes = [];
@@ -314,24 +366,25 @@ export default {
         // temp entry to build our change highlight
         let tempEntry = {};
         for (const field of this.optionalProgramChangeFields) {
-          if (index === 0 || field.key == 'createDate') {
+          if (index === 0 || field.key == "createDate") {
             tempEntry[field.key] = {
               value: value[field.key],
-              changed: true
-            }
-          }
-          else if (field.key != 'activityCode') {
+              changed: true,
+            };
+          } else if (field.key != "activityCode") {
             tempEntry[field.key] = {
               value: value[field.key],
-              changed: value[field.key] !== this.optionalProgramHistory[index - 1][field.key]
-            }
+              changed:
+                value[field.key] !==
+                this.optionalProgramHistory[index - 1][field.key],
+            };
           } else {
             tempEntry[field.key] = {
               value: value[field.key],
-              changed: false
-            }
+              changed: false,
+            };
           }
-          tempEntry['data'] = value;
+          tempEntry["data"] = value;
         }
         changes.push(tempEntry);
       }
@@ -356,12 +409,8 @@ export default {
   background: aliceblue !important;
 }
 
-.audit-history-tabs .card-header {
-  font-weight: 700 !important;
-}
-
-.audit-history-tabs .card{
-  margin-top:70px;
+.audit-history-tabs .card {
+  margin-top: 70px;
 }
 
 .card-body p strong {
@@ -371,5 +420,4 @@ export default {
 .value-changed {
   font-weight: bold;
 }
-
 </style>

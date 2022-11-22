@@ -1,86 +1,134 @@
 <template>
   <div class="graduation-reports pb-2">
-    <b-card
-      header="Student Transcript Reports"
-      no-body
-    > 
+    <b-card header="Student Transcript Reports" no-body>
       <b-card-text class="py-4">
         <div v-if="studentGradStatus.studentGradData">
           <div v-if="studentGradStatus.studentGradData.school">
-            <div v-if="studentGradStatus.studentGradData.school.transcriptEligibility === 'N'">
+            <div v-if="!isTranscriptEligible()">
               <b-alert show variant="info" class="p-3 mb-1 mx-3">
-                <h4 class="alert-heading">Ineligible for Ministry transcripts</h4>
+                <h4 class="alert-heading">
+                  Ineligible for Ministry transcripts
+                </h4>
                 <p class="locked-message">
                   This student's school is ineligible for Ministry transcripts.
                 </p>
               </b-alert>
             </div>
-              
-        <div v-if="reports">
-          <div v-for="(report, index) in reports" :key="index" class="px-3 w-100 float-left">
-            <a  @click="downloadFile(report.report,'application/pdf')" href="#" class="pdf-link float-left mt-2">{{report.gradReportTypeLabel}} (PDF)</a> 
-            <div class="float-left col-12 pr-4 ml-1">
-              <ul>
-                <li>
-                  <strong>Last Updated:</strong> {{report.reportUpdateDate | formatTime}} 
-                </li>
-              </ul>
+
+            <div v-if="reports">
+              <div
+                v-for="(report, index) in reports"
+                :key="index"
+                class="px-3 w-100 float-left"
+              >
+                <a
+                  @click="downloadFile(report.report, 'application/pdf')"
+                  href="#"
+                  class="pdf-link float-left mt-2"
+                  >{{ report.gradReportTypeLabel }} (PDF)</a
+                >
+                <div class="float-left col-12 pr-4 ml-1">
+                  <ul>
+                    <li>
+                      <strong>Last Updated:</strong>
+                      {{ report.reportUpdateDate | formatTime }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div v-if="transcripts">
+              <div
+                v-for="transcript in transcripts"
+                :key="transcript.id"
+                class="px-3 w-100 float-left mt-2"
+              >
+                <a
+                  @click="
+                    downloadFile(transcript.transcript, 'application/pdf')
+                  "
+                  href="#"
+                  class="pdf-link float-left"
+                  >{{ transcript.transcriptTypeLabel }} (PDF)</a
+                >
+                <div class="float-left col-12 pr-4 ml-1">
+                  <ul>
+                    <li>
+                      <strong>Last Updated:</strong>
+                      {{ transcript.transcriptUpdateDate | formatTime }}
+                    </li>
+                    <li>
+                      <strong>Last Distributed:</strong>
+                      {{ transcript.distributionDate | formatTime }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="px-3 w-100 float-left mt-2">
+                <b-button
+                  variant="link"
+                  v-if="showXMLPreview()"
+                  @click="downloadFile(xmlReports, 'application/pdf')"
+                  href="#"
+                  >View XML Preview</b-button
+                >
+              </div>
             </div>
           </div>
-        </div>        
-        <div v-if="transcripts">
-          <div  v-for="transcript in transcripts" :key="transcript.id" class="px-3 w-100 float-left mt-2">
-            <a  @click="downloadFile(transcript.transcript,'application/pdf')" href="#"  class="pdf-link float-left ">{{transcript.transcriptTypeLabel}} (PDF)</a> 
-            <div class="float-left col-12 pr-4 ml-1">
-              <ul>
-                <li>
-                  <strong>Last Updated:</strong> {{transcript.transcriptUpdateDate | formatTime}} 
-                </li>
-                <li>
-                  <strong>Last Distributed:</strong> {{transcript.distributionDate | formatTime}}
-                </li>
-              </ul>
-            </div>
-          </div>    
-        </div>  
-        <div>
-          <div class="px-3 w-100 float-left mt-2">
-              <b-button variant="link" :disabled="studentGradStatus.studentGradData.school.transcriptEligibility === 'N'" @click="downloadFile(xmlReports,'application/pdf')" href="#">View XML Preview</b-button>
-          </div>    
-        </div> 
-      </div>                          
-      </div> 
+        </div>
       </b-card-text>
-    </b-card>       
+    </b-card>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import sharedMethods from '../../sharedMethods';
+import sharedMethods from "../../sharedMethods";
 
-  export default {
-    name: "StudentGraduationReports",
-    props: {},
-    computed: {
-      ...mapGetters({
-        transcripts: "getStudentTranscripts",
-        reports: "getStudentReports",
-        xmlReports: "getStudentXmlReports",
-        studentGradStatus: "getStudentGradStatus"
-      })
+export default {
+  name: "StudentGraduationReports",
+  props: {},
+  computed: {
+    ...mapGetters({
+      transcripts: "getStudentTranscripts",
+      reports: "getStudentReports",
+      xmlReports: "getStudentXmlReports",
+      studentGradStatus: "getStudentGradStatus",
+      optionalPrograms: "getStudentOptionalPrograms",
+    }),
+  },
+  methods: {
+    downloadFile: function (data, mimeType) {
+      sharedMethods.base64ToFileTypeAndOpenWindow(data, mimeType);
     },
-    methods: {
-        downloadFile: function (data, mimeType) {
-          sharedMethods.base64ToFileTypeAndOpenWindow(data,mimeType)
-        }
-    }
-  }
+    isTranscriptEligible: function () {
+      return (
+        this.studentGradStatus.studentGradData.school.transcriptEligibility ===
+        "Y"
+      );
+    },
+    showXMLPreview: function () {
+      return (
+        this.studentGradStatus &&
+        ((this.studentGradStatus.studentAssessments &&
+          this.studentGradStatus.studentAssessments.length) ||
+          (this.studentGradStatus.studentCourses &&
+            this.studentGradStatus.studentCourses.length) ||
+          (this.studentGradStatus.studentExams &&
+            this.studentGradStatus.studentExams.length) ||
+          (this.optionalPrograms && this.optionalPrograms.length)) &&
+        this.isTranscriptEligible()
+      );
+    },
+  },
+};
 </script>
 
 <style scoped>
 .card-body {
-border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
 .card {
   margin-bottom: 10px;
@@ -95,5 +143,4 @@ border-bottom: 1px solid #ccc;
 .fade-leave-to {
   opacity: 0;
 }
-
 </style>

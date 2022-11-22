@@ -12,7 +12,9 @@
         <b-card header="" class="overflow-hidden">
           <b-row no-gutters>
             <b-col md="6">
-              <b-card-img :src="'data:image/png;base64, ' + row.item.signatureContent"></b-card-img>         
+              <b-card-img
+                :src="'data:image/png;base64, ' + row.item.signatureContent"
+              ></b-card-img>
             </b-col>
           </b-row>
         </b-card>
@@ -21,7 +23,6 @@
       <template #cell(updatedTimestamp)="row">
         {{ row.item.updatedTimestamp | formatTime }}
       </template>
-
     </DisplayTable>
   </div>
 </template>
@@ -30,16 +31,14 @@
 import DisplayTable from "@/components/DisplayTable";
 import GraduationReportService from "@/services/GraduationReportService.js";
 
-
 export default {
-  name: 'DigitalSignatures',
+  name: "DigitalSignatures",
   components: {
     DisplayTable: DisplayTable,
   },
   created() {
-      GraduationReportService.getDigitalSignatures()
+    GraduationReportService.getDigitalSignatures()
       .then((response) => {
-      
         this.digitalSignatures = response.data;
       })
       // eslint-disable-next-line
@@ -51,7 +50,7 @@ export default {
         });
       });
   },
-  data: function() {
+  data: function () {
     return {
       digitalSignatures: [],
       digitalSignaturesFields: [
@@ -64,7 +63,7 @@ export default {
           key: "gradReportSignatureCode",
           label: "Code",
           sortable: true,
-        },   
+        },
         {
           key: "gradReportSignatureName",
           label: "Signature Name",
@@ -79,17 +78,17 @@ export default {
           key: "updatedTimestamp",
           label: "Last Updated",
           sortable: true,
-        },                 
-      ],     
+        },
+      ],
     };
   },
-  methods: {
-  },
+  methods: {},
 };
 </script>
 
 <style>
-.table th, .table td{
+.table th,
+.table td {
   border-top: none !important;
-
-}</style>
+}
+</style>

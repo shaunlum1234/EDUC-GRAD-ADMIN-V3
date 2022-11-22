@@ -22,13 +22,17 @@
           class="float-right"
           @click="toggleQuickEdit"
           >Edit</b-btn
-        >       
+        >
       </b-button-group>
     </b-button-toolbar>
     <b-row>
-      <b-col lg="8" class="px-0 float-left">
-      </b-col>
-      <b-col sm="12" lg="4" class="my-1 table-filter p-0" v-if="this.showFilter">
+      <b-col lg="8" class="px-0 float-left"> </b-col>
+      <b-col
+        sm="12"
+        lg="4"
+        class="my-1 table-filter p-0"
+        v-if="this.showFilter"
+      >
         <b-form-group
           label-for="filter-input"
           label-cols-sm="3"
@@ -37,12 +41,10 @@
           class="mb-0 form-group-label"
         >
           <b-input-group>
-            <div class="filter-icon p-2 text-secondary">
-              Filter: 
-            </div>
+            <div class="filter-icon p-2 text-secondary">Filter:</div>
             <b-form-input
               debounce="500"
-              :id='"filter-input-" + title.replace(" ","-").toLowerCase()' 
+              :id="'filter-input-' + title.replace(' ', '-').toLowerCase()"
               size="md"
               v-model="filter"
               type="search"
@@ -106,7 +108,7 @@
           </div>
         </b-card-text>
       </b-card>
-    </b-row>   
+    </b-row>
     <b-table
       v-if="items && items.length"
       :responsive="responsive"
@@ -181,9 +183,14 @@
         <slot :name="slotName" v-bind="scope" />
       </template>
       <template v-slot:cell(delete)="{ item }">
-         <b-btn v-if="deleteMode && item[disableDeletefield]!=disableDeleteIfValue" variant="danger" size="sm" @click="deleteItem(item)">
-            {{deleteLabel? deleteLabel:'Delete'}}
-          </b-btn>
+        <b-btn
+          v-if="deleteMode && item[disableDeletefield] != disableDeleteIfValue"
+          variant="danger"
+          size="sm"
+          @click="deleteItem(item)"
+        >
+          {{ deleteLabel ? deleteLabel : "Delete" }}
+        </b-btn>
 
         <b-btn
           v-else-if="roles == 'administrator' && quickEdit"
@@ -235,7 +242,7 @@ export default {
     "filterOn",
     "sortBy",
     "sortByField",
-    "sortDesc"
+    "sortDesc",
   ],
   data() {
     return {
@@ -276,7 +283,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('auth', ['roles']),
+    ...mapGetters("auth", ["roles"]),
     editableFields() {
       return this.fields.filter((field) => field.editable);
     },
@@ -315,7 +322,7 @@ export default {
     }
     if (this.delete && this.roles == "Administrator") {
       this.deleteAllowed = true;
- 
+
       this.fields.push({
         key: "delete",
         class: "d-block",
@@ -368,7 +375,7 @@ export default {
       this.$bvToast.toast("Record was Added", {
         title: "Success",
         variant: "success",
-      }); 
+      });
       this.$store.dispatch(this.create, this.itemToAdd);
     },
     cancelAddItem() {
@@ -376,22 +383,28 @@ export default {
     },
     deleteItem(item) {
       let id = item[this.id];
-      this.$store.dispatch(this.delete, {id}).then((result) =>{
-          if(result.status && result.status == '200'){
-            this.items.splice(this.items.indexOf(item), 1);     
+      this.$store
+        .dispatch(this.delete, { id })
+        .then((result) => {
+          if (result.status && result.status == "200") {
+            this.items.splice(this.items.indexOf(item), 1);
             this.$bvToast.toast("Record was deleted", {
               title: "Success",
               variant: "success",
-            }); 
+            });
           }
-      }).catch((error) => {
-        if(error){
-          this.$bvToast.toast("There was an issue when trying to delete this record", {
-            title: "Error",
-            variant: "danger",
-          }); 
-        }
-      })
+        })
+        .catch((error) => {
+          if (error) {
+            this.$bvToast.toast(
+              "There was an issue when trying to delete this record",
+              {
+                title: "Error",
+                variant: "danger",
+              }
+            );
+          }
+        });
     },
     confirmDelete(item) {
       this.deleteMode = true;
