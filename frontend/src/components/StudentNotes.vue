@@ -172,7 +172,7 @@ export default {
       if (this.newNote.note.length <= 255) {
         this.showAddButton = true;
         this.showForm = true;
-        var current = new Date().toISOString().slice(0, 10);
+        let current = new Date().toISOString().slice(0, 10);
         this.newNote.studentID = this.$route.params.studentId;
         this.newNote.createdBy = this.username;
         this.newNote.createdTimestamp = current;
@@ -203,7 +203,7 @@ export default {
     },
     onDelete(noteID) {
       StudentService.deleteStudentNotes(noteID);
-      var removeIndex = this.studentNotes
+      let removeIndex = this.studentNotes
         .map(function (item) {
           return item.id;
         })

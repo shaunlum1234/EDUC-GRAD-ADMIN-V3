@@ -1107,7 +1107,7 @@ export default {
     dateFormatYYYYMM() {
       let value = this.editedGradStatus.programCompletionDate;
       this.editedGradStatus.programCompletionDate = value.replace(
-        /^([\d]{4})([\d]{2})$/,
+        /^([0-9]{4})([0-9]{2})$/,
         "$1/$2"
       );
     },
@@ -1115,7 +1115,7 @@ export default {
     dateFormatYYYYMMDD() {
       let value = this.editedGradStatus.programCompletionDate;
       this.editedGradStatus.programCompletionDate = value.replace(
-        /^([\d]{4})([\d]{2})([\d]{2})$/,
+        /^([0-9]{4})([0-9]{2})([0-9]{2})$/,
         "$1/$2/$3"
       );
     },
