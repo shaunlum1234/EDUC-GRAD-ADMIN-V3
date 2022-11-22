@@ -1,20 +1,20 @@
 <template>
   <div>
     <p>A list of Batch Runs used by the GRAD system.</p>
-  <DisplayTable
-    title="Batch Types"
-    v-bind:items="batchTypes"
-    v-bind:fields="batchTypesFields"
-    id=""
-    showFilter="true"
-  >
-  <template #cell(effectiveDate)="row">
-    {{ row.item.effectiveDate | formatSimpleDate}}
-  </template>
-  <template #cell(expiryDate)="row">
-    {{ row.item.expiryDate | formatSimpleDate}}
-  </template>
-  </DisplayTable>
+    <DisplayTable
+      title="Batch Types"
+      v-bind:items="batchTypes"
+      v-bind:fields="batchTypesFields"
+      id=""
+      showFilter="true"
+    >
+      <template #cell(effectiveDate)="row">
+        {{ row.item.effectiveDate | formatSimpleDate }}
+      </template>
+      <template #cell(expiryDate)="row">
+        {{ row.item.expiryDate | formatSimpleDate }}
+      </template>
+    </DisplayTable>
   </div>
 </template>
 
@@ -22,14 +22,13 @@
 import DisplayTable from "@/components/DisplayTable";
 import BatchProcessingService from "@/services/BatchProcessingService.js";
 
-
 export default {
-  name: 'BatchTypes',
+  name: "BatchTypes",
   components: {
     DisplayTable: DisplayTable,
   },
   created() {
-      BatchProcessingService.getBatchJobTypes()
+    BatchProcessingService.getBatchJobTypes()
       .then((response) => {
         this.batchTypes = response.data;
       })
@@ -42,7 +41,7 @@ export default {
         });
       });
   },
-  data: function() {
+  data: function () {
     return {
       batchTypes: [],
       batchTypesFields: [
@@ -75,13 +74,13 @@ export default {
       ],
     };
   },
-  methods: {
-  },
+  methods: {},
 };
 </script>
 
 <style>
-.table th, .table td{
+.table th,
+.table td {
   border-top: none !important;
-
-}</style>
+}
+</style>
