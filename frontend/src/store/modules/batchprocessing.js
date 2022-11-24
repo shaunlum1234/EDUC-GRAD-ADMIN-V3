@@ -1,4 +1,3 @@
-import StudentService from '@/services/StudentService.js';
 import BatchProcessingService from '@/services/BatchProcessingService.js';
 export default {
   namespaced: true,
@@ -62,8 +61,6 @@ export default {
       state.batchDetails[payload].programs=[{}];
       state.batchDetails[payload].students=[{}];
       state.batchDetails[payload].psi=[{}];
-      
-      
       state.batchDetails[payload]['details'].blankCertificateDetails=[{}];
       state.batchDetails[payload]['details'].blankTranscriptDetails=[{}];
       state.batchDetails[payload]['details'].credential="";
@@ -92,18 +89,29 @@ export default {
   },
   actions: {
     
-    validateStudentInGrad(payload){
-        
-      StudentService.getStudentByPen(payload['pen']).then(
-        (response) => {
-          this.$store.commit("batchprocessing/addValueToTypeInBatchId", payload);
-          return response;
-        }
-      ).catch((error) => {
-        // eslint-disable-next-line
-        console.log(error.response.status);
-      });
+    // validateStudentInGrad(payload){
+    //   StudentService.getStudentByPen(payload['pen']).then(
+    //     (response) => {
+    //       if(response.studentId){
+    //         StudentService.getStudentById(payload['pen']).then(
+    //           (res) => {
+    //             this.$store.commit("batchprocessing/addValueToTypeInBatchId", payload);
+    //             return res
+    //           }
+    //         )
+    //       }else{
+    //         return null;
+    //       }
+    //     }
+    //   ).catch((error) => {
+    //     // eslint-disable-next-line
+    //     console.log(error.response.status);
+    //   });
+    // },
+    addValueToTypeInBatchId({commit}, payload) {
+      commit('addValueToTypeInBatchId', payload);
     },
+    
     setScheduledBatchJobs({commit}, payload) {
       commit('setScheduledBatchJobs', payload);
     },
