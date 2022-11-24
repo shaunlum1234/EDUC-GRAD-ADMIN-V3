@@ -9,38 +9,48 @@
         <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
           <div>
+            <div class="text-right position-relative w-100">
+            <b-btn class="" @click="getAdminDashboardData">Refresh</b-btn>
+            </div>
             <b-card no-body class="border-0">
               <b-tabs pills class="border-0">
+                
                 <b-tab title="Completed" active>
                   <b-card-text class="row">
+                
                     <div :class="isBatchShowing || isErrorShowing ? 'col-12 col-md-7':'col-12'">
-                      <DisplayTable title="Job/Runs" :items="batchInfoListData"
-                        v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
-                      >
-                        <template #cell(jobExecutionId)="row">
-                          <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
-                            {{row.item.jobExecutionId}}   
-                          </b-btn>
-                          <b-btn v-else disabled variant='link' size="xs">  
-                            {{row.item.jobExecutionId}}   
-                          </b-btn>                  
-                          <b-popover :target="'batch-job-id-btn'+ row.item.jobExecutionId" triggers="focus" :ref="'popover'+row.item.jobExecutionId">
-                            <template #title>Search batch job</template>
-                            <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'batch')">   
-                              All results           
+                     
+                      <b-overlay :show="adminDashboardLoading">
+                   
+                      
+                        <DisplayTable title="Job/Runs" :items="batchInfoListData"
+                          v-bind:fields="jobRunFields" id="id" :showFilter=false pagination="true"
+                        >
+                          <template #cell(jobExecutionId)="row">
+                            <b-btn v-if="row.item.status == 'COMPLETED'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs">   
+                              {{row.item.jobExecutionId}}   
                             </b-btn>
-                             <b-btn v-if="row.item.jobType == 'DISTRUNUSERUSER'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="downloadDISTRUNUSER(row.item.jobExecutionId)">   
-                              Download
-                            </b-btn>                             
-                          </b-popover>
-                        </template>
-                        <template #cell(failedStudentsProcessed)="row">
-                          <b-btn v-if="row.item.failedStudentsProcessed != 0" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'error')">  
-                            {{row.item.failedStudentsProcessed}}   
-                          </b-btn>  
-                          <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
-                        </template>
-                      </DisplayTable>
+                            <b-btn v-else disabled variant='link' size="xs">  
+                              {{row.item.jobExecutionId}}   
+                            </b-btn>                  
+                            <b-popover :target="'batch-job-id-btn'+ row.item.jobExecutionId" triggers="focus" :ref="'popover'+row.item.jobExecutionId">
+                              <template #title>Search batch job</template>
+                              <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'batch')">   
+                                All results           
+                              </b-btn>
+                              <b-btn v-if="row.item.jobType == 'DISTRUNUSERUSER'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="downloadDISTRUNUSER(row.item.jobExecutionId)">   
+                                Download
+                              </b-btn>                             
+                            </b-popover>
+                          </template>
+                          <template #cell(failedStudentsProcessed)="row">
+                            <b-btn v-if="row.item.failedStudentsProcessed != 0" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'error')">  
+                              {{row.item.failedStudentsProcessed}}   
+                            </b-btn>  
+                            <div v-if="row.item.failedStudentsProcessed == 0">{{row.item.failedStudentsProcessed}}</div>       
+                          </template>
+                        </DisplayTable>
+                     </b-overlay>
                     </div>
                     <!-- All batch results -->
                     <div v-if="isBatchShowing"  class="col-12 col-md-5 float-right pl-2 pr-0">
@@ -226,6 +236,7 @@ export default {
       adminSelectedErrorId:"",
       errorOn: false,
       displayMessage: null,
+      adminDashboardLoading: false,
       dashboardData:"",
       processed: "",
       lastRunStatus:"",
@@ -426,6 +437,7 @@ export default {
       return  value.toLocaleString('en-CA', { timeZone: 'PST' });
     },
     getAdminDashboardData(){
+      this.adminDashboardLoading = true;
       BatchProcessingService.getDashboardInfo().then(
         (response) => {
             this.dashboardData = response.data;
@@ -451,9 +463,10 @@ export default {
             this.processedLastRun = this.lastJobendTime.toLocaleString('en-CA', { timeZone: 'PST' })
             //Expected
             this.expected = this.dashboardData.lastExpectedStudentsProcessed
+            this.adminDashboardLoading = false;
           }
         ).catch((error) => {
-          
+          this.adminDashboardLoading = false;
           if(error.response.status){
             this.$bvToast.toast("ERROR " + error.response.statusText, {
               title: "ERROR" + error.response.status,
@@ -493,8 +506,8 @@ export default {
         BatchProcessingService.runDISTRUNYEAREND().then(
         (response) => {
           if(response){
-            this.$bvToast.toast("Batch run has completed for request " + requestId , {
-              title: "BATCH PROCESSING COMPLETED",
+            this.$bvToast.toast("Batch run has started for request " + requestId , {
+              title: "BATCH PROCESSING STARTED",
               variant: 'success',
               noAutoHide: true,
             })
@@ -510,7 +523,6 @@ export default {
             })
           }
         })  
-        setTimeout(this.getBatchProgress(requestId), 5000);
     },
     runBlankDISTRUNUSERUserRequest(request, id, credentialType){
       let requestId = id.replace("job-",""); 
@@ -530,8 +542,8 @@ export default {
             setTimeout(this.downloadDISTRUNUSER, 3000, bid)
             
           }else{
-            this.$bvToast.toast("Batch run has completed for request " + requestId , {
-              title: "BATCH PROCESSING COMPLETED",
+            this.$bvToast.toast("Batch run has started for request " + requestId , {
+              title: "BATCH PROCESSING STARTED",
               variant: 'success',
               noAutoHide: true,
             })
@@ -547,7 +559,6 @@ export default {
             })
           }
         })       
-      setTimeout(this.getBatchProgress(requestId), 5000);
     },
     runDISTRUNUSER(request, id, credentialType){
       let requestId = id.replace("job-",""); 
@@ -565,8 +576,8 @@ export default {
             let bid = response.data.batchId;
             setTimeout(this.downloadDISTRUNUSER, 3000, bid)
           }else{
-            this.$bvToast.toast("Batch run has completed for request " + requestId , {
-              title: "BATCH PROCESSING COMPLETED",
+            this.$bvToast.toast("Batch run has started for request " + requestId , {
+              title: "BATCH PROCESSING STARTED",
               variant: 'success',
               noAutoHide: true,
             })
@@ -582,7 +593,6 @@ export default {
             })
           }
         })  
-        setTimeout(this.getBatchProgress(requestId), 5000);
     },
     runPSIRUN(request, id, transmissionType){
       let requestId = id.replace("job-",""); 
@@ -597,8 +607,8 @@ export default {
           this.cancelBatchJob(id);
           this.selectedTab = 0;
 
-          this.$bvToast.toast("Batch run has completed for request " + requestId , {
-            title: "BATCH PROCESSING COMPLETED",
+          this.$bvToast.toast("Batch run has started for request " + requestId , {
+            title: "BATCH PROCESSING STARTED",
             variant: 'success',
             noAutoHide: true,
           })
@@ -613,7 +623,6 @@ export default {
             })
           }
         })  
-        setTimeout(this.getBatchProgress(requestId), 5000);
     },
     runTVRRUN(request, id){
      let requestId = id.replace("job-",""); 
@@ -627,8 +636,8 @@ export default {
           this.getAdminDashboardData();
           this.cancelBatchJob(id);
           this.selectedTab = 0;
-          this.$bvToast.toast("Batch run has completed for request " + requestId , {
-            title: "BATCH PROCESSING COMPLETED",
+          this.$bvToast.toast("Batch run has started for request " + requestId , {
+            title: "BATCH PROCESSING STARTED",
             variant: 'success',
             noAutoHide: true,
           })
@@ -643,7 +652,6 @@ export default {
             })
           }
         })  
-        setTimeout(this.getBatchProgress(requestId), 5000);
     },
     runREGALG(request, id){
       let requestId = id.replace("job-",""); 
@@ -657,8 +665,8 @@ export default {
           this.getAdminDashboardData();
           this.cancelBatchJob(id);
           this.selectedTab = 0;
-          this.$bvToast.toast("Batch run has completed for request " + requestId , {
-            title: "BATCH PROCESSING COMPLETED",
+          this.$bvToast.toast("Batch run has started for request " + requestId , {
+            title: "BATCH PROCESSING STARTED",
             variant: 'success',
             noAutoHide: true,
           })
@@ -673,7 +681,6 @@ export default {
             })
           }
         })
-        setTimeout(this.getBatchProgress(requestId), 5000);
     },
     addScheduledJob(request, id){
       let requestId = id.replace("job-",""); 
@@ -702,31 +709,11 @@ export default {
             })
           }
         })
-        setTimeout(this.getBatchProgress(requestId), 5000);
     },    
     getScheduledJobs(){
       BatchProcessingService.getScheduledBatchJobs().then((response) => {
         this.setScheduledBatchJobs(response.data);
       })
-    },
-    getBatchProgress(requestId){
-      BatchProcessingService.getBatchSummary().then((response) => {
-
-            let jobDetails = response.data.batchJobList[0];
-            let date = new Date();
-            let job = { "createUser": "?", "createDate": "?", "updateUser": "?", "updateDate": date.toString(), "id": "?", "jobExecutionId": "Request " + requestId, "startTime": date.toString(), "endTime": "", "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": "STARTED", "triggerBy": "MANUAL", "jobType": this.tabContent["job-"+requestId].details['what'] }
-
-            if(jobDetails.status == 'STARTED'){
-              job = { "createUser": "?", "createDate": jobDetails.createTime, "updateUser": "?", "updateDate": jobDetails.startTime, "id": "?", "jobExecutionId": jobDetails.jobExecutionId + " (request" + requestId + ")", "startTime": jobDetails.startTime, "endTime": jobDetails.endTime, "expectedStudentsProcessed": "?", "actualStudentsProcessed": "?", "failedStudentsProcessed": "?", "status": jobDetails.status, "triggerBy": "MANUAL", "jobType": this.tabContent["job-"+requestId].details['what'] }  
-            }
-            this.$bvToast.toast("Batch for request " + requestId + " has started" , {
-              title: "BATCH PROCESSING STARTED",
-              variant: 'success',
-              noAutoHide: true,
-            })                        
-            this.batchInfoListData.splice(0,1,job)
-        }
-      );  
     },    
     validateBatch(id){
       let pens = [], schools = [], psi = [], districts = [], programs = [], districtCategoryCode="";

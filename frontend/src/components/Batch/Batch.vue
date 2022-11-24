@@ -431,8 +431,10 @@
         <b-modal :id="'batch-modal-' + jobId" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
           <BatchConfirmInfo :items="batch" :batchTypes="batchTypes"></BatchConfirmInfo>
           <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }"> 
-            <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Now">Run Now</b-form-radio>
-            <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Later">Run Later</b-form-radio>
+            <b-form-radio-group v-model="batchRunTime">
+              <b-form-radio :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Now">Run Now</b-form-radio>
+              <b-form-radio :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Later">Run Later</b-form-radio>
+            </b-form-radio-group>
                 <b-form-group v-if="batchRunTime == 'Run Later'" label="Schedule" v-slot="{ ariaDescribedby }">
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="N">Tonight at 6:30PM</b-form-radio>
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="W">Weekend Batch - Saturday 12:00PM</b-form-radio>
@@ -681,7 +683,7 @@ export default {
     resetModal(){
       this.batchRunSchedule = ""
       this.cronTime = ""
-      this.batchRunTime = ""
+      this.batchRunTime = "Run Now"
       this.batchRunCustomDate = ""
       this.batchRunCustomTime = ""
     },
