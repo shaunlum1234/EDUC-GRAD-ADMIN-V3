@@ -9,8 +9,8 @@
         <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
           <div>
-            <div class="text-right position-relative w-100">
-            <b-btn class="" @click="getAdminDashboardData">Refresh</b-btn>
+            <div class="text-right position-absolute w-100 pr-5">
+            <b-btn class="" @click="getAdminDashboardData" variant="info" small>Refresh</b-btn>
             </div>
             <b-card no-body class="border-0">
               <b-tabs pills class="border-0">
