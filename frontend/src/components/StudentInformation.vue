@@ -231,8 +231,6 @@ export default {
   },
   methods: {
     isValidPEN(num) {
-      //return isValidPEN(num);
-
       //Use this until validation library implemented
       return num && num.length === 9;
     }
