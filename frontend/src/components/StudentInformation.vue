@@ -168,7 +168,7 @@
                 >
                 <b-td class="px-2"
                   ><strong>True student ID:</strong>
-                  {{ studentInfo.trueStudentID }}</b-td
+                  {{ isValidPEN(studentInfo.trueStudentID) ? studentInfo.trueStudentID : "Fetching PEN..." }}</b-td
                 >
                 <b-td class="px-2"
                   ><strong>Local ID:</strong> {{ studentInfo.localID }}</b-td
@@ -229,7 +229,14 @@ export default {
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
   },
-  methods: {},
+  methods: {
+    isValidPEN(num) {
+      //return isValidPEN(num);
+
+      //Use this until validation library implemented
+      return num && num.length === 9;
+    }
+  },
 };
 </script>
 
