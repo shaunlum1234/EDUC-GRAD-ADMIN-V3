@@ -140,6 +140,20 @@
         <div
           v-else-if="
             studentGradStatus &&
+            studentGradStatus.studentStatus == 'ARC' &&
+            showEdit
+          "
+        >
+          <b-alert show variant="warning" class="p-3 mb-1">
+            <h4 class="alert-heading">Student status: Archived</h4>
+            <p class="locked-message">
+              This student is not active.  Re-activate by setting their status to "CUR" if they are currently attending school 
+            </p>
+          </b-alert>
+        </div>
+        <div
+          v-else-if="
+            studentGradStatus &&
             studentGradStatus.studentStatus == 'DEC' &&
             showEdit
           "
