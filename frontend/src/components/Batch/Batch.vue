@@ -428,7 +428,7 @@
           Schedule/Run Batch
         </b-button>
         <!-- Modal Dialogs --> 
-        <b-modal :id="'batch-modal-' + jobId" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
+        <b-modal :id="'batch-modal-' + jobId" :title="'Run  Request ' + requestId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
           <BatchConfirmInfo :items="batch" :batchTypes="batchTypes"></BatchConfirmInfo>
           <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }"> 
             <b-form-radio-group v-model="batchRunTime">
@@ -455,7 +455,7 @@
                 </b-form-group>
           </b-form-group>
         </b-modal>
-        <b-modal :id="'DISTRUNYEAREND-modal-' + jobId" :title="'RUN ' + jobId" ok-title="Confirm" @ok="runBatch(jobId)">
+        <b-modal :id="'DISTRUNYEAREND-modal-' + jobId" :title="'Run  Request ' + requestId" ok-title="Confirm" @ok="runBatch(jobId)">
           <b-alert show variant="info">
             There will be more than 250 records processed
           </b-alert>
@@ -957,6 +957,9 @@ export default {
     }),
     batch() {
       return this.tabContent[this.jobId]
+    },
+    requestId(){
+      return this.jobId.replace("job-", "")
     }
   },
 };

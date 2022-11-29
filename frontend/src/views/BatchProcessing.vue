@@ -14,18 +14,22 @@
                       style="right: 0; padding-right: 15px"
                     >
                       <b-btn
-                        class=""
+                        class=" pb-1 mx-2"
                         @click="getAdminDashboardData"
                         variant="info"
                         small
-                        >Refresh</b-btn
+                        >
+                        <i
+                    class="fas fa-sync-alt"
+                    aria-hidden="true"
+                  ></i> Update</b-btn
                       >
                     </div>
                   </div>
                   <div>
                     <b-card no-body class="border-0">
                       <b-tabs pills class="border-0">
-                        <b-tab title="Completed" active>
+                        <b-tab title="Batch Runs" active>
                           <b-card-text class="row">
                             <div
                               :class="
