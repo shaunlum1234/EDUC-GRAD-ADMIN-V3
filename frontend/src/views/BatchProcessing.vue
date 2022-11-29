@@ -8,10 +8,13 @@
       <b-card no-body>
         <b-tabs v-model="selectedTab" active card>
           <b-tab title="Job/Runs">
-          <div>
-            <div class="text-right position-absolute w-100 pr-5">
-            <b-btn class="" @click="getAdminDashboardData" variant="info" small>Refresh</b-btn>
+            <div class="w-100">
+              <div class="position-absolute" style="right: 0; padding-right:15px">
+              <b-btn class="" @click="getAdminDashboardData" variant="info" small>Refresh</b-btn>
+              </div>
             </div>
+          <div>
+       
             <b-card no-body class="border-0">
               <b-tabs pills class="border-0">
                 
@@ -33,14 +36,29 @@
                             <b-btn v-else disabled variant='link' size="xs">  
                               {{row.item.jobExecutionId}}   
                             </b-btn>                  
-                            <b-popover :target="'batch-job-id-btn'+ row.item.jobExecutionId" triggers="focus" :ref="'popover'+row.item.jobExecutionId">
-                              <template #title>Search batch job</template>
-                              <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'batch')">   
-                                All results           
+                            <b-popover :target="'batch-job-id-btn'+ row.item.jobExecutionId" triggers="focus" :ref="'popover'+row.item.jobExecutionId" class="w-50">
+                              <template #title>Batch Job #{{row.item.jobExecutionId}}</template>
+                              <b-btn :id="'batch-job-id-btn'+ row.item.jobExecutionId" class="border-bottom" variant='link' size="xs" @click="setBatchId(row.item.jobExecutionId, 'batch')">   
+                                View Batch Results           
                               </b-btn>
+                              <b-btn :id="'batch-job-id-rerun-btn'+ row.item.jobExecutionId" class="border-bottom" variant='link' size="xs" @click="rerunBatch(row.item.jobExecutionId)">   
+                                Rerun this batch for {{ row.item.expectedStudentsProcessed!=0? row.item.expectedStudentsProcessed : "" }} students
+                              </b-btn>
+                              <b-btn :disabled="row.item.failedStudentsProcessed=='0'" :id="'batch-job-id-error-rerun-btn'+ row.item.jobExecutionId" class="border-bottom"  variant='link' size="xs" @click="rerunBatchStudentErrors(row.item.jobExecutionId)">   
+                               Rerun {{ row.item.failedStudentsProcessed!=0? row.item.failedStudentsProcessed : "" }} students with errors
+                              </b-btn>     
+                              <b-btn :id="'batch-job-id-student-report-rerun-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="rerunSchoolReportsBatch(row.item.jobExecutionId)">   
+                               Run Student Reports for this batch
+                              </b-btn>                                                                                       
                               <b-btn v-if="row.item.jobType == 'DISTRUNUSERUSER'" :id="'batch-job-id-btn'+ row.item.jobExecutionId" variant='link' size="xs" @click="downloadDISTRUNUSER(row.item.jobExecutionId)">   
                                 Download
-                              </b-btn>                             
+                              </b-btn>   
+                              <b-card title="Batch Job Parameters">
+                                <b-card-text>
+
+                                   {{row.item.jobParameters }}
+                                </b-card-text>
+                              </b-card>
                             </b-popover>
                           </template>
                           <template #cell(failedStudentsProcessed)="row">
@@ -894,6 +912,42 @@ export default {
         
       }        
     },
+    rerunBatchSchoolReports(bid){
+       BatchProcessingService.rerunBatchSchoolReports(bid).then((response) => {
+         if(response){
+            this.$bvToast.toast("Running school reports for batch job #" + bid , {
+              title: "SCHOOL REPORTS BATCH",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
+        this.getAdminDashboardData();
+      })
+    },
+    rerunBatch(bid){
+       BatchProcessingService.rerunBatch(bid).then((response) => {
+         if(response){
+            this.$bvToast.toast("Created an new batch job based on batch #" + bid, {
+              title: "NEW BATCH JOB STARTED",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
+        this.getAdminDashboardData();
+      })
+    },
+    rerunBatchStudentErrors(bid){
+      BatchProcessingService.rerunBatchStudentErrors(bid).then((response) => {
+         if(response){
+            this.$bvToast.toast("Created an new batch job for batch #" + bid + " errors", {
+              title: "NEW BATCH JOB STARTED",
+              variant: 'success',
+              noAutoHide: true,
+            })
+          }
+        this.getAdminDashboardData();
+      })
+    },    
     displaySearchResults(value){ 
       this.searchResults = value
     },

@@ -89,25 +89,6 @@ export default {
   },
   actions: {
     
-    // validateStudentInGrad(payload){
-    //   StudentService.getStudentByPen(payload['pen']).then(
-    //     (response) => {
-    //       if(response.studentId){
-    //         StudentService.getStudentById(payload['pen']).then(
-    //           (res) => {
-    //             this.$store.commit("batchprocessing/addValueToTypeInBatchId", payload);
-    //             return res
-    //           }
-    //         )
-    //       }else{
-    //         return null;
-    //       }
-    //     }
-    //   ).catch((error) => {
-    //     // eslint-disable-next-line
-    //     console.log(error.response.status);
-    //   });
-    // },
     addValueToTypeInBatchId({commit}, payload) {
       commit('addValueToTypeInBatchId', payload);
     },

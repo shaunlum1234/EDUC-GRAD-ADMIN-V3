@@ -873,16 +873,6 @@ export default {
     clearBatchGroupDetails: function (id) {
       this.$store.commit("batchprocessing/clearBatchGroupDetails", id);
     },    
-    // newBatchJob() {
-    //   let batchDetail = { details: {what: 'what' +this.tabCounter, who: 'who'+this.tabCounter, credential: "", psiYear: this.getCurrentPSIYear()}, students: [{}], schools:[{}], districts: [{}], programs:[{}], psi:[{}],blankTranscriptDetails:[{}],blankCertificateDetails:[{}]};
-    //   let id = "job-" + this.tabCounter;
-    //   this.$store.commit("batchprocessing/editBatchDetails",  {batchDetail, id});
-    //   this.$store.commit("batchprocessing/addBatchJob", id);
-    //     requestAnimationFrame(() => {
-    //       this.selectedTab = this.tabs.length;
-    //     })
-    //     console.log("new batch")
-    // },
     editBatchJob(type,event){
       this.$nextTick(() => {
           let id =this.jobId;
