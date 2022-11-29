@@ -73,7 +73,7 @@
                                         row.item.jobExecutionId
                                       "
                                       triggers="focus"
-                                      :ref="'popover' + row.item.jobExecutionId"
+                                      :ref="'popover-' + row.item.jobExecutionId"
                                       class="w-50"
                                     >
                                       <template #title
@@ -153,6 +153,7 @@
                                         </div>
                                         <div class="col-2 px-2 m-0">
                                           <b-btn
+                                          
                                             :disabled="
                                               row.item
                                                 .failedStudentsProcessed == '0'
@@ -192,7 +193,7 @@
                                             variant="link"
                                             size="xs"
                                             @click="
-                                              rerunSchoolReportsBatch(
+                                              rerunBatchSchoolReports(
                                                 row.item.jobExecutionId
                                               )
                                             "
@@ -344,7 +345,7 @@
                                     'batch-job-id-btn' + row.item.jobExecutionId
                                   "
                                   triggers="focus"
-                                  :ref="'popover' + row.item.jobExecutionId"
+                                  :ref="'popover-' + row.item.jobExecutionId"
                                 >
                                   <template #title>Search batch job</template>
                                   <b-btn
@@ -500,6 +501,7 @@ import BatchRoutines from "@/components/Batch/Routines.vue";
 import sharedMethods from "../sharedMethods";
 
 import { mapGetters, mapActions } from "vuex";
+import { nextTick } from 'vue';
 export default {
   name: "test",
   computed: {
@@ -764,9 +766,13 @@ export default {
         "batchprocessing/addBatchJob",
         "job-" + this.tabCounter
       );
-      requestAnimationFrame(() => {
-        this.selectedTab = this.tabs.length;
-      });
+      nextTick(() => {
+        nextTick(() => {
+          requestAnimationFrame(() => {
+            this.selectedTab = this.tabs.length;
+          })
+        })
+      })
     },
     formatDate(value) {
       return value.toLocaleString("en-CA", { timeZone: "PST" });
@@ -812,6 +818,7 @@ export default {
           //Expected
           this.expected = this.dashboardData.lastExpectedStudentsProcessed;
           this.adminDashboardLoading = false;
+          window.scrollTo(0,0);
         })
         .catch((error) => {
           this.adminDashboardLoading = false;
@@ -1335,6 +1342,7 @@ export default {
       }
     },
     rerunBatchSchoolReports(bid) {
+      this.$refs["popover-" + bid].$emit("close");
       BatchProcessingService.rerunBatchSchoolReports(bid).then((response) => {
         if (response) {
           this.$bvToast.toast("Running school reports for batch job #" + bid, {
@@ -1347,10 +1355,11 @@ export default {
       });
     },
     rerunBatch(bid) {
+      this.$refs["popover-" + bid].$emit("close");
       BatchProcessingService.rerunBatch(bid).then((response) => {
         if (response) {
           this.$bvToast.toast(
-            "Created an new batch job based on batch #" + bid,
+            "Created a new batch job based on batch #" + bid,
             {
               title: "NEW BATCH JOB STARTED",
               variant: "success",
@@ -1362,6 +1371,8 @@ export default {
       });
     },
     rerunBatchStudentErrors(bid) {
+      this.$refs["popover-" + bid].$emit("close");
+      
       BatchProcessingService.rerunBatchStudentErrors(bid).then((response) => {
         if (response) {
           this.$bvToast.toast(
