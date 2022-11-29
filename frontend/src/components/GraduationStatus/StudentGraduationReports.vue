@@ -69,7 +69,7 @@
               <div class="px-3 w-100 float-left mt-2">
                 <b-button
                   variant="link"
-                  v-if="showXMLPreview()"
+                  :disabled="!showXMLPreview()"
                   @click="downloadFile(xmlReports, 'application/pdf')"
                   href="#"
                   >View XML Preview</b-button
@@ -111,13 +111,13 @@ export default {
     },
     showXMLPreview: function () {
       return (
-        this.studentGradStatus &&
-        ((this.studentGradStatus.studentAssessments &&
-          this.studentGradStatus.studentAssessments.length) ||
-          (this.studentGradStatus.studentCourses &&
-            this.studentGradStatus.studentCourses.length) ||
-          (this.studentGradStatus.studentExams &&
-            this.studentGradStatus.studentExams.length) ||
+        this.studentGradStatus && this.studentGradStatus.studentGradData &&
+        ((this.studentGradStatus.studentGradData.studentAssessments &&
+          this.studentGradStatus.studentGradData.studentAssessments.studentAssessmentList.length) ||
+          (this.studentGradStatus.studentGradData.studentCourses &&
+            this.studentGradStatus.studentGradData.studentCourses.studentCourseList.length) ||
+          (this.studentGradStatus.studentGradData.studentExams &&
+            this.studentGradStatus.studentGradData.studentExams.length) ||
           (this.optionalPrograms && this.optionalPrograms.length)) &&
         this.isTranscriptEligible()
       );
