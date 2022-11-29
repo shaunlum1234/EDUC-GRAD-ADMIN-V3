@@ -428,11 +428,13 @@
           Schedule/Run Batch
         </b-button>
         <!-- Modal Dialogs --> 
-        <b-modal :id="'batch-modal-' + jobId" :title="'RUN ' + jobId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
+        <b-modal :id="'batch-modal-' + jobId" :title="'Run  Request ' + requestId " @show="resetModal" @hidden="resetModal" ok-title="Confirm" :ok-disabled="disableConfirm()" @ok="runBatch(jobId)">
           <BatchConfirmInfo :items="batch" :batchTypes="batchTypes"></BatchConfirmInfo>
           <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }"> 
-            <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Now">Run Now</b-form-radio>
-            <b-form-radio v-model="batchRunTime" :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Later">Run Later</b-form-radio>
+            <b-form-radio-group v-model="batchRunTime">
+              <b-form-radio :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Now">Run Now</b-form-radio>
+              <b-form-radio :aria-describedby="ariaDescribedby" name="batch-runtime-options" value="Run Later">Run Later</b-form-radio>
+            </b-form-radio-group>
                 <b-form-group v-if="batchRunTime == 'Run Later'" label="Schedule" v-slot="{ ariaDescribedby }">
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="N">Tonight at 6:30PM</b-form-radio>
                   <b-form-radio v-model="batchRunSchedule" :aria-describedby="ariaDescribedby" name="schedule-options" value="W">Weekend Batch - Saturday 12:00PM</b-form-radio>
@@ -453,7 +455,7 @@
                 </b-form-group>
           </b-form-group>
         </b-modal>
-        <b-modal :id="'DISTRUNYEAREND-modal-' + jobId" :title="'RUN ' + jobId" ok-title="Confirm" @ok="runBatch(jobId)">
+        <b-modal :id="'DISTRUNYEAREND-modal-' + jobId" :title="'Run  Request ' + requestId" ok-title="Confirm" @ok="runBatch(jobId)">
           <b-alert show variant="info">
             There will be more than 250 records processed
           </b-alert>
@@ -681,7 +683,7 @@ export default {
     resetModal(){
       this.batchRunSchedule = ""
       this.cronTime = ""
-      this.batchRunTime = ""
+      this.batchRunTime = "Run Now"
       this.batchRunCustomDate = ""
       this.batchRunCustomTime = ""
     },
@@ -764,13 +766,24 @@ export default {
             }else if(response.data[0].studentStatus == 'MER'){
               this.validationMessage = value + " is a merged student and not permitted"
             }else{
-              //valid student
-              this.$store.commit("batchprocessing/addValueToTypeInBatchId", {id,type, value});
-              this.$refs['pen' + id + valueIndex][0].updateValue(response.data[0].legalFirstName + " " + (response.data[0].legalMiddleNames?response.data[0].legalMiddleNames+ " ":"") + response.data[0].legalLastName);        
-              this.$refs['dob' + id + valueIndex][0].updateValue(response.data[0].dob);        
-              this.$refs['school' + id + valueIndex][0].updateValue(response.data[0].schoolOfRecordName);   
-              this.$refs['student-status' + id + valueIndex][0].updateValue(response.data[0].studentStatus);   
+              //valid student that checks for GRAD status
+              StudentService.getGraduationStatus(response.data[0].studentID).then(
+                (res) => {
+                  if(res.data){
+                    this.$store.dispatch("batchprocessing/addValueToTypeInBatchId", {id,type, value});
+                    this.$refs['pen' + id + valueIndex][0].updateValue(response.data[0].legalFirstName + " " + (response.data[0].legalMiddleNames?response.data[0].legalMiddleNames+ " ":"") + response.data[0].legalLastName);        
+                    this.$refs['dob' + id + valueIndex][0].updateValue(response.data[0].dob);        
+                    this.$refs['school' + id + valueIndex][0].updateValue(response.data[0].schoolOfRecordName);   
+                    this.$refs['student-status' + id + valueIndex][0].updateValue(response.data[0].studentStatus);
+                  }else{
+                    this.validationMessage = value + " is not a valid PEN in GRAD"
+                  }
+                  this.$forceUpdate();
+              })
+              
+                
             }
+
           this.$forceUpdate();
           this.validating = false;  
           
@@ -860,16 +873,6 @@ export default {
     clearBatchGroupDetails: function (id) {
       this.$store.commit("batchprocessing/clearBatchGroupDetails", id);
     },    
-    // newBatchJob() {
-    //   let batchDetail = { details: {what: 'what' +this.tabCounter, who: 'who'+this.tabCounter, credential: "", psiYear: this.getCurrentPSIYear()}, students: [{}], schools:[{}], districts: [{}], programs:[{}], psi:[{}],blankTranscriptDetails:[{}],blankCertificateDetails:[{}]};
-    //   let id = "job-" + this.tabCounter;
-    //   this.$store.commit("batchprocessing/editBatchDetails",  {batchDetail, id});
-    //   this.$store.commit("batchprocessing/addBatchJob", id);
-    //     requestAnimationFrame(() => {
-    //       this.selectedTab = this.tabs.length;
-    //     })
-    //     console.log("new batch")
-    // },
     editBatchJob(type,event){
       this.$nextTick(() => {
           let id =this.jobId;
@@ -954,6 +957,9 @@ export default {
     }),
     batch() {
       return this.tabContent[this.jobId]
+    },
+    requestId(){
+      return this.jobId.replace("job-", "")
     }
   },
 };
