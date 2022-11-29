@@ -14,15 +14,13 @@
                       style="right: 0; padding-right: 15px"
                     >
                       <b-btn
-                        class=" pb-1 mx-2"
+                        class="pb-1 mx-2"
                         @click="getAdminDashboardData"
                         variant="info"
                         small
-                        >
-                        <i
-                    class="fas fa-sync-alt"
-                    aria-hidden="true"
-                  ></i> Update</b-btn
+                      >
+                        <i class="fas fa-sync-alt" aria-hidden="true"></i>
+                        Update</b-btn
                       >
                     </div>
                   </div>
@@ -73,7 +71,9 @@
                                         row.item.jobExecutionId
                                       "
                                       triggers="focus"
-                                      :ref="'popover-' + row.item.jobExecutionId"
+                                      :ref="
+                                        'popover-' + row.item.jobExecutionId
+                                      "
                                       class="w-50"
                                     >
                                       <template #title
@@ -153,7 +153,6 @@
                                         </div>
                                         <div class="col-2 px-2 m-0">
                                           <b-btn
-                                          
                                             :disabled="
                                               row.item
                                                 .failedStudentsProcessed == '0'
@@ -501,7 +500,7 @@ import BatchRoutines from "@/components/Batch/Routines.vue";
 import sharedMethods from "../sharedMethods";
 
 import { mapGetters, mapActions } from "vuex";
-import { nextTick } from 'vue';
+import { nextTick } from "vue";
 export default {
   name: "test",
   computed: {
@@ -770,9 +769,9 @@ export default {
         nextTick(() => {
           requestAnimationFrame(() => {
             this.selectedTab = this.tabs.length;
-          })
-        })
-      })
+          });
+        });
+      });
     },
     formatDate(value) {
       return value.toLocaleString("en-CA", { timeZone: "PST" });
@@ -818,7 +817,7 @@ export default {
           //Expected
           this.expected = this.dashboardData.lastExpectedStudentsProcessed;
           this.adminDashboardLoading = false;
-          window.scrollTo(0,0);
+          window.scrollTo(0, 0);
         })
         .catch((error) => {
           this.adminDashboardLoading = false;
@@ -1372,7 +1371,7 @@ export default {
     },
     rerunBatchStudentErrors(bid) {
       this.$refs["popover-" + bid].$emit("close");
-      
+
       BatchProcessingService.rerunBatchStudentErrors(bid).then((response) => {
         if (response) {
           this.$bvToast.toast(
