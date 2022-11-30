@@ -1202,10 +1202,11 @@ export default {
         if (this.tabContent[id]["details"].categoryCode == "") {
           districtCategoryCode = [];
         }
-        districts.pop();
         if (!districtCategoryCode) {
           this.validationMessage = "Please select a district category";
+          return
         }
+        districts.pop();
         if (!districts.length) {
           this.validationMessage = "Please select a district.";
           return;
