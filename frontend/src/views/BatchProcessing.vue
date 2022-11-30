@@ -123,6 +123,10 @@
                                               'batch-job-id-rerun-btn' +
                                               row.item.jobExecutionId
                                             "
+                                            :disabled="
+                                              row.item.jobType != 'TVRRUN' &&
+                                              row.item.jobType != 'REGALG'
+                                            "
                                             class="p-0 m-0 float-right"
                                             variant="link"
                                             size="xs"
@@ -154,8 +158,9 @@
                                         <div class="col-2 px-2 m-0">
                                           <b-btn
                                             :disabled="
-                                              row.item
-                                                .failedStudentsProcessed == '0'
+                                              row.item.jobType != 'TVRRUN' &&
+                                              row.item.jobType != 'REGALG' &&
+                                              row.item.failedStudentsProcessed == 0
                                             "
                                             :id="
                                               'batch-job-id-error-rerun-btn' +
@@ -184,6 +189,10 @@
                                         </div>
                                         <div class="col-2 px-2 m-0">
                                           <b-btn
+                                            :disabled="
+                                              row.item.jobType != 'TVRRUN' &&
+                                              row.item.jobType != 'REGALG'
+                                            "
                                             :id="
                                               'batch-job-id-student-report-rerun-btn' +
                                               row.item.jobExecutionId
@@ -1204,7 +1213,7 @@ export default {
         }
         if (!districtCategoryCode) {
           this.validationMessage = "Please select a district category";
-          return
+          return;
         }
         districts.pop();
         if (!districts.length) {
