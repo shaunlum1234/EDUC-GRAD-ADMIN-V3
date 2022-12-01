@@ -46,6 +46,8 @@
                                   pagination="true"
                                 >
                                   <template #cell(jobExecutionId)="row">
+                                    <a v-if="row.item.jobParameters.localDownload=='Y'" href="#" @click="downloadDISTRUNUSER(row.item.jobExecutionId)"><i class="fas fa-download"></i></a>
+                                    <span v-else class="px-2"></span>
                                     <b-btn
                                       v-if="row.item.status == 'COMPLETED'"
                                       :id="
@@ -54,9 +56,12 @@
                                       "
                                       variant="link"
                                       size="xs"
+                                      
                                     >
                                       {{ row.item.jobExecutionId }}
+                                      
                                     </b-btn>
+                                    
                                     <b-btn
                                       v-else
                                       disabled
@@ -218,7 +223,7 @@
                                         title="Batch Job Parameters"
                                       >
                                         <b-card-text>
-                                          {{ row.item.jobParameters }}
+                                          <pre>{{ JSON.stringify(row.item.jobParameters, null, "\t") }} </pre>
                                         </b-card-text>
                                       </b-card>
                                     </b-popover>
@@ -724,6 +729,10 @@ export default {
         });
       });
     },
+    removeEmpty(obj){
+      Object.keys(obj).forEach((k) => (!obj[k] && obj[k] !== undefined) && delete obj[k]);
+      return obj;
+    },
     getZipLink: function (data, mimeType) {
       return sharedMethods.base64ToFileTypeData(data, mimeType);
     },
@@ -823,6 +832,13 @@ export default {
           this.processedLastRun = this.lastJobendTime.toLocaleString("en-CA", {
             timeZone: "PST",
           });
+          //parameters
+          console.log(this.batchInfoListData)
+
+          // console.log(JSON.stringify(this.batchInfoListData[0].jobParameters, null, "\t"))
+          for(const [batch] in this.batchInfoListData){
+            this.batchInfoListData[batch].jobParameters = this.removeEmpty(JSON.parse(this.batchInfoListData[batch].jobParameters))
+          }
           //Expected
           this.expected = this.dashboardData.lastExpectedStudentsProcessed;
           this.adminDashboardLoading = false;
