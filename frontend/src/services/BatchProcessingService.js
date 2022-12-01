@@ -55,5 +55,15 @@ export default {
   },
   getBatchJobTypes(){
     return ApiService.apiAxios.get('/api/v1/batch/batchjobtype');
-  },  
+  }, 
+  rerunBatchSchoolReports(bid){
+    return ApiService.apiAxios.get('/api/v1/batch/regenerate/school-report/' + bid);
+  },
+  rerunBatch(bid){
+    return ApiService.apiAxios.get('/api/v1/batch/rerun/all/' + bid);
+  },
+  rerunBatchStudentErrors(bid){
+    return ApiService.apiAxios.get('/api/v1/batch/rerun/failed/' + bid);
+  },    
+   
 }
