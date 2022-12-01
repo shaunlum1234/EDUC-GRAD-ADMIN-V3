@@ -11,6 +11,7 @@
         v-bind:fields="fields"
         id="courseName"
         showFilter="true"
+        pagination=true
       >
       </DisplayTable>
     </div>
