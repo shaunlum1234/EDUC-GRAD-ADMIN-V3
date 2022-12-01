@@ -876,13 +876,13 @@ export default {
         return item;
       }
     },
-    runDISTRUNYEAREND(id) {
+    runDISTRUN_YE(id) {
       let requestId = id.replace("job-", "");
       this.$set(this.spinners, id, true);
       let index = id.replace("job-", "") - 1;
       let value = true;
       this.$store.commit("batchprocessing/setTabLoading", { index, value });
-      BatchProcessingService.runDISTRUNYEAREND()
+      BatchProcessingService.runDISTRUN_YE()
         .then((response) => {
           if (response) {
             this.$bvToast.toast(
@@ -1324,8 +1324,8 @@ export default {
             this.tabContent[id].details["psiTransmissionMode"]
           );
         }
-      } else if (this.tabContent[id].details["what"] == "DISTRUNYEAREND") {
-        this.runDISTRUNYEAREND(id);
+      } else if (this.tabContent[id].details["what"] == "DISTRUN_YE") {
+        this.runDISTRUN_YE(id);
       } else if (this.tabContent[id].details["what"] == "DISTRUNUSER") {
         if (cronTime) {
           let scheduledRequest = {};

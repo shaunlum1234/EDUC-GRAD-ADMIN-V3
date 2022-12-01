@@ -161,7 +161,7 @@ export default {
         'REGALG': {
           'group': [{ text: '', value: null }, 'Student', 'School', 'District', 'Program', 'PSI']
       }, 
-        'DISTRUNYEAREND': {
+        'DISTRUN_YE': {
           'message': "You are running a year end distribution run. Click the run button and confirm."
         }                 
       }
