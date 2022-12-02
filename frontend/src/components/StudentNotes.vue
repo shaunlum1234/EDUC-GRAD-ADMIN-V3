@@ -100,6 +100,7 @@ export default {
       studentNotes: "getStudentNotes",
       profile: "getStudentProfile",
       username: "getUsername",
+      userInfo: "auth/userInfo"
     }),
   },
   created() {
@@ -174,7 +175,7 @@ export default {
         this.showForm = true;
         let current = new Date().toISOString().slice(0, 10);
         this.newNote.studentID = this.$route.params.studentId;
-        this.newNote.createdBy = this.username;
+        this.newNote.createUser = this.userInfo.userName;
         this.newNote.createdTimestamp = current;
         StudentService.addStudentNotes(this.newNote)
           .then((response) => {
