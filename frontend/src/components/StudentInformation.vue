@@ -168,7 +168,14 @@
                 >
                 <b-td class="px-2"
                   ><strong>True student ID:</strong>
-                  {{ isValidPEN(studentInfo.trueStudentID) ? studentInfo.trueStudentID : "Fetching PEN..." }}</b-td
+                  <span
+                  v-if="studentInfo.trueStudentID && isValidPEN(studentInfo.trueStudentID)"
+                  :id="'pen'+ studentInfo.trueStudentID"
+                  > {{studentInfo.trueStudentID}}</span>
+                  <span v-else-if="studentInfo.trueStudentID">
+                    Fetching PEN...
+                  </span>
+                  </b-td
                 >
                 <b-td class="px-2"
                   ><strong>Local ID:</strong> {{ studentInfo.localID }}</b-td
@@ -198,6 +205,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import sharedMethods from '../sharedMethods';
 
 export default {
   name: "StudentInformation",
@@ -220,6 +228,7 @@ export default {
     };
   },
   created() {
+    this.loadStudent = sharedMethods.loadStudent;
     this.window.width = window.innerWidth;
     this.window.height = window.innerHeight;
     if (this.window.width < 768) {
@@ -233,7 +242,7 @@ export default {
     isValidPEN(num) {
       //Use this until validation library implemented
       return num && num.length === 9;
-    }
+    },
   },
 };
 </script>

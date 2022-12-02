@@ -119,6 +119,7 @@
 
           <div
             v-if="
+              batch.details['what'] != '' &&
               batch.details['who'] != 'Student' &&
               batch.details['what'] != 'DISTRUN_YE' &&
               batch.details['what'] != 'DISTRUN' &&

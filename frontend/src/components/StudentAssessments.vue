@@ -32,16 +32,6 @@
             :title="row.item.assessmentName"
           >
             <div>
-              <td>
-                <strong>Assessment Code:</strong>
-                {{ row.item.assessmentDetails.assessmentCode }}
-              </td>
-            </div>
-            <div>
-              <strong>Asessment Name:</strong><br />
-              {{ row.item.assessmentDetails.assessmentName }}
-            </div>
-            <div>
               <strong>Language:</strong>
               {{ row.item.assessmentDetails.language }}
             </div>
