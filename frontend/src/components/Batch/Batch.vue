@@ -121,7 +121,7 @@
             v-if="
               batch.details['what'] != '' &&
               batch.details['who'] != 'Student' &&
-              batch.details['what'] != 'DISTRUNYEAREND' &&
+              batch.details['what'] != 'DISTRUN_YE' &&
               batch.details['what'] != 'DISTRUN' &&
               batch.details['who'] != 'PSI' &&
               batch.details['credential'] != 'Blank transcript print' &&
@@ -157,6 +157,7 @@
                       type="text"
                       placeholder="YYYY-MM-DD"
                       autocomplete="off"
+                      :formatter="format"
                       @input="editBatchJob('gradDateFrom', $event)"
                     ></b-form-input>
                     <ul
@@ -233,7 +234,7 @@
             class="p-0 mt-3 col-3"
             v-if="
               batch.details['what'] == 'DISTRUNUSER' ||
-              batch.details['what'] == 'DISTRUNYEAREND'
+              batch.details['what'] == 'DISTRUN_YE'
             "
           >
             <label class="font-weight-bold">Copies</label>
@@ -249,7 +250,7 @@
             class="mt-1 col-3 p-0"
             v-if="
               batch.details['what'] == 'DISTRUNUSER' ||
-              batch.details['what'] == 'DISTRUNYEAREND'
+              batch.details['what'] == 'DISTRUN_YE'
             "
           >
             <label class="font-weight-bold">Where</label>
@@ -796,8 +797,8 @@ TEST Schools: 04343000 04399143 02222022 06161064 06161049 03596573</pre
           Cancel
         </b-button>
         <b-button
-          v-if="batch.details['what'] == 'DISTRUNYEAREND'"
-          v-b-modal="'DISTRUNYEAREND-modal-' + jobId"
+          v-if="batch.details['what'] == 'DISTRUN_YE'"
+          v-b-modal="'DISTRUN_YE-modal-' + jobId"
           size="sm"
           variant="primary"
           class="btn btn-primary w-100 float-right col-2 p-2"
@@ -905,7 +906,7 @@ TEST Schools: 04343000 04399143 02222022 06161064 06161049 03596573</pre
           </b-form-group>
         </b-modal>
         <b-modal
-          :id="'DISTRUNYEAREND-modal-' + jobId"
+          :id="'DISTRUN_YE-modal-' + jobId"
           :title="'Run  Request ' + requestId"
           ok-title="Confirm"
           @ok="runBatch(jobId)"
@@ -1060,7 +1061,7 @@ export default {
             "Program",
           ],
         },
-        DISTRUNYEAREND: {
+        DISTRUN_YE: {
           copies: true,
           where: true,
           message:
@@ -1128,6 +1129,9 @@ export default {
   },
 
   methods: {
+    format(value) {
+      return moment(value).format('YYYY-MM-DD')
+    },
     getBatchJobTypes() {
       BatchProcessingService.getBatchJobTypes()
         .then((response) => {

@@ -23,7 +23,7 @@ export default {
       return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/OC', request);
     }
   },     
-  runDISTRUNYEAREND(){
+  runDISTRUN_YE(){
     return ApiService.apiAxios.get('/api/v1/batch/executeyearlydisrunbatchjob');
   },
   runBlankDISTRUNUSERUserRequest(request, credentialType){
