@@ -80,7 +80,7 @@
           </div>
    
 
-          <div v-if="batch.details['who'] !='Student' && batch.details['what'] !='DISTRUNYEAREND' && batch.details['what'] !='DISTRUN' && batch.details['who'] !='PSI' && batch.details['credential'] !='Blank transcript print' && batch.details['credential'] !='Blank certificate print'" class="p-0 mt-3 ">
+          <div v-if="batch.details['what'] != '' && batch.details['who'] !='Student' && batch.details['what'] !='DISTRUNYEAREND' && batch.details['what'] !='DISTRUN' && batch.details['who'] !='PSI' && batch.details['credential'] !='Blank transcript print' && batch.details['credential'] !='Blank certificate print'" class="p-0 mt-3 ">
             <label class="font-weight-bold p-0 m-0 row">Select Students</label>
             <b-form-select
               id="inline-form-select-audience"
