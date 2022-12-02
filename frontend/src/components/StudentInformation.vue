@@ -175,7 +175,6 @@
                   <span v-else-if="studentInfo.trueStudentID">
                     Fetching PEN...
                   </span>
-                  <!-- <router-link v-if="studentInfo.trueStudentID && isValidPEN(studentInfo.trueStudentID)" :to="'/student-profile/' + studentInfo.trueStudentID">{{ studentInfo.trueStudentID }}</router-link> -->
                   </b-td
                 >
                 <b-td class="px-2"
