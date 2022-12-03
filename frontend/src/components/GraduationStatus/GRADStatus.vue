@@ -132,7 +132,7 @@
             <h4 class="alert-heading">Student status: Terminated</h4>
             <p class="locked-message">
               This student's status is set to 'Terminated'. Re-activate their
-              record by setting their 'Student status' to 'Active' if they are
+              record by setting their 'Student status' to 'Current' if they are
               enrolled in a school.
             </p>
           </b-alert>
@@ -147,7 +147,7 @@
           <b-alert show variant="warning" class="p-3 mb-1">
             <h4 class="alert-heading">Student status: Archived</h4>
             <p class="locked-message">
-              This student is not active.  Re-activate by setting their status to "CUR" if they are currently attending school 
+              This student is not active. Re-activate by setting their status to "Current" if they are currently attending school 
             </p>
           </b-alert>
         </div>
