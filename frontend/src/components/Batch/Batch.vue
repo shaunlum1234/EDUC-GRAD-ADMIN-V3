@@ -1,5 +1,8 @@
 <template>
   <div>
+    <b-alert show variant="info">
+      {{batchTypeDesc}}
+    </b-alert>
     <b-overlay :show="processingBatch">
       <div class="row">
         <div class="col-12 col-md-3 border-right">
@@ -1009,6 +1012,7 @@ export default {
       transcriptTypes: [],
       gradDateFrom: "",
       gradDateTo: "",
+      batchTypeDesc:"",
       formElements: {
         PSIRUN: {
           group: [
@@ -1477,6 +1481,11 @@ export default {
         let batchDetail = this.batch;
         //change the value
         if (type == "what" && batchDetail.details[type] != event) {
+          for (let i=0; i < this.batchTypes.length; i++) {
+            if(this.batchTypes[i].code == event) {
+              this.batchTypeDesc = this.batchTypes[i].description;
+            } 
+          } 
           this.clearBatchDetails(id);
           if (event == "PSIRUN") {
             batchDetail.details["who"] = "PSI";
