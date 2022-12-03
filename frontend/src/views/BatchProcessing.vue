@@ -833,7 +833,7 @@ export default {
             timeZone: "PST",
           });
           //parameters
-          console.log(this.batchInfoListData)
+          //console.log(this.batchInfoListData)
 
           // console.log(JSON.stringify(this.batchInfoListData[0].jobParameters, null, "\t"))
           for(const [batch] in this.batchInfoListData){
