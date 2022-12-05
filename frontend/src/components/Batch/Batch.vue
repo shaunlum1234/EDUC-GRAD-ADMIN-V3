@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-alert show variant="info">
+    <b-alert :show="batchTypeDesc != ''" variant="info">
       {{batchTypeDesc}}
     </b-alert>
     <b-overlay :show="processingBatch">
