@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-alert show variant="info">
+    <b-alert :show="batchTypeDesc != ''" variant="info">
       {{batchTypeDesc}}
     </b-alert>
     <b-overlay :show="processingBatch">
@@ -97,6 +97,7 @@
             class="p-0 mt-3"
             v-if="
               batch.details['what'] &&
+              formElements[batch.details['what']] &&
               formElements[batch.details['what']].message
             "
           >
@@ -1031,6 +1032,10 @@ export default {
           psiYear: true,
           psiTransmissionMode: true,
         },
+        DISTRUN_SUPP:{
+        },
+        NONGRADRUN:{ 
+        },
         DISTRUN: {
           message:
             "This is the monthly distribution run and is not currently available for Users to run manually.",
@@ -1481,10 +1486,10 @@ export default {
         let id = this.jobId;
         let batchDetail = this.batch;
         //change the value
-        if (type == "what" && batchDetail.details[type] != event) {
-          for (let i=0; i < this.batchTypes.length; i++) {
-            if(this.batchTypes[i].code == event) {
-              this.batchTypeDesc = this.batchTypes[i].description;
+        if (type == "what" && batchDetail.details[type] != event ) {
+          for (const batchType of this.batchTypes) {
+            if(batchType.code == event) {
+              this.batchTypeDesc = batchType.description;
             } 
           } 
           this.clearBatchDetails(id);
