@@ -160,7 +160,6 @@
                       type="text"
                       placeholder="YYYY-MM-DD"
                       autocomplete="off"
-                      :formatter="format"
                       @input="editBatchJob('gradDateFrom', $event)"
                     ></b-form-input>
                     <ul
@@ -1133,9 +1132,6 @@ export default {
   },
 
   methods: {
-    format(value) {
-      return moment(value).format('YYYY-MM-DD')
-    },
     getBatchJobTypes() {
       BatchProcessingService.getBatchJobTypes()
         .then((response) => {
