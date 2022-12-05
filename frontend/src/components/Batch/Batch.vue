@@ -222,7 +222,7 @@
               id="inline-form-select-type"
               class="col-12 my-2"
               :options="[
-                { text: 'Choose...', value: null },
+                { text: '', value: null },
                 { text: '01 Public', value: '01' },
                 { text: '02 Independent', value: '02' },
                 { text: '03 Federally Operated Band School', value: '03' },
