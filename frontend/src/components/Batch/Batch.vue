@@ -133,7 +133,28 @@
             "
             class="p-0 mt-3"
           >
+
+          <div class="p-0 mt-3 col-3" v-if="batch.details['who'] == 'District'">
+            <label class="font-weight-bold">School Category</label>
+            <b-form-select
+              id="inline-form-select-type"
+              class="col-12 my-2"
+              :options="[
+                { text: 'Choose...', value: null },
+                { text: '01 Public', value: '01' },
+                { text: '02 Independent', value: '02' },
+                { text: '03 Federally Operated Band School', value: '03' },
+                { text: '04 Yukon School', value: '04' },
+                { text: '09 Offshore', value: '09' },
+              ]"
+              :value="batch.districts['categoryCode']"
+              @change="editBatchJob('categoryCode', $event)"
+            ></b-form-select>
+          </div>
+            <label class="font-weight-bold p-0 m-0 row">Grad Date</label>
+
             <label class="font-weight-bold p-0 m-0 row">Select Students</label>
+
             <b-form-select
               id="inline-form-select-audience"
               class="mb-2 mr-sm-2 mb-sm-0 col-3"
@@ -214,24 +235,6 @@
                 </b-input-group>
               </div>
             </div>
-          </div>
-
-          <div class="p-0 mt-3 col-3" v-if="batch.details['who'] == 'District'">
-            <label class="font-weight-bold">School Category</label>
-            <b-form-select
-              id="inline-form-select-type"
-              class="col-12 my-2"
-              :options="[
-                { text: '', value: null },
-                { text: '01 Public', value: '01' },
-                { text: '02 Independent', value: '02' },
-                { text: '03 Federally Operated Band School', value: '03' },
-                { text: '04 Yukon School', value: '04' },
-                { text: '09 Offshore', value: '09' },
-              ]"
-              :value="batch.districts['categoryCode']"
-              @change="editBatchJob('categoryCode', $event)"
-            ></b-form-select>
           </div>
           <div
             class="p-0 mt-3 col-3"
