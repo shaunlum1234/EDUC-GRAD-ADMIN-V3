@@ -97,6 +97,7 @@
             class="p-0 mt-3"
             v-if="
               batch.details['what'] &&
+              formElements[batch.details['what']] &&
               formElements[batch.details['what']].message
             "
           >
@@ -132,6 +133,7 @@
             "
             class="p-0 mt-3"
           >
+
           <div class="p-0 mt-3 col-3" v-if="batch.details['who'] == 'District'">
             <label class="font-weight-bold">School Category</label>
             <b-form-select
@@ -150,6 +152,9 @@
             ></b-form-select>
           </div>
             <label class="font-weight-bold p-0 m-0 row">Grad Date</label>
+
+            <label class="font-weight-bold p-0 m-0 row">Select Students</label>
+
             <b-form-select
               id="inline-form-select-audience"
               class="mb-2 mr-sm-2 mb-sm-0 col-3"
@@ -231,8 +236,6 @@
               </div>
             </div>
           </div>
-
-
           <div
             class="p-0 mt-3 col-3"
             v-if="
@@ -1032,6 +1035,10 @@ export default {
           psiYear: true,
           psiTransmissionMode: true,
         },
+        DISTRUN_SUPP:{
+        },
+        NONGRADRUN:{ 
+        },
         DISTRUN: {
           message:
             "This is the monthly distribution run and is not currently available for Users to run manually.",
@@ -1482,10 +1489,10 @@ export default {
         let id = this.jobId;
         let batchDetail = this.batch;
         //change the value
-        if (type == "what" && batchDetail.details[type] != event) {
-          for (let i=0; i < this.batchTypes.length; i++) {
-            if(this.batchTypes[i].code == event) {
-              this.batchTypeDesc = this.batchTypes[i].description;
+        if (type == "what" && batchDetail.details[type] != event ) {
+          for (const batchType of this.batchTypes) {
+            if(batchType.code == event) {
+              this.batchTypeDesc = batchType.description;
             } 
           } 
           this.clearBatchDetails(id);
