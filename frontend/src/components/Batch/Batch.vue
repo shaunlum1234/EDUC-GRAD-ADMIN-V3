@@ -151,7 +151,6 @@
               @change="editBatchJob('categoryCode', $event)"
             ></b-form-select>
           </div>
-            <label class="font-weight-bold p-0 m-0 row">Grad Date</label>
 
             <label class="font-weight-bold p-0 m-0 row">Select Students</label>
 
