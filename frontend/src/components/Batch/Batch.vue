@@ -825,7 +825,7 @@ TEST Schools: 04343000 04399143 02222022 06161064 06161049 03596573</pre
           size="sm"
           variant="primary"
           class="btn btn-primary w-100 float-right col-2 p-2"
-          :disabled="batch.details['what'] == 'DISTRUN'"
+          :disabled="(batch.details['what'] == 'DISTRUN') ||  (batchTypeDesc == '')"
         >
           Schedule/Run Batch
         </b-button>
