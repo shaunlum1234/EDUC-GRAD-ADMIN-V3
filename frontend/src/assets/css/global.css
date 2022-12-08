@@ -101,3 +101,10 @@ button.collapsed, button.not-collapsed, button.more-button {
 option:disabled {
   color: rgb(201 197 197) !important;
 }
+.dropdown-item.disabled, .dropdown-item:disabled {
+  color: rgb(201 197 197) !important;
+  pointer-events: none;
+}
+.disabled {
+  color: rgb(201 197 197) !important;
+}
