@@ -68,10 +68,10 @@
             <b-card
               v-if="batch.details['credential'] == 'Blank certificate print'"
               class="mt-3 px-0"
-              header="Blank Certificate Details"
+              header=""
             >
               <b-form-group
-                label="Blank Certificate Details"
+                label="Choose Certificate Type"
                 v-slot="{ blankCertificateDetailsOptions }"
               >
                 <b-form-checkbox-group
