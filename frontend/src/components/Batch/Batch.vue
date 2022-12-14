@@ -50,7 +50,7 @@
             <b-card
               v-if="batch.details['credential'] == 'Blank transcript print'"
               class="mt-3 px-0"
-              header="Blank Transcript Details"
+              header="Choose Transcript Type(s)"
             >
               <b-form-checkbox-group
                 multiple
@@ -832,6 +832,7 @@ TEST Schools: 04343000 04399143 02222022 06161064 06161049 03596573</pre
           (batch.details['what'] == '') ||
           (batch.details['who'] == '') ||
           (batch.details['who'] == 'Choose...') ||
+          (batch.details['credential'] == '')||
           (batch.details['where'] == '')
           "
         >
