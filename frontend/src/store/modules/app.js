@@ -5,7 +5,8 @@ export default {
     state: {
       programOptions:[],
       studentStatusOptions:[],
-      ungradReasons:[]
+      ungradReasons:[],
+      pageTitle:""
     },
     getters: {
       getProgramOptions(state){
@@ -19,6 +20,9 @@ export default {
       },
     },
     mutations: {
+      setPageTitle: (state, pageTitle) => {
+        state.pageTitle = pageTitle;
+      },
       setProgramOptions(state, payload){
         state.programOptions = payload;
       },

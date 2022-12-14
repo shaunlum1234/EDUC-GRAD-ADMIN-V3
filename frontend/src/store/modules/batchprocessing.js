@@ -1,3 +1,4 @@
+import StudentService from '@/services/StudentService.js';
 import BatchProcessingService from '@/services/BatchProcessingService.js';
 export default {
   namespaced: true,
@@ -61,6 +62,8 @@ export default {
       state.batchDetails[payload].programs=[{}];
       state.batchDetails[payload].students=[{}];
       state.batchDetails[payload].psi=[{}];
+      
+      
       state.batchDetails[payload]['details'].blankCertificateDetails=[{}];
       state.batchDetails[payload]['details'].blankTranscriptDetails=[{}];
       state.batchDetails[payload]['details'].credential="";
@@ -89,10 +92,18 @@ export default {
   },
   actions: {
     
-    addValueToTypeInBatchId({commit}, payload) {
-      commit('addValueToTypeInBatchId', payload);
+    validateStudentInGrad(payload){
+        
+      StudentService.getStudentByPen(payload['pen']).then(
+        (response) => {
+          this.$store.commit("batchprocessing/addValueToTypeInBatchId", payload);
+          return response;
+        }
+      ).catch((error) => {
+        // eslint-disable-next-line
+        console.log(error.response.status);
+      });
     },
-    
     setScheduledBatchJobs({commit}, payload) {
       commit('setScheduledBatchJobs', payload);
     },
