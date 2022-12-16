@@ -29,6 +29,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/batch-processing',
+      name: 'Batch Processing',
+      component: () => import('../views/BatchProcessing.vue'),
+      meta: {
+        guest: false
+      }
+    },    
+    {
       path: '/logout',
       name: 'Logout',
       component: () => import('../views/Logout.vue'),

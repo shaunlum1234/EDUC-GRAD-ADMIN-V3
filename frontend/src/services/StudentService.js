@@ -4,6 +4,9 @@ export default {
     getStudentByPen(pen) {
         return ApiService.apiAxios.get('/api/v1/student/pen/' + pen)
     },
+    getStudentByID(studentID) {
+        return ApiService.apiAxios.get('/api/v1/student/stdid/' + studentID)
+    },
     getStudentsByAdvancedSearch(advancedSearchInput){
         let queryString = ""
         for (const key in advancedSearchInput) {
