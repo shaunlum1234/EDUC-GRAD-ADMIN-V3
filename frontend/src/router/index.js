@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/Home.vue'
 import ErrorPage from '@/components/ErrorPage.vue';
 import BackendSessionExpired from '@/components/BackendSessionExpired.vue';
 import SessionExpired from '@/components/SessionExpired.vue';
@@ -13,12 +12,12 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
+      name: 'search',
+      component: () => import('../views/StudentSearch.vue'),
       meta: { 
         requiresAuth: true
       }
-    },
+    },    
     {
       path: '/login',
       name: 'Login',

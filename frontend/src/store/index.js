@@ -2,6 +2,7 @@
   import Vuex from "vuex";
   import app from '@/store/modules/app.js';
   import auth from '@/store/modules/auth.js';
+  import student from '@/store/modules/student.js';
 
   Vue.use(Vuex);
   
@@ -9,6 +10,7 @@
     
     modules: {
       app,
-      auth
+      auth,
+      student
     }
   })
