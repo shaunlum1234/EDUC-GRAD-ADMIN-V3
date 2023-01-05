@@ -1,19 +1,12 @@
 <template>
   <div>
-    <!-- <img
-      class="min-nav d-md-none"
-      src="../assets/images/bcid-logo-rev-en.svg"
-      width="200"
-      height="44"
-      alt="B.C. Government Logo"
-    /> -->
     <header>
       <div class="container">
         <div class="banner">
           <a class="navbar-brand" href="https://www2.gov.bc.ca">
             <img
               class="img-fluid d-md-block"
-              src="../assets/images/bcid-logo-rev-en.svg"
+              src="../../assets/images/bcid-logo-rev-en.svg"
               width="185"
               height="45"
               alt="B.C. Government Logo"
@@ -63,23 +56,6 @@
             >Batch Processing</router-link
           ></b-nav-item
         >
-        <b-nav-item v-if="!profile.pen" class="disabled"
-          ><a
-            id="profile-route"
-            class="text-decoration-none text-disabled"
-            :disabled="true"
-            >Profile (Student not loaded)</a
-          ></b-nav-item
-        >
-        <b-nav-item v-else
-          ><router-link
-            :to="`/student-profile/${this.profile.studentID}`"
-            id="profile-route"
-            >Profile ({{
-              profile.pen ? profile.pen : "Student not loaded"
-            }})</router-link
-          ></b-nav-item
-        >
         <b-nav-item class="user-burgernav">
           <div><slot></slot></div>
         </b-nav-item>
@@ -118,74 +94,14 @@
           <li>
             <router-link to="/batch-processing">Batch Processing</router-link>
           </li>
-          <li v-if="!profile.pen" class="disabled">
-            <a
-              id="profile-route"
-              class="text-decoration-none text-disabled"
-              :disabled="true"
-              >Profile (Student not loaded)</a
-            >
-          </li>
-          <li v-else>
-            <router-link
-              :to="`/student-profile/${this.profile.studentID}`"
-              id="profile-route"
-              >Profile ({{
-                profile.pen ? profile.pen : "Student not loaded"
-              }})</router-link
-            >
-          </li>
-          <li>
-            <form v-on:submit.prevent>
-              <div class="form-group top-search">
-                <!-- Pen Input -->
-                <div>
-                  <b-form-input
-                    maxlength="9"
-                    minlength="9"
-                    size="sm"
-                    id="search-by-pen-header"
-                    type="search"
-                    v-model="penInput"
-                    placeholder="PEN"
-                    ref="penSearch"
-                    v-on:keyup="keyHandler"
-                    class="w-75 float-left m-1"
-                  >
-                  </b-form-input>
-                  <button
-                    v-if="!searchLoading"
-                    v-on:click="findStudentByPen"
-                    class="btn btn-primary float-left"
-                    style="padding: 0.35em 0.65em"
-                  >
-                    <img
-                      src="../assets/images/icon-search.svg"
-                      width="24px"
-                      aria-hidden="true"
-                      alt=""
-                    />
-                  </button>
-                  <button
-                    v-else
-                    label="Searching"
-                    class="btn btn-success ml-2 float-left"
-                  >
-                    <b-spinner small></b-spinner>
-                  </button>
-                </div>
-              </div>
-            </form>
-          </li>
         </ul>
       </div>
     </nav>
   </div>
 </template>
 <script>
-import StudentService from "@/services/StudentService.js";
-import sharedMethods from "../sharedMethods";
 import { mapGetters } from "vuex";
+import sharedMethods from "@/sharedMethods";
 export default {
   data() {
     return {
@@ -203,7 +119,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      profile: "getStudentProfile",
+      //profile: "getStudentProfile",
     }),
   },
   methods: {
@@ -215,45 +131,6 @@ export default {
       this.$store.commit("unsetStudent");
       this.$store.commit("logout");
       this.$router.push("/logout");
-    },
-    selectStudent() {
-      this.$router.push("/");
-    },
-    findStudentByPen: function () {
-      if (this.penInput) {
-        this.searchLoading = true;
-        this.studentSearchResults = [];
-        StudentService.getStudentByPen(this.penInput)
-          .then((response) => {
-            if (response.data) {
-              this.$store.commit("unsetStudent");
-              this.loadStudent(response.data);
-              this.$store.dispatch(
-                "setQuickSearchPen",
-                response.data[0].studentID
-              );
-              this.searchLoading = false;
-              this.penInput = "";
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line
-            console.log("BCHeader: " + error);
-            this.searchLoading = false;
-            this.showNotification(
-              "danger",
-              "Student cannot be found on the GRAD or PEN database"
-            );
-          });
-      }
-    },
-    keyHandler: function (e) {
-      if (e.keyCode === 13) {
-        this.studentSearchResults = [];
-        if (this.penInput) {
-          this.findStudentByPen();
-        }
-      }
     },
   },
 };
@@ -373,12 +250,6 @@ header .nav-btn {
   font-weight: bold;
 }
 
-.min-nav {
-  position: fixed;
-  left: 80px;
-  z-index: 110;
-  top: 5px;
-}
 .burgernav {
   position: fixed;
 }

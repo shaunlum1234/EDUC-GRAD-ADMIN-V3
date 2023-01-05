@@ -1,11 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import ErrorPage from '@/components/ErrorPage.vue';
 import BackendSessionExpired from '@/components/BackendSessionExpired.vue';
 import SessionExpired from '@/components/SessionExpired.vue';
 import UnAuthorized from '@/components/UnAuthorized.vue';
 import UnAuthorizedPage from '@/components/UnAuthorizedPage.vue';
-import Assessments from '@/views/Assessments.vue';
 import authStore from '@/store/modules/auth';
 import store from '@/store/index';
 
@@ -14,12 +12,12 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
+      name: 'search',
+      component: () => import('../views/StudentSearch.vue'),
       meta: { 
         requiresAuth: true
       }
-    },
+    },    
     {
       path: '/login',
       name: 'Login',
@@ -51,7 +49,15 @@ const router = createRouter({
       meta: {
         requiresAuth: true
       }
-    } ,    
+    },
+    {
+      path: '/courses',
+      name: 'Courses',
+      component: () => import('../views/Courses.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },        
     {
       path: '/error',
       name: 'error',

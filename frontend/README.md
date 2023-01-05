@@ -1,6 +1,10 @@
 # ECC GRAD ADMIN
 
 Working:
+VULIDATE UPDATED
+Updated vuelidate for vue 3
+-updated validations on advanced search to new syntax.
+
 
 VUE3/VITE
 Vite-dev proxy working with backend
