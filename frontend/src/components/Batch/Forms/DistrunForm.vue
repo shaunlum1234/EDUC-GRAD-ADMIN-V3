@@ -35,30 +35,6 @@
         { text: 'User', value: 'User' },
       ]"
     ></b-form-select>
-
-    <b-button
-      size="sm"
-      variant="danger"
-      class="btn btn-danger float-right col-2 p-2"
-    >
-      Cancel
-    </b-button>
-    <b-button
-      size="sm"
-      variant="primary"
-      class="btn btn-primary w-100 float-right col-2 p-2"
-    >
-      Run
-    </b-button>
-    <b-button
-      size="sm"
-      variant="primary"
-      class="btn btn-primary w-100 float-right col-2 p-2"
-      :disabled="!isValid"
-      @click="submit"
-    >
-      Schedule/Run Batch
-    </b-button>
   </div>
 </template>
 <script>

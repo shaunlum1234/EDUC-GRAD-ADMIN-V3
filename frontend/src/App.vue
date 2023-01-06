@@ -6,13 +6,12 @@ import HttpStatus from "http-status-codes";
 
 <template>
   <div>
-
     <BCHeader class="bcheader"></BCHeader>
     <div class="container main-content">
       <RouterView />
     </div>
     <footer>
-      <BCFooter></BCFooter>
+      <BCFooter class="bc-footer"></BCFooter>
     </footer>
   </div>
 </template>
@@ -75,14 +74,12 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-footer {
-   position: fixed;
-   bottom: 0;
-   width: 100%;
-   height: 58px;   /* Height of the footer */
-   z-index: 100;
-   
-  
+.bc-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 58px; /* Height of the footer */
+  z-index: 100;
 }
 .logo {
   align-self: center;
@@ -113,7 +110,7 @@ ul.sidebar-panel-nav > li > a {
 .container {
   max-width: 100% !important;
 }
-.main-content{
+.main-content {
   padding-bottom: 60px;
 }
 @media (min-width: 1300px) {
