@@ -49,7 +49,15 @@ const router = createRouter({
       meta: {
         requiresAuth: true
       }
-    },        
+    },
+    {
+      path: '/student-profile/:studentId',
+      name: 'student-profile',
+      component: () => import ('../views/StudentProfile.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },       
     {
       path: '/error',
       name: 'error',
