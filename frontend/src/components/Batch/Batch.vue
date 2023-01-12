@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-alert :show="batchTypeDesc != ''" variant="info">
-      {{batchTypeDesc}}
+      {{ batchTypeDesc }}
     </b-alert>
     <b-overlay :show="processingBatch">
       <div class="row">
@@ -133,24 +133,26 @@
             "
             class="p-0 mt-3"
           >
-
-          <div class="p-0 mt-3 col-3" v-if="batch.details['who'] == 'District'">
-            <label class="font-weight-bold">School Category</label>
-            <b-form-select
-              id="inline-form-select-type"
-              class="col-12 my-2"
-              :options="[
-                { text: 'Choose...', value: null },
-                { text: '01 Public', value: '01' },
-                { text: '02 Independent', value: '02' },
-                { text: '03 Federally Operated Band School', value: '03' },
-                { text: '04 Yukon School', value: '04' },
-                { text: '09 Offshore', value: '09' },
-              ]"
-              :value="batch.districts['categoryCode']"
-              @change="editBatchJob('categoryCode', $event)"
-            ></b-form-select>
-          </div>
+            <div
+              class="p-0 mt-3 col-3"
+              v-if="batch.details['who'] == 'District'"
+            >
+              <label class="font-weight-bold">School Category</label>
+              <b-form-select
+                id="inline-form-select-type"
+                class="col-12 my-2"
+                :options="[
+                  { text: 'Choose...', value: null },
+                  { text: '01 Public', value: '01' },
+                  { text: '02 Independent', value: '02' },
+                  { text: '03 Federally Operated Band School', value: '03' },
+                  { text: '04 Yukon School', value: '04' },
+                  { text: '09 Offshore', value: '09' },
+                ]"
+                :value="batch.districts['categoryCode']"
+                @change="editBatchJob('categoryCode', $event)"
+              ></b-form-select>
+            </div>
 
             <label class="font-weight-bold p-0 m-0 row">Select Students</label>
 
@@ -171,19 +173,19 @@
               <div class="float-left col-3 m-0 p-0">
                 <strong><label class="pt-1">Grad Start Date</label></strong>
                 <b-input-group class="mb-3">
-                    <b-form-input
-                      id="gradDateFromInput"
-                      v-model="gradDateFrom"
-                      type="date"
-                      placeholder="YYYY-MM-DD"
-                      autocomplete="off"
-                      @input="editBatchJob('gradDateFrom', $event)"
-                    ></b-form-input>
-                    <ul
-                      class="position-absolute form-validation-message text-danger"
-                    >
-                      <li v-for="error in errors" :key="error">{{ error }}</li>
-                    </ul>
+                  <b-form-input
+                    id="gradDateFromInput"
+                    v-model="gradDateFrom"
+                    type="date"
+                    placeholder="YYYY-MM-DD"
+                    autocomplete="off"
+                    @input="editBatchJob('gradDateFrom', $event)"
+                  ></b-form-input>
+                  <ul
+                    class="position-absolute form-validation-message text-danger"
+                  >
+                    <li v-for="error in errors" :key="error">{{ error }}</li>
+                  </ul>
                   <b-input-group-append>
                     <b-form-datepicker
                       v-model="gradDateFrom"
@@ -199,18 +201,18 @@
               <div class="float-left col-4">
                 <strong><label class="pt-1">Grad End Date</label></strong>
                 <b-input-group class="mb-3">
-                    <b-form-input
-                      id="gradDateToInput"
-                      v-model="gradDateTo"
-                      type="text"
-                      placeholder="YYYY-MM-DD"
-                      autocomplete="off"
-                      @input="editBatchJob('gradDateTo', $event)"
-                    ></b-form-input>
-                    <span
-                      class="position-absolute form-validation-message text-danger"
-                      >{{ errors[0] }}</span
-                    >
+                  <b-form-input
+                    id="gradDateToInput"
+                    v-model="gradDateTo"
+                    type="text"
+                    placeholder="YYYY-MM-DD"
+                    autocomplete="off"
+                    @input="editBatchJob('gradDateTo', $event)"
+                  ></b-form-input>
+                  <span
+                    class="position-absolute form-validation-message text-danger"
+                    >{{ errors[0] }}</span
+                  >
                   <b-input-group-append>
                     <b-form-datepicker
                       v-model="gradDateTo"
@@ -600,54 +602,53 @@
 
             <div v-for="(school, index) in batch.schools" :key="index" class="">
               <div v-if="!school.schoolName" class="mb-3">
-                  <form
-                    @submit.prevent="
-                      passes(
-                        addValueToTypeInBatchId(
-                          jobId,
-                          'schools',
-                          school.value,
-                          index
-                        )
+                <form
+                  @submit.prevent="
+                    passes(
+                      addValueToTypeInBatchId(
+                        jobId,
+                        'schools',
+                        school.value,
+                        index
                       )
-                    "
-                    class="row col-12"
-                  >
-                    <div class="col-2 p-0 m-0">
-                     
-                        <b-form-input type="number" v-model="school.value" />
-                        <span
-                          class="position-absolute w-100 form-validation-message text-danger"
-                          >{{ errors[0] }}</span
-                        >
-                    </div>
-                    <b-form-input
-                      show="false"
-                      disabled
-                      v-model="school.schoolName"
-                      :ref="'schoolName' + jobId + index"
-                      class="col-3"
-                    />
-                    <b-form-input
-                      show="false"
-                      disabled
-                      v-model="school.districtName"
-                      :ref="'districtName' + jobId + index"
-                      class="col-2"
-                    />
-                    <b-form-input
-                      show="false"
-                      disabled
-                      v-model="school.address"
-                      :ref="'address' + jobId + index"
-                      class="col-3"
-                    />
-                    <div v-if="index == batch.schools.length - 1" class="col-2">
-                      <button :disabled="invalid" class="btn btn-primary w-100">
-                        <b-spinner small v-if="validating"></b-spinner> Add
-                      </button>
-                    </div>
-                  </form>
+                    )
+                  "
+                  class="row col-12"
+                >
+                  <div class="col-2 p-0 m-0">
+                    <b-form-input type="number" v-model="school.value" />
+                    <span
+                      class="position-absolute w-100 form-validation-message text-danger"
+                      >{{ errors[0] }}</span
+                    >
+                  </div>
+                  <b-form-input
+                    show="false"
+                    disabled
+                    v-model="school.schoolName"
+                    :ref="'schoolName' + jobId + index"
+                    class="col-3"
+                  />
+                  <b-form-input
+                    show="false"
+                    disabled
+                    v-model="school.districtName"
+                    :ref="'districtName' + jobId + index"
+                    class="col-2"
+                  />
+                  <b-form-input
+                    show="false"
+                    disabled
+                    v-model="school.address"
+                    :ref="'address' + jobId + index"
+                    class="col-3"
+                  />
+                  <div v-if="index == batch.schools.length - 1" class="col-2">
+                    <button :disabled="invalid" class="btn btn-primary w-100">
+                      <b-spinner small v-if="validating"></b-spinner> Add
+                    </button>
+                  </div>
+                </form>
               </div>
               <div class="row col-12 mb-2">
                 <div v-if="school.schoolName" class="col-2">
@@ -931,7 +932,7 @@ export default {
       transcriptTypes: [],
       gradDateFrom: "",
       gradDateTo: "",
-      batchTypeDesc:"",
+      batchTypeDesc: "",
       formElements: {
         PSIRUN: {
           group: [
@@ -949,10 +950,8 @@ export default {
           psiYear: true,
           psiTransmissionMode: true,
         },
-        DISTRUN_SUPP:{
-        },
-        NONGRADRUN:{ 
-        },
+        DISTRUN_SUPP: {},
+        NONGRADRUN: {},
         DISTRUN: {
           message:
             "This is the monthly distribution run and is not currently available for Users to run manually.",
@@ -1403,12 +1402,12 @@ export default {
         let id = this.jobId;
         let batchDetail = this.batch;
         //change the value
-        if (type == "what" && batchDetail.details[type] != event ) {
+        if (type == "what" && batchDetail.details[type] != event) {
           for (const batchType of this.batchTypes) {
-            if(batchType.code == event) {
+            if (batchType.code == event) {
               this.batchTypeDesc = batchType.description;
-            } 
-          } 
+            }
+          }
           this.clearBatchDetails(id);
           if (event == "PSIRUN") {
             batchDetail.details["who"] = "PSI";
@@ -1484,11 +1483,9 @@ export default {
     },
   },
   props: {
-    jobId: String,
-    currentPSIYear: Number,
+    batchRunsData: Array,
   },
-  computed: {
-  },
+  computed: {},
 };
 </script>
 <style scoped>

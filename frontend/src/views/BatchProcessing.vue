@@ -1,6 +1,47 @@
 <template>
   <div class="batch-processing-view">
     <h1>Batch Processing</h1>
+
+    <div></div>
+    <label class="font-weight-bold">New Request</label>
+    <b-form-select
+      id="inline-form-select-type"
+      class="mb-2 mr-sm-2 mb-sm-0"
+      :options="batchTypes"
+      value-field="code"
+      text-field="label"
+      text="New Request"
+      v-model="runType"
+      variant="primary"
+      @change="newBatchRequest"
+    >
+    </b-form-select>
+    <b-card>
+      <b-tabs>
+        <b-tab :title="'Batch Runs (' + batchRuns.length + ')'" active>
+          <b-card-text class="row">
+            <BatchRuns></BatchRuns>
+          </b-card-text>
+        </b-tab>
+        <b-tab :title="'Routines (' + batchRoutines.length + ')'" active>
+          <b-card-text class="row">
+            <BatchRoutines></BatchRoutines>
+          </b-card-text>
+        </b-tab>
+      </b-tabs>
+    </b-card>
+    <!-- 
+        <b-tab :title="'Scheduled ' + scheduledBatchRuns.length" active>
+          <b-card-text class="row">
+            <ScheduledBatchRuns></ScheduledBatchRuns>
+          </b-card-text>
+        </b-tab>
+        <b-tab :title="'Routines ' + batchRoutines.length" active>
+          <b-card-text class="row">
+            <BatchRoutines></BatchRoutines>
+          </b-card-text>
+        </b-tab> </b-tabs
+    ></b-card> -->
     <div>
       <ul>
         <li>Disable a submit buttons</li>
@@ -13,39 +54,17 @@
         <li>validate students based on response</li>
       </ul>
     </div>
-    <div></div>
-    <strong>FORM VALUES:</strong><br />
-    {{ runType }}
     <div>
-      <label class="font-weight-bold">Run Type</label>
-      <b-form-select
-        id="inline-form-select-type"
-        class="mb-2 mr-sm-2 mb-sm-0"
-        :options="batchTypes"
-        value-field="code"
-        text-field="label"
-        text="New Request"
-        v-model="runType"
-        variant="primary"
-        @change="newBatchRequest"
-      >
-      </b-form-select>
-
       <!-- Modal Dialogs -->
 
-      <b-modal ref="newBatchRequestModal" title="New Batch Request">
-        {{ batchRunTime }}ss
-        {{ batchRunCustomDate }}
-        {{ batchRunCustomTime }}
-        {{ batchRunSchedule }}
-        <div class="d-block text-center">
+      <b-modal ref="newBatchRequestModal" size="xl" title="New Batch Request">
+        <div class="d-block">
           <div v-if="runType == 'DISTRUNUSER'">
-            <DistrunForm></DistrunForm>
+            <DistrunForm v-model:schools="schools"></DistrunForm>
           </div>
         </div>
-        <div class="d-block text-center">
+        <div class="d-block">
           <div v-if="runType == 'DISTRUNUSER'"></div>
-          {{ batchRunTime }}
           <div class="runSchedule">
             <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }">
               <b-form-radio-group v-model="batchRunSchedule">
@@ -62,40 +81,41 @@
                   >Run Later</b-form-radio
                 >
               </b-form-radio-group>
+
               <b-form-group
                 v-if="batchRunSchedule == 'Run Later'"
                 label="Schedule"
                 v-slot="{ ariaDescribedby }"
               >
                 <b-form-radio
-                  v-model="batchRunTime"
+                  v-model="cronTime"
                   :aria-describedby="ariaDescribedby"
                   name="schedule-options"
                   value="N"
                   >Tonight at 6:30PM</b-form-radio
                 >
                 <b-form-radio
-                  v-model="batchRunTime"
+                  v-model="cronTime"
                   :aria-describedby="ariaDescribedby"
                   name="schedule-options"
                   value="W"
                   >Weekend Batch - Saturday 12:00PM</b-form-radio
                 >
                 <b-form-radio
-                  v-model="batchRunTime"
+                  v-model="cronTime"
                   :aria-describedby="ariaDescribedby"
                   name="schedule-options"
                   value="M"
                   >Tomorrow at 6:30AM</b-form-radio
                 >
                 <b-form-radio
-                  v-model="batchRunTime"
+                  v-model="cronTime"
                   :aria-describedby="ariaDescribedby"
                   name="schedule-options"
                   value="Custom"
                   >Custom</b-form-radio
                 >
-                <div class="pl-4" v-if="batchRunTime == 'Custom'">
+                <div class="pl-4" v-if="cronTime == 'Custom'">
                   <!-- <label for="batch-datepicker">Choose a date:</label> -->
 
                   <b-form-datepicker
@@ -119,7 +139,7 @@
           <b>Run:</b>
           <!-- Emulate built in modal footer ok and cancel button actions -->
           <b-button
-            v-if="batchRunSchedule == 'Run Now'"
+            v-if="!v$.invalid"
             size="sm"
             variant="success"
             @click="runBatchRequest()"
@@ -144,23 +164,55 @@
 <script>
 import BatchProcessingService from "@/services/BatchProcessingService.js";
 import DistrunForm from "@/components/Batch/Forms/DistrunForm.vue";
+import BatchRuns from "@/components/Batch/BatchRuns.vue";
+import ScheduledBatchRuns from "@/components/Batch/ScheduledBatchRuns.vue";
+import BatchRoutines from "@/components/Batch/BatchRoutines.vue";
+import DisplayTable from "@/components/DisplayTable.vue";
+import { useVuelidate } from "@vuelidate/core";
+import { isProxy, toRaw } from "vue";
+import sharedMethods from "../sharedMethods";
 import { mapGetters } from "vuex";
 
 export default {
   components: {
     DistrunForm: DistrunForm,
+    DisplayTable: DisplayTable,
+    BatchRoutines: BatchRoutines,
+    BatchRuns: BatchRuns,
+    ScheduledBatchRuns: ScheduledBatchRuns,
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
       batchTypes: [],
       runType: "",
-      scheduleBatch: "",
       cronTime: "",
-      batchRunTime: "Run Now",
       batchRunCustomDate: "",
       batchRunCustomTime: "",
-      batchRunSchedule: "",
+
+      batchRunSchedule: "Run Now",
+      schools: [],
+      batchRunData: [],
     };
+  },
+  computed: {
+    ...mapGetters({
+      batchRuns: "batchprocessing/getBatchRuns",
+      batchScheduledRuns: "batchprocessing/getScheduledBatchJobs",
+      batchRoutines: "batchprocessing/getBatchRoutines",
+    }),
+    // batchRunsCount() {
+    //   console.log(this.batchRuns.length);
+    //   return this.batchRuns.length > 0 ? batchRuns.length : 0;
+    // },
+    // scheduledBatchRunsCount() {
+    //   return this.scheduledBatchRuns.length > 0 ? scheduledBatchRuns.length : 0;
+    // },
+    // batchRoutinesCount() {
+    //   return this.batchRoutines.length > 0 ? batchRoutines.length : 0;
+    // },
   },
   created() {
     BatchProcessingService.getBatchJobTypes()
@@ -177,11 +229,27 @@ export default {
       });
   },
   methods: {
-    runBatchRequest() {
-      if (scheduleBatch) {
-        console.log("Batch Scheduled for " + scheduleBatch);
-        if (runType == "DISTRUN") {
-          console.log("RUNNING DISTRUN");
+    async validateForm() {
+      const result = await this.v$.$validate();
+    },
+
+    async runBatchRequest() {
+      const result = await this.v$.$validate();
+      if (!result) {
+        console.log("INVALID");
+        return;
+      }
+      console.log("VALID");
+      console.log(this.runType);
+      if (this.runType == "DISTRUNUSER") {
+        console.log("RUNNING DISTRUN" + this.cronTime);
+        if (this.cronTime) {
+          this.groups;
+          console.log("Scheduled" + this.cronTime);
+        }
+        if (isProxy(this.schools)) {
+          console.log("IS PROXY");
+          this.schools = toRaw(this.schools);
         }
       }
     },
@@ -196,10 +264,9 @@ export default {
       this.clearBatchRequest();
     },
     clearBatchRequest() {
-      this.scheduleBatch = "";
       this.runType = "";
       this.cronTime = "";
-      this.batchRunTime = "Run Now";
+      this.batchRunSchedule = "Run Now";
       this.batchRunCustomDate = "";
       this.batchRunCustomTime = "";
       this.batchRunSchedule = "";

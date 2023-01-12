@@ -80,8 +80,9 @@ opacity: 1;
 .btn-secondary.disabled:hover{
   background:#38598a
 }
-
-
+.input-errors{
+  color:red;
+}
 /* Buttons */
 .gov-btn{
   color: #fff;
