@@ -1,6 +1,7 @@
 <template>
   <div>
     <label class="font-weight-bold">Credential Type</label>
+
     <b-form-select
       id="inline-form-select-audience"
       class="mb-2 mr-sm-2 mb-sm-0"
@@ -26,23 +27,41 @@
       ]"
       v-model="credentialType"
     ></b-form-select>
-    <b-card
-      v-if="credentialType == 'Blank transcript print'"
-      class="mt-3 px-0"
-      header="Choose Transcript Type(s)"
-    >
-      <b-form-checkbox-group
-        multiple
-        stacked
-        :select-size="10"
-        id="inline-form-select-audience"
-        class="mb-2 mr-sm-2 mb-sm-0"
-        :options="transcriptTypes"
-        value-field="code"
-        text-field="description"
-        v-model="credentialDetails"
-      ></b-form-checkbox-group>
-    </b-card>
+    <div class="accordion" role="tablist">
+      <b-card no-body class="mb-1">
+        <b-card-header header-tag="header" class="p-1" role="tab">
+          <b-button block v-b-toggle.accordion-1 variant="info"
+            >Choose Transcript Type</b-button
+          >
+        </b-card-header>
+        <b-collapse
+          id="accordion-1"
+          visible
+          accordion="my-accordion"
+          role="tabpanel"
+        >
+          <b-card
+            v-if="credentialType == 'Blank transcript print'"
+            class="mt-3 px-0"
+            header="Choose Transcript Type(s)"
+          >
+            <b-form-checkbox-group
+              multiple
+              stacked
+              :select-size="10"
+              id="inline-form-select-audience"
+              class="mb-2 mr-sm-2 mb-sm-0"
+              :options="transcriptTypes"
+              value-field="code"
+              text-field="description"
+              v-model="credentialDetails"
+            ></b-form-checkbox-group>
+          </b-card>
+        </b-collapse>
+      </b-card>
+      {{ credentialDetails.length ? credentialDetails : "" }}
+    </div>
+
     <label class="font-weight-bold pt-1">Group</label>
     <b-form-select
       id="inline-form-select-audience"
@@ -138,12 +157,12 @@ export default {
   },
   data: function () {
     return {
-      credentialDetails: "",
+      credentialDetails: [],
       credentialType: "",
       schedule: "",
-      where: "",
+      where: "BC Mail",
       group: "",
-      copies: "",
+      copies: "1",
       groupData: [],
       schools: [],
       students: [],

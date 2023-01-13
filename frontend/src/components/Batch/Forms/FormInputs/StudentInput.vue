@@ -49,7 +49,7 @@
         </div> -->
     <b-card title="Include Student(s)">
       <b-card-text>
-        <b-label>Mincode</b-label>
+        <label>Mincode</label>
         <b-input
           type="number"
           v-model="mincode"

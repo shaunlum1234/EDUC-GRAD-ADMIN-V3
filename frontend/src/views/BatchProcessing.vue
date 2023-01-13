@@ -139,7 +139,7 @@
           <b>Run:</b>
           <!-- Emulate built in modal footer ok and cancel button actions -->
           <b-button
-            v-if="!v$.invalid"
+            v-if="batchRunSchedule == 'Run Now'"
             size="sm"
             variant="success"
             @click="runBatchRequest()"
@@ -248,9 +248,9 @@ export default {
           console.log("Scheduled" + this.cronTime);
         }
         if (isProxy(this.schools)) {
-          console.log("IS PROXY");
           this.schools = toRaw(this.schools);
         }
+        this.hideBatchRequestModal();
       }
     },
     newBatchRequest() {

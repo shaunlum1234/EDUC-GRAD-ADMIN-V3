@@ -63,45 +63,48 @@
     </div>
     <b-card title="Include School(s)">
       <b-card-text>
-        <b-label>Mincode</b-label>
-        <b-input
-          type="number"
-          v-model="mincode"
-          @change="validateSchool"
-          class="w-25"
-        />
-        <div
-          class="input-errors"
-          v-for="error of v$.mincode.$errors"
-          :key="error.$uid"
-        >
-          <div class="error-msg">{{ error.$message }}</div>
-        </div>
-        <div v-if="mincodeSchoolInfo">
-          <b-card>
-            <b-card-text>
-              <b-spinner v-if="mincodeValidating"></b-spinner>
-              <b-overlay :show="mincodeValidating">
-                <div v-if="!mincodeSchoolInfo">NOT VALID</div>
-                <div v-else>
-                  <strong>School Name:</strong> {{ mincodeSchoolInfo.schoolName
-                  }}<br />
-                  <strong>District Name:</strong>
-                  {{ mincodeSchoolInfo.districtName }}<br />
-                  <strong>Address</strong> {{ mincodeSchoolInfo.address }}<br />
-                </div>
-              </b-overlay>
-            </b-card-text>
-            <b-button
-              :disabled="!this.mincodeSchoolInfo"
-              @click="addSchool()"
-              class="float-right"
-              >Add</b-button
+        <div class="row">
+          <div class="col-md-2 py-2">
+            <label>Mincode</label>
+            <b-input type="number" v-model="mincode" @input="validateSchool" />
+            <div
+              class="input-errors"
+              v-for="error of v$.mincode.$errors"
+              :key="error.$uid"
             >
-          </b-card>
+              <div class="error-msg">{{ error.$message }}</div>
+            </div>
+          </div>
+          <div class="col-md-10" v-if="mincodeSchoolInfo">
+            <b-card>
+              <b-card-text>
+                <b-spinner v-if="mincodeValidating"></b-spinner>
+                <b-overlay :show="mincodeValidating">
+                  <Transition :duration="{ enter: 500, leave: 800 }">
+                    <div v-if="!mincodeSchoolInfo">NOT VALID</div>
+                    <div v-else>
+                      <strong>School Name:</strong>
+                      {{ mincodeSchoolInfo.schoolName }}<br />
+                      <strong>District Name:</strong>
+                      {{ mincodeSchoolInfo.districtName }}<br />
+                      <strong>Address</strong> {{ mincodeSchoolInfo.address
+                      }}<br />
+                    </div>
+                  </Transition>
+                </b-overlay>
+              </b-card-text>
+              <b-button @click="addSchool()" class="float-right"
+                >Add School</b-button
+              >
+            </b-card>
+          </div>
         </div>
 
-        <b-table :items="schools" :fields="schoolInputFields">
+        <b-table
+          v-if="schools.length"
+          :items="schools"
+          :fields="schoolInputFields"
+        >
           <template #cell(remove)="row">
             <b-button
               class="btn btn-primary w-100"
@@ -131,6 +134,7 @@
   </div>
 </template>
 <script>
+import { isProxy, toRaw } from "vue";
 import TRAXService from "@/services/TRAXService.js";
 import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
@@ -186,19 +190,19 @@ export default {
       schoolInputFields: [
         {
           key: "mincode",
-          label: "mincode",
+          label: "Mincode",
           sortable: true,
           class: "text-left",
         },
         {
           key: "info",
-          label: "info",
+          label: "School",
           sortable: true,
           class: "text-left",
         },
         {
           key: "remove",
-          label: "remove",
+          label: "",
           sortable: true,
           class: "text-left",
         },
@@ -212,11 +216,16 @@ export default {
   methods: {
     async validateSchool() {
       this.mincodeValidating = true;
-      this.clearmincodeSchoolInfo();
-      const result = await this.v$.$validate();
-      if (!result) {
-        return;
+      console.log(this.mincode.length);
+      if (this.mincode.length < 8) {
+        this.clearmincodeSchoolInfo();
+      } else {
+        const result = await this.v$.$validate();
+        if (!result) {
+          return;
+        }
       }
+
       this.mincodeValidating = false;
     },
     clearmincodeSchoolInfo() {
@@ -236,14 +245,15 @@ export default {
       this.$emit("update:schools", this.schools);
     },
     removeSchool(mincode) {
-      for (const school of this.schools) {
-        console.log(mincode + "-" + school.mincode);
-        if (school.mincode == mincode) {
-          console.log("delete " + mincode + " - " + index);
-
-          //   console.log(this.schools);
-          //   this.schools.splice(index, 1);
-          //   console.log(this.schools);
+      const schoolList = toRaw(this.schools);
+      console.log(schoolList);
+      for (const [index, school] in schoolList) {
+        //   console.log(school);
+        if (schoolList[index].mincode == mincode) {
+          console.log(mincode);
+          //     //   console.log(this.schools);
+          this.schools.splice(index, 1);
+          //     //   console.log(this.schools);
         }
       }
     },

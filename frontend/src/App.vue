@@ -10,9 +10,7 @@ import HttpStatus from "http-status-codes";
     <div class="container main-content">
       <RouterView />
     </div>
-    <footer>
-      <BCFooter class="bc-footer"></BCFooter>
-    </footer>
+    <BCFooter class="bc-footer"></BCFooter>
   </div>
 </template>
 <script>
