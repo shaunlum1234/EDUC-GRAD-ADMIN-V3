@@ -135,7 +135,7 @@
           </div>
           <b-card class="mt-3 p-0" title="Batch Job Parameters">
             <b-card-text>
-              <pre
+              <pre v-if="row.item.jobParameters"
                 >{{ JSON.stringify(row.item.jobParameters, null, "\t") }} </pre
               >
             </b-card-text>

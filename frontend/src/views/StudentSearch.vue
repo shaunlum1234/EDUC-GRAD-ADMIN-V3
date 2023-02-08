@@ -974,7 +974,7 @@ export default {
   },
   methods: {
     closeRecord: function () {
-      this.$store.commit("unsetStudent");
+      this.$store.commit("student/unsetStudent");
     },
     keyHandler: function (e) {
       if (e.keyCode === 13) {

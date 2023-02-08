@@ -1,100 +1,59 @@
 <template>
   <div>
-    <!-- <b-card class="mt-3 px-0" :header="'Include ' + label "> -->
-    <!-- <b-alert dismissible v-if="validationMessage" :show="validationMessage" variant="danger">{{validationMessage}}</b-alert>
-        <div class="row col-12 border-bottom mb-3">
-          <div v-for="(field) in fields" :key="field.key" class="col-2">
-              <strong> {{field.label}}</strong>
-          </div>
-        </div>
-        
-        <div v-for="(school, index) in batch[group]" :key="index" class="">
-          <div v-if="!school[fields[1].key]" class="mb-3">
-
-
-            <ValidationObserver v-slot="{passes, invalid}">
-            <form @submit.prevent="passes(addValueToTypeInBatchId(jobId,group,school.value,index))" class="row col-12">
-              <div v-for="(field) in fields" :key="field + index">
-                <ValidationProvider :name="label" :rules="'mincodelength|validateschool:' + jobId + ',' + index + ',' + batch.details['credential']" v-slot="{ errors }">                
-                    <span class="position-absolute w-100 form-validation-message text-danger">{{ errors[0] }}</span>
-                    <b-form-input v-if="field.isInput" type="number" v-model="school.value"/>    
-                    <b-form-input v-else show="false" :disabled=true v-model="school[field.key]" :ref="field.key + jobId + index" class="col-12"/>
-                </ValidationProvider>
-                
-                            
-                
-              </div>
-                <div v-if="index == batch[group].length-1" class="col-2">
-                  <button :disabled="invalid" class="btn btn-primary w-100">
-                  
-                  <b-spinner small v-if="validating"></b-spinner> Add
-                  </button>   
-                </div>
-              </form>
-            </ValidationObserver>
-          </div>
-          <div class="row col-12 mb-2" >
-
-              <div v-for="(field) in fields" :key="field" class="col-2">
-                <span v-if="field.isInput">{{batch[group][index]['value']}}</span>
-                <span v-else>{{batch[group][index][field.key]}}</span>
-              </div>
-
-              <div v-if="index != batch.schools.length-1" class="col-2" >
-                <b-button  class="btn btn-primary w-100" @click="deleteValueFromTypeInBatchId(jobId, 'schools',school.value)">
-                  Remove
-                </b-button>
-              </div>
-          </div>
-        </div> -->
     <b-card title="Include Student(s)">
       <b-card-text>
-        <label>Mincode</label>
+        <label>Pen</label>
         <b-input
           type="number"
-          v-model="mincode"
-          @change="validateSchool"
+          v-model="pen"
+          @input="validateStudent"
           class="w-25"
         />
         <div
           class="input-errors"
-          v-for="error of v$.mincode.$errors"
+          v-for="error of v$.pen.$errors"
           :key="error.$uid"
         >
           <div class="error-msg">{{ error.$message }}</div>
         </div>
-        <div v-if="mincodeStudentInfo">
+        <div v-if="penStudentInfo">
           <b-card>
             <b-card-text>
-              {{ mincodeValidating }}
-              <b-overlay :show="mincodeValidating">
-                <div v-if="!mincodeStudentInfo">NOT VALID</div>
+              <b-alert
+                dismissible
+                v-if="validationMessage"
+                show
+                variant="danger"
+                >{{ validationMessage }}</b-alert
+              >
+              <b-overlay :show="penValidating">
+                <div v-if="!penStudentInfo">NOT VALID</div>
                 <div v-else>
-                  <strong>First Name:</strong> {{ mincodeStudentInfo.firstName
+                  <strong>First Name:</strong> {{ penStudentInfo.firstName
                   }}<br />
-                  <strong>Last Name:</strong> {{ mincodeStudentInfo.lastName
+                  <strong>Last Name:</strong> {{ penStudentInfo.lastName
                   }}<br />
-                  <strong>Status:</strong> {{ mincodeStudentInfo.status }}<br />
-                  <strong>DOB:</strong> {{ mincodeStudentInfo.dob }}<br />
+                  <strong>Status:</strong> {{ penStudentInfo.status }}<br />
+                  <strong>DOB:</strong> {{ penStudentInfo.dob }}<br />
                   <strong>School of Record</strong>
-                  {{ mincodeStudentInfo.schoolOfRecord }}
+                  {{ penStudentInfo.schoolOfRecord }}
                 </div>
               </b-overlay>
             </b-card-text>
             <b-button
-              :disabled="!this.mincodeStudentInfo"
-              @click="addSchool()"
+              @click="addStudent()"
+              :disabled="validationMessage != ''"
               class="float-right"
               >Add</b-button
             >
           </b-card>
         </div>
 
-        <b-table :items="schools" :fields="schoolInputFields">
+        <b-table :items="students" :fields="studentInputFields">
           <template #cell(remove)="row">
             <b-button
               class="btn btn-primary w-100"
-              @click="removeSchool(row.item.mincode)"
+              @click="removeStudent(row.item.pen)"
             >
               Remove
             </b-button>
@@ -108,10 +67,6 @@
             <div><strong>Status:</strong> {{ row.item.info.status }}</div>
           </template>
         </b-table>
-
-        <pre class="mt-5">
-      TEST Schools: 04343000 04399143 02222022 06161064 06161049 03596573</pre
-        >
       </b-card-text>
     </b-card>
 
@@ -125,49 +80,84 @@ import StudentService from "@/services/StudentService.js";
 import GraduationReportService from "@/services/GraduationReportService.js";
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength, helpers } from "@vuelidate/validators";
+import { isProxy, toRaw } from "vue";
 
 export default {
   components: {},
-  setup() {
+  setup(props) {
     return { v$: useVuelidate() };
   },
   validations() {
     return {
-      mincode: {
+      pen: {
         minLength: minLength(9),
         async isValid(value) {
+          this.validationMessage = "";
           if (value === "") return true;
           if (value.length == 9) {
-            StudentService.getStudentByPen(value).then((response) => {
-              StudentService.getGraduationStatus(
-                response.data[0].studentID
-              ).then((res) => {
-                console.log(res);
-                this.mincodeStudentInfo = {
-                  firstName: response.data[0].legalFirstName,
-                  lastName: response.data[0].legalLastName,
-                  dob: response.data[0].dob,
-                  status: res.data.studentStatusName,
-                  schoolOfRecord: response.data[0].schoolOfRecordName,
-                };
-                return;
-              });
-            });
+            let student = await StudentService.getStudentByPen(value);
+            let studentID = student.data[0].studentID;
+            let studentGRADStatus = await StudentService.getGraduationStatus(
+              studentID
+            );
+            if (studentGRADStatus.data) {
+              //display student
+              this.penStudentInfo = {
+                firstName: student.data[0].legalFirstName,
+                lastName: student.data[0].legalLastName,
+                dob: student.data[0].dob,
+                status: studentGRADStatus.data.studentStatusName,
+                schoolOfRecord: studentGRADStatus.data.schoolName,
+              };
+              //check if what credentialType was selected
+              if (
+                this.runType == "DISTRUNUSER" &&
+                (this.credentialType == "RC" || this.credentialType == "OC")
+              ) {
+                let certificate =
+                  await GraduationReportService.getStudentCertificates(
+                    studentID
+                  );
+                if (certificate.data.length) {
+                  //check that certificate has does nto have a null distribution date
+
+                  if (
+                    !certificate.data.distributionDate &&
+                    this.credentialType == "RC"
+                  ) {
+                    this.validationMessage =
+                      "Cannot reprint certificate for this student. Distribution date is null";
+                  }
+                } else {
+                  if (this.credentialType == "RC") {
+                    this.validationMessage =
+                      "Cannot reprint certificate for this student.";
+                  }
+                  if (this.credentialType == "OC") {
+                    console.log(
+                      "Cannot print certificate for this student,this student does not have a certificate."
+                    );
+                  }
+                }
+              }
+            }
           }
+          return false;
         },
       }, // Matches this.firstName
     };
   },
   data() {
     return {
-      mincode: "",
-      mincodeStudentInfo: "",
-      mincodeValidating: false,
-      schools: [],
-      schoolInputFields: [
+      pen: "",
+      penStudentInfo: "",
+      penValidating: false,
+      validationMessage: "",
+      students: [],
+      studentInputFields: [
         {
-          key: "mincode",
-          label: "mincode",
+          key: "pen",
+          label: "pen",
           sortable: true,
           class: "text-left",
         },
@@ -191,49 +181,48 @@ export default {
   },
   created() {},
   methods: {
-    async validateSchool() {
-      this.mincodeValidating = true;
-      this.clearMincodeStudentInfo();
+    async validateStudent() {
+      this.penValidating = true;
+      this.clearPenStudentInfo();
       const result = await this.v$.$validate();
       if (!result) {
         return;
       }
-      this.mincodeValidating = false;
+      this.penValidating = false;
     },
-    clearMincodeStudentInfo() {
-      this.mincodeStudentInfo = "";
+    clearPenStudentInfo() {
+      this.penStudentInfo = "";
     },
-    clearMincode() {
-      this.mincode = "";
-      this.clearMincodeStudentInfo();
+    clearPen() {
+      this.pen = "";
+      this.clearPenStudentInfo();
     },
-    addSchool() {
-      this.schools.splice(0, 0, {
-        mincode: this.mincode,
-        info: this.mincodeStudentInfo,
+    addStudent() {
+      this.students.splice(0, 0, {
+        pen: this.pen,
+        info: this.penStudentInfo,
       });
-      console.log(this.schools);
-      this.clearMincode();
-      this.$emit("update:schools", this.schools);
+      this.$emit("update:students", this.students);
+      this.clearPen();
     },
-    removeSchool(mincode) {
-      for (const school of this.schools) {
-        console.log(mincode + "-" + school.mincode);
-        if (school.mincode == mincode) {
-          console.log("delete " + mincode + " - " + index);
-
-          //   console.log(this.schools);
-          //   this.schools.splice(index, 1);
-          //   console.log(this.schools);
+    removeStudent(pen) {
+      const studentList = toRaw(this.students);
+      for (const [index, student] in studentList) {
+        if (studentList[index].pen == pen) {
+          console.log(pen);
+          this.students.splice(index, 1);
         }
       }
     },
   },
-  props: {},
+  props: {
+    credentialType: String,
+    runType: String,
+  },
 
   computed: {
     isEmpty() {
-      return this.schools.length > 0;
+      return this.students.length > 0;
     },
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <div>
     <label class="font-weight-bold">Credential Type</label>
-
+    {{ students }}
     <b-form-select
       id="inline-form-select-audience"
       class="mb-2 mr-sm-2 mb-sm-0"
@@ -68,7 +68,10 @@
       class="mb-2 mr-sm-2 mb-sm-0"
       :options="groupOptions"
       v-model="group"
-      @change="validateForm"
+      @change="
+        validateForm;
+        clearGroupData();
+      "
       value="group"
     ></b-form-select>
     <div
@@ -79,10 +82,15 @@
       <div class="error-msg">{{ error.$message }}</div>
     </div>
     <div v-if="group == 'School'">
-      <SchoolInput v-model:schools="schools"></SchoolInput>
+      {{ credentialType }} hey
+      <SchoolInput v-model:schools="groupData"></SchoolInput>
     </div>
     <div v-if="group == 'Student'">
-      <StudentInput v-model:students="schools"></StudentInput>
+      <StudentInput
+        v-model:students="groupData"
+        :credentialType="credentialType"
+        runType="DISTRUNUSER"
+      ></StudentInput>
     </div>
 
     <label class="font-weight-bold">Copies</label>
@@ -140,6 +148,9 @@ export default {
   },
   validations() {
     return {
+      groupData: {
+        required: helpers.withMessage("Group field cannot be empty", required),
+      }, // Matches this.firstName
       group: {
         required: helpers.withMessage("Group field cannot be empty", required),
       }, // Matches this.firstName
@@ -212,10 +223,12 @@ export default {
       console.log("VALID");
     },
     clearGroupData() {
+      console.log("cleariong data");
       this.schools = [];
       this.students = [];
       this.districts = [];
       this.programs = [];
+      this.groupData = [];
     },
   },
   computed: {

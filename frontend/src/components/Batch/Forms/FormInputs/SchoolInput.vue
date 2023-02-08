@@ -127,6 +127,7 @@
         <pre class="mt-5">
       TEST Schools: 04343000 04399143 02222022 06161064 06161049 03596573</pre
         >
+        {{ schools }}
       </b-card-text>
     </b-card>
 
@@ -154,24 +155,18 @@ export default {
         async isValid(value) {
           if (value === "") return true;
           if (value.length == 8) {
-            return SchoolService.getSchoolInfo(value)
-              .then((response) => {
-                if (response.data) {
-                  this.mincodeSchoolInfo = {
-                    schoolName: response.data.schoolName,
-                    districtName: response.data.districtName,
-                    address: response.data.address,
-                  };
-                  return true;
-                } else {
-                  return false;
-                }
-              })
-              .catch((error) => {
-                // eslint-disable-next-line
-                console.log(error);
-                return false;
-              });
+            let schoolInfo = await SchoolService.getSchoolInfo(value);
+            console.log(schoolInfo);
+            if (schoolInfo.data) {
+              this.mincodeSchoolInfo = {
+                schoolName: schoolInfo.data.schoolName,
+                districtName: schoolInfo.data.districtName,
+                address: schoolInfo.data.address,
+              };
+              return true;
+            } else {
+              return false;
+            }
           }
         },
       }, // Matches this.firstName

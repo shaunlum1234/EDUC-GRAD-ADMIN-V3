@@ -2,7 +2,6 @@
   <div class="batch-processing-view">
     <h1>Batch Processing</h1>
 
-    <div></div>
     <label class="font-weight-bold">New Request</label>
     <b-form-select
       id="inline-form-select-type"
@@ -61,6 +60,18 @@
         <div class="d-block">
           <div v-if="runType == 'DISTRUNUSER'">
             <DistrunForm v-model:schools="schools"></DistrunForm>
+          </div>
+          <div v-if="runType == 'DISTRUN_YE'">
+            <DistrunFormYearEnd v-model:schools="schools"></DistrunFormYearEnd>
+          </div>
+          <div v-if="runType == 'REGALG'">
+            <GRADForm v-model:schools="schools"></GRADForm>
+          </div>
+          <div v-if="runType == 'TVRRUN'">
+            <GRADForm v-model:schools="schools"></GRADForm>
+          </div>
+          <div v-if="runType == 'PSIRUN'">
+            <PSIRUNForm v-model:schools="schools"></PSIRUNForm>
           </div>
         </div>
         <div class="d-block">
@@ -136,12 +147,15 @@
           </div>
         </div>
         <template #modal-footer="{ ok, cancel, hide }">
+          {{ schools }}
           <b>Run:</b>
+
           <!-- Emulate built in modal footer ok and cancel button actions -->
           <b-button
             v-if="batchRunSchedule == 'Run Now'"
             size="sm"
             variant="success"
+            :disabled="v$.$invalid"
             @click="runBatchRequest()"
             >Run Now</b-button
           >
@@ -149,6 +163,7 @@
             v-if="batchRunSchedule == 'Run Later'"
             size="sm"
             variant="success"
+            :disabled="v$.$invalid"
             @click="runBatchRequest()"
             >Schedule</b-button
           >
@@ -164,7 +179,9 @@
 <script>
 import BatchProcessingService from "@/services/BatchProcessingService.js";
 import DistrunForm from "@/components/Batch/Forms/DistrunForm.vue";
+import DistrunFormYearEnd from "@/components/Batch/Forms/DistrunFormYearEnd.vue";
 import BatchRuns from "@/components/Batch/BatchRuns.vue";
+import GRADForm from "@/components/Batch/Forms/GRADForm.vue";
 import ScheduledBatchRuns from "@/components/Batch/ScheduledBatchRuns.vue";
 import BatchRoutines from "@/components/Batch/BatchRoutines.vue";
 import DisplayTable from "@/components/DisplayTable.vue";
@@ -176,6 +193,8 @@ import { mapGetters } from "vuex";
 export default {
   components: {
     DistrunForm: DistrunForm,
+    GRADForm: GRADForm,
+    DistrunFormYearEnd: DistrunFormYearEnd,
     DisplayTable: DisplayTable,
     BatchRoutines: BatchRoutines,
     BatchRuns: BatchRuns,
@@ -244,7 +263,6 @@ export default {
       if (this.runType == "DISTRUNUSER") {
         console.log("RUNNING DISTRUN" + this.cronTime);
         if (this.cronTime) {
-          this.groups;
           console.log("Scheduled" + this.cronTime);
         }
         if (isProxy(this.schools)) {
@@ -272,5 +290,6 @@ export default {
       this.batchRunSchedule = "";
     },
   },
+  compatConfig: { MODE: 2 },
 };
 </script>

@@ -128,7 +128,7 @@ export default {
         localStorage.removeItem("jwt");
         localStorage.removeItem("refresh");
       }
-      this.$store.commit("unsetStudent");
+      this.$store.commit("student/unsetStudent");
       this.$store.commit("logout");
       this.$router.push("/logout");
     },
