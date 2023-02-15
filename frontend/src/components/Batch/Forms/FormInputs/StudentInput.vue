@@ -48,7 +48,6 @@
             >
           </b-card>
         </div>
-
         <b-table :items="students" :fields="studentInputFields">
           <template #cell(remove)="row">
             <b-button
