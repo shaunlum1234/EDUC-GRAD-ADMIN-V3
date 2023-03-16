@@ -99,7 +99,7 @@
             </b-card>
           </div>
         </div>
-
+        {{ schools }}
         <b-table
           v-if="schools.length"
           :items="schools"

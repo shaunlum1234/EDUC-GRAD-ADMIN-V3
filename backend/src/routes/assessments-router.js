@@ -13,7 +13,8 @@ router.get('/*',passport.authenticate('jwt', {session: false}, undefined), isVal
 async function getAssessmentAPI(req, res) {
   const token = getBackendToken(req);
   try {
-    const url = `${config.get('server:assessmentAPIURL')}/assessment` + req.url;
+    const url = `${config.get('server:assessmentAPIURL')}/assessment`;
+    console.log(req.url);
     const data = await getData(token, url);
     return res.status(200).json(data);
   } catch (e) {

@@ -4,7 +4,7 @@
     {{ students }}
     <b-form-select
       id="inline-form-select-audience"
-      class="mb-2 mr-sm-2 mb-sm-0"
+      class="mb-2 mr-sm-2 mb-sm-0 col-2"
       :options="[
         { text: 'Choose...', value: null },
         {
@@ -27,7 +27,11 @@
       ]"
       v-model="credentialType"
     ></b-form-select>
-    <div class="accordion" role="tablist">
+    <div
+      v-if="credentialType == 'Blank transcript print'"
+      class="accordion"
+      role="tablist"
+    >
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button block v-b-toggle.accordion-1 variant="info"
@@ -92,6 +96,14 @@
         runType="DISTRUNUSER"
       ></StudentInput>
     </div>
+    {{ group }}
+    <div v-if="group == 'District'">
+      <DistrictInput
+        v-model:district="groupData"
+        :credentialType="credentialType"
+        runType="DISTRUNUSER"
+      ></DistrictInput>
+    </div>
 
     <label class="font-weight-bold">Copies</label>
     <b-form-input
@@ -133,6 +145,7 @@
   </div>
 </template>
 <script>
+import DistrictInput from "@/components/Batch/Forms/FormInputs/DistrictInput.vue";
 import SchoolInput from "@/components/Batch/Forms/FormInputs/SchoolInput.vue";
 import StudentInput from "@/components/Batch/Forms/FormInputs/StudentInput.vue";
 import GraduationReportService from "@/services/GraduationReportService.js";
@@ -165,6 +178,7 @@ export default {
   components: {
     SchoolInput: SchoolInput,
     StudentInput: StudentInput,
+    DistrictInput: DistrictInput,
   },
   data: function () {
     return {

@@ -33,10 +33,13 @@
                   }}<br />
                   <strong>Last Name:</strong> {{ penStudentInfo.lastName
                   }}<br />
+                  <strong>Birthdate:</strong> {{ penStudentInfo.dob }}<br />
                   <strong>Status:</strong> {{ penStudentInfo.status }}<br />
-                  <strong>DOB:</strong> {{ penStudentInfo.dob }}<br />
+                  <strong>Program:</strong> {{ penStudentInfo.program }}<br />
                   <strong>School of Record</strong>
-                  {{ penStudentInfo.schoolOfRecord }}
+                  {{ penStudentInfo.schoolOfRecord }}<br />
+                  <strong>School at Graduation</strong>
+                  {{ penStudentInfo.schoolAtGrad }}
                 </div>
               </b-overlay>
             </b-card-text>
@@ -48,7 +51,6 @@
             >
           </b-card>
         </div>
-
         <b-table :items="students" :fields="studentInputFields">
           <template #cell(remove)="row">
             <b-button
@@ -63,8 +65,17 @@
               <strong>Name:</strong> {{ row.item.info.firstName }}
               {{ row.item.info.lastName }}
             </div>
-            <div><strong>DOB:</strong> {{ row.item.info.dob }}</div>
+            <div><strong>Birthdate:</strong> {{ row.item.info.dob }}</div>
             <div><strong>Status:</strong> {{ row.item.info.status }}</div>
+            <div><strong>Program:</strong> {{ row.item.info.program }}</div>
+            <div>
+              <strong>School of Record:</strong>
+              {{ row.item.info.schoolOfRecord }}
+            </div>
+            <div>
+              <strong>School At Graduation:</strong>
+              {{ row.item.info.schoolAtGrad }}
+            </div>
           </template>
         </b-table>
       </b-card-text>
@@ -107,7 +118,9 @@ export default {
                 lastName: student.data[0].legalLastName,
                 dob: student.data[0].dob,
                 status: studentGRADStatus.data.studentStatusName,
-                schoolOfRecord: studentGRADStatus.data.schoolName,
+                schoolOfRecord: studentGRADStatus.data.schoolOfRecord,
+                schoolAtGrad: studentGRADStatus.data.schoolAtGrad,
+                program: studentGRADStatus.data.program,
               };
               //check if what credentialType was selected
               if (
