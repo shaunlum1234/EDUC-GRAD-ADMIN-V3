@@ -11,6 +11,14 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/home',
+      name: 'Home',
+      component: () => import('../views/Home.vue'),
+      meta: { 
+        requiresAuth: true
+      }
+    },     
+    {
       path: '/',
       name: 'search',
       component: () => import('../views/StudentSearch.vue'),
