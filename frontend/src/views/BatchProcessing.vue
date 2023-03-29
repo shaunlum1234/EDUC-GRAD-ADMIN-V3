@@ -214,13 +214,13 @@
             <DistrunForm v-model:schools="schools"></DistrunForm>
           </div>
           <div v-if="runType == 'DISTRUN_YE'">
-            <DistrunFormYearEnd v-model:schools="schools"></DistrunFormYearEnd>
+            <!-- <DistrunFormYearEnd v-model:schools="schools"></DistrunFormYearEnd> -->
           </div>
           <div v-if="runType == 'REGALG'">
-            <GRADForm v-model:schools="schools"></GRADForm>
+            <!-- <GRADForm v-model:schools="schools"></GRADForm> -->
           </div>
           <div v-if="runType == 'TVRRUN'">
-            <GRADForm v-model:schools="schools"></GRADForm>
+            <!-- <GRADForm v-model:schools="schools"></GRADForm> -->
           </div>
           <div v-if="runType == 'PSIRUN'">
             <PSIRUNForm v-model:schools="schools"></PSIRUNForm>
@@ -328,9 +328,9 @@
 <script>
 import BatchProcessingService from "@/services/BatchProcessingService.js";
 import DistrunForm from "@/components/Batch/Forms/DistrunForm.vue";
-import DistrunFormYearEnd from "@/components/Batch/Forms/DistrunFormYearEnd.vue";
+//import DistrunFormYearEnd from "@/components/Batch/Forms/DistrunFormYearEnd.vue";
 import BatchRuns from "@/components/Batch/BatchRuns.vue";
-import GRADForm from "@/components/Batch/Forms/GRADForm.vue";
+//import GRADForm from "@/components/Batch/Forms/GRADForm.vue";
 import ScheduledBatchRuns from "@/components/Batch/ScheduledBatchRuns.vue";
 import BatchRoutines from "@/components/Batch/BatchRoutines.vue";
 import DisplayTable from "@/components/DisplayTable.vue";
@@ -342,8 +342,8 @@ import { mapGetters } from "vuex";
 export default {
   components: {
     DistrunForm: DistrunForm,
-    GRADForm: GRADForm,
-    DistrunFormYearEnd: DistrunFormYearEnd,
+    //GRADForm: GRADForm,
+    //DistrunFormYearEnd: DistrunFormYearEnd,
     DisplayTable: DisplayTable,
     BatchRoutines: BatchRoutines,
     BatchRuns: BatchRuns,
