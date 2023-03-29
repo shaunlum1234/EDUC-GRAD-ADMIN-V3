@@ -51,7 +51,12 @@
             >
           </b-card>
         </div>
-        <b-table :items="students" :fields="studentInputFields">
+        <b-table
+          v-if="students.length"
+          :items="students"
+          :fields="studentInputFields"
+          striped="true"
+        >
           <template #cell(remove)="row">
             <b-button
               class="btn btn-primary w-100"

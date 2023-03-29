@@ -2,6 +2,7 @@
   <div>
     <div v-if="adminDashboardLoading">LOADING</div>
     <div v-if="!scheduledJobs.length">No Scheduled Jobs</div>
+
     <DisplayTable
       title="Job/Runs"
       :items="scheduledJobs"
@@ -168,10 +169,12 @@ export default {
     }),
   },
   methods: {
-    ...mapActions("batchprocessing", ["setScheduledBatchJobs"]),
     getScheduledJobs() {
       BatchProcessingService.getScheduledBatchJobs().then((response) => {
-        this.setScheduledBatchJobs(response.data);
+        this.$store.dispatch(
+          "batchprocessing/setScheduledBatchJobs",
+          response.data
+        );
       });
     },
     addScheduledJob(request) {

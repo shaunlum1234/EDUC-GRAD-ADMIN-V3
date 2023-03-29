@@ -99,11 +99,11 @@
             </b-card>
           </div>
         </div>
-        {{ schools }}
         <b-table
           v-if="schools.length"
           :items="schools"
           :fields="schoolInputFields"
+          striped="true"
         >
           <template #cell(remove)="row">
             <b-button
@@ -123,11 +123,6 @@
             <div><strong>Address:</strong> {{ row.item.info.address }}</div>
           </template>
         </b-table>
-
-        <pre class="mt-5">
-      TEST Schools: 04343000 04399143 02222022 06161064 06161049 03596573</pre
-        >
-        {{ schools }}
       </b-card-text>
     </b-card>
 

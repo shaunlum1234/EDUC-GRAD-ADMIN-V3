@@ -86,7 +86,6 @@
       <div class="error-msg">{{ error.$message }}</div>
     </div>
     <div v-if="group == 'School'">
-      {{ credentialType }} hey
       <SchoolInput v-model:schools="groupData"></SchoolInput>
     </div>
     <div v-if="group == 'Student'">
@@ -96,8 +95,22 @@
         runType="DISTRUNUSER"
       ></StudentInput>
     </div>
-    {{ group }}
     <div v-if="group == 'District'">
+      <label class="font-weight-bold pt-2">Category</label>
+      <b-form-select
+        id="inline-form-select-type"
+        class="col-12 my-2"
+        :options="[
+          { text: 'Choose...', value: '' },
+          { text: '01 Public', value: '01' },
+          { text: '02 Independent', value: '02' },
+          { text: '03 Federally Operated Band School', value: '03' },
+          { text: '04 Yukon School', value: '04' },
+          { text: '09 Offshore', value: '09' },
+        ]"
+        v-model="schoolCategory"
+      ></b-form-select>
+
       <DistrictInput
         v-model:district="groupData"
         :credentialType="credentialType"
@@ -192,12 +205,14 @@ export default {
       schools: [],
       students: [],
       transcriptTypes: [],
+      certificateTypes: [],
       districts: [],
+      schoolCategory: [],
       programs: [],
       groupOptions: [
         "Student",
         "School",
-        { text: "Geographic District", value: "District" },
+        { text: "School Category", value: "District" },
         "Program",
       ],
     };
@@ -207,6 +222,7 @@ export default {
   },
   created() {
     this.transcriptTypes = this.getTranscriptTypes();
+    this.certificateTypes = this.getCertificateTypes();
   },
 
   methods: {
@@ -214,6 +230,20 @@ export default {
       GraduationReportService.getTranscriptTypes()
         .then((response) => {
           this.transcriptTypes = response.data;
+        })
+        // eslint-disable-next-line
+        .catch((error) => {
+          if (error.response.statusText) {
+            this.makeToast("ERROR " + error.response.statusText, "danger");
+          } else {
+            this.makeToast("ERROR " + "error with webservervice", "danger");
+          }
+        });
+    },
+    getCertificateTypes() {
+      GraduationReportService.getCertificateTypes()
+        .then((response) => {
+          this.certificateTypes = response.data;
         })
         // eslint-disable-next-line
         .catch((error) => {
