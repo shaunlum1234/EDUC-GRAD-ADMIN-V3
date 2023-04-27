@@ -230,7 +230,6 @@ export default {
         mincode: this.mincode,
         info: this.mincodeSchoolInfo,
       });
-      console.log(this.schools);
       this.clearMincode();
       this.$emit("update:schools", this.schools);
     },

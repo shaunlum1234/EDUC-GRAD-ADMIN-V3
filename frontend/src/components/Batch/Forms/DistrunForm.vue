@@ -96,23 +96,8 @@
       ></StudentInput>
     </div>
     <div v-if="group == 'District'">
-      <label class="font-weight-bold pt-2">Category</label>
-      <b-form-select
-        id="inline-form-select-type"
-        class="col-12 my-2"
-        :options="[
-          { text: 'Choose...', value: '' },
-          { text: '01 Public', value: '01' },
-          { text: '02 Independent', value: '02' },
-          { text: '03 Federally Operated Band School', value: '03' },
-          { text: '04 Yukon School', value: '04' },
-          { text: '09 Offshore', value: '09' },
-        ]"
-        v-model="schoolCategory"
-      ></b-form-select>
-
       <DistrictInput
-        v-model:district="groupData"
+        v-model:districts="groupData"
         :credentialType="credentialType"
         runType="DISTRUNUSER"
       ></DistrictInput>
@@ -169,6 +154,7 @@ export default {
   setup() {
     return { v$: useVuelidate() };
   },
+
   getSchools(value) {
     console.log("VALUE ADDED" + value);
   },
@@ -204,11 +190,11 @@ export default {
       groupData: [],
       schools: [],
       students: [],
+      districts: [],
+      programs: [],
       transcriptTypes: [],
       certificateTypes: [],
-      districts: [],
-      schoolCategory: [],
-      programs: [],
+
       groupOptions: [
         "Student",
         "School",
@@ -257,6 +243,7 @@ export default {
     runbatch() {
       console.log("run batch");
       console.log(payload);
+      console.log(groupData);
     },
     async validateForm(event) {
       const result = await this.v$.$validate();
@@ -267,7 +254,6 @@ export default {
       console.log("VALID");
     },
     clearGroupData() {
-      console.log("cleariong data");
       this.schools = [];
       this.students = [];
       this.districts = [];
