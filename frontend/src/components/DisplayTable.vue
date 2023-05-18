@@ -263,6 +263,7 @@ export default {
       editItem: "notloaded",
       currentPage: 1,
       perPage: 1000,
+      striped: true,
       pageOptions: [
         10,
         20,
