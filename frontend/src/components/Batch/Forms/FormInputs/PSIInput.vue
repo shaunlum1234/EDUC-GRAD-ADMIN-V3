@@ -1,0 +1,245 @@
+<template>
+  <div>
+    <label class="font-weight-bold pt-2">Category</label>
+    <b-form-select
+      id="inline-form-select-type"
+      class="col-12 my-2"
+      :options="[
+        { text: 'Choose...', value: '' },
+        { text: '01 Public', value: '01' },
+        { text: '02 Independent', value: '02' },
+        { text: '03 Federally Operated Band School', value: '03' },
+        { text: '04 Yukon School', value: '04' },
+        { text: '09 Offshore', value: '09' },
+      ]"
+      v-model="schoolCategory"
+    ></b-form-select>
+    <b-card title="Include Districts(s)">
+      <b-card-text>
+        <div v-if="schoolCategory != '04' && schoolCategory != '09'">
+          <label>District</label>
+          <b-input
+            type="number"
+            v-model="district"
+            maxlength="3"
+            @input="validateDistrict"
+            class="w-25"
+          />
+          <div
+            class="input-errors"
+            v-for="error of v$.district.$errors"
+            :key="error.$uid"
+          >
+            <div class="error-msg">{{ error.$message }}</div>
+          </div>
+
+          <div v-if="districtInfo">
+            <b-card>
+              <b-card-text>
+                <b-alert
+                  dismissible
+                  v-if="validationMessage"
+                  show
+                  variant="danger"
+                  >{{ validationMessage }}</b-alert
+                >
+                <b-overlay :show="districtValidating">
+                  <div v-if="!districtInfo">NOT VALID</div>
+                  <div v-else>
+                    <strong>District:</strong> {{ districtInfo.districtName
+                    }}<br />
+                    <strong>Active Flag:</strong> {{ districtInfo.activeFlag
+                    }}<br />
+                  </div>
+                </b-overlay>
+              </b-card-text>
+              <b-button
+                @click="addDistrict()"
+                :disabled="validationMessage != ''"
+                class="float-right"
+                >Add</b-button
+              >
+            </b-card>
+          </div>
+        </div>
+        <b-table
+          v-if="districts.length > 0"
+          :items="districts"
+          :fields="districtInputFields"
+          striped="true"
+        >
+          <template #cell(remove)="row">
+            <b-button
+              class="btn btn-primary w-100"
+              @click="removeDistrict(row.item.district)"
+            >
+              Remove
+            </b-button>
+          </template>
+          <template #cell(info)="row">
+            <div><strong>District</strong> {{ row.item.districtNumber }}</div>
+            <div>
+              <strong>District Name:</strong> {{ row.item.info.districtName }}
+            </div>
+            <div>
+              <strong>Active Flag:</strong> {{ row.item.info.activeFlag }}
+            </div>
+          </template>
+        </b-table>
+      </b-card-text>
+    </b-card>
+  </div>
+</template>
+<script>
+import TRAXService from "@/services/TRAXService.js";
+import { useVuelidate } from "@vuelidate/core";
+import { required, minLength, helpers } from "@vuelidate/validators";
+import { isProxy, toRaw } from "vue";
+
+export default {
+  components: {},
+  setup(props) {
+    return { v$: useVuelidate() };
+  },
+  watch: {
+    schoolCategory(newValue, previousValue) {
+      if (previousValue != "04" || previousValue != "09") {
+        this.districts.splice(0);
+      }
+      if (newValue == "04") {
+        this.districts.splice(0);
+        this.districts.push({
+          district: "098",
+          info: {
+            districtNumber: "098",
+            districtName: "YUKON TERRITORIES",
+            activeFlag: "Y",
+          },
+        });
+      }
+      if (newValue == "09") {
+        this.districts.splice(0);
+        this.districts.push({
+          district: "103",
+          info: {
+            districtNumber: "103",
+            districtName: "OFFSHORE INDEPENDENT",
+            activeFlag: "Y",
+          },
+        });
+      }
+    },
+  },
+  validations() {
+    return {
+      district: {
+        minLength: minLength(3),
+        async isValid(value) {
+          this.validationMessage = "";
+          if (value === "") return true;
+          if (value.length == 3) {
+            let district = await TRAXService.getDistrict(value);
+            if (district.data) {
+              this.districtInfo = {
+                districtNumber: district.data.districtNumber,
+                districtName: district.data.districtName,
+                activeFlag: district.data.activeFlag,
+              };
+
+              console.log(this.districtInfo);
+              return true;
+            }
+          }
+          return false;
+        },
+      }, // Matches this.firstName
+    };
+  },
+  data() {
+    return {
+      district: "",
+      districtInfo: {},
+      districtValidating: false,
+      validationMessage: "",
+      schoolCategory: "",
+      districts: [],
+      districtInputFields: [
+        {
+          key: "district",
+          label: "district",
+          sortable: true,
+          class: "text-left",
+        },
+        {
+          key: "info",
+          label: "info",
+          sortable: true,
+          class: "text-left",
+        },
+        {
+          key: "remove",
+          label: "remove",
+          sortable: true,
+          class: "text-left",
+        },
+      ],
+    };
+  },
+  mounted() {
+    this.$emit("update:districts", this.districts);
+  },
+  created() {},
+  methods: {
+    async validateDistrict() {
+      this.districtValidating = true;
+      this.clearDistrictInfo();
+      const result = await this.v$.$validate();
+      if (!result) {
+        return;
+      }
+      this.districtValidating = false;
+    },
+    clearDistrictInfo() {
+      this.districtInfo = "";
+    },
+    clearDistrict() {
+      this.district = "";
+      this.clearDistrictInfo();
+    },
+    addDistrict() {
+      this.districts.splice(0, 0, {
+        district: this.district,
+        info: this.districtInfo,
+      });
+      this.$emit("update:districts", this.districts);
+      this.clearDistrict();
+    },
+    removeDistrict(district) {
+      let districtList = toRaw(this.districts);
+      for (const [index] in districtList) {
+        console.log(district + index);
+        if (districtList[index].district == district) {
+          console.log(district);
+          this.districts.splice(index, 1);
+          this.$emit("update:districts", this.districts);
+        }
+      }
+    },
+  },
+  props: {
+    credentialType: String,
+    runType: String,
+  },
+
+  computed: {
+    isEmpty() {
+      return this.districts.length > 0;
+    },
+  },
+};
+</script>
+<style scoped>
+input {
+  border-radius: 0px;
+}
+</style>
