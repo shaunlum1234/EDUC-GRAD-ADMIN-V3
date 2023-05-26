@@ -19,6 +19,9 @@
     >
       <div class="error-msg">{{ error.$message }}</div>
     </div>
+    <div v-if="group == 'Program'">
+      <ProgramInput v-model:programs="groupData"></ProgramInput>
+    </div>
     <div v-if="group == 'School'">
       <SchoolInput v-model:schools="groupData"></SchoolInput>
     </div>
@@ -42,6 +45,7 @@
 import DistrictInput from "@/components/Batch/Forms/FormInputs/DistrictInput.vue";
 import SchoolInput from "@/components/Batch/Forms/FormInputs/SchoolInput.vue";
 import StudentInput from "@/components/Batch/Forms/FormInputs/StudentInput.vue";
+import ProgramInput from "@/components/Batch/Forms/FormInputs/ProgramInput.vue";
 import GraduationReportService from "@/services/GraduationReportService.js";
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
@@ -68,6 +72,7 @@ export default {
     SchoolInput: SchoolInput,
     StudentInput: StudentInput,
     DistrictInput: DistrictInput,
+    ProgramInput: ProgramInput,
   },
   data: function () {
     return {

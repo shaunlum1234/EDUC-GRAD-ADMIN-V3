@@ -4,7 +4,7 @@
       {{ psiYear }}
       {{ transmissionMode }}
       {{ groupData }}
-      <PSIInput v-model:districts="groupData"></PSIInput>
+      <PSIInput v-model:psis="groupData"></PSIInput>
     </div>
     <label class="font-weight-bold row mt-3 ml-0 px-0">Transmission Mode</label>
     <b-form-select
@@ -65,6 +65,7 @@ export default {
       schools: [],
       students: [],
       districts: [],
+      psis: [],
       programs: [],
       groupOptions: ["PSI"],
       transmissionMode: "",
@@ -99,6 +100,7 @@ export default {
       this.students = [];
       this.districts = [];
       this.programs = [];
+      this.psis = [];
       this.groupData = [];
     },
   },

@@ -9,97 +9,17 @@
             <BatchRuns></BatchRuns>
           </b-card-text>
         </b-tab>
+        <b-tab title="Scheduled" active>
+          <b-card-text class="row">
+            <!-- <ScheduledBatchRuns></ScheduledBatchRuns> -->
+          </b-card-text>
+        </b-tab>
         <b-tab :title="'Routines (' + batchRoutines.length + ')'">
           <b-card-text class="p-2">
             <BatchRoutines></BatchRoutines>
           </b-card-text>
         </b-tab>
 
-        <b-tab title="Administration">
-          <b-card-text class="py-2 m-0">
-            <div>
-              <b-card-group deck>
-                <b-card header="Year End" header-tag="header">
-                  <b-card-text>
-                    <b-table
-                      striped
-                      hover
-                      :items="adminRunTypes"
-                      :fields="batchFields"
-                      :show-header="false"
-                    >
-                      <template #cell(description)="row">
-                        <strong>{{ row.item.label }}</strong>
-                        <hr />
-
-                        {{ row.item.description }}
-                      </template>
-                      <template #cell(newrequest)="row">
-                        <b-btn @click="newBatchRequest(row.item.code)"
-                          >+</b-btn
-                        ></template
-                      >
-                    </b-table>
-                  </b-card-text>
-                </b-card>
-                <b-card
-                  header="Utilities"
-                  header-tag="header"
-                  footer-tag="footer"
-                >
-                  <b-card-text>
-                    <div>
-                      <b-table
-                        striped
-                        hover
-                        :items="utilitiesRunTypes"
-                        :fields="batchFields"
-                        :show-header="false"
-                      >
-                        <template #cell(description)="row">
-                          <strong>{{ row.item.label }}</strong>
-                          <hr />
-
-                          {{ row.item.description }}
-                        </template>
-                        <template #cell(newrequest)="row">
-                          <b-btn @click="newBatchRequest(row.item.code)"
-                            >+</b-btn
-                          ></template
-                        >
-                      </b-table>
-                    </div>
-                  </b-card-text>
-                </b-card>
-                <b-card header="Archiving/Database" header-tag="header">
-                  <b-card-text>
-                    <div>
-                      <b-table
-                        striped
-                        hover
-                        :items="batchRunArchiveDatabaseTypes"
-                        :fields="batchFields"
-                        :show-header="false"
-                      >
-                        <template #cell(description)="row">
-                          <strong>{{ row.item.label }}</strong>
-                          <hr />
-
-                          {{ row.item.description }}
-                        </template>
-                        <template #cell(newrequest)="row">
-                          <b-btn @click="newBatchRequest(row.item.code)"
-                            >+</b-btn
-                          ></template
-                        >
-                      </b-table>
-                    </div>
-                  </b-card-text>
-                </b-card>
-              </b-card-group>
-            </div>
-          </b-card-text>
-        </b-tab>
         <b-tab title="New Batch Request">
           <b-card-text class="py-2 m-0">
             <div>
@@ -156,7 +76,7 @@
                     </div>
                   </b-card-text>
                 </b-card>
-                <b-card header="Archiving/Database" header-tag="header">
+                <b-card header="PSI" header-tag="header">
                   <b-card-text>
                     <div>
                       <b-table
@@ -185,30 +105,73 @@
             </div>
           </b-card-text>
         </b-tab>
-        <b-tab title="Scheduled" active>
-          <b-card-text class="row">
-            <!-- <ScheduledBatchRuns></ScheduledBatchRuns> -->
+        <b-tab title="Administration">
+          <b-card-text class="py-2 m-0">
+            <div>
+              <b-card-group deck>
+                <b-card header="Year End" header-tag="header">
+                  <b-card-text>
+                    <b-table
+                      striped
+                      hover
+                      :items="adminRunTypes"
+                      :fields="batchFields"
+                      :show-header="false"
+                    >
+                      <template #cell(description)="row">
+                        <strong>{{ row.item.label }}</strong>
+                        <hr />
+
+                        {{ row.item.description }}
+                      </template>
+                      <template #cell(newrequest)="row">
+                        <b-btn @click="newBatchRequest(row.item.code)"
+                          >+</b-btn
+                        ></template
+                      >
+                    </b-table>
+                  </b-card-text>
+                </b-card>
+                <b-card
+                  header="Utilities"
+                  header-tag="header"
+                  footer-tag="footer"
+                >
+                  <b-card-text>
+                    <div>
+                      <b-table
+                        striped
+                        hover
+                        :items="utilitiesRunTypes"
+                        :fields="batchFields"
+                        :show-header="false"
+                      >
+                        <template #cell(description)="row">
+                          <strong>{{ row.item.label }}</strong>
+                          <hr />
+
+                          {{ row.item.description }}
+                        </template>
+                        <template #cell(newrequest)="row">
+                          <b-btn @click="newBatchRequest(row.item.code)"
+                            >+</b-btn
+                          ></template
+                        >
+                      </b-table>
+                    </div>
+                  </b-card-text>
+                </b-card>
+              </b-card-group>
+            </div>
           </b-card-text>
         </b-tab>
       </b-tabs>
     </b-card>
-
-    <div>
-      <ul>
-        <li>Disable a submit buttons</li>
-        <li>reactive fields</li>
-        <li>required fields</li>
-        <li>Date Rage date fields to and from validations</li>
-        <li>type in date fields and auto format</li>
-        <li>default fields and autofill fields</li>
-        <li>add multiple schools/students and validate</li>
-        <li>validate students based on response</li>
-      </ul>
-    </div>
     <div>
       <!-- Modal Dialogs -->
 
       <b-modal ref="newBatchRequestModal" size="xl" title="New Batch Request">
+        dsdsds
         <div class="pt-1 d-block">
           <div v-if="runType == 'DISTRUNUSER'">
             <DistrunForm v-model:schools="schools"></DistrunForm>
@@ -231,7 +194,11 @@
         <div class="d-block">
           <div v-if="runType == 'DISTRUNUSER'"></div>
           <div class="runSchedule">
-            <b-form-group label="Batch Run" v-slot="{ ariaDescribedby }">
+            <b-form-group
+              class="font-weight-bold mt-3"
+              label="Batch Run"
+              v-slot="{ ariaDescribedby }"
+            >
               <b-form-radio-group v-model="batchRunSchedule">
                 <b-form-radio
                   :aria-describedby="ariaDescribedby"
@@ -415,19 +382,6 @@ export default {
           updateDate: "2022-08-05T21:23:56.000+00:00",
           code: "PSIRUN",
           label: "PSI Run FTP / Paper",
-          description:
-            "The batch PSI student transcript process  supports the printing of student transcript reports to PSIs via paper printed through BC Mail or through a secure FTP process which supplies data files to the PSI.",
-          displayOrder: 40,
-          effectiveDate: "2021-09-27T07:00:00.000+00:00",
-          expiryDate: null,
-        },
-        {
-          createUser: "API_GRAD_BATCH",
-          createDate: "2022-08-05T21:23:56.000+00:00",
-          updateUser: "API_GRAD_BATCH",
-          updateDate: "2022-08-05T21:23:56.000+00:00",
-          code: "DBARCHIVE",
-          label: "DB ARCHIVE",
           description:
             "The batch PSI student transcript process  supports the printing of student transcript reports to PSIs via paper printed through BC Mail or through a secure FTP process which supplies data files to the PSI.",
           displayOrder: 40,

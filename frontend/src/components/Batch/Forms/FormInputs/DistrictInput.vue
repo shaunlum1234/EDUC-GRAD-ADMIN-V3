@@ -1,21 +1,21 @@
 <template>
   <div>
-    <label class="font-weight-bold pt-2">Category</label>
-    <b-form-select
-      id="inline-form-select-type"
-      class="col-12 my-2"
-      :options="[
-        { text: 'Choose...', value: '' },
-        { text: '01 Public', value: '01' },
-        { text: '02 Independent', value: '02' },
-        { text: '03 Federally Operated Band School', value: '03' },
-        { text: '04 Yukon School', value: '04' },
-        { text: '09 Offshore', value: '09' },
-      ]"
-      v-model="schoolCategory"
-    ></b-form-select>
     <b-card title="Include Districts(s)">
       <b-card-text>
+        <label class="font-weight-bold pt-2">Category</label>
+        <b-form-select
+          id="inline-form-select-type"
+          class="col-12 my-2"
+          :options="[
+            { text: 'Choose...', value: '' },
+            { text: '01 Public', value: '01' },
+            { text: '02 Independent', value: '02' },
+            { text: '03 Federally Operated Band School', value: '03' },
+            { text: '04 Yukon School', value: '04' },
+            { text: '09 Offshore', value: '09' },
+          ]"
+          v-model="schoolCategory"
+        ></b-form-select>
         <div v-if="schoolCategory != '04' && schoolCategory != '09'">
           <label>District</label>
           <b-input
@@ -77,7 +77,6 @@
             </b-button>
           </template>
           <template #cell(info)="row">
-            <div><strong>District</strong> {{ row.item.districtNumber }}</div>
             <div>
               <strong>District Name:</strong> {{ row.item.info.districtName }}
             </div>
@@ -166,13 +165,13 @@ export default {
       districtInputFields: [
         {
           key: "district",
-          label: "district",
+          label: "District",
           sortable: true,
           class: "text-left",
         },
         {
           key: "info",
-          label: "info",
+          label: "Info",
           sortable: true,
           class: "text-left",
         },

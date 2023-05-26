@@ -1,71 +1,74 @@
 <template>
   <div>
-    <label class="font-weight-bold p-0 m-0 row">Select Schools</label>
-
-    <b-form-select
-      id="inline-form-select-audience"
-      class="mb-2 mr-sm-2 mb-sm-0 col-3"
-      :options="[
-        { text: 'Current Students', value: 'Current Students' },
-        { text: 'Date Range', value: 'Date Range' },
-      ]"
-      value="Current Students"
-      v-model="includeStudents"
-    ></b-form-select>
-
-    <div class="date-ranges col-12 row" v-if="includeStudents == 'Date Range'">
-      <div class="float-left col-3 m-0 p-0">
-        <strong><label class="pt-1">Grad Start Date</label></strong>
-        <b-input-group class="mb-3">
-          <b-form-input
-            id="gradDateFromInput"
-            v-model="gradDateFrom"
-            type="text"
-            placeholder="YYYY-MM-DD"
-            autocomplete="off"
-          ></b-form-input>
-          <ul class="position-absolute form-validation-message text-danger">
-            <li v-for="error in errors" :key="error">{{ error }}</li>
-          </ul>
-          <b-input-group-append>
-            <b-form-datepicker
-              v-model="gradDateFrom"
-              button-only
-              right
-              locale="en-US"
-            ></b-form-datepicker>
-          </b-input-group-append>
-        </b-input-group>
-      </div>
-
-      <div class="float-left col-4">
-        <strong><label class="pt-1">Grad End Date</label></strong>
-        <b-input-group class="mb-3">
-          <b-form-input
-            id="gradDateToInput"
-            v-model="gradDateTo"
-            type="text"
-            placeholder="YYYY-MM-DD"
-            autocomplete="off"
-          ></b-form-input>
-
-          <b-input-group-append>
-            <b-form-datepicker
-              v-model="gradDateTo"
-              button-only
-              right
-              locale="en-US"
-              aria-controls="example-input"
-            ></b-form-datepicker>
-          </b-input-group-append>
-        </b-input-group>
-      </div>
-    </div>
     <b-card title="Include School(s)">
       <b-card-text>
+        <label class="font-weight-bold p-0 m-0 row">Select Schools</label>
+
+        <b-form-select
+          id="inline-form-select-audience"
+          class="mb-2 mr-sm-2 mb-sm-0 col-3"
+          :options="[
+            { text: 'Current Students', value: 'Current Students' },
+            { text: 'Date Range', value: 'Date Range' },
+          ]"
+          value="Current Students"
+          v-model="includeStudents"
+        ></b-form-select>
+
+        <div
+          class="date-ranges col-12 row"
+          v-if="includeStudents == 'Date Range'"
+        >
+          <div class="row float-left col-3 m-0 p-0">
+            <strong><label class="pt-1">Grad Start Date</label></strong>
+            <b-input-group class="mb-3">
+              <b-form-input
+                id="gradDateFromInput"
+                v-model="gradDateFrom"
+                type="text"
+                placeholder="YYYY-MM-DD"
+                autocomplete="off"
+              ></b-form-input>
+              <ul class="position-absolute form-validation-message text-danger">
+                <li v-for="error in errors" :key="error">{{ error }}</li>
+              </ul>
+              <b-input-group-append>
+                <b-form-datepicker
+                  v-model="gradDateFrom"
+                  button-only
+                  right
+                  locale="en-US"
+                ></b-form-datepicker>
+              </b-input-group-append>
+            </b-input-group>
+          </div>
+
+          <div class="float-left col-4">
+            <strong><label class="pt-1">Grad End Date</label></strong>
+            <b-input-group class="mb-3">
+              <b-form-input
+                id="gradDateToInput"
+                v-model="gradDateTo"
+                type="text"
+                placeholder="YYYY-MM-DD"
+                autocomplete="off"
+              ></b-form-input>
+
+              <b-input-group-append>
+                <b-form-datepicker
+                  v-model="gradDateTo"
+                  button-only
+                  right
+                  locale="en-US"
+                  aria-controls="example-input"
+                ></b-form-datepicker>
+              </b-input-group-append>
+            </b-input-group>
+          </div>
+        </div>
         <div class="row">
           <div class="col-md-2 py-2">
-            <label>Mincode</label>
+            <label class="font-weight-bold">Mincode</label>
             <b-input type="number" v-model="mincode" @input="validateSchool" />
             <div
               class="input-errors"
@@ -85,10 +88,14 @@
                     <div v-else>
                       <strong>School Name:</strong>
                       {{ mincodeSchoolInfo.schoolName }}<br />
-                      <strong>District Name:</strong>
-                      {{ mincodeSchoolInfo.districtName }}<br />
-                      <strong>Address</strong> {{ mincodeSchoolInfo.address
-                      }}<br />
+                      <strong>Transcript Eligibility:</strong>
+                      {{ mincodeSchoolInfo.transcriptEligibility }}<br />
+                      <strong>Certificate Eligibility</strong>
+                      {{ mincodeSchoolInfo.certificateEligibility }}<br />
+                      <strong>School Category</strong>
+                      {{ mincodeSchoolInfo.transcriptEligibility }}<br />
+                      <strong>TRAX reporting</strong>
+                      {{ mincodeSchoolInfo.traxReporting }}<br />
                     </div>
                   </Transition>
                 </b-overlay>
@@ -115,12 +122,25 @@
           </template>
           <template #cell(info)="row">
             <div>
-              <strong>School Name:</strong> {{ row.item.info.schoolName }}
+              <strong>School Name:</strong>
+              {{ row.item.info.schoolName }}
             </div>
             <div>
-              <strong>District Name:</strong> {{ row.item.info.districtName }}
+              <strong>Transcript Eligibility:</strong>
+              {{ row.item.info.transcriptEligibility }}
             </div>
-            <div><strong>Address:</strong> {{ row.item.info.address }}</div>
+            <div>
+              <strong>Certificate Eligibility</strong>
+              {{ row.item.info.certificateEligibility }}
+            </div>
+            <div>
+              <strong>School Category</strong>
+              {{ row.item.info.transcriptEligibility }}
+            </div>
+            <div>
+              <strong>TRAX reporting</strong>
+              {{ row.item.info.traxReporting }}
+            </div>
           </template>
         </b-table>
       </b-card-text>
@@ -151,12 +171,13 @@ export default {
           if (value === "") return true;
           if (value.length == 8) {
             let schoolInfo = await SchoolService.getSchoolInfo(value);
-            console.log(schoolInfo);
             if (schoolInfo.data) {
               this.mincodeSchoolInfo = {
                 schoolName: schoolInfo.data.schoolName,
-                districtName: schoolInfo.data.districtName,
-                address: schoolInfo.data.address,
+                transcriptEligibility: schoolInfo.data.transcriptEligibility,
+                certificateEligibility: schoolInfo.data.certificateEligibility,
+                schoolCategory: schoolInfo.data.schoolCategory,
+                traxReporting: schoolInfo.data.reportingFlag,
               };
               return true;
             } else {

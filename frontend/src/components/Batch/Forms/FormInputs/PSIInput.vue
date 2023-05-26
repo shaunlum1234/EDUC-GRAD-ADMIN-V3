@@ -14,26 +14,26 @@
       ]"
       v-model="schoolCategory"
     ></b-form-select>
-    <b-card title="Include Districts(s)">
+    <b-card title="Include Post Secondary Institute(s)">
       <b-card-text>
         <div v-if="schoolCategory != '04' && schoolCategory != '09'">
-          <label>District</label>
+          <label>Post Secondary Institution Code</label>
           <b-input
-            type="number"
-            v-model="district"
+            type="text"
+            v-model="psi"
             maxlength="3"
-            @input="validateDistrict"
+            @input="validatePSI"
             class="w-25"
           />
           <div
             class="input-errors"
-            v-for="error of v$.district.$errors"
+            v-for="error of v$.psi.$errors"
             :key="error.$uid"
           >
             <div class="error-msg">{{ error.$message }}</div>
           </div>
 
-          <div v-if="districtInfo">
+          <div v-if="psiInfo">
             <b-card>
               <b-card-text>
                 <b-alert
@@ -43,46 +43,40 @@
                   variant="danger"
                   >{{ validationMessage }}</b-alert
                 >
-                <b-overlay :show="districtValidating">
-                  <div v-if="!districtInfo">NOT VALID</div>
+                <b-overlay :show="psiValidating">
+                  <div v-if="!psiInfo">NOT VALID</div>
                   <div v-else>
-                    <strong>District:</strong> {{ districtInfo.districtName
-                    }}<br />
-                    <strong>Active Flag:</strong> {{ districtInfo.activeFlag
-                    }}<br />
+                    <strong>Post Secondary Institute:</strong>
+                    {{ psiInfo.psiName }}<br />
                   </div>
+                  <b-button
+                    @click="addPSI()"
+                    :disabled="validationMessage != ''"
+                    class="float-right"
+                    >Add</b-button
+                  >
                 </b-overlay>
               </b-card-text>
-              <b-button
-                @click="addDistrict()"
-                :disabled="validationMessage != ''"
-                class="float-right"
-                >Add</b-button
-              >
             </b-card>
           </div>
         </div>
         <b-table
-          v-if="districts.length > 0"
-          :items="districts"
-          :fields="districtInputFields"
+          v-if="psis.length > 0"
+          :items="psis"
+          :fields="psiInputFields"
           striped="true"
         >
           <template #cell(remove)="row">
             <b-button
               class="btn btn-primary w-100"
-              @click="removeDistrict(row.item.district)"
+              @click="removePSI(row.item.psi)"
             >
               Remove
             </b-button>
           </template>
           <template #cell(info)="row">
-            <div><strong>District</strong> {{ row.item.districtNumber }}</div>
             <div>
-              <strong>District Name:</strong> {{ row.item.info.districtName }}
-            </div>
-            <div>
-              <strong>Active Flag:</strong> {{ row.item.info.activeFlag }}
+              {{ row.item.info.psiName }}
             </div>
           </template>
         </b-table>
@@ -101,84 +95,55 @@ export default {
   setup(props) {
     return { v$: useVuelidate() };
   },
-  watch: {
-    schoolCategory(newValue, previousValue) {
-      if (previousValue != "04" || previousValue != "09") {
-        this.districts.splice(0);
-      }
-      if (newValue == "04") {
-        this.districts.splice(0);
-        this.districts.push({
-          district: "098",
-          info: {
-            districtNumber: "098",
-            districtName: "YUKON TERRITORIES",
-            activeFlag: "Y",
-          },
-        });
-      }
-      if (newValue == "09") {
-        this.districts.splice(0);
-        this.districts.push({
-          district: "103",
-          info: {
-            districtNumber: "103",
-            districtName: "OFFSHORE INDEPENDENT",
-            activeFlag: "Y",
-          },
-        });
-      }
-    },
-  },
   validations() {
     return {
-      district: {
+      psi: {
         minLength: minLength(3),
         async isValid(value) {
           this.validationMessage = "";
           if (value === "") return true;
           if (value.length == 3) {
-            let district = await TRAXService.getDistrict(value);
-            if (district.data) {
-              this.districtInfo = {
-                districtNumber: district.data.districtNumber,
-                districtName: district.data.districtName,
-                activeFlag: district.data.activeFlag,
+            let psi = await TRAXService.getPSIByAdvancedSearch(
+              "psiCode=" + value
+            );
+            if (psi.data[0]) {
+              this.psiInfo = {
+                psiCode: psi.data[0].psiCode,
+                psiName: psi.data[0].psiName,
               };
-
-              console.log(this.districtInfo);
+              console.log(this.psiInfo);
               return true;
             }
           }
           return false;
         },
-      }, // Matches this.firstName
+      },
     };
   },
   data() {
     return {
-      district: "",
-      districtInfo: {},
-      districtValidating: false,
+      psi: "",
+      psiInfo: {},
+      psiValidating: false,
       validationMessage: "",
       schoolCategory: "",
-      districts: [],
-      districtInputFields: [
+      psis: [],
+      psiInputFields: [
         {
-          key: "district",
-          label: "district",
+          key: "psi",
+          label: "Code",
           sortable: true,
           class: "text-left",
         },
         {
           key: "info",
-          label: "info",
+          label: "Post Secondary Institute",
           sortable: true,
           class: "text-left",
         },
         {
           key: "remove",
-          label: "remove",
+          label: "Remove",
           sortable: true,
           class: "text-left",
         },
@@ -186,44 +151,42 @@ export default {
     };
   },
   mounted() {
-    this.$emit("update:districts", this.districts);
+    this.$emit("update:psis", this.psis);
   },
   created() {},
   methods: {
-    async validateDistrict() {
-      this.districtValidating = true;
-      this.clearDistrictInfo();
+    async validatePSI() {
+      this.psiValidating = true;
+      this.clearPSIInfo();
       const result = await this.v$.$validate();
       if (!result) {
         return;
       }
-      this.districtValidating = false;
+      this.psiValidating = false;
     },
-    clearDistrictInfo() {
-      this.districtInfo = "";
+    clearPSIInfo() {
+      this.psiInfo = "";
     },
-    clearDistrict() {
-      this.district = "";
-      this.clearDistrictInfo();
+    clearPSI() {
+      this.psi = "";
+      this.clearPSIInfo();
     },
-    addDistrict() {
-      this.districts.splice(0, 0, {
-        district: this.district,
-        info: this.districtInfo,
+    addPSI() {
+      this.psis.splice(0, 0, {
+        psi: this.psi,
+        info: this.psiInfo,
       });
-      this.$emit("update:districts", this.districts);
-      this.clearDistrict();
+      this.$emit("update:psis", this.psis);
+      this.clearPSI();
     },
-    removeDistrict(district) {
-      let districtList = toRaw(this.districts);
-      for (const [index] in districtList) {
-        console.log(district + index);
-        if (districtList[index].district == district) {
-          console.log(district);
-          this.districts.splice(index, 1);
-          this.$emit("update:districts", this.districts);
+    removePSI(psi) {
+      let psiList = toRaw(this.psis);
+      for (const [index] in psiList)
+        if (psiList[index].psi == psi) {
+          console.log(psi);
+          this.psis.splice(index, 1);
+          this.$emit("update:psis", this.psis);
         }
-      }
     },
   },
   props: {
@@ -233,7 +196,7 @@ export default {
 
   computed: {
     isEmpty() {
-      return this.districts.length > 0;
+      return this.psis.length > 0;
     },
   },
 };

@@ -43,10 +43,12 @@ export default {
   methods: {
     ...mapMutations("auth", ["setLoading"]),
     ...mapActions("auth", ["getJwtToken", "getUserInfo", "logout"]),
+    ...mapActions("app", ["setApplicationVariables"]),
   },
 
   async created() {
     this.setLoading(true);
+    this.setApplicationVariables();
     this.getJwtToken()
       .then(() => Promise.all([this.getUserInfo()]))
       .catch((e) => {
