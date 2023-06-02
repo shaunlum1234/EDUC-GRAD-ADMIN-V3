@@ -1,5 +1,6 @@
 <template>
   <div class="student-profile">
+    allowUpdateGradStatus: {{ allowUpdateGradStatus }}
     <div class="row m-0 py-3">
       <StudentInformation></StudentInformation>
       <div class="col-12 px-3">

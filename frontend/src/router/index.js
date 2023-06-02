@@ -105,20 +105,19 @@ const router = createRouter({
       name: "unauthorized-page",
       component: UnAuthorizedPage,
       meta: {
-        requiresAuth: false
-      }
+        requiresAuth: false,
+      },
     },
     {
       path: "/student-profile/:studentId",
       name: "student-profile",
-      component: () => import('../views/StudentProfile.vue'),
+      component: () => import("../views/StudentProfile.vue"),
       meta: {
         requiresAuth: true,
       },
     },
-  ]
-})
-
+  ],
+});
 
 router.beforeEach((to, _from, next) => {
   function validateAndExecute(nextRouteInError) {
@@ -131,6 +130,15 @@ router.beforeEach((to, _from, next) => {
           store
             .dispatch("auth/getUserInfo")
             .then(() => {
+              //checks to see what role the user have
+              store
+                .dispatch("useraccess/getUserAccess")
+                .then(() => {})
+                .catch(() => {
+                  // eslint-disable-next-line
+                  console.log("Unable to get user access");
+                  next("error");
+                });
               if (!authStore.state.isAuthorizedUser) {
                 next("unauthorized");
               } else if (
