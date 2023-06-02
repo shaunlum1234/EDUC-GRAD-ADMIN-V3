@@ -1,10 +1,7 @@
 import ApiService from '../common/apiService';
 
 export default {
-    getPSI() {
-        return ApiService.apiAxios.get('/api/v1/trax/psi')
-    },
-    getPSIByAdvancedSearch(params) {
+    getPSIByAdvanceSearch(params) {
         return ApiService.apiAxios.get('/api/v1/trax/psi/search?'  + params)
     },
     getDistrict(district){

@@ -83,6 +83,7 @@ function isValidUiToken(isUserHasRole, roleType, roleNames) {
 
 function isValidUser(isUserHasRole, roleType, roleNames) {
   return function isValidUserHandler(req) {
+    
     try {
       const thisSession = req['session'];
       if (thisSession && thisSession['passport'] && thisSession['passport'].user && thisSession['passport'].user.jwt) {
