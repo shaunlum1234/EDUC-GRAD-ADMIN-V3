@@ -99,7 +99,15 @@ const router = createRouter({
       meta: {
         requiresAuth: false
       }
-    }
+    },
+    {
+      path: "/student-profile/:studentId",
+      name: "student-profile",
+      component: () => import('../views/StudentProfile.vue'),
+      meta: {
+        requiresAuth: true,
+      },
+    },
   ]
 })
 

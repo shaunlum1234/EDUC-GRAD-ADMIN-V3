@@ -1,85 +1,103 @@
-<script setup>
-import { RouterLink, RouterView } from "vue-router";
-import StudentService from "./services/StudentService.js";
-import HttpStatus from "http-status-codes";
-</script>
-
 <template>
-  <div>
-    <BCHeader class="bcheader"></BCHeader>
-    <div class="container main-content">
-      <RouterView />
+  <div id="app">
+    <EnvironmentBanner />
+    <Bcheader
+      class="bcheader"
+      style="margin-bottom: 15px; text-transform: capitalize"
+    >
+      <div v-if="isAuthenticated && dataReady">
+        <a v-b-toggle.grad-drawer>{{ userInfo.userName }} </a>
+        <b-sidebar id="grad-drawer" title="Permissions" shadow>
+          <div class="px-3 py-2 mt-5">
+            <br />
+            {{ roles }}<br />
+          </div>
+        </b-sidebar>
+        |
+        <a :href="authRoutes.LOGOUT" class="text-white">Logout</a>
+      </div>
+      <div v-else-if="!isAuthenticated">
+        <a :href="authRoutes.LOGOUT">Login</a>
+      </div>
+    </Bcheader>
+
+    <div class="container" style="min-height: 100vh">
+      <transition name="fade">
+        <router-view />
+      </transition>
     </div>
-    <BCFooter class="bc-footer"></BCFooter>
+    <BCFooter></BCFooter>
   </div>
 </template>
 <script>
-import BCFooter from "./components/BCFooter.vue";
-import BCHeader from "./components/Header/BCHeader.vue";
 import { mapActions, mapMutations, mapGetters, mapState } from "vuex";
+
+import Bcheader from "@/components/BCHeader.vue";
+import BCFooter from "@/components/BCFooter.vue";
+import EnvironmentBanner from "@/components/EnvironmentBanner.vue";
+import { Routes } from "@/utils/constants.js";
 export default {
-  name: "app",
   components: {
+    Bcheader,
     BCFooter,
-    BCHeader,
+    EnvironmentBanner,
+  },
+  data() {
+    return {
+      authRoutes: Routes,
+      host: location.protocol + "//" + location.host,
+    };
   },
   computed: {
     ...mapGetters("auth", [
-      "roles",
       "isAuthenticated",
       "loginError",
       "isLoading",
       "userInfo",
     ]),
     ...mapGetters("app", ["getProgramOptions"]),
+    ...mapGetters("app", ["getProgramOptions"]),
     ...mapState("app", ["pageTitle"]),
+    ...mapGetters("useraccess", ["roles", "userAccess"]),
     dataReady: function () {
       return this.userInfo;
     },
-  },
-  data() {
-    return {};
+    loginUrl: function () {
+      return this.authRoutes.LOGIN;
+    },
   },
   methods: {
     ...mapMutations("auth", ["setLoading"]),
+    ...mapMutations("useraccess", ["setUserRoles"]),
     ...mapActions("auth", ["getJwtToken", "getUserInfo", "logout"]),
     ...mapActions("app", ["setApplicationVariables"]),
   },
-
   async created() {
-    this.setLoading(true);
-    this.setApplicationVariables();
     this.getJwtToken()
-      .then(() => Promise.all([this.getUserInfo()]))
+      .then(() => this.setApplicationVariables())
       .catch((e) => {
-        console.log(e);
-        if (!e.response || e.response.status !== HttpStatus.UNAUTHORIZED) {
-          this.logout();
+        if (!e.response) {
+          this.userLogout();
           this.$router.replace({
             name: "error",
             query: { message: `500_${e.data || "ServerError"}` },
           });
         }
       })
-      .finally(() => {
-        this.setLoading(false);
-        console.log(this.getUserInfo());
-      });
+      .finally(() => {});
   },
 };
 </script>
+
 <style>
 #app {
   background: #f9f9fb;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.bc-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 58px; /* Height of the footer */
-  z-index: 100;
+.main-container {
+  font-size: 14px;
+  margin-top: 135px !important;
 }
 .logo {
   align-self: center;
@@ -90,6 +108,9 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 0.8rem;
+}
+#grad-drawer {
+  z-index: 200 !important;
 }
 ul.sidebar-panel-nav {
   list-style-type: none;
@@ -109,9 +130,6 @@ ul.sidebar-panel-nav > li > a {
 }
 .container {
   max-width: 100% !important;
-}
-.main-content {
-  padding-bottom: 60px;
 }
 @media (min-width: 1300px) {
   .container {
