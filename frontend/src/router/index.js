@@ -116,6 +116,14 @@ const router = createRouter({
         requiresAuth: true,
       },
     },
+    {
+      path: "/psi",
+      name: "psi",
+      component: () => import("../views/PSI.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
   ],
 });
 
