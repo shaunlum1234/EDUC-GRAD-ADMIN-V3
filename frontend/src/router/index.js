@@ -124,6 +124,14 @@ const router = createRouter({
         requiresAuth: true,
       },
     },
+    {
+      path: "/school-reports",
+      name: "school-reports",
+      component: () => import("../views/SchoolReports.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
   ],
 });
 
