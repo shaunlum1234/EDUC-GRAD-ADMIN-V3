@@ -11,7 +11,7 @@
         </b-tab>
         <b-tab title="Scheduled" active>
           <b-card-text class="row">
-            <!-- <ScheduledBatchRuns></ScheduledBatchRuns> -->
+            <ScheduledBatchRuns></ScheduledBatchRuns>
           </b-card-text>
         </b-tab>
         <b-tab :title="'Routines (' + batchRoutines.length + ')'">
@@ -557,6 +557,7 @@ export default {
     ...mapGetters({
       batchRuns: "batchprocessing/getBatchRuns",
       batchRoutines: "batchprocessing/getBatchRoutines",
+      roles: "useraccess/roles",
     }),
     // batchRunsCount() {
     //   console.log(this.batchRuns.length);

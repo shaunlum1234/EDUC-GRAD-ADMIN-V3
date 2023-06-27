@@ -56,7 +56,6 @@ export default {
       "userInfo",
     ]),
     ...mapGetters("app", ["getProgramOptions"]),
-    ...mapGetters("app", ["getProgramOptions"]),
     ...mapState("app", ["pageTitle"]),
     ...mapGetters("useraccess", ["roles", "userAccess"]),
     dataReady: function () {

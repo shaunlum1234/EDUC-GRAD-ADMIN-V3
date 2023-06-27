@@ -165,7 +165,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      scheduledJobs: "batchprocessing/getScheduledBatchJobs",
+      scheduledJobs: "batchprocessing/getScheduledBatchRuns",
     }),
   },
   methods: {
