@@ -28,10 +28,7 @@
   </div>
 </template>
 <script>
-import PenSearch from "@/components/Search/PenSearch.vue";
 export default {
-  components: {
-    PenSearch: PenSearch,
-  },
+  components: {},
 };
 </script>

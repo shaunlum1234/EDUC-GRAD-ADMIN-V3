@@ -20,7 +20,8 @@
         <a :href="authRoutes.LOGOUT">Login</a>
       </div>
     </Bcheader>
-
+    HELLO WORLD
+    {{ appStore.programOptions }}
     <div class="container" style="min-height: 100vh">
       <transition name="fade">
         <router-view />
@@ -30,13 +31,20 @@
   </div>
 </template>
 <script>
-import { mapActions, mapMutations, mapGetters, mapState } from "vuex";
+// Vue Store
 
+import { useAppStore } from "./store/app-pinia.js";
+import { mapState } from "pinia";
+import { mapActions, mapMutations } from "vuex";
 import Bcheader from "@/components/BCHeader.vue";
 import BCFooter from "@/components/BCFooter.vue";
 import EnvironmentBanner from "@/components/EnvironmentBanner.vue";
 import { Routes } from "@/utils/constants.js";
 export default {
+  setup() {
+    const appStore = useAppStore();
+    return { appStore };
+  },
   components: {
     Bcheader,
     BCFooter,
@@ -49,14 +57,15 @@ export default {
     };
   },
   computed: {
+    ...mapState("app", ["getProgramOptions2"]),
+
     ...mapGetters("auth", [
       "isAuthenticated",
       "loginError",
       "isLoading",
       "userInfo",
     ]),
-    ...mapGetters("app", ["getProgramOptions"]),
-    ...mapState("app", ["pageTitle"]),
+    //...mapGetters("app", ["getProgramOptions"]),
     ...mapGetters("useraccess", ["roles", "userAccess"]),
     dataReady: function () {
       return this.userInfo;
@@ -72,6 +81,8 @@ export default {
     ...mapActions("app", ["setApplicationVariables"]),
   },
   async created() {
+    await this.getJwtToken();
+    this.appStore.setApplicationVariables();
     this.getJwtToken()
       .then(() => this.setApplicationVariables())
       .catch((e) => {
