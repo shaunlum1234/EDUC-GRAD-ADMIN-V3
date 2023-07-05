@@ -20,69 +20,40 @@
         <a :href="authRoutes.LOGOUT">Login</a>
       </div>
     </Bcheader>
-    HELLO WORLD
+
     {{ appStore.programOptions }}
     <div class="container" style="min-height: 100vh">
       <transition name="fade">
         <router-view />
       </transition>
     </div>
+
     <BCFooter></BCFooter>
   </div>
 </template>
 <script>
 // Vue Store
 
-import { useAppStore } from "./store/app-pinia.js";
-import { mapState } from "pinia";
-import { mapActions, mapMutations } from "vuex";
+import { appStore } from "./store/app-pinia";
+import { authStore } from "./store/modules/auth.js";
+import { mapState, mapActions } from "pinia";
 import Bcheader from "@/components/BCHeader.vue";
 import BCFooter from "@/components/BCFooter.vue";
 import EnvironmentBanner from "@/components/EnvironmentBanner.vue";
 import { Routes } from "@/utils/constants.js";
 export default {
-  setup() {
-    const appStore = useAppStore();
-    return { appStore };
-  },
+  name: "App",
   components: {
     Bcheader,
     BCFooter,
     EnvironmentBanner,
   },
-  data() {
-    return {
-      authRoutes: Routes,
-      host: location.protocol + "//" + location.host,
-    };
-  },
-  computed: {
-    ...mapState("app", ["getProgramOptions2"]),
-
-    ...mapGetters("auth", [
-      "isAuthenticated",
-      "loginError",
-      "isLoading",
-      "userInfo",
-    ]),
-    //...mapGetters("app", ["getProgramOptions"]),
-    ...mapGetters("useraccess", ["roles", "userAccess"]),
-    dataReady: function () {
-      return this.userInfo;
-    },
-    loginUrl: function () {
-      return this.authRoutes.LOGIN;
-    },
-  },
-  methods: {
-    ...mapMutations("auth", ["setLoading"]),
-    ...mapMutations("useraccess", ["setUserRoles"]),
-    ...mapActions("auth", ["getJwtToken", "getUserInfo", "logout"]),
-    ...mapActions("app", ["setApplicationVariables"]),
+  setup() {
+    const appStore = appStore();
+    const authStore = authStore();
+    return { appStore, authStore };
   },
   async created() {
-    await this.getJwtToken();
-    this.appStore.setApplicationVariables();
     this.getJwtToken()
       .then(() => this.setApplicationVariables())
       .catch((e) => {
@@ -95,6 +66,36 @@ export default {
         }
       })
       .finally(() => {});
+  },
+  data() {
+    return {
+      authRoutes: Routes,
+      host: location.protocol + "//" + location.host,
+    };
+  },
+  computed: {
+    ...mapState(app, ["getProgramOptions"]),
+    ...mapState(authStore, ["isAuthenticated", "loginError", "isLoading"]),
+    //...mapGetters("app", ["getProgramOptions"]),
+    //...mapGetters("useraccess", ["roles", "userAccess"]),
+    dataReady: function () {
+      return this.userInfo;
+    },
+    loginUrl: function () {
+      return this.authRoutes.LOGIN;
+    },
+  },
+  methods: {
+    //...mapMutations("useraccess", ["setUserRoles"]),
+    authStore,
+    appStore,
+    ...mapActions(authStore, [
+      "setLoading",
+      "getJwtToken",
+      "getUserInfo",
+      "logout",
+    ]),
+    ...mapActions(appStore, ["setApplicationVariables"]),
   },
 };
 </script>

@@ -2,7 +2,6 @@ import Vue,{ createApp } from '@vue/compat'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
-import store from './store';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import './assets/css/bcgov.css';
 import './assets/css/global.css';
@@ -13,5 +12,4 @@ Vue.use(BootstrapVue);
 const app = createApp(App)
 app.use(createPinia());
 app.use(router)
-app.use(store)
 app.mount('#app')

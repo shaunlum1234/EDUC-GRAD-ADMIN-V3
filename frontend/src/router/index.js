@@ -4,8 +4,7 @@ import BackendSessionExpired from "@/components/BackendSessionExpired.vue";
 import SessionExpired from "@/components/SessionExpired.vue";
 import UnAuthorized from "@/components/UnAuthorized.vue";
 import UnAuthorizedPage from "@/components/UnAuthorizedPage.vue";
-import authStore from "@/store/modules/auth";
-import store from "@/store/index";
+import authStore from "../store/modules/auth.js";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -134,68 +133,29 @@ const router = createRouter({
     },
   ],
 });
-
 router.beforeEach((to, _from, next) => {
-  function validateAndExecute(nextRouteInError) {
-    store
-      .dispatch("auth/getJwtToken")
-      .then(() => {
-        if (!authStore.state.isAuthenticated) {
-          next(nextRouteInError);
-        } else {
-          store
-            .dispatch("auth/getUserInfo")
-            .then(() => {
-              //checks to see what role the user have
-              store
-                .dispatch("useraccess/getUserAccess")
-                .then(() => {})
-                .catch(() => {
-                  // eslint-disable-next-line
-                  console.log("Unable to get user access");
-                  next("error");
-                });
-              if (!authStore.state.isAuthorizedUser) {
-                next("unauthorized");
-              } else if (
-                to.meta.role &&
-                !store.getters[`auth/${to.meta.role}`]
-              ) {
-                next("unauthorized-page");
-              } else {
-                next();
-              }
-            })
-            .catch(() => {
-              // eslint-disable-next-line
-              console.log("Unable to get user info");
-              next("error");
-            });
-        }
-      })
-      .catch(() => {
-        next(nextRouteInError);
-      });
-  }
+  const aStore = authStore();
   // this section is to set page title in vue store
-  if (to && to.meta) {
-    store.commit("app/setPageTitle", to.meta.pageTitle);
-  } else {
-    store.commit("app/setPageTitle", "");
+  if (to.meta.requiresAuth) {
+    aStore.getJwtToken().then(() => {
+      if (!aStore.isAuthenticated) {
+        next('/token-expired');
+      } else {
+        aStore.getUserInfo().then(() => {
+          next()
+        }).catch(() => {
+          next('error');
+        });
+      }
+    }).catch(() => {
+      if (!aStore.userInfo) {
+        next('/login');
+      }else{
+        next('/token-expired');
+      }
+    });
   }
-
-  // // This section is to clear the search results when users are not on a search page
-  // if (!to.meta.saveSearch){
-  //   store.commit('studentSearch/clearStudentSearchParams');
-  //   store.commit('studentSearch/clearStudentSearchResults');
-  // }
-
-  // this section is to handle the backend session expiry, where frontend vue session is still valid.
-  if (to.meta.requiresAuth && authStore.state.isAuthenticated) {
-    validateAndExecute("/token-expired");
-  } else if (to.meta.requiresAuth) {
-    validateAndExecute("login");
-  } else {
+  else{
     next();
   }
 });
