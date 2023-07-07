@@ -200,7 +200,9 @@
 import StudentService from "@/services/StudentService.js";
 import CommonService from "@/services/CommonService.js";
 import sharedMethods from "../sharedMethods";
-import { mapGetters } from "vuex";
+import { useStudentStore } from "../store/modules/student";
+import { mapState } from "pinia";
+
 export default {
   data() {
     return {
@@ -231,8 +233,8 @@ export default {
     this.version = versionResponse.data;
   },
   computed: {
-    ...mapGetters({
-      profile: "student/getStudentProfile",
+    ...mapState(useStudentStore, {
+      profile: "getStudentProfile",
     }),
   },
   methods: {

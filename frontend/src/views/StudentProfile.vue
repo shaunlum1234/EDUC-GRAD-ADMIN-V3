@@ -1,6 +1,5 @@
 <template>
   <div class="student-profile">
-    allowUpdateGradStatus: {{ allowUpdateGradStatus }}
     <div class="row m-0 py-3">
       <StudentInformation></StudentInformation>
       <div class="col-12 px-3">
@@ -94,10 +93,7 @@
                   </div>
                 </div>
                 <b-card-text>
-                  <StudentGraduationStatus
-                    v-if="gradTab == 'gradStatus'"
-                  ></StudentGraduationStatus>
-                  <GRADRequirementDetails v-if="gradTab == 'gradCourses'">
+                  <!-- <GRADRequirementDetails v-if="gradTab == 'gradCourses'">
                     <div v-if="studentGradStatus.studentGradData">
                       <b-alert
                         variant="info"
@@ -108,7 +104,7 @@
                         }}</b-alert
                       >
                     </div>
-                  </GRADRequirementDetails>
+                  </GRADRequirementDetails> -->
                   <b-overlay
                     :show="tabLoading"
                     rounded="sm"
@@ -279,331 +275,6 @@
         </div>
       </div>
     </div>
-    <div>
-      <!-- Projected Grad Status Modal -->
-      <b-modal
-        no-close-on-backdrop
-        size="xl"
-        ref="projectedGradStatusWithFinalMarks"
-        title="Projected Grad Status with Final Marks"
-        centered
-      >
-        <b-alert
-          variant="info"
-          show
-          v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus"
-          >{{ projectedGradStatus.gradMessage }}</b-alert
-        >
-        <b-card-group
-          deck
-          v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus"
-        >
-          <b-card header="Requirements met">
-            <b-card-text>
-              <b-table
-                small
-                :items="this.projectedGradStatus.requirementsMet"
-                :fields="requirementsMetFields"
-              >
-              </b-table>
-            </b-card-text>
-          </b-card>
-          <b-card header="Noncompletion reasons">
-            <div
-              v-if="projectedGradStatus && projectedGradStatus.nonGradReasons"
-            >
-              <b-card-text
-                ><b-table
-                  small
-                  :items="this.projectedGradStatus.nonGradReasons"
-                  :fields="noncompletionReasonsFields"
-                ></b-table
-              ></b-card-text>
-            </div>
-            <div v-else>
-              <b-card-text>All program requirements have been met</b-card-text>
-            </div>
-          </b-card>
-        </b-card-group>
-        <div v-if="this.projectedOptionalGradStatus">
-          <div
-            v-for="optionalProgram in this.projectedOptionalGradStatus"
-            :key="optionalProgram.optionalProgramCode"
-          >
-            <h3 class="optionalProgramName">
-              {{ optionalProgram.optionalProgramName }}
-            </h3>
-            <b-card-group deck>
-              <b-card header="Requirements met">
-                <b-card-text>
-                  <b-table
-                    small
-                    :items="
-                      optionalProgram.studentOptionalProgramData
-                        .optionalRequirementsMet
-                    "
-                    :fields="[
-                      { key: 'rule', label: 'Rule', class: 'px-0 py-2' },
-                      {
-                        key: 'description',
-                        label: 'Description',
-                        class: 'px-0 py-2',
-                      },
-                    ]"
-                  >
-                  </b-table>
-                </b-card-text>
-              </b-card>
-              <b-card header="Requirements not met">
-                <div
-                  v-if="
-                    optionalProgram.studentOptionalProgramData
-                      .optionalNonGradReasons
-                  "
-                >
-                  <b-card-text>
-                    <b-table
-                      small
-                      :items="
-                        optionalProgram.studentOptionalProgramData
-                          .optionalNonGradReasons
-                      "
-                    >
-                    </b-table>
-                  </b-card-text>
-                </div>
-                <div v-else>
-                  <b-card-text>All requirements have been met</b-card-text>
-                </div>
-              </b-card>
-            </b-card-group>
-          </div>
-        </div>
-        <template #modal-footer="{ cancel }">
-          <!-- Emulate built in modal footer ok and cancel button actions -->
-          <b-button size="sm" variant="outline-secondary" v-on:click="cancel">
-            Close
-          </b-button>
-        </template>
-      </b-modal>
-      <!-- Projected Grad status and registrations Modal -->
-      <b-modal
-        no-close-on-backdrop
-        size="xl"
-        ref="projectedGradStatusWithFinalAndReg"
-        centered
-        title="Projected Grad Status with Final Marks and Registrations"
-      >
-        <b-alert variant="info" show>{{
-          projectedGradStatusWithRegistrations.gradMessage
-        }}</b-alert>
-
-        <b-card-group
-          deck
-          v-if="
-            this.projectedGradStatusWithRegistrations &&
-            this.projectedGradStatusWithRegistrations.gradStatus
-          "
-        >
-          <b-card header="Requirements met">
-            <b-card-text>
-              <b-table
-                small
-                :items="
-                  this.projectedGradStatusWithRegistrations.requirementsMet
-                "
-                :fields="requirementsMetFields"
-              >
-                <template #cell(rule)="row">
-                  <div
-                    v-if="row.item.projected"
-                    style="background-color: #eaf2fa; width: 100%"
-                  >
-                    {{ row.item.rule }}
-                  </div>
-                  <div v-else>
-                    {{ row.item.rule }}
-                  </div>
-                </template>
-                <template #cell(description)="row">
-                  <div
-                    v-if="row.item.projected"
-                    style="background-color: #eaf2fa; width: 100%"
-                  >
-                    {{ row.item.description }} (Projected)
-                  </div>
-                  <div v-else>
-                    {{ row.item.description }}
-                  </div>
-                </template>
-              </b-table>
-            </b-card-text>
-          </b-card>
-          <!-- Original -->
-          <b-card header="Noncompletion reasons">
-            <div
-              v-if="
-                projectedGradStatusWithRegistrations &&
-                projectedGradStatusWithRegistrations.nonGradReasons
-              "
-            >
-              <b-card-text
-                ><b-table
-                  small
-                  :items="
-                    this.projectedGradStatusWithRegistrations.nonGradReasons
-                  "
-                  :fields="noncompletionReasonsFields"
-                ></b-table
-              ></b-card-text>
-            </div>
-            <div v-else>
-              <b-card-text>All program requirements have been met</b-card-text>
-            </div>
-          </b-card>
-        </b-card-group>
-        <div v-if="this.projectedOptionalGradStatus">
-          <div
-            v-for="optionalProgram in this.projectedOptionalGradStatus"
-            :key="optionalProgram.optionalProgramCode"
-          >
-            <h3 class="optionalProgramName">
-              {{ optionalProgram.optionalProgramName }}
-            </h3>
-            <b-card-group deck>
-              <b-card header="Requirements met">
-                <b-card-text>
-                  <b-table
-                    small
-                    :items="
-                      optionalProgram.studentOptionalProgramData
-                        .optionalRequirementsMet
-                    "
-                    :fields="[
-                      { key: 'rule', label: 'Rule', class: 'px-0 py-2' },
-                      {
-                        key: 'description',
-                        label: 'Description',
-                        class: 'px-0 py-2',
-                      },
-                    ]"
-                  >
-                  </b-table>
-                </b-card-text>
-              </b-card>
-              <b-card header="Requirements not met">
-                <div
-                  v-if="
-                    optionalProgram.studentOptionalProgramData
-                      .optionalNonGradReasons
-                  "
-                >
-                  <b-card-text>
-                    <b-table
-                      small
-                      :items="
-                        optionalProgram.studentOptionalProgramData
-                          .optionalNonGradReasons
-                      "
-                    >
-                    </b-table>
-                  </b-card-text>
-                </div>
-                <div v-else>
-                  <b-card-text>All requirements have been met</b-card-text>
-                </div>
-              </b-card>
-            </b-card-group>
-          </div>
-        </div>
-        <template #modal-footer="{ ok, cancel, hide }">
-          <!-- Emulate built in modal footer ok and cancel button actions -->
-          <b-button size="sm" variant="outline-secondary" @click="cancel">
-            Close
-          </b-button>
-        </template>
-      </b-modal>
-      <div>
-        <b-modal id="ungraduate-student-modal" title="Undo Completion">
-          <p>Undo Completion Reason</p>
-          <b-form-select
-            v-model="studentUngradReasonSelected"
-            :options="ungradReasons"
-            value-field="code"
-            text-field="label"
-          >
-            <template #first>
-              <b-form-select-option value="" disabled
-                >-- Select an Undo Completion Reason --</b-form-select-option
-              >
-            </template>
-          </b-form-select>
-          <div class="mt-3" v-if="studentUngradReasonSelected">
-            <b-alert
-              class="m-0"
-              variant="warning"
-              v-if="ungradReasons.length > 0"
-              show
-              >{{
-                ungradReasons.find(
-                  (element) => element.code === studentUngradReasonSelected
-                ).description
-              }}</b-alert
-            >
-          </div>
-
-          <div v-if="studentUngradReasonSelected == 'OTH'" class="mt-3">
-            <label>Description</label>
-            <b-form-textarea
-              v-model="studentUngradReasonDescription"
-              placeholder="Reason for running undo completion on this student..."
-              :state="studentUngradReasonDescription.length > 0"
-            ></b-form-textarea>
-          </div>
-          <b-form-checkbox
-            v-if="studentUngradReasonSelected"
-            id="confirm-student-undo-completion"
-            v-model="confirmStudentUndoCompletion"
-            class="mt-3"
-          >
-            I confirm that I am authorized to undo completion for this student
-          </b-form-checkbox>
-
-          <template #modal-footer="{ ok, cancel, hide }">
-            <!-- Emulate built in modal footer ok and cancel button actions -->
-            <b-button
-              size="sm"
-              variant="outline-secondary"
-              @click="
-                cancel();
-                resetUndoCompletionValues();
-              "
-            >
-              Cancel
-            </b-button>
-            <!-- Button with custom close trigger value -->
-
-            <b-button
-              size="sm"
-              variant="primary"
-              :disabled="
-                (studentUngradReasonSelected == 'OTH' &&
-                  studentUngradReasonDescription.length == 0) ||
-                studentUngradReasonSelected == '' ||
-                !confirmStudentUndoCompletion
-              "
-              @click="
-                hide('ungraduate-student-modal');
-                ungraduateStudent();
-                resetUndoCompletionValues();
-              "
-            >
-              Undo Completion
-            </b-button>
-          </template>
-        </b-modal>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -614,20 +285,30 @@ import GraduationReportService from "@/services/GraduationReportService.js";
 import CourseService from "@/services/CourseService.js";
 import StudentService from "@/services/StudentService.js";
 import GraduationService from "@/services/GraduationService.js";
-import GRADRequirementDetails from "@/components/GRADRequirementDetails.vue";
+import GRADRequirementDetails from "@/components/StudentProfile/GRADRequirementDetails.vue";
 import StudentInformation from "@/components/StudentProfile/StudentInformation.vue";
 import StudentCourses from "@/components/StudentProfile/StudentCourses.vue";
 import StudentAssessments from "@/components/StudentProfile/StudentAssessments.vue";
 import StudentExams from "@/components/StudentProfile/StudentExams.vue";
 import StudentGraduationStatus from "@/components/StudentProfile/StudentGraduationStatus.vue";
 import StudentOptionalPrograms from "@/components/StudentProfile/StudentOptionalPrograms.vue";
-import StudentAuditHistory from "@/components/StudentProfile/StudentAuditHistory.vue";
-import StudentNotes from "@/components/StudentProfile/StudentNotes.vue";
+import StudentAuditHistory from "@/components/StudentProfile/AuditHistory/StudentAuditHistory.vue";
+import StudentNotes from "@/components/StudentProfile/AuditHistory/StudentNotes.vue";
 import DisplayTable from "@/components/DisplayTable.vue";
 
-import { mapGetters } from "vuex";
+import { useStudentStore } from "../store/modules/student";
+import { useAppStore } from "../store/modules/app";
+import { useAccessStore } from "../store/modules/access";
+import { mapState, mapActions } from "pinia";
+
 export default {
   name: "studentProfile",
+  setup() {
+    const studentStore = useStudentStore();
+    const appStore = useAppStore();
+    const accessStore = useAccessStore();
+    return { appStore, studentStore, accessStore };
+  },
   created() {
     StudentService.getStudentPen(this.$route.params.studentId)
       .then((response) => {
@@ -728,35 +409,35 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("auth", [
-      "roles",
-      "isAuthenticated",
-      "loginError",
-      "isLoading",
-      "userInfo",
-    ]),
-    ...mapGetters({
-      ungradReasons: "app/getUngradReasons",
-      profile: "student/getStudentProfile",
-      courses: "student/getStudentCourses",
-      assessments: "student/getStudentAssessments",
-      exams: "student/getStudentExams",
-      studentHasCourses: "student/studentHasCourses",
-      gradInfo: "student/getStudentGraduationCreationAndUpdate",
-      hasGradStatus: "student/studentHasGradStatus",
-      studentGradStatus: "student/getStudentGradStatus",
-      studentId: "student/getStudentId",
-      studentPen: "student/getStudentPen",
-      studentInfo: "student/getStudentProfile",
-      studentNotes: "student/getStudentNotes",
-      optionalPrograms: "student/getStudentOptionalPrograms",
-      studentUngradReasons: "student/getStudentUngradReasons",
-      gradCourses: "student/gradStatusCourses",
-      studentHistory: "student/getStudentAuditHistory",
-      optionalProgramHistory: "student/getStudentOptionalProgramAuditHistory",
+    ...mapState(useAccessStore, {
+      allowUpdateGradStatus: "allowUpdateGradStatus",
+      allowRunGradAlgorithm: "allowRunGradAlgorithm",
+    }),
+    ...mapState(useAppStore, {
+      ungradReasons: "ungradReasons",
+    }),
+    ...mapState(useStudentStore, {
+      profile: "getStudentProfile",
+      courses: "getStudentCourses",
+      assessments: "getStudentAssessments",
+      exams: "getStudentExams",
+      studentHasCourses: "studentHasCourses",
+      gradInfo: "getStudentGraduationCreationAndUpdate",
+      hasGradStatus: "studentHasGradStatus",
+      studentGradStatus: "getStudentGradStatus",
+      studentId: "getStudentId",
+      studentPen: "getStudentPen",
+      studentInfo: "getStudentProfile",
+      studentNotes: "getStudentNotes",
+      optionalPrograms: "getStudentOptionalPrograms",
+      studentUngradReasons: "getStudentUngradReasons",
+      gradCourses: "gradStatusCourses",
+      studentHistory: "getStudentAuditHistory",
+      optionalProgramHistory: "getStudentOptionalProgramAuditHistory",
       quickSearchPen: "getQuickSearchPen",
-      allowUpdateGradStatus: "useraccess/allowUpdateGradStatus",
-      allowRunGradAlgorithm: "useraccess/allowRunGradAlgorithm",
+    }),
+    ...mapState(useAppStore, {
+      ungradReasons: "ungradReasons",
     }),
     userUndoCompletionReasonChange() {
       return this.studentUngradReasonSelected;
@@ -799,6 +480,27 @@ export default {
     next();
   },
   methods: {
+    ...mapActions(useStudentStore, [
+      "setStudentCertificates",
+      "setStudentReports",
+      "setStudentTranscripts",
+      "setStudentXmlReport",
+      "setStudentGradStatus",
+      "setStudentGradStatus",
+      "setStudentProfile",
+      "setStudentAssessments",
+      "setStudentGradStatus",
+      "setStudentGradStatusOptionalPrograms",
+      "setStudentCourses",
+      "setStudentExams",
+      "setStudentNotes",
+      "setStudentUngradReasons",
+      "setStudentAuditHistory",
+      "setStudentCareerPrograms",
+      "setStudentUngradReasons",
+      "setStudentGradStatus",
+      "setStudentOptionalProgramsAuditHistory",
+    ]),
     ungraduateStudent() {
       this.tabLoading = true;
       this.confirmStudentUndoCompletion = "";
@@ -814,10 +516,7 @@ export default {
         .then(() => {
           StudentService.getStudentUngradReasons(this.studentId)
             .then((response) => {
-              this.$store.dispatch(
-                "student/setStudentUngradReasons",
-                response.data
-              );
+              this.setStudentUngradReasons(response.data);
             })
             .catch((error) => {
               if (error.response.status) {
@@ -829,10 +528,7 @@ export default {
             });
           StudentService.getGraduationStatus(this.studentId)
             .then((response) => {
-              this.$store.dispatch(
-                "student/setStudentGradStatus",
-                response.data
-              );
+              this.setStudentGradStatus(response.data);
               this.loadStudentHistory(this.studentId);
               this.loadStudentOptionalProgramHistory(this.studentId);
               this.loadStudentOptionalPrograms(this.studentId);
@@ -869,7 +565,7 @@ export default {
     getStudentReportsAndCertificates(id, pen) {
       GraduationReportService.getStudentCertificates(id)
         .then((response) => {
-          this.$store.dispatch("student/setStudentCertificates", response.data);
+          this.setStudentCertificates(response.data);
         })
         .catch((error) => {
           if (error.response.data.code == "404") {
@@ -887,7 +583,7 @@ export default {
         });
       GraduationReportService.getStudentReports(id)
         .then((response) => {
-          this.$store.dispatch("student/setStudentReports", response.data);
+          this.setStudentReports(response.data);
         })
         .catch((error) => {
           if (error.response.data.code == "404") {
@@ -905,7 +601,7 @@ export default {
         });
       GraduationReportService.getStudentTranscripts(id)
         .then((response) => {
-          this.$store.dispatch("student/setStudentTranscripts", response.data);
+          this.setStudentTranscripts(response.data);
         })
         .catch((error) => {
           if (error.response.data.code == "404") {
@@ -923,7 +619,7 @@ export default {
         });
       GraduationReportService.getStudentXmlReport(pen)
         .then((response) => {
-          this.$store.dispatch("student/setStudentXmlReport", response.data);
+          this.setStudentXmlReport(response.data);
         })
         .catch((error) => {
           if (error.response.status == 404) {
@@ -941,7 +637,7 @@ export default {
     reloadGradStatus() {
       StudentService.getGraduationStatus(this.studentId)
         .then((res) => {
-          this.$store.dispatch("student/setStudentGradStatus", res.data);
+          this.setStudentGradStatus(res.data);
         })
         .catch((error) => {
           if (error.res.status) {
@@ -984,7 +680,7 @@ export default {
           );
           StudentService.getGraduationStatus(this.studentId)
             .then((res) => {
-              this.$store.dispatch("student/setStudentGradStatus", res.data);
+              this.setStudentGradStatus(res.data);
               this.tabLoading = false;
             })
             .catch((error) => {
@@ -1093,13 +789,13 @@ export default {
     loadStudent(studentIdFromURL) {
       this.loadStudentProfile();
       this.loadAssessments();
-      this.loadGraduationStatus(studentIdFromURL);
+      // this.loadGraduationStatus(studentIdFromURL);
       this.loadStudentOptionalPrograms(studentIdFromURL);
-      this.loadCareerPrograms(studentIdFromURL);
-      this.loadStudentCourseAchievements();
+      // this.loadCareerPrograms(studentIdFromURL);
+      this.loadStudentCourses();
       this.loadStudentExamDetails();
       this.loadStudentNotes(studentIdFromURL);
-      this.getStudentReportsAndCertificates(studentIdFromURL, this.pen);
+      // this.getStudentReportsAndCertificates(studentIdFromURL, this.pen);
       this.loadStudentUngradReasons(studentIdFromURL);
       this.loadStudentHistory(studentIdFromURL);
       this.loadStudentOptionalProgramHistory(studentIdFromURL);
@@ -1126,7 +822,7 @@ export default {
                 }
               });
           }
-          this.$store.dispatch("student/setStudentProfile", data);
+          this.setStudentProfile(data);
         })
         .catch((error) => {
           if (error.response.status) {
@@ -1141,7 +837,7 @@ export default {
     loadAssessments() {
       AssessmentService.getStudentAssessment(this.pen)
         .then((response) => {
-          this.$store.dispatch("student/setStudentAssessments", response.data);
+          this.setStudentAssessments(response.data);
         })
         .catch((error) => {
           if (error.response.status) {
@@ -1156,7 +852,7 @@ export default {
     loadGraduationStatus(studentIdFromURL) {
       StudentService.getGraduationStatus(studentIdFromURL)
         .then((response) => {
-          this.$store.dispatch("student/setStudentGradStatus", response.data);
+          this.setStudentGradStatus(response.data);
         })
         .catch((error) => {
           if (error.response.status) {
@@ -1171,10 +867,7 @@ export default {
     loadStudentOptionalPrograms(studentIdFromURL) {
       StudentService.getGraduationStatusOptionalPrograms(studentIdFromURL)
         .then((response) => {
-          this.$store.dispatch(
-            "student/setStudentGradStatusOptionalPrograms",
-            response.data
-          );
+          this.setStudentGradStatusOptionalPrograms(response.data);
         })
         .catch((error) => {
           if (error.response.status) {
@@ -1189,10 +882,7 @@ export default {
     loadCareerPrograms(studentIdFromURL) {
       StudentService.getStudentCareerPrograms(studentIdFromURL)
         .then((response) => {
-          this.$store.dispatch(
-            "student/setStudentCareerPrograms",
-            response.data
-          );
+          this.setStudentCareerPrograms(response.data);
         })
         .catch((error) => {
           if (error.response.status) {
@@ -1204,10 +894,10 @@ export default {
           }
         });
     },
-    loadStudentCourseAchievements() {
+    loadStudentCourses() {
       CourseService.getStudentCourseAchievements(this.pen)
         .then((response) => {
-          this.$store.dispatch("student/setStudentCourses", response.data);
+          this.setStudentCourses(response.data);
         })
         .catch((error) => {
           if (error.response.status) {
@@ -1222,7 +912,7 @@ export default {
     loadStudentExamDetails() {
       CourseService.getStudentExamDetails(this.pen)
         .then((response) => {
-          this.$store.dispatch("student/setStudentExams", response.data);
+          this.setStudentExams(response.data);
         })
         .catch((error) => {
           if (error.response.status) {
@@ -1237,7 +927,7 @@ export default {
     loadStudentNotes(studentIdFromURL) {
       StudentService.getStudentNotes(studentIdFromURL)
         .then((response) => {
-          this.$store.dispatch("student/setStudentNotes", response.data);
+          this.setStudentNotes(response.data);
         })
         .catch((error) => {
           if (error.response.status) {
@@ -1252,10 +942,7 @@ export default {
     loadStudentUngradReasons(studentIdFromURL) {
       StudentService.getStudentUngradReasons(studentIdFromURL)
         .then((response) => {
-          this.$store.dispatch(
-            "student/setStudentUngradReasons",
-            response.data
-          );
+          this.setStudentUngradReasons(response.data);
         })
         .catch((error) => {
           if (error.response.status) {
@@ -1270,7 +957,7 @@ export default {
     loadStudentHistory(studentIdFromURL) {
       StudentService.getStudentHistory(studentIdFromURL)
         .then((response) => {
-          this.$store.dispatch("student/setStudentAuditHistory", response.data);
+          this.setStudentAuditHistory(response.data);
         })
         .catch((error) => {
           if (error.response.status) {
@@ -1282,13 +969,11 @@ export default {
           }
         });
     },
+
     loadStudentOptionalProgramHistory(studentIdFromURL) {
       StudentService.getStudentOptionalProgramHistory(studentIdFromURL)
         .then((response) => {
-          this.$store.dispatch(
-            "student/setStudentOptionalProgramsAuditHistory",
-            response.data
-          );
+          this.setStudentOptionalProgramsAuditHistory(response.data);
         })
         .catch((error) => {
           if (error.response.status) {

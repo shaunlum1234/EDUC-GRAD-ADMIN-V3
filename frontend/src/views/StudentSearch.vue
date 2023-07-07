@@ -758,7 +758,9 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { useStudentStore } from "../store/modules/student";
+import { useAuthStore } from "../store/modules/auth";
+import { mapState, mapActions } from "pinia";
 import StudentService from "@/services/StudentService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -767,7 +769,9 @@ import sharedMethods from "../sharedMethods";
 
 export default {
   setup() {
-    return { v$: useVuelidate() };
+    const studentStore = useStudentStore();
+    const authStore = useAuthStore();
+    return { v$: useVuelidate(), studentStore, authStore };
   },
   name: "studentSearch",
   data() {
@@ -949,32 +953,19 @@ export default {
     };
   },
   created() {
-    this.showNotification = sharedMethods.showNotification;
-    if (this.savedAdvSearchInput != "") {
-      this.advancedSearchInput = this.savedAdvSearchInput;
-      this.findStudentsByAdvancedSearch();
-    }
+    // this.showNotification = sharedMethods.showNotification;
+    // if (this.studentStore.savedAdvSearchInput != "") {
+    //   this.advancedSearchInput = this.savedAdvSearchInput;
+    //   this.findStudentsByAdvancedSearch();
+    // }
   },
   components: {
     DisplayTable: DisplayTable,
   },
-  computed: {
-    // dateObject() {
-    //   let d = new Date(this.advancedSearchInput.birthdateFrom.value);
-    //   return this.advancedSearchInput.birthdateFrom.value ? d : null;
-    // },
-    ...mapGetters({
-      savedAdvSearchInput: "getAdvancedSearchProps",
-      profile: "student/getStudentProfile",
-      courses: "student/getStudentCourses",
-      exams: "student/getStudentExams",
-      gradStatus: "student/getStudentGradStatus",
-      hasGradStatus: "student/studentHasGradStatus",
-    }),
-  },
+  computed: {},
   methods: {
     closeRecord: function () {
-      this.$store.commit("student/unsetStudent");
+      this.studentStore.unsetStudent();
     },
     keyHandler: function (e) {
       if (e.keyCode === 13) {
@@ -1070,10 +1061,7 @@ export default {
               this.studentSearchResults = this.searchResults.gradSearchStudents;
               this.totalElements = this.studentSearchResults.length;
               this.totalPages = this.searchResults.totalPages;
-              this.$store.dispatch(
-                "setAdvancedSearchProps",
-                this.advancedSearchInput
-              );
+              studentStore.setAdvancedSearchProps(this.advancedSearchInput);
               if (this.totalElements > 0) {
                 if (this.searchResults.totalElements == 1) {
                   this.advancedSearchMessage = "1 student record found. ";

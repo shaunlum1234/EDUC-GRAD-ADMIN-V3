@@ -1,11 +1,8 @@
 <template>
   <div id="app">
-    <EnvironmentBanner />
-    <Bcheader
-      class="bcheader"
-      style="margin-bottom: 15px; text-transform: capitalize"
-    >
-      <div v-if="isAuthenticated && dataReady">
+    <!-- <EnvironmentBanner /> -->
+    <Bcheader class="bcheader" style="margin-bottom: 15px">
+      <div v-if="isAuthenticatedGet && dataReady">
         <a v-b-toggle.grad-drawer>{{ userInfo.userName }} </a>
         <b-sidebar id="grad-drawer" title="Permissions" shadow>
           <div class="px-3 py-2 mt-5">
@@ -16,12 +13,11 @@
         |
         <a :href="authRoutes.LOGOUT" class="text-white">Logout</a>
       </div>
-      <div v-else-if="!isAuthenticated">
+      <div v-else-if="!isAuthenticatedGet">
         <a :href="authRoutes.LOGOUT">Login</a>
       </div>
     </Bcheader>
 
-    {{ appStore.programOptions }}
     <div class="container" style="min-height: 100vh">
       <transition name="fade">
         <router-view />
@@ -34,8 +30,9 @@
 <script>
 // Vue Store
 
-import { appStore } from "./store/app-pinia";
-import { authStore } from "./store/modules/auth.js";
+import { useAppStore } from "./store/modules/app";
+import { useAuthStore } from "./store/modules/auth";
+import { useAccessStore } from "./store/modules/access";
 import { mapState, mapActions } from "pinia";
 import Bcheader from "@/components/BCHeader.vue";
 import BCFooter from "@/components/BCFooter.vue";
@@ -49,9 +46,10 @@ export default {
     EnvironmentBanner,
   },
   setup() {
-    const appStore = appStore();
-    const authStore = authStore();
-    return { appStore, authStore };
+    const appStore = useAppStore();
+    const authStore = useAuthStore();
+    const accessStore = useAccessStore();
+    return { appStore, authStore, accessStore };
   },
   async created() {
     this.getJwtToken()
@@ -74,10 +72,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(app, ["getProgramOptions"]),
-    ...mapState(authStore, ["isAuthenticated", "loginError", "isLoading"]),
-    //...mapGetters("app", ["getProgramOptions"]),
-    //...mapGetters("useraccess", ["roles", "userAccess"]),
+    ...mapState(useAccessStore, ["roles", "userAccess"]),
+
     dataReady: function () {
       return this.userInfo;
     },
@@ -86,16 +82,13 @@ export default {
     },
   },
   methods: {
-    //...mapMutations("useraccess", ["setUserRoles"]),
-    authStore,
-    appStore,
-    ...mapActions(authStore, [
+    ...mapActions(useAuthStore, [
       "setLoading",
       "getJwtToken",
       "getUserInfo",
       "logout",
     ]),
-    ...mapActions(appStore, ["setApplicationVariables"]),
+    ...mapActions(useAppStore, ["setApplicationVariables"]),
   },
 };
 </script>

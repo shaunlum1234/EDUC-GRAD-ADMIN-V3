@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="px-0">
+      {{ studentInfo[0] }}
       <table
         v-if="!smallScreen"
         class="profile-name"
@@ -208,16 +209,20 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import sharedMethods from "../../sharedMethods";
-
+import { useStudentStore } from "../../store/modules/student";
+import { mapState } from "pinia";
 export default {
   name: "StudentInformation",
   components: {},
+  setup() {
+    const studentStore = useStudentStore();
+    return { studentStore };
+  },
   computed: {
-    ...mapGetters({
-      studentInfo: "student/getStudentProfile",
-      studentFullName: "student/getStudentFullName",
+    ...mapState(useStudentStore, {
+      studentInfo: "getStudentProfile",
+      studentFullName: "getStudentFullName",
     }),
   },
   data() {

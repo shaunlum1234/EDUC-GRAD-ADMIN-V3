@@ -1,9 +1,10 @@
+import { defineStore } from 'pinia';
 import SchoolService from '@/services/SchoolService.js';
 import ProgramManagementService from '@/services/ProgramManagementService.js';
 
-export default {
+export const useStudentStore = defineStore('student',{
   namespaced: true,
-  state: {
+  state: () => ({
     advancedSearchProps:"",
     tokenTimeout: "",
     isAuthenticated: localStorage.getItem('jwtToken') !== null,
@@ -38,243 +39,41 @@ export default {
       auditHistory:[],
       auditHistoryOptionalPrograms:[],
     },
-  },
-  mutations: {
-    setPageTitle: (state, pageTitle) => {
-      state.pageTitle = pageTitle;
-    },
-    setTabLoading(state, payload){
-      state.batchTabsLoading[payload['index']] = payload['value'];
-    },
-    addValueToTypeInBatchId(state, payload){
-      state.batchDetails[payload['id']][payload['type']].push({})
-    },
-    addTypeToBatchId(state, payload){
-      state.batchDetails[payload['id']][payload['type']].push({})
-    },
-    addSchoolToBatch(state,payload){
-      state.batchDetails[payload].schools.push({})
-    },
-    addDistrictToBatch(state,payload){
-      state.batchDetails[payload].districts.push({})
-    },
-    addStudentToBatch(state,payload){
-      state.batchDetails[payload].students.push({})
-    },
-
-
-    //id, type, value
-    deleteValueFromTypeInBatchId(state,payload){
-      let items = state.batchDetails[payload['id']][payload['type']];
-
-      for( var i = 0; i < items.length; i++){    
-        if ( items[i].value === payload['value']) { 
-          items.splice(i--, 1); 
-        }
-      }
-      if(items.length == 0){
-        items.push({});
-      }
-    },
-
-    setStudentAuditHistory(state, payload){
-      state.student.auditHistory = payload; 
-    },
-    setStudentOptionalProgramsAuditHistory(state, payload){
-      state.student.auditHistoryOptionalPrograms = payload;
-    },      
-    setStudentCareerPrograms(state, payload){
-      state.student.careerPrograms = payload; 
-    },
-    setAdvancedSearchProps(state, payload){
-      state.advancedSearchProps = payload; 
-    },
-    setStudentUngradReasons(state, payload){
-      state.student.ungradReasons = payload; 
-    },
-    setStudentCertificates(state, payload){
-      state.student.certificates = payload;        
-    },
-    setStudentReports(state, payload){
-      state.student.reports = payload;         
-    },
-    setStudentTranscripts(state, payload){
-      state.student.transcripts = payload;         
-    }, 
-    setStudentXmlReport(state, payload){
-      state.student.xmlReports = payload;         
-    },      
-    setUsername(state, payload){
-      state.username = payload;
-    },
-    setQuickSearchPen(state, payload){
-      state.quickSearchPen = payload;
-    },
-    setPermissions(state, payload){
-      state.permissions = payload;
-    },
-    setStudentGradStatusOptionalPrograms(state, payload) {
-      state.student.optionalPrograms = payload;
-      for (let optionalProgram of state.student.optionalPrograms) {
-        optionalProgram.studentOptionalProgramData = JSON.parse(optionalProgram.studentOptionalProgramData); 
-      }
-    },
-    setHasGradStatusPendingUpdates(state, payload) {
-        state.student.hasGradStatusPendingUpdates = payload;
-    },
-
-    // TO DO ADD THIS TO AUTH
-    setToken(state, payload = null) {
-
-      localStorage.setItem("jwt", payload);
-      state.token = payload;
-    },
-    setRefreshToken(state, payload) {
-
-      localStorage.setItem("refresh", payload);
-      state.refreshToken = payload;
-    },
-    setCorrelationID(state, payload) {
-
-      localStorage.setItem("correlationID", payload);
-      state.correlationID = payload;
-    },
-    setStudentProfile(state, payload) {
-      state.student.profile = payload;
-    },
-    setStudentCourses(state, payload) {
-      state.student.courses = payload;
-      if(state.student.courses.length){
-        state.student.hasCourses = true;
-      }
-    },
-    setStudentNotes(state, payload) {
-      state.student.notes = payload;
-      if(state.student.notes.length){
-        state.student.hasNotes = true;
-      }
-    },
-    setStudentGradStatus(state, payload) {
-      state.student.gradStatus = payload;
-      //when commiting gradstatus to store, we need to put the json string in to a json object to call it easier
-      if(state.student.gradStatus.studentGradData){
-        state.student.gradStatus.studentGradData = JSON.parse(state.student.gradStatus.studentGradData);
-      } else {
-        state.student.gradStatus.studentGradData = {};
-      }         
-      if(state.student.gradStatus != "not loaded" || state.student.gradStatus == ""){
-        state.student.hasGradStatus = true;
-      }
-    },
-    setStudentAssessments(state, payload) {
-      state.student.assessments = payload;
-      if(state.student.assessments.length){
-        state.student.hasAssessments = true;
-      }
-    },
-    setStudentExams(state, payload) {
-      state.student.exams = payload;
-      if(state.student.exams.length){
-        state.student.hasExams = true;
-      }
-    },
-    unsetStudent(state) {
-      state.student.profile = {};
-      state.student.notes = [];
-      state.student.id = "not loaded";
-      state.student.courses = "not loaded";
-      state.student.assessments = "not loaded";
-      state.student.exams = "not loaded";
-      state.student.gradStatus = "not loaded";
-      state.student.optionalPrograms = "not loaded";
-      state.student.hasExams = false;
-      state.student.hasAssessments = false;
-      state.student.hasCourses = false;
-      state.student.hasNotes = false;
-      state.student.hasGradStatus = false;
-      state.student.hasgradStatusPendingUpdates = false;
-      state.student.certificates = [];
-      state.student.reports = [];
-      state.student.transcripts = [];
-      state.student.xmlReports = [];
-      state.student.ungradReasons = [];
-      state.student.careerPrograms = [];
-    },
-    setRoles(state, payload){
-      state.roles = payload;
-    },         
-  },
+  }),
   actions: {
-    setUsername({commit}, payload){
-      commit('setUsername', payload);
+
+    unsetStudent() {
+      this.student.profile = {};
+      this.student.notes = [];
+      this.student.id = "not loaded";
+      this.student.courses = "not loaded";
+      this.student.assessments = "not loaded";
+      this.student.exams = "not loaded";
+      this.student.gradStatus = "not loaded";
+      this.student.optionalPrograms = "not loaded";
+      this.student.hasExams = false;
+      this.student.hasAssessments = false;
+      this.student.hasCourses = false;
+      this.student.hasNotes = false;
+      this.student.hasGradStatus = false;
+      this.student.hasgradStatusPendingUpdates = false;
+      this.student.certificates = [];
+      this.student.reports = [];
+      this.student.transcripts = [];
+      this.student.xmlReports = [];
+      this.student.ungradReasons = [];
+      this.student.careerPrograms = [];
+    },     
+    setUsername(payload){
+      this.username = payload;
     },
-    setQuickSearchPen({commit}, payload){
-      commit('setQuickSearchPen', payload);
+    setQuickSearchPen(payload){
+      this.quickSearchPen = payload;
     },
-    setPermissions({commit}, payload){
-      commit('setPermissions', payload);
-    },
-    // Programs      
-    createProgram({state}, payload) {
-      ProgramManagementService.createProgram(payload, state.auth.token).then(
-        (response) => {
-          return "STORE REspsonse to display table" + response;
-        }
-      ).catch((error) => {
-        // eslint-disable-next-line
-        console.log(error.response.status);
-      });
-    },   
-    deleteProgram({state}, payload) {
-      
-      ProgramManagementService.deleteProgram(payload, state.auth.token).then(
-        () => {
-          // eslint-disable-next-line
-         
-        }
-      ).catch((error) => {
-        // eslint-disable-next-line
-        console.log(error.response.status);
-      });
-    },   
-    updateProgram({state}, payload) {
-      
-      ProgramManagementService.updateProgram(payload, state.auth.token).then(
-        () => {
-          
-        }
-      ).catch((error) => {
-        // eslint-disable-next-line
-        console.log(error.response.status);
-      });
-    },   
-     // Optional Programs
-     createOptionalProgram({state}, payload) {
-      ProgramManagementService.createOptionalProgram(payload, state.auth.token).then(
-        () => {}
-      ).catch((error) => {
-        // eslint-disable-next-line
-        console.log(error.response.status);
-      });
-    },   
-    deleteOptionalProgram({state}, payload) {
-      
-      ProgramManagementService.deleteOptionalProgram(payload, state.auth.token).then(
-        () => {}
-      ).catch((error) => {
-        // eslint-disable-next-line
-        console.log(error.response.status);
-      });
-    },   
-    updateOptionalProgram({state}, payload) {
-      ProgramManagementService.updateOptionalProgram(payload, state.auth.token).then(
-        () => {
-        }
-      ).catch((error) => {
-        // eslint-disable-next-line
-        console.log(error.response.status);
-      });
-    },   
+    setPermissions( payload){
+      this.permissions = payload;
+    },  
+    
     getGraduationPrograms() {
       
       ProgramManagementService.getGraduationPrograms().then(
@@ -286,226 +85,225 @@ export default {
         console.log(error.response.status);
       });
     },    
-    setStudentAuditHistory({commit}, payload){
-      commit('setStudentAuditHistory', payload);
+    setStudentAuditHistory(payload){
+      this.student.auditHistory = payload;
     },
-    setStudentOptionalProgramsAuditHistory({commit}, payload){
-      commit('setStudentOptionalProgramsAuditHistory', payload);
+    setStudentOptionalProgramsAuditHistory(payload){
+      this.student.auditHistoryOptionalPrograms = payload;
     },      
-    setStudentCareerPrograms({commit}, payload){
-      commit('setStudentCareerPrograms', payload);
+    setStudentCareerPrograms(payload){
+      this.student.careerPrograms = payload;
     },
-    setStudentCertificates({commit}, payload) {
-      commit('setStudentCertificates', payload);
+    setStudentCertificates(payload) {
+      this.student.certificates = payload; 
     },
-    setStudentReports({commit}, payload) {
-      commit('setStudentReports', payload);
+    setStudentReports(payload) {
+      this.student.reports = payload;  
     },
-    setStudentTranscripts({commit}, payload) {
-      commit('setStudentTranscripts', payload);
+    setStudentTranscripts(payload) {
+      this.student.transcripts = payload;         
     },    
-    setStudentXmlReport({commit}, payload) {
-      commit('setStudentXmlReport', payload);
+    setStudentXmlReport(payload) {
+      this.student.xmlReports = payload;
     },         
-    setAdvancedSearchProps({commit}, payload) {
-      commit('setAdvancedSearchProps', payload);
+    setAdvancedSearchProps(payload) {
+      this.advancedSearchProps = payload;
     },
-    setStudentUngradReasons({commit}, payload) {
-      commit('setStudentUngradReasons', payload);
+    setStudentUngradReasons(payload) {
+      this.student.ungradReasons = payload; 
     },      
-    setHasGradStatusPendingUpdates({commit}, payload) {
-      commit('setHasGradStatusPendingUpdates', payload);
+    setHasGradStatusPendingUpdates(payload) {
+      this.student.hasGradStatusPendingUpdates = payload;
     },
-    setStudentGradStatusOptionalPrograms({commit}, payload) {
-      commit('setStudentGradStatusOptionalPrograms', payload);
-    },
-    setStudentProfile({
-      commit
-    }, payload) {
-      commit('setStudentProfile', payload[0]);
-    },
-    setStudentCourses({
-      commit
-    }, payload) {
-      commit('setStudentCourses', payload);
-    },
-    setStudentAssessments({
-      commit
-    }, payload) {
-      commit('setStudentAssessments', payload);
-    },
-    setStudentExams({
-      commit
-    }, payload) {
-      commit('setStudentExams', payload);
-    },
-    setStudentGradStatus({
-      commit
-    }, payload) {
-      commit('setStudentGradStatus', payload);
-    },
-    setRoles({
-      commit
-    }, payload) {
-      commit('setRoles', payload);
-
-    },    
-    setStudentNotes({
-      commit
-    }, payload) {
-      commit('setStudentNotes', payload);
-    },    
-    // SEARCH
-    searchSchools({state},payload) {
-      SchoolService.searchSchools(payload,state.auth.token).then(
-        (response) => {
-          return response.data;
-        }
-      ).catch((error) => {
-        // eslint-disable-next-line
-        console.log(error);
-      });
-    },      
-  },
-  getters: {
-    getStudentAuditHistory(state){
-      return state.student.auditHistory;
-    },
-    getStudentOptionalProgramAuditHistory(state){
-      return state.student.auditHistoryOptionalPrograms;
-    },      
-    getAdvancedSearchProps(state){
-      return state.advancedSearchProps;
-    },
-    getStudentUngradReasons(state){
-      return state.student.ungradReasons;
-    },
-    getStudentCertificates(state){
-        return state.student.certificates;
-    },
-    getStudentReports(state){
-      return state.student.reports;
-    },      
-    getStudentTranscripts(state){
-      return state.student.transcripts;
-    },     
-    getStudentXmlReports(state){
-      return state.student.xmlReports;
-    },           
-    getStudentGraduationCreationAndUpdate(state){
-      return {
-        "createdBy" : state.student.gradStatus.createdBy,
-        "createdTimestamp": state.student.gradStatus.createdTimestamp,
-        "updatedBy" : state.student.gradStatus.updatedBy,
-        "updatedTimestamp": state.student.gradStatus.updatedTimestamp
+    setStudentGradStatusOptionalPrograms(payload) {
+      this.student.optionalPrograms = payload;
+      for (let optionalProgram of this.student.optionalPrograms) {
+        optionalProgram.studentOptionalProgramData = JSON.parse(optionalProgram.studentOptionalProgramData); 
       }
     },
-    getHasGradStatusPendingUpdates(state){
-        return state.student.hasGradStatusPendingUpdates;
+    setStudentProfile(payload) {
+      this.student.profile = payload[0];
     },
-    getStudentId(state) {
-      return state.student.profile.studentID;
+    setStudentCourses(payload) {
+      this.student.courses = payload;
+      if(this.student.courses.length){
+        this.student.hasCourses = true;
+      }
     },
-    getStudentProfile(state) {
-      return state.student.profile;
+    setStudentAssessments(payload) {
+      this.student.assessments = payload;
+      if(this.student.assessments.length){
+        this.student.hasAssessments = true;
+      }
     },
-    getStudentFullName(state) {
+    setStudentExams(payload) {
+      this.student.exams = payload;
+      if(this.student.exams.length){
+        this.student.hasExams = true;
+      }
+    },
+    setStudentGradStatus(payload) {
+      this.student.gradStatus = payload;
+      //when commiting gradstatus to store, we need to put the json string in to a json object to call it easier
+      if(this.student.gradStatus.studentGradData){
+        this.student.gradStatus.studentGradData = JSON.parse(this.student.gradStatus.studentGradData);
+      } else {
+        this.student.gradStatus.studentGradData = {};
+      }         
+      if(this.student.gradStatus != "not loaded" || this.student.gradStatus == ""){
+        this.student.hasGradStatus = true;
+      }
+    },
+    setRoles(payload){
+      this.roles = payload;
+    },    
+    setStudentNotes(payload) {
+      this.student.notes = payload;
+      if(this.student.notes.length){
+        this.student.hasNotes = true;
+      }
+    },    
+    // SEARCH
+  },
+  getters: {
+    getStudentAuditHistory(){
+      return this.student.auditHistory;
+    },
+    getStudentOptionalProgramAuditHistory(){
+      return this.student.auditHistoryOptionalPrograms;
+    },      
+    getAdvancedSearchProps(){
+      return this.advancedSearchProps;
+    },
+    getStudentUngradReasons(){
+      return this.student.ungradReasons;
+    },
+    getStudentCertificates(){
+        return this.student.certificates;
+    },
+    getStudentReports(){
+      return this.student.reports;
+    },      
+    getStudentTranscripts(){
+      return this.student.transcripts;
+    },     
+    getStudentXmlReports(){
+      return this.student.xmlReports;
+    },           
+    getStudentGraduationCreationAndUpdate(){
       return {
-        "legalLastName": state.student.profile.legalLastName,
-        "legalFirstName": state.student.profile.legalFirstName,
-        "legalMiddleNames": state.student.profile.legalMiddleNames,
-        "pen": state.student.profile.pen
+        "createdBy" : this.student.gradStatus.createdBy,
+        "createdTimestamp": this.student.gradStatus.createdTimestamp,
+        "updatedBy" : this.student.gradStatus.updatedBy,
+        "updatedTimestamp": this.student.gradStatus.updatedTimestamp
+      }
+    },
+    getHasGradStatusPendingUpdates(){
+        return this.student.hasGradStatusPendingUpdates;
+    },
+    getStudentId() {
+      return this.student.profile.studentID;
+    },
+    getStudentProfile() {
+      return this.student.profile;
+    },
+    getStudentFullName() {
+      return {
+        "legalLastName": this.student.profile.legalLastName,
+        "legalFirstName": this.student.profile.legalFirstName,
+        "legalMiddleNames": this.student.profile.legalMiddleNames,
+        "pen": this.student.profile.pen
       };
     },
-    getStudentPen(state) {
-      return state.student.profile.pen;
+    getStudentPen() {
+      return this.student.profile.pen;
     },
-    getStudentGradStatus(state) {
-      return state.student.gradStatus;
+    getStudentGradStatus() {
+      return this.student.gradStatus;
     },
-    getStudentOptionalPrograms(state) {
-      return state.student.optionalPrograms;
+    getStudentOptionalPrograms() {
+      return this.student.optionalPrograms;
     },
-    getStudentCourses(state) {
-      return state.student.courses;
+    getStudentCourses() {
+      return this.student.courses;
     },
-    getStudentExams(state) {
-      return state.student.exams;
+    getStudentExams() {
+      return this.student.exams;
     },
-    getStudentAssessments(state) {
-      return state.student.assessments;
+    getStudentAssessments() {
+      return this.student.assessments;
     },
-    getStudentNotes(state) {
-      return state.student.notes;
+    getStudentNotes() {
+      return this.student.notes;
     },
-    studentHasCourses(state){
-      return state.student.hasCourses;
+    studentHasCourses(){
+      return this.student.hasCourses;
     },
-    studentHasExams(state){
-      return state.student.hasExams;
+    studentHasExams(){
+      return this.student.hasExams;
     },
-    studentHasAssessments(state){
-      return state.student.hasAssessments;
+    studentHasAssessments(){
+      return this.student.hasAssessments;
     },
-    studentHasGradStatus(state){
-      return state.student.hasGradStatus;
+    studentHasGradStatus(){
+      return this.student.hasGradStatus;
     },
-    studentHasNotes(state){
-      return state.student.hasNotes;
+    studentHasNotes(){
+      return this.student.hasNotes;
     },
-    gradStatusCourses(state){
+    gradStatusCourses(){
   
-      if(state.student.gradStatus.studentGradData && state.student.gradStatus.studentGradData.studentCourses){
-        return state.student.gradStatus.studentGradData.studentCourses.studentCourseList;
+      if(this.student.gradStatus.studentGradData && this.student.gradStatus.studentGradData.studentCourses){
+        return this.student.gradStatus.studentGradData.studentCourses.studentCourseList;
       }else {
         return {};
       }
       
     },
-    gradStatusAssessments(state){
-      if(state.student.gradStatus.studentGradData && state.student.gradStatus.studentGradData.studentAssessments) {
-        return state.student.gradStatus.studentGradData.studentAssessments.studentAssessmentList;
+    gradStatusAssessments(){
+      if(this.student.gradStatus.studentGradData && this.student.gradStatus.studentGradData.studentAssessments) {
+        return this.student.gradStatus.studentGradData.studentAssessments.studentAssessmentList;
       } else {
         return {};
       }
     },      
 
-    getRoles(state){
-      return state.roles;
+    getRoles(){
+      return this.roles;
     },
-    isAdmin(state){
-      return (state.roles == "administrator")
+    isAdmin(){
+      return (this.roles == "administrator")
     },
-    isAuthenticated(state){
-      return (state.roles == "authenticated")
+    isAuthenticated(){
+      return (this.roles == "authenticated")
     },
-    getPermissions(state){
-      return state.permissions;
+    getPermissions(){
+      return this.permissions;
     },
-    getUsername(state){
-      return state.username;
+    getUsername(){
+      return this.username;
     },
-    getQuickSearchPen(state){
-      return state.quickSearchPen;
+    getQuickSearchPen(){
+      return this.quickSearchPen;
     },
-    getRequirementsMet(state){
-      if(state.student.gradStatus.studentGradData){
-        return state.student.gradStatus.studentGradData.requirementsMet;
+    getRequirementsMet(){
+      if(this.student.gradStatus.studentGradData){
+        return this.student.gradStatus.studentGradData.requirementsMet;
       } else {
         return {};
       }
       
     },
-    getNongradReasons(state){
-      if(state.student.gradStatus.studentGradData){
-        return state.student.gradStatus.studentGradData.nonGradReasons;
+    getNongradReasons(){
+      if(this.student.gradStatus.studentGradData){
+        return this.student.gradStatus.studentGradData.nonGradReasons;
       } else {
         return {};
       }
       
     },
-    getStudentCareerPrograms(state){
-      return state.student.careerPrograms;
+    getStudentCareerPrograms(){
+      return this.student.careerPrograms;
     }
   }
-}
+});

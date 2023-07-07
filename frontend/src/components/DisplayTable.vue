@@ -204,9 +204,9 @@
       </template>
     </b-table>
     <b-pagination
-      v-if="this.totalRowz && this.pagination"
+      v-if="this.totalRows && this.pagination"
       v-model="currentPage"
-      :total-rows="totalRowz"
+      :total-rows="totalRows"
       :per-page="perPage"
       aria-controls="my-table"
     ></b-pagination>
@@ -222,8 +222,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
+  name: "DisplayTable",
   props: [
     "items",
     "totalitems",
@@ -284,11 +284,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("auth", ["roles"]),
     editableFields() {
       return this.fields.filter((field) => field.editable);
     },
-    totalRowz: function () {
+    totalRows: function () {
       if (this.totalRows == 0) {
         return this.items.length;
       } else return this.totalRows;
@@ -306,176 +305,11 @@ export default {
   },
   created() {
     window.addEventListener("keyup", this.validateInput);
-    this.setAdmin();
     if (this.pagination) {
       this.perPage = 25;
     }
-    if (this.create && this.isAdmin) {
-      this.createAllowed = true;
-    }
-    if (this.update && this.isAdmin) {
-      this.updateAllowed = true;
-      this.fields.push({
-        key: "actions",
-        class: "d-block",
-        label: "Edit",
-      });
-    }
-    if (this.delete && this.roles == "Administrator") {
-      this.deleteAllowed = true;
-
-      this.fields.push({
-        key: "delete",
-        class: "d-block",
-        label: "Delete",
-      });
-    }
-    this.itemToAdd = { ...this.items[0] };
-    for (let field of this.fields) {
-      this.itemToAdd[field.key] = "";
-    }
   },
-  methods: {
-    toggleQuickEdit() {
-      this.quickEdit = !this.quickEdit;
-      this.resetEdit();
-      if (this.quickEdit) {
-        this.fields[this.fields.length - 1].class = "d-block";
-        this.fields[this.fields.length - 2].class = "d-block";
-      } else {
-        this.fields[this.fields.length - 1].class = "d-none";
-        this.fields[this.fields.length - 2].class = "d-none";
-      }
-    },
-    validateInput: function (e) {
-      if (e.keyCode === 27) {
-        if (this.editMode) {
-          this.resetEdit();
-        } else if (this.deleteMode) {
-          this.cancelDelete();
-        }
-      } else if (e.keyCode === 13) {
-        if (this.quickEdit && this.editMode) {
-          this.saveEdit();
-        }
-      }
-    },
-    setAdmin() {
-      if (this.roles == "Administrator") {
-        this.isAdmin = true;
-      } else {
-        this.isAdmin = false;
-      }
-    },
-    addItem() {
-      var newItem = this.itemToAdd;
-      this.items.push(newItem);
-
-      this.addMode = false;
-
-      this.$bvToast.toast("Record was Added", {
-        title: "Success",
-        variant: "success",
-      });
-      this.$store.dispatch(this.create, this.itemToAdd);
-    },
-    cancelAddItem() {
-      this.addMode = false;
-    },
-    deleteItem(item) {
-      let id = item[this.id];
-      this.$store
-        .dispatch(this.delete, { id })
-        .then((result) => {
-          if (result.status && result.status == "200") {
-            this.items.splice(this.items.indexOf(item), 1);
-            this.$bvToast.toast("Record was deleted", {
-              title: "Success",
-              variant: "success",
-            });
-          }
-        })
-        .catch((error) => {
-          if (error) {
-            this.$bvToast.toast(
-              "There was an issue when trying to delete this record",
-              {
-                title: "Error",
-                variant: "danger",
-              }
-            );
-          }
-        });
-    },
-    confirmDelete(item) {
-      this.deleteMode = true;
-      this.editMode = false;
-      let doDelete = true;
-      if (
-        this.itemRow &&
-        !confirm("You have unsaved changes, are you sure you want to continue?")
-      ) {
-        doDelete = false;
-      }
-
-      if (doDelete) {
-        this.itemRow = {
-          ...item,
-        };
-      }
-    },
-    edit(item) {
-      this.editMode = true;
-      this.deleteMode = false;
-      let doEdit = true;
-      if (!this.quickEdit) {
-        if (
-          this.itemRow &&
-          !confirm(
-            "You have unsaved changes, are you sure you want to continue?"
-          )
-        ) {
-          doEdit = false;
-        }
-      }
-      if (doEdit) {
-        this.itemRow = {
-          ...item,
-        };
-      }
-    },
-    saveEdit() {
-      let item = this.items.find((u) => u[this.id] === this.itemRow[this.id]);
-      Object.assign(item, this.itemRow);
-      this.$store.dispatch(this.update, item);
-      this.resetEdit();
-      this.$bvToast.toast("Record was saved/updated", {
-        title: "Success",
-        variant: "success",
-      });
-    },
-    cancelDelete() {
-      this.itemRow = null;
-      this.deleteMode = false;
-    },
-    resetEdit() {
-      this.itemRow = null;
-      this.editMode = false;
-    },
-    info(item, index, button) {
-      this.infoModal.title = `Row index: ${index}`;
-      this.infoModal.content = JSON.stringify(item, null, 2);
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-    },
-    resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.content = "";
-    },
-    onFiltered(filteredItems) {
-      this.totalRows = filteredItems.length;
-      this.currentPage = 1;
-    },
-  },
+  methods: {},
 };
 </script>
 <style scoped>

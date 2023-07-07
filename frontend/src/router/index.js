@@ -4,7 +4,8 @@ import BackendSessionExpired from "@/components/BackendSessionExpired.vue";
 import SessionExpired from "@/components/SessionExpired.vue";
 import UnAuthorized from "@/components/UnAuthorized.vue";
 import UnAuthorizedPage from "@/components/UnAuthorizedPage.vue";
-import authStore from "../store/modules/auth.js";
+import {useAuthStore} from "../store/modules/auth";
+import {useAccessStore} from "../store/modules/access";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -134,13 +135,19 @@ const router = createRouter({
   ],
 });
 router.beforeEach((to, _from, next) => {
-  const aStore = authStore();
+  const aStore = useAuthStore();
+  const accessStore = useAccessStore();
   // this section is to set page title in vue store
   if (to.meta.requiresAuth) {
     aStore.getJwtToken().then(() => {
       if (!aStore.isAuthenticated) {
         next('/token-expired');
       } else {
+        accessStore.setAccess().then(() => {
+          next()
+        }).catch((error) => {
+          next('error');
+        });
         aStore.getUserInfo().then(() => {
           next()
         }).catch(() => {

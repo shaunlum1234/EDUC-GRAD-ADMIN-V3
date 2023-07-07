@@ -1,42 +1,29 @@
-import StudentService from '@/services/StudentService.js';
+
+import { defineStore } from 'pinia';
 import BatchProcessingService from '@/services/BatchProcessingService.js';
-export default {
+
+export const useBatchProcessingStore = defineStore('batchProcessing', {
   namespaced: true,
-  state: {
+  state: () => ({
     scheduledBatchJobs: [],
     batchRuns: [],
     batchRoutines: [],
-    
-  },
-  mutations: {
-    setBatchJobs(state, payload){
-      state.batchRuns = payload;
-      
-      for (let value of state.batchJobs) {
-        value.jobParameters = JSON.parse(value.jobParameters); 
-      }
-    },  
-    setBatchRoutines(state, payload){
+  }),
+  actions: {
+    setBatchRoutines(payload) {
       state.batchRoutines = payload;
-    },  
-    setScheduledBatchJobs(state, payload){
+    },
+    setScheduledBatchJobs(payload) {
       state.scheduledBatchJobs = payload;
-
       for (let value of state.scheduledBatchJobs) {
         value.jobParameters = JSON.parse(value.jobParameters); 
       }
-    }  
-          
-  },
-  actions: {
-    setBatchRoutines({commit}, payload) {
-      commit('setBatchRoutines', payload);
     },
-    setScheduledBatchJobs({commit}, payload) {
-      commit('setScheduledBatchJobs', payload);
-    },
-    setBatchJobs({commit}, payload) {
-      commit('setBatchJobs', payload);
+    setBatchJobs(payload) {
+      state.batchRuns = payload;
+      for (let value of state.batchJobs) {
+        value.jobParameters = JSON.parse(value.jobParameters); 
+      }
     },
     removeScheduledJobs({state}, payload) {
       if(state.scheduledBatchJobs)
@@ -44,16 +31,8 @@ export default {
     },       
   },
   getters: {
- 
-    getScheduledBatchRuns(state){
-      return state.scheduledBatchJobs;
-    },    
-    getBatchRuns(state){
-      return state.batchRuns;
-    },     
-    getBatchRoutines(state){
-      return state.batchRoutines;
-    },         
-  
+    getScheduledBatchRuns: (state) => state.scheduledBatchJobs,
+    getBatchRuns: (state)  => state.batchRuns,
+    getBatchRoutines: (state) => state.batchRoutines
   },  
-};
+});

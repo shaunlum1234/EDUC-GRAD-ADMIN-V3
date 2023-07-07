@@ -60,14 +60,14 @@
         >
           <img
             v-show="!row.detailsShowing"
-            src="../../assets/images/icon-right.svg"
+            src="../assets/images/icon-right.svg"
             width="9px"
             aria-hidden="true"
             alt=""
           />
           <img
             v-show="row.detailsShowing"
-            src="../../assets/images/icon-down.svg"
+            src="../assets/images/icon-down.svg"
             height="5px"
             aria-hidden="true"
             alt=""
@@ -93,18 +93,21 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import DisplayTable from "@/components/DisplayTable.vue";
+import { useStudentStore } from "../../store/modules/student";
+import { mapState } from "pinia";
 export default {
   name: "StudentAssessments",
+  setup() {
+    const studentStore = useStudentStore();
+    return { studentStore };
+  },
   components: {
     DisplayTable: DisplayTable,
   },
   props: {},
   computed: {
-    ...mapGetters({
-      assessments: "student/getStudentAssessments",
-    }),
+    ...mapState(useStudentStore, { assessments: "getStudentAssessments" }),
   },
   data: function () {
     return {

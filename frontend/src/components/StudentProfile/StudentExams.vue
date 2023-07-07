@@ -17,13 +17,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { useStudentStore } from "../../store/modules/student";
+import { mapState } from "pinia";
 import DisplayTable from "@/components/DisplayTable.vue";
 export default {
   name: "StudentExams",
   props: {},
   computed: {
-    ...mapGetters({
+    ...mapState(useStudentStore, {
       exams: "student/getStudentExams",
     }),
   },
@@ -32,36 +33,6 @@ export default {
   },
   data: function () {
     return {
-      // show: false,
-      // opened: [],
-      // student: [],
-      // examsList: [],
-      // filters: {
-      //   name: { value: "", keys: ["courseCode"] },
-      // },
-      // pen: "",
-      // courseCode: "",
-      // courseName: "",
-      // courseLevel: "",
-      // sessionDate: "",
-      // gradReqMet: "",
-      // courseType: "",
-      // completedCourseSchoolPercentage: null,
-      // completedCourseExamPercentage: null,
-      // completedCourseFinalPercentage: null,
-      // completedCourseLetterGrade: "",
-      // interimPercent: null,
-      // interimLetterGrade: "",
-      // credits: null,
-      // creditsUsedForGrad: null,
-      // reqMetLiteracyNumeracy: "",
-      // wroteFlag: "",
-      // specialCase: " ",
-      // currentPage: 1,
-      // totalPages: 0,
-      // displayMessage: null,
-      // modalVisible: null,
-      // inputPenMissing: false,
       fields: [
         { key: "more", label: "" },
         {
@@ -149,29 +120,7 @@ export default {
       ],
     };
   },
-  methods: {
-    // toggle(id) {
-    //   const index = this.opened.indexOf(id);
-    //   if (index > -1) {
-    //     this.opened.splice(index, 1);
-    //   } else {
-    //     this.opened.push(id);
-    //   }
-    // },
-    // showMsgBoxOne(message) {
-    //   this.$bvModal.msgBoxOk(message);
-    // },
-    // getCourseName: function(cid) {
-    //   let result = "";
-    //   this.courses.filter(function(n) {
-    //     if (n.id === cid) {
-    //       result = n.name;
-    //       return result;
-    //     }
-    //   });
-    //   return result;
-    // },
-  },
+  methods: {},
 };
 </script>
 

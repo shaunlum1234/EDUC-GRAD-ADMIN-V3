@@ -33,7 +33,7 @@
           {{ row.value | formatYYYYMMDate }}
         </template>
         <template #cell(courseName)="row">
-          <div class="d-flex flex-column text-md-left">
+          <div v-if="!!courseDetail" class="d-flex flex-column text-md-left">
             <div class="">
               <b-button
                 :id="
@@ -114,14 +114,14 @@
           >
             <img
               v-show="!row.detailsShowing"
-              src="../../assets/images/icon-right.svg"
+              src="../assets/images/icon-right.svg"
               width="9px"
               aria-hidden="true"
               alt=""
             />
             <img
               v-show="row.detailsShowing"
-              src="../../assets/images/icon-down.svg"
+              src="../assets/images/icon-down.svg"
               height="5px"
               aria-hidden="true"
               alt=""
@@ -174,7 +174,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { useStudentStore } from "../../store/modules/student";
+import { mapState, mapActions } from "pinia";
 import DisplayTable from "@/components/DisplayTable.vue";
 export default {
   name: "StudentCourses",
@@ -182,12 +183,12 @@ export default {
     DisplayTable: DisplayTable,
   },
   computed: {
-    ...mapGetters({
-      courses: "student/getStudentCourses",
-      gradStatusCourses: "student/gradStatusCourses",
-      studentGradStatus: "student/getStudentGradStatus",
-      hasGradStatus: "student/studentHasGradStatus",
-      hasGradStatusPendingUpdates: "student/getHasGradStatusPendingUpdates",
+    ...mapState(useStudentStore, {
+      courses: "getStudentCourses",
+      gradStatusCourses: "gradStatusCourses",
+      studentGradStatus: "getStudentGradStatus",
+      hasGradStatus: "studentHasGradStatus",
+      hasGradStatusPendingUpdates: "getHasGradStatusPendingUpdates",
     }),
   },
   data: function () {
@@ -283,6 +284,10 @@ export default {
     };
   },
   methods: {
+    ...mapActions(useStudentStore, [
+      "setHasGradStatusPendingUpdates",
+      "setHasGradStatusPendingUpdates",
+    ]),
     toggle(id) {
       const index = this.opened.indexOf(id);
       if (index > -1) {
@@ -320,10 +325,11 @@ export default {
             );
           }
         }
+
         if (this.gradStatusPendingUpdates.length) {
-          this.$store.dispatch("student/setHasGradStatusPendingUpdates", true);
+          this.setHasGradStatusPendingUpdates(true);
         } else {
-          this.$store.dispatch("student/setHasGradStatusPendingUpdates", false);
+          this.setHasGradStatusPendingUpdates(false);
         }
       }
     },

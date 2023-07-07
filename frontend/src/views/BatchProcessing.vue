@@ -306,8 +306,8 @@ import BatchRoutines from "@/components/Batch/BatchRoutines.vue";
 import DisplayTable from "@/components/DisplayTable.vue";
 import { useVuelidate } from "@vuelidate/core";
 import { isProxy, toRaw } from "vue";
-import sharedMethods from "../sharedMethods";
-import { mapGetters } from "vuex";
+import { useBatchProcessingStore } from "../store/modules/batchprocessing";
+import { mapState } from "pinia";
 
 export default {
   components: {
@@ -554,10 +554,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      batchRuns: "batchprocessing/getBatchRuns",
-      batchRoutines: "batchprocessing/getBatchRoutines",
-      roles: "useraccess/roles",
+    ...mapState(useBatchProcessingStore, {
+      batchRuns: "getBatchRuns",
+      batchRoutines: "getBatchRoutines",
     }),
     // batchRunsCount() {
     //   console.log(this.batchRuns.length);
