@@ -105,7 +105,8 @@
 import DisplayTable from "@/components/DisplayTable.vue";
 import BatchProcessingService from "@/services/BatchProcessingService.js";
 import { isProxy, toRaw } from "vue";
-import { mapGetters, mapActions } from "vuex";
+import { useBatchProcessingStore } from "../../store/modules/batchprocessing";
+import { mapState, mapActions } from "pinia";
 export default {
   components: {
     DisplayTable: DisplayTable,
@@ -164,17 +165,15 @@ export default {
     this.getScheduledJobs();
   },
   computed: {
-    ...mapGetters({
-      scheduledJobs: "batchprocessing/getScheduledBatchRuns",
+    ...mapState(useBatchProcessingStore, {
+      scheduledJobs: "getScheduledBatchRuns",
     }),
   },
   methods: {
+    ...mapActions(useBatchProcessingStore, ["setScheduledBatchJobs"]),
     getScheduledJobs() {
       BatchProcessingService.getScheduledBatchJobs().then((response) => {
-        this.$store.dispatch(
-          "batchprocessing/setScheduledBatchJobs",
-          response.data
-        );
+        this.setScheduledBatchJobs(response.data);
       });
     },
     addScheduledJob(request) {

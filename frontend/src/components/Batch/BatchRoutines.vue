@@ -24,7 +24,8 @@
 <script>
 import DisplayTable from "@/components/DisplayTable.vue";
 import BatchProcessingService from "@/services/BatchProcessingService.js";
-import { mapGetters } from "vuex";
+import { useBatchProcessingStore } from "../../store/modules/batchprocessing";
+import { mapState, mapActions } from "pinia";
 export default {
   components: {
     DisplayTable: DisplayTable,
@@ -80,13 +81,14 @@ export default {
   created() {
     BatchProcessingService.batchProcessingRoutines()
       .then((response) => {
-        this.$store.dispatch("batchprocessing/setBatchRoutines", response.data);
+        this.setBatchRoutines(response.data);
       })
       .catch((error) => {
         this.makeToast("ERROR " + error.response.statusText, "danger");
       });
   },
   methods: {
+    ...mapActions(useBatchProcessingStore, ["setBatchRoutines"]),
     toggleRoutine(jobType, processingId) {
       this.$bvModal
         .msgBoxConfirm("Please confirm that you want to update.", {
@@ -131,8 +133,8 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      batchRoutines: "batchprocessing/getBatchRoutines",
+    ...mapState(useBatchProcessingStore, {
+      batchRoutines: "getBatchRoutines",
     }),
   },
 };

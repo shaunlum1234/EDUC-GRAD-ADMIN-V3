@@ -162,7 +162,8 @@
 import DisplayTable from "@/components/DisplayTable.vue";
 import BatchProcessingService from "@/services/BatchProcessingService.js";
 import { isProxy, toRaw } from "vue";
-import { mapGetters } from "vuex";
+import { useBatchProcessingStore } from "../../store/modules/batchprocessing";
+import { mapState, mapActions } from "pinia";
 export default {
   components: {
     DisplayTable: DisplayTable,
@@ -219,11 +220,12 @@ export default {
     this.getAdminDashboardData();
   },
   computed: {
-    ...mapGetters({
-      batchRuns: "batchprocessing/getBatchRuns",
+    ...mapState(useBatchProcessingStore, {
+      batchRuns: "getBatchRuns",
     }),
   },
   methods: {
+    ...mapActions(useBatchProcessingStore, ["setBatchJobs"]),
     getAdminDashboardData() {
       this.adminDashboardLoading = true;
       BatchProcessingService.getDashboardInfo()
@@ -235,7 +237,7 @@ export default {
               JSON.parse(this.batchRunData[batch].jobParameters)
             );
           }
-          this.$store.dispatch("batchprocessing/setBatchJobs", batchRunData);
+          this.setBatchJobs(batchRunData);
           //Expected
           this.adminDashboardLoading = false;
           window.scrollTo(0, 0);

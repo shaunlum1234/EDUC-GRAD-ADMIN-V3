@@ -11,16 +11,16 @@ export const useBatchProcessingStore = defineStore('batchProcessing', {
   }),
   actions: {
     setBatchRoutines(payload) {
-      state.batchRoutines = payload;
+      this.batchRoutines = payload;
     },
     setScheduledBatchJobs(payload) {
-      state.scheduledBatchJobs = payload;
+      this.scheduledBatchJobs = payload;
       for (let value of state.scheduledBatchJobs) {
         value.jobParameters = JSON.parse(value.jobParameters); 
       }
     },
     setBatchJobs(payload) {
-      state.batchRuns = payload;
+      this.batchRuns = payload;
       for (let value of state.batchJobs) {
         value.jobParameters = JSON.parse(value.jobParameters); 
       }

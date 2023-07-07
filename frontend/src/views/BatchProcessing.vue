@@ -171,7 +171,6 @@
       <!-- Modal Dialogs -->
 
       <b-modal ref="newBatchRequestModal" size="xl" title="New Batch Request">
-        dsdsds
         <div class="pt-1 d-block">
           <div v-if="runType == 'DISTRUNUSER'">
             <DistrunForm v-model:schools="schools"></DistrunForm>
