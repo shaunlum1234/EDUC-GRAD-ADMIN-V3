@@ -48,7 +48,7 @@
             </b-button-group>
           </div>
         </b-button-group>
-        <div v-if="studentGradStatus">
+        <!-- <div v-if="studentGradStatus">
           <div v-if="recalculateFlag && recalculateProjectedGradFlag">
             <b-alert show variant="info" class="p-3 mb-1">
               <h4 class="alert-heading">
@@ -127,7 +127,7 @@
               </p>
             </b-alert>
           </div>
-        </div>
+        </div> -->
 
         <!-- Info callout in edit form when student status is MER/Merged -->
         <div
