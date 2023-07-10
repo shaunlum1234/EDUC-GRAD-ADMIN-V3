@@ -88,12 +88,15 @@
                   </div>
                   <div class="pr-0 col-12 col-lg-8 col-md-7 text-right">
                     <strong>Updated:</strong>
-                    {{ studentGradStatus.updateDate | formatTime }} by
+                    {{ $filters.formatTime(studentGradStatus.updateDate) }} by
                     {{ studentGradStatus.updateUser }}
                   </div>
                 </div>
                 <b-card-text>
-                  <!-- <GRADRequirementDetails v-if="gradTab == 'gradCourses'">
+                  <StudentGraduationStatus
+                    v-if="gradTab == 'gradStatus'"
+                  ></StudentGraduationStatus>
+                  <GRADRequirementDetails v-if="gradTab == 'gradCourses'">
                     <div v-if="studentGradStatus.studentGradData">
                       <b-alert
                         variant="info"
@@ -104,7 +107,7 @@
                         }}</b-alert
                       >
                     </div>
-                  </GRADRequirementDetails> -->
+                  </GRADRequirementDetails>
                   <b-overlay
                     :show="tabLoading"
                     rounded="sm"
@@ -259,7 +262,7 @@
                       ]"
                     >
                       <template #cell(createDate)="row">
-                        {{ row.value | formatTime }}
+                        {{ $filters.formatTime(row.value) }}
                       </template>
                     </DisplayTable>
                   </div>
@@ -273,6 +276,331 @@
             </b-tabs>
           </b-card>
         </div>
+      </div>
+    </div>
+    <div>
+      <!-- Projected Grad Status Modal -->
+      <b-modal
+        no-close-on-backdrop
+        size="xl"
+        ref="projectedGradStatusWithFinalMarks"
+        title="Projected Grad Status with Final Marks"
+        centered
+      >
+        <b-alert
+          variant="info"
+          show
+          v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus"
+          >{{ projectedGradStatus.gradMessage }}</b-alert
+        >
+        <b-card-group
+          deck
+          v-if="this.projectedGradStatus && this.projectedGradStatus.gradStatus"
+        >
+          <b-card header="Requirements met">
+            <b-card-text>
+              <b-table
+                small
+                :items="this.projectedGradStatus.requirementsMet"
+                :fields="requirementsMetFields"
+              >
+              </b-table>
+            </b-card-text>
+          </b-card>
+          <b-card header="Noncompletion reasons">
+            <div
+              v-if="projectedGradStatus && projectedGradStatus.nonGradReasons"
+            >
+              <b-card-text
+                ><b-table
+                  small
+                  :items="this.projectedGradStatus.nonGradReasons"
+                  :fields="noncompletionReasonsFields"
+                ></b-table
+              ></b-card-text>
+            </div>
+            <div v-else>
+              <b-card-text>All program requirements have been met</b-card-text>
+            </div>
+          </b-card>
+        </b-card-group>
+        <div v-if="this.projectedOptionalGradStatus">
+          <div
+            v-for="optionalProgram in this.projectedOptionalGradStatus"
+            :key="optionalProgram.optionalProgramCode"
+          >
+            <h3 class="optionalProgramName">
+              {{ optionalProgram.optionalProgramName }}
+            </h3>
+            <b-card-group deck>
+              <b-card header="Requirements met">
+                <b-card-text>
+                  <b-table
+                    small
+                    :items="
+                      optionalProgram.studentOptionalProgramData
+                        .optionalRequirementsMet
+                    "
+                    :fields="[
+                      { key: 'rule', label: 'Rule', class: 'px-0 py-2' },
+                      {
+                        key: 'description',
+                        label: 'Description',
+                        class: 'px-0 py-2',
+                      },
+                    ]"
+                  >
+                  </b-table>
+                </b-card-text>
+              </b-card>
+              <b-card header="Requirements not met">
+                <div
+                  v-if="
+                    optionalProgram.studentOptionalProgramData
+                      .optionalNonGradReasons
+                  "
+                >
+                  <b-card-text>
+                    <b-table
+                      small
+                      :items="
+                        optionalProgram.studentOptionalProgramData
+                          .optionalNonGradReasons
+                      "
+                    >
+                    </b-table>
+                  </b-card-text>
+                </div>
+                <div v-else>
+                  <b-card-text>All requirements have been met</b-card-text>
+                </div>
+              </b-card>
+            </b-card-group>
+          </div>
+        </div>
+        <template #modal-footer="{ cancel }">
+          <!-- Emulate built in modal footer ok and cancel button actions -->
+          <b-button size="sm" variant="outline-secondary" v-on:click="cancel">
+            Close
+          </b-button>
+        </template>
+      </b-modal>
+      <!-- Projected Grad status and registrations Modal -->
+      <b-modal
+        no-close-on-backdrop
+        size="xl"
+        ref="projectedGradStatusWithFinalAndReg"
+        centered
+        title="Projected Grad Status with Final Marks and Registrations"
+      >
+        <b-alert variant="info" show>{{
+          projectedGradStatusWithRegistrations.gradMessage
+        }}</b-alert>
+
+        <b-card-group
+          deck
+          v-if="
+            this.projectedGradStatusWithRegistrations &&
+            this.projectedGradStatusWithRegistrations.gradStatus
+          "
+        >
+          <b-card header="Requirements met">
+            <b-card-text>
+              <b-table
+                small
+                :items="
+                  this.projectedGradStatusWithRegistrations.requirementsMet
+                "
+                :fields="requirementsMetFields"
+              >
+                <template #cell(rule)="row">
+                  <div
+                    v-if="row.item.projected"
+                    style="background-color: #eaf2fa; width: 100%"
+                  >
+                    {{ row.item.rule }}
+                  </div>
+                  <div v-else>
+                    {{ row.item.rule }}
+                  </div>
+                </template>
+                <template #cell(description)="row">
+                  <div
+                    v-if="row.item.projected"
+                    style="background-color: #eaf2fa; width: 100%"
+                  >
+                    {{ row.item.description }} (Projected)
+                  </div>
+                  <div v-else>
+                    {{ row.item.description }}
+                  </div>
+                </template>
+              </b-table>
+            </b-card-text>
+          </b-card>
+          <!-- Original -->
+          <b-card header="Noncompletion reasons">
+            <div
+              v-if="
+                projectedGradStatusWithRegistrations &&
+                projectedGradStatusWithRegistrations.nonGradReasons
+              "
+            >
+              <b-card-text
+                ><b-table
+                  small
+                  :items="
+                    this.projectedGradStatusWithRegistrations.nonGradReasons
+                  "
+                  :fields="noncompletionReasonsFields"
+                ></b-table
+              ></b-card-text>
+            </div>
+            <div v-else>
+              <b-card-text>All program requirements have been met</b-card-text>
+            </div>
+          </b-card>
+        </b-card-group>
+        <div v-if="this.projectedOptionalGradStatus">
+          <div
+            v-for="optionalProgram in this.projectedOptionalGradStatus"
+            :key="optionalProgram.optionalProgramCode"
+          >
+            <h3 class="optionalProgramName">
+              {{ optionalProgram.optionalProgramName }}
+            </h3>
+            <b-card-group deck>
+              <b-card header="Requirements met">
+                <b-card-text>
+                  <b-table
+                    small
+                    :items="
+                      optionalProgram.studentOptionalProgramData
+                        .optionalRequirementsMet
+                    "
+                    :fields="[
+                      { key: 'rule', label: 'Rule', class: 'px-0 py-2' },
+                      {
+                        key: 'description',
+                        label: 'Description',
+                        class: 'px-0 py-2',
+                      },
+                    ]"
+                  >
+                  </b-table>
+                </b-card-text>
+              </b-card>
+              <b-card header="Requirements not met">
+                <div
+                  v-if="
+                    optionalProgram.studentOptionalProgramData
+                      .optionalNonGradReasons
+                  "
+                >
+                  <b-card-text>
+                    <b-table
+                      small
+                      :items="
+                        optionalProgram.studentOptionalProgramData
+                          .optionalNonGradReasons
+                      "
+                    >
+                    </b-table>
+                  </b-card-text>
+                </div>
+                <div v-else>
+                  <b-card-text>All requirements have been met</b-card-text>
+                </div>
+              </b-card>
+            </b-card-group>
+          </div>
+        </div>
+        <template #modal-footer="{ ok, cancel, hide }">
+          <!-- Emulate built in modal footer ok and cancel button actions -->
+          <b-button size="sm" variant="outline-secondary" @click="cancel">
+            Close
+          </b-button>
+        </template>
+      </b-modal>
+      <div>
+        <b-modal id="ungraduate-student-modal" title="Undo Completion">
+          <p>Undo Completion Reason</p>
+          <b-form-select
+            v-model="studentUngradReasonSelected"
+            :options="ungradReasons"
+            value-field="code"
+            text-field="label"
+          >
+            <template #first>
+              <b-form-select-option value="" disabled
+                >-- Select an Undo Completion Reason --</b-form-select-option
+              >
+            </template>
+          </b-form-select>
+          <div class="mt-3" v-if="studentUngradReasonSelected">
+            <b-alert
+              class="m-0"
+              variant="warning"
+              v-if="ungradReasons.length > 0"
+              show
+              >{{
+                ungradReasons.find(
+                  (element) => element.code === studentUngradReasonSelected
+                ).description
+              }}</b-alert
+            >
+          </div>
+
+          <div v-if="studentUngradReasonSelected == 'OTH'" class="mt-3">
+            <label>Description</label>
+            <b-form-textarea
+              v-model="studentUngradReasonDescription"
+              placeholder="Reason for running undo completion on this student..."
+              :state="studentUngradReasonDescription.length > 0"
+            ></b-form-textarea>
+          </div>
+          <b-form-checkbox
+            v-if="studentUngradReasonSelected"
+            id="confirm-student-undo-completion"
+            v-model="confirmStudentUndoCompletion"
+            class="mt-3"
+          >
+            I confirm that I am authorized to undo completion for this student
+          </b-form-checkbox>
+
+          <template #modal-footer="{ ok, cancel, hide }">
+            <!-- Emulate built in modal footer ok and cancel button actions -->
+            <b-button
+              size="sm"
+              variant="outline-secondary"
+              @click="
+                cancel();
+                resetUndoCompletionValues();
+              "
+            >
+              Cancel
+            </b-button>
+            <!-- Button with custom close trigger value -->
+
+            <b-button
+              size="sm"
+              variant="primary"
+              :disabled="
+                (studentUngradReasonSelected == 'OTH' &&
+                  studentUngradReasonDescription.length == 0) ||
+                studentUngradReasonSelected == '' ||
+                !confirmStudentUndoCompletion
+              "
+              @click="
+                hide('ungraduate-student-modal');
+                ungraduateStudent();
+                resetUndoCompletionValues();
+              "
+            >
+              Undo Completion
+            </b-button>
+          </template>
+        </b-modal>
       </div>
     </div>
   </div>
@@ -300,7 +628,6 @@ import { useStudentStore } from "../store/modules/student";
 import { useAppStore } from "../store/modules/app";
 import { useAccessStore } from "../store/modules/access";
 import { mapState, mapActions } from "pinia";
-
 export default {
   name: "studentProfile",
   setup() {
@@ -436,12 +763,6 @@ export default {
       optionalProgramHistory: "getStudentOptionalProgramAuditHistory",
       quickSearchPen: "getQuickSearchPen",
     }),
-    ...mapState(useAppStore, {
-      ungradReasons: "ungradReasons",
-    }),
-    userUndoCompletionReasonChange() {
-      return this.studentUngradReasonSelected;
-    },
   },
   watch: {
     userUndoCompletionReasonChange: function () {
@@ -775,7 +1096,7 @@ export default {
         });
     },
     closeRecord: function () {
-      this.$store.commit("student/unsetStudent");
+      this.unsetStudent();
     },
     handleResize() {
       this.window.width = window.innerWidth;
@@ -789,13 +1110,13 @@ export default {
     loadStudent(studentIdFromURL) {
       this.loadStudentProfile();
       this.loadAssessments();
-      // this.loadGraduationStatus(studentIdFromURL);
+      this.loadGraduationStatus(studentIdFromURL);
       this.loadStudentOptionalPrograms(studentIdFromURL);
-      // this.loadCareerPrograms(studentIdFromURL);
-      this.loadStudentCourses();
+      this.loadCareerPrograms(studentIdFromURL);
+      this.loadStudentCourseAchievements();
       this.loadStudentExamDetails();
       this.loadStudentNotes(studentIdFromURL);
-      // this.getStudentReportsAndCertificates(studentIdFromURL, this.pen);
+      this.getStudentReportsAndCertificates(studentIdFromURL, this.pen);
       this.loadStudentUngradReasons(studentIdFromURL);
       this.loadStudentHistory(studentIdFromURL);
       this.loadStudentOptionalProgramHistory(studentIdFromURL);
@@ -894,7 +1215,7 @@ export default {
           }
         });
     },
-    loadStudentCourses() {
+    loadStudentCourseAchievements() {
       CourseService.getStudentCourseAchievements(this.pen)
         .then((response) => {
           this.setStudentCourses(response.data);
@@ -969,7 +1290,6 @@ export default {
           }
         });
     },
-
     loadStudentOptionalProgramHistory(studentIdFromURL) {
       StudentService.getStudentOptionalProgramHistory(studentIdFromURL)
         .then((response) => {

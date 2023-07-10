@@ -49,7 +49,8 @@
           :header="'Created by ' + studentNote.createUser"
         >
           <b-card-text>
-            <strong>Created:</strong> {{ studentNote.createDate | formatTime }}
+            <strong>Created:</strong>
+            {{ $filters.formatTime(studentNote.createDate) }}
             <p v-if="showEditForm != studentNote.id">{{ studentNote.note }}</p>
             <b-form-textarea
               id="textarea"

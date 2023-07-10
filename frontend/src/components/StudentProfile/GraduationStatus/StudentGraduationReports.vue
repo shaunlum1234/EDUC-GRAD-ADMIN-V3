@@ -37,7 +37,7 @@
                   <ul>
                     <li>
                       <strong>Last Updated:</strong>
-                      {{ report.reportUpdateDate | formatTime }}
+                      {{ $filters.formatTime(report.reportUpdateDate) }}
                     </li>
                   </ul>
                 </div>
@@ -65,11 +65,11 @@
                   <ul>
                     <li>
                       <strong>Last Updated:</strong>
-                      {{ transcript.transcriptUpdateDate | formatTime }}
+                      {{ $filters.formatTime(transcript.transcriptUpdateDate) }}
                     </li>
                     <li>
                       <strong>Last Distributed:</strong>
-                      {{ transcript.distributionDate | formatTime }}
+                      {{ $filters.formatTime(transcript.distributionDate) }}
                     </li>
                   </ul>
                 </div>
@@ -96,7 +96,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "pinia";
+import { useStudentStore } from "../../../store/modules/student";
 import sharedMethods from "../../../sharedMethods.js";
 
 export default {
@@ -106,12 +107,12 @@ export default {
     this.showNotification = sharedMethods.showNotification;
   },
   computed: {
-    ...mapGetters({
-      transcripts: "student/getStudentTranscripts",
-      reports: "student/getStudentReports",
-      xmlReports: "student/getStudentXmlReports",
-      studentGradStatus: "student/getStudentGradStatus",
-      optionalPrograms: "student/getStudentOptionalPrograms",
+    ...mapState(useStudentStore, {
+      transcripts: "getStudentTranscripts",
+      reports: "getStudentReports",
+      xmlReports: "getStudentXmlReports",
+      studentGradStatus: "getStudentGradStatus",
+      optionalPrograms: "getStudentOptionalPrograms",
     }),
   },
   methods: {

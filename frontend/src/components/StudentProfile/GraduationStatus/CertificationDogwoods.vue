@@ -38,11 +38,11 @@
                 </li>
                 <li>
                   <strong>Created:</strong>
-                  {{ certificate.createDate | formatTime }}
+                  {{ $filters.formatTime(certificate.createDate) }}
                 </li>
                 <li>
                   <strong>Distributed:</strong>
-                  {{ certificate.distributionDate | formatTime }}
+                  {{ $filters.formatTime(certificate.distributionDate) }}
                 </li>
               </ul>
             </div>
@@ -54,7 +54,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "pinia";
+import { useStudentStore } from "../../../store/modules/student";
 import sharedMethods from "../../../sharedMethods";
 import SchoolService from "@/services/SchoolService.js";
 
@@ -71,12 +72,11 @@ export default {
   },
   props: {},
   computed: {
-    ...mapGetters({
-      certificates: "student/getStudentCertificates",
-      studentGradStatus: "student/getStudentGradStatus",
+    ...mapState(useStudentStore, {
+      certificates: "getStudentCertificates",
+      studentGradStatus: "getStudentGradStatus",
     }),
   },
-
   methods: {
     downloadFile: function (data, mimeType, filename) {
       sharedMethods.base64ToFileTypeAndOpenWindow(data, mimeType, filename);

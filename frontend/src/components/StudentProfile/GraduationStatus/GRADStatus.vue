@@ -48,51 +48,86 @@
             </b-button-group>
           </div>
         </b-button-group>
-        <!-- <div v-if="studentGradStatus">
+        <div v-if="studentGradStatus">
           <div v-if="recalculateFlag && recalculateProjectedGradFlag">
             <b-alert show variant="info" class="p-3 mb-1">
-              <h4 class="alert-heading">Gradution data has changed for this student</h4>
+              <h4 class="alert-heading">
+                Gradution data has changed for this student
+              </h4>
               <p class="locked-message">
-                The students' data will get updated tonight via the batch processes. However you can also immediately update the students' data as follows:
+                The students' data will get updated tonight via the batch
+                processes. However you can also immediately update the students'
+                data as follows:
               </p>
               <ul class="locked-message">
-                <li>Run the Graduate Student to update the student graduation status and credentials or the Update Student Reports if the student has graduated</li>
-                <li>Run the Projected final marks and registrations to ensure the students’ TVR report is up-to-date.</li>
+                <li>
+                  Run the Graduate Student to update the student graduation
+                  status and credentials or the Update Student Reports if the
+                  student has graduated
+                </li>
+                <li>
+                  Run the Projected final marks and registrations to ensure the
+                  students’ TVR report is up-to-date.
+                </li>
               </ul>
               <p class="locked-message">
-                NOTE: this message will remain until the student gets run through the nightly batch processes to ensure the projected graduation report, the graduation report and the non-graduate report are updated for the School Secure WEB (TSW).
+                NOTE: this message will remain until the student gets run
+                through the nightly batch processes to ensure the projected
+                graduation report, the graduation report and the non-graduate
+                report are updated for the School Secure WEB (TSW).
               </p>
             </b-alert>
-          </div> 
+          </div>
           <div v-if="recalculateFlag && !recalculateProjectedGradFlag">
             <b-alert show variant="info" class="p-3 mb-1">
-              <h4 class="alert-heading">Gradution data has changed for this student</h4>
+              <h4 class="alert-heading">
+                Gradution data has changed for this student
+              </h4>
               <p class="locked-message">
-                The students' data will get updated tonight via the batch processes. However you can also immediately update the students' data as follows:
+                The students' data will get updated tonight via the batch
+                processes. However you can also immediately update the students'
+                data as follows:
               </p>
               <ul class="locked-message">
-                <li>Run the Graduate Student to update the student graduation status and credentials or run Update Student Reports if the student has graduated</li>
+                <li>
+                  Run the Graduate Student to update the student graduation
+                  status and credentials or run Update Student Reports if the
+                  student has graduated
+                </li>
               </ul>
               <p class="locked-message">
-                NOTE: this message will remain until the student gets run through the nightly batch processes to ensure the graduation report and the non-graduate report are updated for the School Secure WEB (TSW).
+                NOTE: this message will remain until the student gets run
+                through the nightly batch processes to ensure the graduation
+                report and the non-graduate report are updated for the School
+                Secure WEB (TSW).
               </p>
             </b-alert>
-          </div> 
+          </div>
           <div v-if="!recalculateFlag && recalculateProjectedGradFlag">
             <b-alert show variant="info" class="p-3 mb-1">
-              <h4 class="alert-heading">Graduation data has changed for this student and has been updated, however, the students' TVR is not up-to-date.</h4>
+              <h4 class="alert-heading">
+                Graduation data has changed for this student and has been
+                updated, however, the students' TVR is not up-to-date.
+              </h4>
               <p class="locked-message">
-                The students' TVR data will get updated tonight via the batch processes.  However you can also immediately update the students' data as follows:
+                The students' TVR data will get updated tonight via the batch
+                processes. However you can also immediately update the students'
+                data as follows:
               </p>
               <ul class="locked-message">
-                <li>Run the Projected final marks and registrations to ensure the students’ TVR report is up-to-date.</li>
+                <li>
+                  Run the Projected final marks and registrations to ensure the
+                  students’ TVR report is up-to-date.
+                </li>
               </ul>
               <p class="locked-message">
-                NOTE: this message will remain until the student gets run through the nightly batch processes to ensure the projected graduation report is updated for the School Secure WEB (TSW).
+                NOTE: this message will remain until the student gets run
+                through the nightly batch processes to ensure the projected
+                graduation report is updated for the School Secure WEB (TSW).
               </p>
             </b-alert>
-          </div>  
-        </div> -->
+          </div>
+        </div>
 
         <!-- Info callout in edit form when student status is MER/Merged -->
         <div
@@ -242,7 +277,11 @@
             <tr v-if="!showEdit">
               <td><strong>Program completion date: </strong></td>
               <td>
-                {{ studentGradStatus.programCompletionDate | formatYYYYMMDate }}
+                {{
+                  $filters.formatYYYYMMDate(
+                    studentGradStatus.programCompletionDate
+                  )
+                }}
               </td>
             </tr>
             <tr v-if="showEdit">
@@ -678,7 +717,7 @@
               <td><strong>Adult start date: </strong></td>
               <td>
                 <span v-if="studentGradStatus.adultStartDate">{{
-                  studentGradStatus.adultStartDate | formatSimpleDate
+                  $filters.formatSimpleDate(studentGradStatus.adultStartDate)
                 }}</span>
               </td>
             </tr>
@@ -740,7 +779,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "pinia";
+import { useAppStore } from "../../../store/modules/app";
+import { useStudentStore } from "../../../store/modules/student";
+import { useAccessStore } from "../../../store/modules/access";
 
 import SchoolService from "@/services/SchoolService.js";
 import sharedMethods from "../../../sharedMethods";
@@ -749,13 +791,17 @@ import StudentService from "@/services/StudentService.js";
 export default {
   name: "GRADStatus",
   computed: {
-    ...mapGetters({
+    ...mapState(useStudentStore, {
       optionalPrograms: "getStudentOptionalPrograms",
-      programOptions: "app/getProgramOptions",
-      studentStatusOptions: "app/getStudentStatusOptions",
       studentId: "getStudentId",
       studentGradStatus: "getStudentGradStatus",
-      allowUpdateGradStatus: "useraccess/allowUpdateGradStatus",
+    }),
+    ...mapState(useAppStore, {
+      programOptions: "getProgramOptions",
+      studentStatusOptions: "getStudentStatusOptions",
+    }),
+    ...mapState(useAccessStore, {
+      allowUpdateGradStatus: "allowUpdateGradStatus",
     }),
     studentGradeChange() {
       return this.editedGradStatus.studentGrade;
@@ -784,13 +830,6 @@ export default {
     recalculateProjectedGradFlag() {
       return this.studentGradStatus.recalculateProjectedGrad;
     },
-    ...mapGetters({
-      optionalPrograms: "student/getStudentOptionalPrograms",
-      programOptions: "app/getProgramOptions",
-      studentStatusOptions: "app/getStudentStatusOptions",
-      studentId: "student/getStudentId",
-      studentGradStatus: "student/getStudentGradStatus",
-    }),
   },
   data() {
     return {

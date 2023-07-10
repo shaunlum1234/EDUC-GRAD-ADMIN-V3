@@ -56,16 +56,16 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
+import { mapState } from "pinia";
+import { useStudentStore } from "../../../store/modules/student";
 export default {
   name: "NoncompletionReasons",
   props: {},
   computed: {
-    ...mapGetters({
-      studentGradStatus: "student/getStudentGradStatus",
-      requirementsMet: "student/getRequirementsMet",
-      nongradReasons: "student/getNongradReasons",
+    ...mapState(useStudentStore, {
+      studentGradStatus: "getStudentGradStatus",
+      requirementsMet: "getRequirementsMet",
+      nongradReasons: "getNongradReasons",
     }),
   },
   methods: {},

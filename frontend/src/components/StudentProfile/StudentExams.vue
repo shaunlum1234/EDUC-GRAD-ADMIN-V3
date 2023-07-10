@@ -10,7 +10,7 @@
       title="Assessments"
     >
       <template #cell(sessionDate)="row">
-        {{ row.value | formatYYYYMMDate }}
+        {{ $filters.formatYYYYMMDate(row.value) }}
       </template>
     </DisplayTable>
   </div>

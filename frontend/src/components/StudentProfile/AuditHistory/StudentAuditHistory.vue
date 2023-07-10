@@ -21,14 +21,14 @@
               >
                 <img
                   v-show="!row.detailsShowing"
-                  src="../assets/images/icon-right.svg"
+                  src="../../../assets/images/icon-right.svg"
                   width="9px"
                   aria-hidden="true"
                   alt=""
                 />
                 <img
                   v-show="row.detailsShowing"
-                  src="../assets/images/icon-down.svg"
+                  src="../../../assets/images/icon-down.svg"
                   height="5px"
                   aria-hidden="true"
                   alt=""
@@ -41,7 +41,7 @@
                 <p>
                   <strong
                     >Changed By {{ row.item.data.updateUser }} on
-                    {{ row.item.data.updateDate | formatTime }}</strong
+                    {{ $filters.formatTime(row.item.data.updateDate) }}</strong
                   >
                 </p>
                 <pre>
@@ -52,11 +52,11 @@
             </template>
 
             <template #cell(programCompletionDate)="row">
-              {{ row.value.value | formatYYYYMMDate }}
+              {{ $filters.formatYYYYMMDate(row.value.value) }}
             </template>
 
             <template #cell(createDate)="row">
-              {{ row.value.value | formatTime }}
+              {{ $filters.formatTime(row.value.value) }}
             </template>
 
             <template #cell(activityCode)="row">
@@ -90,14 +90,14 @@
               >
                 <img
                   v-show="!row.detailsShowing"
-                  src="../assets/images/icon-right.svg"
+                  src="../../../assets/images/icon-right.svg"
                   width="9px"
                   aria-hidden="true"
                   alt=""
                 />
                 <img
                   v-show="row.detailsShowing"
-                  src="../assets/images/icon-down.svg"
+                  src="../../../assets/images/icon-down.svg"
                   height="5px"
                   aria-hidden="true"
                   alt=""
@@ -110,7 +110,7 @@
                 <p>
                   <strong
                     >Changed By {{ row.item.data.updateUser }} on
-                    {{ row.item.data.updateDate | formatTime }}</strong
+                    {{ $filters.formatTime(row.item.data.updateDate) }}</strong
                   >
                 </p>
                 <pre>
@@ -121,7 +121,7 @@
             </template>
 
             <template #cell(createDate)="row">
-              {{ row.value.value | formatTime }}
+              {{ $filters.formatTime(row.value.value) }}
             </template>
 
             <template #cell(activityCode)="row">

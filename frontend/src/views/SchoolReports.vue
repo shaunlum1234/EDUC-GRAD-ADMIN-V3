@@ -111,7 +111,7 @@
               </template>
 
               <template #cell(updateDate)="row">
-                {{ row.item.updateDate | formatTime }}
+                {{ $filters.formatTime(row.item.updateDate) }}
               </template>
             </DisplayTable>
           </b-card-text>

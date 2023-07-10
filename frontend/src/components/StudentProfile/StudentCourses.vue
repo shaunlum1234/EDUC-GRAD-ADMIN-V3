@@ -30,7 +30,7 @@
           </b-tr>
         </template>
         <template #cell(sessionDate)="row">
-          {{ row.value | formatYYYYMMDate }}
+          {{ $filters.formatYYYYMMDate(row.value) }}
         </template>
         <template #cell(courseName)="row">
           <div v-if="!!courseDetail" class="d-flex flex-column text-md-left">
@@ -73,13 +73,17 @@
               <div class="row py-1">
                 <div class="col"><strong>Start Date:</strong></div>
                 <div class="col">
-                  {{ row.item.courseDetails.startDate | formatSimpleDate }}
+                  {{
+                    $filters.formatSimpleDate(row.item.courseDetails.startDate)
+                  }}
                 </div>
               </div>
               <div class="row py-1">
                 <div class="col"><strong>End Date:</strong></div>
                 <div class="col">
-                  {{ row.item.courseDetails.endDate | formatSimpleDate }}
+                  {{
+                    $filters.formatSimpleDate(row.item.courseDetails.endDate)
+                  }}
                 </div>
               </div>
               <div class="row py-1">
@@ -114,14 +118,14 @@
           >
             <img
               v-show="!row.detailsShowing"
-              src="../assets/images/icon-right.svg"
+              src="../../assets/images/icon-right.svg"
               width="9px"
               aria-hidden="true"
               alt=""
             />
             <img
               v-show="row.detailsShowing"
-              src="../assets/images/icon-down.svg"
+              src="../../assets/images/icon-down.svg"
               height="5px"
               aria-hidden="true"
               alt=""

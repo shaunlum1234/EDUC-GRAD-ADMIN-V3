@@ -38,7 +38,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "pinia";
+import { useAppStore } from "../../store/modules/app";
+import { useStudentStore } from "../../store/modules/student";
 import sharedMethods from "../../sharedMethods";
 import NoncompletionReasons from "@/components/StudentProfile/GraduationStatus/NoncompletionReasons.vue";
 import StudentGraduationReports from "@/components/StudentProfile/GraduationStatus/StudentGraduationReports.vue";
@@ -54,20 +56,20 @@ export default {
     GRADStatus: GRADStatus,
   },
   computed: {
-    ...mapGetters({
-      studentGradStatus: "student/getStudentGradStatus",
-      hasGradStatus: "student/studentHasGradStatus",
-      studentGradRequirementCourses: "student/gradStatusCourses",
-      studentPen: "student/getStudentPen",
-      role: "getRoles",
-      optionalPrograms: "student/getStudentOptionalPrograms",
-      programOptions: "app/getProgramOptions",
-      studentStatusOptions: "app/getStudentStatusOptions",
-      studentId: "student/getStudentId",
-      username: "getUsername",
-      certificates: "student/getStudentCertificates",
-      reports: "student/getStudentReports",
-      transcripts: "student/getStudentTranscripts",
+    ...mapState(useAppStore, {
+      programOptions: "getProgramOptions",
+      studentStatusOptions: "getStudentStatusOptions",
+    }),
+    ...mapState(useStudentStore, {
+      studentGradStatus: "getStudentGradStatus",
+      hasGradStatus: "studentHasGradStatus",
+      studentGradRequirementCourses: "gradStatusCourses",
+      studentPen: "getStudentPen",
+      optionalPrograms: "getStudentOptionalPrograms",
+      studentId: "getStudentId",
+      certificates: "getStudentCertificates",
+      reports: "getStudentReports",
+      transcripts: "getStudentTranscripts",
     }),
   },
   data() {
@@ -77,7 +79,7 @@ export default {
     };
   },
   created() {
-    this.programDropdownList = this.$store.dispatch("getGraduationPrograms");
+    this.programDropdownList = this.programOptions;
     this.disableButton = false;
     this.showNotification = sharedMethods.showNotification;
   },

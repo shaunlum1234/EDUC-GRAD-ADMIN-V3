@@ -7,7 +7,7 @@
       title="Assessments"
     >
       <template #cell(sessionDate)="row">
-        {{ row.value | formatYYYYMMDate }}
+        {{ $filters.formatYYYYMMDate(row.value) }}
       </template>
       <template #cell(assessmentName)="row">
         <div class="d-flex flex-column text-md-left">
@@ -40,11 +40,15 @@
             </div>
             <div>
               <strong>Start Date:</strong>
-              {{ row.item.assessmentDetails.startDate | formatSimpleDate }}
+              {{
+                $filters.formatSimpleDate(row.item.assessmentDetails.startDate)
+              }}
             </div>
             <div>
               <strong>End Date:</strong>
-              {{ row.item.assessmentDetails.endDate | formatSimpleDate }}
+              {{
+                $filters.formatSimpleDate(row.item.assessmentDetails.endDate)
+              }}
             </div>
           </b-popover>
         </div>
@@ -60,14 +64,14 @@
         >
           <img
             v-show="!row.detailsShowing"
-            src="../assets/images/icon-right.svg"
+            src="../../assets/images/icon-right.svg"
             width="9px"
             aria-hidden="true"
             alt=""
           />
           <img
             v-show="row.detailsShowing"
-            src="../assets/images/icon-down.svg"
+            src="../../assets/images/icon-down.svg"
             height="5px"
             aria-hidden="true"
             alt=""

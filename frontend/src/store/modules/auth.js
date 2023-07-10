@@ -75,7 +75,6 @@ export const useAuthStore = defineStore('auth', {
     },
     //retrieves the json web token from local storage. If not in local storage, retrieves it from API
     async getJwtToken() {
-      console.log("GETTING AND CHECKING TOKEN " + this.jwtToken)
       await this.setError(false);
       if (isFollowUpVisit(this.jwtToken)) {
         if (isExpiredToken(this.jwtToken)) {

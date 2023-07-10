@@ -81,7 +81,7 @@
             {{ row.item.optionalProgramName }} ({{
               row.item.optionalProgramCode
             }}) <br />
-            {{ row.item.OptionalProgramCompletionDate | formatTime }}
+            {{ $filters.formatTime(row.item.OptionalProgramCompletionDate) }}
           </div>
         </template>
         <template #cell(optionalReqMet)="row">
@@ -127,7 +127,7 @@
                   <strong>{{ row2.item.gradReqMetDetail }}</strong
                   ><br />
                   {{ row2.item.courseCode }} {{ row2.item.courseLevel }} -
-                  {{ row2.item.sessionDate | formatYYYYMMDate }} ({{
+                  {{ $filters.formatYYYYMMDate(row2.item.sessionDate) }} ({{
                     row2.item.courseName
                   }})
                 </div>
@@ -177,14 +177,14 @@
           >
             <img
               v-show="!row.detailsShowing"
-              src="../assets/images/icon-right.svg"
+              src="../../assets/images/icon-right.svg"
               width="9px"
               aria-hidden="true"
               alt=""
             />
             <img
               v-show="row.detailsShowing"
-              src="../assets/images/icon-down.svg"
+              src="../../assets/images/icon-down.svg"
               height="5px"
               aria-hidden="true"
               alt=""

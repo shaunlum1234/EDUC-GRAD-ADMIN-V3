@@ -13,7 +13,7 @@ export const useAppStore = defineStore('app',{
     getStudentStatusOptions: (state)  => state.studentStatusOptions,
     getUngradReasons: (state) => state.ungradReasons
   },
-  actions: {
+  actions: {  
     setApplicationVariables() {
     
       if (localStorage.getItem('jwtToken')) {

@@ -54,7 +54,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "pinia";
+import { useStudentStore } from "../../store/modules/student";
 import DisplayTable from "@/components/DisplayTable.vue";
 export default {
   name: "GRADRequirementDetails",
@@ -62,13 +63,13 @@ export default {
     DisplayTable: DisplayTable,
   },
   computed: {
-    ...mapGetters({
-      courses: "student/getStudentCourses",
-      gradStatusCourses: "student/gradStatusCourses",
-      gradStatusAssessments: "student/gradStatusAssessments",
-      studentRequirementDetailGRADStudentCoursess: "student/getStudentGradStatus",
-      hasGradStatus: "student/studentHasGradStatus",
-      hasGradStatusPendingUpdates: "student/getHasGradStatusPendingUpdates",
+    ...mapState(useStudentStore, {
+      courses: "getStudentCourses",
+      gradStatusCourses: "gradStatusCourses",
+      gradStatusAssessments: "gradStatusAssessments",
+      studentRequirementDetailGRADStudentCoursess: "getStudentGradStatus",
+      hasGradStatus: "studentHasGradStatus",
+      hasGradStatusPendingUpdates: "getHasGradStatusPendingUpdates",
     }),
   },
   data: function () {
