@@ -1051,7 +1051,7 @@ export default {
       } else {
         this.errorFlags.emptyError.schoolOfRecordMissing = false;
       }
-      if (this.editedGradStatus.schoolOfRecord.length < 8) {
+      if (this.editedGradStatus.schoolOfRecord?.length < 8) {
         this.warningFlags.schoolOfRecordWarning = false;
         this.warningFlags.schoolNotFoundWarning = false;
         this.warningFlags.schoolOfRecordInputWarning = true;
@@ -1067,7 +1067,7 @@ export default {
         this.warningFlags.schoolOfRecordInputWarning = false;
         this.schoolFound = false;
       } else {
-        if (this.editedGradStatus.schoolOfRecord.length == 8) {
+        if (this.editedGradStatus.schoolOfRecord?.length == 8) {
           this.warningFlags.schoolNotFoundWarning = false;
           this.warningFlags.schoolOfRecordWarning = false;
           this.warningFlags.schoolOfRecordInputWarning = false;
