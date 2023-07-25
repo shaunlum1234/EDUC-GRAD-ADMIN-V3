@@ -1,9 +1,10 @@
 <template>
   <div id="app">
     <!-- <EnvironmentBanner /> -->
+
     <Bcheader class="bcheader" style="margin-bottom: 15px">
       <div v-if="isAuthenticatedGet && dataReady">
-        <a v-b-toggle.grad-drawer>{{ userInfo.userName }} </a>
+        <a v-b-toggle.grad-drawer>{{ userInfoGet.userName }} </a>
         <b-sidebar id="grad-drawer" title="Permissions" shadow>
           <div class="px-3 py-2 mt-5">
             <br />
@@ -14,10 +15,9 @@
         <a :href="authRoutes.LOGOUT" class="text-white">Logout</a>
       </div>
       <div v-else-if="!isAuthenticatedGet">
-        <a :href="authRoutes.LOGOUT">Login</a>
+        <a :href="authRoutes.LOGIN">Login</a>
       </div>
     </Bcheader>
-
     <div class="container" style="min-height: 100vh">
       <transition name="fade">
         <router-view />
@@ -73,9 +73,9 @@ export default {
   },
   computed: {
     ...mapState(useAccessStore, ["roles", "userAccess"]),
-
+    ...mapState(useAuthStore, ["userInfoGet", "isAuthenticatedGet"]),
     dataReady: function () {
-      return this.userInfo;
+      return this.userInfoGet;
     },
     loginUrl: function () {
       return this.authRoutes.LOGIN;
