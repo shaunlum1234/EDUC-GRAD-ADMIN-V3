@@ -161,7 +161,10 @@ export default {
   validations() {
     return {
       groupData: {
-        required: helpers.withMessage("Group field cannot be empty", required),
+        required: helpers.withMessage(
+          "Group Data field cannot be empty",
+          required
+        ),
       }, // Matches this.firstName
       group: {
         required: helpers.withMessage("Group field cannot be empty", required),

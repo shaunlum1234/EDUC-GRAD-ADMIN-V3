@@ -1,6 +1,6 @@
 <template>
   <div class="studentlist">
-    <h1>Student search</h1>
+    <h1>Student Search</h1>
     <p>
       Search by Personal Education Number(PEN) or use the advanced search to
       look up students by other criteria.
@@ -9,7 +9,7 @@
       <div>
         <b-card no-body class="p-0">
           <b-tabs card>
-            <b-tab id="search-tab" title="PEN search" active>
+            <b-tab id="search-tab" title="PEN Search" active>
               <b-card-text>
                 <form v-on:submit.prevent>
                   <div class="form-group">
@@ -410,7 +410,7 @@
               </b-card-text>
             </b-tab>
 
-            <b-tab id="advanced-search-tab" title="Advanced search">
+            <b-tab id="advanced-search-tab" title="Advanced Search">
               <b-card-text>
                 <form v-on:submit.prevent>
                   <!-- advanced Search -->
@@ -429,7 +429,7 @@
                           }"
                           class="wild-card-button"
                           v-b-tooltip.hover
-                          title="Legal surname starts with"
+                          title="Legal Surname Starts With"
                         >
                           [.*]
                         </div>
@@ -455,7 +455,7 @@
                           }"
                           class="wild-card-button"
                           v-b-tooltip.hover
-                          title="Legal given starts with"
+                          title="Legal Given Starts With"
                         >
                           [.*]
                         </div>
@@ -482,7 +482,7 @@
                           }"
                           class="wild-card-button"
                           v-b-tooltip.hover
-                          title="Legal middle starts with"
+                          title="Legal Middle Starts With"
                         >
                           [.*]
                         </div>
@@ -513,7 +513,6 @@
                           <b-form-input
                             class="form__input"
                             id="datepicker-birthdate-from"
-                            @input="v$.dateObject.$touch"
                             v-model="advancedSearchInput.birthdateFrom.value"
                             type="date"
                             placeholder="YYYY-MM-DD"
@@ -523,7 +522,7 @@
                             v-on:keyup="keyHandler"
                           ></b-form-input>
                         </b-input-group>
-                        <div class="error" v-if="!v$.dateObject.maxValue">
+                        <div class="error">
                           Birthdate from must not be greater than today.
                         </div>
                       </div>
@@ -560,7 +559,7 @@
                           }"
                           class="wild-card-button"
                           v-b-tooltip.hover
-                          title="Usual surname starts with"
+                          title="Usual Surname Starts With"
                         >
                           [.*]
                         </div>
@@ -585,7 +584,7 @@
                           }"
                           class="wild-card-button"
                           v-b-tooltip.hover
-                          title="Usual given starts with"
+                          title="Usual Given Starts With"
                         >
                           [.*]
                         </div>
@@ -611,7 +610,7 @@
                           }"
                           class="wild-card-button"
                           v-b-tooltip.hover
-                          title="Usual middle starts with"
+                          title="Usual Middle Starts With"
                         >
                           [.*]
                         </div>
@@ -630,11 +629,6 @@
                           id="adv-search-submit"
                           @click="findStudentsByAdvancedSearch()"
                           v-if="!advancedSearchLoading"
-                          :class="
-                            !this.v$.$invalid
-                              ? 'btn btn-primary'
-                              : 'btn btn-secondary'
-                          "
                           tabindex="12"
                         >
                           Search
@@ -692,7 +686,7 @@
                     <DisplayTable
                       v-if="studentSearchResults.length"
                       v-bind:items="studentSearchResults"
-                      title="Student search results"
+                      title="Student Search Results"
                       v-bind:fields="studentSearchResultsFields"
                       id="pen"
                       v-bind:showFilter="false"
@@ -758,22 +752,21 @@
   </div>
 </template>
 <script>
-import { useStudentStore } from "../store/modules/student";
-import { useAuthStore } from "../store/modules/auth";
 import { mapState, mapActions } from "pinia";
+import { useVuelidate } from "@vuelidate/core";
+import { useStudentStore } from "../store/modules/student";
+import { maxValue } from "@vuelidate/validators";
 import StudentService from "@/services/StudentService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
-import { useVuelidate } from "@vuelidate/core";
-import { maxValue } from "@vuelidate/validators";
 import sharedMethods from "../sharedMethods";
 
 export default {
-  setup() {
-    const studentStore = useStudentStore();
-    const authStore = useAuthStore();
-    return { v$: useVuelidate(), studentStore, authStore };
-  },
   name: "studentSearch",
+  setup() {
+    return {
+      v$: useVuelidate(),
+    };
+  },
   data() {
     return {
       penSystemMessage: "",
@@ -945,16 +938,10 @@ export default {
       },
     };
   },
-  validations() {
-    return {
-      dateObject: {
-        maxValue: maxValue(new Date()),
-      },
-    };
-  },
+  validations() {},
   created() {
-    // this.showNotification = sharedMethods.showNotification;
-    // if (this.studentStore.savedAdvSearchInput != "") {
+    this.showNotification = sharedMethods.showNotification;
+    // if (this.savedAdvSearchInput != "") {
     //   this.advancedSearchInput = this.savedAdvSearchInput;
     //   this.findStudentsByAdvancedSearch();
     // }
@@ -962,10 +949,19 @@ export default {
   components: {
     DisplayTable: DisplayTable,
   },
-  computed: {},
+  computed: {
+    ...mapState(useStudentStore, {
+      profile: "getStudentProfile",
+      courses: "getStudentCourses",
+      exams: "getStudentExams",
+      gradStatus: "getStudentGradStatus",
+    }),
+    //savedAdvSearchInput: "getAdvancedSearchProps",
+  },
   methods: {
+    ...mapActions(useStudentStore, ["unsetStudent"]),
     closeRecord: function () {
-      this.studentStore.unsetStudent();
+      this.unsetStudent();
     },
     keyHandler: function (e) {
       if (e.keyCode === 13) {
@@ -1037,31 +1033,34 @@ export default {
       this.advancedSearchMessage = "";
       this.message = "";
       this.errorMessage = "";
-      this.v$.$touch();
 
-      if (this.v$.$invalid) {
-        this.advancedSearchMessage +=
-          "Form Validation Error: please correct the form input";
-      } else if (
-        !this.v$.$invalid &&
-        this.advancedSearchValidate(this.advancedSearchInput)
-      ) {
-        this.advancedSearchLoading = true;
-        this.studentSearchResults = [];
-        if (!this.advancedSearchInput.birthdateTo.value) {
-          this.advancedSearchInput.birthdateTo.value =
-            this.advancedSearchInput.birthdateFrom.value;
-        }
-        try {
-          StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput)
-            .then((response) => {
-              this.advancedSearchLoading = false;
+      // if (this.v$.$invalid) {
+      //   this.advancedSearchMessage +=
+      //     "Form Validation Error: please correct the form input";
+      // } else if (
+      //   !this.v$.$invalid &&
+      //   this.advancedSearchValidate(this.advancedSearchInput)
+      // ) {
+      this.advancedSearchLoading = true;
+      this.studentSearchResults = [];
+      if (!this.advancedSearchInput.birthdateTo.value) {
+        this.advancedSearchInput.birthdateTo.value =
+          this.advancedSearchInput.birthdateFrom.value;
+      }
+      try {
+        StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput)
+          .then((response) => {
+            this.advancedSearchLoading = false;
+            if (response.data) {
               this.searchResults = response.data;
               this.advancedSearchAPIMessage = response.data.searchMessage;
               this.studentSearchResults = this.searchResults.gradSearchStudents;
               this.totalElements = this.studentSearchResults.length;
               this.totalPages = this.searchResults.totalPages;
-              studentStore.setAdvancedSearchProps(this.advancedSearchInput);
+              this.$store.dispatch(
+                "setAdvancedSearchProps",
+                this.advancedSearchInput
+              );
               if (this.totalElements > 0) {
                 if (this.searchResults.totalElements == 1) {
                   this.advancedSearchMessage = "1 student record found. ";
@@ -1069,28 +1068,32 @@ export default {
                   this.advancedSearchMessage =
                     this.totalElements + " student records found. ";
                 }
-              } else {
-                this.advancedSearchMessage = "No student record found in GRAD.";
               }
-            })
-            .catch((err) => {
-              this.advancedSearchLoading = false;
-              this.advancedSearchMessage = "Student not found";
-              this.errorMessage = err;
+            } else {
               this.showNotification(
-                "danger",
-                "There was an error with the web service."
+                "warning",
+                "Please refine your search criteria"
               );
-            });
-        } catch (error) {
-          this.advancedSearchLoading = false;
-          this.advancedSearchMessage = "Advanced Search Error";
-          this.showNotification(
-            "danger",
-            "There was an error with the web service."
-          );
-        }
+            }
+          })
+          .catch((err) => {
+            this.advancedSearchLoading = false;
+            this.advancedSearchMessage = "Student not found";
+            this.errorMessage = err;
+            this.showNotification(
+              "danger",
+              "There was an error with the web service."
+            );
+          });
+      } catch (error) {
+        this.advancedSearchLoading = false;
+        this.advancedSearchMessage = "Advanced Search Error";
+        this.showNotification(
+          "danger",
+          "There was an error with the web service."
+        );
       }
+      // }
     },
     showAdvancedSearch: function () {
       this.showAdvancedSearchForm = true;
