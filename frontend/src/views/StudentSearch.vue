@@ -522,9 +522,9 @@
                             v-on:keyup="keyHandler"
                           ></b-form-input>
                         </b-input-group>
-                        <div class="error">
+                        <!-- <div class="error">
                           Birthdate from must not be greater than today.
-                        </div>
+                        </div> -->
                       </div>
                       <div class="advanced-search-field col-12 col-md-2">
                         <label for="datepicker-birthdate-to"
@@ -629,8 +629,10 @@
                           id="adv-search-submit"
                           @click="findStudentsByAdvancedSearch()"
                           v-if="!advancedSearchLoading"
+                          class="btn btn-primary"
                           tabindex="12"
                         >
+                          <i class="fas fa-search" aria-hidden="true"></i>
                           Search
                         </button>
                         <button
@@ -640,6 +642,7 @@
                           class="btn btn-success"
                           tabindex="12"
                         >
+                          <i class="fas fa-search" aria-hidden="true"></i>
                           Search
                         </button>
                         <button
@@ -752,14 +755,14 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "pinia";
+import { mapState, mapActions, mapWritableState, storeToRefs } from "pinia";
 import { useVuelidate } from "@vuelidate/core";
-import { useStudentStore } from "../store/modules/student";
-import { maxValue } from "@vuelidate/validators";
+import { useStudentStore } from "@/store/modules/student";
 import StudentService from "@/services/StudentService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
 import sharedMethods from "../sharedMethods";
-
+const studentStore = useStudentStore();
+// const { roles } = storeToRefs(studentStore);
 export default {
   name: "studentSearch",
   setup() {
@@ -941,10 +944,10 @@ export default {
   validations() {},
   created() {
     this.showNotification = sharedMethods.showNotification;
-    // if (this.savedAdvSearchInput != "") {
-    //   this.advancedSearchInput = this.savedAdvSearchInput;
-    //   this.findStudentsByAdvancedSearch();
-    // }
+    if (this.savedAdvSearchInput != "") {
+      this.advancedSearchInput = this.savedAdvSearchInput;
+      this.findStudentsByAdvancedSearch();
+    }
   },
   components: {
     DisplayTable: DisplayTable,
@@ -955,8 +958,11 @@ export default {
       courses: "getStudentCourses",
       exams: "getStudentExams",
       gradStatus: "getStudentGradStatus",
+      savedAdvSearchInput: "getAdvancedSearchProps",
     }),
-    //savedAdvSearchInput: "getAdvancedSearchProps",
+    ...mapWritableState(useStudentStore, {
+      savedAdvSearchInput: "advancedSearchProps",
+    }),
   },
   methods: {
     ...mapActions(useStudentStore, ["unsetStudent"]),
@@ -1034,66 +1040,69 @@ export default {
       this.message = "";
       this.errorMessage = "";
 
-      // if (this.v$.$invalid) {
-      //   this.advancedSearchMessage +=
-      //     "Form Validation Error: please correct the form input";
-      // } else if (
-      //   !this.v$.$invalid &&
-      //   this.advancedSearchValidate(this.advancedSearchInput)
-      // ) {
-      this.advancedSearchLoading = true;
-      this.studentSearchResults = [];
-      if (!this.advancedSearchInput.birthdateTo.value) {
-        this.advancedSearchInput.birthdateTo.value =
-          this.advancedSearchInput.birthdateFrom.value;
-      }
-      try {
-        StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput)
-          .then((response) => {
-            this.advancedSearchLoading = false;
-            if (response.data) {
-              this.searchResults = response.data;
-              this.advancedSearchAPIMessage = response.data.searchMessage;
-              this.studentSearchResults = this.searchResults.gradSearchStudents;
-              this.totalElements = this.studentSearchResults.length;
-              this.totalPages = this.searchResults.totalPages;
-              this.$store.dispatch(
-                "setAdvancedSearchProps",
-                this.advancedSearchInput
-              );
-              if (this.totalElements > 0) {
-                if (this.searchResults.totalElements == 1) {
-                  this.advancedSearchMessage = "1 student record found. ";
-                } else {
-                  this.advancedSearchMessage =
-                    this.totalElements + " student records found. ";
+      if (this.v$.$invalid) {
+        this.advancedSearchMessage +=
+          "Form Validation Error: please correct the form input";
+      } else if (
+        !this.v$.$invalid &&
+        this.advancedSearchValidate(this.advancedSearchInput)
+      ) {
+        // this.advancedSearchValidate(this.advancedSearchInput);
+        this.advancedSearchLoading = true;
+        this.studentSearchResults = [];
+        if (!this.advancedSearchInput.birthdateTo.value) {
+          this.advancedSearchInput.birthdateTo.value =
+            this.advancedSearchInput.birthdateFrom.value;
+        }
+        try {
+          StudentService.getStudentsByAdvancedSearch(this.advancedSearchInput)
+            .then((response) => {
+              this.advancedSearchLoading = false;
+              if (response.data) {
+                this.searchResults = response.data;
+                this.advancedSearchAPIMessage = response.data.searchMessage;
+                this.studentSearchResults =
+                  this.searchResults.gradSearchStudents;
+                this.totalElements = this.studentSearchResults.length;
+                this.totalPages = this.searchResults.totalPages;
+                this.savedAdvSearchInput = this.advancedSearchInput;
+                // this.$store.dispatch(
+                //   "setAdvancedSearchProps",
+                //   this.advancedSearchInput
+                // );
+                if (this.totalElements > 0) {
+                  if (this.searchResults.totalElements == 1) {
+                    this.advancedSearchMessage = "1 student record found. ";
+                  } else {
+                    this.advancedSearchMessage =
+                      this.totalElements + " student records found. ";
+                  }
                 }
+              } else {
+                this.showNotification(
+                  "warning",
+                  "Please refine your search criteria"
+                );
               }
-            } else {
+            })
+            .catch((err) => {
+              this.advancedSearchLoading = false;
+              this.advancedSearchMessage = "Student not found";
+              this.errorMessage = err;
               this.showNotification(
-                "warning",
-                "Please refine your search criteria"
+                "danger",
+                "There was an error with the web service."
               );
-            }
-          })
-          .catch((err) => {
-            this.advancedSearchLoading = false;
-            this.advancedSearchMessage = "Student not found";
-            this.errorMessage = err;
-            this.showNotification(
-              "danger",
-              "There was an error with the web service."
-            );
-          });
-      } catch (error) {
-        this.advancedSearchLoading = false;
-        this.advancedSearchMessage = "Advanced Search Error";
-        this.showNotification(
-          "danger",
-          "There was an error with the web service."
-        );
+            });
+        } catch (error) {
+          this.advancedSearchLoading = false;
+          this.advancedSearchMessage = "Advanced Search Error";
+          this.showNotification(
+            "danger",
+            "There was an error with the web service."
+          );
+        }
       }
-      // }
     },
     showAdvancedSearch: function () {
       this.showAdvancedSearchForm = true;
@@ -1131,7 +1140,7 @@ export default {
               let today = new Date();
               if (dateToCheck > today) {
                 this.advancedSearchMessage +=
-                  "The Birthdate From must be greater than today. ";
+                  "The Birthdate From must not be greater than today. ";
                 isValid = false;
               }
             }
