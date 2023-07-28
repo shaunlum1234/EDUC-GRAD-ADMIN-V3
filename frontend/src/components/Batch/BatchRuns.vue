@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="col-12 float-left p-0">
     <div v-if="adminDashboardLoading">LOADING</div>
     <DisplayTable
       title="Job/Runs"
@@ -33,6 +33,7 @@
             <div class="col-9"></div>
             <div class="col-3"></div>
           </div>
+          <!-- view Batch Results -->
           <div class="row border-bottom p-2">
             <div class="col-12">
               <a
@@ -72,7 +73,7 @@
                 size="xs"
                 @click="rerunBatch(row.item.jobExecutionId)"
               >
-                <img width="35" src="../../src/assets/images/play_icon.png" />
+                <img width="35" src="../../assets/images/play_icon.png" />
               </b-btn>
             </div>
           </div>
@@ -105,7 +106,7 @@
                 size="xs"
                 @click="rerunBatchStudentErrors(row.item.jobExecutionId)"
               >
-                <img width="35" src="../../src/assets/images/play_icon.png" />
+                <img width="35" src="../../assets/images/play_icon.png" />
               </b-btn>
             </div>
           </div>
@@ -129,7 +130,7 @@
                 size="xs"
                 @click="rerunBatchSchoolReports(row.item.jobExecutionId)"
               >
-                <img width="35" src="../../src/assets/images/play_icon.png" />
+                <img width="35" src="../../assets/images/play_icon.png" />
               </b-btn>
             </div>
           </div>
@@ -156,10 +157,33 @@
         </div>
       </template>
     </DisplayTable>
+    <!-- All batch results -->
+    <div v-if="isBatchShowing" class="col-12 col-md-5 float-right pl-2 pr-0">
+      <b-card
+        bg-variant="light"
+        :header="'Batch Job ' + this.adminSelectedBatchId"
+        class="text-left mb-2"
+      >
+        <b-card-text>
+          <BatchJobSearchResults
+            :selectedBatchId="adminSelectedBatchId"
+          ></BatchJobSearchResults>
+          <b-btn
+            variant="danger"
+            size="xs"
+            class="float-right"
+            @click="isBatchShowing ^= true"
+          >
+            Close
+          </b-btn>
+        </b-card-text>
+      </b-card>
+    </div>
   </div>
 </template>
 <script>
 import DisplayTable from "@/components/DisplayTable.vue";
+import BatchJobSearchResults from "@/components/Batch/BatchJobSearchResults.vue";
 import BatchProcessingService from "@/services/BatchProcessingService.js";
 import { isProxy, toRaw } from "vue";
 import { useBatchProcessingStore } from "../../store/modules/batchprocessing";
@@ -167,9 +191,11 @@ import { mapState, mapActions } from "pinia";
 export default {
   components: {
     DisplayTable: DisplayTable,
+    BatchJobSearchResults: BatchJobSearchResults,
   },
   data: function () {
     return {
+      isBatchShowing: false,
       adminDashboardLoading: false,
       batchRunsFields: [
         {
@@ -226,6 +252,23 @@ export default {
   },
   methods: {
     ...mapActions(useBatchProcessingStore, ["setBatchJobs"]),
+    setBatchId(id, type) {
+      if (type == "batch") {
+        this.isBatchShowing = true;
+        this.isErrorShowing = false;
+        this.adminSelectedBatchId = id.toString();
+        this.$refs["popover-" + id].$emit("close");
+        // this.$emit(this.$refs["popover" + id]);
+      }
+      if (type == "error") {
+        this.isBatchShowing = false;
+        this.isErrorShowing = true;
+        this.adminSelectedErrorId = id.toString();
+      }
+      // var element = this.$refs["top"];
+      // var top = element.offsetTop;
+      // window.scrollTo(0, top);
+    },
     getAdminDashboardData() {
       this.adminDashboardLoading = true;
       BatchProcessingService.getDashboardInfo()
@@ -253,6 +296,7 @@ export default {
           }
         });
     },
+    //TODO: Transfer to common method
     makeToast(message, variant) {
       this.$bvToast.toast(message, {
         title: message,
