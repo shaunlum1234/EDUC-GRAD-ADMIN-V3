@@ -1,9 +1,10 @@
 <template>
   <div>
+    <EnvironmentBanner />
     <header>
       <div class="container">
         <div class="banner">
-          <a class="navbar-brand" href="https://www2.gov.bc.ca">
+          <a class="navbar-brand" href="/">
             <img
               class="img-fluid d-md-block"
               src="../../assets/images/bcid-logo-rev-en.svg"
@@ -13,6 +14,7 @@
             />
           </a>
           <h1>Graduation Records and Achievement Data</h1>
+          <span v-if="version">v{{ version }}</span>
         </div>
         <div class="float-right user-profile">
           <slot></slot>
@@ -30,30 +32,51 @@
     <b-collapse id="navbarSmallScreen" is-nav>
       <b-navbar-nav class="mr-auto">
         <b-nav-item>
-          <router-link to="/">Student Search</router-link>
+          <router-link :to="routes.studentSearch">Student Search</router-link>
         </b-nav-item>
         <b-nav-item>
-          <router-link to="/programs">Programs</router-link>
+          <router-link :to="routes.programs">Programs</router-link>
         </b-nav-item>
         <b-nav-item
-          ><router-link to="/courses">Courses</router-link></b-nav-item
+          ><router-link :to="routes.courses">Courses</router-link></b-nav-item
         >
         <b-nav-item
-          ><router-link to="/assessment">Assessments</router-link></b-nav-item
+          ><router-link :to="routes.assessments"
+            >Assessments</router-link
+          ></b-nav-item
         >
         <b-nav-item
-          ><router-link to="/schools">Schools</router-link></b-nav-item
+          ><router-link :to="routes.schools">Schools</router-link></b-nav-item
         >
-        <b-nav-item><router-link to="/psi">PSI</router-link></b-nav-item>
-        <b-nav-item><router-link to="/codes">Codes</router-link></b-nav-item>
+        <b-nav-item><router-link :to="routes.psi">PSI</router-link></b-nav-item>
         <b-nav-item
-          ><router-link to="/school-reports"
+          ><router-link :to="routes.codes">Codes</router-link></b-nav-item
+        >
+        <b-nav-item
+          ><router-link :to="routes.schoolReports"
             >School Reports</router-link
           ></b-nav-item
         >
         <b-nav-item
-          ><router-link to="/batch-processing"
+          ><router-link :to="routes.batchProcessing"
             >Batch Processing</router-link
+          ></b-nav-item
+        >
+        <b-nav-item v-if="!profile.pen" class="disabled"
+          ><a
+            id="profile-route"
+            class="text-decoration-none text-disabled"
+            :disabled="true"
+            >Profile (Student not loaded)</a
+          ></b-nav-item
+        >
+        <b-nav-item v-else
+          ><router-link
+            :to="`/student-profile/${this.profile.studentID}`"
+            id="profile-route"
+            >Profile ({{
+              profile.pen ? profile.pen : "Student not loaded"
+            }})</router-link
           ></b-nav-item
         >
         <b-nav-item class="user-burgernav">
@@ -66,33 +89,101 @@
       <div class="container">
         <ul>
           <li>
-            <router-link to="/" id="select-student-route"
+            <router-link :to="routes.studentSearch" id="select-student-route"
               >Student Search</router-link
             >
           </li>
           <li>
-            <router-link to="/programs" id="programs-route"
+            <router-link :to="routes.programs" id="programs-route"
               >Programs</router-link
             >
           </li>
           <li>
-            <router-link to="/courses" id="courses-route">Courses</router-link>
+            <router-link :to="routes.courses" id="courses-route"
+              >Courses</router-link
+            >
           </li>
           <li>
-            <router-link to="/assessments" id="assessments-route"
+            <router-link :to="routes.assessments" id="assessments-route"
               >Assessments</router-link
             >
           </li>
           <li>
-            <router-link to="/schools" id="schools-route">Schools</router-link>
-          </li>
-          <li><router-link to="/psi" id="psi-route">PSI</router-link></li>
-          <li><router-link to="/codes" id="codes-route">Codes</router-link></li>
-          <li>
-            <router-link to="/school-reports">School Reports</router-link>
+            <router-link :to="routes.schools" id="schools-route"
+              >Schools</router-link
+            >
           </li>
           <li>
-            <router-link to="/batch-processing">Batch Processing</router-link>
+            <router-link :to="routes.psi" id="psi-route">PSI</router-link>
+          </li>
+          <li>
+            <router-link :to="routes.codes" id="codes-route">Codes</router-link>
+          </li>
+          <li>
+            <router-link :to="routes.schoolReports">School Reports</router-link>
+          </li>
+          <li>
+            <router-link :to="routes.batchProcessing"
+              >Batch Processing</router-link
+            >
+          </li>
+          <li v-if="!profile.pen" class="disabled">
+            <a
+              id="profile-route"
+              class="text-decoration-none text-disabled"
+              :disabled="true"
+              >Profile (Student not loaded)</a
+            >
+          </li>
+          <li v-else>
+            <router-link
+              :to="`/student-profile/${this.profile.studentID}`"
+              id="profile-route"
+              >Profile ({{
+                profile.pen ? profile.pen : "Student not loaded"
+              }})</router-link
+            >
+          </li>
+          <li>
+            <form v-on:submit.prevent>
+              <div class="form-group top-search">
+                <!-- Pen Input -->
+                <div>
+                  <b-form-input
+                    maxlength="9"
+                    minlength="9"
+                    size="sm"
+                    id="search-by-pen-header"
+                    type="search"
+                    v-model="penInput"
+                    placeholder="PEN"
+                    ref="penSearch"
+                    class="w-75 float-left m-1"
+                  >
+                  </b-form-input>
+                  <button
+                    v-if="!searchLoading"
+                    v-on:click="findStudentByPen"
+                    class="btn btn-primary float-left"
+                    style="padding: 0.35em 0.65em"
+                  >
+                    <img
+                      src="../assets/images/icon-search.svg"
+                      width="24px"
+                      aria-hidden="true"
+                      alt=""
+                    />
+                  </button>
+                  <button
+                    v-else
+                    label="Searching"
+                    class="btn btn-success ml-2 float-left"
+                  >
+                    <b-spinner small></b-spinner>
+                  </button>
+                </div>
+              </div>
+            </form>
           </li>
         </ul>
       </div>
@@ -100,9 +191,17 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import StudentService from "@/services/StudentService.js";
+import CommonService from "@/services/CommonService.js";
 import sharedMethods from "@/sharedMethods";
+import { useStudentStore } from "@/store/modules/student";
+import { mapState } from "pinia";
+import EnvironmentBanner from "@/components/EnvironmentBanner.vue";
+
 export default {
+  components: {
+    EnvironmentBanner: EnvironmentBanner,
+  },
   data() {
     return {
       pen: "",
@@ -111,15 +210,29 @@ export default {
       studentSearchResults: [],
       host: location.protocol + "//" + location.host,
       studentUrlID: "",
+      routes: {
+        studentSearch: "/",
+        programs: "/programs",
+        courses: "/courses",
+        assessments: "/assessments",
+        schools: "/schools",
+        psi: "/psi",
+        codes: "/codes",
+        schoolReports: "/school-reports",
+        batchProcessing: "/batch-processing",
+      },
+      version: "",
     };
   },
-  created() {
+  async created() {
     this.loadStudent = sharedMethods.loadStudent;
     this.showNotification = sharedMethods.showNotification;
+    let versionResponse = await CommonService.getVersion();
+    this.version = versionResponse.data;
   },
   computed: {
-    ...mapGetters({
-      //profile: "getStudentProfile",
+    ...mapState(useStudentStore, {
+      profile: "getStudentProfile",
     }),
   },
   methods: {
@@ -132,23 +245,66 @@ export default {
       this.$store.commit("logout");
       this.$router.push("/logout");
     },
+    selectStudent() {
+      this.$router.push("/");
+    },
+    findStudentByPen: function () {
+      if (this.penInput) {
+        if (this.penInput == this.profile.pen) {
+          this.showNotification(
+            "warning",
+            "The entered PEN is the same as the currently loaded student"
+          );
+        } else {
+          this.searchLoading = true;
+          this.studentSearchResults = [];
+          StudentService.getStudentByPen(this.penInput)
+            .then((response) => {
+              if (response.data) {
+                if (response.data.length == 0) {
+                  throw new Error("Student not found");
+                }
+                this.$store.commit("student/unsetStudent");
+                this.$store.dispatch(
+                  "setQuickSearchPen",
+                  response.data[0].studentID
+                );
+                this.loadStudent(response.data);
+                this.searchLoading = false;
+              }
+            })
+            .catch((error) => {
+              // eslint-disable-next-line
+              console.log("BCHeader: " + error);
+              this.searchLoading = false;
+              this.showNotification(
+                "danger",
+                `Student ${this.penInput} cannot be found on the GRAD or PEN database`
+              );
+            })
+            .finally(() => {
+              this.penInput = "";
+            });
+        }
+      }
+    },
   },
 };
 </script>
 <style scoped>
 .navbar,
 .nav {
-  z-index: 100;
+  z-index: 99;
 }
 .navbar-brand {
   padding-top: 0.5rem;
   padding-left: 65px;
 }
 #navbar {
-  z-index: 100;
+  z-index: 99;
 }
 header {
-  z-index: 100;
+  z-index: 99;
   background-color: var(--primary-nav);
   border-bottom: 2px solid var(--bcgold);
   padding: 0 30px 0 30px;
@@ -250,6 +406,12 @@ header .nav-btn {
   font-weight: bold;
 }
 
+.min-nav {
+  position: fixed;
+  left: 80px;
+  z-index: 110;
+  top: 5px;
+}
 .burgernav {
   position: fixed;
 }
