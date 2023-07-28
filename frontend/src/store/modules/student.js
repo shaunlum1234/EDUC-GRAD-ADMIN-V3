@@ -1,14 +1,14 @@
-import { defineStore } from 'pinia';
-import SchoolService from '@/services/SchoolService.js';
-import ProgramManagementService from '@/services/ProgramManagementService.js';
+import { defineStore } from "pinia";
+import SchoolService from "@/services/SchoolService.js";
+import ProgramManagementService from "@/services/ProgramManagementService.js";
 
-export const useStudentStore = defineStore('student',{
+export const useStudentStore = defineStore("student", {
   namespaced: true,
   state: () => ({
-    advancedSearchProps:"",
+    advancedSearchProps: "",
     tokenTimeout: "",
-    isAuthenticated: localStorage.getItem('jwtToken') !== null,
-    token:"",
+    isAuthenticated: localStorage.getItem("jwtToken") !== null,
+    token: "",
     refreshToken: "",
     correlationID: "",
     roles: "administrator",
@@ -36,12 +36,11 @@ export const useStudentStore = defineStore('student',{
       xmlReports: [],
       ungradReasons: "",
       careerPrograms: [],
-      auditHistory:[],
-      auditHistoryOptionalPrograms:[],
+      auditHistory: [],
+      auditHistoryOptionalPrograms: [],
     },
   }),
   actions: {
-
     unsetStudent() {
       this.student.profile = {};
       this.student.notes = [];
@@ -63,62 +62,63 @@ export const useStudentStore = defineStore('student',{
       this.student.xmlReports = [];
       this.student.ungradReasons = [];
       this.student.careerPrograms = [];
-    },     
-    setUsername(payload){
+    },
+    setUsername(payload) {
       this.username = payload;
     },
-    setQuickSearchPen(payload){
+    setQuickSearchPen(payload) {
       this.quickSearchPen = payload;
     },
-    setPermissions( payload){
+    setPermissions(payload) {
       this.permissions = payload;
-    },  
-    
+    },
+
     getGraduationPrograms() {
-      
-      ProgramManagementService.getGraduationPrograms().then(
-        (response) => {
+      ProgramManagementService.getGraduationPrograms()
+        .then((response) => {
           return response.data;
-        }
-      ).catch((error) => {
-        // eslint-disable-next-line
-        console.log(error.response.status);
-      });
-    },    
-    setStudentAuditHistory(payload){
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log(error.response.status);
+        });
+    },
+    setStudentAuditHistory(payload) {
       this.student.auditHistory = payload;
     },
-    setStudentOptionalProgramsAuditHistory(payload){
+    setStudentOptionalProgramsAuditHistory(payload) {
       this.student.auditHistoryOptionalPrograms = payload;
-    },      
-    setStudentCareerPrograms(payload){
+    },
+    setStudentCareerPrograms(payload) {
       this.student.careerPrograms = payload;
     },
     setStudentCertificates(payload) {
-      this.student.certificates = payload; 
+      this.student.certificates = payload;
     },
     setStudentReports(payload) {
-      this.student.reports = payload;  
+      this.student.reports = payload;
     },
     setStudentTranscripts(payload) {
-      this.student.transcripts = payload;         
-    },    
+      this.student.transcripts = payload;
+    },
     setStudentXmlReport(payload) {
       this.student.xmlReports = payload;
-    },         
+    },
     setAdvancedSearchProps(payload) {
       this.advancedSearchProps = payload;
     },
     setStudentUngradReasons(payload) {
-      this.student.ungradReasons = payload; 
-    },      
+      this.student.ungradReasons = payload;
+    },
     setHasGradStatusPendingUpdates(payload) {
       this.student.hasGradStatusPendingUpdates = payload;
     },
     setStudentGradStatusOptionalPrograms(payload) {
       this.student.optionalPrograms = payload;
       for (let optionalProgram of this.student.optionalPrograms) {
-        optionalProgram.studentOptionalProgramData = JSON.parse(optionalProgram.studentOptionalProgramData); 
+        optionalProgram.studentOptionalProgramData = JSON.parse(
+          optionalProgram.studentOptionalProgramData
+        );
       }
     },
     setStudentProfile(payload) {
@@ -126,80 +126,85 @@ export const useStudentStore = defineStore('student',{
     },
     setStudentCourses(payload) {
       this.student.courses = payload;
-      if(this.student.courses.length){
+      if (this.student.courses.length) {
         this.student.hasCourses = true;
       }
     },
     setStudentAssessments(payload) {
       this.student.assessments = payload;
-      if(this.student.assessments.length){
+      if (this.student.assessments.length) {
         this.student.hasAssessments = true;
       }
     },
     setStudentExams(payload) {
       this.student.exams = payload;
-      if(this.student.exams.length){
+      if (this.student.exams.length) {
         this.student.hasExams = true;
       }
     },
     setStudentGradStatus(payload) {
       this.student.gradStatus = payload;
       //when commiting gradstatus to store, we need to put the json string in to a json object to call it easier
-      if(this.student.gradStatus.studentGradData){
-        this.student.gradStatus.studentGradData = JSON.parse(this.student.gradStatus.studentGradData);
+      if (this.student.gradStatus.studentGradData) {
+        this.student.gradStatus.studentGradData = JSON.parse(
+          this.student.gradStatus.studentGradData
+        );
       } else {
         this.student.gradStatus.studentGradData = {};
-      }         
-      if(this.student.gradStatus != "not loaded" || this.student.gradStatus == ""){
+      }
+      if (
+        this.student.gradStatus != "not loaded" ||
+        this.student.gradStatus == ""
+      ) {
         this.student.hasGradStatus = true;
       }
     },
-    setRoles(payload){
+    setRoles(payload) {
       this.roles = payload;
-    },    
+    },
     setStudentNotes(payload) {
       this.student.notes = payload;
-      if(this.student.notes.length){
+      if (this.student.notes.length) {
         this.student.hasNotes = true;
       }
-    },    
+    },
     // SEARCH
   },
   getters: {
-    getStudentAuditHistory(){
+    getStudentAuditHistory() {
       return this.student.auditHistory;
     },
-    getStudentOptionalProgramAuditHistory(){
+    getStudentOptionalProgramAuditHistory() {
       return this.student.auditHistoryOptionalPrograms;
-    },      
-    getAdvancedSearchProps(){
+    },
+    getAdvancedSearchProps() {
       return this.advancedSearchProps;
     },
-    getStudentUngradReasons(){
+    getStudentUngradReasons() {
       return this.student.ungradReasons;
     },
-    getStudentCertificates(){
-        return this.student.certificates;
+    getStudentCertificates() {
+      return this.student.certificates;
     },
-    getStudentReports(){
+    getStudentReports() {
       return this.student.reports;
-    },      
-    getStudentTranscripts(){
-      return this.student.transcripts;
-    },     
-    getStudentXmlReports(){
-      return this.student.xmlReports;
-    },           
-    getStudentGraduationCreationAndUpdate(){
-      return {
-        "createdBy" : this.student.gradStatus.createdBy,
-        "createdTimestamp": this.student.gradStatus.createdTimestamp,
-        "updatedBy" : this.student.gradStatus.updatedBy,
-        "updatedTimestamp": this.student.gradStatus.updatedTimestamp
-      }
     },
-    getHasGradStatusPendingUpdates(){
-        return this.student.hasGradStatusPendingUpdates;
+    getStudentTranscripts() {
+      return this.student.transcripts;
+    },
+    getStudentXmlReports() {
+      return this.student.xmlReports;
+    },
+    getStudentGraduationCreationAndUpdate() {
+      return {
+        createdBy: this.student.gradStatus.createdBy,
+        createdTimestamp: this.student.gradStatus.createdTimestamp,
+        updatedBy: this.student.gradStatus.updatedBy,
+        updatedTimestamp: this.student.gradStatus.updatedTimestamp,
+      };
+    },
+    getHasGradStatusPendingUpdates() {
+      return this.student.hasGradStatusPendingUpdates;
     },
     getStudentId() {
       return this.student.profile.studentID;
@@ -209,10 +214,10 @@ export const useStudentStore = defineStore('student',{
     },
     getStudentFullName() {
       return {
-        "legalLastName": this.student.profile.legalLastName,
-        "legalFirstName": this.student.profile.legalFirstName,
-        "legalMiddleNames": this.student.profile.legalMiddleNames,
-        "pen": this.student.profile.pen
+        legalLastName: this.student.profile.legalLastName,
+        legalFirstName: this.student.profile.legalFirstName,
+        legalMiddleNames: this.student.profile.legalMiddleNames,
+        pen: this.student.profile.pen,
       };
     },
     getStudentPen() {
@@ -236,74 +241,78 @@ export const useStudentStore = defineStore('student',{
     getStudentNotes() {
       return this.student.notes;
     },
-    studentHasCourses(){
+    studentHasCourses() {
       return this.student.hasCourses;
     },
-    studentHasExams(){
+    studentHasExams() {
       return this.student.hasExams;
     },
-    studentHasAssessments(){
+    studentHasAssessments() {
       return this.student.hasAssessments;
     },
-    studentHasGradStatus(){
+    studentHasGradStatus() {
       return this.student.hasGradStatus;
     },
-    studentHasNotes(){
+    studentHasNotes() {
       return this.student.hasNotes;
     },
-    gradStatusCourses(){
-  
-      if(this.student.gradStatus.studentGradData && this.student.gradStatus.studentGradData.studentCourses){
-        return this.student.gradStatus.studentGradData.studentCourses.studentCourseList;
-      }else {
-        return {};
-      }
-      
-    },
-    gradStatusAssessments(){
-      if(this.student.gradStatus.studentGradData && this.student.gradStatus.studentGradData.studentAssessments) {
-        return this.student.gradStatus.studentGradData.studentAssessments.studentAssessmentList;
+    gradStatusCourses() {
+      if (
+        this.student.gradStatus.studentGradData &&
+        this.student.gradStatus.studentGradData.studentCourses
+      ) {
+        return this.student.gradStatus.studentGradData.studentCourses
+          .studentCourseList;
       } else {
         return {};
       }
-    },      
+    },
+    gradStatusAssessments() {
+      if (
+        this.student.gradStatus.studentGradData &&
+        this.student.gradStatus.studentGradData.studentAssessments
+      ) {
+        return this.student.gradStatus.studentGradData.studentAssessments
+          .studentAssessmentList;
+      } else {
+        return {};
+      }
+    },
 
-    getRoles(){
+    getRoles() {
       return this.roles;
     },
-    isAdmin(){
-      return (this.roles == "administrator")
+    isAdmin() {
+      return this.roles == "administrator";
     },
-    isAuthenticated(){
-      return (this.roles == "authenticated")
+    isAuthenticated() {
+      return this.roles == "authenticated";
     },
-    getPermissions(){
+    getPermissions() {
       return this.permissions;
     },
-    getUsername(){
+    getUsername() {
       return this.username;
     },
-    getQuickSearchPen(){
+    getQuickSearchPen() {
       return this.quickSearchPen;
     },
-    getRequirementsMet(){
-      if(this.student.gradStatus.studentGradData){
+    getRequirementsMet() {
+      if (this.student.gradStatus.studentGradData) {
         return this.student.gradStatus.studentGradData.requirementsMet;
       } else {
         return {};
       }
-      
     },
-    getNongradReasons(){
-      if(this.student.gradStatus.studentGradData){
+    getNongradReasons() {
+      if (this.student.gradStatus.studentGradData) {
         return this.student.gradStatus.studentGradData.nonGradReasons;
       } else {
         return {};
       }
-      
     },
-    getStudentCareerPrograms(){
+    getStudentCareerPrograms() {
       return this.student.careerPrograms;
-    }
-  }
+    },
+  },
 });
