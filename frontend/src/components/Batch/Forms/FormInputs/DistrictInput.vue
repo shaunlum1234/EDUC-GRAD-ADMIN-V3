@@ -16,7 +16,14 @@
           ]"
           v-model="schoolCategory"
         ></b-form-select>
-        <div v-if="schoolCategory != '04' && schoolCategory != '09'">
+        <div
+          v-if="
+            schoolCategory != '04' &&
+            schoolCategory != '09' &&
+            runType != 'NONGRADRUN' &&
+            runType != 'DISTRUN_YE'
+          "
+        >
           <label>District</label>
           <b-input
             type="number"
@@ -131,6 +138,12 @@ export default {
   },
   validations() {
     return {
+      schoolCategory: {
+        required: helpers.withMessage(
+          "School Category field cannot be empty",
+          required
+        ),
+      }, // Matches this.firstName
       district: {
         minLength: minLength(3),
         async isValid(value) {

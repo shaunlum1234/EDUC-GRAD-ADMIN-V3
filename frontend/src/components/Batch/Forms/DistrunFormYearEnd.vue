@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ groupData }}
     <label class="font-weight-bold">Copies</label>
     <b-form-input
       type="number"
@@ -55,9 +54,6 @@ export default {
   },
   validations() {
     return {
-      groupData: {
-        required: helpers.withMessage("Copies field cannot be empty", required),
-      },
       copies: {
         required: helpers.withMessage("Copies field cannot be empty", required),
       }, // Matches this.firstName

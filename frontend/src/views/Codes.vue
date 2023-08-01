@@ -116,7 +116,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "pinia";
+import { useAuthStore } from "../store/modules/auth";
 
 import GraduationReportService from "@/services/GraduationReportService.js";
 import StudentService from "@/services/StudentService.js";
@@ -131,6 +132,7 @@ export default {
       url: null,
       file: [],
       tab: 1,
+
       certificateTypes: [],
       reportSignatures: [],
       batchTypes: [],
@@ -302,21 +304,20 @@ export default {
         },
         {
           key: "effectiveDate",
-          label: "Effective date",
+          label: "Effective Date",
           sortable: true,
         },
         {
           key: "expiryDate",
-          label: "Expiry date",
+          label: "Expiry Date",
           sortable: true,
         },
       ],
     };
   },
   computed: {
-    ...mapGetters({
-      token: "auth/getToken",
-      role: "getRoles",
+    ...mapState(useAuthStore, {
+      token: "getToken",
     }),
   },
   created() {
