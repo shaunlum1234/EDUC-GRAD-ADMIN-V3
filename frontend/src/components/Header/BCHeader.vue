@@ -196,7 +196,7 @@ import CommonService from "@/services/CommonService.js";
 import sharedMethods from "@/sharedMethods";
 import { useStudentStore } from "@/store/modules/student";
 import { mapState } from "pinia";
-import EnvironmentBanner from "@/components/EnvironmentBanner.vue";
+import EnvironmentBanner from "@/components/Header/EnvironmentBanner.vue";
 
 export default {
   components: {
@@ -445,7 +445,7 @@ header .nav-btn {
 /*
     These are sample media queries only. Media queries are quite subjective
     but, in general, should be made for the three different classes of screen
-    size: phone, tablet, full. 
+    size: phone, tablet, full.
   */
 
 @media screen and (min-width: 774px) {

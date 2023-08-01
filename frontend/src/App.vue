@@ -36,7 +36,7 @@ import { useAccessStore } from "./store/modules/access";
 import { mapState, mapActions } from "pinia";
 import Bcheader from "@/components/Header/BCHeader.vue";
 import BCFooter from "@/components/BCFooter.vue";
-import EnvironmentBanner from "@/components/EnvironmentBanner.vue";
+import EnvironmentBanner from "@/components/Header/EnvironmentBanner.vue";
 import { Routes } from "@/utils/constants.js";
 export default {
   name: "App",
