@@ -173,7 +173,10 @@
       <b-modal ref="newBatchRequestModal" size="xl" title="New Batch Request">
         <div class="pt-1 d-block">
           <div v-if="runType == 'DISTRUNUSER'">
-            <DistrunForm v-model:schools="schools"></DistrunForm>
+            <DistrunForm
+              v-model:groupData="groupData"
+              @onRunBatch="runbatch"
+            ></DistrunForm>
           </div>
           <div v-if="runType == 'DISTRUN_YE'">
             <DistrunFormYearEnd
@@ -331,6 +334,7 @@ export default {
       batchRunCustomTime: "",
 
       batchRunSchedule: "Run Now",
+      groupData: [],
       schools: [],
       batchRunData: [],
       batchFields: [
@@ -599,9 +603,13 @@ export default {
         if (this.cronTime) {
           console.log("Scheduled" + this.cronTime);
         }
-        if (isProxy(this.schools)) {
-          this.schools = toRaw(this.schools);
+        console.log("GROUPDATA");
+
+        if (isProxy(this.groupData)) {
+          this.groupData = toRaw(this.groupData);
         }
+
+        console.log(this.groupData);
         this.hideBatchRequestModal();
       } else if (this.runType == "DISTRUN_YE") {
         console.log("RUNNING DISTRUN YEAREND" + this.cronTime);

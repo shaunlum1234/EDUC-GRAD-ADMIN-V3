@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card title="Include Districts(s)">
+    <b-card title="Include School Category">
       <b-card-text>
         <label class="font-weight-bold pt-2">Category</label>
         <b-form-select

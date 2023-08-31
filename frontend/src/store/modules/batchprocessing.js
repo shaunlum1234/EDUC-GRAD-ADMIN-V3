@@ -7,34 +7,39 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
     scheduledBatchJobs: [],
     batchRuns: [],
     batchRoutines: [],
+    schools: [{}],
+    districts: [{}],
+    programs:[{}],
+    students:[{}],
+    who:"",
+    where:"BC Mail",
+    gradDate:"Current Students",
+    gradDateFrom:"",
+    gradDateTo:"",
+    psiYear:"",
+    psiTransmissionMode:"",     
+    psi:[{}],
+    blankCertificateDetails:[{}],
+    blankTranscriptDetails:[{}],
+    credential:"",
+    categoryCode:"",
+    copies:"1",
+    allPsi:false,
+    allDistricts:false,
+    localDownload: false
   }),
   actions: {
-    // setBatchId(id, type) {
-    //   if (type == "batch") {
-    //     this.isBatchShowing = true;
-    //     this.isErrorShowing = false;
-    //     this.adminSelectedBatchId = id.toString();
-    //     this.$refs["popover" + id].$emit("close");
-    //   }
-    //   if (type == "error") {
-    //     this.isBatchShowing = false;
-    //     this.isErrorShowing = true;
-    //     this.adminSelectedErrorId = id.toString();
-    //   }
-    //   var element = this.$refs["top"];
-    //   var top = element.offsetTop;
-    //   window.scrollTo(0, top);
-    // },
-    setBatchRoutines(payload) {
+  
+    async setBatchRoutines(payload) {
       this.batchRoutines = payload;
     },
-    setScheduledBatchJobs(payload) {
+    async setScheduledBatchJobs(payload) {
       this.scheduledBatchJobs = payload;
       for (let value of state.scheduledBatchJobs) {
         value.jobParameters = JSON.parse(value.jobParameters);
       }
     },
-    setBatchJobs(payload) {
+    async setBatchJobs(payload) {
       this.batchRuns = payload;
       if (state.batchJobs) {
         for (let value of state.batchJobs) {
@@ -42,14 +47,91 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
         }
       }
     },
-    removeScheduledJobs({ state }, payload) {
+    async removeScheduledJobs({ state }, payload) {
       if (state.scheduledBatchJobs)
         return BatchProcessingService.removeScheduledJobs(payload["id"]);
+    },
+    async setSchools (payload){
+      this.schools = payload
+    },
+    async setDistricts (payload){
+      this.districts = payload
+    },
+    async setPsi (payload){
+      this.schools = payload
+    },
+    async setPrograms (payload){
+      this.programs = payload
+    },            
+    async clearBatchGroupData(){
+      this.schools=[{}];
+      this.districts=[{}];
+      this.programs=[{}];
+      this.students=[{}];
+      this.psi=[{}];
+    }, 
+    async setJwtToken(token = null){
+      if (token) {
+        this.isAuthenticated = true;
+        this.jwtToken = token;
+        localStorage.setItem('jwtToken', token);
+      } else {
+        this.isAuthenticated = false;
+        this.jwtToken = null;
+        localStorage.removeItem('jwtToken');
+      }
+    },
+    async clearBatch(){
+      let date = new Date();
+      let psiCurrentYear = String(date.getFullYear());
+      if (date.getMonth() + 1 > 8) {
+        psiCurrentYear = String(date.getFullYear() + 1);
+      }
+      this.schools=[{}];
+      this.districts=[{}];
+      this.programs=[{}];
+      this.students=[{}];
+      this.who="";
+      this.where="BC Mail";
+      this.gradDate="Current Students";
+      this.gradDateFrom="";
+      this.gradDateTo="";
+      this.psiYear=psiCurrentYear;
+      this.psiTransmissionMode="";      
+      this.psi=[{}];
+      this.blankCertificateDetails=[{}];
+      this.blankTranscriptDetails=[{}];
+      this.credential="";
+      this.categoryCode="";
+      this.copies="1";
+      this.allPsi=false;
+      this.allDistricts=false;
     },
   },
   getters: {
     getScheduledBatchRuns: (state) => state.scheduledBatchJobs,
     getBatchRuns: (state) => state.batchRuns,
     getBatchRoutines: (state) => state.batchRoutines,
+    getStudents: (state) => state.students,
+    getSchools: (state) => state.schools,
+    getDistricts: (state) => state.districts,
+    getPrograms: (state) => state.programs,
+    getPsi: (state) => state.psi,
+    getBatchRequest: (state) => {
+      return {
+          pens: state.students,
+          schoolOfRecords: state.schools,
+          districts: state.districts,
+          programs: state.programs,
+          psiCodes: state.psi,
+          credentialTypeCode: state.credentialTypeCode,
+          schoolCategoryCodes: state.categoryCode,
+          gradDateFrom: state.gradDateFrom,
+          gradDateTo: state.gradDateTo,
+          validateInput: false,
+          quantity: state.copies,
+          localDownload: state.localDownload,
+      }
+    }    
   },
 });

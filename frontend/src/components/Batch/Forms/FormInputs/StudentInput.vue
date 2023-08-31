@@ -2,6 +2,7 @@
   <div>
     <b-card title="Include Student(s)">
       <b-card-text>
+        {{ getStudents }}
         <label>Pen</label>
         <b-input
           type="number"
@@ -95,6 +96,8 @@ import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
 import GraduationReportService from "@/services/GraduationReportService.js";
 import { useVuelidate } from "@vuelidate/core";
+import { mapActions, mapState } from "pinia";
+import { useBatchProcessingStore } from "../../../../store/modules/batchprocessing";
 import { required, minLength, helpers } from "@vuelidate/validators";
 import { isProxy, toRaw } from "vue";
 
@@ -199,6 +202,7 @@ export default {
   },
   created() {},
   methods: {
+    ...mapActions(useBatchProcessingStore, ["setStudents"]),
     async validateStudent() {
       this.penValidating = true;
       this.clearPenStudentInfo();
@@ -220,7 +224,9 @@ export default {
         pen: this.pen,
         info: this.penStudentInfo,
       });
-      this.$emit("update:students", this.students);
+
+      //this.$emit("update:students", this.students);
+      setStudents(this.students);
       this.clearPen();
     },
     removeStudent(pen) {
@@ -239,6 +245,7 @@ export default {
   },
 
   computed: {
+    ...mapState(useBatchProcessingStore, ["getStudents"]),
     isEmpty() {
       return this.students.length > 0;
     },

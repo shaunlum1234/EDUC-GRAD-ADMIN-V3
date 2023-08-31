@@ -1,7 +1,7 @@
 <template>
   <div>
     <label class="font-weight-bold">Credential Type</label>
-    {{ students }}
+    {{ groupData }}
     <b-form-select
       id="inline-form-select-audience"
       class="mb-2 mr-sm-2 mb-sm-0 col-2"
@@ -184,6 +184,7 @@ export default {
   },
   data: function () {
     return {
+      request: {},
       credentialDetails: [],
       credentialType: "",
       schedule: "",
@@ -206,14 +207,19 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.$emit("update:schools", this.schools);
-  },
+  mounted() {},
   created() {
     this.transcriptTypes = this.getTranscriptTypes();
     this.certificateTypes = this.getCertificateTypes();
   },
-
+  watch: {
+    groupData: {
+      handler() {
+        console.log("UPDATE GROUP DATA");
+        this.$emit("update:groupData", this.groupData);
+      },
+    },
+  },
   methods: {
     getTranscriptTypes() {
       GraduationReportService.getTranscriptTypes()
@@ -242,11 +248,6 @@ export default {
             this.makeToast("ERROR " + "error with webservervice", "danger");
           }
         });
-    },
-    runbatch() {
-      console.log("run batch");
-      console.log(payload);
-      console.log(groupData);
     },
     async validateForm(event) {
       const result = await this.v$.$validate();
