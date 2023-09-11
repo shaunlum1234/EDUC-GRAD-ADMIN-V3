@@ -2,7 +2,6 @@
   <div>
     <b-card title="Include Student(s)">
       <b-card-text>
-        {{ getStudents }}
         <label>Pen</label>
         <b-input
           type="number"
@@ -52,9 +51,10 @@
             >
           </b-card>
         </div>
+        {{ getStudents }}
         <b-table
           v-if="students.length"
-          :items="students"
+          :items="getStudents"
           :fields="studentInputFields"
           striped="true"
         >
@@ -226,7 +226,7 @@ export default {
       });
 
       //this.$emit("update:students", this.students);
-      setStudents(this.students);
+      this.setStudents(this.students);
       this.clearPen();
     },
     removeStudent(pen) {

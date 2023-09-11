@@ -29,7 +29,9 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
     localDownload: false
   }),
   actions: {
-  
+    async setGroup(payload) {
+      this.who = payload;
+    },
     async setBatchRoutines(payload) {
       this.batchRoutines = payload;
     },
@@ -51,6 +53,10 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
       if (state.scheduledBatchJobs)
         return BatchProcessingService.removeScheduledJobs(payload["id"]);
     },
+    async setStudents (payload){
+      console.log("setting students")
+      this.students = payload
+    },
     async setSchools (payload){
       this.schools = payload
     },
@@ -58,7 +64,7 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
       this.districts = payload
     },
     async setPsi (payload){
-      this.schools = payload
+      this.psi = payload
     },
     async setPrograms (payload){
       this.programs = payload
@@ -109,7 +115,28 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
     },
   },
   getters: {
+
+    groupData: (state) => {
+      if (state.who === "Students") {
+        return state.students;
+      } else if (state.who === "District") {
+        return state.districts;
+      } else if (state.who === "Program") {
+        return state.programs;
+      } else if (state.who === "School") {
+        return state.schools;
+      } else {
+        // Return an empty array for any other value
+        return [];
+      }
+    },
+    // New getter to check if groupData is empty
+    groupDataIsEmpty: (state, getters) => {
+      const groupData = getters.getGroupData;
+      return groupData.length === 0;
+    },
     getScheduledBatchRuns: (state) => state.scheduledBatchJobs,
+    getGroup: (state) => state.who,
     getBatchRuns: (state) => state.batchRuns,
     getBatchRoutines: (state) => state.batchRoutines,
     getStudents: (state) => state.students,

@@ -193,6 +193,9 @@
             <PSIRUNForm v-model:schools="schools"></PSIRUNForm>
           </div>
         </div>
+
+        {{ getGroup }}
+
         <div class="d-block">
           <div v-if="runType == 'DISTRUNUSER'"></div>
           <div class="runSchedule">
@@ -271,6 +274,7 @@
         </div>
         <template #modal-footer="{ ok, cancel, hide }">
           <!-- Emulate built in modal footer ok and cancel button actions -->
+          {{ groupData2 }}
           <b-button
             v-if="batchRunSchedule == 'Run Now'"
             size="sm"
@@ -560,6 +564,8 @@ export default {
     ...mapState(useBatchProcessingStore, {
       batchRuns: "getBatchRuns",
       batchRoutines: "getBatchRoutines",
+      groupData2: "groupData",
+      getGroup: "getGroup",
     }),
     // batchRunsCount() {
     //   console.log(this.batchRuns.length);
