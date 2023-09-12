@@ -197,9 +197,7 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.$emit("update:schools", this.schools);
-  },
+  mounted() {},
   created() {},
   methods: {
     ...mapActions(useBatchProcessingStore, ["setStudents"]),
@@ -224,8 +222,6 @@ export default {
         pen: this.pen,
         info: this.penStudentInfo,
       });
-
-      //this.$emit("update:students", this.students);
       this.setStudents(this.students);
       this.clearPen();
     },
@@ -237,6 +233,7 @@ export default {
           this.students.splice(index, 1);
         }
       }
+      this.setStudents(studentList);
     },
   },
   props: {

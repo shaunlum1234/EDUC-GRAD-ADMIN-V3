@@ -163,12 +163,6 @@ export default {
   },
   validations() {
     return {
-      groupData: {
-        required: helpers.withMessage(
-          "Group Data field cannot be empty",
-          required
-        ),
-      }, // Matches this.firstName
       group: {
         required: helpers.withMessage("Group field cannot be empty", required),
       }, // Matches this.firstName
@@ -215,14 +209,6 @@ export default {
     this.transcriptTypes = this.getTranscriptTypes();
     this.certificateTypes = this.getCertificateTypes();
   },
-  watch: {
-    groupData: {
-      handler() {
-        console.log("UPDATE GROUP DATA");
-        this.$emit("update:groupData", this.groupData);
-      },
-    },
-  },
   methods: {
     ...mapActions(useBatchProcessingStore, ["clearBatchGroupData", "setGroup"]),
     getTranscriptTypes() {
@@ -268,15 +254,6 @@ export default {
       this.programs = [];
       this.groupData = [];
       this.clearBatchGroupData();
-    },
-  },
-  computed: {
-    isValid() {
-      if (this.where && this.group) {
-        return true;
-      } else {
-        return false;
-      }
     },
   },
 };

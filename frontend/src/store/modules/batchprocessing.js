@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import BatchProcessingService from "@/services/BatchProcessingService.js";
+import { isProxy, toRaw } from "vue";
 
 export const useBatchProcessingStore = defineStore("batchProcessing", {
   namespaced: true,
@@ -7,10 +8,11 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
     scheduledBatchJobs: [],
     batchRuns: [],
     batchRoutines: [],
-    schools: [{}],
-    districts: [{}],
-    programs:[{}],
-    students:[{}],
+    schools: [],
+    districts: [],
+    programs:[],
+    students:[],
+    psi:[],
     who:"",
     where:"BC Mail",
     gradDate:"Current Students",
@@ -18,7 +20,6 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
     gradDateTo:"",
     psiYear:"",
     psiTransmissionMode:"",     
-    psi:[{}],
     blankCertificateDetails:[{}],
     blankTranscriptDetails:[{}],
     credential:"",
@@ -70,11 +71,11 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
       this.programs = payload
     },            
     async clearBatchGroupData(){
-      this.schools=[{}];
-      this.districts=[{}];
-      this.programs=[{}];
-      this.students=[{}];
-      this.psi=[{}];
+      this.schools=[];
+      this.districts=[];
+      this.programs=[];
+      this.students=[];
+      this.psi=[];
     }, 
     async setJwtToken(token = null){
       if (token) {
@@ -93,10 +94,11 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
       if (date.getMonth() + 1 > 8) {
         psiCurrentYear = String(date.getFullYear() + 1);
       }
-      this.schools=[{}];
-      this.districts=[{}];
-      this.programs=[{}];
-      this.students=[{}];
+      this.schools=[];
+      this.districts=[];
+      this.programs=[];
+      this.students=[];
+      this.psi=[];
       this.who="";
       this.where="BC Mail";
       this.gradDate="Current Students";
@@ -104,7 +106,7 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
       this.gradDateTo="";
       this.psiYear=psiCurrentYear;
       this.psiTransmissionMode="";      
-      this.psi=[{}];
+      
       this.blankCertificateDetails=[{}];
       this.blankTranscriptDetails=[{}];
       this.credential="";
@@ -116,9 +118,10 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
   },
   getters: {
 
-    groupData: (state) => {
-      if (state.who === "Students") {
-        return state.students;
+    getGroupData: (state) => {
+      
+      if (state.who === "Student") {
+        return state.students.map(student => student.pen);
       } else if (state.who === "District") {
         return state.districts;
       } else if (state.who === "Program") {
@@ -131,9 +134,9 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
       }
     },
     // New getter to check if groupData is empty
-    groupDataIsEmpty: (state, getters) => {
+    getGroupDataIsEmpty: (state, getters) => {
       const groupData = getters.getGroupData;
-      return groupData.length === 0;
+      return groupData.length === 1;
     },
     getScheduledBatchRuns: (state) => state.scheduledBatchJobs,
     getGroup: (state) => state.who,
@@ -146,10 +149,10 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
     getPsi: (state) => state.psi,
     getBatchRequest: (state) => {
       return {
-          pens: state.students,
-          schoolOfRecords: state.schools,
-          districts: state.districts,
-          programs: state.programs,
+          pens: state.who === "Student" ? state.students.map(student => student.pen) : [],
+          schoolOfRecords: state.who === "School" ? state.schools.map(school => school.mincode) : [],
+          districts: state.who === "District" ? state.districts.map(district => district.district) : [],
+          programs: state.who === "Program" ? state.programs.map(program => program.district) : [],
           psiCodes: state.psi,
           credentialTypeCode: state.credentialTypeCode,
           schoolCategoryCodes: state.categoryCode,

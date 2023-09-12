@@ -2,7 +2,7 @@
   <div>
     <b-card title="Include Program(s)">
       <b-card-text>
-        <div v-if="schoolCategory != '04' && schoolCategory != '09'">
+        <div>
           <label>Program</label>
 
           <b-form-select
@@ -54,7 +54,8 @@ import TRAXService from "@/services/TRAXService.js";
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength, helpers } from "@vuelidate/validators";
 import { isProxy, toRaw } from "vue";
-import { mapGetters } from "vuex";
+import { useBatchProcessingStore } from "../../../../store/modules/batchprocessing";
+import { mapActions, mapState } from "pinia";
 
 export default {
   components: {},
@@ -98,11 +99,10 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.$emit("update:programs", this.programs);
-  },
+  mounted() {},
   created() {},
   methods: {
+    ...mapActions(useBatchProcessingStore, ["setPrograms"]),
     async validateProgram() {
       this.programValidating = true;
       this.clearProgramInfo();
@@ -131,17 +131,18 @@ export default {
         program: this.program,
         info: prog.programName,
       });
-      this.$emit("update:programs", this.programs);
+      this.setPrograms(this.programs);
       this.clearProgram();
     },
     removeProgram(program) {
       let programList = toRaw(this.programs);
-      for (const [index] in programList)
+      for (const [index] in programList) {
         if (programList[index].program == program) {
           console.log(program);
           this.programs.splice(index, 1);
-          this.$emit("update:programs", this.programs);
         }
+      }
+      this.setPrograms(programList);
     },
   },
   props: {
@@ -150,9 +151,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      programOptions: "app/getProgramOptions",
-    }),
+    ...mapState(useBatchProcessingStore, ["getPrograms"]),
     isEmpty() {
       return this.programs.length > 0;
     },
