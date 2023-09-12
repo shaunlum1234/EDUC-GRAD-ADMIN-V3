@@ -156,6 +156,7 @@ import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
 import GraduationReportService from "@/services/GraduationReportService.js";
 import { useVuelidate } from "@vuelidate/core";
+import { useBatchProcessingStore } from "../../../../store/modules/batchprocessing";
 import { mapActions, mapState } from "pinia";
 import { required, minLength, helpers } from "@vuelidate/validators";
 
@@ -221,14 +222,12 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.$emit("update:schools", this.schools);
-  },
+  mounted() {},
   created() {},
   methods: {
+    ...mapActions(useBatchProcessingStore, ["setSchools"]),
     async validateSchool() {
       this.mincodeValidating = true;
-      console.log(this.mincode.length);
       if (this.mincode.length < 8) {
         this.clearmincodeSchoolInfo();
       } else {
@@ -252,28 +251,25 @@ export default {
         mincode: this.mincode,
         info: this.mincodeSchoolInfo,
       });
+      this.setSchools(this.schools);
       this.clearMincode();
-      this.$emit("update:schools", this.schools);
     },
     removeSchool(mincode) {
       const schoolList = toRaw(this.schools);
-      console.log(schoolList);
       for (const [index, school] in schoolList) {
-        //   console.log(school);
         if (schoolList[index].mincode == mincode) {
-          console.log(mincode);
-          //     //   console.log(this.schools);
           this.schools.splice(index, 1);
-          //     //   console.log(this.schools);
         }
       }
+      this.setSchools(schoolList);
     },
   },
   props: {},
 
   computed: {
+    ...mapState(useBatchProcessingStore, ["getSchools"]),
     isEmpty() {
-      return this.schools.length > 0;
+      return this.students.length > 0;
     },
   },
 };

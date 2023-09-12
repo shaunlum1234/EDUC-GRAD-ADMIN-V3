@@ -8,7 +8,7 @@
           <b-form-select
             id="inline-form-select-type"
             class="col-2 mx-2"
-            :options="programOptions"
+            :options="getProgramOptions"
             value-field="programCode"
             text-field="programCode"
             v-model="program"
@@ -55,6 +55,7 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, minLength, helpers } from "@vuelidate/validators";
 import { isProxy, toRaw } from "vue";
 import { useBatchProcessingStore } from "../../../../store/modules/batchprocessing";
+import { useAppStore } from "../../../../store/modules/app";
 import { mapActions, mapState } from "pinia";
 
 export default {
@@ -124,7 +125,7 @@ export default {
     },
     addProgram() {
       const prog = toRaw(
-        this.findProgramByCode(this.programOptions, this.program)
+        this.findProgramByCode(this.getProgramOptions, this.program)
       );
 
       this.programs.splice(0, 0, {
@@ -145,13 +146,10 @@ export default {
       this.setPrograms(programList);
     },
   },
-  props: {
-    credentialType: String,
-    runType: String,
-  },
 
   computed: {
     ...mapState(useBatchProcessingStore, ["getPrograms"]),
+    ...mapState(useAppStore, ["getProgramOptions"]),
     isEmpty() {
       return this.programs.length > 0;
     },

@@ -103,6 +103,9 @@
         runType="DISTRUNUSER"
       ></DistrictInput>
     </div>
+    <div v-if="group == 'Program'">
+      <ProgramInput></ProgramInput>
+    </div>
 
     <label class="font-weight-bold">Copies</label>
     <b-form-input
@@ -147,6 +150,7 @@
 import DistrictInput from "@/components/Batch/Forms/FormInputs/DistrictInput.vue";
 import SchoolInput from "@/components/Batch/Forms/FormInputs/SchoolInput.vue";
 import StudentInput from "@/components/Batch/Forms/FormInputs/StudentInput.vue";
+import ProgramInput from "@/components/Batch/Forms/FormInputs/ProgramInput.vue";
 import GraduationReportService from "@/services/GraduationReportService.js";
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
@@ -178,6 +182,7 @@ export default {
     SchoolInput: SchoolInput,
     StudentInput: StudentInput,
     DistrictInput: DistrictInput,
+    ProgramInput: ProgramInput,
   },
   data: function () {
     return {
