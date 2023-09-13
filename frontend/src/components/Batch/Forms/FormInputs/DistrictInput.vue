@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card title="Include Districts(s)">
+    <b-card title="Include School Category">
       <b-card-text>
         <label class="font-weight-bold pt-2">Category</label>
         <b-form-select
@@ -31,6 +31,7 @@
             maxlength="3"
             @input="validateDistrict"
             class="w-25"
+            :disabled="schoolCategory == ''"
           />
           <div
             class="input-errors"
@@ -50,6 +51,7 @@
                   variant="danger"
                   >{{ validationMessage }}</b-alert
                 >
+                {{ districtValidating }}
                 <b-overlay :show="districtValidating">
                   <div v-if="!districtInfo">NOT VALID</div>
                   <div v-else>
@@ -99,6 +101,8 @@
 <script>
 import TRAXService from "@/services/TRAXService.js";
 import { useVuelidate } from "@vuelidate/core";
+import { mapActions, mapState } from "pinia";
+import { useBatchProcessingStore } from "../../../../store/modules/batchprocessing";
 import { required, minLength, helpers } from "@vuelidate/validators";
 import { isProxy, toRaw } from "vue";
 
@@ -157,7 +161,6 @@ export default {
                 districtName: district.data.districtName,
                 activeFlag: district.data.activeFlag,
               };
-
               console.log(this.districtInfo);
               return true;
             }
@@ -197,16 +200,16 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.$emit("update:districts", this.districts);
-  },
+  mounted() {},
   created() {},
   methods: {
+    ...mapActions(useBatchProcessingStore, ["setDistricts"]),
     async validateDistrict() {
       this.districtValidating = true;
       this.clearDistrictInfo();
       const result = await this.v$.$validate();
       if (!result) {
+        console.log("NO RESULT");
         return;
       }
       this.districtValidating = false;
@@ -223,7 +226,7 @@ export default {
         district: this.district,
         info: this.districtInfo,
       });
-      this.$emit("update:districts", this.districts);
+      this.setDistricts(this.districts);
       this.clearDistrict();
     },
     removeDistrict(district) {
@@ -233,9 +236,9 @@ export default {
         if (districtList[index].district == district) {
           console.log(district);
           this.districts.splice(index, 1);
-          this.$emit("update:districts", this.districts);
         }
       }
+      this.setDistricts(districtList);
     },
   },
   props: {
@@ -244,6 +247,7 @@ export default {
   },
 
   computed: {
+    ...mapState(useBatchProcessingStore, ["getDistricts"]),
     isEmpty() {
       return this.districts.length > 0;
     },

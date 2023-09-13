@@ -173,7 +173,10 @@
       <b-modal ref="newBatchRequestModal" size="xl" title="New Batch Request">
         <div class="pt-1 d-block">
           <div v-if="runType == 'DISTRUNUSER'">
-            <DistrunForm v-model:schools="schools"></DistrunForm>
+            <DistrunForm
+              v-model:groupData="groupData"
+              @onRunBatch="runbatch"
+            ></DistrunForm>
           </div>
           <div v-if="runType == 'DISTRUN_YE'">
             <DistrunFormYearEnd
@@ -190,6 +193,9 @@
             <PSIRUNForm v-model:schools="schools"></PSIRUNForm>
           </div>
         </div>
+
+        {{ getGroup }}
+
         <div class="d-block">
           <div v-if="runType == 'DISTRUNUSER'"></div>
           <div class="runSchedule">
@@ -268,11 +274,12 @@
         </div>
         <template #modal-footer="{ ok, cancel, hide }">
           <!-- Emulate built in modal footer ok and cancel button actions -->
+          {{ groupData2 }} {{ groupData2.length }}
           <b-button
             v-if="batchRunSchedule == 'Run Now'"
             size="sm"
             variant="success"
-            :disabled="v$.$invalid"
+            :disabled="v$.$invalid || groupData2.length == 0"
             @click="runBatchRequest()"
             >Run Now</b-button
           >
@@ -306,7 +313,7 @@ import DisplayTable from "@/components/DisplayTable.vue";
 import { useVuelidate } from "@vuelidate/core";
 import { isProxy, toRaw } from "vue";
 import { useBatchProcessingStore } from "../store/modules/batchprocessing";
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 
 export default {
   components: {
@@ -331,6 +338,7 @@ export default {
       batchRunCustomTime: "",
 
       batchRunSchedule: "Run Now",
+      groupData: [],
       schools: [],
       batchRunData: [],
       batchFields: [
@@ -556,17 +564,10 @@ export default {
     ...mapState(useBatchProcessingStore, {
       batchRuns: "getBatchRuns",
       batchRoutines: "getBatchRoutines",
+      groupData2: "getGroupData",
+      getGroup: "getGroup",
+      getBatchRequest: "getBatchRequest",
     }),
-    // batchRunsCount() {
-    //   console.log(this.batchRuns.length);
-    //   return this.batchRuns.length > 0 ? batchRuns.length : 0;
-    // },
-    // scheduledBatchRunsCount() {
-    //   return this.scheduledBatchRuns.length > 0 ? scheduledBatchRuns.length : 0;
-    // },
-    // batchRoutinesCount() {
-    //   return this.batchRoutines.length > 0 ? batchRoutines.length : 0;
-    // },
   },
   created() {
     BatchProcessingService.getBatchJobTypes()
@@ -583,6 +584,7 @@ export default {
       });
   },
   methods: {
+    ...mapActions(useBatchProcessingStore, ["clearBatchGroupData"]),
     async validateForm() {
       const result = await this.v$.$validate();
     },
@@ -599,9 +601,10 @@ export default {
         if (this.cronTime) {
           console.log("Scheduled" + this.cronTime);
         }
-        if (isProxy(this.schools)) {
-          this.schools = toRaw(this.schools);
-        }
+        console.log("GROUPDATA");
+
+        console.log(toRaw(this.getBatchRequest));
+
         this.hideBatchRequestModal();
       } else if (this.runType == "DISTRUN_YE") {
         console.log("RUNNING DISTRUN YEAREND" + this.cronTime);
@@ -633,6 +636,7 @@ export default {
       this.batchRunCustomDate = "";
       this.batchRunCustomTime = "";
       this.batchRunSchedule = "";
+      this.clearBatchGroupData();
     },
   },
   compatConfig: { MODE: 2 },

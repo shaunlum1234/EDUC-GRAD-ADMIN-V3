@@ -51,9 +51,10 @@
             >
           </b-card>
         </div>
+        {{ getStudents }}
         <b-table
           v-if="students.length"
-          :items="students"
+          :items="getStudents"
           :fields="studentInputFields"
           striped="true"
         >
@@ -95,6 +96,8 @@ import SchoolService from "@/services/SchoolService.js";
 import StudentService from "@/services/StudentService.js";
 import GraduationReportService from "@/services/GraduationReportService.js";
 import { useVuelidate } from "@vuelidate/core";
+import { mapActions, mapState } from "pinia";
+import { useBatchProcessingStore } from "../../../../store/modules/batchprocessing";
 import { required, minLength, helpers } from "@vuelidate/validators";
 import { isProxy, toRaw } from "vue";
 
@@ -194,11 +197,10 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.$emit("update:schools", this.schools);
-  },
+  mounted() {},
   created() {},
   methods: {
+    ...mapActions(useBatchProcessingStore, ["setStudents"]),
     async validateStudent() {
       this.penValidating = true;
       this.clearPenStudentInfo();
@@ -220,7 +222,7 @@ export default {
         pen: this.pen,
         info: this.penStudentInfo,
       });
-      this.$emit("update:students", this.students);
+      this.setStudents(this.students);
       this.clearPen();
     },
     removeStudent(pen) {
@@ -231,6 +233,7 @@ export default {
           this.students.splice(index, 1);
         }
       }
+      this.setStudents(studentList);
     },
   },
   props: {
@@ -239,6 +242,7 @@ export default {
   },
 
   computed: {
+    ...mapState(useBatchProcessingStore, ["getStudents"]),
     isEmpty() {
       return this.students.length > 0;
     },
