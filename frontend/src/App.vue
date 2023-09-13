@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- <EnvironmentBanner /> -->
+    <EnvironmentBanner />
 
     <Bcheader class="bcheader" style="margin-bottom: 15px">
       <div v-if="isAuthenticatedGet && dataReady">
