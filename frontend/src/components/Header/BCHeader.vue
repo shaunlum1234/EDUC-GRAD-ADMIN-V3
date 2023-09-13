@@ -168,7 +168,7 @@
                     style="padding: 0.35em 0.65em"
                   >
                     <img
-                      src="../assets/images/icon-search.svg"
+                      src="../../assets/images/icon-search.svg"
                       width="24px"
                       aria-hidden="true"
                       alt=""

@@ -506,7 +506,7 @@
                       <div
                         class="form-group advanced-search-field col-12 col-md-2"
                       >
-                        <label for="datepicker-birthdate-from form__label"
+                        <label for="datepicker-birthdate-from"
                           >Birthdate from</label
                         >
                         <b-input-group class="mb-3">
