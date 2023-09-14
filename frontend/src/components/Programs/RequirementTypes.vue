@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import DisplayTable from "@/components/DisplayTable";
+import DisplayTable from "../DisplayTable.vue";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 
 export default {

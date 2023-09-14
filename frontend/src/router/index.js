@@ -20,7 +20,18 @@ import UngradReasons from "../components/Codes/UngradReasons.vue";
 import HistoryActivityCodes from "../components/Codes/HistoryActivityCodes.vue";
 import DocumentStatusCode from "../components/Codes/DocumentStatusCode.vue";
 import BatchTypes from "../components/Codes/BatchTypes.vue";
-
+// Programs
+import AdminGraduationPrograms from "../views/Programs.vue";
+import AlgorithmRules from "../components/Programs/AlgorithmRules.vue";
+import GraduationPrograms from "../components/Programs/GraduationPrograms.vue";
+import GraduationProgramRules from "../components/Programs/GraduationProgramRules.vue";
+import GraduationProgramCourses from "../components/Programs/GraduationProgramCourses.vue";
+import GraduationOptionalPrograms from "../components/Programs/GraduationOptionalPrograms.vue";
+import GraduationOptionalProgramRules from "../components/Programs/GraduationOptionalProgramRules.vue";
+import LetterGrades from "../components/Programs/LetterGrades.vue";
+import SpecialCases from "../components/Programs/SpecialCases.vue";
+import RequirementTypes from "../components/Programs/RequirementTypes.vue";
+import GraduationProgramTranscriptMessage from "../components/Programs/GraduationProgramTranscriptMessage.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -68,6 +79,108 @@ const router = createRouter({
       path: "/assessments",
       name: "Assessments",
       component: () => import("../views/Assessments.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/programs",
+      component: AdminGraduationPrograms,
+      children: [
+        {
+          path: "",
+          component: AlgorithmRules,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "programs/",
+          component: GraduationPrograms,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "program-rules/",
+          component: GraduationProgramRules,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "program/:programCode/:category/:rule",
+          component: GraduationProgramCourses,
+          name: "programRuleCourses",
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "optional-programs/",
+          component: GraduationOptionalPrograms,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "optional-program-rules/",
+          component: GraduationOptionalProgramRules,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "optional-programs/:programCode/:optionalProgramCode",
+          component: GraduationOptionalProgramRules,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "optional-programs/:programCode/:category/:rule",
+          component: GraduationProgramCourses,
+          name: "optionalProgramRuleCourses",
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "letter-grades/",
+          component: LetterGrades,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "special-cases/",
+          component: SpecialCases,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "algorithm-rules/",
+          component: AlgorithmRules,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "requirement-types/",
+          component: RequirementTypes,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "transcript-message/",
+          component: GraduationProgramTranscriptMessage,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+      ],
       meta: {
         requiresAuth: true,
       },
