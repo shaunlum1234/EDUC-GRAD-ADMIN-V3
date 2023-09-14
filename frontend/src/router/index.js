@@ -4,8 +4,22 @@ import BackendSessionExpired from "@/components/BackendSessionExpired.vue";
 import SessionExpired from "@/components/SessionExpired.vue";
 import UnAuthorized from "@/components/UnAuthorized.vue";
 import UnAuthorizedPage from "@/components/UnAuthorizedPage.vue";
-import {useAuthStore} from "../store/modules/auth";
-import {useAccessStore} from "../store/modules/access";
+import { useAuthStore } from "../store/modules/auth";
+import { useAccessStore } from "../store/modules/access";
+
+// Dyanmic imports were causing issues with state for Codes components
+import CareerPrograms from "../components/Codes/CareerPrograms.vue";
+import CertificateTypes from "../components/Codes/CertificateTypes.vue";
+import DigitialSignatures from "../components/Codes/DigitalSignatures.vue";
+import SignatureBlockType from "../components/Codes/SignatureBlockType.vue";
+import TranscriptTypes from "../components/Codes/TranscriptTypes.vue";
+import ProgramCertificateTranscripts from "../components/Codes/ProgramCertificateTranscripts.vue";
+import ReportTypes from "../components/Codes/ReportTypes.vue";
+import StatusCodes from "../components/Codes/StatusCodes.vue";
+import UngradReasons from "../components/Codes/UngradReasons.vue";
+import HistoryActivityCodes from "../components/Codes/HistoryActivityCodes.vue";
+import DocumentStatusCode from "../components/Codes/DocumentStatusCode.vue";
+import BatchTypes from "../components/Codes/BatchTypes.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -125,6 +139,103 @@ const router = createRouter({
       },
     },
     {
+      path: "/codes",
+      name: "codes",
+      component: () => import("../views/Codes.vue"),
+      children: [
+        {
+          path: "",
+          name: "career-programs",
+          component: CareerPrograms,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "/codes/certificates-types",
+          component: CertificateTypes,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "/codes/digital-signatures",
+          component: DigitialSignatures,
+          name: "digitalSignatures",
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "/codes/signature-blocks",
+          component: SignatureBlockType,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "/codes/transcript-types",
+          component: TranscriptTypes,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "/codes/program-certificate-transcript",
+          component: ProgramCertificateTranscripts,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "/codes/report-types",
+          component: ReportTypes,
+          name: "reportTypes",
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "/codes/student-status-codes",
+          component: StatusCodes,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "/codes/ungrad-reasons",
+          component: UngradReasons,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "/codes/history-activity",
+          component: HistoryActivityCodes,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "/codes/document-status-codes",
+          component: DocumentStatusCode,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "/codes/batch-types",
+          component: BatchTypes,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+      ],
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
       path: "/school-reports",
       name: "school-reports",
       component: () => import("../views/SchoolReports.vue"),
@@ -139,30 +250,38 @@ router.beforeEach((to, _from, next) => {
   const accessStore = useAccessStore();
   // this section is to set page title in vue store
   if (to.meta.requiresAuth) {
-    aStore.getJwtToken().then(() => {
-      if (!aStore.isAuthenticated) {
-        next('/token-expired');
-      } else {
-        accessStore.setAccess().then(() => {
-          next()
-        }).catch((error) => {
-          next('error');
-        });
-        aStore.getUserInfo().then(() => {
-          next()
-        }).catch(() => {
-          next('error');
-        });
-      }
-    }).catch(() => {
-      if (!aStore.userInfo) {
-        next('/login');
-      }else{
-        next('/token-expired');
-      }
-    });
-  }
-  else{
+    aStore
+      .getJwtToken()
+      .then(() => {
+        if (!aStore.isAuthenticated) {
+          next("/token-expired");
+        } else {
+          accessStore
+            .setAccess()
+            .then(() => {
+              next();
+            })
+            .catch((error) => {
+              next("error");
+            });
+          aStore
+            .getUserInfo()
+            .then(() => {
+              next();
+            })
+            .catch(() => {
+              next("error");
+            });
+        }
+      })
+      .catch(() => {
+        if (!aStore.userInfo) {
+          next("/login");
+        } else {
+          next("/token-expired");
+        }
+      });
+  } else {
     next();
   }
 });
