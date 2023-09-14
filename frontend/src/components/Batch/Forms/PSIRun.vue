@@ -4,7 +4,7 @@
       {{ psiYear }}
       {{ transmissionMode }}
       {{ groupData }}
-      <PSIInput v-model:psis="groupData"></PSIInput>
+      <PSIInput></PSIInput>
     </div>
     <label class="font-weight-bold row mt-3 ml-0 px-0">Transmission Mode</label>
     <b-form-select
@@ -27,6 +27,8 @@
 import PSIInput from "@/components/Batch/Forms/FormInputs/PSIInput.vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
+import { useBatchProcessingStore } from "../../../store/modules/batchprocessing";
+import { mapActions } from "pinia";
 
 export default {
   setup() {
@@ -37,12 +39,10 @@ export default {
   },
   created() {
     this.psiYear = this.currentPSIYear();
+    this.setGroup("Psi");
   },
   validations() {
     return {
-      groupData: {
-        required: helpers.withMessage("Must add at least one PSI", required),
-      },
       psiYear: {
         required: helpers.withMessage("PSI year cannot be empty", required),
       },
@@ -74,6 +74,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(useBatchProcessingStore, ["setGroup"]),
     currentPSIYear() {
       let date = new Date();
       if (date.getMonth() + 1 > 8) {

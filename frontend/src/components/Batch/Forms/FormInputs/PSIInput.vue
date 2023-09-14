@@ -1,19 +1,5 @@
 <template>
   <div>
-    <label class="font-weight-bold pt-2">Category</label>
-    <b-form-select
-      id="inline-form-select-type"
-      class="col-12 my-2"
-      :options="[
-        { text: 'Choose...', value: '' },
-        { text: '01 Public', value: '01' },
-        { text: '02 Independent', value: '02' },
-        { text: '03 Federally Operated Band School', value: '03' },
-        { text: '04 Yukon School', value: '04' },
-        { text: '09 Offshore', value: '09' },
-      ]"
-      v-model="schoolCategory"
-    ></b-form-select>
     <b-card title="Include Post Secondary Institute(s)">
       <b-card-text>
         <div v-if="schoolCategory != '04' && schoolCategory != '09'">
@@ -88,6 +74,8 @@
 import TRAXService from "@/services/TRAXService.js";
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength, helpers } from "@vuelidate/validators";
+import { mapActions, mapState } from "pinia";
+import { useBatchProcessingStore } from "../../../../store/modules/batchprocessing";
 import { isProxy, toRaw } from "vue";
 
 export default {
@@ -111,7 +99,6 @@ export default {
                 psiCode: psi.data[0].psiCode,
                 psiName: psi.data[0].psiName,
               };
-              console.log(this.psiInfo);
               return true;
             }
           }
@@ -126,7 +113,6 @@ export default {
       psiInfo: {},
       psiValidating: false,
       validationMessage: "",
-      schoolCategory: "",
       psis: [],
       psiInputFields: [
         {
@@ -150,11 +136,10 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.$emit("update:psis", this.psis);
-  },
+  mounted() {},
   created() {},
   methods: {
+    ...mapActions(useBatchProcessingStore, ["setPsi"]),
     async validatePSI() {
       this.psiValidating = true;
       this.clearPSIInfo();
@@ -176,17 +161,18 @@ export default {
         psi: this.psi,
         info: this.psiInfo,
       });
-      this.$emit("update:psis", this.psis);
+      this.setPsi(this.psis);
+
       this.clearPSI();
     },
     removePSI(psi) {
       let psiList = toRaw(this.psis);
-      for (const [index] in psiList)
+      for (const [index] in psiList) {
         if (psiList[index].psi == psi) {
-          console.log(psi);
           this.psis.splice(index, 1);
-          this.$emit("update:psis", this.psis);
         }
+      }
+      this.setPsi(psiList);
     },
   },
   props: {
@@ -195,6 +181,7 @@ export default {
   },
 
   computed: {
+    ...mapState(useBatchProcessingStore, ["getPsi"]),
     isEmpty() {
       return this.psis.length > 0;
     },

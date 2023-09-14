@@ -38,14 +38,14 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
     },
     async setScheduledBatchJobs(payload) {
       this.scheduledBatchJobs = payload;
-      for (let value of state.scheduledBatchJobs) {
+      for (let value of this.scheduledBatchJobs) {
         value.jobParameters = JSON.parse(value.jobParameters);
       }
     },
     async setBatchJobs(payload) {
       this.batchRuns = payload;
-      if (state.batchJobs) {
-        for (let value of state.batchJobs) {
+      if (this.batchJobs) {
+        for (let value of this.batchJobs) {
           value.jobParameters = JSON.parse(value.jobParameters);
         }
       }
@@ -128,6 +128,8 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
         return state.programs;
       } else if (state.who === "School") {
         return state.schools;
+      } else if (state.who === "Psi") {
+        return state.psi;
       } else {
         // Return an empty array for any other value
         return [];
@@ -148,12 +150,13 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
     getPrograms: (state) => state.programs,
     getPsi: (state) => state.psi,
     getBatchRequest: (state) => {
+      console.log(state.who)
       return {
           pens: state.who === "Student" ? state.students.map(student => student.pen) : [],
           schoolOfRecords: state.who === "School" ? state.schools.map(school => school.mincode) : [],
           districts: state.who === "District" ? state.districts.map(district => district.district) : [],
           programs: state.who === "Program" ? state.programs.map(program => program.program) : [],
-          psiCodes: state.psi,
+          psiCodes: state.who === "Psi" ? state.psi.map(postSecondaryInstitution => postSecondaryInstitution.psi) : [],
           credentialTypeCode: state.credentialTypeCode,
           schoolCategoryCodes: state.categoryCode,
           gradDateFrom: state.gradDateFrom,
