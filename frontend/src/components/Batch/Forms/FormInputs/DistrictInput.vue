@@ -234,7 +234,6 @@ export default {
       for (const [index] in districtList) {
         console.log(district + index);
         if (districtList[index].district == district) {
-          console.log(district);
           this.districts.splice(index, 1);
         }
       }
