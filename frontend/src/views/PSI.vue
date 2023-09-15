@@ -231,7 +231,7 @@
 </template>
 
 <script>
-import TRAXService from "@/services/TRAXService.js";
+import TRAXService from "../services/TRAXService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
 import sharedMethods from "../sharedMethods";
 export default {
