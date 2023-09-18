@@ -8,7 +8,7 @@
     >
       <b-button-group class="mx-1">
         <b-button
-          v-if="roles == 'Administrator' && createAllowed"
+          v-if="allowUpdateGradStatus && updateAllowed"
           variant="success"
           size="sm"
           @click="addMode = !addMode"
@@ -16,7 +16,7 @@
           >{{ addMode ? "Cancel" : "Add " + title }}
         </b-button>
         <b-btn
-          v-if="isAdmin && updateAllowed"
+          v-if="allowUpdateGradStatus && updateAllowed"
           v-bind:class="this.quickEdit ? 'btn-primary' : 'btn-primary'"
           size="sm"
           class="float-right"
@@ -222,6 +222,8 @@
 </template>
 
 <script>
+import { useAccessStore } from "../store/modules/access.js";
+import { mapState } from "pinia";
 export default {
   name: "DisplayTable",
   props: [
@@ -284,6 +286,9 @@ export default {
     };
   },
   computed: {
+    ...mapState(useAccessStore, {
+      allowUpdateGradStatus: "allowUpdateGradStatus",
+    }),
     editableFields() {
       return this.fields.filter((field) => field.editable);
     },
