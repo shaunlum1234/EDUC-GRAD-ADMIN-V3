@@ -8,6 +8,7 @@
       v-model="group"
       @change="
         validateForm;
+        setGroup(this.group);
         clearGroupData();
       "
       value="group"
@@ -20,24 +21,16 @@
       <div class="error-msg">{{ error.$message }}</div>
     </div>
     <div v-if="group == 'Program'">
-      <ProgramInput v-model:programs="groupData"></ProgramInput>
+      <ProgramInput></ProgramInput>
     </div>
     <div v-if="group == 'School'">
-      <SchoolInput v-model:schools="groupData"></SchoolInput>
+      <SchoolInput></SchoolInput>
     </div>
     <div v-if="group == 'Student'">
-      <StudentInput
-        v-model:students="groupData"
-        :credentialType="credentialType"
-        runType="DISTRUNUSER"
-      ></StudentInput>
+      <StudentInput></StudentInput>
     </div>
     <div v-if="group == 'District'">
-      <DistrictInput
-        v-model:districts="groupData"
-        :credentialType="credentialType"
-        runType="DISTRUNUSER"
-      ></DistrictInput>
+      <DistrictInput></DistrictInput>
     </div>
   </div>
 </template>
@@ -49,6 +42,8 @@ import ProgramInput from "@/components/Batch/Forms/FormInputs/ProgramInput.vue";
 import GraduationReportService from "@/services/GraduationReportService.js";
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
+import { useBatchProcessingStore } from "../../../store/modules/batchprocessing";
+import { mapActions } from "pinia";
 
 export default {
   setup() {
@@ -60,9 +55,6 @@ export default {
   },
   validations() {
     return {
-      groupData: {
-        required: helpers.withMessage("Group field cannot be empty", required),
-      }, // Matches this.firstName
       group: {
         required: helpers.withMessage("Group field cannot be empty", required),
       }, // Matches this.firstName
@@ -105,6 +97,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(useBatchProcessingStore, ["clearBatchGroupData", "setGroup"]),
     getTranscriptTypes() {
       GraduationReportService.getTranscriptTypes()
         .then((response) => {
@@ -152,6 +145,7 @@ export default {
       this.districts = [];
       this.programs = [];
       this.groupData = [];
+      this.clearBatchGroupData();
     },
   },
   computed: {

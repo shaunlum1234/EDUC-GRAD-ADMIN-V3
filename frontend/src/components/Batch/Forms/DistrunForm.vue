@@ -65,7 +65,6 @@
       </b-card>
       {{ credentialDetails.length ? credentialDetails : "" }}
     </div>
-    {{ group }}
     <label class="font-weight-bold pt-1">Group</label>
     <b-form-select
       id="inline-form-select-audience"

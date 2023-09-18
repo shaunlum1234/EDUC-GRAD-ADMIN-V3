@@ -184,10 +184,10 @@
             ></DistrunFormYearEnd>
           </div>
           <div v-if="runType == 'REGALG'">
-            <GRADForm v-model:schools="schools"></GRADForm>
+            <GRADForm></GRADForm>
           </div>
           <div v-if="runType == 'TVRRUN'">
-            <GRADForm v-model:schools="schools"></GRADForm>
+            <GRADForm></GRADForm>
           </div>
           <div v-if="runType == 'PSIRUN'">
             <PSIRUNForm v-model:schools="schools"></PSIRUNForm>

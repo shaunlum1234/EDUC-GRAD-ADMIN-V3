@@ -444,7 +444,7 @@ export default {
               }
             }
           } //if this.advanceSearchInput
-          TRAXService.getPSIByAdvanceSearch(this.params)
+          TRAXService.getPSIByAdvancedSearch(this.params)
             .then((response) => {
               this.advancedSearchLoading = false;
               this.psiResults = response.data;

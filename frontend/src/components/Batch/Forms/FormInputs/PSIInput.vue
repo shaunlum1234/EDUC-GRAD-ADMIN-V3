@@ -91,6 +91,8 @@ export default {
           this.validationMessage = "";
           if (value === "") return true;
           if (value.length == 3) {
+            console.log(value);
+
             let psi = await TRAXService.getPSIByAdvancedSearch(
               "psiCode=" + value
             );
