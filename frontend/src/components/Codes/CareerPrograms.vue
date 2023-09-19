@@ -14,10 +14,10 @@
       showFilter="true"
     >
       <template #cell(startDate)="row">
-        {{ row.item.startDate | formatYYYYMMDate }}
+        {{ $filters.formatYYYYMMDate(row.item.startDate) }}
       </template>
       <template #cell(endDate)="row">
-        {{ row.item.endDate | formatYYYYMMDate }}
+        {{ $filters.formatYYYYMMDate(row.item.endDate) }}
       </template>
     </DisplayTable>
   </div>

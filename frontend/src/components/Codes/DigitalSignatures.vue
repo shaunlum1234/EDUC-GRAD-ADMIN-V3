@@ -21,7 +21,7 @@
       </template>
 
       <template #cell(updatedTimestamp)="row">
-        {{ row.item.updatedTimestamp | formatTime }}
+        {{ $filters.formatTime(row.item.updatedTimestamp) }}
       </template>
     </DisplayTable>
   </div>

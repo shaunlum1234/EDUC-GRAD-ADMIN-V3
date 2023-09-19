@@ -11,10 +11,10 @@
         pagination="true"
       >
         <template #cell(effectiveDate)="row">
-          {{ row.item.effectiveDate | formatSimpleDate }}
+          {{ $filters.formatSimpleDate(row.item.effectiveDate) }}
         </template>
         <template #cell(expiryDate)="row">
-          {{ row.item.expiryDate | formatSimpleDate }}
+          {{ $filters.formatSimpleDate(row.item.expiryDate) }}
         </template>
       </DisplayTable>
     </div>

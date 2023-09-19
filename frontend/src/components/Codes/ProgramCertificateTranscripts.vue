@@ -12,13 +12,13 @@
       showFilter="true"
     >
       <template #cell(schoolCategoryCode)="row">
-        {{ row.item.schoolCategoryCode | formatNullsToNA }}
+        {{ $filters.formatNullsToNA(row.item.schoolCategoryCode) }}
       </template>
       <template #cell(certificateTypeCode)="row">
-        {{ row.item.certificateTypeCode | formatNullsToNA }}
+        {{ $filters.formatNullsToNA(row.item.certificateTypeCode) }}
       </template>
       <template #cell(transcriptTypeCode)="row">
-        {{ row.item.transcriptTypeCode | formatNullsToNA }}
+        {{ $filters.formatNullsToNA(row.item.transcriptTypeCode) }}
       </template>
     </DisplayTable>
   </div>
