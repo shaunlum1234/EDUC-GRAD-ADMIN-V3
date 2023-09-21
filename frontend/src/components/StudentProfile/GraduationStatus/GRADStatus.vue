@@ -702,7 +702,11 @@ import { mapState } from "pinia";
 import { useAppStore } from "../../../store/modules/app";
 import { useStudentStore } from "../../../store/modules/student";
 import { useAccessStore } from "../../../store/modules/access";
-import { containsAnyLetters, showNotification } from "../../../utils/common.js";
+import {
+  containsAnyLetters,
+  parseStudentStatus,
+  showNotification,
+} from "../../../utils/common.js";
 import SchoolService from "@/services/SchoolService.js";
 import sharedMethods from "../../../sharedMethods";
 import StudentService from "@/services/StudentService.js";
@@ -712,6 +716,7 @@ export default {
   created() {
     this.showNotification = showNotification;
     this.containsAnyLetters = containsAnyLetters;
+    this.parseStudentStatus = parseStudentStatus;
   },
   computed: {
     ...mapState(useStudentStore, {
@@ -1115,7 +1120,7 @@ export default {
       this.$root.$emit("refreshStudentHistory");
     },
     getStudentStatus(code) {
-      return sharedMethods.getStudentStatus(code, this.studentStatusOptions);
+      return this.getStudentStatus(code, this.studentStatusOptions);
     },
     validCompletionDate(date) {
       // format date to valid SCCP date

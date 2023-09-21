@@ -41,7 +41,7 @@
 import { mapState } from "pinia";
 import { useAppStore } from "../../store/modules/app";
 import { useStudentStore } from "../../store/modules/student";
-import sharedMethods from "../../sharedMethods";
+import { showNotification } from "../../utils/common.js";
 import NoncompletionReasons from "@/components/StudentProfile/GraduationStatus/NoncompletionReasons.vue";
 import StudentGraduationReports from "@/components/StudentProfile/GraduationStatus/StudentGraduationReports.vue";
 import CertificationDogwoods from "@/components/StudentProfile/GraduationStatus/CertificationDogwoods.vue";
@@ -81,13 +81,13 @@ export default {
   created() {
     this.programDropdownList = this.programOptions;
     this.disableButton = false;
-    this.showNotification = sharedMethods.showNotification;
+    this.showNotification = showNotification;
   },
-  methods: {
-    getStudentStatus(code) {
-      return sharedMethods.getStudentStatus(code, this.studentStatusOptions);
-    },
-  },
+  // methods: {
+  //   getStudentStatus(code) {
+  //     return parseStudentStatus(code, this.studentStatusOptions);
+  //   },
+  // },
 };
 </script>
 

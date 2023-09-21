@@ -11,6 +11,14 @@ export function loadStudent(student) {
     path: `/student-profile/${this.selectedId}`,
   });
 }
+export function parseStudentStatus(code, studentStatusOptions) {
+  for (let studentStatusOption of studentStatusOptions) {
+    if (studentStatusOption.code == code) {
+      return studentStatusOption.label;
+    }
+  }
+  return "";
+}
 export function showNotification(variant, bodyContent) {
   let title = variant;
   let delay = 30000;
