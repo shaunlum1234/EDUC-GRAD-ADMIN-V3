@@ -65,6 +65,7 @@ const router = createRouter({
       component: () => import("../views/BatchProcessing.vue"),
       meta: {
         guest: false,
+        requiresAuth: true,
       },
     },
     {

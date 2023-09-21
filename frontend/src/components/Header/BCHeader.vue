@@ -194,7 +194,7 @@
 <script>
 import StudentService from "@/services/StudentService.js";
 import CommonService from "@/services/CommonService.js";
-import sharedMethods from "@/sharedMethods";
+import { loadStudent, showNotification } from "../../utils/common.js";
 import { useStudentStore } from "@/store/modules/student";
 import { mapState } from "pinia";
 import EnvironmentBanner from "@/components/Header/EnvironmentBanner.vue";
@@ -202,6 +202,10 @@ import EnvironmentBanner from "@/components/Header/EnvironmentBanner.vue";
 export default {
   components: {
     EnvironmentBanner: EnvironmentBanner,
+  },
+  setup() {
+    const studentStore = useStudentStore();
+    return { studentStore };
   },
   data() {
     return {
@@ -226,8 +230,8 @@ export default {
     };
   },
   async created() {
-    this.loadStudent = sharedMethods.loadStudent;
-    this.showNotification = sharedMethods.showNotification;
+    this.loadStudent = loadStudent;
+    this.showNotification = showNotification;
     let versionResponse = await CommonService.getVersion();
     this.version = versionResponse.data;
   },
@@ -242,8 +246,8 @@ export default {
         localStorage.removeItem("jwt");
         localStorage.removeItem("refresh");
       }
-      this.$store.commit("student/unsetStudent");
-      this.$store.commit("logout");
+      this.studentStore.unsetStudent();
+      // this.$store.commit("logout");
       this.$router.push("/logout");
     },
     selectStudent() {
@@ -265,11 +269,8 @@ export default {
                 if (response.data.length == 0) {
                   throw new Error("Student not found");
                 }
-                this.$store.commit("student/unsetStudent");
-                this.$store.dispatch(
-                  "setQuickSearchPen",
-                  response.data[0].studentID
-                );
+                this.studentStore.unsetStudent();
+                this.studentStore.setQuickSearchPen(response.data[0].studentID);
                 this.loadStudent(response.data);
                 this.searchLoading = false;
               }
