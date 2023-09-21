@@ -702,13 +702,17 @@ import { mapState } from "pinia";
 import { useAppStore } from "../../../store/modules/app";
 import { useStudentStore } from "../../../store/modules/student";
 import { useAccessStore } from "../../../store/modules/access";
-
+import { containsAnyLetters, showNotification } from "../../../utils/common.js";
 import SchoolService from "@/services/SchoolService.js";
 import sharedMethods from "../../../sharedMethods";
 import StudentService from "@/services/StudentService.js";
 
 export default {
   name: "GRADStatus",
+  created() {
+    this.showNotification = showNotification;
+    this.containsAnyLetters = containsAnyLetters;
+  },
   computed: {
     ...mapState(useStudentStore, {
       optionalPrograms: "getStudentOptionalPrograms",
@@ -832,10 +836,7 @@ export default {
       ],
     };
   },
-  created() {
-    this.showNotification = sharedMethods.showNotification;
-    this.containsAnyLetters = sharedMethods.containsAnyLetters;
-  },
+
   watch: {
     studentGradeChange: function () {
       if (

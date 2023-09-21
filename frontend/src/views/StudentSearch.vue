@@ -65,9 +65,8 @@
                     </div>
                   </div>
                 </form>
-                <div v-if="isEnvLocalHost()" class="sample-pens m-3">
+                <div v-if="isEnvLocalHost" class="sample-pens m-3">
                   Samples: V0.1.2
-                  {{ isEnvLocalHost() }}
                   <div class="row col-12">
                     <div class="px-3 col-4">
                       <a
@@ -757,12 +756,12 @@
 <script>
 import { mapState, mapActions, mapWritableState, storeToRefs } from "pinia";
 import { useVuelidate } from "@vuelidate/core";
+import { isEnvLocalHost, showNotification } from "../utils/common.js";
 import { useStudentStore } from "@/store/modules/student";
 import StudentService from "@/services/StudentService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
-import sharedMethods from "../sharedMethods";
 const studentStore = useStudentStore();
-// const { roles } = storeToRefs(studentStore);
+
 export default {
   name: "studentSearch",
   setup() {
@@ -772,6 +771,7 @@ export default {
   },
   data() {
     return {
+      isEnvLocalHost: isEnvLocalHost(),
       penSystemMessage: "",
       advancedSearchAPIMessage: "",
       studentHasProgram: true,
@@ -943,7 +943,7 @@ export default {
   },
   validations() {},
   created() {
-    this.showNotification = sharedMethods.showNotification;
+    this.showNotification = showNotification;
     if (this.savedAdvSearchInput != "") {
       this.advancedSearchInput = this.savedAdvSearchInput;
       this.findStudentsByAdvancedSearch();
@@ -979,9 +979,6 @@ export default {
           this.findStudentBySurname();
         }
       }
-    },
-    isEnvLocalHost() {
-      return sharedMethods.isEnvLocalHost();
     },
     findStudentByStudentIdSample: function (studentId) {
       StudentService.getStudentPen(studentId)

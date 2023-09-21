@@ -87,9 +87,6 @@ export default {
     getStudentStatus(code) {
       return sharedMethods.getStudentStatus(code, this.studentStatusOptions);
     },
-    isEnvLocalHost() {
-      return sharedMethods.isEnvLocalHost();
-    },
   },
 };
 </script>

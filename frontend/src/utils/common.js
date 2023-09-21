@@ -1,3 +1,9 @@
+export function containsAnyLetters(str) {
+  return /[a-zA-Z]/.test(str);
+}
+export function isEnvLocalHost() {
+  return location.host.includes("localhost");
+}
 export function loadStudent(student) {
   this.selectedPen = student[0].pen;
   this.selectedId = student[0].studentID;
