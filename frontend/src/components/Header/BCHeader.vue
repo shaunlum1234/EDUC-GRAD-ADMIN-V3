@@ -167,12 +167,13 @@
                     class="btn btn-primary float-left"
                     style="padding: 0.35em 0.65em"
                   >
-                    <img
-                      src="../../assets/images/icon-search.svg"
-                      width="24px"
+                    <!-- <img
+                      src="/src/assets/images/icon-search.svg"
+                      width="24px !important"
                       aria-hidden="true"
-                      alt=""
-                    />
+                      alt="search"
+                    /> -->
+                    <i class="fas fa-search" aria-hidden="true"></i>
                   </button>
                   <button
                     v-else
