@@ -68,7 +68,14 @@
                           {{ row.item.description }}
                         </template>
                         <template #cell(newrequest)="row">
-                          <b-btn @click="newBatchRequest(row.item.code)"
+                          <b-btn
+                            @click="
+                              newBatchRequest(
+                                row.item.code,
+                                row.item.label,
+                                row.item.description
+                              )
+                            "
                             >+</b-btn
                           ></template
                         >
@@ -93,7 +100,14 @@
                           {{ row.item.description }}
                         </template>
                         <template #cell(newrequest)="row">
-                          <b-btn @click="newBatchRequest(row.item.code)"
+                          <b-btn
+                            @click="
+                              newBatchRequest(
+                                row.item.code,
+                                row.item.label,
+                                row.item.description
+                              )
+                            "
                             >+</b-btn
                           ></template
                         >
@@ -125,7 +139,14 @@
                         {{ row.item.description }}
                       </template>
                       <template #cell(newrequest)="row">
-                        <b-btn @click="newBatchRequest(row.item.code)"
+                        <b-btn
+                          @click="
+                            newBatchRequest(
+                              row.item.code,
+                              row.item.label,
+                              row.item.description
+                            )
+                          "
                           >+</b-btn
                         ></template
                       >
@@ -153,7 +174,14 @@
                           {{ row.item.description }}
                         </template>
                         <template #cell(newrequest)="row">
-                          <b-btn @click="newBatchRequest(row.item.code)"
+                          <b-btn
+                            @click="
+                              newBatchRequest(
+                                row.item.code,
+                                row.item.label,
+                                row.item.description
+                              )
+                            "
                             >+</b-btn
                           ></template
                         >
@@ -170,18 +198,17 @@
     <div>
       <!-- Modal Dialogs -->
 
-      <b-modal ref="newBatchRequestModal" size="xl" title="New Batch Request">
+      <b-modal ref="newBatchRequestModal" size="xl" :title="runTypeLabel">
         <div class="pt-1 d-block">
+          <b-alert show>{{ runTypeDescription }}</b-alert>
+          <div v-if="runType == 'DISTRUN_SUPP'">
+            <DistrunFormYearEndSupplementalForm></DistrunFormYearEndSupplementalForm>
+          </div>
           <div v-if="runType == 'DISTRUNUSER'">
-            <DistrunForm
-              v-model:groupData="groupData"
-              @onRunBatch="runbatch"
-            ></DistrunForm>
+            <DistrunForm></DistrunForm>
           </div>
           <div v-if="runType == 'DISTRUN_YE'">
-            <DistrunFormYearEnd
-              v-model:districts="schools"
-            ></DistrunFormYearEnd>
+            <DistrunFormYearEndForm></DistrunFormYearEndForm>
           </div>
           <div v-if="runType == 'REGALG'">
             <GRADForm></GRADForm>
@@ -190,7 +217,7 @@
             <GRADForm></GRADForm>
           </div>
           <div v-if="runType == 'PSIRUN'">
-            <PSIRUNForm v-model:schools="schools"></PSIRUNForm>
+            <PSIRUNForm></PSIRUNForm>
           </div>
         </div>
 
@@ -303,7 +330,8 @@
 <script>
 import BatchProcessingService from "@/services/BatchProcessingService.js";
 import DistrunForm from "@/components/Batch/Forms/DistrunForm.vue";
-import DistrunFormYearEnd from "@/components/Batch/Forms/DistrunFormYearEnd.vue";
+import DistrunFormYearEndForm from "@/components/Batch/Forms/DistrunFormYearEndForm.vue";
+import DistrunFormYearEndSupplementalForm from "@/components/Batch/Forms/DistrunFormYearEndForm.vue";
 import BatchRuns from "@/components/Batch/BatchRuns.vue";
 import GRADForm from "@/components/Batch/Forms/GRADForm.vue";
 import PSIRUN from "@/components/Batch/Forms/PSIRun.vue";
@@ -320,7 +348,8 @@ export default {
     DistrunForm: DistrunForm,
     PSIRUNForm: PSIRUN,
     GRADForm: GRADForm,
-    DistrunFormYearEnd: DistrunFormYearEnd,
+    DistrunFormYearEndForm: DistrunFormYearEndForm,
+    DistrunFormYearEndSupplementalForm: DistrunFormYearEndSupplementalForm,
     DisplayTable: DisplayTable,
     BatchRoutines: BatchRoutines,
     BatchRuns: BatchRuns,
@@ -333,6 +362,8 @@ export default {
     return {
       batchTypes: [],
       runType: "",
+      runTypeLabel: "",
+      runTypeDescription: "",
       cronTime: "",
       batchRunCustomDate: "",
       batchRunCustomTime: "",
@@ -618,8 +649,10 @@ export default {
         this.hideBatchRequestModal();
       }
     },
-    newBatchRequest(runType) {
+    newBatchRequest(runType, label, description) {
       this.runType = runType;
+      this.runTypeLabel = label;
+      this.runTypeDescription = description;
       this.showBatchRequestModal();
     },
     showBatchRequestModal() {
@@ -631,6 +664,8 @@ export default {
     },
     clearBatchRequest() {
       this.runType = "";
+      this.runTypeLabel = "";
+      this.runTypeDescription = "";
       this.cronTime = "";
       this.batchRunSchedule = "Run Now";
       this.batchRunCustomDate = "";
