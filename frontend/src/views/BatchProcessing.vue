@@ -40,7 +40,14 @@
                         {{ row.item.description }}
                       </template>
                       <template #cell(newrequest)="row">
-                        <b-btn @click="newBatchRequest(row.item.code)"
+                        <b-btn
+                          @click="
+                            newBatchRequest(
+                              row.item.code,
+                              row.item.label,
+                              row.item.description
+                            )
+                          "
                           >+</b-btn
                         ></template
                       >
@@ -217,7 +224,7 @@
             <GRADForm></GRADForm>
           </div>
           <div v-if="runType == 'PSIRUN'">
-            <PSIRUNForm></PSIRUNForm>
+            <PSIRunForm></PSIRunForm>
           </div>
         </div>
 
@@ -300,13 +307,11 @@
           </div>
         </div>
         <template #modal-footer="{ ok, cancel, hide }">
-          <!-- Emulate built in modal footer ok and cancel button actions -->
-          {{ groupData2 }} {{ groupData2.length }}
           <b-button
             v-if="batchRunSchedule == 'Run Now'"
             size="sm"
             variant="success"
-            :disabled="v$.$invalid || groupData2.length == 0"
+            :disabled="v$.$invalid || groupData.length == 0"
             @click="runBatchRequest()"
             >Run Now</b-button
           >
@@ -334,7 +339,7 @@ import DistrunFormYearEndForm from "@/components/Batch/Forms/DistrunFormYearEndF
 import DistrunFormYearEndSupplementalForm from "@/components/Batch/Forms/DistrunFormYearEndForm.vue";
 import BatchRuns from "@/components/Batch/BatchRuns.vue";
 import GRADForm from "@/components/Batch/Forms/GRADForm.vue";
-import PSIRUN from "@/components/Batch/Forms/PSIRun.vue";
+import PSIRunForm from "@/components/Batch/Forms/PSIRunForm.vue";
 import ScheduledBatchRuns from "@/components/Batch/ScheduledBatchRuns.vue";
 import BatchRoutines from "@/components/Batch/BatchRoutines.vue";
 import DisplayTable from "@/components/DisplayTable.vue";
@@ -346,7 +351,7 @@ import { mapState, mapActions } from "pinia";
 export default {
   components: {
     DistrunForm: DistrunForm,
-    PSIRUNForm: PSIRUN,
+    PSIRunForm: PSIRunForm,
     GRADForm: GRADForm,
     DistrunFormYearEndForm: DistrunFormYearEndForm,
     DistrunFormYearEndSupplementalForm: DistrunFormYearEndSupplementalForm,
@@ -369,7 +374,6 @@ export default {
       batchRunCustomTime: "",
 
       batchRunSchedule: "Run Now",
-      groupData: [],
       schools: [],
       batchRunData: [],
       batchFields: [
@@ -595,7 +599,7 @@ export default {
     ...mapState(useBatchProcessingStore, {
       batchRuns: "getBatchRuns",
       batchRoutines: "getBatchRoutines",
-      groupData2: "getGroupData",
+      groupData: "getGroupData",
       getGroup: "getGroup",
       getBatchRequest: "getBatchRequest",
     }),
