@@ -15,14 +15,14 @@
 <script>
 import DisplayTable from "../DisplayTable.vue";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
-import sharedMethods from "../../sharedMethods";
+import { showNotification } from "../../utils/common.js";
 export default {
   name: "SpecialCases",
   components: {
     DisplayTable: DisplayTable,
   },
   created() {
-    this.showNotification = sharedMethods.showNotification;
+    this.showNotification = showNotification;
     ProgramManagementService.getSpecialCases()
       .then((response) => {
         this.specialCases = response.data;

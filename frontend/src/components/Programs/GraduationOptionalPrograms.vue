@@ -21,7 +21,7 @@
 <script>
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 import DisplayTable from "../DisplayTable.vue";
-import sharedMethods from "../../sharedMethods.js";
+import { showNotification } from "../../utils/common.js";
 import { mapGetters } from "vuex";
 
 export default {
@@ -91,7 +91,7 @@ export default {
     };
   },
   created() {
-    this.showNotification = sharedMethods.showNotification;
+    this.showNotification = showNotification;
     ProgramManagementService.getOptionalPrograms()
       .then((response) => {
         this.graduationOptionalPrograms = response.data;

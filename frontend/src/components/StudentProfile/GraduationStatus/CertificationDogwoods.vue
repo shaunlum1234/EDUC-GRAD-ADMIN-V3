@@ -57,12 +57,13 @@
 import { mapState } from "pinia";
 import { useStudentStore } from "../../../store/modules/student";
 import sharedMethods from "../../../sharedMethods";
+import { showNotification } from "../../../utils/common.js";
 import SchoolService from "@/services/SchoolService.js";
 
 export default {
   name: "CertificationDogwoods",
   created() {
-    this.showNotification = sharedMethods.showNotification;
+    this.showNotification = showNotification;
     this.isCertificateEligible();
   },
   data() {

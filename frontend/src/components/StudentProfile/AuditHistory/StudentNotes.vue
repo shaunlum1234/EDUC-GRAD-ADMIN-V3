@@ -107,7 +107,7 @@ import { useAuthStore } from "../../../store/modules/auth";
 
 import { mapState } from "pinia";
 import StudentService from "@/services/StudentService.js";
-import sharedMethods from "../../../sharedMethods";
+import { showNotification } from "../../../utils/common.js";
 export default {
   name: "StudentNotes",
   computed: {
@@ -124,7 +124,7 @@ export default {
   },
   created() {
     this.studentProfile = this.profile;
-    this.showNotification = sharedMethods.showNotification;
+    this.showNotification = showNotification;
   },
   data() {
     return {

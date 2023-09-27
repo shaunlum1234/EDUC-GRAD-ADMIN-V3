@@ -143,7 +143,7 @@
 <script>
 import { useStudentStore } from "../../../store/modules/student";
 import { mapState } from "pinia";
-import sharedMethods from "../../../sharedMethods";
+import { showNotification } from "../../../utils/common.js";
 import DisplayTable from "@/components/DisplayTable.vue";
 
 export default {
@@ -323,7 +323,7 @@ export default {
     };
   },
   mounted() {
-    this.showNotification = sharedMethods.showNotification;
+    this.showNotification = showNotification;
     this.highlightStudentHistoryChanges();
     this.highlightOptionalProgramHistoryChanges();
   },
