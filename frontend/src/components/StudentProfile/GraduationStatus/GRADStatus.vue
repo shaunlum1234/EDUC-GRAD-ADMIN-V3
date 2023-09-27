@@ -1124,7 +1124,7 @@ export default {
     refreshStudentHistory: function () {
       this.$root.$emit("refreshStudentHistory");
     },
-    parseStudentStatus(code) {
+    sortStudentStatus(code) {
       return this.parseStudentStatus(code, this.studentStatusOptions);
     },
     validCompletionDate(date) {
@@ -1318,7 +1318,7 @@ export default {
           this.getStudentReportsAndCertificates();
           this.getStudentGraduationOptionalPrograms();
           this.refreshStudentHistory();
-          this.studentGradStatus.studentStatusName = this.parseStudentStatus(
+          this.studentGradStatus.studentStatusName = this.sortStudentStatus(
             response.data.studentStatus
           );
           this.getSchoolInfo(response.data.schoolOfRecord, "schoolOfRecord");
