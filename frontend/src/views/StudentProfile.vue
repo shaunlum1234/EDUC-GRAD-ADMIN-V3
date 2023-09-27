@@ -807,10 +807,8 @@ export default {
       "setStudentTranscripts",
       "setStudentXmlReport",
       "setStudentGradStatus",
-      "setStudentGradStatus",
       "setStudentProfile",
       "setStudentAssessments",
-      "setStudentGradStatus",
       "setStudentGradStatusOptionalPrograms",
       "setStudentCourses",
       "setStudentExams",
@@ -819,7 +817,6 @@ export default {
       "setStudentAuditHistory",
       "setStudentCareerPrograms",
       "setStudentUngradReasons",
-      "setStudentGradStatus",
       "setStudentOptionalProgramsAuditHistory",
     ]),
     ungraduateStudent() {
