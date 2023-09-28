@@ -57,13 +57,17 @@
 import { mapState } from "pinia";
 import { useStudentStore } from "../../../store/modules/student";
 import sharedMethods from "../../../sharedMethods";
-import { showNotification } from "../../../utils/common.js";
+import {
+  showNotification,
+  base64ToFileTypeAndOpenWindow,
+} from "../../../utils/common.js";
 import SchoolService from "@/services/SchoolService.js";
 
 export default {
   name: "CertificationDogwoods",
   created() {
     this.showNotification = showNotification;
+    this.base64ToFileTypeAndOpenWindow = base64ToFileTypeAndOpenWindow;
     this.isCertificateEligible();
   },
   data() {
@@ -80,7 +84,7 @@ export default {
   },
   methods: {
     downloadFile: function (data, mimeType, filename) {
-      sharedMethods.base64ToFileTypeAndOpenWindow(data, mimeType, filename);
+      this.base64ToFileTypeAndOpenWindow(data, mimeType, filename);
     },
     isCertificateEligible: function () {
       // This is a bandaid solution to check school at grad instead of the school of record that is packaged with the student GRAD status; address in Vue 3
