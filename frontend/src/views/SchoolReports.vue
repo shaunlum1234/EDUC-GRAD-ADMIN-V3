@@ -125,6 +125,7 @@
 import DisplayTable from "@/components/DisplayTable.vue";
 import GraduationReportService from "@/services/GraduationReportService.js";
 import sharedMethods from "../sharedMethods";
+import { showNotification } from "../utils/common.js";
 import { mapGetters } from "vuex";
 
 export default {
@@ -194,7 +195,7 @@ export default {
     }),
   },
   created() {
-    this.showNotification = sharedMethods.showNotification;
+    this.showNotification = showNotification;
   },
   methods: {
     keyHandler: function (e) {

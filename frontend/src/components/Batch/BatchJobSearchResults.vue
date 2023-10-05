@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { showNotification } from "../../utils/common.js";
 import sharedMethods from "../../sharedMethods";
 import StudentService from "@/services/StudentService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
@@ -96,7 +97,7 @@ export default {
   },
   created() {
     this.loadStudent = sharedMethods.loadStudent;
-    this.showNotification = sharedMethods.showNotification;
+    this.showNotification = showNotification;
     this.getAdminDashboardData(this.selectedBatchId, 0);
   },
   watch: {

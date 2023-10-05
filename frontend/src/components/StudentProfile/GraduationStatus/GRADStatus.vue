@@ -698,7 +698,7 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useAppStore } from "../../../store/modules/app";
 import { useStudentStore } from "../../../store/modules/student";
 import { useAccessStore } from "../../../store/modules/access";
@@ -717,6 +717,10 @@ export default {
     this.showNotification = showNotification;
     this.containsAnyLetters = containsAnyLetters;
     this.parseStudentStatus = parseStudentStatus;
+  },
+  setup() {
+    const studentStore = useStudentStore();
+    return { studentStore };
   },
   computed: {
     ...mapState(useStudentStore, {
@@ -1110,6 +1114,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(useStudentStore, ["setStudentGradStatus"]),
     getStudentReportsAndCertificates: function () {
       this.$root.$emit("studentProfile");
     },
@@ -1119,8 +1124,8 @@ export default {
     refreshStudentHistory: function () {
       this.$root.$emit("refreshStudentHistory");
     },
-    getStudentStatus(code) {
-      return this.getStudentStatus(code, this.studentStatusOptions);
+    sortStudentStatus(code) {
+      return this.parseStudentStatus(code, this.studentStatusOptions);
     },
     validCompletionDate(date) {
       // format date to valid SCCP date
@@ -1309,11 +1314,11 @@ export default {
       StudentService.editGraduationStatus(id, this.editedGradStatus)
         .then((response) => {
           this.updateStatus = response.data;
-          this.$store.dispatch("student/setStudentGradStatus", response.data);
+          this.setStudentGradStatus(response.data);
           this.getStudentReportsAndCertificates();
           this.getStudentGraduationOptionalPrograms();
           this.refreshStudentHistory();
-          this.studentGradStatus.studentStatusName = this.getStudentStatus(
+          this.studentGradStatus.studentStatusName = this.sortStudentStatus(
             response.data.studentStatus
           );
           this.getSchoolInfo(response.data.schoolOfRecord, "schoolOfRecord");

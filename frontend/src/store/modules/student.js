@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import SchoolService from "@/services/SchoolService.js";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
 
 export const useStudentStore = defineStore("student", {
@@ -142,6 +141,7 @@ export const useStudentStore = defineStore("student", {
         this.student.hasExams = true;
       }
     },
+    // isProxy, toRaw { ...payload }
     setStudentGradStatus(payload) {
       this.student.gradStatus = payload;
       //when commiting gradstatus to store, we need to put the json string in to a json object to call it easier

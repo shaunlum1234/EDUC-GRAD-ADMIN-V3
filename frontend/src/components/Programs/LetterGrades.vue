@@ -20,14 +20,14 @@
 <script>
 import DisplayTable from "../DisplayTable.vue";
 import ProgramManagementService from "@/services/ProgramManagementService.js";
-import sharedMethods from "../../sharedMethods";
+import { showNotification } from "../../utils/common.js";
 export default {
   name: "LetterGrades",
   components: {
     DisplayTable: DisplayTable,
   },
   created() {
-    this.showNotification = sharedMethods.showNotification;
+    this.showNotification = showNotification;
     ProgramManagementService.getLetterGrades()
       .then((response) => {
         this.letterGrades = response.data;

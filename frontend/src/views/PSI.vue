@@ -233,7 +233,7 @@
 <script>
 import TRAXService from "../services/TRAXService.js";
 import DisplayTable from "@/components/DisplayTable.vue";
-import sharedMethods from "../sharedMethods";
+import { showNotification } from "../utils/common.js";
 export default {
   name: "psi",
   components: {
@@ -317,7 +317,7 @@ export default {
     };
   },
   created() {
-    this.showNotification = sharedMethods.showNotification;
+    this.showNotification = showNotification;
   },
   methods: {
     clearInput: function () {

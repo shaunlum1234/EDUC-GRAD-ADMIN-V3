@@ -607,7 +607,7 @@
 </template>
 
 <script>
-import sharedMethods from "../sharedMethods";
+import { showNotification } from "../utils/common.js";
 import AssessmentService from "@/services/AssessmentService.js";
 import GraduationReportService from "@/services/GraduationReportService.js";
 import CourseService from "@/services/CourseService.js";
@@ -651,7 +651,7 @@ export default {
           );
         }
       });
-    this.showNotification = sharedMethods.showNotification;
+    this.showNotification = showNotification;
     this.window.width = window.innerWidth;
     this.window.height = window.innerHeight;
     if (this.window.width < 768) {
@@ -807,10 +807,8 @@ export default {
       "setStudentTranscripts",
       "setStudentXmlReport",
       "setStudentGradStatus",
-      "setStudentGradStatus",
       "setStudentProfile",
       "setStudentAssessments",
-      "setStudentGradStatus",
       "setStudentGradStatusOptionalPrograms",
       "setStudentCourses",
       "setStudentExams",
@@ -819,7 +817,6 @@ export default {
       "setStudentAuditHistory",
       "setStudentCareerPrograms",
       "setStudentUngradReasons",
-      "setStudentGradStatus",
       "setStudentOptionalProgramsAuditHistory",
     ]),
     ungraduateStudent() {
