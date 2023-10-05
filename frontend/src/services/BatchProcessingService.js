@@ -5,7 +5,10 @@ export default {
     return ApiService.apiAxios.get('/api/v1/batch/dashboard');
   },
   runREGALG(request) {
-    return ApiService.apiAxios.post('/api/v1/batch/specialrun', request);
+    console.log("REG")
+    console.log(request)
+    return;
+    //return ApiService.apiAxios.post('/api/v1/batch/specialrun', request);
   },
   runTVRRUN(request) {
     return ApiService.apiAxios.post('/api/v1/batch/tvrspecialrun', request);

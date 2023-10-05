@@ -207,6 +207,7 @@
 
       <b-modal ref="newBatchRequestModal" size="xl" :title="runTypeLabel">
         <div class="pt-1 d-block">
+          {{ getBatchRequest }}
           <b-alert show>{{ runTypeDescription }}</b-alert>
           <div v-if="runType == 'DISTRUN_SUPP'">
             <DistrunFormYearEndSupplementalForm></DistrunFormYearEndSupplementalForm>
@@ -630,7 +631,7 @@ export default {
         console.log("INVALID");
         return;
       }
-      console.log(this.runType);
+
       if (this.runType == "DISTRUNUSER") {
         console.log("RUNNING DISTRUN" + this.cronTime);
         if (this.cronTime) {
@@ -642,14 +643,17 @@ export default {
 
         this.hideBatchRequestModal();
       } else if (this.runType == "DISTRUN_YE") {
-        console.log("RUNNING DISTRUN YEAREND" + this.cronTime);
         if (this.cronTime) {
           console.log("Scheduled" + this.cronTime);
         }
-        if (isProxy(this.districts)) {
-          this.districts = toRaw(this.districts);
+        this.hideBatchRequestModal();
+      } else if (this.runType == "REGALG") {
+        console.log(this.runType);
+        if (this.cronTime) {
+          console.log("Scheduled" + this.cronTime);
+        } else {
+          BatchProcessingService.runREGALG(this.getBatchRequest);
         }
-        console.log(this.districts);
         this.hideBatchRequestModal();
       }
     },

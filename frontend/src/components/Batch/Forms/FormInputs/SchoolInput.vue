@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ gradDateFrom }}
     <b-card title="Include School(s)">
       <b-card-text>
         <label class="font-weight-bold p-0 m-0 row">Select Schools</label>
@@ -28,6 +29,7 @@
                 type="text"
                 placeholder="YYYY-MM-DD"
                 autocomplete="off"
+                @change="updateSchoolDateRange"
               ></b-form-input>
               <ul class="position-absolute form-validation-message text-danger">
                 <li v-for="error in errors" :key="error">{{ error }}</li>
@@ -35,6 +37,7 @@
               <b-input-group-append>
                 <b-form-datepicker
                   v-model="gradDateFrom"
+                  @change="updateSchoolDateRange"
                   button-only
                   right
                   locale="en-US"
@@ -52,11 +55,13 @@
                 type="text"
                 placeholder="YYYY-MM-DD"
                 autocomplete="off"
+                @change="updateSchoolDateRange"
               ></b-form-input>
 
               <b-input-group-append>
                 <b-form-datepicker
                   v-model="gradDateTo"
+                  @change="updateSchoolDateRange"
                   button-only
                   right
                   locale="en-US"
@@ -225,7 +230,11 @@ export default {
   mounted() {},
   created() {},
   methods: {
-    ...mapActions(useBatchProcessingStore, ["setSchools"]),
+    ...mapActions(useBatchProcessingStore, [
+      "setSchools",
+      "setGradDateFrom",
+      "setGradDateTo",
+    ]),
     async validateSchool() {
       this.mincodeValidating = true;
       if (this.mincode.length < 8) {
@@ -245,6 +254,11 @@ export default {
     clearMincode() {
       this.mincode = "";
       this.clearmincodeSchoolInfo();
+    },
+    updateSchoolDateRange() {
+      console.log("gradDateChange");
+      this.setGradDateFrom(this.gradDateFrom);
+      this.setGradDateTo(this.gradDateTo);
     },
     addSchool() {
       this.schools.splice(0, 0, {

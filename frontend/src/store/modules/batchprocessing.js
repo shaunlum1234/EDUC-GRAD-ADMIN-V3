@@ -55,7 +55,6 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
         return BatchProcessingService.removeScheduledJobs(payload["id"]);
     },
     async setStudents (payload){
-      console.log("setting students")
       this.students = payload
     },
     async setSchools (payload){
@@ -69,7 +68,13 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
     },
     async setPrograms (payload){
       this.programs = payload
-    },            
+    },  
+    async setGradDateTo(payload){
+      this.gradDateTo = payload
+    },
+    async setGradDateFrom(payload){
+      this.gradDateFrom = payload
+    },                
     async clearBatchGroupData(){
       this.schools=[];
       this.districts=[];
@@ -88,6 +93,7 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
         localStorage.removeItem('jwtToken');
       }
     },
+  
     async clearBatch(){
       let date = new Date();
       let psiCurrentYear = String(date.getFullYear());
