@@ -325,6 +325,7 @@
           </div>
         </div>
         <template #modal-footer="{ ok, cancel, hide }">
+          {{ groupData }}
           <b-button
             v-if="batchRunTime == 'Run Now'"
             size="sm"
@@ -581,6 +582,7 @@ export default {
       "clearBatchGroupData",
       "updateDashboards",
       "updateScheduledBatchJobs",
+      "setGroup",
     ]),
     disableBatchRuns(batchRunOptions, codeList) {
       batchRunOptions.forEach((option, index, array) => {
@@ -702,21 +704,31 @@ export default {
         console.log(toRaw(this.getBatchRequest));
         this.hideBatchRequestModal();
       } else if (this.runType == "DISTRUN_YE") {
-        if (this.cronTime) {
-          console.log("Scheduled" + this.cronTime);
+        console.log("DISTRUN_YE");
+        console.log(this.getBatchRequest);
+        if (this.batchRunTime == "Run Later") {
+          await BatchProcessingService.runDISTRUN_YE(
+            this.getBatchRequest,
+            this.getCronTime(this.cronTime)
+          );
+          this.openTab(1);
+        } else {
+          await BatchProcessingService.runDISTRUN_YE(this.getBatchRequest);
+          this.openTab(0);
         }
+        await this.updateDashboard();
         this.hideBatchRequestModal();
       } else if (this.runType == "REGALG") {
         console.log("REQUEST");
         console.log(this.getBatchRequest);
         if (this.batchRunTime == "Run Later") {
           await BatchProcessingService.runREGALG(
-            this.getBatchRequest,
+            toRaw(this.getBatchRequest),
             this.getCronTime(this.cronTime)
           );
           this.openTab(1);
         } else {
-          await BatchProcessingService.runREGALG(this.getBatchRequest);
+          await BatchProcessingService.runREGALG(toRaw(this.getBatchRequest));
           this.openTab(0);
         }
         await this.updateDashboard();
@@ -735,12 +747,18 @@ export default {
         this.updateDashboard();
         this.hideBatchRequestModal();
       }
-      updateAllBatch;
     },
     newBatchRequest(runType, label, description) {
       this.runType = runType;
       this.runTypeLabel = label;
       this.runTypeDescription = description;
+      if (
+        this.runType == "DISTRUN_YE" ||
+        this.runType == "NONGRADRUN" ||
+        this.runType == "DISTRUN_SUPP"
+      ) {
+        this.setGroup("District");
+      }
       this.showBatchRequestModal();
     },
     showBatchRequestModal() {

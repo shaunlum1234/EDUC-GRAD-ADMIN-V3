@@ -189,7 +189,7 @@
           v-if="deleteMode && item[disableDeletefield] != disableDeleteIfValue"
           variant="danger"
           size="sm"
-          @click="deleteItemConfirmation(item)"
+          @click="deleteItem(item)"
         >
           {{ deleteLabel ? deleteLabel : "Delete" }}
         </b-btn>
@@ -330,9 +330,6 @@ export default {
     });
   },
   methods: {
-    callActionByString(storeName, actionName, payload) {
-      console.log(payload);
-    },
     deleteItem(item) {
       const store = this.stores[this.store];
 

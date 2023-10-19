@@ -60,9 +60,21 @@ export default {
       // If the condition is true, set districts to an empty array
       request.districts = [];
     }
-    return ApiService.apiAxios.post('/api/v1/batch/executenongraddisrunbatchjob',request);
+    if(cronTime){
+      let scheduledRequest = {};
+      scheduledRequest.cronExpression = cronTime;
+      scheduledRequest.jobName = "YDBJ";
+      scheduledRequest.blankPayLoad = null;
+      scheduledRequest.payload = request;
+      this.addScheduledJob(scheduledRequest);
+      return
+    }else{
+      console.log(request)
+      return
+      //return ApiService.apiAxios.post('/api/v1/batch/executeyearlydisrunbatchjob', request);
+    }
   },  
-  runDISTRUN_YE(request){
+  runDISTRUN_YE(request, cronTime=""){
     if (Array.isArray(request.districts) && request.districts.length === 1 && request.districts[0].toLowerCase() === "all") {
       // If the condition is true, set districts to an empty array
       request.districts = [];

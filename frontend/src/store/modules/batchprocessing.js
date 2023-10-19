@@ -42,6 +42,9 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
     async setGroup(payload) {
       this.who = payload;
     },
+    async setSchoolCategory(payload) {
+      this.categoryCode= [payload];
+    },    
     async setBatchRoutines(payload) {
       this.batchRoutines = payload;
     },

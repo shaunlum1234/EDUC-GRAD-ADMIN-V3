@@ -21,7 +21,7 @@
             schoolCategory != '04' &&
             schoolCategory != '09' &&
             runType != 'NONGRADRUN' &&
-            runType != 'DISTRUN_YE'
+            (runType != 'DISTRUN_YE' || schoolCategory == '01')
           "
         >
           <label class="float-left font-weight-bold p-2">District</label>
@@ -111,8 +111,20 @@ export default {
   },
   watch: {
     schoolCategory(newValue, previousValue) {
-      if (previousValue != "04" || previousValue != "09") {
+      if (previousValue != newValue) {
         this.districts.splice(0);
+      }
+      if (this.runType == "DISTRUN_YE") {
+        if (newValue == "02" || newValue == "03") {
+          //default districts to all
+          this.district = "all";
+          this.districtInfo = {
+            districtNumber: "All Schools",
+            districtName: "All Schools",
+            activeFlag: "Y",
+          };
+          this.addDistrict();
+        }
       }
       if (newValue == "04") {
         this.districts.splice(0);
@@ -134,6 +146,7 @@ export default {
         };
         this.addDistrict();
       }
+      this.setSchoolCategory(newValue);
     },
   },
   validations() {
@@ -198,7 +211,10 @@ export default {
   mounted() {},
   created() {},
   methods: {
-    ...mapActions(useBatchProcessingStore, ["setDistricts"]),
+    ...mapActions(useBatchProcessingStore, [
+      "setDistricts",
+      "setSchoolCategory",
+    ]),
     async validateDistrict() {
       this.districtValidating = true;
       this.clearDistrictInfo();
@@ -212,7 +228,7 @@ export default {
     clearDistrictInfo() {
       this.districtInfo = "";
     },
-    clearDistrict() {
+    clearDistrictInput() {
       this.district = "";
       this.clearDistrictInfo();
     },
@@ -222,7 +238,7 @@ export default {
         info: this.districtInfo,
       });
       this.setDistricts(this.districts);
-      this.clearDistrict();
+      this.clearDistrictInput();
     },
     removeDistrict(district) {
       let districtList = toRaw(this.districts);
