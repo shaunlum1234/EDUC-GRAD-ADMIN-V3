@@ -3,11 +3,13 @@
     {{ gradDateFrom }}
     <b-card title="Include School(s)">
       <b-card-text>
-        <label class="font-weight-bold p-0 m-0 row">Select Schools</label>
+        <label class="font-weight-bold p-2 m-0 row float-left"
+          >Select Schools</label
+        >
 
         <b-form-select
           id="inline-form-select-audience"
-          class="mb-2 mr-sm-2 mb-sm-0 col-3"
+          class="mb-2 mr-sm-2 mb-sm-0 col-3 float-left"
           :options="[
             { text: 'Current Students', value: 'Current Students' },
             { text: 'Date Range', value: 'Date Range' },

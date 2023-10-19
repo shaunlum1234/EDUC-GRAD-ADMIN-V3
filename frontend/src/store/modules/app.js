@@ -6,12 +6,12 @@ export const useAppStore = defineStore('app',{
     programOptions: [],
     studentStatusOptions: [],
     ungradReasons: [],
-    pageTitle: "SDCI",
+    pageTitle: "GRAD",
   }),
   getters: {
     getProgramOptions: (state) => state.programOptions,
     getStudentStatusOptions: (state)  => state.studentStatusOptions,
-    getUngradReasons: (state) => state.ungradReasons
+    getUngradReasons: (state) => state.ungradReasons,
   },
   actions: {  
     setApplicationVariables() {
@@ -39,6 +39,14 @@ export const useAppStore = defineStore('app',{
             console.log(error)
           }
         });
+
+        ApiService.apiAxios.get('/api/v1/batch/batchjobtype').then(response => {
+          try{
+            this.batchTypeCodes = response.data;
+          }catch(error){
+            console.log(error)
+          }
+        });        
       }
     },
   },

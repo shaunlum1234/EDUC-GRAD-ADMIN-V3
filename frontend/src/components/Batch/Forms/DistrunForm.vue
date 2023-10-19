@@ -259,6 +259,13 @@ export default {
       this.groupData = [];
       this.clearBatchGroupData();
     },
+    makeToast(message, variant) {
+      this.$bvToast.toast(message, {
+        title: message,
+        variant: variant,
+        noAutoHide: true,
+      });
+    },
   },
 };
 </script>

@@ -9,8 +9,6 @@ import '@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css';
 import { BootstrapVue, BootstrapVueIcons, ToastPlugin } from "bootstrap-vue";
 import VueLogger from "vuejs-logger";
 import qs from "query-string";
-import VueFilterDateParse from "@vuejs-community/vue-filter-date-parse";
-import VueFilterDateFormat from "@vuejs-community/vue-filter-date-format";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 Vue.config.productionTip = false;
@@ -28,8 +26,6 @@ Vue.use(BootstrapVue);
 
 Vue.use(VueLogger, options);
 Vue.use(qs);
-Vue.use(VueFilterDateParse);
-Vue.use(VueFilterDateFormat);
 
     
 const app = createApp(App)

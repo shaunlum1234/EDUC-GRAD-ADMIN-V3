@@ -15,7 +15,8 @@
       disableDeletefield="status"
       disableDeleteIfValue="COMPLETED"
       deleteLabel="Cancel"
-      delete="batchprocessing/removeScheduledJobs"
+      store="batchprocessing"
+      delete="removeScheduledJobs"
     >
       <template #cell(jobExecutionId)="row">
         <b-btn

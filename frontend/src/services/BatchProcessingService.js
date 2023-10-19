@@ -1,17 +1,40 @@
 import ApiService from '../common/apiService';
 
 export default {
+
   getDashboardInfo() {
     return ApiService.apiAxios.get('/api/v1/batch/dashboard');
   },
-  runREGALG(request) {
-    console.log("REG")
-    console.log(request)
-    return;
-    //return ApiService.apiAxios.post('/api/v1/batch/specialrun', request);
+  runREGALG(request, cronTime="")
+   {
+    console.log(cronTime)
+    if(cronTime){
+      let scheduledRequest = {};
+      scheduledRequest.cronExpression = cronTime
+      scheduledRequest.jobName = "SGBJ";
+      scheduledRequest.blankPayLoad = null;
+      scheduledRequest.payload = request;
+      this.addScheduledJob(scheduledRequest);
+      return
+    }else{
+      console.log("REGALG SERVICE")
+      console.log(request)
+      return ApiService.apiAxios.post('/api/v1/batch/specialrun', request);
+    }
   },
-  runTVRRUN(request) {
-    return ApiService.apiAxios.post('/api/v1/batch/tvrspecialrun', request);
+  runTVRRUN(request, cronTime="") {
+    if(cronTime){
+      let scheduledRequest = {};
+      scheduledRequest.cronExpression = cronTime;
+      scheduledRequest.jobName = "STBJ";
+      scheduledRequest.blankPayLoad = null;
+      scheduledRequest.payload = request;
+      scheduledRequest.psiPayload = null;
+      this.addScheduledJob(scheduledRequest);
+      return
+    }else{
+      return ApiService.apiAxios.post('/api/v1/batch/tvrspecialrun', request);
+    }
   },
   runDISTRUNUSER(request,credentialType) {
     if(credentialType == "OT"){
@@ -62,6 +85,8 @@ export default {
     return ApiService.apiAxios.get('/api/v1/batch/schedule/listjobs');
   },
   addScheduledJob(scheduledJob) {
+    console.log("SCHEDULE")
+    console.log(scheduledJob)
     return ApiService.apiAxios.post('/api/v1/batch/schedule/add?batchJobTypeCode=' + scheduledJob.jobName, scheduledJob);
   },
   removeScheduledJobs(id) {

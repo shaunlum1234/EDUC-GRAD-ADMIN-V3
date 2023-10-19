@@ -2,12 +2,12 @@
   <div>
     <b-card title="Include Student(s)">
       <b-card-text>
-        <label>Pen</label>
+        <label class="col-12 px-0">Personal Education Number</label>
         <b-input
           type="number"
           v-model="pen"
           @input="validateStudent"
-          class="w-25"
+          class="col-2 float-left mr-2"
         />
         <div
           class="input-errors"
@@ -47,11 +47,13 @@
               @click="addStudent()"
               :disabled="validationMessage != ''"
               class="float-right"
-              >Add</b-button
+              >Add Student</b-button
+            >
+            <b-button @click="clearPen()" class="float-right" variant="link"
+              >Clear</b-button
             >
           </b-card>
         </div>
-        {{ getStudents }}
         <b-table
           v-if="students.length"
           :items="getStudents"
@@ -86,8 +88,6 @@
         </b-table>
       </b-card-text>
     </b-card>
-
-    <!-- </b-card>             -->
   </div>
 </template>
 <script>
@@ -119,8 +119,11 @@ export default {
             let studentGRADStatus = await StudentService.getGraduationStatus(
               studentID
             );
+            //check is student is status = MER
+
             if (studentGRADStatus.data) {
               //display student
+
               this.penStudentInfo = {
                 firstName: student.data[0].legalFirstName,
                 lastName: student.data[0].legalLastName,
@@ -130,6 +133,11 @@ export default {
                 schoolAtGrad: studentGRADStatus.data.schoolAtGrad,
                 program: studentGRADStatus.data.program,
               };
+              if (studentGRADStatus.data.studentStatusName == "Merged") {
+                this.validationMessage =
+                  value + " is a merged student and not permitted";
+                return false;
+              }
               //check if what credentialType was selected
               if (
                 this.runType == "DISTRUNUSER" &&
@@ -180,7 +188,7 @@ export default {
           key: "pen",
           label: "pen",
           sortable: true,
-          class: "text-left",
+          class: "text-left col-2",
         },
         {
           key: "info",

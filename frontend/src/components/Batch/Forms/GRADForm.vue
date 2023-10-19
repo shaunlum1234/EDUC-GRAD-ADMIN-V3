@@ -126,11 +126,6 @@ export default {
           }
         });
     },
-    runbatch() {
-      console.log("run batch");
-      console.log(payload);
-      console.log(groupData);
-    },
     async validateForm(event) {
       const result = await this.v$.$validate();
       if (!result) {
@@ -146,6 +141,13 @@ export default {
       this.programs = [];
       this.groupData = [];
       this.clearBatchGroupData();
+    },
+    makeToast(message, variant) {
+      this.$bvToast.toast(message, {
+        title: message,
+        variant: variant,
+        noAutoHide: true,
+      });
     },
   },
   computed: {

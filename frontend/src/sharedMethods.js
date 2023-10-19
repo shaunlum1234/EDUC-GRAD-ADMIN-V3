@@ -51,7 +51,6 @@ export default {
 
     const byteCharacters = atob(b64Data);
 
-    Buffer.from(data).toString("base64");
     const byteArrays = [];
 
     for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {

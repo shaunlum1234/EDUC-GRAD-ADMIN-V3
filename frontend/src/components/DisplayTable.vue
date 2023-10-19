@@ -44,7 +44,9 @@
             <div class="filter-icon p-2 text-secondary">Filter:</div>
             <b-form-input
               debounce="500"
-              :id="'filter-input-' + title.replace(' ', '-').toLowerCase()"
+              :id="
+                'filter-input-' + title.replace(' ', 'import-').toLowerCase()
+              "
               size="md"
               v-model="filter"
               type="search"
@@ -187,28 +189,19 @@
           v-if="deleteMode && item[disableDeletefield] != disableDeleteIfValue"
           variant="danger"
           size="sm"
-          @click="deleteItem(item)"
+          @click="deleteItemConfirmation(item)"
         >
           {{ deleteLabel ? deleteLabel : "Delete" }}
         </b-btn>
-
-        <b-btn
-          v-else-if="roles == 'administrator' && quickEdit"
-          variant="danger"
-          size="sm"
-          @click="confirmDelete(item)"
-          class="square"
-        >
-          <i class="fas fa-lg fa-times" aria-hidden="true"></i>
-        </b-btn>
       </template>
     </b-table>
+
     <b-pagination
-      v-if="this.totalRows && this.pagination"
       v-model="currentPage"
       :total-rows="totalRows"
       :per-page="perPage"
       aria-controls="my-table"
+      v-if="totalRows > perPage"
     ></b-pagination>
     <b-modal
       :id="infoModal.id"
@@ -222,8 +215,13 @@
 </template>
 
 <script>
+import { toRaw, onBeforeMount } from "vue";
 import { useAccessStore } from "../store/modules/access.js";
-import { mapState } from "pinia";
+import { useAppStore } from "../store/modules/app.js";
+import { useAuthStore } from "../store/modules/auth.js";
+import { useBatchProcessingStore } from "../store/modules/batchprocessing.js";
+import { useStudentStore } from "../store/modules/student.js";
+import { mapState, mapActions } from "pinia";
 export default {
   name: "DisplayTable",
   props: [
@@ -235,6 +233,7 @@ export default {
     "create",
     "update",
     "delete",
+    "store",
     "deleteLabel",
     "disableDeletefield",
     "disableDeleteIfValue",
@@ -246,8 +245,10 @@ export default {
     "sortByField",
     "sortDesc",
   ],
+
   data() {
     return {
+      actionNames: ["removeScheduledJobs"],
       responsive: true,
       quickEdit: false,
       isAdmin: false,
@@ -283,17 +284,25 @@ export default {
         title: "",
         content: "",
       },
+      stores: {
+        batchprocessing: useBatchProcessingStore(),
+        access: useAccessStore(),
+        app: useAppStore(),
+        student: useStudentStore(),
+        // Add more stores here
+      },
     };
   },
   computed: {
     ...mapState(useAccessStore, {
       allowUpdateGradStatus: "allowUpdateGradStatus",
     }),
+
     editableFields() {
       return this.fields.filter((field) => field.editable);
     },
     totalRows: function () {
-      if (this.totalRows == 0) {
+      if (this.totalRows) {
         return this.items.length;
       } else return this.totalRows;
     },
@@ -314,7 +323,26 @@ export default {
       this.perPage = 25;
     }
   },
-  methods: {},
+  onBeforeMount() {
+    // Now, you can use the mapped actions in the hook
+    this.actionNames.forEach((actionName) => {
+      this[actionName]();
+    });
+  },
+  methods: {
+    callActionByString(storeName, actionName, payload) {
+      console.log(payload);
+    },
+    deleteItem(item) {
+      const store = this.stores[this.store];
+
+      if (store) {
+        store[this.delete](item.id);
+      } else {
+        console.error("Store not found.");
+      }
+    },
+  },
 };
 </script>
 <style scoped>

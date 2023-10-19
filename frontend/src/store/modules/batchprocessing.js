@@ -23,13 +23,22 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
     blankCertificateDetails:[{}],
     blankTranscriptDetails:[{}],
     credential:"",
-    categoryCode:"",
+    categoryCode:[],
     copies:"1",
     allPsi:false,
     allDistricts:false,
-    localDownload: false
+    localDownload: "N"
   }),
   actions: {
+    async updateDashboards(){
+      await this.setBatchJobs();
+      const batchRunScheduledRuns = await BatchProcessingService.getScheduledBatchJobs()
+      this.setScheduledBatchJobs(batchRunScheduledRuns.data);
+
+      const batchRunRoutines = await BatchProcessingService.batchProcessingRoutines()
+      this.setBatchRoutines(batchRunRoutines.data);      
+    },
+ 
     async setGroup(payload) {
       this.who = payload;
     },
@@ -41,18 +50,36 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
       for (let value of this.scheduledBatchJobs) {
         value.jobParameters = JSON.parse(value.jobParameters);
       }
+      
     },
-    async setBatchJobs(payload) {
-      this.batchRuns = payload;
-      if (this.batchJobs) {
-        for (let value of this.batchJobs) {
-          value.jobParameters = JSON.parse(value.jobParameters);
+    async setBatchJobs() {
+      BatchProcessingService.getDashboardInfo()
+      .then((response) => {
+        let batchRunData = response.data.batchInfoList;
+        //parameters
+        for (const batch of batchRunData) {
+          batch.jobParameters = JSON.parse(batch.jobParameters);
         }
-      }
+    
+        // Set the batchRuns property
+        this.batchRuns = batchRunData;
+        
+      })
+      .catch((error) => {
+        this.adminDashboardLoading = false;
+        if (error.response && error.response.status) {
+          this.$bvToast.toast("ERROR " + error.response.statusText, {
+            title: "ERROR" + error.response.status,
+            variant: "danger",
+            noAutoHide: true,
+          });
+        }
+      });
     },
-    async removeScheduledJobs({ state }, payload) {
-      if (state.scheduledBatchJobs)
-        return BatchProcessingService.removeScheduledJobs(payload["id"]);
+    async removeScheduledJobs( payload) {
+        const response = await BatchProcessingService.removeScheduledJobs(payload);
+        this.updateDashboards();
+        return response;
     },
     async setStudents (payload){
       this.students = payload
@@ -116,7 +143,7 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
       this.blankCertificateDetails=[{}];
       this.blankTranscriptDetails=[{}];
       this.credential="";
-      this.categoryCode="";
+      this.categoryCode=[];
       this.copies="1";
       this.allPsi=false;
       this.allDistricts=false;
@@ -163,11 +190,11 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
           districts: state.who === "District" ? state.districts.map(district => district.district) : [],
           programs: state.who === "Program" ? state.programs.map(program => program.program) : [],
           psiCodes: state.who === "Psi" ? state.psi.map(postSecondaryInstitution => postSecondaryInstitution.psi) : [],
-          credentialTypeCode: state.credentialTypeCode,
+          credentialTypeCode: state.credential,
           schoolCategoryCodes: state.categoryCode,
           gradDateFrom: state.gradDateFrom,
           gradDateTo: state.gradDateTo,
-          validateInput: false,
+          validateInputs: false,
           quantity: state.copies,
           localDownload: state.localDownload,
       }

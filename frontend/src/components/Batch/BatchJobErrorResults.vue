@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import { showNotification } from "../../utils/common.js";
 import sharedMethods from "../../sharedMethods";
 import BatchProcessingService from "@/services/BatchProcessingService.js";
@@ -92,18 +91,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("auth", ["token"]),
     currentPageChange() {
       return this.userSelectedPage;
     },
   },
   created() {
-    this.showNotification = showNotification;
-    this.loadStudent = sharedMethods.loadStudent;
     this.getAdminDashboardData(this.selectedErrorId, 0);
   },
   watch: {
     selectedErrorId: function () {
+      console.log("changed");
       this.getAdminDashboardData(this.selectedErrorId, 0);
     },
     currentPageChange: function () {

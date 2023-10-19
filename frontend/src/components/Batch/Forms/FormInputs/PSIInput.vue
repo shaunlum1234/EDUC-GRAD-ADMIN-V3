@@ -112,7 +112,7 @@ export default {
   data() {
     return {
       psi: "",
-      psiInfo: {},
+      psiInfo: "",
       psiValidating: false,
       validationMessage: "",
       psis: [],

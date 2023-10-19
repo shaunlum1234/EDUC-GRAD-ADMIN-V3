@@ -5,7 +5,7 @@
         <label class="font-weight-bold pt-2">Category</label>
         <b-form-select
           id="inline-form-select-type"
-          class="col-12 my-2"
+          class="col-4 m-2"
           :options="[
             { text: 'Select School Category', value: '' },
             { text: '01 Public', value: '01' },
@@ -24,13 +24,13 @@
             runType != 'DISTRUN_YE'
           "
         >
-          <label>District</label>
+          <label class="float-left font-weight-bold p-2">District</label>
           <b-input
             type="number"
             v-model="district"
             maxlength="3"
             @input="validateDistrict"
-            class="w-25"
+            class="w-25 col-1 float-left"
             :disabled="schoolCategory == ''"
           />
           <div
@@ -40,8 +40,7 @@
           >
             <div class="error-msg">{{ error.$message }}</div>
           </div>
-
-          <div v-if="districtInfo">
+          <div v-if="districtInfo" class="float-left col-10">
             <b-card>
               <b-card-text>
                 <b-alert
@@ -51,7 +50,6 @@
                   variant="danger"
                   >{{ validationMessage }}</b-alert
                 >
-                {{ districtValidating }}
                 <b-overlay :show="districtValidating">
                   <div v-if="!districtInfo">NOT VALID</div>
                   <div v-else>
@@ -118,25 +116,23 @@ export default {
       }
       if (newValue == "04") {
         this.districts.splice(0);
-        this.districts.push({
-          district: "098",
-          info: {
-            districtNumber: "098",
-            districtName: "YUKON TERRITORIES",
-            activeFlag: "Y",
-          },
-        });
+        this.district = "098";
+        this.districtInfo = {
+          districtNumber: "098",
+          districtName: "YUKON TERRITORIES",
+          activeFlag: "Y",
+        };
+        this.addDistrict();
       }
       if (newValue == "09") {
         this.districts.splice(0);
-        this.districts.push({
-          district: "103",
-          info: {
-            districtNumber: "103",
-            districtName: "OFFSHORE INDEPENDENT",
-            activeFlag: "Y",
-          },
-        });
+        this.district = "103";
+        this.districtInfo = {
+          districtNumber: "103",
+          districtName: "OFFSHORE INDEPENDENT",
+          activeFlag: "Y",
+        };
+        this.addDistrict();
       }
     },
   },
@@ -161,7 +157,6 @@ export default {
                 districtName: district.data.districtName,
                 activeFlag: district.data.activeFlag,
               };
-              console.log(this.districtInfo);
               return true;
             }
           }
@@ -173,7 +168,7 @@ export default {
   data() {
     return {
       district: "",
-      districtInfo: {},
+      districtInfo: "",
       districtValidating: false,
       validationMessage: "",
       schoolCategory: "",
@@ -183,7 +178,7 @@ export default {
           key: "district",
           label: "District",
           sortable: true,
-          class: "text-left",
+          class: "text-left col-1",
         },
         {
           key: "info",

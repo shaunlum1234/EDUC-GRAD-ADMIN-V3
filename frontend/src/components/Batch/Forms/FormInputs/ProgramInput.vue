@@ -22,7 +22,7 @@
           </div>
 
           <div class="float-right mb-3">
-            <b-button @click="addProgram()">Add</b-button>
+            <b-button :disabled="!program" @click="addProgram()">Add</b-button>
           </div>
         </div>
         <b-table

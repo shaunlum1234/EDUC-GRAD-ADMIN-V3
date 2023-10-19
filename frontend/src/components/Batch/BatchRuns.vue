@@ -1,6 +1,13 @@
 <template>
   <div class="mt-2 row">
-    <div class="col-12 col-md-7 float-left p-0">
+    <div
+      :class="
+        isBatchShowing || isErrorShowing
+          ? 'col-12 col-md-7 float-left p-0'
+          : 'col-12 col-md-12 float-left p-0'
+      "
+      class="col-12 col-md-7 float-left p-0"
+    >
       <div v-if="adminDashboardLoading">LOADING</div>
       <DisplayTable
         title="Job/Runs"
@@ -11,6 +18,31 @@
         pagination="true"
       >
         <template #cell(jobExecutionId)="row">
+          <div
+            class="float-left downloadIcon"
+            v-if="row.item.jobParameters && row.item.jobParameters"
+          >
+            <div class="float-left py-2 px-0">
+              <b-link
+                :disabled="row.item.status != 'COMPLETED'"
+                v-if="
+                  row.item?.jobParameters?.payload?.localDownload == 'Y' ||
+                  (row.item.jobParameters.transmissionType &&
+                    row.item.jobParameters.transmissionType == 'FTP')
+                "
+                href="#"
+                @click="
+                  downloadDISTRUNUSER(
+                    row.item.jobExecutionId,
+                    row.item.jobParameters.transmissionType
+                  )
+                "
+                ><i class="fas fa-download"></i
+              ></b-link>
+              <div v-else class="px-1">&nbsp;&nbsp;</div>
+            </div>
+          </div>
+          <div v-else class="float-left downloadIcon p-1">&nbsp;&nbsp;</div>
           <b-btn
             v-if="row.item.status == 'COMPLETED'"
             :id="'batch-job-id-btn' + row.item.jobExecutionId"
@@ -137,11 +169,9 @@
             </div>
             <b-card class="mt-3 p-0" title="Batch Job Parameters">
               <b-card-text>
-                <pre v-if="row.item.jobParameters"
-                  >{{
-                    JSON.stringify(row.item.jobParameters, null, "\t")
-                  }} </pre
-                >
+                <div v-if="row.item.jobParameters">
+                  {{ JSON.stringify(row.item.jobParameters, null, "\t") }}
+                </div>
               </b-card-text>
             </b-card>
           </b-popover>
@@ -183,24 +213,53 @@
         </b-card-text>
       </b-card>
     </div>
+    <div v-if="isErrorShowing" class="col-12 col-md-5 float-right pl-2 pr-0">
+      <b-card
+        bg-variant="light"
+        :header="'Batch Job ' + this.adminSelectedErrorId"
+        class="text-left mb-2"
+      >
+        <b-card-text>
+          <BatchJobErrorResults
+            :selectedErrorId="adminSelectedErrorId"
+          ></BatchJobErrorResults>
+          <b-btn
+            variant="danger"
+            size="xs"
+            class="float-right"
+            @click="isErrorShowing ^= true"
+          >
+            Close
+          </b-btn>
+        </b-card-text>
+      </b-card>
+    </div>
   </div>
 </template>
 <script>
 import DisplayTable from "@/components/DisplayTable.vue";
 import BatchJobSearchResults from "@/components/Batch/BatchJobSearchResults.vue";
+import BatchJobErrorResults from "@/components/Batch/BatchJobErrorResults.vue";
 import BatchProcessingService from "@/services/BatchProcessingService.js";
+import DistributionService from "@/services/DistributionService.js";
 import { isProxy, toRaw } from "vue";
+import sharedMethods from "../../sharedMethods.js";
 import { useBatchProcessingStore } from "../../store/modules/batchprocessing";
 import { mapState, mapActions } from "pinia";
 export default {
   components: {
     DisplayTable: DisplayTable,
     BatchJobSearchResults: BatchJobSearchResults,
+    BatchJobErrorResults: BatchJobErrorResults,
   },
   data: function () {
     return {
       isBatchShowing: false,
+      isErrorShowing: false,
       adminDashboardLoading: false,
+      adminSelectedErrorId: null,
+      adminSelectedBatchId: null,
+
       batchRunsFields: [
         {
           key: "jobExecutionId",
@@ -243,6 +302,34 @@ export default {
             return value;
           },
         },
+        {
+          key: "status",
+          label: "Status",
+          sortable: true,
+          class: "text-center",
+          editable: true,
+        },
+        {
+          key: "expectedStudentsProcessed",
+          label: "Expected",
+          sortable: true,
+          class: "text-center",
+          editable: true,
+        },
+        {
+          key: "actualStudentsProcessed",
+          label: "Actual",
+          sortable: true,
+          class: "text-center",
+          editable: true,
+        },
+        {
+          key: "failedStudentsProcessed",
+          label: "Error",
+          sortable: true,
+          class: "text-center",
+          editable: true,
+        },
       ],
     };
   },
@@ -256,6 +343,18 @@ export default {
   },
   methods: {
     ...mapActions(useBatchProcessingStore, ["setBatchJobs"]),
+    downloadDISTRUNUSER(bid, transmissionMode = null) {
+      DistributionService.downloadDISTRUNUSER(bid, transmissionMode).then(
+        (response) => {
+          sharedMethods.base64ToFileTypeAndDownload(
+            response.data,
+            "application/zip",
+            bid
+          );
+          this.showNotification("success", "Download Completed");
+        }
+      );
+    },
     setBatchId(id, type) {
       if (type == "batch") {
         this.isBatchShowing = true;
@@ -268,37 +367,65 @@ export default {
         this.isBatchShowing = false;
         this.isErrorShowing = true;
         this.adminSelectedErrorId = id.toString();
+        this.$refs["popover-" + id].$emit("close");
+        console.log(this.adminSelectedErrorId);
       }
       // var element = this.$refs["top"];
       // var top = element.offsetTop;
       // window.scrollTo(0, top);
     },
+
+    rerunBatchSchoolReports(bid) {
+      this.$refs["popover-" + bid].$emit("close");
+      BatchProcessingService.rerunBatchSchoolReports(bid).then((response) => {
+        if (response) {
+          this.$bvToast.toast("Running school reports for batch job #" + bid, {
+            title: "SCHOOL REPORTS BATCH",
+            variant: "success",
+            noAutoHide: true,
+          });
+        }
+        this.getAdminDashboardData();
+      });
+    },
+    rerunBatch(bid) {
+      this.$refs["popover-" + bid].$emit("close");
+      BatchProcessingService.rerunBatch(bid).then((response) => {
+        if (response) {
+          this.$bvToast.toast(
+            "Created a new batch job based on batch #" + bid,
+            {
+              title: "NEW BATCH JOB STARTED",
+              variant: "success",
+              noAutoHide: true,
+            }
+          );
+        }
+        this.getAdminDashboardData();
+      });
+    },
+    rerunBatchStudentErrors(bid) {
+      this.$refs["popover-" + bid].$emit("close");
+
+      BatchProcessingService.rerunBatchStudentErrors(bid).then((response) => {
+        if (response) {
+          this.$bvToast.toast(
+            "Created an new batch job for batch #" + bid + " errors",
+            {
+              title: "NEW BATCH JOB STARTED",
+              variant: "success",
+              noAutoHide: true,
+            }
+          );
+        }
+        this.getAdminDashboardData();
+      });
+    },
     getAdminDashboardData() {
       this.adminDashboardLoading = true;
-      BatchProcessingService.getDashboardInfo()
-        .then((response) => {
-          let batchRunData = response.data.batchInfoList;
-          //parameters
-          for (const [batch] in this.batchRunData) {
-            batchRunData[batch].jobParameters = this.removeEmpty(
-              JSON.parse(this.batchRunData[batch].jobParameters)
-            );
-          }
-          this.setBatchJobs(batchRunData);
-          //Expected
-          this.adminDashboardLoading = false;
-          window.scrollTo(0, 0);
-        })
-        .catch((error) => {
-          this.adminDashboardLoading = false;
-          if (error.response && error.response.status) {
-            this.$bvToast.toast("ERROR " + error.response.statusText, {
-              title: "ERROR" + error.response.status,
-              variant: "danger",
-              noAutoHide: true,
-            });
-          }
-        });
+      this.setBatchJobs();
+      this.adminDashboardLoading = false;
+      window.scrollTo(0, 0);
     },
     //TODO: Transfer to common method
     makeToast(message, variant) {

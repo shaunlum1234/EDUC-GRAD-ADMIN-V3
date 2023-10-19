@@ -2,69 +2,52 @@
   <div class="batch-processing-view">
     <h1>Batch Processing</h1>
 
-    <b-card>
-      <b-tabs>
-        <b-tab :title="'Batch Runs (' + batchRuns.length + ')'" active>
-          <b-card-text class="p-2">
-            <BatchRuns></BatchRuns>
-          </b-card-text>
-        </b-tab>
-        <b-tab title="Scheduled" active>
-          <b-card-text class="row">
-            <ScheduledBatchRuns></ScheduledBatchRuns>
-          </b-card-text>
-        </b-tab>
-        <b-tab :title="'Routines (' + batchRoutines.length + ')'">
-          <b-card-text class="p-2">
-            <BatchRoutines></BatchRoutines>
-          </b-card-text>
-        </b-tab>
+    <b-btn
+      class="position-absolute"
+      style="z-index: 10; right: 0; margin-top: 10px; margin-right: 30px"
+      variant="info"
+      small
+      @click="updateDashboard"
+      ><i class="fas fa-sync-alt" aria-hidden="true"></i> Update</b-btn
+    >
+    <b-overlay :show="isLoading">
+      <b-card>
+        <b-tabs>
+          <b-tab
+            :title="'Batch Runs (' + batchRuns.length + ')'"
+            :active="activeTab === 0"
+          >
+            <b-card-text class="p-2">
+              <BatchRuns></BatchRuns>
+            </b-card-text>
+          </b-tab>
+          <b-tab
+            :title="'Scheduled (' + numberOfQueuedScheduledRuns + ')'"
+            :active="activeTab === 1"
+          >
+            <b-card-text class="row">
+              <ScheduledBatchRuns></ScheduledBatchRuns>
+            </b-card-text>
+          </b-tab>
+          <b-tab
+            :title="'Routines (' + batchRoutines.length + ')'"
+            :active="activeTab === 2"
+          >
+            <b-card-text class="p-2">
+              <BatchRoutines></BatchRoutines>
+            </b-card-text>
+          </b-tab>
 
-        <b-tab title="New Batch Request">
-          <b-card-text class="py-2 m-0">
-            <div>
-              <b-card-group deck>
-                <b-card header="GRAD Updates" header-tag="header">
-                  <b-card-text>
-                    <b-table
-                      striped
-                      hover
-                      :items="batchRunGradTypes"
-                      :fields="batchFields"
-                      :show-header="false"
-                    >
-                      <template #cell(description)="row">
-                        <strong>{{ row.item.label }}</strong>
-                        <hr />
-
-                        {{ row.item.description }}
-                      </template>
-                      <template #cell(newrequest)="row">
-                        <b-btn
-                          @click="
-                            newBatchRequest(
-                              row.item.code,
-                              row.item.label,
-                              row.item.description
-                            )
-                          "
-                          >+</b-btn
-                        ></template
-                      >
-                    </b-table>
-                  </b-card-text>
-                </b-card>
-                <b-card
-                  header="Distribution Runs"
-                  header-tag="header"
-                  footer-tag="footer"
-                >
-                  <b-card-text>
-                    <div>
+          <b-tab title="New Batch Request">
+            <b-card-text class="py-2 m-0">
+              <div>
+                <b-card-group deck>
+                  <b-card header="GRAD Updates" header-tag="header">
+                    <b-card-text>
                       <b-table
                         striped
                         hover
-                        :items="batchRunTypes"
+                        :items="batchRunGradOptions"
                         :fields="batchFields"
                         :show-header="false"
                       >
@@ -76,6 +59,7 @@
                         </template>
                         <template #cell(newrequest)="row">
                           <b-btn
+                            :disabled="row.item.disabled"
                             @click="
                               newBatchRequest(
                                 row.item.code,
@@ -87,16 +71,91 @@
                           ></template
                         >
                       </b-table>
-                    </div>
-                  </b-card-text>
-                </b-card>
-                <b-card header="PSI" header-tag="header">
-                  <b-card-text>
-                    <div>
+                    </b-card-text>
+                  </b-card>
+                  <b-card
+                    header="Distribution Runs"
+                    header-tag="header"
+                    footer-tag="footer"
+                  >
+                    <b-card-text>
+                      <div>
+                        <b-table
+                          striped
+                          hover
+                          :items="distributionBatchRunOptions"
+                          :fields="batchFields"
+                          :show-header="false"
+                        >
+                          <template #cell(description)="row">
+                            <strong>{{ row.item.label }}</strong>
+                            <hr />
+                            {{ row.item.description }}
+                          </template>
+                          <template #cell(newrequest)="row">
+                            <b-btn
+                              :disabled="!row.item.disabled"
+                              @click="
+                                newBatchRequest(
+                                  row.item.code,
+                                  row.item.label,
+                                  row.item.description
+                                )
+                              "
+                              >+</b-btn
+                            ></template
+                          >
+                        </b-table>
+                      </div>
+                    </b-card-text>
+                  </b-card>
+                  <b-card header="PSI" header-tag="header">
+                    <b-card-text>
+                      <div>
+                        <b-table
+                          striped
+                          hover
+                          :items="PSIBatchRunOptions"
+                          :fields="batchFields"
+                          :show-header="false"
+                        >
+                          <template #cell(description)="row">
+                            <strong>{{ row.item.label }}</strong>
+                            <hr />
+
+                            {{ row.item.description }}
+                          </template>
+                          <template #cell(newrequest)="row">
+                            <b-btn
+                              :disabled="row.item.disabled"
+                              @click="
+                                newBatchRequest(
+                                  row.item.code,
+                                  row.item.label,
+                                  row.item.description
+                                )
+                              "
+                              >+</b-btn
+                            ></template
+                          >
+                        </b-table>
+                      </div>
+                    </b-card-text>
+                  </b-card>
+                </b-card-group>
+              </div>
+            </b-card-text>
+          </b-tab>
+          <b-tab title="Administration">
+            <b-card-text class="py-2 m-0">
+              <div>
+                <b-card-group deck>
+                  <b-card header="Year End" header-tag="header">
+                    <b-card-text>
                       <b-table
                         striped
                         hover
-                        :items="batchRunArchiveDatabaseTypes"
+                        :items="adminBatchRunOptions"
                         :fields="batchFields"
                         :show-header="false"
                       >
@@ -108,6 +167,7 @@
                         </template>
                         <template #cell(newrequest)="row">
                           <b-btn
+                            :disabled="!row.item.disabled"
                             @click="
                               newBatchRequest(
                                 row.item.code,
@@ -119,95 +179,57 @@
                           ></template
                         >
                       </b-table>
-                    </div>
-                  </b-card-text>
-                </b-card>
-              </b-card-group>
-            </div>
-          </b-card-text>
-        </b-tab>
-        <b-tab title="Administration">
-          <b-card-text class="py-2 m-0">
-            <div>
-              <b-card-group deck>
-                <b-card header="Year End" header-tag="header">
-                  <b-card-text>
-                    <b-table
-                      striped
-                      hover
-                      :items="adminRunTypes"
-                      :fields="batchFields"
-                      :show-header="false"
-                    >
-                      <template #cell(description)="row">
-                        <strong>{{ row.item.label }}</strong>
-                        <hr />
-
-                        {{ row.item.description }}
-                      </template>
-                      <template #cell(newrequest)="row">
-                        <b-btn
-                          @click="
-                            newBatchRequest(
-                              row.item.code,
-                              row.item.label,
-                              row.item.description
-                            )
-                          "
-                          >+</b-btn
-                        ></template
-                      >
-                    </b-table>
-                  </b-card-text>
-                </b-card>
-                <b-card
-                  header="Utilities"
-                  header-tag="header"
-                  footer-tag="footer"
-                >
-                  <b-card-text>
-                    <div>
-                      <b-table
-                        striped
-                        hover
-                        :items="utilitiesRunTypes"
-                        :fields="batchFields"
-                        :show-header="false"
-                      >
-                        <template #cell(description)="row">
-                          <strong>{{ row.item.label }}</strong>
-                          <hr />
-
-                          {{ row.item.description }}
-                        </template>
-                        <template #cell(newrequest)="row">
-                          <b-btn
-                            @click="
-                              newBatchRequest(
-                                row.item.code,
-                                row.item.label,
-                                row.item.description
-                              )
-                            "
-                            >+</b-btn
-                          ></template
+                    </b-card-text>
+                  </b-card>
+                  <b-card
+                    header="Utilities"
+                    header-tag="header"
+                    footer-tag="footer"
+                  >
+                    <b-card-text>
+                      <div>
+                        <b-table
+                          striped
+                          hover
+                          :items="utilitiesBatchRunOptions"
+                          :fields="batchFields"
+                          :show-header="false"
                         >
-                      </b-table>
-                    </div>
-                  </b-card-text>
-                </b-card>
-              </b-card-group>
-            </div>
-          </b-card-text>
-        </b-tab>
-      </b-tabs>
-    </b-card>
+                          <template #cell(description)="row">
+                            <strong>{{ row.item.label }}</strong>
+                            <hr />
+
+                            {{ row.item.description }}
+                          </template>
+                          <template #cell(newrequest)="row">
+                            <b-btn
+                              :disabled="!row.item.disabled"
+                              @click="
+                                newBatchRequest(
+                                  row.item.code,
+                                  row.item.label,
+                                  row.item.description
+                                )
+                              "
+                              >+</b-btn
+                            ></template
+                          >
+                        </b-table>
+                      </div>
+                    </b-card-text>
+                  </b-card>
+                </b-card-group>
+              </div>
+            </b-card-text>
+          </b-tab>
+        </b-tabs>
+      </b-card>
+    </b-overlay>
     <div>
       <!-- Modal Dialogs -->
 
       <b-modal ref="newBatchRequestModal" size="xl" :title="runTypeLabel">
         <div class="pt-1 d-block">
-          {{ getBatchRequest }}
           <b-alert show>{{ runTypeDescription }}</b-alert>
           <div v-if="runType == 'DISTRUN_SUPP'">
             <DistrunFormYearEndSupplementalForm></DistrunFormYearEndSupplementalForm>
@@ -228,9 +250,6 @@
             <PSIRunForm></PSIRunForm>
           </div>
         </div>
-
-        {{ getGroup }}
-
         <div class="d-block">
           <div v-if="runType == 'DISTRUNUSER'"></div>
           <div class="runSchedule">
@@ -239,7 +258,7 @@
               label="Batch Run"
               v-slot="{ ariaDescribedby }"
             >
-              <b-form-radio-group v-model="batchRunSchedule">
+              <b-form-radio-group v-model="batchRunTime">
                 <b-form-radio
                   :aria-describedby="ariaDescribedby"
                   name="batch-runtime-options"
@@ -255,41 +274,39 @@
               </b-form-radio-group>
 
               <b-form-group
-                v-if="batchRunSchedule == 'Run Later'"
+                v-if="batchRunTime == 'Run Later'"
                 label="Schedule"
                 v-slot="{ ariaDescribedby }"
               >
                 <b-form-radio
-                  v-model="cronTime"
+                  v-model="batchRunSchedule"
                   :aria-describedby="ariaDescribedby"
                   name="schedule-options"
                   value="N"
                   >Tonight at 6:30PM</b-form-radio
                 >
                 <b-form-radio
-                  v-model="cronTime"
+                  v-model="batchRunSchedule"
                   :aria-describedby="ariaDescribedby"
                   name="schedule-options"
                   value="W"
                   >Weekend Batch - Saturday 12:00PM</b-form-radio
                 >
                 <b-form-radio
-                  v-model="cronTime"
+                  v-model="batchRunSchedule"
                   :aria-describedby="ariaDescribedby"
                   name="schedule-options"
                   value="M"
                   >Tomorrow at 6:30AM</b-form-radio
                 >
                 <b-form-radio
-                  v-model="cronTime"
+                  v-model="batchRunSchedule"
                   :aria-describedby="ariaDescribedby"
                   name="schedule-options"
                   value="Custom"
                   >Custom</b-form-radio
                 >
-                <div class="pl-4" v-if="cronTime == 'Custom'">
-                  <!-- <label for="batch-datepicker">Choose a date:</label> -->
-
+                <div class="pl-4" v-if="batchRunSchedule == 'Custom'">
                   <b-form-datepicker
                     id="batch-datepicker"
                     v-model="batchRunCustomDate"
@@ -309,7 +326,7 @@
         </div>
         <template #modal-footer="{ ok, cancel, hide }">
           <b-button
-            v-if="batchRunSchedule == 'Run Now'"
+            v-if="batchRunTime == 'Run Now'"
             size="sm"
             variant="success"
             :disabled="v$.$invalid || groupData.length == 0"
@@ -317,14 +334,15 @@
             >Run Now</b-button
           >
           <b-button
-            v-if="batchRunSchedule == 'Run Later'"
+            v-if="batchRunTime == 'Run Later'"
             size="sm"
             variant="success"
-            :disabled="v$.$invalid"
+            :disabled="
+              v$.$invalid || batchRunSchedule == '' || groupData.length == 0
+            "
             @click="runBatchRequest()"
             >Schedule</b-button
           >
-
           <b-button size="sm" variant="danger" @click="hideBatchRequestModal()">
             Cancel
           </b-button>
@@ -343,10 +361,10 @@ import GRADForm from "@/components/Batch/Forms/GRADForm.vue";
 import PSIRunForm from "@/components/Batch/Forms/PSIRunForm.vue";
 import ScheduledBatchRuns from "@/components/Batch/ScheduledBatchRuns.vue";
 import BatchRoutines from "@/components/Batch/BatchRoutines.vue";
-import DisplayTable from "@/components/DisplayTable.vue";
 import { useVuelidate } from "@vuelidate/core";
 import { isProxy, toRaw } from "vue";
 import { useBatchProcessingStore } from "../store/modules/batchprocessing";
+import { useAppStore } from "../store/modules/app";
 import { mapState, mapActions } from "pinia";
 
 export default {
@@ -356,7 +374,7 @@ export default {
     GRADForm: GRADForm,
     DistrunFormYearEndForm: DistrunFormYearEndForm,
     DistrunFormYearEndSupplementalForm: DistrunFormYearEndSupplementalForm,
-    DisplayTable: DisplayTable,
+
     BatchRoutines: BatchRoutines,
     BatchRuns: BatchRuns,
     ScheduledBatchRuns: ScheduledBatchRuns,
@@ -366,6 +384,8 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
+      activeTab: 3,
       batchTypes: [],
       runType: "",
       runTypeLabel: "",
@@ -373,8 +393,8 @@ export default {
       cronTime: "",
       batchRunCustomDate: "",
       batchRunCustomTime: "",
-
-      batchRunSchedule: "Run Now",
+      batchRunSchedule: "",
+      batchRunTime: "Run Now",
       schools: [],
       batchRunData: [],
       batchFields: [
@@ -389,34 +409,8 @@ export default {
           sortable: true,
         },
       ],
-      batchRunGradTypes: [
-        {
-          createUser: "API_GRAD_BATCH",
-          createDate: "2021-12-13T20:30:09.000+00:00",
-          updateUser: "API_GRAD_BATCH",
-          updateDate: "2021-12-13T20:30:09.000+00:00",
-          code: "REGALG",
-          label: "Graduation Algorithm",
-          description:
-            "The Batch Algorithm Run  will determine if a student has met all of their program requirements; update their GRAD record and create the appropriate Transcript and Certificate(s). This run also updates the Graduation and Non-Graduation school reports.",
-          displayOrder: 10,
-          effectiveDate: "2021-09-27T07:00:00.000+00:00",
-          expiryDate: null,
-        },
-        {
-          createUser: "API_GRAD_BATCH",
-          createDate: "2021-12-13T20:30:09.000+00:00",
-          updateUser: "API_GRAD_BATCH",
-          updateDate: "2021-12-13T20:30:09.000+00:00",
-          code: "TVRRUN",
-          label: "Transcript Verification Report",
-          description:
-            "The Batch Transcript Verification Report (TVR) Run updates student individual TVRs as PDF reports which are a summary of a students' GRAD status including the students' courses and assessments, program requirements met, non-grad reasons and graduation status. This run also updates the school Projected Non-Grad Summary Report.",
-          displayOrder: 20,
-          effectiveDate: "2021-09-27T07:00:00.000+00:00",
-          expiryDate: null,
-        },
-      ],
+      batchRunGradOptions: [],
+      PSIBatchRunOptions: [],
       batchRunArchiveDatabaseTypes: [
         {
           createUser: "API_GRAD_BATCH",
@@ -432,7 +426,7 @@ export default {
           expiryDate: null,
         },
       ],
-      adminRunTypes: [
+      adminBatchRunOptions: [
         {
           createUser: "API_GRAD_BATCH",
           createDate: "2022-11-26T00:53:27.000+00:00",
@@ -486,7 +480,7 @@ export default {
           expiryDate: null,
         },
       ],
-      utilitiesRunTypes: [
+      utilitiesBatchRunOptions: [
         {
           createUser: "API_GRAD_BATCH",
           createDate: "2022-11-26T00:53:27.000+00:00",
@@ -527,106 +521,172 @@ export default {
           expiryDate: null,
         },
       ],
-      batchRunTypes: [
-        {
-          createUser: "API_GRAD_BATCH",
-          createDate: "2022-11-26T00:53:27.000+00:00",
-          updateUser: "API_GRAD_BATCH",
-          updateDate: "2022-11-26T00:53:27.000+00:00",
-          code: "DISTRUN_YE",
-          label: "Year-End Credentials and Transcript Distribution Run",
-          description:
-            "A Year-End Distribution Run that sends printed certificate and transcript packages (including distribution reports) to districts and schools. Includes students with new program completions where a certificate has not yet been distributed and students with updated transcripts after a previous completion.",
-          displayOrder: 50,
-          effectiveDate: "2021-09-27T07:00:00.000+00:00",
-          expiryDate: null,
-        },
-        {
-          createUser: "API_GRAD_BATCH",
-          createDate: "2022-11-26T00:53:27.000+00:00",
-          updateUser: "API_GRAD_BATCH",
-          updateDate: "2022-11-26T00:53:27.000+00:00",
-          code: "DISTRUN_SUPP",
-          label: "Supplemental Credentials and Transcript Distribution Run",
-          description:
-            "A Supplemental Year-End Distribution Run that sends printed certificate and transcript packages (including distribution reports) to schools only. Includes students with new program completions where a certificate has not yet been distributed and students with updated transcripts after a previous completion.",
-          displayOrder: 70,
-          effectiveDate: "2021-09-27T07:00:00.000+00:00",
-          expiryDate: null,
-        },
-        {
-          createUser: "API_GRAD_BATCH",
-          createDate: "2022-11-26T00:53:27.000+00:00",
-          updateUser: "API_GRAD_BATCH",
-          updateDate: "2022-11-26T00:53:27.000+00:00",
-          code: "NONGRADRUN",
-          label: "Non-Graduate Transcript Distribution Run",
-          description:
-            "A Non-Graduate Transcript Distribution Run sends transcript packages (including distribution reports) to districts and schools for any current students in Grade 12 or AD who were on a graduation program but did not graduate.",
-          displayOrder: 80,
-          effectiveDate: "2021-09-27T07:00:00.000+00:00",
-          expiryDate: null,
-        },
-        {
-          createUser: "API_GRAD_BATCH",
-          createDate: "2022-04-05T16:26:11.000+00:00",
-          updateUser: "API_GRAD_BATCH",
-          updateDate: "2022-04-05T16:26:11.000+00:00",
-          code: "DISTRUN",
-          label: "Credentials and Transcript Distribution Run",
-          description:
-            "A Credentials Distribution Run that sends printed certificate and transcript packages (including distribution reports) to schools only. Includes students with new program completions where a certificate has not yet been distributed.",
-          displayOrder: 60,
-          effectiveDate: "2021-09-27T07:00:00.000+00:00",
-          expiryDate: null,
-        },
-        {
-          createUser: "API_GRAD_BATCH",
-          createDate: "2022-04-05T16:26:12.000+00:00",
-          updateUser: "API_GRAD_BATCH",
-          updateDate: "2022-04-05T16:26:12.000+00:00",
-          code: "DISTRUNUSER",
-          label: "User Request Distribution Run",
-          description:
-            "The User Batch Distribution Run (re)distributes transcripts and/or certificates based on the User selection criteria.",
-          displayOrder: 30,
-          effectiveDate: "2021-09-27T07:00:00.000+00:00",
-          expiryDate: null,
-        },
-      ],
     };
   },
   computed: {
     ...mapState(useBatchProcessingStore, {
       batchRuns: "getBatchRuns",
       batchRoutines: "getBatchRoutines",
+      scheduledRuns: "getScheduledBatchRuns",
       groupData: "getGroupData",
       getGroup: "getGroup",
       getBatchRequest: "getBatchRequest",
     }),
+    ...mapState(useAppStore, {
+      getBatchJobTypes: "getBatchTypeCodes",
+    }),
+
+    numberOfQueuedScheduledRuns() {
+      // Assuming `scheduledRuns` is an array of objects with a "status" property
+      const queuedStatus = "QUEUED"; // Change this to "COMPLETED" if needed
+      return this.scheduledRuns.filter((item) => item.status === queuedStatus)
+        .length;
+    },
   },
   created() {
     BatchProcessingService.getBatchJobTypes()
       .then((response) => {
         this.batchTypes = response.data;
+        this.batchRunGradOptions = this.filterBatchTypes(this.batchTypes, [
+          "REGALG",
+          "TVRRUN",
+        ]);
+        this.distributionBatchRunOptions = this.filterBatchTypes(
+          this.batchTypes,
+          ["DISTRUN_YE", "DISTRUN_SUPP", "NONGRADRUN", "DISTRUN", "DISTRUNUSER"]
+        );
+
+        this.PSIBatchRunOptions = this.filterBatchTypes(this.batchTypes, [
+          "PSIRUN",
+        ]);
+
+        this.distributionBatchRunOptions = this.disableBatchRuns(
+          this.distributionBatchRunOptions,
+          ["DISTRUN_SUPP"]
+        );
       })
-      // eslint-disable-next-line
       .catch((error) => {
+        // Handle errors during the asynchronous call
+        console.error("Error fetching batch job types:", error);
+
         this.$bvToast.toast("ERROR " + error.response.statusText, {
-          title: "ERROR" + error.response.status,
+          title: "ERROR " + error.response.status,
           variant: "danger",
           noAutoHide: true,
         });
       });
   },
   methods: {
-    ...mapActions(useBatchProcessingStore, ["clearBatchGroupData"]),
+    ...mapActions(useBatchProcessingStore, [
+      "clearBatchGroupData",
+      "updateDashboards",
+      "updateScheduledBatchJobs",
+    ]),
+    disableBatchRuns(batchRunOptions, codeList) {
+      batchRunOptions.forEach((option, index, array) => {
+        if (codeList.includes(option.code)) {
+          array[index].disabled = false;
+        } else {
+          array[index].disabled = true;
+        }
+      });
+      return batchRunOptions;
+    },
+    filterBatchTypes(batchRunTypeCodes, batchCodes) {
+      return batchRunTypeCodes.filter((batchJob) =>
+        batchCodes.includes(batchJob.code)
+      );
+    },
+    changeTab(newTab) {
+      // Handle tab changes here
+      this.activeTab = newTab;
+      console.log("Tab changed to index:", this.activeTab);
+      // You can perform actions or set data based on the selected tab
+    },
+    async openTab(tab) {
+      this.activeTab = tab; // Set activeTab to 2 to open Tab 3
+    },
     async validateForm() {
       const result = await this.v$.$validate();
     },
-
+    async getBatchJobs() {},
+    async addScheduledJob(request) {
+      BatchProcessingService.addScheduledJob(request)
+        .then(() => {
+          //update the admin dashboard
+          this.updateScheduledBatchJobs();
+          this.$bvToast.toast(
+            "Request " + requestId + " has successfully been scheduled",
+            {
+              title: "SCHEDULING USER REQUEST",
+              variant: "success",
+              noAutoHide: true,
+            }
+          );
+        })
+        .catch((error) => {
+          if (error) {
+            this.$bvToast.toast("There was an error scheduling your request", {
+              title: "SCHEDULING ERROR",
+              variant: "success",
+              noAutoHide: true,
+            });
+          }
+        });
+    },
+    getCronTime() {
+      console.log(this.batchRunSchedule);
+      if (this.batchRunSchedule == "N") {
+        let today = new Date();
+        return (
+          "0 30 18 " + today.getDate() + " " + (today.getMonth() + 1) + " *"
+        );
+      } else if (this.batchRunSchedule == "W") {
+        const today = new Date();
+        const first = today.getDate() - today.getDay() + 1;
+        const sixth = first + 5;
+        const saturday = new Date(today.setDate(sixth));
+        return (
+          "0 30 18 " +
+          saturday.getDate() +
+          " " +
+          (saturday.getMonth() + 1) +
+          " *"
+        );
+      } else if (this.batchRunSchedule == "M") {
+        const today = new Date();
+        let tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        return (
+          "0 30 18 " +
+          tomorrow.getDate() +
+          " " +
+          (tomorrow.getMonth() + 1) +
+          " *"
+        );
+      } else if (this.batchRunSchedule == "Custom") {
+        let dateTime = new Date(
+          this.batchRunCustomDate + "T" + this.batchRunCustomTime
+        );
+        return (
+          dateTime.getSeconds() +
+          " " +
+          dateTime.getMinutes() +
+          " " +
+          dateTime.getHours() +
+          " " +
+          dateTime.getDate() +
+          " " +
+          (dateTime.getMonth() + 1) +
+          " *"
+        );
+      } else {
+        return null;
+      }
+    },
     async runBatchRequest() {
       const result = await this.v$.$validate();
+
       if (!result) {
         console.log("INVALID");
         return;
@@ -634,13 +694,12 @@ export default {
 
       if (this.runType == "DISTRUNUSER") {
         console.log("RUNNING DISTRUN" + this.cronTime);
-        if (this.cronTime) {
-          console.log("Scheduled" + this.cronTime);
+        if (this.batchRunTime == "Run Later") {
+          console.log("Scheduled" + this.getCronTime(this.cronTime));
         }
         console.log("GROUPDATA");
 
         console.log(toRaw(this.getBatchRequest));
-
         this.hideBatchRequestModal();
       } else if (this.runType == "DISTRUN_YE") {
         if (this.cronTime) {
@@ -648,14 +707,35 @@ export default {
         }
         this.hideBatchRequestModal();
       } else if (this.runType == "REGALG") {
-        console.log(this.runType);
-        if (this.cronTime) {
-          console.log("Scheduled" + this.cronTime);
+        console.log("REQUEST");
+        console.log(this.getBatchRequest);
+        if (this.batchRunTime == "Run Later") {
+          await BatchProcessingService.runREGALG(
+            this.getBatchRequest,
+            this.getCronTime(this.cronTime)
+          );
+          this.openTab(1);
         } else {
-          BatchProcessingService.runREGALG(this.getBatchRequest);
+          await BatchProcessingService.runREGALG(this.getBatchRequest);
+          this.openTab(0);
         }
+        await this.updateDashboard();
+        this.hideBatchRequestModal();
+      } else if (this.runType == "TVRRUN") {
+        if (this.batchRunTime == "Run Later") {
+          await BatchProcessingService.runTVRRUN(
+            this.getBatchRequest,
+            this.getCronTime(this.cronTime)
+          );
+          this.openTab(1);
+        } else {
+          await BatchProcessingService.runTVRRUN(this.getBatchRequest);
+          this.openTab(0);
+        }
+        this.updateDashboard();
         this.hideBatchRequestModal();
       }
+      updateAllBatch;
     },
     newBatchRequest(runType, label, description) {
       this.runType = runType;
@@ -675,11 +755,16 @@ export default {
       this.runTypeLabel = "";
       this.runTypeDescription = "";
       this.cronTime = "";
-      this.batchRunSchedule = "Run Now";
+      this.batchRunTime = "Run Now";
+      this.batchRunSchedule = "";
       this.batchRunCustomDate = "";
       this.batchRunCustomTime = "";
-      this.batchRunSchedule = "";
       this.clearBatchGroupData();
+    },
+    async updateDashboard() {
+      this.isLoading = true;
+      await this.updateDashboards();
+      this.isLoading = false;
     },
   },
   compatConfig: { MODE: 2 },
