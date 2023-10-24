@@ -367,6 +367,7 @@ router.beforeEach((to, _from, next) => {
     aStore
       .getJwtToken()
       .then(() => {
+        console.log("AUTHENTICATED" + aStore.isAuthenticated)
         if (!aStore.isAuthenticated) {
           next("/token-expired");
         } else {

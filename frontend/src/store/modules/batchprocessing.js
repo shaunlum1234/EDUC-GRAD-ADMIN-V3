@@ -104,7 +104,13 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
     },
     async setGradDateFrom(payload){
       this.gradDateFrom = payload
-    },                
+    },
+    async setCredential(payload){
+      this.credential = payload
+    }, 
+    async setWhere(payload){
+      this.where = payload
+    },                        
     async clearBatchGroupData(){
       this.schools=[];
       this.districts=[];
@@ -178,15 +184,17 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
     },
     getScheduledBatchRuns: (state) => state.scheduledBatchJobs,
     getGroup: (state) => state.who,
+    getWhere: (state) => state.where,
     getBatchRuns: (state) => state.batchRuns,
     getBatchRoutines: (state) => state.batchRoutines,
     getStudents: (state) => state.students,
     getSchools: (state) => state.schools,
     getDistricts: (state) => state.districts,
     getPrograms: (state) => state.programs,
+    getCredential: (state) => state.credential,
     getPsi: (state) => state.psi,
+    getLocalDownload: (state) => state.getWhere == "localDownload"?"Y":"N", 
     getBatchRequest: (state) => {
-      console.log(state.who)
       return {
           pens: state.who === "Student" ? state.students.map(student => student.pen) : [],
           schoolOfRecords: state.who === "School" ? state.schools.map(school => school.mincode) : [],
@@ -199,7 +207,7 @@ export const useBatchProcessingStore = defineStore("batchProcessing", {
           gradDateTo: state.gradDateTo,
           validateInputs: false,
           quantity: state.copies,
-          localDownload: state.localDownload,
+          localDownload: state.getLocalDownload,
       }
     }    
   },

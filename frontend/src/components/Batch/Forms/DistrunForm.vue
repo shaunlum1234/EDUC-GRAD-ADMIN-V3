@@ -1,7 +1,7 @@
 <template>
   <div>
+    {{ getWhere }}
     <label class="font-weight-bold">Credential Type</label>
-
     <b-form-select
       id="inline-form-select-audience"
       class="mb-2 mr-sm-2 mb-sm-0 col-2"
@@ -26,6 +26,7 @@
         { text: 'Transcript', value: 'OT' },
       ]"
       v-model="credentialType"
+      @change="setCredential(credentialType)"
     ></b-form-select>
     <div
       v-if="credentialType == 'Blank transcript print'"
@@ -129,7 +130,10 @@
       class="mb-2 mr-sm-2 mb-sm-0"
       v-model="where"
       :value="where"
-      @change="validateForm"
+      @change="
+        validateForm;
+        setWhere(this.where);
+      "
       :options="[
         { text: 'Download', value: 'localDownload' },
         'BC Mail',
@@ -154,7 +158,7 @@ import GraduationReportService from "@/services/GraduationReportService.js";
 import { useVuelidate } from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import { useBatchProcessingStore } from "../../../store/modules/batchprocessing";
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 
 export default {
   setup() {
@@ -213,8 +217,16 @@ export default {
     this.transcriptTypes = this.getTranscriptTypes();
     this.certificateTypes = this.getCertificateTypes();
   },
+  computed: {
+    ...mapState(useBatchProcessingStore, ["getCredential"]),
+  },
   methods: {
-    ...mapActions(useBatchProcessingStore, ["clearBatchGroupData", "setGroup"]),
+    ...mapActions(useBatchProcessingStore, [
+      "clearBatchGroupData",
+      "setGroup",
+      "setCredential",
+      "setWhere",
+    ]),
     getTranscriptTypes() {
       GraduationReportService.getTranscriptTypes()
         .then((response) => {

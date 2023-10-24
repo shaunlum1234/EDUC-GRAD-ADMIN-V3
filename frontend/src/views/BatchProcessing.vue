@@ -325,7 +325,6 @@
           </div>
         </div>
         <template #modal-footer="{ ok, cancel, hide }">
-          {{ groupData }}
           <b-button
             v-if="batchRunTime == 'Run Now'"
             size="sm"
@@ -532,6 +531,7 @@ export default {
       groupData: "getGroupData",
       getGroup: "getGroup",
       getBatchRequest: "getBatchRequest",
+      getCredential: "getCredential",
     }),
     ...mapState(useAppStore, {
       getBatchJobTypes: "getBatchTypeCodes",
@@ -695,11 +695,24 @@ export default {
       }
 
       if (this.runType == "DISTRUNUSER") {
-        console.log("RUNNING DISTRUN" + this.cronTime);
+        console.log("DISTRUN_USER");
+        console.log(this.getBatchRequest);
         if (this.batchRunTime == "Run Later") {
-          console.log("Scheduled" + this.getCronTime(this.cronTime));
+          await BatchProcessingService.runDISTRUNUSER(
+            this.getBatchRequest,
+            this.getCredential,
+            this.getCronTime(this.cronTime)
+          );
+          this.openTab(1);
+        } else {
+          await BatchProcessingService.runDISTRUNUSER(
+            this.getBatchRequest,
+            this.getCredential
+          );
+          this.openTab(0);
         }
-        console.log("GROUPDATA");
+        this.hideBatchRequestModal();
+        await this.updateDashboard();
 
         console.log(toRaw(this.getBatchRequest));
         this.hideBatchRequestModal();
@@ -716,8 +729,8 @@ export default {
           await BatchProcessingService.runDISTRUN_YE(this.getBatchRequest);
           this.openTab(0);
         }
-        await this.updateDashboard();
         this.hideBatchRequestModal();
+        await this.updateDashboard();
       } else if (this.runType == "REGALG") {
         console.log("REQUEST");
         console.log(this.getBatchRequest);
@@ -731,8 +744,8 @@ export default {
           await BatchProcessingService.runREGALG(toRaw(this.getBatchRequest));
           this.openTab(0);
         }
-        await this.updateDashboard();
         this.hideBatchRequestModal();
+        await this.updateDashboard();
       } else if (this.runType == "TVRRUN") {
         if (this.batchRunTime == "Run Later") {
           await BatchProcessingService.runTVRRUN(

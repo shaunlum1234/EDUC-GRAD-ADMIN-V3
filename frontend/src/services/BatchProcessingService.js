@@ -55,7 +55,14 @@ export default {
   runDISTRUN_SUPP(){
     return ApiService.apiAxios.get('/api/v1/batch/executesuppdisrunbatchjob');
   },
-  runNONGRADRUN(request){
+  runNONGRADRUN(request, cronTime=""){
+    if (Array.isArray(request.districts) && request.districts.length === 1 && request.districts[0].toLowerCase() === "all") {
+      // If the condition is true, set districts to an empty array
+      request.districts = [];
+    }
+    return ApiService.apiAxios.post('/api/v1/batch/executenongraddisrunbatchjob',request);
+  },  
+  runDISTRUN_YE(request, cronTime=""){
     if (Array.isArray(request.districts) && request.districts.length === 1 && request.districts[0].toLowerCase() === "all") {
       // If the condition is true, set districts to an empty array
       request.districts = [];
@@ -73,13 +80,6 @@ export default {
       return
       //return ApiService.apiAxios.post('/api/v1/batch/executeyearlydisrunbatchjob', request);
     }
-  },  
-  runDISTRUN_YE(request, cronTime=""){
-    if (Array.isArray(request.districts) && request.districts.length === 1 && request.districts[0].toLowerCase() === "all") {
-      // If the condition is true, set districts to an empty array
-      request.districts = [];
-    }
-    return ApiService.apiAxios.post('/api/v1/batch/executeyearlydisrunbatchjob', request);
   },
   runBlankDISTRUNUSERUserRequest(request, credentialType){
     return ApiService.apiAxios.post('/api/v1/batch/userrequestblankdisrun/'+ credentialType, request);
