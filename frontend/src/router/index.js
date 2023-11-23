@@ -195,6 +195,14 @@ const router = createRouter({
       },
     },
     {
+      path: "/student-profile/:studentId",
+      name: "student-profile",
+      component: () => import("../views/StudentProfile.vue"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
       path: "/error",
       name: "error",
       component: ErrorPage,
@@ -367,7 +375,7 @@ router.beforeEach((to, _from, next) => {
     aStore
       .getJwtToken()
       .then(() => {
-        console.log("AUTHENTICATED" + aStore.isAuthenticated)
+        console.log("AUTHENTICATED" + aStore.isAuthenticated);
         if (!aStore.isAuthenticated) {
           next("/token-expired");
         } else {
